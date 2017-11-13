@@ -11,10 +11,17 @@ export default class App extends React.Component {
   }
 
   onSubmit = () => {
+    const headers = new Headers();
+    headers.set('Content-Type', 'application/json');
     const { username, password } = this.state;
-    console.log('-- on submit click', username, '\npassowrd', password);
-    fetch('https://luvup.io/login', {
-      method: 'POST'
+
+    fetch('http://localhost:3000/login', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        username,
+        password
+      })
     }).then(res => console.log('got a res!', res))
     .catch(err => console.log('caught the err', err));
   }
