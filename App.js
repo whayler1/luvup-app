@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Button, AsyncStorage } from 'react-native';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -10,20 +10,43 @@ export default class App extends React.Component {
     };
   }
 
-  onSubmit = () => {
+  onSubmit = async () => {
     const headers = new Headers();
+    headers.set('Accepts', 'application/json');
     headers.set('Content-Type', 'application/json');
     const { username, password } = this.state;
+    let jwt;
 
-    fetch('http://localhost:3000/login', {
+    await fetch('http://localhost:3000/login', {
       method: 'POST',
       headers,
       body: JSON.stringify({
         username,
         password
       })
-    }).then(res => console.log('got a res!', res))
-    .catch(err => console.log('caught the err', err));
+    }).then(res => {
+      const body = JSON.parse(res._bodyText);
+      console.log('-- got a res!', body);
+
+      headers.set('Authorization': body.jwt);
+
+      jwt = body.jwt;
+    }).catch(err => console.log('caught the err', err));
+
+    await AsyncStorage.setItem('jwt', jwt);
+
+    await fetch('http://localhost:3000/graphql', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        query: '{ me { id email } }'
+      })
+    }).then(res => {
+      console.log('another res!!!', res);
+    }).catch(err => console.log('inner err', err));
+
+    const val = await AsyncStorage.getItem('jwt');
+    console.log('val:', val);
   }
 
   render() {
