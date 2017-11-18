@@ -7,6 +7,8 @@ export default class App extends React.Component {
     this.state = {
       username: '',
       password: '',
+      isIdTokenLoaded: false,
+      isUserAuthed: false
     };
   }
 
@@ -15,7 +17,48 @@ export default class App extends React.Component {
     headers.set('Accepts', 'application/json');
     headers.set('Content-Type', 'application/json');
     const { username, password } = this.state;
-    let jwt;
+    console.log('username', username);
+
+    // const query = `
+    // mutation {
+    //   login(
+    //     username: "${username}"
+    //     password: "${password}"
+    //   ) {
+    //     token
+    //     user {
+    //       email
+    //     }
+    //   }
+    // }
+    // `;
+    //
+    // const loginResponse = await fetch('http://localhost:3000/graphql', {
+    //   method: 'POST',
+    //   headers,
+    //   body: JSON.stringify({ query })
+    // }).catch(err => console.error('error'));
+    // // console.log('loginResponse', loginResponse);
+    //
+    // // const loginResponseJson = JSON.parse(loginResponse._bodyText);
+    // const loginResponseJson = await loginResponse.json();
+    // console.log('loginResponseJson', loginResponseJson);
+    // const { token } = loginResponseJson.data.login;
+    // console.log('token', token);
+    // headers.set('authorization': token);
+    // await AsyncStorage.setItem('token', token);
+    //
+    // const meResponse = await fetch('http://localhost:3000/graphql', {
+    //   method: 'POST',
+    //   headers,
+    //   body: JSON.stringify({
+    //     query: '{ me { id email } }'
+    //   })
+    // });
+    // const meResponseJson = await meResponse.json();
+    // console.log('meResponseJson', meResponseJson);
+
+    let id_token;
 
     await fetch('http://localhost:3000/login', {
       method: 'POST',
@@ -28,12 +71,12 @@ export default class App extends React.Component {
       const body = JSON.parse(res._bodyText);
       console.log('-- got a res!', body);
 
-      headers.set('Authorization': body.jwt);
+      // headers.set('Authorization': body.id_token);
 
-      jwt = body.jwt;
+      id_token = body.id_token;
     }).catch(err => console.log('caught the err', err));
 
-    await AsyncStorage.setItem('jwt', jwt);
+    await AsyncStorage.setItem('id_token', id_token);
 
     await fetch('http://localhost:3000/graphql', {
       method: 'POST',
@@ -45,38 +88,90 @@ export default class App extends React.Component {
       console.log('another res!!!', res);
     }).catch(err => console.log('inner err', err));
 
-    const val = await AsyncStorage.getItem('jwt');
+    const val = await AsyncStorage.getItem('id_token');
     console.log('val:', val);
   }
 
+  getIdToken = async () => {
+    const id_token = await AsyncStorage.getItem('id_token');
+    return id_token;
+  }
+
+  reauth = async (id_token) => {
+    const headers = new Headers();
+    headers.set('Accepts', 'application/json');
+    headers.set('Content-Type', 'application/json');
+
+    const res = await fetch('http://localhost:3000/reauth', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        id_token
+      })
+    }).catch(err => console.log('err', err));
+
+    await AsyncStorage.setItem('id_token', res.id_token);
+
+    return this.setState({
+      isIdTokenLoaded: true,
+      isUserAuthed: true,
+      username: res.user.username
+    });
+  }
+
+  componentWillMount = async () => {
+    const id_token = await this.getIdToken();
+    if (id_token) {
+
+    } else {
+      this.setState({ isIdTokenLoaded: true });
+    }
+  }
+
   render() {
-    return (
-      <View style={styles.container}>
-        <Text style={{fontSize: 30}}>Login</Text>
-        <Text style={{marginTop: 20}}>User Name</Text>
-        <TextInput
-          style={{height: 40, width: 200, borderColor: 'gray', borderWidth: 1, marginTop: 10}}
-          onChangeText={(username) => this.setState({username})}
-          value={this.state.username}
-          maxLength={50}
-          autoCapitalize={'none'}
-        />
-        <Text style={{marginTop: 20}}>Password</Text>
-        <TextInput
-          style={{height: 40, width: 200, borderColor: 'gray', borderWidth: 1, marginTop: 10}}
-          onChangeText={(password) => this.setState({password})}
-          value={this.state.password}
-          secureTextEntry={true}
-          maxLength={50}
-        />
-        <Button
-          onPress={this.onSubmit}
-          title="Submit"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
-      </View>
-    );
+    if (!this.state.isIdTokenLoaded) {
+      return (
+        <View style={styles.container}>
+          <Text style={{fontSize: 30}}>Loading ID Token</Text>
+        </View>
+      )
+    }
+    if (this.state.isIdTokenLoaded && this.state.isUserAuthed) {
+      return (
+        <View style={styles.container}>
+          <Text style={{fontSize: 30}}>Logged in: </Text>
+        </View>
+      );
+    }
+    if (this.state.isIdTokenLoaded && this.state.isUserAuthed) {
+      return (
+        <View style={styles.container}>
+          <Text style={{fontSize: 30}}>Login</Text>
+          <Text style={{marginTop: 20}}>User Name</Text>
+          <TextInput
+            style={{height: 40, width: 200, borderColor: 'gray', borderWidth: 1, marginTop: 10}}
+            onChangeText={(username) => this.setState({username})}
+            value={this.state.username}
+            maxLength={50}
+            autoCapitalize={'none'}
+          />
+          <Text style={{marginTop: 20}}>Password</Text>
+          <TextInput
+            style={{height: 40, width: 200, borderColor: 'gray', borderWidth: 1, marginTop: 10}}
+            onChangeText={(password) => this.setState({password})}
+            value={this.state.password}
+            secureTextEntry={true}
+            maxLength={50}
+          />
+          <Button
+            onPress={this.onSubmit}
+            title="Submit"
+            color="#841584"
+            accessibilityLabel="Learn more about this purple button"
+          />
+        </View>
+      );
+    }
   }
 }
 
