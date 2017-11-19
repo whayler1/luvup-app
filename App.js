@@ -102,27 +102,29 @@ export default class App extends React.Component {
     headers.set('Accepts', 'application/json');
     headers.set('Content-Type', 'application/json');
 
-    const res = await fetch('http://localhost:3000/reauth', {
+    await fetch('http://localhost:3000/reauth', {
       method: 'POST',
       headers,
       body: JSON.stringify({
         id_token
       })
+    }).then(async res => {
+      const body = await res.json();
+      console.log('body', body);
+      // console.log('----- res:', res);
+      // AsyncStorage.setItem('id_token', res.id_token);
+      this.setState({
+        isIdTokenLoaded: true,
+        isUserAuthed: true,
+        username: body.user.username,
+      });
     }).catch(err => console.log('err', err));
-
-    await AsyncStorage.setItem('id_token', res.id_token);
-
-    return this.setState({
-      isIdTokenLoaded: true,
-      isUserAuthed: true,
-      username: res.user.username
-    });
   }
 
   componentWillMount = async () => {
     const id_token = await this.getIdToken();
     if (id_token) {
-
+      this.reauth(id_token);
     } else {
       this.setState({ isIdTokenLoaded: true });
     }
@@ -139,11 +141,11 @@ export default class App extends React.Component {
     if (this.state.isIdTokenLoaded && this.state.isUserAuthed) {
       return (
         <View style={styles.container}>
-          <Text style={{fontSize: 30}}>Logged in: </Text>
+          <Text style={{fontSize: 30}}>Logged in: { this.state.username }</Text>
         </View>
       );
     }
-    if (this.state.isIdTokenLoaded && this.state.isUserAuthed) {
+    if (this.state.isIdTokenLoaded && !this.state.isUserAuthed) {
       return (
         <View style={styles.container}>
           <Text style={{fontSize: 30}}>Login</Text>
