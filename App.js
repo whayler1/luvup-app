@@ -1,4 +1,5 @@
 import React from 'react';
+import superagent from 'superagent';
 import { StyleSheet, Text, TextInput, View, Button, AsyncStorage } from 'react-native';
 
 export default class App extends React.Component {
@@ -17,46 +18,6 @@ export default class App extends React.Component {
     headers.set('Accepts', 'application/json');
     headers.set('Content-Type', 'application/json');
     const { username, password } = this.state;
-    console.log('username', username);
-
-    // const query = `
-    // mutation {
-    //   login(
-    //     username: "${username}"
-    //     password: "${password}"
-    //   ) {
-    //     token
-    //     user {
-    //       email
-    //     }
-    //   }
-    // }
-    // `;
-    //
-    // const loginResponse = await fetch('http://localhost:3000/graphql', {
-    //   method: 'POST',
-    //   headers,
-    //   body: JSON.stringify({ query })
-    // }).catch(err => console.error('error'));
-    // // console.log('loginResponse', loginResponse);
-    //
-    // // const loginResponseJson = JSON.parse(loginResponse._bodyText);
-    // const loginResponseJson = await loginResponse.json();
-    // console.log('loginResponseJson', loginResponseJson);
-    // const { token } = loginResponseJson.data.login;
-    // console.log('token', token);
-    // headers.set('authorization': token);
-    // await AsyncStorage.setItem('token', token);
-    //
-    // const meResponse = await fetch('http://localhost:3000/graphql', {
-    //   method: 'POST',
-    //   headers,
-    //   body: JSON.stringify({
-    //     query: '{ me { id email } }'
-    //   })
-    // });
-    // const meResponseJson = await meResponse.json();
-    // console.log('meResponseJson', meResponseJson);
 
     let id_token;
 
@@ -98,27 +59,39 @@ export default class App extends React.Component {
   }
 
   reauth = async (id_token) => {
-    const headers = new Headers();
-    headers.set('Accepts', 'application/json');
-    headers.set('Content-Type', 'application/json');
-
-    await fetch('http://localhost:3000/reauth', {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({
-        id_token
-      })
-    }).then(async res => {
-      const body = await res.json();
-      console.log('body', body);
-      // console.log('----- res:', res);
-      // AsyncStorage.setItem('id_token', res.id_token);
+    try {
+      const res = await superagent.post('http://localhost:3000/reauth')
+        .send({ id_token });
+        
+      const { body } = res;
       this.setState({
         isIdTokenLoaded: true,
         isUserAuthed: true,
         username: body.user.username,
       });
-    }).catch(err => console.log('err', err));
+      console.log('\n\n --- body', body);
+    } catch (err) {
+      console.log('err', err);
+    }
+
+
+    // await fetch('http://localhost:3000/reauth', {
+    //   method: 'POST',
+    //   headers,
+    //   body: JSON.stringify({
+    //     id_token
+    //   })
+    // }).then(async res => {
+    //   const body = await res.json();
+    //   console.log('body', body);
+    //   // console.log('----- res:', res);
+    //   // AsyncStorage.setItem('id_token', res.id_token);
+    //   this.setState({
+    //     isIdTokenLoaded: true,
+    //     isUserAuthed: true,
+    //     username: body.user.username,
+    //   });
+    // }).catch(err => console.log('err', err));
   }
 
   componentWillMount = async () => {
