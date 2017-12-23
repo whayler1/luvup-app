@@ -14,7 +14,7 @@ import {
   Lightbox,
 } from 'react-native-router-flux';
 
-import Login from './src/components/Login';
+import Login from './src/containers/Login';
 
 const styles = StyleSheet.create({
   container: {
