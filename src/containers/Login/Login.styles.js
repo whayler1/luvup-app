@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
 
+const elWidth = 200;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1, backgroundColor: 'transparent', justifyContent: 'center',
@@ -14,7 +16,18 @@ const styles = StyleSheet.create({
   error: {
     color: 'red',
   },
-  input: {height: 40, width: 200, borderColor: 'gray', borderWidth: 1, marginTop: 10},
+  input: {height: 40, width: elWidth, borderColor: 'gray', borderWidth: 1, marginTop: 10},
+  submitButton: {
+    backgroundColor: 'lightblue',
+    borderRadius: 2,
+    marginTop: 30,
+  },
+  submitText: {
+    textAlign: 'center',
+  },
+  submitContainer: {
+    width: elWidth,
+  }
 });
 
 export default styles;

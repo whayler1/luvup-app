@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import superagent from 'superagent';
+import { Actions } from 'react-native-router-flux';
 
 import config from '../../config.js';
 import Template from './Login.template';
@@ -16,7 +17,7 @@ export default class Login extends Component {
   onUsernameChange = username => this.setState({ username });
   onPasswordChange = password => this.setState({ password });
 
-  getError = () => {
+  getValidationError = () => {
     const { username, password } = this.state;
     if (!username) {
       return 'username';
@@ -27,8 +28,10 @@ export default class Login extends Component {
     return '';
   }
 
+  navigateToSignUp = () => Actions.signup();
+
   onSubmit = async () => {
-    const errorStr = this.getError();
+    const errorStr = this.getValidationError();
     this.setState({ error: errorStr });
     if (errorStr) {
       return;
@@ -42,6 +45,7 @@ export default class Login extends Component {
 
       console.log('res!', res);
     } catch(err) {
+      this.setState({ error: 'server' });
       console.log('error', err);
     }
   }
@@ -50,6 +54,7 @@ export default class Login extends Component {
     const { username, password, error } = this.state;
 
     return <Template
+      navigateToSignUp={this.navigateToSignUp}
       onSubmit={this.onSubmit}
       onUsernameChange={this.onUsernameChange}
       onPasswordChange={this.onPasswordChange}

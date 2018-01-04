@@ -15,6 +15,7 @@ import {
 } from 'react-native-router-flux';
 
 import Login from './src/containers/Login';
+import SignUp from './src/containers/SignUp';
 
 const styles = StyleSheet.create({
   container: {
@@ -50,6 +51,7 @@ const App = () => (
   >
     <Stack key="root">
       <Scene key="login" component={Login} title="Login"/>
+      <Scene key="signup" component={SignUp} title="SignUp"/>
     </Stack>
   </Router>
 );
