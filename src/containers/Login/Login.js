@@ -9,27 +9,45 @@ import Template from './Login.template';
 export default class Login extends Component {
   state = {
     username: '',
-    password: ''
+    password: '',
+    error: '',
   }
 
   onUsernameChange = username => this.setState({ username });
   onPasswordChange = password => this.setState({ password });
 
-  onSubmit = async (username, password) => {
+  getError = () => {
+    const { username, password } = this.state;
+    if (!username) {
+      return 'username';
+    }
+    if (!password) {
+      return 'password';
+    }
+    return '';
+  }
+
+  onSubmit = async () => {
+    const errorStr = this.getError();
+    this.setState({ error: errorStr });
+    if (errorStr) {
+      return;
+    }
+    const { username, password } = this.state;
     try {
-      const res = await superagent.post(`${config.baseUrl}login`, {
+      const res = await superagent.post(`${config.baseUrl}/login`, {
         username,
-        password,
+        password
       });
 
       console.log('res!', res);
     } catch(err) {
-      console.error('error', err);
+      console.log('error', err);
     }
   }
 
   render() {
-    const { username, password } = this.state;
+    const { username, password, error } = this.state;
 
     return <Template
       onSubmit={this.onSubmit}
@@ -37,6 +55,7 @@ export default class Login extends Component {
       onPasswordChange={this.onPasswordChange}
       username={username}
       password={password}
+      error={error}
     />;
   }
 };
