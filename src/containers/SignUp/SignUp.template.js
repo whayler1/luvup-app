@@ -11,6 +11,7 @@ export default ({
   onEmailChange,
   email,
   error,
+  isInFlight,
 }) => (
   <View style={styles.container}>
     <Text style={forms.title}>Sign Up</Text>
@@ -20,7 +21,9 @@ export default ({
       onChangeText={onEmailChange}
       value={email}
       keyboardType={'email-address'}
+      autoCapitalize={'none'}
       maxLength={50}
+      editable={!isInFlight}
     />
     {error === 'email' && <Text style={forms.error}>Please provide a valid email</Text>}
     <Button
@@ -29,7 +32,8 @@ export default ({
       containerViewStyle={buttons.infoContainer}
       buttonStyle={buttons.infoButton}
       textStyle={buttons.infoText}
-      title={'Submit'}
+      title={isInFlight ? 'Submitting' : 'Submit'}
+      disabled={isInFlight}
     />
   </View>
 );

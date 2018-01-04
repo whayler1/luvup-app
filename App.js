@@ -16,6 +16,7 @@ import {
 
 import Login from './src/containers/Login';
 import SignUp from './src/containers/SignUp';
+import SignUpConfirm from './src/containers/SignUpConfirm';
 
 const styles = StyleSheet.create({
   container: {
@@ -51,7 +52,8 @@ const App = () => (
   >
     <Stack key="root">
       <Scene key="login" component={Login} title="Login"/>
-      <Scene key="signup" component={SignUp} title="SignUp"/>
+      <Scene key="signup" component={SignUp} title="Sign Up"/>
+      <Scene key="signupconfirm" component={SignUpConfirm} title="Confirm Sign Up"/>
     </Stack>
   </Router>
 );
