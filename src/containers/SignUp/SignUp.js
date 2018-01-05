@@ -11,7 +11,6 @@ export default class SignUp extends Component {
     email: '',
     error: '',
     isInFlight: false,
-    success: false,
   };
 
   onEmailChange = email => this.setState({ email });
@@ -35,18 +34,21 @@ export default class SignUp extends Component {
 
       console.log('res!', res.body);
 
+      if (!('body' in res && 'data' in res.body && 'userRequest' in res.body.data)) {
+        this.setState({ error: 'response', isInFlight: false });
+      }
       const { error } = res.body.data.userRequest;
       if (error) {
         this.setState({ error, isInFlight: false });
+      } else {
+        this.setState({
+          error: '',
+          isInFlight: false,
+        }, () => Actions.signupconfirm());
       }
-
-      this.setState({
-        error: '',
-        isInFlight: false,
-        success: true,
-      }, () => Actions.signupconfirm());
     } catch (err) {
       console.log('err :(', err);
+      this.setState({ error: 'response', isInFlight: false });
     }
   };
 
