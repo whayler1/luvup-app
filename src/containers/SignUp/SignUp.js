@@ -3,6 +3,7 @@ import superagent from 'superagent';
 import { Actions } from 'react-native-router-flux';
 
 import config from '../../config.js';
+import { emailRegex } from '../../helpers';
 import Template from './SignUp.template';
 
 
@@ -16,7 +17,7 @@ export default class SignUp extends Component {
   onEmailChange = email => this.setState({ email });
 
   getValidationError = () => {
-    if (!/\S+@\S+\.\S+/.test(this.state.email)) {
+    if (!emailRegex.test(this.state.email)) {
       return 'email';
     }
     return '';

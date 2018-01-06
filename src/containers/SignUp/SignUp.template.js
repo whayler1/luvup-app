@@ -2,9 +2,9 @@ import React from 'react';
 import { View, Text, TextInput } from 'react-native';
 import { Button } from 'react-native-elements';
 import styles from './SignUp.styles';
-import defaultStyles from '../../styles';
+import { buttons, forms } from '../../styles';
 
-const { buttons, forms } = defaultStyles;
+// const { buttons, forms } = defaultStyles;
 
 export default ({
   onSubmit,

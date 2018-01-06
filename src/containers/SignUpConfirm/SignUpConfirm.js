@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import superagent from 'superagent';
 import _ from 'lodash';
+import { Actions } from 'react-native-router-flux';
 
 import Template from './SignUpConfirm.template';
+import { emailRegex } from '../../helpers';
 
 export default class SignUpConfirm extends Component {
   state = {
@@ -9,16 +12,88 @@ export default class SignUpConfirm extends Component {
     username: '',
     password: '',
     passwordAgain: '',
+    code: '',
     error: '',
   };
 
   onEmailChange = email => this.setState({ email });
   onUsernameChange = username => this.setState({ username });
+  onCodeChange = code => this.setState({ code });
   onPasswordChange = password => this.setState({ password });
   onPasswordAgainChange = passwordAgain => this.setState({ passwordAgain });
 
-  onSubmit = () => {
+  getValidationError() {
+    const { email, username, password, passwordAgain } = this.state;
+    if (!emailRegex.test(email)) {
+      return 'email';
+    }
+    if (!username) {
+      return 'username';
+    }
+    if (username.length < 3) {
+      return 'username-length';
+    }
+    if (!code) {
+      return 'code';
+    }
+    if (String(code).length < 6) {
+      return 'code-length';
+    }
+    if (!password) {
+      return 'password'
+    }
+    if (password.length < 6) {
+      return 'password-length';
+    }
+    if (passwordAgain !== password) {
+      return 'password-mismatch';
+    }
+    return '';
+  }
 
+  submit = async () => {
+    const { email, username, password, code } = this.state;
+    try {
+      const res = await superagent.post(config.graphQlUrl, {
+        query: `mutation {
+          confirmUser(
+            email: "${email}"
+            username: "${username}"
+            password: "${password}"
+            code: "${code}"
+          ) {
+            user error
+          }
+        }`
+      });
+
+      console.log('res', res.body);
+
+      if (!('body' in res && 'data' in res.body && 'confirmUser' in res.body.data)) {
+        this.setState({ error: 'response', isInFlight: false });
+      }
+      const { error } = res.body.data.userRequest;
+      if (error) {
+        this.setState({ error, isInFlight: false });
+      } else {
+        this.setState({
+          error: '',
+          isInFlight: false,
+        }, () => Actions.login());
+      }
+      console.log('res', res);
+    } catch (err) {
+      this.setState({ error: 'response', isInFlight: false });
+    }
+  }
+
+  onSubmit() {
+    const errorStr = this.getValidationError();
+    if (errorStr) {
+      this.setState({ error: errorStr });
+      return;
+    }
+    this.setState({ error: '', isInFlight: true }, this.submit);
   };
 
   render() {
@@ -26,6 +101,7 @@ export default class SignUpConfirm extends Component {
       {...Object.assign(_.pick(this,
         'onEmailChange',
         'onUsernameChange',
+        'onCodeChange',
         'onPasswordChange',
         'onPasswordAgainChange',
         'onSubmit',
