@@ -4,14 +4,15 @@ import { Button } from 'react-native-elements';
 import styles from './Login.styles';
 
 export default ({
-    navigateToSignUp,
-    onSubmit,
-    onUsernameChange,
-    onPasswordChange,
-    username,
-    password,
-    error
-  }) => (
+  navigateToSignUpConfirm,
+  navigateToSignUp,
+  onSubmit,
+  onUsernameChange,
+  onPasswordChange,
+  username,
+  password,
+  error
+}) => (
   <View style={styles.container}>
     <Text style={styles.title}>Login</Text>
     {error === 'credentials' && <Text style={styles.error}>Invalid username or password</Text>}
@@ -49,6 +50,14 @@ export default ({
       buttonStyle={styles.submitButton}
       textStyle={styles.submitText}
       title={'Sign Up'}
+    />
+    <Button
+      raised
+      onPress={navigateToSignUpConfirm}
+      containerViewStyle={styles.submitContainer}
+      buttonStyle={styles.submitButton}
+      textStyle={styles.submitText}
+      title={'Confirm a Sign Up'}
     />
   </View>
 );

@@ -29,6 +29,7 @@ export default class Login extends Component {
   }
 
   navigateToSignUp = () => Actions.signup();
+  navigateToSignUpConfirm = () => Actions.signupconfirm();
 
   onSubmit = async () => {
     const errorStr = this.getValidationError();
@@ -54,6 +55,7 @@ export default class Login extends Component {
     const { username, password, error } = this.state;
 
     return <Template
+      navigateToSignUpConfirm={this.navigateToSignUpConfirm}
       navigateToSignUp={this.navigateToSignUp}
       onSubmit={this.onSubmit}
       onUsernameChange={this.onUsernameChange}

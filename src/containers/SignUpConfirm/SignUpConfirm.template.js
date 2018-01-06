@@ -22,6 +22,8 @@ export default ({
 }) => (
   <View style={styles.container}>
     <Text style={forms.title}>Confirm Sign Up</Text>
+    {error === 'response' && <Text style={forms.error}>There was an error confirming signup</Text>}
+    {error === 'user request used' && <Text style={forms.error}>This user already exists</Text>}
     <Text style={forms.label}>Email</Text>
     <TextInput
       style={forms.input}
@@ -33,6 +35,7 @@ export default ({
       editable={!isInFlight}
     />
     {error === 'email' && <Text style={forms.error}>Please provide a valid email</Text>}
+    {error === 'no user request' && <Text style={forms.error}>There is no sign up request for that email</Text>}
     <Text style={forms.label}>Username</Text>
     <TextInput
       style={forms.input}
@@ -44,6 +47,7 @@ export default ({
     />
     {error === 'username' && <Text style={forms.error}>Please provide a username</Text>}
     {error === 'username-length' && <Text style={forms.error}>Usernames must be at least 3 characters</Text>}
+    {error === 'username taken' && <Text style={forms.error}>Username taken</Text>}
     <Text style={forms.label}>Code</Text>
     <TextInput
       style={forms.input}
@@ -56,6 +60,8 @@ export default ({
     />
     {error === 'code' && <Text style={forms.error}>Please provide the code that was emailed to you</Text>}
     {error === 'code-length' && <Text style={forms.error}>Codes are 6 characters long</Text>}
+    {error === 'invalid code' && <Text style={forms.error}>Invalid Code</Text>}
+    {error === 'expired code' && <Text style={forms.error}>Expired Code</Text>}
     <Text style={forms.label}>Password</Text>
     <TextInput
       style={forms.input}

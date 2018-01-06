@@ -25,9 +25,10 @@ export default class SignUp extends Component {
 
   submit = async () => {
     try {
+      const { email } = this.state;
       const res = await superagent.post(config.graphQlUrl, {
         query: `mutation {
-          userRequest( email: "${this.state.email}") {
+          userRequest( email: "${email}") {
             email error
           }
         }`
