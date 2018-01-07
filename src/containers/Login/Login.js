@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
 import superagent from 'superagent';
 import { Actions } from 'react-native-router-flux';
 
@@ -44,7 +43,7 @@ export default class Login extends Component {
         password
       });
 
-      console.log('res!', res);
+      console.log('Login res!', res.body);
     } catch(err) {
       this.setState({ error: 'server' });
       console.log('error', err);
