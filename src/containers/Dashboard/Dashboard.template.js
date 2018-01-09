@@ -6,6 +6,6 @@ import { buttons, forms } from '../../styles';
 
 export default () => (
   <View>
-    <Text style={froms.title}>Dashboard</Text>
+    <Text style={forms.title}>Dashboard</Text>
   </View>
 );

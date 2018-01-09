@@ -14,9 +14,11 @@ import {
   Lightbox,
 } from 'react-native-router-flux';
 
+import Root from './src/containers/Root';
 import Login from './src/containers/Login';
 import SignUp from './src/containers/SignUp';
 import SignUpConfirm from './src/containers/SignUpConfirm';
+import Dashboard from './src/containers/Dashboard';
 
 const styles = StyleSheet.create({
   container: {
@@ -51,9 +53,11 @@ const App = () => (
     getSceneStyle={getSceneStyle}
   >
     <Stack key="root">
+      <Scene key="init" component={Root} title = "Root"/>
       <Scene key="login" component={Login} title="Login"/>
       <Scene key="signup" component={SignUp} title="Sign Up"/>
       <Scene key="signupconfirm" component={SignUpConfirm} title="Confirm Sign Up"/>
+      <Scene key="dashboard" component={Dashboard} title="Dashboard"/>
     </Stack>
   </Router>
 );

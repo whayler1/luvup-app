@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { AsyncStorage } from 'react-native';
 import superagent from 'superagent';
 import { Actions } from 'react-native-router-flux';
 
@@ -44,6 +45,8 @@ export default class Login extends Component {
       });
 
       console.log('Login res!', res.body);
+      await AsyncStorage.setItem('id_token', res.body.id_token);
+      Actions.dashboard();
     } catch(err) {
       this.setState({ error: 'server' });
       console.log('error', err);
