@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Provider } from 'react-redux';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import {
   Scene,
@@ -13,6 +14,8 @@ import {
   Stack,
   Lightbox,
 } from 'react-native-router-flux';
+
+import { store } from './src/redux';
 
 import Root from './src/containers/Root';
 import Login from './src/containers/Login';
@@ -48,18 +51,20 @@ const getSceneStyle = () => ({
 });
 
 const App = () => (
-  <Router
-    createReducer={reducerCreate}
-    getSceneStyle={getSceneStyle}
-  >
-    <Stack key="root">
-      <Scene key="init" component={Root} title = "Root"/>
-      <Scene key="login" component={Login} title="Login"/>
-      <Scene key="signup" component={SignUp} title="Sign Up"/>
-      <Scene key="signupconfirm" component={SignUpConfirm} title="Confirm Sign Up"/>
-      <Scene key="dashboard" component={Dashboard} title="Dashboard"/>
-    </Stack>
-  </Router>
+  <Provider store={store}>
+    <Router
+      createReducer={reducerCreate}
+      getSceneStyle={getSceneStyle}
+    >
+      <Stack key="root">
+        <Scene key="init" component={Root} title = "Root"/>
+        <Scene key="login" component={Login} title="Login"/>
+        <Scene key="signup" component={SignUp} title="Sign Up"/>
+        <Scene key="signupconfirm" component={SignUpConfirm} title="Confirm Sign Up"/>
+        <Scene key="dashboard" component={Dashboard} title="Dashboard"/>
+      </Stack>
+    </Router>
+  </Provider>
 );
 
 export default App;
