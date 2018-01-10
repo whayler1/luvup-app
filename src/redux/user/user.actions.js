@@ -87,6 +87,34 @@ export const userRequest = email => async dispatch => {
   }
 }
 
+export const confirmUser = (email, username, code, password) => async () => {
+  try {
+    const res = await superagent.post(config.graphQlUrl, {
+      query: `mutation {
+        confirmUser(
+          email: "${email}"
+          username: "${username}"
+          password: "${password}"
+          code: ${code}
+        ) {
+          user {
+            id
+            email
+            local {
+              username
+            }
+          }
+          error
+        }
+      }`
+    });
+
+    return res;
+  } catch (err) {
+    return err;
+  }
+};
+
 export const setUser = (email, username='', id='') => ({
   type: SET_USER,
   id,
