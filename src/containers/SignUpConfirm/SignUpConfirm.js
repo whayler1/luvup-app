@@ -2,14 +2,20 @@ import React, { Component } from 'react';
 import superagent from 'superagent';
 import _ from 'lodash';
 import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import config from '../../config.js';
 import Template from './SignUpConfirm.template';
 import { emailRegex } from '../../helpers';
 
-export default class SignUpConfirm extends Component {
+class SignUpConfirm extends Component {
+  static propTypes = {
+    email: PropTypes.string,
+  };
+
   state = {
-    email: '',
+    email: this.props.email || '',
     username: '',
     password: '',
     passwordAgain: '',
@@ -120,3 +126,9 @@ export default class SignUpConfirm extends Component {
     />;
   };
 };
+
+export default connect(
+  state => ({
+    email: state.user.email
+  })
+)(SignUpConfirm);

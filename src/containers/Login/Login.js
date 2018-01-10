@@ -50,6 +50,7 @@ class Login extends Component {
     console.log('loginres', loginres);
 
     console.log('email', this.props.email);
+    Actions.dashboard();
     // try {
     //   const res = await superagent.post(`${config.baseUrl}/login`, {
     //     username,

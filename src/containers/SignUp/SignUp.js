@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import superagent from 'superagent';
 import { Actions } from 'react-native-router-flux';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import config from '../../config.js';
 import { emailRegex } from '../../helpers';
 import Template from './SignUp.template';
+import { userRequest as userRequestAction } from '../../redux/user/user.actions';
 
 
-export default class SignUp extends Component {
+class SignUp extends Component {
+  static propTypes = {
+    userRequest: PropTypes.func.isRequired,
+  };
+
   state = {
     email: '',
     error: '',
@@ -24,34 +31,49 @@ export default class SignUp extends Component {
   };
 
   submit = async () => {
-    try {
-      const { email } = this.state;
-      const res = await superagent.post(config.graphQlUrl, {
-        query: `mutation {
-          userRequest( email: "${email}") {
-            email error
-          }
-        }`
-      });
+    const res = await this.props.userRequest(this.state.email);
 
-      console.log('res!', res.body);
-
-      if (!('body' in res && 'data' in res.body && 'userRequest' in res.body.data)) {
-        this.setState({ error: 'response', isInFlight: false });
-      }
-      const { error } = res.body.data.userRequest;
-      if (error) {
-        this.setState({ error, isInFlight: false });
-      } else {
-        this.setState({
-          error: '',
-          isInFlight: false,
-        }, () => Actions.signupconfirm());
-      }
-    } catch (err) {
-      console.log('err :(', err);
+    if (!('body' in res && 'data' in res.body && 'userRequest' in res.body.data)) {
       this.setState({ error: 'response', isInFlight: false });
     }
+    const { error } = res.body.data.userRequest;
+    if (error) {
+      this.setState({ error, isInFlight: false });
+    } else {
+      this.setState({
+        error: '',
+        isInFlight: false,
+      }, () => Actions.signupconfirm());
+    }
+
+    // try {
+    //   const { email } = this.state;
+    //   const res = await superagent.post(config.graphQlUrl, {
+    //     query: `mutation {
+    //       userRequest( email: "${email}") {
+    //         email error
+    //       }
+    //     }`
+    //   });
+    //
+    //   console.log('res!', res.body);
+    //
+    //   if (!('body' in res && 'data' in res.body && 'userRequest' in res.body.data)) {
+    //     this.setState({ error: 'response', isInFlight: false });
+    //   }
+    //   const { error } = res.body.data.userRequest;
+    //   if (error) {
+    //     this.setState({ error, isInFlight: false });
+    //   } else {
+    //     this.setState({
+    //       error: '',
+    //       isInFlight: false,
+    //     }, () => Actions.signupconfirm());
+    //   }
+    // } catch (err) {
+    //   console.log('err :(', err);
+    //   this.setState({ error: 'response', isInFlight: false });
+    // }
   };
 
   onSubmit = () => {
@@ -71,3 +93,10 @@ export default class SignUp extends Component {
     />;
   };
 };
+
+export default connect(
+  null,
+  {
+    userRequest: userRequestAction,
+  }
+)(SignUp);
