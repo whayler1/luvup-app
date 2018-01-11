@@ -51,19 +51,6 @@ class Login extends Component {
 
     console.log('email', this.props.email);
     Actions.dashboard();
-    // try {
-    //   const res = await superagent.post(`${config.baseUrl}/login`, {
-    //     username,
-    //     password
-    //   });
-    //
-    //   console.log('Login res!', res.body);
-    //   await AsyncStorage.setItem('id_token', res.body.id_token);
-    //   Actions.dashboard();
-    // } catch(err) {
-    //   this.setState({ error: 'server' });
-    //   console.log('error', err);
-    // }
   }
 
   render() {

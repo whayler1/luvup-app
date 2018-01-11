@@ -45,35 +45,6 @@ class SignUp extends Component {
         isInFlight: false,
       }, () => Actions.signupconfirm());
     }
-
-    // try {
-    //   const { email } = this.state;
-    //   const res = await superagent.post(config.graphQlUrl, {
-    //     query: `mutation {
-    //       userRequest( email: "${email}") {
-    //         email error
-    //       }
-    //     }`
-    //   });
-    //
-    //   console.log('res!', res.body);
-    //
-    //   if (!('body' in res && 'data' in res.body && 'userRequest' in res.body.data)) {
-    //     this.setState({ error: 'response', isInFlight: false });
-    //   }
-    //   const { error } = res.body.data.userRequest;
-    //   if (error) {
-    //     this.setState({ error, isInFlight: false });
-    //   } else {
-    //     this.setState({
-    //       error: '',
-    //       isInFlight: false,
-    //     }, () => Actions.signupconfirm());
-    //   }
-    // } catch (err) {
-    //   console.log('err :(', err);
-    //   this.setState({ error: 'response', isInFlight: false });
-    // }
   };
 
   onSubmit = () => {
