@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, TextInput } from 'react-native';
+import { Text, TextInput } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Button } from 'react-native-elements';
 import styles from './SignUp.styles';
 import { buttons, forms } from '../../styles';
@@ -13,8 +14,15 @@ export default ({
   error,
   isInFlight,
 }) => (
-  <View style={styles.container}>
+  <KeyboardAwareScrollView
+    resetScrollToCoords={{ x: 0, y: 0 }}
+    contentContainerStyle={styles.container}
+    scrollEnabled={true}
+  >
     <Text style={forms.title}>Sign Up</Text>
+    {error === 'response' && <Text style={forms.error}>Server Error</Text>}
+    {error === 'email error' && <Text style={forms.error}>Error sending signup email</Text>}
+    {error === 'used' && <Text style={forms.error}>There is already a user with this email</Text>}
     <Text style={forms.label}>Email</Text>
     <TextInput
       style={forms.input}
@@ -35,5 +43,5 @@ export default ({
       title={isInFlight ? 'Submitting' : 'Submit'}
       disabled={isInFlight}
     />
-  </View>
+  </KeyboardAwareScrollView>
 );

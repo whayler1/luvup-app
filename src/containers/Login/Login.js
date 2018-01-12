@@ -63,7 +63,6 @@ class Login extends Component {
 
   render() {
     const { username, password, error } = this.state;
-    console.log('config', config.baseUrl);
 
     return <Template
       navigateToSignUpConfirm={this.navigateToSignUpConfirm}

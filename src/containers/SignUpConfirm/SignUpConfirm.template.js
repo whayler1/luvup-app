@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, TextInput } from 'react-native';
+import { Text, TextInput } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Button } from 'react-native-elements';
 
 import styles from './SignUpConfirm.styles';
@@ -20,7 +21,11 @@ export default ({
   error,
   isInFlight,
 }) => (
-  <View style={styles.container}>
+  <KeyboardAwareScrollView
+    resetScrollToCoords={{ x: 0, y: 0 }}
+    contentContainerStyle={styles.container}
+    scrollEnabled={true}
+  >
     <Text style={forms.title}>Confirm Sign Up</Text>
     {error === 'response' && <Text style={forms.error}>There was an error confirming signup</Text>}
     {error === 'user request used' && <Text style={forms.error}>This user already exists</Text>}
@@ -92,5 +97,5 @@ export default ({
       disabled={isInFlight}
       title={isInFlight ? 'Submitting' : 'Submit'}
     />
-  </View>
+  </KeyboardAwareScrollView>
 );

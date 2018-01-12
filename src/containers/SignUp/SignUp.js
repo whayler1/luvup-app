@@ -32,6 +32,7 @@ class SignUp extends Component {
 
   submit = async () => {
     const res = await this.props.userRequest(this.state.email);
+    console.log('res', res.body);
 
     if (!('body' in res && 'data' in res.body && 'userRequest' in res.body.data)) {
       this.setState({ error: 'response', isInFlight: false });
