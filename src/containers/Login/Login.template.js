@@ -12,7 +12,8 @@ export default ({
   onPasswordChange,
   username,
   password,
-  error
+  error,
+  isInFlight,
 }) => (
   <KeyboardAwareScrollView
     resetScrollToCoords={{ x: 0, y: 0 }}
@@ -46,7 +47,8 @@ export default ({
       containerViewStyle={styles.submitContainer}
       buttonStyle={styles.submitButton}
       textStyle={styles.submitText}
-      title={'Submit'}
+      disabled={isInFlight}
+      title={isInFlight ? 'Sumitting...' : 'Submit'}
     />
     <Button
       raised

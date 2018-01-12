@@ -9,7 +9,6 @@ import config from '../../config.js';
 import Template from './Login.template';
 import { login as loginAction } from '../../redux/user/user.actions';
 
-
 class Login extends Component {
   static propTypes = {
     userId: PropTypes.string,
@@ -20,6 +19,7 @@ class Login extends Component {
     username: '',
     password: '',
     error: '',
+    isInFlight: false,
   }
 
   onUsernameChange = username => this.setState({ username });
@@ -39,12 +39,7 @@ class Login extends Component {
   navigateToSignUp = () => Actions.signup();
   navigateToSignUpConfirm = () => Actions.signupconfirm();
 
-  onSubmit = async () => {
-    const errorStr = this.getValidationError();
-    this.setState({ error: errorStr });
-    if (errorStr) {
-      return;
-    }
+  submit = async () => {
     const { username, password } = this.state;
     const loginres = await this.props.login(username, password);
     console.log('loginres', loginres);
@@ -55,10 +50,20 @@ class Login extends Component {
       return;
     }
     this.setState({ error: 'server' });
+  };
+
+  onSubmit = () => {
+    const errorStr = this.getValidationError();
+    this.setState({ error: errorStr });
+    if (errorStr) {
+      return;
+    }
+    this.setState({ isInFlight: true }, this.submit);
   }
 
   render() {
     const { username, password, error } = this.state;
+    console.log('config', config.baseUrl);
 
     return <Template
       navigateToSignUpConfirm={this.navigateToSignUpConfirm}
