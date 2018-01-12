@@ -1,9 +1,6 @@
 import React from 'react';
 import App from './App';
 
-import { fetch } from 'whatwg-fetch';
-console.log('fetch', fetch);
-global.fetch = fetch;
 
 import renderer from 'react-test-renderer';
 

@@ -20,11 +20,10 @@ export const login = (username, password) => async dispatch => {
     console.log('got res', res.body);
 
     const {
-      id,
       email,
-      id_token,
+      id,
       error,
-    } = res.body;
+    } = res.body.user;
 
     await AsyncStorage.setItem('id_token', res.body.id_token);
 

@@ -12,7 +12,7 @@ import { login as loginAction } from '../../redux/user/user.actions';
 
 class Login extends Component {
   static propTypes = {
-    email: PropTypes.string,
+    userId: PropTypes.string,
     login: PropTypes.func.isRequired,
   };
 
@@ -49,8 +49,12 @@ class Login extends Component {
     const loginres = await this.props.login(username, password);
     console.log('loginres', loginres);
 
-    console.log('email', this.props.email);
-    Actions.dashboard();
+    console.log('userId', this.props.userId);
+    if (this.props.userId) {
+      Actions.dashboard();
+      return;
+    }
+    this.setState({ error: 'server' });
   }
 
   render() {
@@ -71,7 +75,7 @@ class Login extends Component {
 
 export default connect(
   state => ({
-    email: state.user.email,
+    userId: state.user.id,
   }),
   {
     login: loginAction

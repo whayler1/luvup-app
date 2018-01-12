@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, TextInput } from 'react-native';
+import { Text, TextInput } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Button } from 'react-native-elements';
 import styles from './Login.styles';
 
@@ -13,7 +14,11 @@ export default ({
   password,
   error
 }) => (
-  <View style={styles.container}>
+  <KeyboardAwareScrollView
+    resetScrollToCoords={{ x: 0, y: 0 }}
+    contentContainerStyle={styles.container}
+    scrollEnabled={true}
+  >
     <Text style={styles.title}>Login</Text>
     {error === 'credentials' && <Text style={styles.error}>Invalid username or password</Text>}
     {error === 'server' && <Text style={styles.error}>Server error</Text>}
@@ -59,5 +64,5 @@ export default ({
       textStyle={styles.submitText}
       title={'Confirm a Sign Up'}
     />
-  </View>
+  </KeyboardAwareScrollView>
 );
