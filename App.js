@@ -57,11 +57,33 @@ const App = () => (
       getSceneStyle={getSceneStyle}
     >
       <Stack key="root">
-        <Scene key="init" component={Root} title = "Root"/>
-        <Scene key="login" component={Login} title="Login"/>
-        <Scene key="signup" component={SignUp} title="Sign Up"/>
-        <Scene key="signupconfirm" component={SignUpConfirm} title="Confirm Sign Up"/>
-        <Scene key="dashboard" component={Dashboard} title="Dashboard"/>
+        <Scene
+          key="init"
+          component={Root}
+          title="Root"
+          hideNavBar={true}
+        />
+        <Scene
+          key="login"
+          component={Login}
+          title="Login"
+        />
+        <Scene
+          key="signup"
+          component={SignUp}
+          title="Sign Up"
+        />
+        <Scene
+          key="signupconfirm"
+          component={SignUpConfirm}
+          title="Confirm Sign Up"
+        />
+        <Scene
+          key="dashboard"
+          component={Dashboard}
+          title="Dashboard"
+          hideNavBar={true}
+        />
       </Stack>
     </Router>
   </Provider>
