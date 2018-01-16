@@ -75,18 +75,20 @@ class SignUpConfirm extends Component {
   submit = async () => {
     const { email, username, password, code } = this.state;
     const res = await this.props.confirmUser(email, username, code, password);
+    console.log('\n\n----\nres.body\n', res.body);
 
-    if (!('body' in res && 'data' in res.body && 'confirmUser' in res.body.data)) {
+    if (!(_.at(res, 'res.body.data.confirmUser')[0])) {
       this.setState({ error: 'response', isInFlight: false });
-    }
-    const { error } = res.body.data.confirmUser;
-    if (error) {
-      this.setState({ error, isInFlight: false });
     } else {
-      this.setState({
-        error: '',
-        isInFlight: false,
-      }, () => this.login());
+      const { error } = res.body.data.confirmUser;
+      if (error) {
+        this.setState({ error, isInFlight: false });
+      } else {
+        this.setState({
+          error: '',
+          isInFlight: false,
+        }, () => this.login());
+      }
     }
   }
 

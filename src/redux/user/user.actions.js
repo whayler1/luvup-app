@@ -9,10 +9,6 @@ export const LOGOUT = 'user/logout';
 export const REAUTH = 'user/reauth';
 export const USER_REQUEST = 'user/user-request';
 
-// export const login = (username, password) => dispatch => {
-//   console.log('login called');
-// }
-
 export const login = (username, password) => async dispatch => {
   console.log('-- login called');
   try {

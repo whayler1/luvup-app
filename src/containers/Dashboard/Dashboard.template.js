@@ -3,13 +3,13 @@ import { View, Text, TextInput } from 'react-native';
 import { Button } from 'react-native-elements';
 
 import styles from './Dashboard.styles';
-import { buttons, forms } from '../../styles';
+import { buttons, forms, scene } from '../../styles';
 
 export default ({
   username,
   logout
 }) => (
-  <View>
+  <View style={scene.container}>
     <Text style={forms.title}>Logged in as {username}</Text>
     <Button
       raised
