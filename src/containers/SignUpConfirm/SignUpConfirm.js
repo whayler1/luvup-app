@@ -23,6 +23,8 @@ class SignUpConfirm extends Component {
   state = {
     email: this.props.email || '',
     username: '',
+    firstName: '',
+    lastName: '',
     password: '',
     passwordAgain: '',
     code: '',
@@ -31,6 +33,8 @@ class SignUpConfirm extends Component {
 
   onEmailChange = email => this.setState({ email });
   onUsernameChange = username => this.setState({ username });
+  onFirstNameChange = firstName => this.setState({ firstName });
+  onLastNameChange = lastName => this.setState({ lastName });
   onCodeChange = code => this.setState({ code });
   onPasswordChange = password => this.setState({ password });
   onPasswordAgainChange = passwordAgain => this.setState({ passwordAgain });
@@ -73,17 +77,21 @@ class SignUpConfirm extends Component {
   };
 
   submit = async () => {
-    const { email, username, password, code } = this.state;
-    const res = await this.props.confirmUser(email, username, code, password);
-    console.log('\n\n----\nres.body\n', res.body);
+    const { email, username, firstName, lastName, password, code } = this.state;
+    const res = await this.props.confirmUser(email, username, firstName, lastName, code, password);
+    console.log('\n\n-- res', res.body);
 
-    if (!(_.at(res, 'res.body.data.confirmUser')[0])) {
+    if (!(_.at(res, 'body.data.confirmUser')[0])) {
+      console.log('\n\n-- first error');
       this.setState({ error: 'response', isInFlight: false });
     } else {
+      console.log('\n\n-- second error');
       const { error } = res.body.data.confirmUser;
       if (error) {
+        console.log('\n\n-- first error inner if');
         this.setState({ error, isInFlight: false });
       } else {
+        console.log('\n\n-- first error inner else');
         this.setState({
           error: '',
           isInFlight: false,
@@ -107,6 +115,8 @@ class SignUpConfirm extends Component {
       {..._.pick(this,
         'onEmailChange',
         'onUsernameChange',
+        'onFirstNameChange',
+        'onLastNameChange',
         'onCodeChange',
         'onPasswordChange',
         'onPasswordAgainChange',

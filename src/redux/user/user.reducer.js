@@ -11,6 +11,8 @@ const defaultState = {
   id: '',
   email: '',
   username: '',
+  firstName: '',
+  lastName: ''
 };
 
 export default function reducer(state = defaultState, action) {
@@ -19,13 +21,15 @@ export default function reducer(state = defaultState, action) {
     case LOGIN:
     case REAUTH:
       return {
-        ..._.pick(action, 'id', 'email', 'username'),
+        ..._.pick(action, 'id', 'email', 'username', 'firstName', 'lastName'),
       };
     case LOGOUT:
       return {
         id: '',
         email: '',
         username: '',
+        firstName: '',
+        lastName: '',
       };
     case USER_REQUEST:
       return {

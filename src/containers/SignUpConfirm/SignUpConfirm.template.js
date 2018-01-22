@@ -9,12 +9,16 @@ import { forms, buttons } from '../../styles';
 export default ({
   onEmailChange,
   onUsernameChange,
+  onFirstNameChange,
+  onLastNameChange,
   onCodeChange,
   onPasswordChange,
   onPasswordAgainChange,
   onSubmit,
   email,
   username,
+  firstName,
+  lastName,
   code,
   password,
   passwordAgain,
@@ -38,6 +42,7 @@ export default ({
       keyboardType={'email-address'}
       autoCapitalize={'none'}
       editable={!isInFlight}
+      spellCheck={false}
     />
     {error === 'email' && <Text style={forms.error}>Please provide a valid email</Text>}
     {error === 'no user request' && <Text style={forms.error}>There is no sign up request for that email</Text>}
@@ -49,10 +54,31 @@ export default ({
       maxLength={50}
       autoCapitalize={'none'}
       editable={!isInFlight}
+      spellCheck={false}
     />
     {error === 'username' && <Text style={forms.error}>Please provide a username</Text>}
     {error === 'username-length' && <Text style={forms.error}>Usernames must be at least 3 characters</Text>}
     {error === 'username taken' && <Text style={forms.error}>Username taken</Text>}
+    <Text style={forms.label}>First Name</Text>
+    <TextInput
+      style={forms.input}
+      onChangeText={onFirstNameChange}
+      value={firstName}
+      maxLength={50}
+      autoCapitalize={'none'}
+      editable={!isInFlight}
+      spellCheck={false}
+    />
+    <Text style={forms.label}>Last Name</Text>
+    <TextInput
+      style={forms.input}
+      onChangeText={onLastNameChange}
+      value={lastName}
+      maxLength={50}
+      autoCapitalize={'none'}
+      editable={!isInFlight}
+      spellCheck={false}
+    />
     <Text style={forms.label}>Code</Text>
     <TextInput
       style={forms.input}
@@ -62,6 +88,7 @@ export default ({
       keyboardType={'numeric'}
       autoCapitalize={'none'}
       editable={!isInFlight}
+      spellCheck={false}
     />
     {error === 'code' && <Text style={forms.error}>Please provide the code that was emailed to you</Text>}
     {error === 'code-length' && <Text style={forms.error}>Codes are 6 characters long</Text>}
@@ -75,6 +102,7 @@ export default ({
       secureTextEntry={true}
       maxLength={50}
       editable={!isInFlight}
+      spellCheck={false}
     />
     {error === 'password' && <Text style={forms.error}>Please provide a password</Text>}
     {error === 'password-length' && <Text style={forms.error}>Passwords must be at least 8 characters</Text>}
@@ -86,6 +114,7 @@ export default ({
       secureTextEntry={true}
       maxLength={50}
       editable={!isInFlight}
+      spellCheck={false}
     />
     {error === 'password-mismatch' && <Text style={forms.error}>Passwords do not match</Text>}
     <Button

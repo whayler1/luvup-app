@@ -32,6 +32,7 @@ export default ({
       autoCapitalize={'none'}
       maxLength={50}
       editable={!isInFlight}
+      spellCheck={false}
     />
     {error === 'email' && <Text style={forms.error}>Please provide a valid email</Text>}
     <Button
