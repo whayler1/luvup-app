@@ -4,7 +4,6 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { Button } from 'react-native-elements';
 
 import { forms, buttons, scene } from '../../styles';
-// import ListItem from './CreateLoverRequest.ListItem.template';
 
 const keyExtractor = item => item.id;
 
