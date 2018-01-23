@@ -7,6 +7,7 @@ import _ from 'lodash';
 
 import config from '../../config.js';
 import Template from './CreateLoverRequest.template';
+import TemplateSelectedUser from './CreateLoverRequest.template.selectedUser';
 // import {
 //   reauth as reauthAction,
 //   getMe as getMeAction,
@@ -19,11 +20,11 @@ class CreateLoverRequest extends Component {
     search: '',
     error: '',
     users: [],
-    selectedUserId: '',
+    selectedUser: null,
     isInFlight: false,
   };
 
-  onListItemClick = selectedUserId => this.setState({ selectedUserId });
+  onListItemClick = selectedUserId => this.setState({ selectedUser: this.state.users.find(user => user.id === selectedUserId) });
 
   getUsers = async () => {
     const { search } = this.state;
@@ -65,11 +66,17 @@ class CreateLoverRequest extends Component {
   onSearchChange = search => this.setState({ search, isInFlight: true, }, this.searchDebounce);
 
   render() {
-    return <Template
-      onSearchChange={this.onSearchChange}
-      onListItemClick={this.onListItemClick}
-      {...this.state}
-    />;
+    if (!this.state.selectedUser) {
+      return <Template
+        onSearchChange={this.onSearchChange}
+        onListItemClick={this.onListItemClick}
+        {...this.state}
+      />;
+    } else {
+      return <TemplateSelectedUser
+        {...this.state}
+      />;
+    }
   };
 };
 
