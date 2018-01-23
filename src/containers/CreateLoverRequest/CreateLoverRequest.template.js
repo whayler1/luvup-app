@@ -12,6 +12,7 @@ export default ({
   onListItemClick,
   search,
   users,
+  isInFlight,
 }) => (
   <KeyboardAwareScrollView
     resetScrollToCoords={{ x: 0, y: 0 }}
@@ -28,7 +29,7 @@ export default ({
       spellCheck={false}
       placeholder={'username, email, or full name'}
     />
-    <FlatList
+    {users.length > 0 && <FlatList
       data={users}
       keyExtractor={keyExtractor}
       renderItem={({ item }) => (
@@ -39,6 +40,13 @@ export default ({
           </View>
         </TouchableOpacity>
       )}
-    />
+    />}
+    {isInFlight && !users.length && <Text>Searching...</Text>}
+    {!isInFlight && !users.length && (() => {
+      if (search.length < 2) {
+        return <Text>Use the search box above to find your lover. Once you and your lover are linked up you can begin to use Luvup!</Text>;
+      }
+      return <Text>There are no users who match that username, email or full name. Please double check your spelling.</Text>;
+    })()}
   </KeyboardAwareScrollView>
 );

@@ -20,6 +20,7 @@ class CreateLoverRequest extends Component {
     error: '',
     users: [],
     selectedUserId: '',
+    isInFlight: false,
   };
 
   onListItemClick = selectedUserId => this.setState({ selectedUserId });
@@ -41,10 +42,14 @@ class CreateLoverRequest extends Component {
         }`
       });
 
-      this.setState({ error: '', users: res.body.data.users.rows });
+      this.setState({
+        error: '',
+        users: res.body.data.users.rows,
+        isInFlight: false,
+      });
     } catch (err) {
       console.log('err', err);
-      this.setState({ error: 'response' });
+      this.setState({ error: 'response', isInFlight: false, });
     }
   };
 
@@ -53,11 +58,11 @@ class CreateLoverRequest extends Component {
     if (search.length > 2) {
       this.getUsers()
     } else {
-      this.setState({ error: '', users: []});
+      this.setState({ error: '', users: [], isInFlight: false, });
     }
   }, 500);
 
-  onSearchChange = search => this.setState({ search }, this.searchDebounce);
+  onSearchChange = search => this.setState({ search, isInFlight: true, }, this.searchDebounce);
 
   render() {
     return <Template
