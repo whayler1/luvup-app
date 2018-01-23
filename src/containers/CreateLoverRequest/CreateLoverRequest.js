@@ -19,10 +19,14 @@ class CreateLoverRequest extends Component {
     search: '',
     error: '',
     users: [],
+    selectedUserId: '',
   };
+
+  onListItemClick = selectedUserId => this.setState({ selectedUserId });
 
   getUsers = async () => {
     const { search } = this.state;
+    const { onListItemClick } = this;
     try {
       const res = await superagent.post(config.graphQlUrl, {
         query: `{
@@ -36,9 +40,8 @@ class CreateLoverRequest extends Component {
           }
         }`
       });
-      // console.log('res.body.data.users.rows', res.body.data.users.rows);
 
-      this.setState({ error: '', users: res.body.data.users.rows }, () => console.log('users', this.state.users));
+      this.setState({ error: '', users: res.body.data.users.rows });
     } catch (err) {
       console.log('err', err);
       this.setState({ error: 'response' });
@@ -59,6 +62,7 @@ class CreateLoverRequest extends Component {
   render() {
     return <Template
       onSearchChange={this.onSearchChange}
+      onListItemClick={this.onListItemClick}
       {...this.state}
     />;
   };

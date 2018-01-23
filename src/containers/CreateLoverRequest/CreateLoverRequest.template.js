@@ -1,23 +1,16 @@
 import React from 'react';
-import { Text, TextInput, FlatList, View } from 'react-native';
+import { Text, TextInput, FlatList, View, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Button } from 'react-native-elements';
 
 import { forms, buttons, scene } from '../../styles';
-
-const itemView = ({ item }) => {
-  return (
-    <View>
-      <Text>{item.username}</Text>
-      <Text>{`${item.firstName} ${item.lastName}`}</Text>
-    </View>
-  );
-};
+// import ListItem from './CreateLoverRequest.ListItem.template';
 
 const keyExtractor = item => item.id;
 
 export default ({
   onSearchChange,
+  onListItemClick,
   search,
   users,
 }) => (
@@ -39,7 +32,14 @@ export default ({
     <FlatList
       data={users}
       keyExtractor={keyExtractor}
-      renderItem={itemView}
+      renderItem={({ item }) => (
+        <TouchableOpacity onPress={() => onListItemClick(item.id)}>
+          <View>
+            <Text>{item.username}</Text>
+            <Text>{`${item.firstName} ${item.lastName}`}</Text>
+          </View>
+        </TouchableOpacity>
+      )}
     />
   </KeyboardAwareScrollView>
 );
