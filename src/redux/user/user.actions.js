@@ -10,13 +10,12 @@ export const REAUTH = 'user/reauth';
 export const USER_REQUEST = 'user/user-request';
 
 export const login = (username, password) => async dispatch => {
-  console.log('-- login called');
   try {
     const res = await superagent.post(`${config.baseUrl}/login`, { username, password});
-    console.log('got res', res.body);
 
     const {
       email,
+      username,
       id,
       error,
     } = res.body.user;
@@ -60,6 +59,51 @@ export const reauth = id_token => async dispatch => {
     return err;
   }
 };
+
+export const getMe = () => async dispatch => {
+  try {
+    const res = await superagent.post(config.graphQlUrl, {
+      query: `{
+        me {
+          id username email firstName lastName
+          relationship {
+            id createdAt
+            lovers {
+              id username firstName lastName
+            }
+          }
+        }
+      }`
+    });
+
+    const {
+      email,
+      username,
+      id,
+      firstName,
+      lastName,
+      relationship,
+    } = res.body.data.me;
+
+    dispatch(setUser(
+      email,
+      username,
+      id,
+      firstName,
+      lastName,
+    ));
+
+    if (relationship) {
+
+    } else {
+
+    }
+    return res;
+  } catch (err) {
+    console.log('getMe error', err);
+    return err;
+  }
+}
 
 export const userRequest = email => async dispatch => {
   try {
@@ -112,9 +156,11 @@ export const confirmUser = (email, username, firstName, lastName, code, password
   }
 };
 
-export const setUser = (email, username='', id='') => ({
+export const setUser = (email, username='', id='', firstName='', lastName='') => ({
   type: SET_USER,
   id,
   email,
-  username
+  username,
+  firstName,
+  lastName,
 });

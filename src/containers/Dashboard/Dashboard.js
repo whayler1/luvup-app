@@ -25,7 +25,7 @@ class Dashboard extends Component {
       username={this.props.username}
       logout={this.logout}
       {...this.state}
-    />
+    />;
   }
 }
 

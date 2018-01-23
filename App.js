@@ -22,6 +22,7 @@ import Login from './src/containers/Login';
 import SignUp from './src/containers/SignUp';
 import SignUpConfirm from './src/containers/SignUpConfirm';
 import Dashboard from './src/containers/Dashboard';
+import CreateLoverRequest from './src/containers/CreateLoverRequest';
 
 const styles = StyleSheet.create({
   container: {
@@ -82,6 +83,11 @@ const App = () => (
           key="dashboard"
           component={Dashboard}
           title="Dashboard"
+          hideNavBar={true}
+        />
+        <Scene
+          key="createloverrequest"
+          component={CreateLoverRequest}
           hideNavBar={true}
         />
       </Stack>

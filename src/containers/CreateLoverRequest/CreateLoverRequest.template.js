@@ -1,0 +1,28 @@
+import React from 'react';
+import { Text, TextInput } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { Button } from 'react-native-elements';
+
+import { forms, buttons, scene } from '../../styles';
+
+export default ({
+  onSearchChange,
+  search,
+}) => (
+  <KeyboardAwareScrollView
+    resetScrollToCoords={{ x: 0, y: 0 }}
+    contentContainerStyle={scene.container}
+    scrollEnabled={true}
+  >
+    <Text style={forms.label}>Search for your lover</Text>
+    <TextInput
+      style={forms.input}
+      onChangeText={onSearchChange}
+      value={search}
+      maxLength={100}
+      autoCapitalize={'none'}
+      spellCheck={false}
+      placeholder={'username, email, or full name'}
+    />
+  </KeyboardAwareScrollView>
+);
