@@ -1,13 +1,25 @@
 import React from 'react';
-import { Text, TextInput } from 'react-native';
+import { Text, TextInput, FlatList, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Button } from 'react-native-elements';
 
 import { forms, buttons, scene } from '../../styles';
 
+const itemView = ({ item }) => {
+  return (
+    <View>
+      <Text>{item.username}</Text>
+      <Text>{`${item.firstName} ${item.lastName}`}</Text>
+    </View>
+  );
+};
+
+const keyExtractor = item => item.id;
+
 export default ({
   onSearchChange,
   search,
+  users,
 }) => (
   <KeyboardAwareScrollView
     resetScrollToCoords={{ x: 0, y: 0 }}
@@ -23,6 +35,11 @@ export default ({
       autoCapitalize={'none'}
       spellCheck={false}
       placeholder={'username, email, or full name'}
+    />
+    <FlatList
+      data={users}
+      keyExtractor={keyExtractor}
+      renderItem={itemView}
     />
   </KeyboardAwareScrollView>
 );
