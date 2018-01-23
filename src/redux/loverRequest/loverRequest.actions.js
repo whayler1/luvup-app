@@ -3,17 +3,27 @@ import superagent from 'superagent';
 import config from '../../config';
 
 export const REQUEST_LOVER = 'lover-request/request-lover';
+export const SET_LOVER_REQUEST = 'lover-request/set-lover-request';
 
 export const requestLover = recipientId => async dispatch => {
+  console.log('requestLover recipientId', recipientId);
   try {
     const res = await superagent.post(config.graphQlUrl, {
       query: `mutation {
         requestLover(recipientId: "${recipientId}") {
           id isAccepted isSenderCanceled isRecipientCanceled createdAt
+          recipient {
+            username firstName lastName
+          }
         }
       }`
     });
-    console.log('requestLover es', res);
+    console.log('requestLover es', res.body.data);
+
+    dispatch({
+      type: REQUEST_LOVER,
+      ...res.body.data.requestLover,
+    });
 
     return res;
   } catch (err) {

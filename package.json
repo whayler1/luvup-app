@@ -1,5 +1,6 @@
 {
   "name": "Luvup",
+  "description": "Improving relationships through gamification",
   "version": "0.1.0",
   "private": true,
   "devDependencies": {

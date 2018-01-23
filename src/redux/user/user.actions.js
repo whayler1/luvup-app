@@ -1,7 +1,9 @@
 import superagent from 'superagent';
 import { AsyncStorage } from 'react-native';
+import _ from 'lodash';
 
 import config from '../../config';
+import { SET_LOVER_REQUEST } from '../loverRequest/loverRequest.actions';
 
 export const SET_USER = 'user/set-user';
 export const LOGIN = 'user/login';
@@ -44,7 +46,6 @@ export const logout = () => async dispatch => {
 export const reauth = id_token => async dispatch => {
   try {
     const res = await superagent.post(`${config.baseUrl}/reauth`, { id_token });
-    console.log('reauth res', res);
     await AsyncStorage.setItem('id_token', res.body.id_token);
     const { id, username, email } = res.body.user;
     dispatch({
@@ -73,6 +74,14 @@ export const getMe = () => async dispatch => {
             }
           }
         }
+        activeLoverRequest {
+          loverRequest {
+            id isAccepted isSenderCanceled isRecipientCanceled createdAt
+            recipient {
+              username firstName lastName
+            }
+          }
+        }
       }`
     });
 
@@ -95,8 +104,28 @@ export const getMe = () => async dispatch => {
 
     if (relationship) {
 
-    } else {
+    }
 
+    if (_.at(res, 'body.data.activeLoverRequest.loverRequest')[0]) {
+      const { loverRequest } = res.body.data.activeLoverRequest;
+
+      if (loverRequest) {
+        dispatch({
+          type: SET_LOVER_REQUEST,
+          ..._.pick(loverRequest, [
+            'id',
+            'isAccepted',
+            'isSenderCanceled',
+            'isRecipientCanceled',
+            'createdAt',
+          ]),
+          ..._.pick(loverRequest.recipient, [
+            'username',
+            'firstName',
+            'lastName',
+          ]),
+        });
+      }
     }
     return res;
   } catch (err) {

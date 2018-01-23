@@ -8,13 +8,16 @@ import _ from 'lodash';
 import config from '../../config.js';
 import Template from './CreateLoverRequest.template';
 import TemplateSelectedUser from './CreateLoverRequest.template.selectedUser';
+import { requestLover as requestLoverAction } from '../../redux/loverRequest/loverRequest.actions';
 // import {
 //   reauth as reauthAction,
 //   getMe as getMeAction,
 // } from '../../redux/user/user.actions';
 
 class CreateLoverRequest extends Component {
-  static propTypes = {};
+  static propTypes = {
+    requestLover: PropTypes.func.isRequired,
+  };
 
   state = {
     search: '',
@@ -22,9 +25,22 @@ class CreateLoverRequest extends Component {
     users: [],
     selectedUser: null,
     isInFlight: false,
+    requestLoverIsInFlight: false,
   };
 
+  clearSelectedUser = () => this.setState({ selectedUser: null });
+
   onListItemClick = selectedUserId => this.setState({ selectedUser: this.state.users.find(user => user.id === selectedUserId) });
+
+  requestLover = async () => {
+    console.log('request lover hit', this.state.selectedUser.id);
+    this.setState({ requestLoverIsInFlight: true });
+    const res = await this.props.requestLover(this.state.selectedUser.id);
+
+    if(!_.at(res, 'body.data.requestLover.id')) {
+      this.setState({ requestLoverIsInFlight: false, error: 'request-lover' });
+    }
+  };
 
   getUsers = async () => {
     const { search } = this.state;
@@ -74,6 +90,8 @@ class CreateLoverRequest extends Component {
       />;
     } else {
       return <TemplateSelectedUser
+        clearSelectedUser={this.clearSelectedUser}
+        requestLover={this.requestLover}
         {...this.state}
       />;
     }
@@ -83,6 +101,6 @@ class CreateLoverRequest extends Component {
 export default connect(
   null,
   {
-
+    requestLover: requestLoverAction,
   }
 )(CreateLoverRequest);
