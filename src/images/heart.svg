@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="90px" height="82px" viewBox="0 0 90 82" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="noun_644154" transform="translate(-11.000000, -30.000000)" fill="#000000" fill-rule="nonzero">
+            <g id="Group" transform="translate(56.000000, 56.000000) scale(-1, 1) rotate(-45.000000) translate(-56.000000, -56.000000) translate(17.000000, 17.000000)">
+                <rect id="Rectangle-path" transform="translate(26.000000, 52.000000) scale(-1, 1) rotate(-90.000000) translate(-26.000000, -52.000000) " x="-2.27373675e-13" y="26" width="52" height="52"></rect>
+                <circle id="Oval" transform="translate(26.000000, 26.000000) scale(-1, 1) rotate(-90.000000) translate(-26.000000, -26.000000) " cx="26" cy="26" r="26"></circle>
+                <circle id="Oval" transform="translate(52.000000, 52.000000) scale(-1, 1) rotate(-90.000000) translate(-52.000000, -52.000000) " cx="52" cy="52" r="26"></circle>
+            </g>
+        </g>
+    </g>
+</svg>

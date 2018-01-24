@@ -21,9 +21,12 @@ class Root extends Component {
     getMe: PropTypes.func.isRequired,
   };
 
+  /**
+   * JW: This method is identical to `onSubmitSuccess` in Login. Find a way to
+   * DRY this up.
+   */
   onReauthSuccess = async () => {
     const meRes = await this.props.getMe();
-    console.log('this.props.relationshipId', this.props.relationshipId);
 
     if (this.props.relationshipId || this.props.loverRequestId) {
       Actions.dashboard();
