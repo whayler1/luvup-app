@@ -15,6 +15,7 @@ import {
 class Root extends Component {
   static propTypes = {
     id: PropTypes.string,
+    loverRequestId: PropTypes.string,
     relationshipId: PropTypes.string,
     reauth: PropTypes.func.isRequired,
     getMe: PropTypes.func.isRequired,
@@ -22,12 +23,12 @@ class Root extends Component {
 
   onReauthSuccess = async () => {
     const meRes = await this.props.getMe();
-    console.log('meRes', meRes.body.data.me);
+    console.log('this.props.relationshipId', this.props.relationshipId);
 
-    if (!this.props.relationshipId) {
-      Actions.createloverrequest();
-    } else {
+    if (this.props.relationshipId || this.props.loverRequestId) {
       Actions.dashboard();
+    } else {
+      Actions.createloverrequest();
     }
   };
 
@@ -59,7 +60,8 @@ class Root extends Component {
 export default connect(
   state => ({
     id: state.user.id,
-    relationshipId: state.relationship.id
+    loverRequestId: state.loverRequest.id,
+    relationshipId: state.relationship.id,
   }),
   {
     reauth: reauthAction,

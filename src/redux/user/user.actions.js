@@ -3,7 +3,9 @@ import { AsyncStorage } from 'react-native';
 import _ from 'lodash';
 
 import config from '../../config';
+import { setLover } from '../lover/lover.actions';
 import { SET_LOVER_REQUEST } from '../loverRequest/loverRequest.actions';
+import { setRelationship } from '../relationship/relationship.actions';
 
 export const SET_USER = 'user/set-user';
 export const LOGIN = 'user/login';
@@ -103,7 +105,11 @@ export const getMe = () => async dispatch => {
     ));
 
     if (relationship) {
+      dispatch(setRelationship(relationship.id, relationship.createdAt));
 
+      const lover = relationship.lovers[0];
+      console.log('\n\nlover', lover);
+      dispatch(setLover(lover.id, lover.username, lover.firstName, lover.lastName));
     }
 
     if (_.at(res, 'body.data.activeLoverRequest.loverRequest')[0]) {

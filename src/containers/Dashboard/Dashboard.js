@@ -10,6 +10,9 @@ import Template from './Dashboard.template';
 class Dashboard extends Component {
   static propTypes = {
     username: PropTypes.string.isRequired,
+    loverUsername: PropTypes.string,
+    loverRequestUsername: PropTypes.string,
+    loverRequestCreatedAt: PropTypes.string,
     logout: PropTypes.func.isRequired,
   };
 
@@ -23,6 +26,9 @@ class Dashboard extends Component {
   render() {
     return <Template
       username={this.props.username}
+      loverUsername={this.props.loverUsername}
+      loverRequestUsername={this.props.loverRequestUsername}
+      loverRequestCreatedAt={this.props.loverRequestCreatedAt}
       logout={this.logout}
       {...this.state}
     />;
@@ -32,6 +38,9 @@ class Dashboard extends Component {
 export default connect(
   state => ({
     username: state.user.username,
+    loverUsername: state.lover.username,
+    loverRequestUsername: state.loverRequest.username,
+    loverRequestCreatedAt: state.loverRequest.createdAt,
   }),
   {
     logout: logoutAction

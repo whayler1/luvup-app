@@ -1,6 +1,6 @@
 import config from '../../config';
 
-const SET_LOVER = 'lover/set-lover';
+export const SET_LOVER = 'lover/set-lover';
 
 export const setLover = (
   id,

@@ -9,13 +9,10 @@ import config from '../../config.js';
 import Template from './CreateLoverRequest.template';
 import TemplateSelectedUser from './CreateLoverRequest.template.selectedUser';
 import { requestLover as requestLoverAction } from '../../redux/loverRequest/loverRequest.actions';
-// import {
-//   reauth as reauthAction,
-//   getMe as getMeAction,
-// } from '../../redux/user/user.actions';
 
 class CreateLoverRequest extends Component {
   static propTypes = {
+    relationshipId: PropTypes.string,
     requestLover: PropTypes.func.isRequired,
   };
 
@@ -99,7 +96,9 @@ class CreateLoverRequest extends Component {
 };
 
 export default connect(
-  null,
+  state => ({
+      relationshipId: state.relationship.id,
+  }),
   {
     requestLover: requestLoverAction,
   }
