@@ -42,9 +42,8 @@ class Login extends Component {
   submit = async () => {
     const { username, password } = this.state;
     const loginres = await this.props.login(username, password);
-    console.log('loginres', loginres);
+    // console.log('loginres', loginres);
 
-    console.log('userId', this.props.userId);
     if (this.props.userId) {
       Actions.dashboard();
       return;

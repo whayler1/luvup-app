@@ -13,26 +13,20 @@ export const LOGOUT = 'user/logout';
 export const REAUTH = 'user/reauth';
 export const USER_REQUEST = 'user/user-request';
 
-export const login = (username, password) => async dispatch => {
+export const login = (usernameOrEmail, password) => async dispatch => {
   try {
-    const res = await superagent.post(`${config.baseUrl}/login`, { username, password});
-
-    const {
-      email,
-      username,
-      id,
-      error,
-    } = res.body.user;
+    const res = await superagent.post(`${config.baseUrl}/login`, { username: usernameOrEmail, password });
+    console.log('\n\n---------\nres', res.body);
 
     await AsyncStorage.setItem('id_token', res.body.id_token);
 
     dispatch({
       type: LOGIN,
-      id,
-      email,
-      username,
+      id: res.body.user.id,
+      email: res.body.user.email,
+      username: res.body.user.username,
     });
-    return res.body;
+    return res;
   } catch (err) {
     console.log('login err', err);
     return err;
