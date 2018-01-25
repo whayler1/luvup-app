@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TextInput, Image } from 'react-native';
+import { View, Text, TextInput, Image, Animated } from 'react-native';
 import { Button } from 'react-native-elements';
 import moment from 'moment';
 
@@ -12,6 +12,9 @@ export default ({
   loverRequestUsername,
   loverRequestCreatedAt,
   logout,
+  panResponder,
+  translateY,
+  scale,
 }) => (
   <View
     style={scene.container}
@@ -19,10 +22,23 @@ export default ({
     {loverRequestUsername.length > 0 && <Text>You sent a loverRequest to {loverRequestUsername} {moment(new Date(loverRequestCreatedAt)).fromNow()}</Text>}
     <Text style={forms.title}>Logged in as {username}</Text>
     {loverUsername.length > 0 && <Text>{loverUsername} is your lover</Text>}
-    <View style={styles.heartView}>
-      <Image
+    <View
+      style={styles.heartView}
+      {...panResponder.panHandlers}
+    >
+      <Animated.Image
         source={require('../../images/heart.png')}
-        style={styles.heartImg}
+        style={{
+          width: 300,
+          height: 200,
+          transform: [{
+            translateY
+          }, {
+            scaleX: scale
+          }, {
+            scaleY: scale
+          }]
+        }}
       />
     </View>
     <Button

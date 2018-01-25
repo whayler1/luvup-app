@@ -14,6 +14,7 @@ export const REAUTH = 'user/reauth';
 export const USER_REQUEST = 'user/user-request';
 
 export const login = (usernameOrEmail, password) => async dispatch => {
+  console.log(`${config.baseUrl}/login`);
   try {
     const res = await superagent.post(`${config.baseUrl}/login`, { username: usernameOrEmail, password });
     console.log('\n\n---------\nres', res.body);
