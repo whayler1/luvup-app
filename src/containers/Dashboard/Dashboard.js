@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import { PanResponder, Animated } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { logout as logoutAction } from '../../redux/user/user.actions';
 import PropTypes from 'prop-types';
+import { logout as logoutAction } from '../../redux/user/user.actions';
+import {
+  sendCoin as sendCoinAction,
+  getCoinCount as getCoinCountAction
+} from '../../redux/coin/coin.actions';
 
 import config from '../../config.js';
 import Template from './Dashboard.template';
@@ -14,7 +18,10 @@ class Dashboard extends Component {
     loverUsername: PropTypes.string,
     loverRequestUsername: PropTypes.string,
     loverRequestCreatedAt: PropTypes.string,
+    sentCoin: PropTypes.array,
     logout: PropTypes.func.isRequired,
+    getCoinCount: PropTypes.func.isRequired,
+    sendCoin: PropTypes.func.isRequired,
   };
 
   state = {};
@@ -25,6 +32,11 @@ class Dashboard extends Component {
   logout = async () => {
     await this.props.logout();
     Actions.login();
+  };
+
+  sendCoin = () => {
+    this.props.sendCoin();
+    console.log('sendCoin', this.props.sentCoins);
   };
 
   springY() {
@@ -58,6 +70,7 @@ class Dashboard extends Component {
   }
 
   componentWillMount() {
+    this.props.getCoinCount();
     this.panResponder = PanResponder.create({
       // Ask to be the responder:
       onStartShouldSetPanResponder: (evt, gestureState) => true,
@@ -74,6 +87,7 @@ class Dashboard extends Component {
         // gestureState.d{x,y} will be set to zero now
       },
       onPanResponderMove: (evt, gestureState) => {
+        // console.log('move', gestureState.vy);
         this.translateY.setValue(gestureState.dy);
         this.scale.setValue((-gestureState.dy / 700) + 1);
 
@@ -84,9 +98,13 @@ class Dashboard extends Component {
       },
       onPanResponderTerminationRequest: (evt, gestureState) => true,
       onPanResponderRelease: (evt, gestureState) => {
-        console.log('release');
+        console.log('release', gestureState.dy);
         this.springY();
         this.springScaleBack();
+
+        if (gestureState.dy < -60) {
+          this.sendCoin();
+        }
         // The user has released all touches while this view is the
         // responder. This typically means a gesture has succeeded
       },
@@ -124,8 +142,11 @@ export default connect(
     loverUsername: state.lover.username,
     loverRequestUsername: state.loverRequest.username,
     loverRequestCreatedAt: state.loverRequest.createdAt,
+    sentCoins: state.coin.sentCoins,
   }),
   {
-    logout: logoutAction
+    logout: logoutAction,
+    getCoinCount: getCoinCountAction,
+    sendCoin: sendCoinAction,
   }
 )(Dashboard);
