@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PanResponder } from 'react-native';
+import { PanResponder, Animated } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { logout as logoutAction } from '../../redux/user/user.actions';
@@ -17,15 +17,45 @@ class Dashboard extends Component {
     logout: PropTypes.func.isRequired,
   };
 
-  state = {
-    translateY: 0,
-    scale: 1,
-  };
+  state = {};
+
+  translateY = new Animated.Value(0);
+  scale = new Animated.Value(1);
 
   logout = async () => {
     await this.props.logout();
     Actions.login();
   };
+
+  springY() {
+    Animated.spring(
+      this.translateY,
+      {
+        toValue: 0,
+        friction: 4
+      }
+    ).start()
+  };
+
+  springScaleBack() {
+    Animated.spring(
+      this.scale,
+      {
+        toValue: 1,
+        friction: 4
+      }
+    ).start()
+  };
+
+  springScaleTouch() {
+    Animated.spring(
+      this.scale,
+      {
+        toValue: 1.05,
+        friction: .5,
+      }
+    ).start();
+  }
 
   componentWillMount() {
     this.panResponder = PanResponder.create({
@@ -37,17 +67,16 @@ class Dashboard extends Component {
 
       onPanResponderGrant: (evt, gestureState) => {
         console.log('grant');
+        this.springScaleTouch();
         // The gesture has started. Show visual feedback so the user knows
         // what is happening!
 
         // gestureState.d{x,y} will be set to zero now
       },
       onPanResponderMove: (evt, gestureState) => {
-        console.log('move', gestureState);
-        this.setState({
-          translateY: gestureState.dy,
-          scale: (-gestureState.dy / 700) + 1
-        });
+        this.translateY.setValue(gestureState.dy);
+        this.scale.setValue((-gestureState.dy / 700) + 1);
+
         // The most recent move distance is gestureState.move{X,Y}
 
         // The accumulated gesture distance since becoming responder is
@@ -56,6 +85,8 @@ class Dashboard extends Component {
       onPanResponderTerminationRequest: (evt, gestureState) => true,
       onPanResponderRelease: (evt, gestureState) => {
         console.log('release');
+        this.springY();
+        this.springScaleBack();
         // The user has released all touches while this view is the
         // responder. This typically means a gesture has succeeded
       },
@@ -81,7 +112,8 @@ class Dashboard extends Component {
       loverRequestCreatedAt={this.props.loverRequestCreatedAt}
       logout={this.logout}
       panResponder={this.panResponder}
-      {...this.state}
+      translateY={this.translateY}
+      scale={this.scale}
     />;
   }
 }

@@ -30,7 +30,7 @@ export default ({
         source={require('../../images/heart.png')}
         style={{
           width: 300,
-          height: 200,
+          height: 275,
           transform: [{
             translateY
           }, {
