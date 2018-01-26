@@ -5,6 +5,7 @@ import config from '../../config';
 
 export const SEND_JALAPENO = 'jalapeno/send-jalapeno';
 export const SET_SENT_JALAPENOS = 'jalapeno/set-sent-jalapenos';
+export const GET_JALAPENO_COUNT = 'jalapeno/get-jalapeno-count';
 
 export const sendJalapeno = () => async dispatch => {
   try {
@@ -39,3 +40,27 @@ export const setSentJalapenos = sentJalapenos => ({
   type: SET_SENT_JALAPENOS,
   sentJalapenos,
 });
+
+export const getJalapenoCount = () => async dispatch => {
+  try {
+    const res = await superagent.post(config.graphQlUrl, {
+      query: `{
+        jalapenos(limit: 0) { count }
+      }`,
+    });
+
+    const jalapenos = _.at(res, 'body.data.jalapenos')[0];
+
+    if(_.isObject(jalapenos)) {
+      dispatch({
+        type: GET_JALAPENO_COUNT,
+        count: jalapenos.count,
+      });
+    }
+
+    return res;
+  } catch (err) {
+    console.log('getJalapenoCount err', err);
+    return err;
+  }
+};

@@ -2,6 +2,7 @@ import _ from 'lodash';
 import {
   SEND_JALAPENO,
   SET_SENT_JALAPENOS,
+  GET_JALAPENO_COUNT,
 } from './jalapeno.actions';
 
 const defaultState = {
@@ -22,6 +23,11 @@ export default function reducer(state = defaultState, action) {
         ...state,
         sentJalapenos: action.sentJalapenos
       };
+    case GET_JALAPENO_COUNT:
+      return {
+        ...state,
+        count: action.count
+      }
     default:
       return state;
   }

@@ -13,6 +13,7 @@ export default ({
   loverRequestUsername,
   loverRequestCreatedAt,
   coinCount,
+  jalapenoCount,
   logout,
   panResponder,
   translateY,
@@ -25,6 +26,7 @@ export default ({
     <Text style={forms.title}>Logged in as {username}</Text>
     {loverUsername.length > 0 && <Text>{loverUsername} is your lover</Text>}
     {!_.isNull(coinCount) && <Text>coin count: {coinCount}</Text>}
+    {!_.isNull(jalapenoCount) && <Text>jalapeno count: {jalapenoCount}</Text>}
     <View
       style={styles.heartView}
       {...panResponder.panHandlers}

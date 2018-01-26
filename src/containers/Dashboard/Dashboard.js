@@ -11,7 +11,8 @@ import {
   getCoinCount as getCoinCountAction
 } from '../../redux/coin/coin.actions';
 import {
-  sendJalapeno as sendJalapenoAction
+  sendJalapeno as sendJalapenoAction,
+  getJalapenoCount as getJalapenoCountAction,
 } from '../../redux/jalapeno/jalapeno.actions';
 
 import config from '../../config.js';
@@ -30,6 +31,8 @@ class Dashboard extends Component {
     getCoinCount: PropTypes.func.isRequired,
     sendCoin: PropTypes.func.isRequired,
     sendJalapeno: PropTypes.func.isRequired,
+    getJalapenoCount: PropTypes.func.isRequired,
+    jalapenoCount: PropTypes.number,
   };
 
   translateY = new Animated.Value(0);
@@ -100,6 +103,7 @@ class Dashboard extends Component {
 
   componentWillMount() {
     this.props.getCoinCount();
+    this.props.getJalapenoCount();
 
     this.panResponder = PanResponder.create({
       // Ask to be the responder:
@@ -165,6 +169,7 @@ class Dashboard extends Component {
       loverRequestUsername={this.props.loverRequestUsername}
       loverRequestCreatedAt={this.props.loverRequestCreatedAt}
       coinCount={this.props.coinCount}
+      jalapenoCount={this.props.jalapenoCount}
       logout={this.logout}
       panResponder={this.panResponder}
       translateY={this.translateY}
@@ -182,11 +187,13 @@ export default connect(
     sentCoins: state.coin.sentCoins,
     coinCount: state.coin.count,
     sentJalapenos: state.jalapeno.sentJalapenos,
+    jalapenoCount: state.jalapeno.count,
   }),
   {
     logout: logoutAction,
     getCoinCount: getCoinCountAction,
     sendCoin: sendCoinAction,
     sendJalapeno: sendJalapenoAction,
+    getJalapenoCount: getJalapenoCountAction
   }
 )(Dashboard);
