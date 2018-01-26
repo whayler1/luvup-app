@@ -6,6 +6,7 @@ import config from '../../config';
 import { setLover } from '../lover/lover.actions';
 import { SET_LOVER_REQUEST } from '../loverRequest/loverRequest.actions';
 import { setRelationship } from '../relationship/relationship.actions';
+import { setSentCoins } from '../coin/coin.actions';
 
 export const SET_USER = 'user/set-user';
 export const LOGIN = 'user/login';
@@ -77,6 +78,11 @@ export const getMe = () => async dispatch => {
             }
           }
         }
+        sentCoins(limit: 3) {
+          rows {
+            id createdAt
+          }
+        }
       }`
     });
 
@@ -125,6 +131,9 @@ export const getMe = () => async dispatch => {
           ]),
         });
       }
+    }
+    if (_.at(res, 'body.data.sentCoins')[0]) {
+      dispatch(setSentCoins(res.body.data.sentCoins.rows));
     }
     return res;
   } catch (err) {

@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TextInput, Image, Animated } from 'react-native';
 import { Button } from 'react-native-elements';
 import moment from 'moment';
+import _ from 'lodash';
 
 import styles from './Dashboard.styles';
 import { buttons, forms, scene } from '../../styles';
@@ -11,6 +12,7 @@ export default ({
   loverUsername,
   loverRequestUsername,
   loverRequestCreatedAt,
+  coinCount,
   logout,
   panResponder,
   translateY,
@@ -22,6 +24,7 @@ export default ({
     {loverRequestUsername.length > 0 && <Text>You sent a loverRequest to {loverRequestUsername} {moment(new Date(loverRequestCreatedAt)).fromNow()}</Text>}
     <Text style={forms.title}>Logged in as {username}</Text>
     {loverUsername.length > 0 && <Text>{loverUsername} is your lover</Text>}
+    {!_.isNull(coinCount) && <Text>coin count: {coinCount}</Text>}
     <View
       style={styles.heartView}
       {...panResponder.panHandlers}

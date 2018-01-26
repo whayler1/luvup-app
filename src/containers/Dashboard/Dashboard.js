@@ -3,6 +3,8 @@ import { PanResponder, Animated } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import moment from 'moment';
+
 import { logout as logoutAction } from '../../redux/user/user.actions';
 import {
   sendCoin as sendCoinAction,
@@ -18,13 +20,12 @@ class Dashboard extends Component {
     loverUsername: PropTypes.string,
     loverRequestUsername: PropTypes.string,
     loverRequestCreatedAt: PropTypes.string,
+    coinCount: PropTypes.number,
     sentCoin: PropTypes.array,
     logout: PropTypes.func.isRequired,
     getCoinCount: PropTypes.func.isRequired,
     sendCoin: PropTypes.func.isRequired,
   };
-
-  state = {};
 
   translateY = new Animated.Value(0);
   scale = new Animated.Value(1);
@@ -34,9 +35,15 @@ class Dashboard extends Component {
     Actions.login();
   };
 
-  sendCoin = () => {
-    this.props.sendCoin();
-    console.log('sendCoin', this.props.sentCoins);
+  sendCoin = async () => {
+    const { sentCoins } = this.props;
+    if (sentCoins.length > 2 && moment(new Date(sentCoins[2].createdAt)).isBefore(moment().subtract(1, 'hour'))) {
+      const res = await this.props.sendCoin();
+      console.log('sendCoin', this.props.sentCoins);
+    } else {
+      console.log('cant send more coins', moment().subtract(1, 'hour'));
+    }
+
   };
 
   springY() {
@@ -71,6 +78,7 @@ class Dashboard extends Component {
 
   componentWillMount() {
     this.props.getCoinCount();
+
     this.panResponder = PanResponder.create({
       // Ask to be the responder:
       onStartShouldSetPanResponder: (evt, gestureState) => true,
@@ -128,6 +136,7 @@ class Dashboard extends Component {
       loverUsername={this.props.loverUsername}
       loverRequestUsername={this.props.loverRequestUsername}
       loverRequestCreatedAt={this.props.loverRequestCreatedAt}
+      coinCount={this.props.coinCount}
       logout={this.logout}
       panResponder={this.panResponder}
       translateY={this.translateY}
@@ -143,6 +152,7 @@ export default connect(
     loverRequestUsername: state.loverRequest.username,
     loverRequestCreatedAt: state.loverRequest.createdAt,
     sentCoins: state.coin.sentCoins,
+    coinCount: state.coin.count,
   }),
   {
     logout: logoutAction,

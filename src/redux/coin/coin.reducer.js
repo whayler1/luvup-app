@@ -2,6 +2,7 @@ import _ from 'lodash';
 import {
   SEND_COIN,
   GET_COIN_COUNT,
+  SET_SENT_COINS,
 } from './coin.actions';
 
 const defaultState = {
@@ -21,7 +22,12 @@ export default function reducer(state = defaultState, action) {
     case GET_COIN_COUNT:
       return {
         ...state,
-        count,
+        count: action.count,
+      }
+    case SET_SENT_COINS:
+      return {
+        ...state,
+        sentCoins: action.sentCoins,
       }
     default:
       return state;
