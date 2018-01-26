@@ -26,9 +26,11 @@ class Root extends Component {
    * DRY this up.
    */
   onReauthSuccess = async () => {
+    console.log('onReauthSuccess');
     const meRes = await this.props.getMe();
 
     if (this.props.relationshipId || this.props.loverRequestId) {
+      console.log('goto dashboard');
       Actions.dashboard();
     } else {
       Actions.createloverrequest();
@@ -36,11 +38,14 @@ class Root extends Component {
   };
 
   reauth = async id_token => {
+    console.log('reauth');
     const res = await this.props.reauth(id_token);
 
     if (this.props.id) {
+      console.log('success');
       this.onReauthSuccess();
     } else {
+      console.log('fail');
       Actions.login();
     }
   };

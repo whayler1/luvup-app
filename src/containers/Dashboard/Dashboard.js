@@ -10,6 +10,9 @@ import {
   sendCoin as sendCoinAction,
   getCoinCount as getCoinCountAction
 } from '../../redux/coin/coin.actions';
+import {
+  sendJalapeno as sendJalapenoAction
+} from '../../redux/jalapeno/jalapeno.actions';
 
 import config from '../../config.js';
 import Template from './Dashboard.template';
@@ -22,9 +25,11 @@ class Dashboard extends Component {
     loverRequestCreatedAt: PropTypes.string,
     coinCount: PropTypes.number,
     sentCoin: PropTypes.array,
+    sentJalapenos: PropTypes.array,
     logout: PropTypes.func.isRequired,
     getCoinCount: PropTypes.func.isRequired,
     sendCoin: PropTypes.func.isRequired,
+    sendJalapeno: PropTypes.func.isRequired,
   };
 
   translateY = new Animated.Value(0);
@@ -35,9 +40,15 @@ class Dashboard extends Component {
     Actions.login();
   };
 
+  /**
+   * JW: This logic could probably be simplified somehow. But works-for-now™
+   */
+  isMaxItemsPerHourSent = (items) => items.length < config.maxItemsPerHour || (items.length >= config.maxItemsPerHour && moment(new Date(items[config.maxItemsPerHour - 1].createdAt)).isBefore(moment().subtract(1, 'hour')));
+
   sendCoin = async () => {
     const { sentCoins } = this.props;
-    if (sentCoins.length > 2 && moment(new Date(sentCoins[2].createdAt)).isBefore(moment().subtract(1, 'hour'))) {
+
+    if (this.isMaxItemsPerHourSent(sentCoins)) {
       const res = await this.props.sendCoin();
       console.log('sendCoin', this.props.sentCoins);
     } else {
@@ -45,6 +56,17 @@ class Dashboard extends Component {
     }
 
   };
+
+  sendJalapeno = async () => {
+    const { sentJalapenos } = this.props;
+
+    if (this.isMaxItemsPerHourSent(sentJalapenos)) {
+      const res = await this.props.sendJalapeno();
+      console.log('sendJalapeno', res.body.data);
+    } else {
+      console.log('cant send more jalapenos');
+    }
+  }
 
   springY() {
     Animated.spring(
@@ -110,8 +132,14 @@ class Dashboard extends Component {
         this.springY();
         this.springScaleBack();
 
-        if (gestureState.dy < -60) {
+        const { dy } = gestureState;
+        const { swipeThreshold } = config;
+
+        if (dy < -swipeThreshold) {
           this.sendCoin();
+        }
+        if (dy > swipeThreshold) {
+          this.sendJalapeno();
         }
         // The user has released all touches while this view is the
         // responder. This typically means a gesture has succeeded
@@ -153,10 +181,12 @@ export default connect(
     loverRequestCreatedAt: state.loverRequest.createdAt,
     sentCoins: state.coin.sentCoins,
     coinCount: state.coin.count,
+    sentJalapenos: state.jalapeno.sentJalapenos,
   }),
   {
     logout: logoutAction,
     getCoinCount: getCoinCountAction,
     sendCoin: sendCoinAction,
+    sendJalapeno: sendJalapenoAction,
   }
 )(Dashboard);

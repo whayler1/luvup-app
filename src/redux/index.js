@@ -6,6 +6,7 @@ import relationship from './relationship/relationship.reducer';
 import lover from './lover/lover.reducer';
 import loverRequest from './loverRequest/loverRequest.reducer';
 import coin from './coin/coin.reducer';
+import jalapeno from './jalapeno/jalapeno.reducer';
 
 export const reducer = combineReducers({
   user,
@@ -13,6 +14,7 @@ export const reducer = combineReducers({
   lover,
   loverRequest,
   coin,
+  jalapeno,
 });
 
 export const store = createStore(
