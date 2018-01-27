@@ -35,6 +35,11 @@ class Dashboard extends Component {
     jalapenoCount: PropTypes.number,
   };
 
+  state = {
+    isModalOpen: false,
+    modalMessage: 'luvups',
+  };
+
   translateY = new Animated.Value(0);
   scale = new Animated.Value(1);
 
@@ -42,6 +47,9 @@ class Dashboard extends Component {
     await this.props.logout();
     Actions.login();
   };
+
+  openModal = () => this.setState({ isModalOpen: true });
+  closeModal = () => this.setState({ isModalOpen: false });
 
   /**
    * JW: This logic could probably be simplified somehow. But works-for-now™
@@ -55,6 +63,10 @@ class Dashboard extends Component {
       const res = await this.props.sendCoin();
       console.log('sendCoin', this.props.sentCoins);
     } else {
+      this.setState({
+        modalMessage: 'luvups',
+        isModalOpen: true,
+      });
       console.log('cant send more coins', moment().subtract(1, 'hour'));
     }
 
@@ -67,6 +79,10 @@ class Dashboard extends Component {
       const res = await this.props.sendJalapeno();
       console.log('sendJalapeno', res.body.data);
     } else {
+      this.setState({
+        modalMessage: 'jalapenos',
+        isModalOpen: true,
+      });
       console.log('cant send more jalapenos');
     }
   }
@@ -174,6 +190,8 @@ class Dashboard extends Component {
       panResponder={this.panResponder}
       translateY={this.translateY}
       scale={this.scale}
+      closeModal={this.closeModal}
+      {...this.state}
     />;
   }
 }

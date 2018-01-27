@@ -1,11 +1,19 @@
 import React from 'react';
-import { View, Text, TextInput, Image, Animated } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  Image,
+  Animated,
+  Modal,
+} from 'react-native';
 import { Button } from 'react-native-elements';
 import moment from 'moment';
 import _ from 'lodash';
 
 import styles from './Dashboard.styles';
 import { buttons, forms, scene } from '../../styles';
+import config from '../../config';
 
 export default ({
   username,
@@ -18,10 +26,37 @@ export default ({
   panResponder,
   translateY,
   scale,
+  closeModal,
+  isModalOpen,
+  modalMessage,
 }) => (
   <View
     style={scene.container}
   >
+    <Modal
+      visible={isModalOpen}
+      animationType={'slide'}
+      onRequestClose={() => this.closeModal()}
+    >
+      <View style={{
+        flex: 1,
+        justifyContent: 'center',
+        backgroundColor: 'white'
+      }}>
+        <View style={{ alignItems: 'center', }}>
+          {modalMessage === 'luvups' && <Text>You are allowed to send {config.maxItemsPerHour} Luvups per hour.</Text>}
+          {modalMessage === 'jalapenos' && <Text>You are allowed to send {config.maxItemsPerHour} jalapenos per hour.</Text>}
+          <Button
+            raised
+            onPress={closeModal}
+            containerViewStyle={buttons.infoContainer}
+            buttonStyle={buttons.infoButton}
+            textStyle={buttons.infoText}
+            title={'Dismiss'}
+          />
+        </View>
+      </View>
+    </Modal>
     {loverRequestUsername.length > 0 && <Text>You sent a loverRequest to {loverRequestUsername} {moment(new Date(loverRequestCreatedAt)).fromNow()}</Text>}
     <Text style={forms.title}>Logged in as {username}</Text>
     {loverUsername.length > 0 && <Text>{loverUsername} is your lover</Text>}
