@@ -4,7 +4,6 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Font } from 'expo';
 
 import { logout as logoutAction } from '../../redux/user/user.actions';
 import {
@@ -178,14 +177,6 @@ class Dashboard extends Component {
       },
     });
   };
-
-  async componentDidMount() {
-    await Font.loadAsync({
-      'yesteryear': require('../../fonts/yesteryear/yesteryear.ttf'),
-    });
-
-    this.setState({ isFontLoaded: true });
-  }
 
   render() {
     return <Template
