@@ -6,14 +6,17 @@ import {
   Image,
   Animated,
   Modal,
+  TabBarIOS,
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import moment from 'moment';
 import _ from 'lodash';
+import { Ionicons } from '@expo/vector-icons';
 
 import styles from './Dashboard.styles';
 import { buttons, forms, scene } from '../../styles';
 import config from '../../config';
+import DashboardTopNav from '../../components/DashboardTopNav';
 
 export default ({
   username,
@@ -58,7 +61,9 @@ export default ({
         </View>
       </View>
     </Modal>
-    <Text style={{ fontFamily: 'yesteryear', fontSize: 30 }}>luvup</Text>
+    <DashboardTopNav
+      coinCount={coinCount}
+    />
     {loverRequestUsername.length > 0 && <Text>You sent a loverRequest to {loverRequestUsername} {moment(new Date(loverRequestCreatedAt)).fromNow()}</Text>}
     <Text style={forms.title}>Logged in as {username}</Text>
     {loverUsername.length > 0 && <Text>{loverUsername} is your lover</Text>}

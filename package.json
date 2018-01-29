@@ -49,10 +49,5 @@
     "redux-thunk": "^2.2.0",
     "superagent": "^3.8.1",
     "whatwg-fetch": "^2.0.3"
-  },
-  "rnpm": {
-    "assets": [
-    	"./src/fonts/yesteryear/"
-      ]
   }
 }
