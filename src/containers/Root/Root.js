@@ -70,6 +70,9 @@ class Root extends Component {
     await Font.loadAsync({
       'yesteryear': require('../../fonts/yesteryear/yesteryear.ttf'),
     });
+    await Font.loadAsync({
+      'latoblack': require('../../fonts/lato/latoblack.ttf'),
+    });
 
     this.props.setIsFontLoaded(true);
   }
