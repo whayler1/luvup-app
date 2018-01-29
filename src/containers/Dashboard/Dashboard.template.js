@@ -29,6 +29,7 @@ export default ({
   closeModal,
   isModalOpen,
   modalMessage,
+  isFontLoaded,
 }) => (
   <View
     style={scene.container}
@@ -57,6 +58,7 @@ export default ({
         </View>
       </View>
     </Modal>
+    {isFontLoaded && <Text style={{ fontFamily: 'yesteryear', fontSize: 30 }}>luvup</Text>}
     {loverRequestUsername.length > 0 && <Text>You sent a loverRequest to {loverRequestUsername} {moment(new Date(loverRequestCreatedAt)).fromNow()}</Text>}
     <Text style={forms.title}>Logged in as {username}</Text>
     {loverUsername.length > 0 && <Text>{loverUsername} is your lover</Text>}
