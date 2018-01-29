@@ -6,6 +6,8 @@ import config from '../../config';
 import { setLover } from '../lover/lover.actions';
 import { SET_LOVER_REQUEST } from '../loverRequest/loverRequest.actions';
 import { setRelationship } from '../relationship/relationship.actions';
+import { setSentCoins } from '../coin/coin.actions';
+import { setSentJalapenos } from '../jalapeno/jalapeno.actions';
 
 export const SET_USER = 'user/set-user';
 export const LOGIN = 'user/login';
@@ -16,7 +18,6 @@ export const USER_REQUEST = 'user/user-request';
 export const login = (usernameOrEmail, password) => async dispatch => {
   try {
     const res = await superagent.post(`${config.baseUrl}/login`, { username: usernameOrEmail, password });
-    console.log('\n\n---------\nres', res.body);
 
     await AsyncStorage.setItem('id_token', res.body.id_token);
 
@@ -78,6 +79,16 @@ export const getMe = () => async dispatch => {
             }
           }
         }
+        sentCoins(limit: ${config.maxItemsPerHour}) {
+          rows {
+            id createdAt isUsed
+          }
+        }
+        sentJalapenos(limit: ${config.maxItemsPerHour}) {
+          rows {
+            id createdAt isExpired
+          }
+        }
       }`
     });
 
@@ -126,6 +137,12 @@ export const getMe = () => async dispatch => {
           ]),
         });
       }
+    }
+    if (_.at(res, 'body.data.sentCoins')[0]) {
+      dispatch(setSentCoins(res.body.data.sentCoins.rows));
+    }
+    if (_.at(res, 'body.data.sentJalapenos')[0]) {
+      dispatch(setSentJalapenos(res.body.data.sentJalapenos.rows));
     }
     return res;
   } catch (err) {

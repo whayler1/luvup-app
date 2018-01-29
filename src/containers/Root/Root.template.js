@@ -4,8 +4,8 @@ import { View, Text } from 'react-native';
 import styles from './Root.styles';
 import { forms, scene } from '../../styles';
 
-export default () => (
+export default ({ isFontLoaded }) => (
   <View style={scene.container}>
-    <Text style={forms.title}>Luvup!</Text>
+    {isFontLoaded && <Text style={styles.title}>luvup</Text>}
   </View>
 );
