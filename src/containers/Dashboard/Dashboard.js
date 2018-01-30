@@ -134,20 +134,31 @@ class Dashboard extends Component {
       Animated.timing(
         this.coinTranslateY,
         {
-          toValue: -180,
+          toValue: -160,
           duration: 250,
           easing: Easing.out(Easing.ease),
         }
       ),
-      Animated.timing(
-        this.coinOpacity,
-        {
-          toValue: 0,
-          duration: 250,
-          delay: 250,
-          easing: Easing.inOut(Easing.linear)
-        }
-      ),
+      Animated.parallel([
+        Animated.timing(
+          this.coinOpacity,
+          {
+            toValue: 0,
+            duration: 250,
+            delay: 250,
+            easing: Easing.inOut(Easing.linear)
+          }
+        ),
+        Animated.timing(
+          this.coinTranslateY,
+          {
+            toValue: -200,
+            duration: 250,
+            delay: 250,
+            easing: Easing.inOut(Easing.linear)
+          }
+        ),
+      ]),
     ]).start();
   }
 
@@ -164,15 +175,26 @@ class Dashboard extends Component {
           easing: Easing.out(Easing.ease),
         }
       ),
-      Animated.timing(
-        this.jalapenoOpacity,
-        {
-          toValue: 0,
-          duration: 250,
-          delay: 250,
-          easing: Easing.inOut(Easing.linear)
-        }
-      ),
+      Animated.parallel([
+        Animated.timing(
+          this.jalapenoOpacity,
+          {
+            toValue: 0,
+            duration: 250,
+            delay: 250,
+            easing: Easing.inOut(Easing.linear)
+          }
+        ),
+        Animated.timing(
+          this.jalapenoTranslateY,
+          {
+            toValue: 220,
+            duration: 250,
+            delay: 250,
+            easing: Easing.inOut(Easing.linear)
+          }
+        ),
+      ]),
     ]).start();
   }
 
