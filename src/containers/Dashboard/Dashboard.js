@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PanResponder, Animated } from 'react-native';
+import { PanResponder, Animated, Easing, } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -46,6 +46,8 @@ class Dashboard extends Component {
 
   translateY = new Animated.Value(0);
   scale = new Animated.Value(1);
+  coinTranslateY = new Animated.Value(0);
+  coinOpacity = new Animated.Value(1);
 
   logout = async () => {
     await this.props.logout();
@@ -64,6 +66,7 @@ class Dashboard extends Component {
     const { sentCoins } = this.props;
 
     if (this.isMaxItemsPerHourSent(sentCoins)) {
+      this.fireCoin();
       const res = await this.props.sendCoin();
       console.log('sendCoin', this.props.sentCoins);
     } else {
@@ -119,6 +122,31 @@ class Dashboard extends Component {
         friction: .5,
       }
     ).start();
+  };
+
+  fireCoin() {
+    this.coinTranslateY.setValue(0);
+    this.coinOpacity.setValue(1);
+
+    Animated.sequence([
+      Animated.timing(
+        this.coinTranslateY,
+        {
+          toValue: -140,
+          duration: 250,
+          easing: Easing.out(Easing.ease),
+        }
+      ),
+      Animated.timing(
+        this.coinOpacity,
+        {
+          toValue: 0,
+          duration: 250,
+          delay: 250,
+          easing: Easing.inOut(Easing.linear)
+        }
+      ),
+    ]).start();
   }
 
   componentWillMount() {
@@ -198,6 +226,8 @@ class Dashboard extends Component {
       panResponder={this.panResponder}
       translateY={this.translateY}
       scale={this.scale}
+      coinTranslateY={this.coinTranslateY}
+      coinOpacity={this.coinOpacity}
       closeModal={this.closeModal}
       {...this.state}
     />;
