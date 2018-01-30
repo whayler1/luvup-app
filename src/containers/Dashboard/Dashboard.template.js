@@ -33,6 +33,8 @@ export default ({
   panResponder,
   translateY,
   scale,
+  coinTranslateY,
+  coinOpacity,
   closeModal,
   isModalOpen,
   modalMessage,
@@ -97,6 +99,29 @@ export default ({
           }]
         }}
       />
+      <Animated.View
+        style={{
+          position: 'absolute',
+          width: 60,
+          height: 60,
+          left: '50%',
+          top: '50%',
+          marginLeft: -30,
+          marginTop: -100,
+          opacity: coinOpacity,
+          transform: [{
+            translateY: coinTranslateY
+          }]
+        }}
+      >
+        <Image
+          source={require('../../images/coin.png')}
+          style={{
+            width: 60,
+            height: 60,
+          }}
+        />
+      </Animated.View>
     </View>
     <Button
       raised
