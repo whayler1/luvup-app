@@ -4,8 +4,8 @@ const baseUrl = process.env.BASE_URL || 'https://luvup.io';
 const config = {
   baseUrl,
   graphQlUrl: `${baseUrl}/graphql`,
-  maxItemsPerHour: 5,
-  swipeThreshold: 60,
+  maxItemsPerHour: 15,
+  swipeThreshold: 40,
 }
 
 export default config;

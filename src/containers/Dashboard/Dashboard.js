@@ -47,7 +47,9 @@ class Dashboard extends Component {
   translateY = new Animated.Value(0);
   scale = new Animated.Value(1);
   coinTranslateY = new Animated.Value(0);
-  coinOpacity = new Animated.Value(1);
+  coinOpacity = new Animated.Value(0);
+  jalapenoTranslateY = new Animated.Value(0);
+  jalapenoOpacity = new Animated.Value(0);
 
   logout = async () => {
     await this.props.logout();
@@ -76,13 +78,13 @@ class Dashboard extends Component {
       });
       console.log('cant send more coins', moment().subtract(1, 'hour'));
     }
-
   };
 
   sendJalapeno = async () => {
     const { sentJalapenos } = this.props;
 
     if (this.isMaxItemsPerHourSent(sentJalapenos)) {
+      this.fireJalapeno();
       const res = await this.props.sendJalapeno();
       console.log('sendJalapeno', res.body.data);
     } else {
@@ -132,13 +134,38 @@ class Dashboard extends Component {
       Animated.timing(
         this.coinTranslateY,
         {
-          toValue: -140,
+          toValue: -180,
           duration: 250,
           easing: Easing.out(Easing.ease),
         }
       ),
       Animated.timing(
         this.coinOpacity,
+        {
+          toValue: 0,
+          duration: 250,
+          delay: 250,
+          easing: Easing.inOut(Easing.linear)
+        }
+      ),
+    ]).start();
+  }
+
+  fireJalapeno() {
+    this.jalapenoTranslateY.setValue(0);
+    this.jalapenoOpacity.setValue(1);
+
+    Animated.sequence([
+      Animated.timing(
+        this.jalapenoTranslateY,
+        {
+          toValue: 180,
+          duration: 250,
+          easing: Easing.out(Easing.ease),
+        }
+      ),
+      Animated.timing(
+        this.jalapenoOpacity,
         {
           toValue: 0,
           duration: 250,
@@ -201,12 +228,12 @@ class Dashboard extends Component {
         // Another component has become the responder, so this gesture
         // should be cancelled
       },
-      onShouldBlockNativeResponder: (evt, gestureState) => {
-        console.log('blocknative');
-        // Returns whether this component should block native components from becoming the JS
-        // responder. Returns true by default. Is currently only supported on android.
-        return true;
-      },
+      // onShouldBlockNativeResponder: (evt, gestureState) => {
+      //   console.log('blocknative');
+      //   // Returns whether this component should block native components from becoming the JS
+      //   // responder. Returns true by default. Is currently only supported on android.
+      //   return true;
+      // },
     });
   };
 
@@ -228,6 +255,8 @@ class Dashboard extends Component {
       scale={this.scale}
       coinTranslateY={this.coinTranslateY}
       coinOpacity={this.coinOpacity}
+      jalapenoTranslateY={this.jalapenoTranslateY}
+      jalapenoOpacity={this.jalapenoOpacity}
       closeModal={this.closeModal}
       {...this.state}
     />;

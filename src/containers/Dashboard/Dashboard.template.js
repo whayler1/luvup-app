@@ -35,6 +35,8 @@ export default ({
   scale,
   coinTranslateY,
   coinOpacity,
+  jalapenoTranslateY,
+  jalapenoOpacity,
   closeModal,
   isModalOpen,
   modalMessage,
@@ -118,6 +120,29 @@ export default ({
           source={require('../../images/coin.png')}
           style={{
             width: 60,
+            height: 60,
+          }}
+        />
+      </Animated.View>
+      <Animated.View
+        style={{
+          position: 'absolute',
+          width: 46,
+          height: 60,
+          left: '50%',
+          top: '50%',
+          marginLeft: -23,
+          marginBottom: -150,
+          opacity: jalapenoOpacity,
+          transform: [{
+            translateY: jalapenoTranslateY
+          }]
+        }}
+      >
+        <Image
+          source={require('../../images/jalapeno.png')}
+          style={{
+            width: 46,
             height: 60,
           }}
         />
