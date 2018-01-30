@@ -4,7 +4,6 @@ export default StyleSheet.create({
   heartView: {
     alignSelf: 'stretch',
     height: 500,
-    backgroundColor: 'pink',
     alignItems: 'center',
     justifyContent: 'center',
   },
