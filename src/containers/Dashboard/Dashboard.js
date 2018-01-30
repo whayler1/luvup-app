@@ -20,7 +20,11 @@ import Template from './Dashboard.template';
 
 class Dashboard extends Component {
   static propTypes = {
+    userFirstName: PropTypes.string.isRequired,
+    userLastName: PropTypes.string.isRequired,
     username: PropTypes.string.isRequired,
+    loverFirstName: PropTypes.string,
+    loverLastName: PropTypes.string,
     loverUsername: PropTypes.string,
     loverRequestUsername: PropTypes.string,
     loverRequestCreatedAt: PropTypes.string,
@@ -180,7 +184,11 @@ class Dashboard extends Component {
 
   render() {
     return <Template
+      userFirstName={this.props.userFirstName}
+      userLastName={this.props.userLastName}
       username={this.props.username}
+      loverFirstName={this.props.loverFirstName}
+      loverLastName={this.props.loverLastName}
       loverUsername={this.props.loverUsername}
       loverRequestUsername={this.props.loverRequestUsername}
       loverRequestCreatedAt={this.props.loverRequestCreatedAt}
@@ -198,7 +206,11 @@ class Dashboard extends Component {
 
 export default connect(
   state => ({
+    userFirstName: state.user.firstName,
+    userLastName: state.user.lastName,
     username: state.user.username,
+    loverFirstName: state.lover.firstName,
+    loverLastName: state.lover.lastName,
     loverUsername: state.lover.username,
     loverRequestUsername: state.loverRequest.username,
     loverRequestCreatedAt: state.loverRequest.createdAt,

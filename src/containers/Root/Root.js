@@ -16,6 +16,7 @@ import {
   setIsFontLoaded as setIsFontLoadedAction,
 } from '../../redux/font/font.actions';
 
+
 class Root extends Component {
   static propTypes = {
     id: PropTypes.string,
@@ -69,8 +70,7 @@ class Root extends Component {
   async componentDidMount() {
     await Font.loadAsync({
       'yesteryear': require('../../fonts/yesteryear/yesteryear.ttf'),
-    });
-    await Font.loadAsync({
+      'latoregular': require('../../fonts/lato/latoregular.ttf'),
       'latoblack': require('../../fonts/lato/latoblack.ttf'),
     });
 

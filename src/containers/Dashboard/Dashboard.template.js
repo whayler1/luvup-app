@@ -19,7 +19,11 @@ import config from '../../config';
 import DashboardTopNav from '../../components/DashboardTopNav';
 
 export default ({
+  userFirstName,
+  userLastName,
   username,
+  loverFirstName,
+  loverLastName,
   loverUsername,
   loverRequestUsername,
   loverRequestCreatedAt,
@@ -35,7 +39,12 @@ export default ({
   isFontLoaded,
 }) => (
   <View
-    style={scene.container}
+    style={{
+      flex: 1,
+      backgroundColor: 'transparent',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    }}
   >
     <Modal
       visible={isModalOpen}
@@ -63,12 +72,13 @@ export default ({
     </Modal>
     <DashboardTopNav
       coinCount={coinCount}
+      jalapenoCount={jalapenoCount}
+      userFirstName={userFirstName}
+      userLastName={userLastName}
+      loverFirstName={loverFirstName}
+      loverLastName={loverLastName}
     />
     {loverRequestUsername.length > 0 && <Text>You sent a loverRequest to {loverRequestUsername} {moment(new Date(loverRequestCreatedAt)).fromNow()}</Text>}
-    <Text style={forms.title}>Logged in as {username}</Text>
-    {loverUsername.length > 0 && <Text>{loverUsername} is your lover</Text>}
-    {!_.isNull(coinCount) && <Text>coin count: {coinCount}</Text>}
-    {!_.isNull(jalapenoCount) && <Text>jalapeno count: {jalapenoCount}</Text>}
     <View
       style={styles.heartView}
       {...panResponder.panHandlers}
