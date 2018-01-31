@@ -13,6 +13,7 @@ export default ({
   userLastName,
   loverFirstName,
   loverLastName,
+  onScoreClick,
 }) => (
   <View
     style={{
@@ -25,6 +26,7 @@ export default ({
     }}
   >
     <TouchableOpacity
+      onPress={onScoreClick}
       style={{
         paddingLeft: 10,
         flex: 0.33,
