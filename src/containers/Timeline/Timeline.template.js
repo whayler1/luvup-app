@@ -4,11 +4,15 @@ import {
   View,
   TouchableOpacity,
   Image,
+  FlatList,
 } from 'react-native';
 
 import { buttons, forms, scene } from '../../styles';
 
+const keyExtractor = item => item.id;
+
 export default ({
+  userEvents,
   goToDashboard,
 }) => (
   <View style={scene.container}>
@@ -43,8 +47,25 @@ export default ({
         />
       </TouchableOpacity>
     </View>
-    <View>
+    <View
+      style={{
+        marginTop: 100,
+      }}
+    >
       <Text>Timeline</Text>
+      <FlatList
+        style={{
+          marginTop: 8,
+        }}
+        data={userEvents}
+        keyExtractor={keyExtractor}
+        renderItem={({item}) => (
+          <View>
+            <Text>{item.createdAt}</Text>
+            <Text>{item.name}</Text>
+          </View>
+        )}
+      />
     </View>
   </View>
 );
