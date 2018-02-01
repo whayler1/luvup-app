@@ -7,6 +7,7 @@ export const SEND_COIN = 'coin/send-coin';
 export const GET_COIN_COUNT = 'coin/get-coin-count';
 export const GET_SENT_COINS = 'coin/get-sent-coins';
 export const SET_SENT_COINS = 'coin/set-sent-coins';
+export const SET_SENT_COINS_COUNT = 'coin/set-sent-coins-count';
 
 export const sendCoin = () => async dispatch => {
   try {
@@ -97,7 +98,13 @@ export const getSentCoins = (limit, offset) => async dispatch => {
   }
 };
 
-export const setSentCoins = sentCoins => ({
+export const setSentCoins = (sentCoins, sentCoinsCount) => ({
   type: SET_SENT_COINS,
   sentCoins,
+  sentCoinsCount,
+});
+
+export const setSentCoinsCount = sentCoinsCount => ({
+  type: SET_SENT_COINS_COUNT,
+  sentCoinsCount,
 });

@@ -12,6 +12,8 @@ import { buttons, forms, scene } from '../../styles';
 const keyExtractor = item => item.id;
 
 export default ({
+  sentCoinsCount,
+  sentJalapenosCount,
   userEvents,
   goToDashboard,
 }) => (
@@ -52,7 +54,7 @@ export default ({
         marginTop: 100,
       }}
     >
-      <Text>Timeline</Text>
+      <Text>Timeline {sentCoinsCount}, { sentJalapenosCount}</Text>
       <FlatList
         style={{
           marginTop: 8,
