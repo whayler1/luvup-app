@@ -24,6 +24,7 @@ import SignUpConfirm from './src/containers/SignUpConfirm';
 import Dashboard from './src/containers/Dashboard';
 import CreateLoverRequest from './src/containers/CreateLoverRequest';
 import Timeline from './src/containers/Timeline';
+import Menu from './src/containers/Menu';
 
 const styles = StyleSheet.create({
   container: {
@@ -94,6 +95,11 @@ const App = () => (
         <Scene
           key="timeline"
           component={Timeline}
+          hideNavBar={true}
+        />
+        <Scene
+          key="menu"
+          component={Menu}
           hideNavBar={true}
         />
       </Stack>

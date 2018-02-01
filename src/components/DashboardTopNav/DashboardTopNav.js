@@ -15,10 +15,12 @@ export default class DashboardTopNav extends Component {
   };
 
   onScoreClick = () => Actions.timeline();
+  onInitialsClick = () => Actions.menu();
 
   render() {
     return <Template
       onScoreClick={this.onScoreClick}
+      onInitialsClick={this.onInitialsClick}
       {...this.props}
     />;
   }
