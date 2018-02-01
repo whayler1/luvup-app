@@ -14,6 +14,7 @@ export default ({
   loverFirstName,
   loverLastName,
   onScoreClick,
+  onInitialsClick,
 }) => (
   <View
     style={{
@@ -78,6 +79,7 @@ export default ({
       >luvup</Text>
     </View>
     <TouchableOpacity
+      onPress={onInitialsClick}
       style={{
         paddingRight: 10,
         flex: 0.33,
