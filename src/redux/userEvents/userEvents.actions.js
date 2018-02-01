@@ -4,6 +4,7 @@ import _ from 'lodash';
 import config from '../../config';
 
 export const GET_USER_EVENTS = 'userEvents/get-user-events';
+export const SET_USER_EVENTS = 'userEvents/set-user-events';
 
 export const getUserEvents = (limit, offset) => async dispatch => {
   console.log('limit', limit, 'offset', offset);
@@ -15,14 +16,12 @@ export const getUserEvents = (limit, offset) => async dispatch => {
           offset: ${offset}
         ) {
           rows {
-            id isViewed createdAt name relationshipId userId
+            id isViewed createdAt name
           }
           count
         }
       }`
     });
-
-    console.log('getUserEvents res', res.body.data);
 
     const {
       rows,
@@ -40,3 +39,9 @@ export const getUserEvents = (limit, offset) => async dispatch => {
     console.log('getUserEvents err', err);
   }
 };
+
+export const setUserEvents = (rows, count) => ({
+  type: SET_USER_EVENTS,
+  rows,
+  count,
+});

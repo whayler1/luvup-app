@@ -83,11 +83,13 @@ export const getMe = () => async dispatch => {
           rows {
             id createdAt isUsed
           }
+          count
         }
         sentJalapenos(limit: ${config.maxItemsPerHour}) {
           rows {
             id createdAt isExpired
           }
+          count
         }
       }`
     });
@@ -139,10 +141,18 @@ export const getMe = () => async dispatch => {
       }
     }
     if (_.at(res, 'body.data.sentCoins')[0]) {
-      dispatch(setSentCoins(res.body.data.sentCoins.rows));
+      const { sentCoins } = res.body.data;
+      dispatch(setSentCoins(
+        sentCoins.rows,
+        sentCoins.count,
+      ));
     }
     if (_.at(res, 'body.data.sentJalapenos')[0]) {
-      dispatch(setSentJalapenos(res.body.data.sentJalapenos.rows));
+      const { sentJalapenos } = res.body.data;
+      dispatch(setSentJalapenos(
+        sentJalapenos.rows,
+        sentJalapenos.count,
+      ));
     }
     return res;
   } catch (err) {

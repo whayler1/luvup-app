@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import {
   GET_USER_EVENTS,
+  SET_USER_EVENTS,
 } from './userEvents.actions';
 
 const defaultState = {
@@ -11,6 +12,7 @@ const defaultState = {
 export default function reducer(state = defaultState, action) {
   switch(action.type) {
     case GET_USER_EVENTS:
+    case SET_USER_EVENTS:
       return _.pick(action, [
         'rows',
         'count',
