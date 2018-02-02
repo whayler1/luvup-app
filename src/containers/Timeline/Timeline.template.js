@@ -44,7 +44,6 @@ export default ({
           style={{
             width: 32,
             height: 30,
-            marginLeft: 10,
           }}
         />
       </TouchableOpacity>
