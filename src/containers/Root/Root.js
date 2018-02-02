@@ -38,7 +38,7 @@ class Root extends Component {
 
     if (this.props.relationshipId || this.props.loverRequestId) {
       console.log('goto dashboard');
-      Actions.dashboard();
+      Actions.menu();
     } else {
       Actions.createloverrequest();
     }
