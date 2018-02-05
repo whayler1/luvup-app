@@ -6,18 +6,14 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import { Button } from 'react-native-elements';
 import _ from 'lodash';
 
-import { scene } from '../../styles';
-
-const data = _.times(100, (n) => ({
-  title: `I am ${n} item`,
-  key: n,
-}));
-console.log('data', data);
+import { scene, buttons, forms } from '../../styles';
 
 export default ({
   goToDashboard,
+  logout,
 }) => (
   <View style={scene.container}>
     <View
@@ -40,9 +36,13 @@ export default ({
     <View
       style={scene.content}
     >
-      <FlatList
-        data={data}
-        renderItem={({ item }) => (<View><Text>boo</Text></View>)}
+      <Button
+        raised
+        onPress={logout}
+        containerViewStyle={buttons.infoContainer}
+        buttonStyle={buttons.infoButton}
+        textStyle={buttons.infoText}
+        title={'Log Out'}
       />
     </View>
   </View>

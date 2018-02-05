@@ -31,6 +31,6 @@ export default StyleSheet.create({
     marginTop: 50,
     alignSelf: 'stretch',
     padding: 8,
-    backgroundColor: 'rgba(0,200,50,0.3)'
+    // backgroundColor: 'rgba(0,200,50,0.3)'
   },
 });

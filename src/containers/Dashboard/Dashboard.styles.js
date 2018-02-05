@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
   heartView: {
     alignSelf: 'stretch',
-    height: 500,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },

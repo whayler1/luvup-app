@@ -4,8 +4,6 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-
-import { logout as logoutAction } from '../../redux/user/user.actions';
 import {
   sendCoin as sendCoinAction,
   getCoinCount as getCoinCountAction
@@ -31,7 +29,6 @@ class Dashboard extends Component {
     coinCount: PropTypes.number,
     sentCoin: PropTypes.array,
     sentJalapenos: PropTypes.array,
-    logout: PropTypes.func.isRequired,
     getCoinCount: PropTypes.func.isRequired,
     sendCoin: PropTypes.func.isRequired,
     sendJalapeno: PropTypes.func.isRequired,
@@ -50,11 +47,6 @@ class Dashboard extends Component {
   coinOpacity = new Animated.Value(0);
   jalapenoTranslateY = new Animated.Value(0);
   jalapenoOpacity = new Animated.Value(0);
-
-  logout = async () => {
-    await this.props.logout();
-    Actions.login();
-  };
 
   openModal = () => this.setState({ isModalOpen: true });
   closeModal = () => this.setState({ isModalOpen: false });
@@ -271,7 +263,6 @@ class Dashboard extends Component {
       loverRequestCreatedAt={this.props.loverRequestCreatedAt}
       coinCount={this.props.coinCount}
       jalapenoCount={this.props.jalapenoCount}
-      logout={this.logout}
       panResponder={this.panResponder}
       translateY={this.translateY}
       scale={this.scale}
@@ -301,7 +292,6 @@ export default connect(
     jalapenoCount: state.jalapeno.count,
   }),
   {
-    logout: logoutAction,
     getCoinCount: getCoinCountAction,
     sendCoin: sendCoinAction,
     sendJalapeno: sendJalapenoAction,
