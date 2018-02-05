@@ -12,6 +12,9 @@ import {
   sendJalapeno as sendJalapenoAction,
   getJalapenoCount as getJalapenoCountAction,
 } from '../../redux/jalapeno/jalapeno.actions';
+import {
+  createRelationshipScore as createRelationshipScoreAction,
+} from '../../redux/relationshipScore/relationshipScore.actions';
 
 import config from '../../config.js';
 import Template from './Dashboard.template';
@@ -34,6 +37,8 @@ class Dashboard extends Component {
     sendJalapeno: PropTypes.func.isRequired,
     getJalapenoCount: PropTypes.func.isRequired,
     jalapenoCount: PropTypes.number,
+    relationshipScore: PropTypes.number,
+    createRelationshipScore: PropTypes.func.isRequired,
   };
 
   state = {
@@ -193,6 +198,7 @@ class Dashboard extends Component {
   componentWillMount() {
     this.props.getCoinCount();
     this.props.getJalapenoCount();
+    this.props.createRelationshipScore();
 
     this.panResponder = PanResponder.create({
       // Ask to be the responder:
@@ -252,6 +258,7 @@ class Dashboard extends Component {
   };
 
   render() {
+    console.log({ relationshipScore: this.props.relationshipScore });
     return <Template
       userFirstName={this.props.userFirstName}
       userLastName={this.props.userLastName}
@@ -290,11 +297,13 @@ export default connect(
     coinCount: state.coin.count,
     sentJalapenos: state.jalapeno.sentJalapenos,
     jalapenoCount: state.jalapeno.count,
+    relationshipScore: state.relationshipScore.score,
   }),
   {
     getCoinCount: getCoinCountAction,
     sendCoin: sendCoinAction,
     sendJalapeno: sendJalapenoAction,
-    getJalapenoCount: getJalapenoCountAction
+    getJalapenoCount: getJalapenoCountAction,
+    createRelationshipScore: createRelationshipScoreAction,
   }
 )(Dashboard);

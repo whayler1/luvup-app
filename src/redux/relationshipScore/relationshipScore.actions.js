@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import superagent from 'superagent';
 
 import config from '../../config';
@@ -6,7 +7,7 @@ export const CREATE_RELATIONSHIP_SCORE = 'relationship-score/create-relationship
 
 export const createRelationshipScore = () => async dispatch => {
   try {
-    const res = superagent.post(config.graphQlUrl, {
+    const res = await superagent.post(config.graphQlUrl, {
       query: `mutation {
         createRelationshipScore {
           relationshipScore {
@@ -16,12 +17,10 @@ export const createRelationshipScore = () => async dispatch => {
       }`,
     });
 
-    console.log('createRelationshipScore res', res);
-
-    if (_.at(res, 'body.createRelationshipScore.relationshipScore')[0]) {
+    if (_.at(res, 'body.data.createRelationshipScore.relationshipScore')[0]) {
       dispatch({
         type: CREATE_RELATIONSHIP_SCORE,
-        ..._.pick(res.body.createRelationshipScore.relationshipScore, [
+        ..._.pick(res.body.data.createRelationshipScore.relationshipScore, [
           'id',
           'createdAt',
           'score',
