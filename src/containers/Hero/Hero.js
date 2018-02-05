@@ -23,6 +23,7 @@ class Hero extends Component {
     sendCoin: PropTypes.func.isRequired,
     sendJalapeno: PropTypes.func.isRequired,
     relationshipScore: PropTypes.number,
+    relationshipScoreQuartile: PropTypes.number,
     sentCoins: PropTypes.array,
     sentJalapenos: PropTypes.array,
   };
@@ -231,7 +232,8 @@ class Hero extends Component {
   }
 
   render() {
-    console.log('this.panResponder', this.panResponder);
+    const { relationshipScore, relationshipScoreQuartile} = this.props;
+    console.log({ relationshipScore, relationshipScoreQuartile});
     return <Template
       panResponder={this.panResponder}
       translateY={this.translateY}
@@ -241,6 +243,7 @@ class Hero extends Component {
       jalapenoTranslateY={this.jalapenoTranslateY}
       closeModal={this.closeModal}
       jalapenoOpacity={this.jalapenoOpacity}
+      relationshipScoreQuartile={this.props.relationshipScoreQuartile}
       {...this.state}
     />;
   }
@@ -249,6 +252,7 @@ class Hero extends Component {
 export default connect(
   state => ({
     relationshipScore: state.relationshipScore.score,
+    relationshipScoreQuartile: state.relationshipScore.scoreQuartile,
     sentJalapenos: state.jalapeno.sentJalapenos,
     sentCoins: state.coin.sentCoins,
   }),

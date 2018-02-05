@@ -10,5 +10,6 @@ export default StyleSheet.create({
   heartImg: {
     width: 260,
     height: 240,
+    zIndex: 10,
   }
 });
