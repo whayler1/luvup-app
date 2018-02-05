@@ -29,7 +29,6 @@ export default ({
   loverRequestCreatedAt,
   coinCount,
   jalapenoCount,
-  logout,
   panResponder,
   translateY,
   scale,
@@ -148,13 +147,5 @@ export default ({
         />
       </Animated.View>
     </View>
-    <Button
-      raised
-      onPress={logout}
-      containerViewStyle={buttons.infoContainer}
-      buttonStyle={buttons.infoButton}
-      textStyle={buttons.infoText}
-      title={'Log Out'}
-    />
   </View>
 );

@@ -9,6 +9,7 @@ import coin from './coin/coin.reducer';
 import jalapeno from './jalapeno/jalapeno.reducer';
 import font from './font/font.reducer';
 import userEvents from './userEvents/userEvents.reducer';
+import relationshipScore from './relationshipScore/relationshipScore.reducer';
 
 export const reducer = combineReducers({
   user,
@@ -19,6 +20,7 @@ export const reducer = combineReducers({
   jalapeno,
   font,
   userEvents,
+  relationshipScore,
 });
 
 export const store = createStore(
