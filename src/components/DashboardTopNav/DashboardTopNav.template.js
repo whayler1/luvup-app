@@ -52,7 +52,7 @@ export default ({
       <Image
         source={require('../../images/jalapeno.png')}
         style={{
-          // width: 23,
+          width: 23,
           height: 30,
           marginLeft: 10,
         }}
