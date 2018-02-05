@@ -33,6 +33,7 @@
     ]
   },
   "dependencies": {
+    "art": "^0.10.1",
     "babel-plugin-transform-inline-environment-variables": "^0.2.0",
     "expo": "^22.0.2",
     "isomorphic-fetch": "^2.2.1",
