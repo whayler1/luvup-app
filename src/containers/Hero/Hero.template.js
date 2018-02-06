@@ -39,6 +39,7 @@ export default ({
   modalMessage,
   closeModal,
   relationshipScoreQuartile,
+  dragDirection,
 }) => (
   <View
     style={styles.heartView}
@@ -89,6 +90,7 @@ export default ({
       }}>
         <HeroMouth
           relationshipScoreQuartile={relationshipScoreQuartile}
+          dragDirection={dragDirection}
         />
       </View>
     </Animated.View>
