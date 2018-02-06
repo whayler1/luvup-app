@@ -33,6 +33,7 @@ class Hero extends Component {
     isModalOpen: false,
     modalMessage: 'luvups',
     dragDirection: 0,
+    recentlySentCoinCount: 0,
   };
 
   openModal = () => this.setState({ isModalOpen: true });
@@ -57,7 +58,6 @@ class Hero extends Component {
     if (this.isMaxItemsPerHourSent(sentCoins)) {
       this.fireCoin();
       const res = await this.props.sendCoin();
-      console.log('sendCoin', this.props.sentCoins);
     } else {
       this.setState({
         modalMessage: 'luvups',
@@ -187,8 +187,23 @@ class Hero extends Component {
 
   setDragDirection = dragDirection => this.state.dragDirection !== dragDirection && this.setState({ dragDirection });
 
+  setRecentlySentCoinCount = sentCoins => {
+    const anHrAgo = moment().subtract(1, 'hour');
+    let recentlySentCoinCount = 0;
+
+    for (let i = 0; i < sentCoins.length; i++) {
+      if (moment(new Date(sentCoins[i].createdAt)).isAfter(anHrAgo)) {
+        recentlySentCoinCount++;
+      } else {
+        break;
+      }
+    }
+    this.setState({ recentlySentCoinCount });
+  };
+
   componentWillMount() {
     this.props.createRelationshipScore();
+    this.setRecentlySentCoinCount(this.props.sentCoins);
 
     this.panResponder = PanResponder.create({
       // Ask to be the responder:
@@ -234,6 +249,7 @@ class Hero extends Component {
         const { swipeThreshold } = config;
 
         if (dy < -swipeThreshold) {
+          this.setRecentlySentCoinCount(this.props.sentCoins);
           this.sendCoin();
         } else if (dy > swipeThreshold) {
           this.sendJalapeno();
@@ -248,11 +264,16 @@ class Hero extends Component {
         // should be cancelled
       },
     });
-  }
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.sentCoins.length && this.props.sentCoins.length &&
+        nextProps.sentCoins[0].id !== this.props.sentCoins[0].id) {
+      this.setRecentlySentCoinCount(nextProps.sentCoins);
+    }
+  };
 
   render() {
-    const { relationshipScore, relationshipScoreQuartile} = this.props;
-    console.log({ relationshipScore, relationshipScoreQuartile});
     return <Template
       panResponder={this.panResponder}
       translateY={this.translateY}

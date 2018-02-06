@@ -18,7 +18,7 @@ import { buttons, forms, scene } from '../../styles';
 import config from '../../config';
 import HeroEye from '../../components/HeroEye';
 import HeroMouth from '../../components/HeroMouth';
-
+import CoinArt from '../../components/CoinArt';
 
 const heartImgs = [
   require('../../images/hero/heart-sadest.png'),
@@ -41,6 +41,7 @@ export default ({
   closeModal,
   relationshipScoreQuartile,
   dragDirection,
+  recentlySentCoinCount,
 }) => (
   <View
     style={styles.heartView}
@@ -107,7 +108,7 @@ export default ({
         height: 60,
         left: '50%',
         top: '50%',
-        marginLeft: -30,
+        marginLeft: -40,
         marginTop: -100,
         opacity: coinOpacity,
         transform: [{
@@ -115,12 +116,8 @@ export default ({
         }]
       }}
     >
-      <Image
-        source={require('../../images/coin.png')}
-        style={{
-          width: 60,
-          height: 60,
-        }}
+      <CoinArt
+        recentlySentCoinCount={recentlySentCoinCount}
       />
     </Animated.View>
     <Animated.View

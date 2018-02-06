@@ -7,4 +7,5 @@ export {
   buttons,
   forms,
   scene,
+  vars,
 }
