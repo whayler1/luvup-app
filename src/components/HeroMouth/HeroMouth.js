@@ -68,7 +68,6 @@ export default ({
   >
     <Group>
       {(() => {
-        console.log({dragDirection})
         if (dragDirection === 1) {
           return <Happiest/>
         } else if (dragDirection === -1) {
