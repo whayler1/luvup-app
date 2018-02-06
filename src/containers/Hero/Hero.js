@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -31,6 +32,7 @@ class Hero extends Component {
   state = {
     isModalOpen: false,
     modalMessage: 'luvups',
+    dragDirection: 0,
   };
 
   openModal = () => this.setState({ isModalOpen: true });
@@ -182,6 +184,8 @@ class Hero extends Component {
     ]).start();
   }
 
+  setDragDirection = dragDirection => this.state.dragDirection !== dragDirection && this.setState({ dragDirection });
+
   componentWillMount() {
     this.props.createRelationshipScore();
 
@@ -201,9 +205,17 @@ class Hero extends Component {
         // gestureState.d{x,y} will be set to zero now
       },
       onPanResponderMove: (evt, gestureState) => {
-        // console.log('move', gestureState.vy);
-        this.translateY.setValue(gestureState.dy);
-        this.scale.setValue((-gestureState.dy / 700) + 1);
+        const { dy } = gestureState;
+        this.translateY.setValue(dy);
+        this.scale.setValue((-dy / 700) + 1);
+
+        if (dy < 3) {
+          this.setDragDirection(1);
+        } else if ( dy > 3) {
+          this.setDragDirection(-1);
+        } else {
+          this.setDragDirection(0);
+        }
 
         // The most recent move distance is gestureState.move{X,Y}
 
@@ -221,10 +233,11 @@ class Hero extends Component {
 
         if (dy < -swipeThreshold) {
           this.sendCoin();
-        }
-        if (dy > swipeThreshold) {
+        } else if (dy > swipeThreshold) {
           this.sendJalapeno();
         }
+
+        this.setDragDirection(0);
         // The user has released all touches while this view is the
         // responder. This typically means a gesture has succeeded
       },
@@ -244,6 +257,7 @@ class Hero extends Component {
       closeModal={this.closeModal}
       jalapenoOpacity={this.jalapenoOpacity}
       relationshipScoreQuartile={this.props.relationshipScoreQuartile}
+      dragDirection={this.dragDirection}
       {...this.state}
     />;
   }
