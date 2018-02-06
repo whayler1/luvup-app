@@ -30,6 +30,7 @@ const heartImgs = [
 export default ({
   translateY,
   scale,
+  scaleBGHeart,
   coinTranslateY,
   coinOpacity,
   jalapenoTranslateY,
@@ -59,6 +60,19 @@ export default ({
         }]
       }}
     >
+      <Animated.Image
+        source={heartImgs[relationshipScoreQuartile]}
+        style={{
+          position: 'absolute',
+          width: 300,
+          height: 275,
+          transform: [{
+            scaleX: scaleBGHeart
+          }, {
+            scaleY: scaleBGHeart
+          }]
+        }}
+      />
       <Image
         source={heartImgs[relationshipScoreQuartile]}
         style={{
