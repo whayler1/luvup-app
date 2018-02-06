@@ -63,7 +63,6 @@ export default ({
       <Animated.Image
         source={heartImgs[relationshipScoreQuartile]}
         style={{
-          position: 'absolute',
           width: 300,
           height: 275,
           transform: [{
@@ -71,13 +70,6 @@ export default ({
           }, {
             scaleY: scaleBGHeart
           }]
-        }}
-      />
-      <Image
-        source={heartImgs[relationshipScoreQuartile]}
-        style={{
-          width: 300,
-          height: 275,
         }}
       />
       <View style={{
