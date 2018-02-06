@@ -40,6 +40,7 @@ class Hero extends Component {
 
   translateY = new Animated.Value(0);
   scale = new Animated.Value(1);
+  scaleBGHeart = new Animated.Value(1);
   coinTranslateY = new Animated.Value(0);
   coinOpacity = new Animated.Value(0);
   jalapenoTranslateY = new Animated.Value(0);
@@ -94,7 +95,7 @@ class Hero extends Component {
 
   springScaleBack() {
     Animated.spring(
-      this.scale,
+      this.scaleBGHeart,
       {
         toValue: 1,
         friction: 4
@@ -104,10 +105,10 @@ class Hero extends Component {
 
   springScaleTouch() {
     Animated.spring(
-      this.scale,
+      this.scaleBGHeart,
       {
         toValue: 1.05,
-        friction: .5,
+        friction: 3,
       }
     ).start();
   };
@@ -198,6 +199,7 @@ class Hero extends Component {
 
       onPanResponderGrant: (evt, gestureState) => {
         console.log('grant');
+        this.scaleBGHeart.setValue(1);
         this.springScaleTouch();
         // The gesture has started. Show visual feedback so the user knows
         // what is happening!
@@ -241,6 +243,10 @@ class Hero extends Component {
         // The user has released all touches while this view is the
         // responder. This typically means a gesture has succeeded
       },
+      onPanResponderTerminate: (evt, gestureState) => {
+        // Another component has become the responder, so this gesture
+        // should be cancelled
+      },
     });
   }
 
@@ -251,6 +257,7 @@ class Hero extends Component {
       panResponder={this.panResponder}
       translateY={this.translateY}
       scale={this.scale}
+      scaleBGHeart={this.scaleBGHeart}
       coinTranslateY={this.coinTranslateY}
       coinOpacity={this.coinOpacity}
       jalapenoTranslateY={this.jalapenoTranslateY}
