@@ -17,6 +17,7 @@ import styles from './Hero.styles';
 import { buttons, forms, scene } from '../../styles';
 import config from '../../config';
 import HeroEye from '../../components/HeroEye';
+import HeroMouth from '../../components/HeroMouth';
 
 
 const heartImgs = [
@@ -80,6 +81,15 @@ export default ({
         }]
       }}>
         <HeroEye/>
+      </View>
+      <View style={{
+        position: 'absolute',
+        left: 110,
+        top: 170,
+      }}>
+        <HeroMouth
+          relationshipScoreQuartile={relationshipScoreQuartile}
+        />
       </View>
     </Animated.View>
     <Animated.View
