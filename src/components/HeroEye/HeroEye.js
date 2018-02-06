@@ -5,52 +5,38 @@ import ReactArt, {
     Surface,
     Transform,
 } from 'ReactNativeART';
-import {
-  ART,
-} from 'react-native';
 
-class Circle extends React.Component {
-  render() {
-    const {radius, ...rest} = this.props
-
-    const circle = ART.Path()
-      .move(radius, 0)
-      .arc(0, radius * 2, radius)
-      .arc(0, radius * -2, radius)
-
-    return <ART.Shape {...rest} d={circle} />
-  }
-}
+import Circle from '../Circle';
 
 export default () => (
   <Surface
-    width={143}
-    height={61}
+    width={83}
+    height={35}
   >
     <Group>
       <Shape
         stroke="white"
         strokeWidth={4}
-        d={"M23.5,45.5 C39.0677083,27.8020833 57.5677083,18.953125 79,18.953125 C100.432292,18.953125 118.932292,27.8020833 134.5,45.5"}
+        d={"M13,25 C21.5552271,15 31.7218938,10 43.5,10 C55.2781062,10 65.4447729,15 74,25"}
       />
       <Shape
         stroke="white"
         strokeWidth={4}
-        d={"M18.5,38.5 L0.5,26.5"}
+        d={"M9.73684211,20.7307692 L0.263157895,14.2692308"}
       />
       <Shape
         stroke="white"
         strokeWidth={4}
-        d={"M32.5,25.5 L13,4"}
+        d={"M17.725,13.7272727 L7,2"}
       />
       <Shape
         stroke="white"
         strokeWidth={4}
-        d={"M46.5,17.5 L37,0"}
+        d={"M24.75,9.72222222 L20,0"}
       />
     </Group>
-    <Group x={70} y={30}>
-      <Circle radius={10} fill={'white'} />
+    <Group x={38} y={20}>
+      <Circle radius={6} fill={'white'} />
     </Group>
   </Surface>
 );

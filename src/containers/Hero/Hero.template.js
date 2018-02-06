@@ -66,8 +66,18 @@ export default ({
       />
       <View style={{
         position: 'absolute',
-        left: 30,
+        left: 40,
+        top: 60
+      }}>
+        <HeroEye/>
+      </View>
+      <View style={{
+        position: 'absolute',
+        right: 40,
         top: 60,
+        transform: [{
+          scaleX: -1
+        }]
       }}>
         <HeroEye/>
       </View>
