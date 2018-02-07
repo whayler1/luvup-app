@@ -4,7 +4,8 @@ import {
   View,
   TouchableOpacity,
   Image,
-  FlatList,
+  SectionList,
+  Header,
 } from 'react-native';
 
 import { buttons, forms, scene } from '../../styles';
@@ -16,6 +17,7 @@ export default ({
   sentJalapenosCount,
   userEvents,
   goToDashboard,
+  sections,
 }) => (
   <View style={scene.container}>
     <View
@@ -54,18 +56,17 @@ export default ({
       }}
     >
       <Text>Timeline {sentCoinsCount}, { sentJalapenosCount}</Text>
-      <FlatList
-        style={{
-          marginTop: 8,
-        }}
-        data={userEvents}
-        keyExtractor={keyExtractor}
+      <SectionList
         renderItem={({item}) => (
           <View>
             <Text>{item.createdAt}</Text>
             <Text>{item.name}</Text>
           </View>
         )}
+        renderSectionHeader={({section}) => <View>
+          <Text>{section.title}</Text>
+        </View>}
+        sections={sections}
       />
     </View>
   </View>
