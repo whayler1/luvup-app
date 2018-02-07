@@ -10,6 +10,10 @@ import {
 
 import { buttons, forms, scene, vars } from '../../styles';
 
+import heartImg from '../../images/heart.png';
+import jalapenoImg from '../../images/jalapeno.png';
+import coinImg from '../../images/coin.png';
+
 const getEventDisplayName = (eventName, count) => {
   const plur = count > 1 ? 's' : '';
 
@@ -24,6 +28,32 @@ const getEventDisplayName = (eventName, count) => {
       return `Jalapeno${plur} received`;
     default:
       return eventName;
+  }
+};
+const getEventImage = eventName => {
+  switch (eventName) {
+    case 'coin-sent':
+    case 'coin-received':
+      return (
+        <Image
+          style={{
+            width: 18,
+            height: 18,
+          }}
+          source={coinImg}
+        />
+      );
+    case 'jalapeno-sent':
+    case 'jalapeno-received':
+      return (
+        <Image
+          style={{
+            width: 13,
+            height: 18,
+          }}
+          source={jalapenoImg}
+        />
+      );
   }
 };
 
@@ -87,10 +117,15 @@ export default ({
             borderBottomColor: vars.blueGrey50,
             borderBottomWidth: 1,
           }}>
-            <View>
+            <View style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+              {getEventImage(item.name)}
               <Text style={{
                 color: vars.blueGrey500,
                 fontSize: 20,
+                paddingLeft: 8,
                 fontFamily: vars.fontRegular,
               }}>
                 {item.count} {getEventDisplayName(item.name, item.count)}
