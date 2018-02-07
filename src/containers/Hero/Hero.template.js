@@ -43,6 +43,7 @@ export default ({
   relationshipScoreQuartile,
   dragDirection,
   recentlySentCoinCount,
+  recentlySentJalapenoCount,
 }) => (
   <View
     style={styles.heartView}
@@ -134,7 +135,9 @@ export default ({
         }]
       }}
     >
-      <JalapenoArt/>
+      <JalapenoArt
+        recentlySentJalapenoCount={recentlySentJalapenoCount}
+      />
     </Animated.View>
     <Modal
       visible={isModalOpen}

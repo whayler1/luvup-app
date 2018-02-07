@@ -34,6 +34,7 @@ class Hero extends Component {
     modalMessage: 'luvups',
     dragDirection: 0,
     recentlySentCoinCount: 0,
+    recentlySentJalapenoCount: 0,
   };
 
   openModal = () => this.setState({ isModalOpen: true });
@@ -68,17 +69,17 @@ class Hero extends Component {
 
   sendJalapeno = async () => {
     const { sentJalapenos } = this.props;
-    this.fireJalapeno();
-    // if (this.isMaxItemsPerHourSent(sentJalapenos)) {
-    //   this.fireJalapeno();
-    //   const res = await this.props.sendJalapeno();
-    //   console.log('sendJalapeno', res.body.data);
-    // } else {
-    //   this.setState({
-    //     modalMessage: 'jalapenos',
-    //     isModalOpen: true,
-    //   });
-    // }
+
+    if (this.isMaxItemsPerHourSent(sentJalapenos)) {
+      this.fireJalapeno();
+      const res = await this.props.sendJalapeno();
+      console.log('sendJalapeno', res.body.data);
+    } else {
+      this.setState({
+        modalMessage: 'jalapenos',
+        isModalOpen: true,
+      });
+    }
   }
 
   springY() {
@@ -185,23 +186,24 @@ class Hero extends Component {
 
   setDragDirection = dragDirection => this.state.dragDirection !== dragDirection && this.setState({ dragDirection });
 
-  setRecentlySentCoinCount = sentCoins => {
+  setRecentlySentCount = (collection, keyStr) => {
     const anHrAgo = moment().subtract(1, 'hour');
-    let recentlySentCoinCount = 0;
+    let count = 0;
 
-    for (let i = 0; i < sentCoins.length; i++) {
-      if (moment(new Date(sentCoins[i].createdAt)).isAfter(anHrAgo)) {
-        recentlySentCoinCount++;
+    for (let i = 0; i < collection.length; i++) {
+      if (moment(new Date(collection[i].createdAt)).isAfter(anHrAgo)) {
+        count++;
       } else {
         break;
       }
     }
-    this.setState({ recentlySentCoinCount });
+    this.setState({ [keyStr]: count });
   };
 
   componentWillMount() {
     this.props.createRelationshipScore();
-    this.setRecentlySentCoinCount(this.props.sentCoins);
+    this.setRecentlySentCount(this.props.sentCoins, 'recentlySentCoinCount');
+    this.setRecentlySentCount(this.props.sentJalapenos, 'recentlySentJalapenoCount');
 
     this.panResponder = PanResponder.create({
       // Ask to be the responder:
@@ -247,9 +249,10 @@ class Hero extends Component {
         const { swipeThreshold } = config;
 
         if (dy < -swipeThreshold) {
-          this.setRecentlySentCoinCount(this.props.sentCoins);
+          this.setRecentlySentCount(this.props.sentCoins, 'recentlySentCoinCount');
           this.sendCoin();
         } else if (dy > swipeThreshold) {
+          this.setRecentlySentCount(this.props.sentJalapenos, 'recentlySentJalapenoCount');
           this.sendJalapeno();
         }
 
@@ -267,7 +270,8 @@ class Hero extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.sentCoins.length && this.props.sentCoins.length &&
         nextProps.sentCoins[0].id !== this.props.sentCoins[0].id) {
-      this.setRecentlySentCoinCount(nextProps.sentCoins);
+      this.setRecentlySentCount(nextProps.sentCoins, 'recentlySentCoinCount');
+      this.setRecentlySentCount(this.props.sentJalapenos, 'recentlySentJalapenoCount');
     }
   };
 
