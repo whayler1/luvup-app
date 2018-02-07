@@ -44,7 +44,8 @@ export default ({
       style={{
         position: 'absolute',
         color: 'white',
-        fontFamily: 'latoblack',
+        backgroundColor: 'transparent',
+        fontFamily: vars.fontBlack,
         fontSize: 28,
         zIndex: 10,
       }}
