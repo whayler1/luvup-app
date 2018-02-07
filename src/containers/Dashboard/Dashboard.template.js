@@ -18,6 +18,7 @@ import { buttons, forms, scene, vars } from '../../styles';
 import config from '../../config';
 import DashboardTopNav from '../../components/DashboardTopNav';
 import CoinArt from '../../components/CoinArt';
+import JalapenoArt from '../../components/JalapenoArt';
 import Hero from '../Hero';
 
 export default ({
@@ -33,6 +34,7 @@ export default ({
   jalapenoCount,
   isFontLoaded,
   coinsAvailableTime,
+  jalapenosAvailableTime,
   openModal,
   closeModal,
   isModalOpen,
@@ -89,9 +91,12 @@ export default ({
           shadowRadius: 2,
         }}>
           <View>
-            <CoinArt
-              recentlySentCoinCount={15}
-            />
+            {modalContent === 'coin' && <CoinArt
+              recentlySentCoinCount={config.maxItemsPerHour}
+            />}
+            {modalContent === 'jalapeno' && <JalapenoArt
+              recentlySentJalapenoCount={config.maxItemsPerHour}
+            />}
           </View>
           <View style={{
             marginTop: 16,
@@ -103,7 +108,8 @@ export default ({
               textAlign: 'center',
               color: vars.p,
             }}>
-              Hourly Luvup{'\n'}Limit Exceeded
+              {modalContent === 'coin' && 'Hourly Luvup\nLimit Exceeded'}
+              {modalContent === 'jalapeno' && 'Hourly Jalapeno\nLimit Exceeded'}
             </Text>
             <Text style={{
               fontFamily: vars.fontRegular,
@@ -111,7 +117,8 @@ export default ({
               marginTop: 16,
               color: vars.p,
             }}>
-              Wow! {userFirstName} must be on fire right now. You{"'"}ve sent the max hourly limit of 15 luvups. You{"'"}ll have the opportunity to send another luvup {coinsAvailableTime}.
+              {modalContent === 'coin' && `Wow! ${loverFirstName} must be on fire right now. You've sent the max hourly limit of ${config.maxItemsPerHour} luvups. You'll have the opportunity to send another luvup ${coinsAvailableTime}.`}
+              {modalContent === 'jalapeno' && `Looks like things are getting spicy with ${loverFirstName} right now. You've sent the max hourly limit of ${config.maxItemsPerHour} jalapenos. You'll have the oportunity to send another jalapeno is ${jalapenosAvailableTime}.`}
             </Text>
           </View>
           <View style={{
