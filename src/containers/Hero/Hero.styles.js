@@ -1,4 +1,12 @@
 import { StyleSheet } from 'react-native';
+import { vars } from '../../styles';
+
+const directionsText = {
+  color: vars.p,
+  fontFamily: vars.fontRegular,
+  fontSize: 30,
+  alignItems: 'center'
+};
 
 export default StyleSheet.create({
   heartView: {
@@ -11,5 +19,14 @@ export default StyleSheet.create({
     width: 260,
     height: 240,
     zIndex: 10,
+  },
+  directionsText,
+  directionsTextUp: {
+    ...directionsText,
+    marginBottom: 32,
+  },
+  directionsTextDown: {
+    ...directionsText,
+    marginTop: 32,
   }
 });

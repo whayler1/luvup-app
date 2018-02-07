@@ -44,11 +44,22 @@ export default ({
   dragDirection,
   recentlySentCoinCount,
   recentlySentJalapenoCount,
+  directionsOpacity,
 }) => (
   <View
     style={styles.heartView}
     {...panResponder.panHandlers}
   >
+    <Animated.View
+      style={{
+        marginBottom: 32,
+        opacity: directionsOpacity,
+        alignItems: 'center',
+      }}
+    >
+      <Text style={styles.directionsText}>Swipe up to</Text>
+      <Text style={styles.directionsText}>send a Luvup</Text>
+    </Animated.View>
     <Animated.View
       style={{
         width: 300,
@@ -138,6 +149,16 @@ export default ({
       <JalapenoArt
         recentlySentJalapenoCount={recentlySentJalapenoCount}
       />
+    </Animated.View>
+    <Animated.View
+      style={{
+        marginTop: 32,
+        opacity: directionsOpacity,
+        alignItems: 'center',
+      }}
+    >
+      <Text style={styles.directionsText}>Swipe down to</Text>
+      <Text style={styles.directionsText}>send a Jalapeno</Text>
     </Animated.View>
     <Modal
       visible={isModalOpen}

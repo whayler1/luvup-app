@@ -47,6 +47,7 @@ class Hero extends Component {
   coinOpacity = new Animated.Value(0);
   jalapenoTranslateY = new Animated.Value(0);
   jalapenoOpacity = new Animated.Value(0);
+  directionsOpacity = new Animated.Value(0);
 
   /**
    * JW: This logic could probably be simplified somehow. But works-for-now™
@@ -184,6 +185,30 @@ class Hero extends Component {
     ]).start();
   }
 
+  showDirections() {
+    // console.log('showDirections', this.directionsOpacity);
+    Animated.timing(
+      this.directionsOpacity,
+      {
+        toValue: 1,
+        duration: 250,
+        delay: 250,
+        easing: Easing.inOut(Easing.linear)
+      }
+    ).start();
+  }
+  hideDirections() {
+    // console.log('hideDirections');
+    Animated.timing(
+      this.directionsOpacity,
+      {
+        toValue: 0,
+        duration: 250,
+        easing: Easing.inOut(Easing.linear)
+      }
+    ).start();
+  }
+
   setDragDirection = dragDirection => this.state.dragDirection !== dragDirection && this.setState({ dragDirection });
 
   setRecentlySentCount = (collection, keyStr) => {
@@ -216,6 +241,7 @@ class Hero extends Component {
         console.log('grant');
         this.scaleBGHeart.setValue(1);
         this.springScaleTouch();
+        this.showDirections();
         // The gesture has started. Show visual feedback so the user knows
         // what is happening!
 
@@ -226,10 +252,12 @@ class Hero extends Component {
         this.translateY.setValue(dy);
         this.scale.setValue((-dy / 700) + 1);
 
-        if (dy < 3) {
+        if (dy < -3) {
           this.setDragDirection(1);
+          this.hideDirections();
         } else if ( dy > 3) {
           this.setDragDirection(-1);
+          this.hideDirections();
         } else {
           this.setDragDirection(0);
         }
@@ -244,16 +272,19 @@ class Hero extends Component {
         console.log('release', gestureState.dy);
         this.springY();
         this.springScaleBack();
+        this.hideDirections();
 
         const { dy } = gestureState;
         const { swipeThreshold } = config;
 
         if (dy < -swipeThreshold) {
-          this.setRecentlySentCount(this.props.sentCoins, 'recentlySentCoinCount');
-          this.sendCoin();
+          this.setState({
+            recentlySentCoinCount: this.state.recentlySentCoinCount + 1
+          }, this.sendCoin);
         } else if (dy > swipeThreshold) {
-          this.setRecentlySentCount(this.props.sentJalapenos, 'recentlySentJalapenoCount');
-          this.sendJalapeno();
+          this.setState({
+            recentlySentJalapenoCount: this.state.recentlySentJalapenoCount + 1
+          }, this.sendJalapeno);
         }
 
         this.setDragDirection(0);
@@ -265,14 +296,6 @@ class Hero extends Component {
         // should be cancelled
       },
     });
-  };
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.sentCoins.length && this.props.sentCoins.length &&
-        nextProps.sentCoins[0].id !== this.props.sentCoins[0].id) {
-      this.setRecentlySentCount(nextProps.sentCoins, 'recentlySentCoinCount');
-      this.setRecentlySentCount(this.props.sentJalapenos, 'recentlySentJalapenoCount');
-    }
   };
 
   render() {
@@ -288,6 +311,7 @@ class Hero extends Component {
       jalapenoOpacity={this.jalapenoOpacity}
       relationshipScoreQuartile={this.props.relationshipScoreQuartile}
       dragDirection={this.dragDirection}
+      directionsOpacity={this.directionsOpacity}
       {...this.state}
     />;
   }
