@@ -160,29 +160,5 @@ export default ({
       <Text style={styles.directionsText}>Swipe down to</Text>
       <Text style={styles.directionsText}>send a Jalapeno</Text>
     </Animated.View>
-    <Modal
-      visible={isModalOpen}
-      animationType={'slide'}
-      onRequestClose={() => this.closeModal()}
-    >
-      <View style={{
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: 'white'
-      }}>
-        <View style={{ alignItems: 'center', }}>
-          {modalMessage === 'luvups' && <Text>You are allowed to send {config.maxItemsPerHour} Luvups per hour.</Text>}
-          {modalMessage === 'jalapenos' && <Text>You are allowed to send {config.maxItemsPerHour} jalapenos per hour.</Text>}
-          <Button
-            raised
-            onPress={closeModal}
-            containerViewStyle={buttons.infoContainer}
-            buttonStyle={buttons.infoButton}
-            textStyle={buttons.infoText}
-            title={'Dismiss'}
-          />
-        </View>
-      </View>
-    </Modal>
   </View>
 );

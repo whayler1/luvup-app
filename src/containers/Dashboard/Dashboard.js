@@ -28,13 +28,26 @@ class Dashboard extends Component {
     getCoinCount: PropTypes.func.isRequired,
     getJalapenoCount: PropTypes.func.isRequired,
     jalapenoCount: PropTypes.number,
+    sentCoins: PropTypes.array,
   };
 
-  state = {}
+  state = {
+    coinsAvailableTime: undefined,
+  };
+
+  setCoinsAvailableTime() {
+    const { sentCoins } = this.props;
+    const now = moment();
+    const anHrAgo = moment().subtract(1, 'hour');
+    const leastRecentWithinAnHr = moment(new Date([...sentCoins].filter(coin => moment(new Date(coin.createdAt)).isAfter(anHrAgo)).pop().createdAt));
+    const coinsAvailableTime = moment(new Date(leastRecentWithinAnHr)).add(1, 'hour').fromNow();
+    this.setState({ coinsAvailableTime });
+  };
 
   componentWillMount() {
     this.props.getCoinCount();
     this.props.getJalapenoCount();
+    this.setCoinsAvailableTime();
   };
 
   render() {
@@ -66,6 +79,7 @@ export default connect(
     loverRequestCreatedAt: state.loverRequest.createdAt,
     coinCount: state.coin.count,
     jalapenoCount: state.jalapeno.count,
+    sentCoins: state.coin.sentCoins,
   }),
   {
     getCoinCount: getCoinCountAction,

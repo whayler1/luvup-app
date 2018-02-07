@@ -1,5 +1,7 @@
 // colors
 
+const blueGrey50 = '#ECEFF1';
+const blueGrey100 = '#CFD8DC';
 const blueGrey500 = '#607D8B';
 const blueGrey700 = '#455A64';
 const blue500 = '#03A9F4';
@@ -15,6 +17,8 @@ const fontRegular = 'latoregular';
 const fontVanity = 'yesteryear';
 
 export default {
+  blueGrey50,
+  blueGrey100,
   blueGrey500,
   blueGrey700,
   // hero

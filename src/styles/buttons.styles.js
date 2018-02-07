@@ -10,7 +10,6 @@ export default StyleSheet.create({
   infoButton: {
     backgroundColor: 'lightblue',
     borderRadius: radius,
-    marginTop: 30,
   },
   infoText: {
     textAlign: 'center',
