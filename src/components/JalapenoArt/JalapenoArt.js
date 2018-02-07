@@ -43,6 +43,6 @@ export default ({
         fontSize: 26,
         color: vars.jalapeno,
       }}
-    >+{ recentlySentJalapenoCount + 1 }</Text>
+    >+{ recentlySentJalapenoCount }</Text>
   </View>
 );

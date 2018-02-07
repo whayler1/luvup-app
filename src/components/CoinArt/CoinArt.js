@@ -48,6 +48,6 @@ export default ({
         fontSize: 28,
         zIndex: 10,
       }}
-    >+{ recentlySentCoinCount + 1}</Text>
+    >+{ recentlySentCoinCount }</Text>
   </View>
 );
