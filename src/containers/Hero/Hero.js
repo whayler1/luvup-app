@@ -63,24 +63,22 @@ class Hero extends Component {
         modalMessage: 'luvups',
         isModalOpen: true,
       });
-      console.log('cant send more coins', moment().subtract(1, 'hour'));
     }
   };
 
   sendJalapeno = async () => {
     const { sentJalapenos } = this.props;
-
-    if (this.isMaxItemsPerHourSent(sentJalapenos)) {
-      this.fireJalapeno();
-      const res = await this.props.sendJalapeno();
-      console.log('sendJalapeno', res.body.data);
-    } else {
-      this.setState({
-        modalMessage: 'jalapenos',
-        isModalOpen: true,
-      });
-      console.log('cant send more jalapenos');
-    }
+    this.fireJalapeno();
+    // if (this.isMaxItemsPerHourSent(sentJalapenos)) {
+    //   this.fireJalapeno();
+    //   const res = await this.props.sendJalapeno();
+    //   console.log('sendJalapeno', res.body.data);
+    // } else {
+    //   this.setState({
+    //     modalMessage: 'jalapenos',
+    //     isModalOpen: true,
+    //   });
+    // }
   }
 
   springY() {

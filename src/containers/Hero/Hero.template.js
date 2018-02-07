@@ -19,6 +19,7 @@ import config from '../../config';
 import HeroEye from '../../components/HeroEye';
 import HeroMouth from '../../components/HeroMouth';
 import CoinArt from '../../components/CoinArt';
+import JalapenoArt from '../../components/JalapenoArt';
 
 const heartImgs = [
   require('../../images/hero/heart-sadest.png'),
@@ -123,11 +124,9 @@ export default ({
     <Animated.View
       style={{
         position: 'absolute',
-        width: 46,
-        height: 60,
         left: '50%',
         top: '50%',
-        marginLeft: -23,
+        marginLeft: -38,
         marginBottom: -150,
         opacity: jalapenoOpacity,
         transform: [{
@@ -135,13 +134,7 @@ export default ({
         }]
       }}
     >
-      <Image
-        source={require('../../images/jalapeno.png')}
-        style={{
-          width: 46,
-          height: 60,
-        }}
-      />
+      <JalapenoArt/>
     </Animated.View>
     <Modal
       visible={isModalOpen}
