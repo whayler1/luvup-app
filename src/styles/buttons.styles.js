@@ -1,17 +1,16 @@
 import { StyleSheet } from 'react-native';
-
-const radius = 2;
+import vars from './vars';
 
 export default StyleSheet.create({
   infoContainer: {
-    // width: 200,
     alignSelf: 'stretch',
   },
   infoButton: {
-    backgroundColor: 'lightblue',
-    borderRadius: radius,
+    backgroundColor: vars.infoButtonBg,
+    borderRadius: vars.radius,
   },
   infoText: {
     textAlign: 'center',
+    fontFamily: vars.fontBlack,
   },
 });

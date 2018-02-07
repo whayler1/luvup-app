@@ -32,8 +32,18 @@ class Dashboard extends Component {
   };
 
   state = {
+    isModalOpen: false,
+    modalContent: undefined,
     coinsAvailableTime: undefined,
   };
+
+  openModal = modalContent => this.setState({
+    isModalOpen: true,
+    modalContent,
+  });
+  closeModal = () => this.setState({
+    isModalOpen: false,
+  });
 
   setCoinsAvailableTime() {
     const { sentCoins } = this.props;
@@ -62,6 +72,8 @@ class Dashboard extends Component {
       loverRequestCreatedAt={this.props.loverRequestCreatedAt}
       coinCount={this.props.coinCount}
       jalapenoCount={this.props.jalapenoCount}
+      openModal={this.openModal}
+      closeModal={this.closeModal}
       {...this.state}
     />;
   }
