@@ -11,24 +11,38 @@ import { setSentJalapenosCount as setSentJalapenosCountAction } from '../../redu
 import config from '../../config';
 import Template from './Timeline.template';
 
-const userEventsLimit = 200;
-
+const userEventsLimit = 100;
 const format = 'YYYY-MM-DD';
+
 const getSections = userEvents => {
   let currentCreatedDate;
-  return userEvents.reduce((val, event) => {
+  let currentEventName;
+  return userEvents.reduce((val, event, i) => {
+    console.log('loop', i);
     const eventCreatedDate = moment(new Date(event.createdAt)).format(format);
     if (eventCreatedDate !== currentCreatedDate) {
       currentCreatedDate = eventCreatedDate;
+      currentEventName = undefined;
       val.push({
-        title: currentCreatedDate,
+        title: moment(currentCreatedDate).format('ddd, MMM DD, YYYY'),
         data: [],
       });
     }
-    val[0].data.push({
-      ...event,
-      key: event.id
-    });
+    if (event.name !== currentEventName) {
+      currentEventName = event.name;
+      val[val.length - 1].data.push({
+        ...event,
+        key: event.id,
+        time: moment(new Date(event.createdAt)).format('h:mma'),
+        count: 1,
+      });
+
+    } else {
+      const lastVal = val[val.length - 1];
+      const lastEvt = lastVal.data[lastVal.data.length - 1];
+      lastEvt.count++;
+    }
+
     return val;
   }, []);
 };
