@@ -29,35 +29,41 @@ class Dashboard extends Component {
     getJalapenoCount: PropTypes.func.isRequired,
     jalapenoCount: PropTypes.number,
     sentCoins: PropTypes.array,
+    sentJalapenos: PropTypes.array,
   };
 
   state = {
     isModalOpen: false,
     modalContent: undefined,
     coinsAvailableTime: undefined,
+    jalapenosAvailableTime: undefined,
   };
 
-  openModal = modalContent => this.setState({
-    isModalOpen: true,
-    modalContent,
-  });
+  openModal = modalContent => {
+    const isCoin = modalContent === 'coin';
+    const collection = isCoin ? this.props.sentCoins : this.props.sentJalapenos;
+    const stateKey = isCoin ? 'coinsAvailableTime': 'jalapenosAvailableTime';
+    this.setAvailableTime(collection, stateKey);
+    this.setState({
+      isModalOpen: true,
+      modalContent,
+    });
+  };
   closeModal = () => this.setState({
     isModalOpen: false,
   });
 
-  setCoinsAvailableTime() {
-    const { sentCoins } = this.props;
+  setAvailableTime(collection, stateKey) {
     const now = moment();
     const anHrAgo = moment().subtract(1, 'hour');
-    const leastRecentWithinAnHr = moment(new Date([...sentCoins].filter(coin => moment(new Date(coin.createdAt)).isAfter(anHrAgo)).pop().createdAt));
-    const coinsAvailableTime = moment(new Date(leastRecentWithinAnHr)).add(1, 'hour').fromNow();
-    this.setState({ coinsAvailableTime });
+    const leastRecentWithinAnHr = moment(new Date([...collection].filter(item => moment(new Date(item.createdAt)).isAfter(anHrAgo)).pop().createdAt));
+    const availableTime = moment(new Date(leastRecentWithinAnHr)).add(1, 'hour').fromNow();
+    this.setState({ [stateKey]: availableTime });
   };
 
   componentWillMount() {
     this.props.getCoinCount();
     this.props.getJalapenoCount();
-    this.setCoinsAvailableTime();
   };
 
   render() {
@@ -92,6 +98,7 @@ export default connect(
     coinCount: state.coin.count,
     jalapenoCount: state.jalapeno.count,
     sentCoins: state.coin.sentCoins,
+    sentJalapenos: state.jalapeno.sentJalapenos,
   }),
   {
     getCoinCount: getCoinCountAction,
