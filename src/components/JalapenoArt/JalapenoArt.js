@@ -21,7 +21,9 @@ import Svg, {
 } from 'react-native-svg';
 import { vars } from '../../styles';
 
-export default () => (
+export default ({
+  recentlySentJalapenoCount
+}) => (
   <View>
     <Svg
       width={76}
@@ -41,6 +43,6 @@ export default () => (
         fontSize: 26,
         color: vars.jalapeno,
       }}
-    >+15</Text>
+    >+{ recentlySentJalapenoCount + 1 }</Text>
   </View>
 );
