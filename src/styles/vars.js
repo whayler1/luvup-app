@@ -4,6 +4,7 @@ const blue500 = '#03A9F4';
 const purple500 = '#9C27B0';
 const red500 = '#F44336';
 const pink500 = '#E91E63';
+const green500 = '#4CAF50';
 
 export default {
   blueGrey500,
@@ -13,5 +14,9 @@ export default {
   purple500,
   red500,
   pink500,
+  // jalapeno
+  green500,
+  // named vars
+  jalapeno: green500,
   happiest: pink500,
 };
