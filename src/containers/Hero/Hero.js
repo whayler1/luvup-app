@@ -23,6 +23,7 @@ class Hero extends Component {
     createRelationshipScore: PropTypes.func.isRequired,
     sendCoin: PropTypes.func.isRequired,
     sendJalapeno: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
     relationshipScore: PropTypes.number,
     relationshipScoreQuartile: PropTypes.number,
     sentCoins: PropTypes.array,
@@ -30,15 +31,10 @@ class Hero extends Component {
   };
 
   state = {
-    isModalOpen: false,
-    modalMessage: 'luvups',
     dragDirection: 0,
     recentlySentCoinCount: 0,
     recentlySentJalapenoCount: 0,
   };
-
-  openModal = () => this.setState({ isModalOpen: true });
-  closeModal = () => this.setState({ isModalOpen: false });
 
   translateY = new Animated.Value(0);
   scale = new Animated.Value(1);
@@ -61,10 +57,7 @@ class Hero extends Component {
       this.fireCoin();
       const res = await this.props.sendCoin();
     } else {
-      this.setState({
-        modalMessage: 'luvups',
-        isModalOpen: true,
-      });
+      this.props.openModal('coin');
     }
   };
 
@@ -76,10 +69,7 @@ class Hero extends Component {
       const res = await this.props.sendJalapeno();
       console.log('sendJalapeno', res.body.data);
     } else {
-      this.setState({
-        modalMessage: 'jalapenos',
-        isModalOpen: true,
-      });
+      this.props.openModal('jalapeno');
     }
   }
 

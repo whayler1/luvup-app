@@ -33,6 +33,10 @@ export default ({
   jalapenoCount,
   isFontLoaded,
   coinsAvailableTime,
+  openModal,
+  closeModal,
+  isModalOpen,
+  modalContent,
 }) => (
   <View
     style={{
@@ -51,11 +55,13 @@ export default ({
       loverLastName={loverLastName}
     />
     {loverRequestUsername.length > 0 && <Text>You sent a loverRequest to {loverRequestUsername} {moment(new Date(loverRequestCreatedAt)).fromNow()}</Text>}
-    <Hero/>
+    <Hero
+      openModal={openModal}
+    />
     <Modal
-      visible={true}
+      visible={isModalOpen}
       animationType={'fade'}
-      onRequestClose={() => {}}
+      onRequestClose={closeModal}
       transparent={true}
     >
       <View style={{
@@ -67,10 +73,13 @@ export default ({
         <View style={{
           alignItems: 'center',
           backgroundColor: 'white',
-          borderRadius: 2,
+          borderRadius: vars.radius,
           borderColor: vars.blueGrey100,
           borderWidth: 1,
-          padding: 16,
+          paddingLeft: 16,
+          paddingRight: 16,
+          paddingTop: 32,
+          paddingBottom: 32,
           shadowColor: vars.blueGrey500,
           shadowOpacity: 0.3,
           shadowOffset: {
@@ -94,7 +103,7 @@ export default ({
               textAlign: 'center',
               color: vars.p,
             }}>
-              Hourly Luvup Limit Exceeded
+              Hourly Luvup{'\n'}Limit Exceeded
             </Text>
             <Text style={{
               fontFamily: vars.fontRegular,
@@ -102,16 +111,16 @@ export default ({
               marginTop: 16,
               color: vars.p,
             }}>
-              Wow! {userFirstName} must be on fire right now. You{"'"}ve sent the max hourly limit of 15 luvups. You{"'"}ll have the opportunity to send more luvups {coinsAvailableTime}.
+              Wow! {userFirstName} must be on fire right now. You{"'"}ve sent the max hourly limit of 15 luvups. You{"'"}ll have the opportunity to send another luvup {coinsAvailableTime}.
             </Text>
           </View>
           <View style={{
             marginTop: 32,
-            alignSelf: 'stretch'
+            alignSelf: 'stretch',
           }}>
             <Button
               raised
-              onPress={() => {}}
+              onPress={closeModal}
               containerViewStyle={buttons.infoContainer}
               buttonStyle={buttons.infoButton}
               textStyle={buttons.infoText}
