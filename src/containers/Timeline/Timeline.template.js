@@ -8,7 +8,24 @@ import {
   Header,
 } from 'react-native';
 
-import { buttons, forms, scene } from '../../styles';
+import { buttons, forms, scene, vars } from '../../styles';
+
+const getEventDisplayName = (eventName, count) => {
+  const plur = count > 1 ? 's' : '';
+
+  switch (eventName) {
+    case 'coin-sent':
+      return `Coin${plur} sent`;
+    case 'coin-received':
+      return `Coin${plur} received`;
+    case 'jalapeno-sent':
+      return `Jalapeno${plur} sent`;
+    case 'jalapeno-received':
+      return `Jalapeno${plur} received`;
+    default:
+      return eventName;
+  }
+};
 
 const keyExtractor = item => item.id;
 
@@ -53,19 +70,58 @@ export default ({
     <View
       style={{
         marginTop: 100,
+        alignSelf: 'stretch',
       }}
     >
       <Text>Timeline {sentCoinsCount}, { sentJalapenosCount}</Text>
       <SectionList
+        style={{
+          alignSelf: 'stretch',
+        }}
         renderItem={({item}) => (
-          <View>
-            <Text>{item.createdAt}</Text>
-            <Text>{item.name}</Text>
+          <View style={{
+            padding:16,
+            alignSelf: 'stretch',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            borderBottomColor: vars.blueGrey50,
+            borderBottomWidth: 1,
+          }}>
+            <View>
+              <Text style={{
+                color: vars.blueGrey500,
+                fontSize: 20,
+                fontFamily: vars.fontRegular,
+              }}>
+                {item.count} {getEventDisplayName(item.name, item.count)}
+              </Text>
+            </View>
+            <View>
+              <Text style={{
+                color: vars.blueGrey500,
+                fontSize: 14,
+                fontFamily: vars.fontRegular
+              }}>
+                {item.time}
+              </Text>
+            </View>
           </View>
         )}
-        renderSectionHeader={({section}) => <View>
-          <Text>{section.title}</Text>
-        </View>}
+        renderSectionHeader={({section}) => (
+          <View style={{
+            padding: 16,
+            borderBottomColor: vars.blueGrey100,
+            borderBottomWidth: 1,
+            alignSelf: 'stretch',
+            backgroundColor: 'white',
+          }}>
+            <Text style={{
+              color: vars.blueGrey500,
+              fontSize: 20,
+              fontFamily: vars.fontRegular,
+            }}>{section.title}</Text>
+          </View>
+        )}
         sections={sections}
       />
     </View>
