@@ -49,6 +49,12 @@ const getSections = userEvents => {
 
 class Timeline extends Component {
   static propTypes = {
+    userFirstName: PropTypes.string,
+    userLastName: PropTypes.string,
+    loverFirstName: PropTypes.string,
+    loverLastName: PropTypes.string,
+    coinCount: PropTypes.number,
+    jalapenoCount: PropTypes.number,
     sentCoinsCount: PropTypes.number,
     sentJalapenosCount: PropTypes.number,
     userEvents: PropTypes.array,
@@ -70,7 +76,22 @@ class Timeline extends Component {
     console.log({ sections });
   };
 
+  setInitials = () => {
+    const {
+      userFirstName,
+      userLastName,
+      loverFirstName,
+      loverLastName,
+    } = this.props;
+    this.setState({
+      userInitials: (userFirstName.substr(0,1) + userLastName.substr(0,1)).toUpperCase(),
+      loverInitials: (loverFirstName.substr(0,1) + loverLastName.substr(0,1)).toUpperCase(),
+    });
+  };
+
   componentWillMount = async () => {
+    this.setInitials();
+
     const query = `{
       userEvents(
         limit: ${userEventsLimit}
@@ -122,6 +143,12 @@ class Timeline extends Component {
 
 export default connect(
   state => ({
+    userFirstName: state.user.firstName,
+    userLastName: state.user.lastName,
+    loverFirstName: state.lover.firstName,
+    loverLastName: state.lover.lastName,
+    coinCount: state.coin.count,
+    jalapenoCount: state.jalapeno.count,
     sentCoinsCount: state.coin.sentCoinsCount,
     sentJalapenosCount: state.jalapeno.sentJalapenosCount,
     userEvents: state.userEvents.rows,
