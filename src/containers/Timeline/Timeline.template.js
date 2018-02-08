@@ -12,7 +12,11 @@ import { buttons, forms, scene, vars } from '../../styles';
 
 import heartImg from '../../images/heart.png';
 import jalapenoImg from '../../images/jalapeno.png';
+import jalapenoSentImg from '../../images/jalapeno-sent.png';
+import jalapenoReceivedImg from '../../images/jalapeno-received.png';
 import coinImg from '../../images/coin.png';
+import coinSentImg from '../../images/coin-sent.png';
+import coinReceivedImg from '../../images/coin-received.png';
 
 const getEventDisplayName = (eventName, count) => {
   const plur = count > 1 ? 's' : '';
@@ -33,27 +37,47 @@ const getEventDisplayName = (eventName, count) => {
 const getEventImage = eventName => {
   switch (eventName) {
     case 'coin-sent':
+      return (
+        <Image
+          style={{
+            width: 32,
+            height: 25,
+          }}
+          source={coinSentImg}
+        />
+      );
     case 'coin-received':
       return (
         <Image
           style={{
-            width: 18,
-            height: 18,
+            width: 31,
+            height: 25,
           }}
-          source={coinImg}
+          source={coinReceivedImg}
         />
       );
     case 'jalapeno-sent':
+    return (
+      <Image
+        style={{
+          width: 24,
+          height: 25,
+        }}
+        source={jalapenoSentImg}
+      />
+    );
     case 'jalapeno-received':
       return (
         <Image
           style={{
-            width: 13,
-            height: 18,
+            width: 26,
+            height: 25,
           }}
-          source={jalapenoImg}
+          source={jalapenoReceivedImg}
         />
       );
+    default:
+      return '';
   }
 };
 
