@@ -17,6 +17,8 @@ import ListHeaderComponent from './Timeline.ListHeaderComponent.template';
 const keyExtractor = item => item.id;
 
 export default ({
+  coinCount,
+  jalapenoCount,
   sentCoinsCount,
   sentJalapenosCount,
   userEvents,
@@ -64,8 +66,17 @@ export default ({
     >
       <Text>Timeline {sentCoinsCount}, { sentJalapenosCount}</Text>
       <SectionList
-        style={styles.sectionList}
-        ListHeaderComponent={ListHeaderComponent}
+        style={styles.sectionLists}
+        ListHeaderComponent={<ListHeaderComponent
+          {...{
+            coinCount,
+            jalapenoCount,
+            userInitials,
+            loverInitials,
+            sentCoinsCount,
+            sentJalapenosCount,
+          }}
+        />}
         renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}
         sections={sections}

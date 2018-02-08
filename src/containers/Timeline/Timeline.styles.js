@@ -5,6 +5,27 @@ export default new StyleSheet.create({
   sectionList: {
     alignSelf: 'stretch',
   },
+  listHeaderContainer: {
+    backgroundColor: 'white',
+    paddingBottom: 16,
+  },
+  leaderboardSlot: {
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingTop: 16,
+  },
+  sectionHeaderContainer: {
+    padding: 16,
+    borderBottomColor: vars.blueGrey100,
+    borderBottomWidth: 1,
+    alignSelf: 'stretch',
+    backgroundColor: 'white',
+  },
+  sectionHeaderText: {
+    color: vars.blueGrey500,
+    fontSize: 20,
+    fontFamily: vars.fontRegular,
+  },
   renderItemContainer: {
     padding:16,
     alignSelf: 'stretch',
