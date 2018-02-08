@@ -18,7 +18,6 @@ const getSections = userEvents => {
   let currentCreatedDate;
   let currentEventName;
   return userEvents.reduce((val, event, i) => {
-    console.log('loop', i);
     const eventCreatedDate = moment(new Date(event.createdAt)).format(format);
     if (eventCreatedDate !== currentCreatedDate) {
       currentCreatedDate = eventCreatedDate;
@@ -72,8 +71,7 @@ class Timeline extends Component {
 
   setSections = () => {
     const sections = getSections(this.props.userEvents);
-    this.setState({ sections })
-    console.log({ sections });
+    this.setState({ sections });
   };
 
   setInitials = () => {
@@ -83,10 +81,11 @@ class Timeline extends Component {
       loverFirstName,
       loverLastName,
     } = this.props;
+    console.log({ loverFirstName, loverLastName });
     this.setState({
       userInitials: (userFirstName.substr(0,1) + userLastName.substr(0,1)).toUpperCase(),
       loverInitials: (loverFirstName.substr(0,1) + loverLastName.substr(0,1)).toUpperCase(),
-    });
+    }, () => console.log(this.state.loverInitials));
   };
 
   componentWillMount = async () => {
