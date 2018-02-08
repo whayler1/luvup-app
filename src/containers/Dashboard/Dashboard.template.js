@@ -14,9 +14,12 @@ import _ from 'lodash';
 import { Ionicons } from '@expo/vector-icons';
 
 import styles from './Dashboard.styles';
-import { buttons, forms, scene } from '../../styles';
+import { buttons, forms, scene, vars } from '../../styles';
 import config from '../../config';
 import DashboardTopNav from '../../components/DashboardTopNav';
+import CoinArt from '../../components/CoinArt';
+import JalapenoArt from '../../components/JalapenoArt';
+import Hero from '../Hero';
 
 export default ({
   userFirstName,
@@ -29,17 +32,13 @@ export default ({
   loverRequestCreatedAt,
   coinCount,
   jalapenoCount,
-  panResponder,
-  translateY,
-  scale,
-  coinTranslateY,
-  coinOpacity,
-  jalapenoTranslateY,
-  jalapenoOpacity,
+  isFontLoaded,
+  coinsAvailableTime,
+  jalapenosAvailableTime,
+  openModal,
   closeModal,
   isModalOpen,
-  modalMessage,
-  isFontLoaded,
+  modalContent,
 }) => (
   <View
     style={{
@@ -49,30 +48,6 @@ export default ({
       alignItems: 'center',
     }}
   >
-    <Modal
-      visible={isModalOpen}
-      animationType={'slide'}
-      onRequestClose={() => this.closeModal()}
-    >
-      <View style={{
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: 'white'
-      }}>
-        <View style={{ alignItems: 'center', }}>
-          {modalMessage === 'luvups' && <Text>You are allowed to send {config.maxItemsPerHour} Luvups per hour.</Text>}
-          {modalMessage === 'jalapenos' && <Text>You are allowed to send {config.maxItemsPerHour} jalapenos per hour.</Text>}
-          <Button
-            raised
-            onPress={closeModal}
-            containerViewStyle={buttons.infoContainer}
-            buttonStyle={buttons.infoButton}
-            textStyle={buttons.infoText}
-            title={'Dismiss'}
-          />
-        </View>
-      </View>
-    </Modal>
     <DashboardTopNav
       coinCount={coinCount}
       jalapenoCount={jalapenoCount}
@@ -82,70 +57,85 @@ export default ({
       loverLastName={loverLastName}
     />
     {loverRequestUsername.length > 0 && <Text>You sent a loverRequest to {loverRequestUsername} {moment(new Date(loverRequestCreatedAt)).fromNow()}</Text>}
-    <View
-      style={styles.heartView}
-      {...panResponder.panHandlers}
+    <Hero
+      openModal={openModal}
+    />
+    <Modal
+      visible={isModalOpen}
+      animationType={'fade'}
+      onRequestClose={closeModal}
+      transparent={true}
     >
-      <Animated.Image
-        source={require('../../images/heart.png')}
-        style={{
-          width: 300,
-          height: 275,
-          transform: [{
-            translateY
-          }, {
-            scaleX: scale
-          }, {
-            scaleY: scale
-          }]
-        }}
-      />
-      <Animated.View
-        style={{
-          position: 'absolute',
-          width: 60,
-          height: 60,
-          left: '50%',
-          top: '50%',
-          marginLeft: -30,
-          marginTop: -100,
-          opacity: coinOpacity,
-          transform: [{
-            translateY: coinTranslateY
-          }]
-        }}
-      >
-        <Image
-          source={require('../../images/coin.png')}
-          style={{
-            width: 60,
-            height: 60,
-          }}
-        />
-      </Animated.View>
-      <Animated.View
-        style={{
-          position: 'absolute',
-          width: 46,
-          height: 60,
-          left: '50%',
-          top: '50%',
-          marginLeft: -23,
-          marginBottom: -150,
-          opacity: jalapenoOpacity,
-          transform: [{
-            translateY: jalapenoTranslateY
-          }]
-        }}
-      >
-        <Image
-          source={require('../../images/jalapeno.png')}
-          style={{
-            width: 46,
-            height: 60,
-          }}
-        />
-      </Animated.View>
-    </View>
+      <View style={{
+        flex: 1,
+        justifyContent: 'center',
+        backgroundColor: 'rgba(255,255,255,0.7)',
+        padding: 16,
+      }}>
+        <View style={{
+          alignItems: 'center',
+          backgroundColor: 'white',
+          borderRadius: vars.radius,
+          borderColor: vars.blueGrey100,
+          borderWidth: 1,
+          paddingLeft: 16,
+          paddingRight: 16,
+          paddingTop: 32,
+          paddingBottom: 32,
+          shadowColor: vars.blueGrey500,
+          shadowOpacity: 0.3,
+          shadowOffset: {
+            width: 0,
+            height: 2
+          },
+          shadowRadius: 2,
+        }}>
+          <View>
+            {modalContent === 'coin' && <CoinArt
+              recentlySentCoinCount={config.maxItemsPerHour}
+            />}
+            {modalContent === 'jalapeno' && <JalapenoArt
+              recentlySentJalapenoCount={config.maxItemsPerHour}
+            />}
+          </View>
+          <View style={{
+            marginTop: 16,
+            alignItems: 'center',
+          }}>
+            <Text style={{
+              fontFamily: vars.fontBlack,
+              fontSize: 30,
+              textAlign: 'center',
+              color: vars.p,
+            }}>
+              {modalContent === 'coin' && 'Hourly Luvup\nLimit Exceeded'}
+              {modalContent === 'jalapeno' && 'Hourly Jalapeno\nLimit Exceeded'}
+            </Text>
+            <Text style={{
+              fontFamily: vars.fontRegular,
+              fontSize: 20,
+              marginTop: 16,
+              color: vars.p,
+            }}>
+              {modalContent === 'coin' && `Wow! ${loverFirstName} must be on fire right now. You've sent the max hourly limit of ${config.maxItemsPerHour} luvups. You'll have the opportunity to send another luvup ${coinsAvailableTime}.`}
+              {modalContent === 'jalapeno' && `Looks like things are getting spicy with ${loverFirstName} right now. You've sent the max hourly limit of ${config.maxItemsPerHour} jalapenos. You'll have the oportunity to send another jalapeno is ${jalapenosAvailableTime}.`}
+            </Text>
+          </View>
+          <View style={{
+            marginTop: 32,
+            alignSelf: 'stretch',
+          }}>
+            <Button
+              raised
+              onPress={closeModal}
+              containerViewStyle={buttons.infoContainer}
+              buttonStyle={buttons.infoButton}
+              textStyle={buttons.infoText}
+              title='Dismiss'
+            />
+          </View>
+        </View>
+      </View>
+    </Modal>
   </View>
 );
