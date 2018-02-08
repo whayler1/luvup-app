@@ -89,6 +89,8 @@ export default ({
   userEvents,
   goToDashboard,
   sections,
+  userInitials,
+  loverInitials,
 }) => (
   <View style={scene.container}>
     <View
@@ -132,6 +134,11 @@ export default ({
         style={{
           alignSelf: 'stretch',
         }}
+        ListHeaderComponent={<View>
+          <Text>list header component</Text>
+          <Text>{userInitials}</Text>
+          <Text>{loverInitials}</Text>
+        </View>}
         renderItem={({item}) => (
           <View style={{
             padding:16,
