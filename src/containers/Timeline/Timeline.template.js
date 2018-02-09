@@ -13,6 +13,7 @@ import { buttons, forms, scene, vars } from '../../styles';
 import renderItem from './Timeline.renderItem.template';
 import renderSectionHeader from './Timeline.renderSectionHeader.template';
 import ListHeaderComponent from './Timeline.ListHeaderComponent.template';
+import Preloader from '../../components/Preloader';
 
 const keyExtractor = item => item.id;
 
@@ -24,8 +25,10 @@ export default ({
   userEvents,
   goToDashboard,
   sections,
+  isSectionsLoaded,
   userInitials,
   loverInitials,
+  onEndReached,
 }) => (
   <View style={{
     flex: 1,
@@ -58,7 +61,10 @@ export default ({
         alignSelf: 'stretch',
       }}
     >
-      <SectionList
+      {!isSectionsLoaded && <Preloader
+        marginTop={32}
+      />}
+      {isSectionsLoaded && <SectionList
         style={styles.sectionLists}
         ListHeaderComponent={<ListHeaderComponent
           {...{
@@ -73,7 +79,8 @@ export default ({
         renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}
         sections={sections}
-      />
+        onEndReached={onEndReached}
+      />}
     </View>
   </View>
 );

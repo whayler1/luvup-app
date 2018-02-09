@@ -13,10 +13,11 @@ export default function reducer(state = defaultState, action) {
   switch(action.type) {
     case GET_USER_EVENTS:
     case SET_USER_EVENTS:
-      return _.pick(action, [
-        'rows',
-        'count',
-      ]);
+      return {
+        ...state,
+        rows: [...state.rows, ...action.rows],
+        count: action.count,
+      }
     default:
       return state;
   }
