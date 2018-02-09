@@ -21,9 +21,9 @@ const getEventDisplayName = (eventName, count) => {
 
   switch (eventName) {
     case 'coin-sent':
-      return `Coin${plur} sent`;
+      return `Luvup${plur} sent`;
     case 'coin-received':
-      return `Coin${plur} received`;
+      return `Luvup${plur} received`;
     case 'jalapeno-sent':
       return `Jalapeno${plur} sent`;
     case 'jalapeno-received':
