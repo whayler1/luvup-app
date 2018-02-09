@@ -64,7 +64,6 @@ export default ({
         alignSelf: 'stretch',
       }}
     >
-      <Text>Timeline {sentCoinsCount}, { sentJalapenosCount}</Text>
       <SectionList
         style={styles.sectionLists}
         ListHeaderComponent={<ListHeaderComponent

@@ -12,7 +12,15 @@ export default new StyleSheet.create({
   leaderboardSlot: {
     paddingLeft: 16,
     paddingRight: 16,
-    paddingTop: 16,
+    paddingTop: 32,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  leaderboardText: {
+    marginLeft: 8,
+    fontFamily: vars.fontBlack,
+    fontSize: 20,
+    color: vars.blueGrey500,
   },
   sectionHeaderContainer: {
     padding: 16,
