@@ -15,6 +15,7 @@ import { buttons, forms, scene, modal, vars } from '../../styles';
 import renderItem from './Timeline.renderItem.template';
 import renderSectionHeader from './Timeline.renderSectionHeader.template';
 import ListHeaderComponent from './Timeline.ListHeaderComponent.template';
+import ListFooterComponent from './Timeline.ListFooterComponent.template';
 import Preloader from '../../components/Preloader';
 
 const keyExtractor = item => item.id;
@@ -27,12 +28,14 @@ export default ({
   userEvents,
   goToDashboard,
   sections,
+  placeholderSections,
   isSectionsLoaded,
   userInitials,
   loverInitials,
   onEndReached,
   isModalVisible,
   closeModal,
+  isAtEndOfList,
 }) => (
   <View style={{
     flex: 1,
@@ -79,6 +82,9 @@ export default ({
             sentCoinsCount,
             sentJalapenosCount,
           }}
+        />}
+        ListFooterComponent={<ListFooterComponent
+          isPreloaderVisible={isAtEndOfList}
         />}
         renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}

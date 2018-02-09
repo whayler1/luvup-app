@@ -9,6 +9,7 @@ import _ from 'lodash';
 import {
   setUserEvents as setUserEventsAction,
   getUserEvents as getUserEventsAction,
+  clearUserEvents as clearUserEventsAction,
 } from '../../redux/userEvents/userEvents.actions';
 import { setSentCoinsCount as setSentCoinsCountAction } from '../../redux/coin/coin.actions';
 import { setSentJalapenosCount as setSentJalapenosCountAction } from '../../redux/jalapeno/jalapeno.actions';
@@ -64,6 +65,7 @@ class Timeline extends Component {
     userEventsCount: PropTypes.number,
     setUserEvents: PropTypes.func.isRequired,
     getUserEvents: PropTypes.func.isRequired,
+    clearUserEvents: PropTypes.func.isRequired,
     setSentCoinsCount: PropTypes.func.isRequired,
     setSentJalapenosCount: PropTypes.func.isRequired,
   };
@@ -74,12 +76,13 @@ class Timeline extends Component {
     isSectionsLoaded: false,
     offset: 0,
     isModalVisible: false,
+    isAtEndOfList: false,
   }
 
   closeModal = () => this.setState({ isModalVisible: false });
 
   getMoreUserEvents = async () => {
-    const res = await this.props.getUserEvents(userEventsLimit, this.state.offset);
+    const res = await this.props.getUserEvents(userEventsLimit, this.state.offset, true);
   }
 
   onEndReached = () => {
@@ -89,6 +92,8 @@ class Timeline extends Component {
       this.setState({
         offset: this.state.offset + 1,
       }, this.getMoreUserEvents);
+    } else {
+      this.setState({ isAtEndOfList: true });
     }
     /**
      * - do not do anything if sections havent loaded yet.
@@ -193,6 +198,7 @@ export default connect(
   {
     setUserEvents: setUserEventsAction,
     getUserEvents: getUserEventsAction,
+    clearUserEvents: clearUserEventsAction,
     setSentCoinsCount: setSentCoinsCountAction,
     setSentJalapenosCount: setSentJalapenosCountAction,
   }
