@@ -12,7 +12,7 @@ export default new StyleSheet.create({
   leaderboardSlot: {
     paddingLeft: 16,
     paddingRight: 16,
-    paddingTop: 32,
+    paddingTop: 16,
     flexDirection: 'row',
     alignItems: 'center',
   },

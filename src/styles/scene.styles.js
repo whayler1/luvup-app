@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
 
+import vars from './vars';
+
 export default StyleSheet.create({
   container: {
     flex: 1,
@@ -9,7 +11,7 @@ export default StyleSheet.create({
   },
   topNav: {
     position: 'absolute',
-    backgroundColor: 'rgba(100,50,200,0.3)',
+    backgroundColor: 'white',
     top: 0,
     left: 0,
     right: 0,
@@ -18,6 +20,8 @@ export default StyleSheet.create({
     paddingRight: 16,
     paddingBottom: 8,
     marginTop: 28,
+    borderBottomColor: vars.blueGrey100,
+    borderBottomWidth: 1,
     zIndex: 10,
   },
   topNavContent: {

@@ -4,6 +4,8 @@ const blueGrey50 = '#ECEFF1';
 const blueGrey100 = '#CFD8DC';
 const blueGrey500 = '#607D8B';
 const blueGrey700 = '#455A64';
+const blueGrey800 = '#37474F';
+const blueGrey900 = '#263238';
 const blue500 = '#03A9F4';
 const cyan300 = '#4DD0E1';
 const purple500 = '#9C27B0';
@@ -23,6 +25,8 @@ export default {
   blueGrey100,
   blueGrey500,
   blueGrey700,
+  blueGrey800,
+  blueGrey900,
   cyan300,
   // hero
   blue500,

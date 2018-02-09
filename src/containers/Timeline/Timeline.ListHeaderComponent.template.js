@@ -27,19 +27,20 @@ const leaderboardSlot = ({
 }) => (
   <View style={styles.leaderboardSlot}>
     <View style={{
-      width: circumfrance,
-      height: circumfrance,
+      width: 44,
+      height: 44,
       justifyContent: 'center',
       alignItems: 'center',
     }}>
       <Surface
-        width={42}
-        height={42}
+        width={44}
+        height={44}
       >
-        <Group>
+        <Group x={1} y={1}>
           <Circle
             radius={21}
-            fill={vars.blueGrey500}
+            stroke={vars.blueGrey500}
+            strokeColor={2}
           />
         </Group>
       </Surface>
@@ -47,7 +48,7 @@ const leaderboardSlot = ({
         style={{
           position: 'absolute',
           backgroundColor: 'transparent',
-          color: 'white',
+          color: vars.blueGrey800,
           fontFamily: vars.fontBlack,
           fontSize: 20,
         }}
@@ -72,7 +73,7 @@ const leaderboardSlot = ({
       <Image
         source={jalapenoImg}
         style={{
-          width: 25,
+          width: 27,
           height: circumfrance,
           marginLeft: 16,
         }}

@@ -6,6 +6,8 @@ import {
   Image,
 } from 'react-native';
 
+import { vars } from '../../styles';
+
 export default ({
   coinCount,
   jalapenoCount,
@@ -47,6 +49,7 @@ export default ({
           paddingLeft: 5,
           fontFamily: 'latoblack',
           fontSize: 16,
+          color: vars.blueGrey500,
         }}
       >{coinCount}</Text>
       <Image
@@ -62,6 +65,7 @@ export default ({
           paddingLeft: 5,
           fontFamily: 'latoblack',
           fontSize: 16,
+          color: vars.blueGrey500,
         }}
       >{jalapenoCount}</Text>
     </TouchableOpacity>
@@ -90,8 +94,11 @@ export default ({
         style={{
           fontFamily: 'latoblack',
           fontSize: 16,
+          color: vars.blueGrey500,
         }}
-      >{userFirstName.substr(0,1)}{userLastName.substr(0,1)} + {loverFirstName.substr(0,1)}{loverLastName.substr(0,1)}</Text>
+      >
+        {userFirstName.substr(0,1)}{userLastName.substr(0,1)} + {loverFirstName.substr(0,1)}{loverLastName.substr(0,1)}
+      </Text>
     </TouchableOpacity>
   </View>
 );
