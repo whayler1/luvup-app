@@ -6,10 +6,12 @@ import {
   Image,
   SectionList,
   Header,
+  Modal,
 } from 'react-native';
+import { Button } from 'react-native-elements';
 
 import styles from './Timeline.styles';
-import { buttons, forms, scene, vars } from '../../styles';
+import { buttons, forms, scene, modal, vars } from '../../styles';
 import renderItem from './Timeline.renderItem.template';
 import renderSectionHeader from './Timeline.renderSectionHeader.template';
 import ListHeaderComponent from './Timeline.ListHeaderComponent.template';
@@ -29,6 +31,8 @@ export default ({
   userInitials,
   loverInitials,
   onEndReached,
+  isModalVisible,
+  closeModal,
 }) => (
   <View style={{
     flex: 1,
@@ -65,7 +69,7 @@ export default ({
         marginTop={32}
       />}
       {isSectionsLoaded && <SectionList
-        style={styles.sectionLists}
+        style={styles.sectionList}
         ListHeaderComponent={<ListHeaderComponent
           {...{
             coinCount,
@@ -82,5 +86,31 @@ export default ({
         onEndReached={onEndReached}
       />}
     </View>
+    <Modal
+      visible={isModalVisible}
+      animationType={'fade'}
+      transparent={true}
+    >
+      <View style={modal.outerContainer}>
+        <View style={modal.innerContainer}>
+          <Text style={modal.title}>
+            Error
+          </Text>
+          <Text style={modal.copy}>
+            There was an error loading your timeline. Most likely this is due to network conectivity.
+          </Text>
+          <View style={modal.buttonContainer}>
+            <Button
+              raised
+              onPress={closeModal}
+              containerViewStyle={buttons.infoContainer}
+              buttonStyle={buttons.infoButton}
+              textStyle={buttons.infoText}
+              title='Dismiss'
+            />
+          </View>
+        </View>
+      </View>
+    </Modal>
   </View>
 );
