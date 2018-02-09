@@ -85,7 +85,7 @@ class Timeline extends Component {
     const res = await this.props.getUserEvents(userEventsLimit, this.state.offset, true);
   }
 
-  onEndReached = () => {
+  onEndReached = _.throttle(() => {
     console.log('\n\nonEndReached', this.state.isSectionsLoaded);
     if (this.state.isSectionsLoaded &&
         (userEventsLimit * this.state.offset) < this.props.userEventsCount) {
@@ -99,7 +99,7 @@ class Timeline extends Component {
      * - do not do anything if sections havent loaded yet.
      * - do not do anything if # items loaded is equal to or more then count
      */
-  };
+  }, 250);
 
   goToDashboard = () => Actions.dashboard();
 
