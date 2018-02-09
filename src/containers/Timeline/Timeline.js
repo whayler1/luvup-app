@@ -5,7 +5,10 @@ import { Actions } from 'react-native-router-flux';
 import superagent from 'superagent';
 import moment from 'moment';
 
-import { setUserEvents as setUserEventsAction } from '../../redux/userEvents/userEvents.actions';
+import {
+  setUserEvents as setUserEventsAction,
+  getUserEvents as getUserEventsAction,
+} from '../../redux/userEvents/userEvents.actions';
 import { setSentCoinsCount as setSentCoinsCountAction } from '../../redux/coin/coin.actions';
 import { setSentJalapenosCount as setSentJalapenosCountAction } from '../../redux/jalapeno/jalapeno.actions';
 import config from '../../config';
@@ -57,7 +60,9 @@ class Timeline extends Component {
     sentCoinsCount: PropTypes.number,
     sentJalapenosCount: PropTypes.number,
     userEvents: PropTypes.array,
+    userEventsCount: PropTypes.number,
     setUserEvents: PropTypes.func.isRequired,
+    getUserEvents: PropTypes.func.isRequired,
     setSentCoinsCount: PropTypes.func.isRequired,
     setSentJalapenosCount: PropTypes.func.isRequired,
   };
@@ -65,13 +70,38 @@ class Timeline extends Component {
   state = {
     prevMostRecentUserEvent: undefined,
     sections: [],
+    isSectionsLoaded: false,
+    offset: 0,
   }
+
+  getMoreUserEvents = async () => {
+    const res = await this.props.getUserEvents(userEventsLimit, this.state.offset);
+  }
+
+  onEndReached = () => {
+    console.log('\n\nonEndReached', this.state.isSectionsLoaded);
+    if (this.state.isSectionsLoaded &&
+        (userEventsLimit * this.state.offset) < this.props.userEventsCount) {
+      this.setState({
+        offset: this.state.offset + 1,
+      }, this.getMoreUserEvents);
+    }
+    /**
+     * - do not do anything if sections havent loaded yet.
+     * - do not do anything if # items loaded is equal to or more then count
+     */
+  };
 
   goToDashboard = () => Actions.dashboard();
 
   setSections = () => {
     const sections = getSections(this.props.userEvents);
-    this.setState({ sections });
+    /**
+     * JW: we have to stagger "isSectionsLoaded" to happen one frame after
+     * adding sections so the sections can draw before we fire onEndReached
+     */
+    this.setState({ sections },
+      () => setTimeout(() => this.setState({ isSectionsLoaded: true }), 500));
   };
 
   setInitials = () => {
@@ -136,6 +166,7 @@ class Timeline extends Component {
       {...this.props}
       {...this.state}
       goToDashboard={this.goToDashboard}
+      onEndReached={this.onEndReached}
     />;
   }
 }
@@ -151,9 +182,11 @@ export default connect(
     sentCoinsCount: state.coin.sentCoinsCount,
     sentJalapenosCount: state.jalapeno.sentJalapenosCount,
     userEvents: state.userEvents.rows,
+    userEventsCount: state.userEvents.count,
   }),
   {
     setUserEvents: setUserEventsAction,
+    getUserEvents: getUserEventsAction,
     setSentCoinsCount: setSentCoinsCountAction,
     setSentJalapenosCount: setSentJalapenosCountAction,
   }
