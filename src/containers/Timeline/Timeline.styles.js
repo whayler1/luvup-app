@@ -9,6 +9,11 @@ export default new StyleSheet.create({
     backgroundColor: 'white',
     paddingBottom: 16,
   },
+  listFooterContainer: {
+    backgroundColor: 'white',
+    paddingBottom: 16,
+    paddingTop: 16,
+  },
   leaderboardSlot: {
     paddingLeft: 16,
     paddingRight: 16,
