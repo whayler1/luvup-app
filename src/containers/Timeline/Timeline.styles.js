@@ -24,23 +24,25 @@ export default new StyleSheet.create({
   },
   sectionHeaderContainer: {
     padding: 16,
-    borderBottomColor: vars.blueGrey100,
+    borderBottomColor: vars.blueGrey50,
     borderBottomWidth: 1,
     alignSelf: 'stretch',
     backgroundColor: 'white',
   },
   sectionHeaderText: {
-    color: vars.blueGrey500,
+    color: vars.blueGrey800,
     fontSize: 20,
     fontFamily: vars.fontRegular,
   },
   renderItemContainer: {
-    padding:16,
+    paddingTop: 16,
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingBottom: 8,
     alignSelf: 'stretch',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    borderBottomColor: vars.blueGrey50,
-    borderBottomWidth: 1,
+    alignItems: 'center',
   },
   renderItemContent: {
     flexDirection: 'row',
@@ -55,6 +57,6 @@ export default new StyleSheet.create({
   renderItemContentSmall: {
     color: vars.blueGrey500,
     fontSize: 14,
-    fontFamily: vars.fontRegular
+    fontFamily: vars.fontRegular,
   },
 });

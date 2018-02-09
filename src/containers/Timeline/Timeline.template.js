@@ -31,6 +31,7 @@ export default ({
     flex: 1,
     backgroundColor: 'transparent',
     alignItems: 'center',
+    backgroundColor: 'white',
   }}>
     <View
       style={scene.topNav}
@@ -38,7 +39,6 @@ export default ({
       <TouchableOpacity
         onPress={goToDashboard}
         style={{
-          paddingRight: 10,
           flex: 1,
           alignItems: 'flex-end',
         }}
