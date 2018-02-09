@@ -14,7 +14,7 @@ import _ from 'lodash';
 import { Ionicons } from '@expo/vector-icons';
 
 import styles from './Dashboard.styles';
-import { buttons, forms, scene, vars } from '../../styles';
+import { buttons, forms, scene, modal, vars } from '../../styles';
 import config from '../../config';
 import DashboardTopNav from '../../components/DashboardTopNav';
 import CoinArt from '../../components/CoinArt';
@@ -66,30 +66,8 @@ export default ({
       onRequestClose={closeModal}
       transparent={true}
     >
-      <View style={{
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: 'rgba(255,255,255,0.7)',
-        padding: 16,
-      }}>
-        <View style={{
-          alignItems: 'center',
-          backgroundColor: 'white',
-          borderRadius: vars.radius,
-          borderColor: vars.blueGrey100,
-          borderWidth: 1,
-          paddingLeft: 16,
-          paddingRight: 16,
-          paddingTop: 32,
-          paddingBottom: 32,
-          shadowColor: vars.blueGrey500,
-          shadowOpacity: 0.3,
-          shadowOffset: {
-            width: 0,
-            height: 2
-          },
-          shadowRadius: 2,
-        }}>
+      <View style={modal.outerContainer}>
+        <View style={modal.innerContainer}>
           <View>
             {modalContent === 'coin' && <CoinArt
               recentlySentCoinCount={config.maxItemsPerHour}
@@ -102,29 +80,16 @@ export default ({
             marginTop: 16,
             alignItems: 'center',
           }}>
-            <Text style={{
-              fontFamily: vars.fontBlack,
-              fontSize: 30,
-              textAlign: 'center',
-              color: vars.p,
-            }}>
+            <Text style={modal.title}>
               {modalContent === 'coin' && 'Hourly Luvup\nLimit Exceeded'}
               {modalContent === 'jalapeno' && 'Hourly Jalapeno\nLimit Exceeded'}
             </Text>
-            <Text style={{
-              fontFamily: vars.fontRegular,
-              fontSize: 20,
-              marginTop: 16,
-              color: vars.p,
-            }}>
+            <Text style={modal.copy}>
               {modalContent === 'coin' && `Wow! ${loverFirstName} must be on fire right now. You've sent the max hourly limit of ${config.maxItemsPerHour} luvups. You'll have the opportunity to send another luvup ${coinsAvailableTime}.`}
               {modalContent === 'jalapeno' && `Looks like things are getting spicy with ${loverFirstName} right now. You've sent the max hourly limit of ${config.maxItemsPerHour} jalapenos. You'll have the oportunity to send another jalapeno is ${jalapenosAvailableTime}.`}
             </Text>
           </View>
-          <View style={{
-            marginTop: 32,
-            alignSelf: 'stretch',
-          }}>
+          <View style={modal.buttonContainer}>
             <Button
               raised
               onPress={closeModal}

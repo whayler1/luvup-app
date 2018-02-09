@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import superagent from 'superagent';
 import moment from 'moment';
+import _ from 'lodash';
 
 import {
   setUserEvents as setUserEventsAction,
@@ -72,7 +73,10 @@ class Timeline extends Component {
     sections: [],
     isSectionsLoaded: false,
     offset: 0,
+    isModalVisible: false,
   }
+
+  closeModal = () => this.setState({ isModalVisible: false });
 
   getMoreUserEvents = async () => {
     const res = await this.props.getUserEvents(userEventsLimit, this.state.offset);
@@ -141,7 +145,7 @@ class Timeline extends Component {
 
     try {
       const res = await superagent.post(config.graphQlUrl, { query });
-      // console.log('componentWillMount res', res.body.data);
+
       const { userEvents, sentCoins, sentJalapenos } = res.body.data;
       const { setUserEvents, setSentCoinsCount, setSentJalapenosCount } = this.props;
 
@@ -151,6 +155,7 @@ class Timeline extends Component {
       console.log('userEvents', this.props.userEvents.length);
       this.setSections();
     } catch (err) {
+      this.setState({ isModalVisible: true });
       console.log('componentWillMount err', err);
     }
   }
@@ -167,6 +172,7 @@ class Timeline extends Component {
       {...this.state}
       goToDashboard={this.goToDashboard}
       onEndReached={this.onEndReached}
+      closeModal={this.closeModal}
     />;
   }
 }
