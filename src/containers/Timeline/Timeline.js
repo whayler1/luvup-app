@@ -86,7 +86,10 @@ class Timeline extends Component {
   }
 
   onEndReached = _.throttle(() => {
-    console.log('\n\nonEndReached', this.state.isSectionsLoaded);
+    /**
+     * - do not do anything if sections havent loaded yet.
+     * - do not do anything if # items loaded is equal to or more then count
+     */
     if (this.state.isSectionsLoaded &&
         (userEventsLimit * this.state.offset) < this.props.userEventsCount) {
       this.setState({
@@ -95,10 +98,6 @@ class Timeline extends Component {
     } else {
       this.setState({ isAtEndOfList: true });
     }
-    /**
-     * - do not do anything if sections havent loaded yet.
-     * - do not do anything if # items loaded is equal to or more then count
-     */
   }, 250);
 
   goToDashboard = () => Actions.dashboard();
@@ -140,12 +139,8 @@ class Timeline extends Component {
         }
         count
       }
-      sentCoins(limit: 0) {
-        count
-      }
-      sentJalapenos(limit: 0) {
-        count
-      }
+      sentCoins(limit: 0) { count }
+      sentJalapenos(limit: 0) { count }
     }`;
 
     try {
@@ -161,7 +156,7 @@ class Timeline extends Component {
       this.setSections();
     } catch (err) {
       this.setState({ isModalVisible: true });
-      console.log('componentWillMount err', err);
+      console.log('Timeline componentWillMount err', err);
     }
   }
 

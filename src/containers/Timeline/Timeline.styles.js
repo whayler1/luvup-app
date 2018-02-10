@@ -1,26 +1,46 @@
 import { StyleSheet } from 'react-native';
 import { vars } from '../../styles';
 
+const renderItemContainer = {
+  paddingTop: 16,
+  paddingLeft: 16,
+  paddingRight: 16,
+  paddingBottom: 8,
+  alignSelf: 'stretch',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+};
+const renderItemContainerLast = {
+  ...renderItemContainer,
+  paddingBottom: 24,
+};
+const leaderboardSlot = {
+  paddingLeft: 16,
+  paddingRight: 16,
+  flexDirection: 'row',
+  alignItems: 'center',
+};
+const leaderboardSlotSecond = {
+  ...leaderboardSlot,
+  paddingTop: 16,
+};
+
 export default new StyleSheet.create({
   sectionList: {
     alignSelf: 'stretch',
   },
   listHeaderContainer: {
     backgroundColor: 'white',
-    paddingBottom: 16,
+    paddingBottom: 24,
   },
   listFooterContainer: {
     backgroundColor: 'white',
     paddingBottom: 16,
     paddingTop: 16,
   },
-  leaderboardSlot: {
-    paddingLeft: 16,
-    paddingRight: 16,
-    paddingTop: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
+  leaderboardSlot,
+  leaderboardSlotSecond,
   leaderboardText: {
     marginLeft: 8,
     fontFamily: vars.fontBlack,
@@ -28,8 +48,11 @@ export default new StyleSheet.create({
     color: vars.blueGrey500,
   },
   sectionHeaderContainer: {
-    padding: 16,
-    borderBottomColor: vars.blueGrey50,
+    paddingTop: 0,
+    paddingLeft: 16,
+    paddingRight: 16,
+    paddingBottom: 16,
+    borderBottomColor: vars.blueGrey100,
     borderBottomWidth: 1,
     alignSelf: 'stretch',
     backgroundColor: 'white',
@@ -37,18 +60,10 @@ export default new StyleSheet.create({
   sectionHeaderText: {
     color: vars.blueGrey800,
     fontSize: 20,
-    fontFamily: vars.fontRegular,
+    fontFamily: vars.fontBlack,
   },
-  renderItemContainer: {
-    paddingTop: 16,
-    paddingLeft: 16,
-    paddingRight: 16,
-    paddingBottom: 8,
-    alignSelf: 'stretch',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
+  renderItemContainer,
+  renderItemContainerLast,
   renderItemContent: {
     flexDirection: 'row',
     alignItems: 'center',

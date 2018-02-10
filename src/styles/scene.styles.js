@@ -20,8 +20,6 @@ export default StyleSheet.create({
     paddingRight: 8,
     paddingBottom: 8,
     marginTop: 28,
-    borderBottomColor: vars.blueGrey100,
-    borderBottomWidth: 1,
     zIndex: 10,
   },
   topNavContent: {
