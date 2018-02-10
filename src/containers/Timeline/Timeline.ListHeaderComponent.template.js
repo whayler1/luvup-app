@@ -24,8 +24,9 @@ const leaderboardSlot = ({
   initials,
   coinCount,
   jalapenoCount,
+  isSecond,
 }) => (
-  <View style={styles.leaderboardSlot}>
+  <View style={isSecond ? styles.leaderboardSlotSecond : styles.leaderboardSlot}>
     <View style={{
       width: 44,
       height: 44,
@@ -66,7 +67,7 @@ const leaderboardSlot = ({
         style={{
           width: 36,
           height: circumfrance,
-          marginLeft: 32,
+          marginLeft: 16,
         }}
       />
       <Text style={styles.leaderboardText}>{ coinCount }</Text>
@@ -101,6 +102,7 @@ export default ({
       initials: loverInitials,
       coinCount: sentCoinsCount,
       jalapenoCount: sentJalapenosCount,
+      isSecond: true,
     })}
   </View>
 );

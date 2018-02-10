@@ -79,8 +79,8 @@ const getEventImage = eventName => {
   }
 };
 
-export default ({ item }) => (
-  <View style={styles.renderItemContainer}>
+export default ({ item, index, section, }) => (
+  <View style={index + 1 === section.data.length ? styles.renderItemContainerLast : styles.renderItemContainer}>
     <View style={styles.renderItemContent}>
       {getEventImage(item.name)}
       <Text style={styles.renderItemContentText}>
