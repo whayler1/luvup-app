@@ -4,12 +4,14 @@ import {
   GET_COIN_COUNT,
   SET_SENT_COINS,
   SET_SENT_COINS_COUNT,
+  SET_UNVIEWED_COIN_COUNT,
 } from './coin.actions';
 
 const defaultState = {
   sentCoins: [],
   sentCoinsCount: null,
   count: null,
+  unviewedCoinCount: 0,
 };
 
 export default function reducer(state = defaultState, action) {
@@ -35,6 +37,11 @@ export default function reducer(state = defaultState, action) {
       return {
         ...state,
         sentCoinsCount: action.sentCoinsCount,
+      }
+    case SET_UNVIEWED_COIN_COUNT:
+      return {
+        ...state,
+        unviewedCoinCount: action.unviewedCoinCount,
       }
     default:
       return state;

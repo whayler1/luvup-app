@@ -30,9 +30,12 @@ class Dashboard extends Component {
     jalapenoCount: PropTypes.number,
     sentCoins: PropTypes.array,
     sentJalapenos: PropTypes.array,
+    unviewedCoinCount: PropTypes.number,
+    unviewedJalapenoCount: PropTypes.number,
   };
 
   state = {
+    isPushdownVisible: false,
     isModalOpen: false,
     modalContent: undefined,
     coinsAvailableTime: undefined,
@@ -52,6 +55,7 @@ class Dashboard extends Component {
   closeModal = () => this.setState({
     isModalOpen: false,
   });
+  closePushdown = () => this.setState({ isPushdownVisible: false });
 
   setAvailableTime(collection, stateKey) {
     const now = moment();
@@ -65,6 +69,17 @@ class Dashboard extends Component {
     this.props.getCoinCount();
     this.props.getJalapenoCount();
   };
+
+  componentDidMount() {
+    const {
+      unviewedCoinCount,
+      unviewedJalapenoCount,
+    } = this.props;
+
+    if (unviewedCoinCount > 0 || unviewedJalapenoCount > 0) {
+      this.setState({ isPushdownVisible: true });
+    }
+  }
 
   render() {
     return <Template
@@ -80,6 +95,9 @@ class Dashboard extends Component {
       jalapenoCount={this.props.jalapenoCount}
       openModal={this.openModal}
       closeModal={this.closeModal}
+      closePushdown={this.closePushdown}
+      unviewedCoinCount={this.props.unviewedCoinCount}
+      unviewedJalapenoCount={this.props.unviewedJalapenoCount}
       {...this.state}
     />;
   }
@@ -99,6 +117,8 @@ export default connect(
     jalapenoCount: state.jalapeno.count,
     sentCoins: state.coin.sentCoins,
     sentJalapenos: state.jalapeno.sentJalapenos,
+    unviewedCoinCount: state.coin.unviewedCoinCount,
+    unviewedJalapenoCount: state.jalapeno.unviewedJalapenoCount,
   }),
   {
     getCoinCount: getCoinCountAction,
