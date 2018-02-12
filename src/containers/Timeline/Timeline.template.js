@@ -84,7 +84,7 @@ export default ({
           }}
         />}
         ListFooterComponent={<ListFooterComponent
-          isPreloaderVisible={isAtEndOfList}
+          isPreloaderVisible={!isAtEndOfList}
         />}
         renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}

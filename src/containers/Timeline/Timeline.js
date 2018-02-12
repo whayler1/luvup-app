@@ -74,7 +74,7 @@ class Timeline extends Component {
     prevMostRecentUserEvent: undefined,
     sections: [],
     isSectionsLoaded: false,
-    offset: 0,
+    page: 0,
     isModalVisible: false,
     isAtEndOfList: false,
   }
@@ -82,7 +82,7 @@ class Timeline extends Component {
   closeModal = () => this.setState({ isModalVisible: false });
 
   getMoreUserEvents = async () => {
-    const res = await this.props.getUserEvents(userEventsLimit, this.state.offset, true);
+    const res = await this.props.getUserEvents(userEventsLimit, this.state.page * userEventsLimit, true);
   }
 
   onEndReached = _.throttle(() => {
@@ -91,9 +91,9 @@ class Timeline extends Component {
      * - do not do anything if # items loaded is equal to or more then count
      */
     if (this.state.isSectionsLoaded &&
-        (userEventsLimit * this.state.offset) < this.props.userEventsCount) {
+        (userEventsLimit * (this.state.page + 1)) < this.props.userEventsCount) {
       this.setState({
-        offset: this.state.offset + 1,
+        page: this.state.page + 1,
       }, this.getMoreUserEvents);
     } else {
       this.setState({ isAtEndOfList: true });
@@ -119,11 +119,11 @@ class Timeline extends Component {
       loverFirstName,
       loverLastName,
     } = this.props;
-    console.log({ loverFirstName, loverLastName });
+
     this.setState({
       userInitials: (userFirstName.substr(0,1) + userLastName.substr(0,1)).toUpperCase(),
       loverInitials: (loverFirstName.substr(0,1) + loverLastName.substr(0,1)).toUpperCase(),
-    }, () => console.log(this.state.loverInitials));
+    });
   };
 
   componentWillMount = async () => {
@@ -152,7 +152,7 @@ class Timeline extends Component {
       setUserEvents(userEvents.rows, userEvents.count);
       setSentCoinsCount(sentCoins.count);
       setSentJalapenosCount(sentJalapenos.count);
-      console.log('userEvents', this.props.userEvents.length);
+
       this.setSections();
     } catch (err) {
       this.setState({ isModalVisible: true });
