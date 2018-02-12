@@ -17,18 +17,19 @@ import config from '../../config';
 import Template from './Timeline.template';
 
 const userEventsLimit = 100;
-const format = 'YYYY-MM-DD';
+const format = 'ddd, MMM DD, YYYY';
 
 const getSections = userEvents => {
   let currentCreatedDate;
   let currentEventName;
+  const today = moment().format(format);
   return userEvents.reduce((val, event, i) => {
     const eventCreatedDate = moment(new Date(event.createdAt)).format(format);
     if (eventCreatedDate !== currentCreatedDate) {
       currentCreatedDate = eventCreatedDate;
       currentEventName = undefined;
       val.push({
-        title: moment(currentCreatedDate).format('ddd, MMM DD, YYYY'),
+        title: currentCreatedDate === today ? 'Today' : currentCreatedDate,
         data: [],
       });
     }

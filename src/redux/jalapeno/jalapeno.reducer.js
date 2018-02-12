@@ -4,18 +4,19 @@ import {
   SET_SENT_JALAPENOS,
   SET_SENT_JALAPENOS_COUNT,
   GET_JALAPENO_COUNT,
+  SET_UNVIEWED_JALAPENO_COUNT,
 } from './jalapeno.actions';
 
 const defaultState = {
   sentJalapenos: [],
   sentJalapenosCount: null,
   count: null,
+  unviewedJalapenoCount: 0,
 };
 
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
     case SEND_JALAPENO:
-      const count = _.isNull(state.count) ? 1 : state.count++;
       return {
         ...state,
         sentJalapenos: [action.jalapeno, ...state.sentJalapenos],
@@ -35,6 +36,11 @@ export default function reducer(state = defaultState, action) {
       return {
         ...state,
         count: action.count
+      }
+    case SET_UNVIEWED_JALAPENO_COUNT:
+      return {
+        ...state,
+        unviewedJalapenoCount: action.unviewedJalapenoCount,
       }
     default:
       return state;

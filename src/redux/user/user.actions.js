@@ -6,8 +6,8 @@ import config from '../../config';
 import { setLover } from '../lover/lover.actions';
 import { SET_LOVER_REQUEST } from '../loverRequest/loverRequest.actions';
 import { setRelationship } from '../relationship/relationship.actions';
-import { setSentCoins } from '../coin/coin.actions';
-import { setSentJalapenos } from '../jalapeno/jalapeno.actions';
+import { setSentCoins, setUnviewedCoinCount } from '../coin/coin.actions';
+import { setSentJalapenos, setUnviewedJalapenoCount } from '../jalapeno/jalapeno.actions';
 
 export const SET_USER = 'user/set-user';
 export const LOGIN = 'user/login';
@@ -91,6 +91,9 @@ export const getMe = () => async dispatch => {
           }
           count
         }
+        unviewedEventCounts {
+          coinsReceived jalapenosReceived
+        }
       }`
     });
 
@@ -152,6 +155,15 @@ export const getMe = () => async dispatch => {
       dispatch(setSentJalapenos(
         sentJalapenos.rows,
         sentJalapenos.count,
+      ));
+    }
+    if (_.at(res, 'body.data.unviewedEventCounts')[0]) {
+      const { unviewedEventCounts } = res.body.data;
+      dispatch(setUnviewedCoinCount(
+        unviewedEventCounts.coinsReceived
+      ));
+      dispatch(setUnviewedJalapenoCount(
+        unviewedEventCounts.jalapenosReceived
       ));
     }
     return res;
