@@ -8,7 +8,6 @@ export const SET_USER_EVENTS = 'userEvents/set-user-events';
 export const CLEAR_USER_EVENTS = 'userEvents/clear-user-events';
 
 export const getUserEvents = (limit, offset, shouldAppend=false) => async dispatch => {
-  console.log('limit', limit, 'offset', offset);
   try {
     const res = await superagent.post(config.graphQlUrl, {
       query: `{
