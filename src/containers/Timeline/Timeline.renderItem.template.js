@@ -4,6 +4,7 @@ import {
   Text,
   Image,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import styles from './Timeline.styles';
 import { vars } from '../../styles';
@@ -28,6 +29,8 @@ const getEventDisplayName = (eventName, count) => {
       return `Jalapeno${plur} sent`;
     case 'jalapeno-received':
       return `Jalapeno${plur} received`;
+    case 'password-changed':
+      return 'Password Changed';
     default:
       return eventName;
   }
@@ -74,8 +77,16 @@ const getEventImage = eventName => {
           source={jalapenoReceivedImg}
         />
       );
+    case 'password-changed':
+      return (
+        <Icon
+          name="md-lock"
+          size={36}
+          color={vars.blueGrey500}
+        />
+      );
     default:
-      return '';
+      return;
   }
 };
 
@@ -84,7 +95,7 @@ export default ({ item, index, section, }) => (
     <View style={styles.renderItemContent}>
       {getEventImage(item.name)}
       <Text style={styles.renderItemContentText}>
-        {item.count} {getEventDisplayName(item.name, item.count)}
+        {item.name !== 'password-changed' ? item.count : ''} {getEventDisplayName(item.name, item.count)}
       </Text>
     </View>
     <View>
