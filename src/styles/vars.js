@@ -8,6 +8,7 @@ const blueGrey800 = '#37474F';
 const blueGrey900 = '#263238';
 const blue500 = '#03A9F4';
 const cyan300 = '#4DD0E1';
+const cyan500 = '#00BCD4';
 const purple500 = '#9C27B0';
 const red500 = '#F44336';
 const pink500 = '#E91E63';
@@ -28,6 +29,7 @@ export default {
   blueGrey800,
   blueGrey900,
   cyan300,
+  cyan500,
   // hero
   blue500,
   purple500,
@@ -44,10 +46,13 @@ export default {
   p: blueGrey500,
   jalapeno: green500,
   happiest: pink500,
+  danger: red500,
+  link: cyan500,
   // fonts
   fontBlack,
   fontRegular,
   fontVanity,
   //buttons
   infoButtonBg: cyan300,
+  dangerButtonBg: red500,
 };
