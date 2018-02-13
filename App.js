@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import { Platform, Text, View } from 'react-native';
 import {
   Scene,
   Router,
@@ -26,19 +26,6 @@ import CreateLoverRequest from './src/containers/CreateLoverRequest';
 import Timeline from './src/containers/Timeline';
 import Menu from './src/containers/Menu';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1, backgroundColor: 'transparent', justifyContent: 'center',
-    alignItems: 'center',
-  },
-  tabBarStyle: {
-    backgroundColor: '#eee',
-  },
-  tabBarSelectedItemStyle: {
-    backgroundColor: '#ddd',
-  },
-});
-
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
   return (state, action) => {
@@ -48,9 +35,7 @@ const reducerCreate = params => {
 };
 
 const getSceneStyle = () => ({
-  backgroundColor: '#F5FCFF',
-  shadowOpacity: 1,
-  shadowRadius: 3,
+  backgroundColor: 'white'
 });
 
 const App = () => (
