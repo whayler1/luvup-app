@@ -123,7 +123,8 @@ export default ({
       >
         <Text
           style={{
-            fontFamily: 'yesteryear',
+            fontFamily: vars.fontVanity,
+            color: vars.blueGrey700,
             fontSize: 30,
           }}
         >

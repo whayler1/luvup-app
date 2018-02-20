@@ -55,6 +55,7 @@ const App = () => (
           key="login"
           component={Login}
           title="Login"
+          hideNavBar={true}
         />
         <Scene
           key="signup"

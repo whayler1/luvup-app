@@ -36,7 +36,9 @@ class Root extends Component {
     console.log('onReauthSuccess');
     const meRes = await this.props.getMe();
 
-    if (this.props.relationshipId || this.props.loverRequestId) {
+    if (!('body' in meRes)) {
+      Actions.login()
+    } else if (this.props.relationshipId || this.props.loverRequestId) {
       console.log('goto dashboard');
       Actions.dashboard();
     } else {
