@@ -47,6 +47,11 @@ export default ({
       size={60}
       color={vars.success}
     />}
+    {!success && <Icon
+      name="md-unlock"
+      size={60}
+      color={vars.p}
+    />}
     <Text style={modal.title}>Change Password</Text>
     {error === 'server-error' &&
     <Text style={forms.error}>
