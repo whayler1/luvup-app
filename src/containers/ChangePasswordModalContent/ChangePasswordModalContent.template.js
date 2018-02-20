@@ -42,6 +42,11 @@ export default ({
     alignSelf: 'stretch',
   }}>
     <Text style={modal.title}>Change Password</Text>
+    {error === 'server-error' &&
+    <Text style={forms.error}>
+      {'There was an error submitting your request. This is most likely a connectivity issue.' +
+      '\nIf the problem persists please contact justin@luvup.io'}
+    </Text>}
     {success && [
     <View
       key={1}
@@ -82,6 +87,8 @@ export default ({
         placeholder="Min 8 chars. No spaces"
         placeholderTextColor={vars.blueGrey100}
       />
+      {(error === 'no-current-password' || error === 'invalid-password') &&
+      <Text style={forms.error}>Please provide your current password</Text>}
     </View>,
     <View
       key={4}
@@ -101,6 +108,10 @@ export default ({
         placeholder="Min 8 chars. No spaces."
         placeholderTextColor={vars.blueGrey100}
       />
+      {error === 'no-new-password' &&
+      <Text style={forms.error}>Please provide a new password</Text>}
+      {error === 'new-password-short' &&
+      <Text style={forms.error}>Passwords must be at least 8 characters</Text>}
     </View>,
     <View
       key={5}
@@ -120,6 +131,8 @@ export default ({
         placeholder="Must match new password"
         placeholderTextColor={vars.blueGrey100}
       />
+      {error === 'password-mismatch' &&
+      <Text style={forms.error}>Does not match</Text>}
     </View>,
     <View
       key={6}

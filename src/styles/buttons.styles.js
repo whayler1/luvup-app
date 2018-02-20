@@ -35,6 +35,16 @@ export default StyleSheet.create({
     backgroundColor: vars.infoButtonBg,
     borderRadius: vars.radius,
   },
+  infoSkeletonButton: {
+    backgroundColor: 'transparent',
+    borderRadius: vars.radius,
+    borderColor: vars.infoButtonBg,
+    borderWidth: 1,
+  },
+  infoSkeletonText: {
+    ...text,
+    color: vars.cyan500,
+  },
   dangerButton: {
     backgroundColor: vars.dangerButtonBg,
     borderRadius: vars.radius,

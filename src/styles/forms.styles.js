@@ -30,11 +30,12 @@ export default StyleSheet.create({
   },
   label: {
     fontFamily: vars.fontBlack,
-    fontSize: 12,
+    fontSize: 15,
     color: vars.blueGrey500,
   },
   error: {
     color: 'red',
+    paddingTop: 8,
   },
   formGroup: {
     alignSelf: 'stretch',
