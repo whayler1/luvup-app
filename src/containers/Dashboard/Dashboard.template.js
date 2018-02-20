@@ -11,7 +11,6 @@ import {
 import { Button } from 'react-native-elements';
 import moment from 'moment';
 import _ from 'lodash';
-import { Ionicons } from '@expo/vector-icons';
 
 import styles from './Dashboard.styles';
 import { buttons, forms, scene, modal, vars } from '../../styles';
