@@ -15,7 +15,18 @@ const infoText = {...text};
 const dangerSkeletonText = {
   ...text,
   color: vars.dangerButtonBg,
-}
+};
+
+const secondarySkeletonButton = {
+  backgroundColor: 'transparent',
+  borderColor: vars.blueGrey100,
+  borderWidth: 1,
+  borderRadius: vars.radius,
+};
+const secondarySkeletonText = {
+  ...text,
+  color: vars.blueGrey500,
+};
 
 export default StyleSheet.create({
   container,
@@ -35,6 +46,8 @@ export default StyleSheet.create({
     borderRadius: vars.radius,
   },
   dangerSkeletonText,
+  secondarySkeletonButton,
+  secondarySkeletonText,
   text,
   infoText,
 });

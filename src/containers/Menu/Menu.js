@@ -20,9 +20,17 @@ class Menu extends PureComponent {
 
   state = {
     relationshipCreatedAtFormatted: undefined,
+    isModalVisible: false,
+    modalType: '',
   };
 
   goToDashboard = () => Actions.dashboard();
+
+  onChangePasswordClick = () => this.setState({
+    isModalVisible: true,
+    modalType: 'changePassword',
+  });
+  closeModal = () => this.setState({ isModalVisible: false });
 
   logout = async () => {
     await this.props.logout();
@@ -39,6 +47,8 @@ class Menu extends PureComponent {
       {...this.props}
       {...this.state}
       goToDashboard={this.goToDashboard}
+      onChangePasswordClick={this.onChangePasswordClick}
+      closeModal={this.closeModal}
     />;
   }
 }

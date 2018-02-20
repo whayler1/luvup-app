@@ -26,6 +26,10 @@ export default ({
   relationshipCreatedAt,
   relationshipCreatedAtFormatted,
   logout,
+  isModalVisible,
+  modalType,
+  onChangePasswordClick,
+  closeModal,
 }) => (
   <View style={scene.container}>
     <View
@@ -62,6 +66,7 @@ export default ({
           <Text style={styles.value}>{userEmail}</Text>
           <Text style={styles.label}>Options</Text>
           <TouchableOpacity
+            onPress={onChangePasswordClick}
             style={{
               flexDirection: 'row',
               marginTop: 8,
@@ -142,9 +147,13 @@ export default ({
       </ScrollView>
     </View>
     <ModalContentWrap
-      visible={true}
+      visible={isModalVisible}
     >
-      <ChangePasswordModalContent/>
+      {modalType === 'changePassword' &&
+        <ChangePasswordModalContent
+          closeModal={closeModal}
+        />
+      }
     </ModalContentWrap>
   </View>
 );
