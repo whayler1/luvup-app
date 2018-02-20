@@ -2,6 +2,7 @@
 
 const blueGrey50 = '#ECEFF1';
 const blueGrey100 = '#CFD8DC';
+const blueGrey300 = '#90A4AE';
 const blueGrey500 = '#607D8B';
 const blueGrey700 = '#455A64';
 const blueGrey800 = '#37474F';
@@ -24,6 +25,7 @@ export default {
   // colors
   blueGrey50,
   blueGrey100,
+  blueGrey300,
   blueGrey500,
   blueGrey700,
   blueGrey800,
@@ -47,6 +49,7 @@ export default {
   jalapeno: green500,
   happiest: pink500,
   danger: red500,
+  success: green500,
   link: cyan500,
   // fonts
   fontBlack,
