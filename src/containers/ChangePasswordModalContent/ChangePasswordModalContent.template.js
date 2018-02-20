@@ -40,7 +40,13 @@ export default ({
 }) => (
   <View style={{
     alignSelf: 'stretch',
+    alignItems: 'center',
   }}>
+    {success && <Icon
+      name="ios-checkmark-circle-outline"
+      size={60}
+      color={vars.success}
+    />}
     <Text style={modal.title}>Change Password</Text>
     {error === 'server-error' &&
     <Text style={forms.error}>
@@ -48,24 +54,18 @@ export default ({
       '\nIf the problem persists please contact justin@luvup.io'}
     </Text>}
     {success && [
-    <View
-      key={1}
-      style={forms.formGroup}
-    >
-      <Icon
-        name="ios-checkmark-circle-outline"
-        size={40}
-        color={vars.success}
-      />
-      <Text style={modal.copy}>
-        Your Password has been changed successully!
-      </Text>
-    </View>,
+    <Text key={1} style={modal.copy}>
+      Your Password has been changed successully!
+    </Text>,
     <View
       key={2}
       style={forms.buttonRow}
     >
-      {getCloseButton({ isInFlight, closeModal })}
+      <View style={{
+        flex: 1,
+      }}>
+        {getCloseButton({ isInFlight, closeModal })}
+      </View>
     </View>
     ]}
     {!success && [
