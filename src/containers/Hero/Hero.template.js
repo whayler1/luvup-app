@@ -12,9 +12,10 @@ import {
 import { Button } from 'react-native-elements';
 import moment from 'moment';
 import _ from 'lodash';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import styles from './Hero.styles';
-import { buttons, forms, scene } from '../../styles';
+import { buttons, forms, scene, vars } from '../../styles';
 import config from '../../config';
 import HeroEye from '../../components/HeroEye';
 import HeroMouth from '../../components/HeroMouth';
@@ -54,6 +55,11 @@ export default ({
         alignItems: 'center',
       }}
     >
+      <Icon
+        name="md-arrow-round-up"
+        size={30}
+        color={vars.p}
+      />
       <Text style={styles.directionsText}>Swipe up to</Text>
       <Text style={styles.directionsText}>send a Luvup</Text>
     </Animated.View>
@@ -156,6 +162,11 @@ export default ({
     >
       <Text style={styles.directionsText}>Swipe down to</Text>
       <Text style={styles.directionsText}>send a Jalapeno</Text>
+      <Icon
+        name="md-arrow-round-down"
+        size={30}
+        color={vars.p}
+      />
     </Animated.View>
   </View>
 );
