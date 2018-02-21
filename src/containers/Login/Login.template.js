@@ -8,8 +8,11 @@ export default ({
   navigateToSignUpConfirm,
   navigateToSignUp,
   onSubmit,
+  onUsernameFocus,
+  onPasswordFocus,
   onUsernameChange,
   onPasswordChange,
+  onBlur,
   username,
   password,
   error,
@@ -37,7 +40,9 @@ export default ({
         <View style={forms.formGroup}>
           <Text style={forms.label}>Email</Text>
           <TextInput
-            style={forms.input}
+            style={[forms.input, focus === 'username' && forms.inputFocus]}
+            onFocus={onUsernameFocus}
+            onBlur={onBlur}
             onChangeText={onUsernameChange}
             value={username}
             maxLength={50}
@@ -56,7 +61,9 @@ export default ({
           <Text style={forms.label}>Password</Text>
           <TextInput
             ref={el => passwordInput = el}
-            style={forms.input}
+            style={[forms.input, focus === 'password' && forms.inputFocus]}
+            onFocus={onPasswordFocus}
+            onBlur={onBlur}
             onChangeText={onPasswordChange}
             value={password}
             secureTextEntry={true}
