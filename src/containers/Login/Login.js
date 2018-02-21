@@ -26,10 +26,14 @@ class Login extends Component {
     password: '',
     error: '',
     isInFlight: false,
+    focus: '',
   }
 
+  onUsernameFocus = () => this.setState({ focus: 'username' });
+  onPasswordFocus = () => this.setState({ focus: 'password' });
   onUsernameChange = username => this.setState({ username });
   onPasswordChange = password => this.setState({ password });
+  onBlur = () => this.setState({ focus: '' });
 
   getValidationError = () => {
     const { username, password } = this.state;
@@ -88,8 +92,11 @@ class Login extends Component {
       navigateToSignUpConfirm={this.navigateToSignUpConfirm}
       navigateToSignUp={this.navigateToSignUp}
       onSubmit={this.onSubmit}
+      onUsernameFocus={this.onUsernameFocus}
+      onPasswordFocus={this.onPasswordFocus}
       onUsernameChange={this.onUsernameChange}
       onPasswordChange={this.onPasswordChange}
+      onBlur={this.onBlur}
     />;
   }
 };
