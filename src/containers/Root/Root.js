@@ -60,6 +60,14 @@ class Root extends Component {
   };
 
   componentWillMount = async () => {
+    await Font.loadAsync({
+      'yesteryear': require('../../fonts/yesteryear/yesteryear.ttf'),
+      'latoregular': require('../../fonts/lato/latoregular.ttf'),
+      'latoblack': require('../../fonts/lato/latoblack.ttf'),
+    });
+
+    this.props.setIsFontLoaded(true);
+
     const id_token = await AsyncStorage.getItem('id_token');
 
     if (id_token) {
@@ -68,16 +76,6 @@ class Root extends Component {
       Actions.login();
     }
   };
-
-  async componentDidMount() {
-    await Font.loadAsync({
-      'yesteryear': require('../../fonts/yesteryear/yesteryear.ttf'),
-      'latoregular': require('../../fonts/lato/latoregular.ttf'),
-      'latoblack': require('../../fonts/lato/latoblack.ttf'),
-    });
-
-    this.props.setIsFontLoaded(true);
-  }
 
   render() {
     return <Template
