@@ -35,6 +35,7 @@
   "dependencies": {
     "art": "^0.10.1",
     "babel-plugin-transform-inline-environment-variables": "^0.2.0",
+    "color": "^3.0.0",
     "expo": "^22.0.2",
     "lodash": "^4.17.4",
     "moment": "^2.20.1",

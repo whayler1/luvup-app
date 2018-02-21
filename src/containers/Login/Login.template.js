@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TextInput, KeyboardAvoidingView, } from 'react-native';
 import { Button } from 'react-native-elements';
 import styles from './Login.styles';
-import { scene, forms, buttons, modal, vars } from '../../styles';
+import { scene, forms, buttons, modal, wells, vars } from '../../styles';
 
 export default ({
   navigateToSignUpConfirm,
@@ -34,8 +34,6 @@ export default ({
     >
       <View style={scene.content}>
         <Text style={modal.title}>Login</Text>
-        {error === 'credentials' && <Text style={forms.error}>Invalid username or password</Text>}
-        {error === 'server' && <Text style={forms.error}>Server error</Text>}
         <View style={forms.formGroup}>
           <Text style={forms.label}>Email</Text>
           <TextInput
@@ -72,6 +70,11 @@ export default ({
           />
           {error === 'password' && <Text style={styles.error}>Please provide a password</Text>}
         </View>
+        {(error === 'credentials' || error === 'server') &&
+          <View style={[wells.error, { marginTop: 32, marginBottom: 0 }]}>
+            <Text style={wells.errorText}>Invalid email or password</Text>
+          </View>
+        }
         <View style={forms.buttonRow}>
           <View style={{
             flex: 1,

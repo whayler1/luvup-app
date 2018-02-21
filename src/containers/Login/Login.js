@@ -62,12 +62,14 @@ class Login extends Component {
   submit = async () => {
     const { username, password } = this.state;
     const loginres = await this.props.login(username, password);
-    // console.log('loginres', loginres);
 
     if (this.props.userId) {
       this.onSubmitSuccess();
     } else {
-      this.setState({ error: 'server' });
+      this.setState({
+        error: 'server',
+        isInFlight: false,
+      });
     }
   };
 
