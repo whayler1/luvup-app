@@ -25,7 +25,7 @@ export default ({
   goToDashboard,
   relationshipCreatedAt,
   relationshipCreatedAtFormatted,
-  logout,
+  onLogout,
   isModalVisible,
   modalType,
   onChangePasswordClick,
@@ -137,7 +137,7 @@ export default ({
         }}>
           <Button
             raised
-            onPress={logout}
+            onPress={onLogout}
             containerViewStyle={buttons.infoContainer}
             buttonStyle={buttons.infoButton}
             textStyle={buttons.infoText}

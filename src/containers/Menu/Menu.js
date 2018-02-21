@@ -32,8 +32,10 @@ class Menu extends PureComponent {
   });
   closeModal = () => this.setState({ isModalVisible: false });
 
-  logout = async () => {
+  onLogout = async () => {
+    console.log('Menu logout');
     await this.props.logout();
+    console.log('got here');
     Actions.login();
   };
 
@@ -49,6 +51,7 @@ class Menu extends PureComponent {
       goToDashboard={this.goToDashboard}
       onChangePasswordClick={this.onChangePasswordClick}
       closeModal={this.closeModal}
+      onLogout={this.onLogout}
     />;
   }
 }

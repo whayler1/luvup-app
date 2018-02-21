@@ -37,7 +37,7 @@ export const login = (usernameOrEmail, password) => async dispatch => {
 export const logout = () => async dispatch => {
   await AsyncStorage.removeItem('id_token');
   dispatch({ type: LOGOUT });
-  return;
+  return true;
 }
 
 export const reauth = id_token => async dispatch => {
