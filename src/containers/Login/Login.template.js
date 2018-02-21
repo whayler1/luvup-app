@@ -1,11 +1,14 @@
-import React from 'react';
-import { View, Text, TextInput } from 'react-native';
+import React, { PureComponent } from 'react';
+import { View, Text, TextInput, KeyboardAvoidingView, } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Button } from 'react-native-elements';
 import styles from './Login.styles';
 import { scene, forms, buttons, modal, vars } from '../../styles';
 
-export default ({
+let passwordInput;
+const focusPassword = () => passwordInput.focus();
+
+const template = ({
   navigateToSignUpConfirm,
   navigateToSignUp,
   onSubmit,
@@ -15,34 +18,16 @@ export default ({
   password,
   error,
   isInFlight,
+  focus,
 }) => (
-  <KeyboardAwareScrollView
-    resetScrollToCoords={{ x: 0, y: 0 }}
-    contentContainerStyle={scene.container}
-    scrollEnabled={true}
+  <KeyboardAvoidingView
+    contentContainerStyle={[scene.container, {
+      alignSelf: 'stretch'
+    }]}
+    style={scene.container}
+    keyboardVerticalOffset={32}
+    behavior="padding"
   >
-    <View
-      style={scene.topNav}
-    >
-      <View style={scene.topNavContent}>
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-          }}
-        >
-          <Text
-            style={{
-              fontFamily: vars.fontVanity,
-              color: vars.blueGrey700,
-              fontSize: 30,
-            }}
-          >
-            luvup
-          </Text>
-        </View>
-      </View>
-    </View>
     <View style={scene.content}>
       <Text style={modal.title}>Login</Text>
       {error === 'credentials' && <Text style={forms.error}>Invalid username or password</Text>}
@@ -59,12 +44,16 @@ export default ({
           autoCapitalize={'none'}
           editable={!isInFlight}
           spellCheck={false}
+          keyboardType="email-address"
+          returnKeyType="next"
+          onSubmitEditing={focusPassword}
         />
         {error === 'username' && <Text style={forms.error}>Please provide a valid email</Text>}
       </View>
       <View style={forms.formGroup}>
         <Text style={forms.label}>Password</Text>
         <TextInput
+          ref={el => passwordInput = el}
           style={forms.input}
           onChangeText={onPasswordChange}
           value={password}
@@ -74,6 +63,8 @@ export default ({
           placeholderTextColor={vars.blueGrey100}
           editable={!isInFlight}
           spellCheck={false}
+          returnKeyType="go"
+          onSubmitEditing={onSubmit}
         />
         {error === 'password' && <Text style={styles.error}>Please provide a password</Text>}
       </View>
@@ -125,5 +116,15 @@ export default ({
         </View>
       </View>
     </View>
-  </KeyboardAwareScrollView>
+  </KeyboardAvoidingView>
 );
+
+/**
+ * JW: Ugly workaround so I can use `ref` on TextInputs inside a
+ * stateless component.
+ */
+export default class LoginTemplate extends PureComponent {
+  render() {
+    return template(this.props);
+  }
+}

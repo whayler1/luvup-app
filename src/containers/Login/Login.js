@@ -81,17 +81,13 @@ class Login extends Component {
   }
 
   render() {
-    const { username, password, error } = this.state;
-
     return <Template
+      {...this.state}
       navigateToSignUpConfirm={this.navigateToSignUpConfirm}
       navigateToSignUp={this.navigateToSignUp}
       onSubmit={this.onSubmit}
       onUsernameChange={this.onUsernameChange}
       onPasswordChange={this.onPasswordChange}
-      username={username}
-      password={password}
-      error={error}
     />;
   }
 };
