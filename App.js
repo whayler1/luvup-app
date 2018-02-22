@@ -23,6 +23,7 @@ import Root from './src/containers/Root';
 import Login from './src/containers/Login';
 import SignUp from './src/containers/SignUp';
 import SignUpConfirm from './src/containers/SignUpConfirm';
+import ConfirmUserRequestCode from './src/containers/ConfirmUserRequestCode';
 import Dashboard from './src/containers/Dashboard';
 import CreateLoverRequest from './src/containers/CreateLoverRequest';
 import Timeline from './src/containers/Timeline';
@@ -83,6 +84,12 @@ const App = () => (
           key="signupconfirm"
           component={SignUpConfirm}
           title="Confirm Sign Up"
+          {...sceneDefaults}
+        />
+        <Scene
+          key="confirmUserRequestCode"
+          component={ConfirmUserRequestCode}
+          title="Confirm User Request Code"
           {...sceneDefaults}
         />
         <Scene
