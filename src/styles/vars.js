@@ -51,6 +51,7 @@ export default {
   danger: red500,
   success: green500,
   link: cyan500,
+  placeholder: blueGrey100,
   // fonts
   fontBlack,
   fontRegular,
