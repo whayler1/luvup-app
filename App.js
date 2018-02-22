@@ -83,6 +83,7 @@ const App = () => (
           key="signupconfirm"
           component={SignUpConfirm}
           title="Confirm Sign Up"
+          {...sceneDefaults}
         />
         <Scene
           key="dashboard"

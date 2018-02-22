@@ -15,14 +15,20 @@ const topNav = {
   marginTop: 28,
   zIndex: 10,
 };
+const container = {
+  flex: 1,
+  backgroundColor: 'transparent',
+  justifyContent: 'center',
+  alignItems: 'center',
+};
+const keyboardAvoidingView = {
+  ...container,
+  alignSelf: 'stretch',
+};
 
 export default StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'transparent',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  container,
+  keyboardAvoidingView,
   topNav,
   topNavContent: {
     flexDirection: 'row',

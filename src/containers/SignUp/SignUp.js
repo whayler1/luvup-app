@@ -19,9 +19,12 @@ class SignUp extends Component {
     email: '',
     error: '',
     isInFlight: false,
+    focusInput: '',
   };
 
+  onEmailFocus = () => this.setState({ focusInput: 'email' });
   onEmailChange = email => this.setState({ email });
+  onBlur = () => this.setState({ focusInput: '' });
 
   getValidationError = () => {
     if (!emailRegex.test(this.state.email)) {
@@ -59,7 +62,9 @@ class SignUp extends Component {
 
   render() {
     return <Template
+      onEmailFocus={this.onEmailFocus}
       onEmailChange={this.onEmailChange}
+      onBlur={this.onBlure}
       onSubmit={this.onSubmit}
       {...this.state}
     />;
