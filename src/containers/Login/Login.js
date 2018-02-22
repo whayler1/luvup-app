@@ -47,7 +47,7 @@ class Login extends Component {
   }
 
   navigateToSignUp = () => Actions.signup();
-  navigateToSignUpConfirm = () => Actions.signupconfirm();
+  navigateToSignUpConfirm = () => Actions.confirmUserRequestCode();
 
   /**
    * JW: This method is identical to `onReathSuccess` in Root. Find a way to
