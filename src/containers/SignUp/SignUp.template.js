@@ -11,15 +11,16 @@ import { buttons, forms, modal, scene, wells, vars } from '../../styles';
 
 export default ({
   onSubmit,
+  onEmailFocus,
   onEmailChange,
+  onBlur,
   email,
   error,
   isInFlight,
+  focusInput,
 }) => (
   <KeyboardAvoidingView
-    contentContainerStyle={[scene.container, {
-      alignSelf: 'stretch'
-    }]}
+    contentContainerStyle={scene.keyboardAvoidingView}
     style={scene.container}
     keyboardVerticalOffset={32}
     behavior="padding"
@@ -29,7 +30,9 @@ export default ({
       <View style={forms.formGroup}>
         <Text style={forms.label}>Email</Text>
         <TextInput
-          style={forms.input}
+          style={focusInput === 'email' ? forms.inputFocus : forms.input}
+          onFocus={onEmailFocus}
+          onBlur={onBlur}
           onChangeText={onEmailChange}
           value={email}
           keyboardType={'email-address'}
@@ -39,6 +42,8 @@ export default ({
           spellCheck={false}
           placeholder="jane.doe@email.com"
           placeholderTextColor={vars.placeholder}
+          returnKeyType="go"
+          onSubmitEditing={onSubmit}
         />
         {error === 'email' && <Text style={forms.error}>Please provide a valid email</Text>}
       </View>
