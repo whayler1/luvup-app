@@ -14,8 +14,10 @@ import {
   Stack,
   Lightbox,
 } from 'react-native-router-flux';
+import _ from 'lodash';
 
 import { store } from './src/redux';
+import { navbar, vars } from './src/styles';
 
 import Root from './src/containers/Root';
 import Login from './src/containers/Login';
@@ -35,8 +37,20 @@ const reducerCreate = params => {
 };
 
 const getSceneStyle = () => ({
-  backgroundColor: 'white'
+  backgroundColor: 'white',
 });
+
+const sceneDefaults = {
+  ..._.pick(navbar, [
+    'navigationBarStyle',
+  ]),
+  navBarButtonColor: vars.cyan500,
+  renderTitle: <View><Text style={{
+    fontFamily: vars.fontVanity,
+    color: vars.blueGrey700,
+    fontSize: 30,
+  }}>luvup</Text></View>
+};
 
 const App = () => (
   <Provider store={store}>
@@ -50,17 +64,20 @@ const App = () => (
           component={Root}
           title="Root"
           hideNavBar={true}
+          init={true}
         />
         <Scene
           key="login"
           component={Login}
           title="Login"
-          hideNavBar={true}
+          renderLeftButton={() => <View></View>}
+          {...sceneDefaults}
         />
         <Scene
           key="signup"
           component={SignUp}
           title="Sign Up"
+          {...sceneDefaults}
         />
         <Scene
           key="signupconfirm"
