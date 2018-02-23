@@ -22,7 +22,6 @@ import { navbar, vars } from './src/styles';
 import Root from './src/containers/Root';
 import Login from './src/containers/Login';
 import SignUp from './src/containers/SignUp';
-import SignUpConfirm from './src/containers/SignUpConfirm';
 import ConfirmUserRequestCode from './src/containers/ConfirmUserRequestCode';
 import ConfirmUserRequestCreateProfile from './src/containers/ConfirmUserRequestCreateProfile';
 import Dashboard from './src/containers/Dashboard';
@@ -79,12 +78,6 @@ const App = () => (
           key="signup"
           component={SignUp}
           title="Sign Up"
-          {...sceneDefaults}
-        />
-        <Scene
-          key="signupconfirm"
-          component={SignUpConfirm}
-          title="Confirm Sign Up"
           {...sceneDefaults}
         />
         <Scene
