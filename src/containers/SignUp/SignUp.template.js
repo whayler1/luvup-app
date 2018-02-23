@@ -49,7 +49,7 @@ export default ({
       </View>
       {error === 'response' &&
         <View style={[wells.error, { marginTop: 32, marginBottom: 0 }]}>
-          <Text style={wells.errorText}>Server error</Text>
+          <Text style={wells.errorText}>There was an error submitting your signup request. Please verify you are submitting a valid email. If the problem presists please email justin@luvup.io</Text>
         </View>
       }
       {error === 'email error' &&

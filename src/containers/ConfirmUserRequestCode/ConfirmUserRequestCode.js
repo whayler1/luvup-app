@@ -42,6 +42,7 @@ class ConfirmUserRequestCode extends Component {
   }
 
   submit = async () => {
+    console.log('submit');
     const { email, code } = this.state;
 
     try {
@@ -55,8 +56,10 @@ class ConfirmUserRequestCode extends Component {
           }
         }`,
       });
+      console.log('res', res.body);
 
       const confirmUserRequestCode = _.at(res, 'body.data.confirmUserRequestCode')[0];
+      console.log({ confirmUserRequestCode});
 
       if (confirmUserRequestCode) {
         if (confirmUserRequestCode.error && confirmUserRequestCode.error.length) {
@@ -77,6 +80,7 @@ class ConfirmUserRequestCode extends Component {
         });
       }
     } catch (err) {
+      console.log({ err });
       this.setState({
         isInFlight: false,
         error: 'server',
