@@ -14,6 +14,7 @@ export const LOGIN = 'user/login';
 export const LOGOUT = 'user/logout';
 export const REAUTH = 'user/reauth';
 export const USER_REQUEST = 'user/user-request';
+export const CONFIRM_USER_REQUEST_CODE = 'user/confirm-user-request-code';
 
 export const login = (usernameOrEmail, password) => async dispatch => {
   try {
@@ -232,3 +233,35 @@ export const setUser = (email, username='', id='', firstName='', lastName='') =>
   firstName,
   lastName,
 });
+
+export const confirmUserRequestCode = (email, code) => async dispatch => {
+  try {
+    const res = superagent.post(config.graphQlUrl, {
+      query: `mutation {
+        confirmUserRequestCode (
+          email: "${email}"
+          code: "${code}"
+        ) {
+          success error
+        }
+      }`,
+    });
+    console.log('res', res.body);
+
+    const confirmUserRequestCode = _.at(res, 'body.data.confirmUserRequestCode')[0];
+    console.log({ confirmUserRequestCode});
+
+    if (confirmUserRequestCode && confirmUserRequestCode.success) {
+      dispatch({
+        type: CONFIRM_USER_REQUEST_CODE,
+        email,
+        code,
+      });
+    }
+
+    return res;
+  } catch (err) {
+    console.log('confirmUserRequestCode err', err);
+    return err;
+  }
+};

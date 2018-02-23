@@ -3,6 +3,7 @@ import {
   Text,
   TextInput,
   View,
+  ScrollView,
   KeyboardAvoidingView,
 } from 'react-native';
 import { Button } from 'react-native-elements';
@@ -25,7 +26,7 @@ export default ({
     keyboardVerticalOffset={32}
     behavior="padding"
   >
-    <View style={scene.content}>
+    <ScrollView style={scene.content}>
       <Text style={modal.title}>Sign Up</Text>
       <View style={forms.formGroup}>
         <Text style={forms.label}>Email</Text>
@@ -76,6 +77,6 @@ export default ({
           />
         </View>
       </View>
-    </View>
+    </ScrollView>
   </KeyboardAvoidingView>
 );

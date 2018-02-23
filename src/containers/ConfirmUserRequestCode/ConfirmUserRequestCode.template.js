@@ -3,6 +3,7 @@ import {
   Text,
   TextInput,
   View,
+  ScrollView,
   KeyboardAvoidingView,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -31,7 +32,7 @@ export default ({
       keyboardVerticalOffset={32}
       behavior="padding"
     >
-      <View style={scene.content}>
+      <ScrollView style={scene.content}>
         <Text style={modal.title}>Confirm Sign Up Code</Text>
         <Text style={[modal.copy, { textAlign: 'center' }]}>Enter your email address and the code you received via email below.</Text>
         <View style={forms.formGroup}>
@@ -95,7 +96,7 @@ export default ({
             />
           </View>
         </View>
-      </View>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 };
