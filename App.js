@@ -24,6 +24,7 @@ import Login from './src/containers/Login';
 import SignUp from './src/containers/SignUp';
 import SignUpConfirm from './src/containers/SignUpConfirm';
 import ConfirmUserRequestCode from './src/containers/ConfirmUserRequestCode';
+import ConfirmUserRequestCreateProfile from './src/containers/ConfirmUserRequestCreateProfile';
 import Dashboard from './src/containers/Dashboard';
 import CreateLoverRequest from './src/containers/CreateLoverRequest';
 import Timeline from './src/containers/Timeline';
@@ -89,7 +90,13 @@ const App = () => (
         <Scene
           key="confirmUserRequestCode"
           component={ConfirmUserRequestCode}
-          title="Confirm User Request Code"
+          title="Enter Code"
+          {...sceneDefaults}
+        />
+        <Scene
+          key="confirmUserRequestCreateProfile"
+          component={ConfirmUserRequestCreateProfile}
+          title="Create Profile"
           {...sceneDefaults}
         />
         <Scene

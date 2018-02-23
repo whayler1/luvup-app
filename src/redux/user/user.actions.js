@@ -236,7 +236,7 @@ export const setUser = (email, username='', id='', firstName='', lastName='') =>
 
 export const confirmUserRequestCode = (email, code) => async dispatch => {
   try {
-    const res = superagent.post(config.graphQlUrl, {
+    const res = await superagent.post(config.graphQlUrl, {
       query: `mutation {
         confirmUserRequestCode (
           email: "${email}"
@@ -252,6 +252,7 @@ export const confirmUserRequestCode = (email, code) => async dispatch => {
     console.log({ confirmUserRequestCode});
 
     if (confirmUserRequestCode && confirmUserRequestCode.success) {
+      console.log('dispatch!!!');
       dispatch({
         type: CONFIRM_USER_REQUEST_CODE,
         email,

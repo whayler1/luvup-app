@@ -14,6 +14,12 @@ import { forms, buttons, modal, scene, vars } from '../../styles';
 import Well from '../../components/Well';
 
 export default ({
+  onUsernameFocus,
+  onFirstNameFocus,
+  onLastNameFocus,
+  onPasswordFocus,
+  onPasswordAgainFocus,
+  onBlur,
   onUsernameChange,
   onFirstNameChange,
   onLastNameChange,
@@ -26,6 +32,7 @@ export default ({
   password,
   passwordAgain,
   error,
+  focusInput,
   isInFlight,
 }) => {
   let firstNameEl;
@@ -49,7 +56,9 @@ export default ({
         <View style={forms.formGroup}>
           <Text style={forms.label}>Username</Text>
           <TextInput
-            style={forms.input}
+            style={[focusInput === 'username' ? forms.inputFocus : forms.input]}
+            onFocus={onUsernameFocus}
+            onBlur={onBlur}
             onChangeText={onUsernameChange}
             value={username}
             maxLength={50}
@@ -65,45 +74,61 @@ export default ({
           {error === 'username-length' && <Text style={forms.error}>Usernames must be at least 3 characters</Text>}
           {error === 'username taken' && <Text style={forms.error}>Username taken</Text>}
         </View>
-        <View style={forms.formGroup}>
-          <Text style={forms.label}>First Name</Text>
-          <TextInput
-            ref={el => firstNameEl = el}
-            style={forms.input}
-            onChangeText={onFirstNameChange}
-            value={firstName}
-            maxLength={50}
-            autoCapitalize={'none'}
-            editable={!isInFlight}
-            spellCheck={false}
-            placeholder="Jane"
-            placeholderTextColor={vars.placeholder}
-            returnKeyType="next"
-            onSubmitEditing={focusLastNameEl}
-          />
-        </View>
-        <View style={forms.formGroup}>
-          <Text style={forms.label}>Last Name</Text>
-          <TextInput
-            ref={el => lastNameEl = el}
-            style={forms.input}
-            onChangeText={onLastNameChange}
-            value={lastName}
-            maxLength={50}
-            autoCapitalize={'none'}
-            editable={!isInFlight}
-            spellCheck={false}
-            placeholder="Doe"
-            placeholderTextColor={vars.placeholder}
-            returnKeyType="next"
-            onSubmitEditing={focusPasswordEl}
-          />
+        <View style={{
+          flexDirection: 'row',
+        }}>
+          <View style={[forms.formGroup, {
+            flex: 0.5,
+            paddingRight: 8,
+          }]}>
+            <Text style={forms.label}>First Name</Text>
+            <TextInput
+              ref={el => firstNameEl = el}
+              style={[focusInput === 'firstName' ? forms.inputFocus : forms.input]}
+              onFocus={onFirstNameFocus}
+              onBlur={onBlur}
+              onChangeText={onFirstNameChange}
+              value={firstName}
+              maxLength={50}
+              autoCapitalize={'none'}
+              editable={!isInFlight}
+              spellCheck={false}
+              placeholder="Jane"
+              placeholderTextColor={vars.placeholder}
+              returnKeyType="next"
+              onSubmitEditing={focusLastNameEl}
+            />
+          </View>
+          <View style={[forms.formGroup, {
+            flex: 0.5,
+            paddingLeft: 8,
+          }]}>
+            <Text style={forms.label}>Last Name</Text>
+            <TextInput
+              ref={el => lastNameEl = el}
+              style={[focusInput === 'lastName' ? forms.inputFocus : forms.input]}
+              onFocus={onLastNameFocus}
+              onBlur={onBlur}
+              onChangeText={onLastNameChange}
+              value={lastName}
+              maxLength={50}
+              autoCapitalize={'none'}
+              editable={!isInFlight}
+              spellCheck={false}
+              placeholder="Doe"
+              placeholderTextColor={vars.placeholder}
+              returnKeyType="next"
+              onSubmitEditing={focusPasswordEl}
+            />
+          </View>
         </View>
         <View style={forms.formGroup}>
           <Text style={forms.label}>Password</Text>
           <TextInput
             ref={el => passwordEl = el}
-            style={forms.input}
+            style={[focusInput === 'password' ? forms.inputFocus : forms.input]}
+            onFocus={onPasswordFocus}
+            onBlur={onBlur}
             onChangeText={onPasswordChange}
             value={password}
             secureTextEntry={true}
@@ -122,7 +147,9 @@ export default ({
           <Text style={forms.label}>Re-Enter Password</Text>
           <TextInput
             ref={el => passwordAgainEl = el}
-            style={forms.input}
+            style={[focusInput === 'passwordAgain' ? forms.inputFocus : forms.input]}
+            onFocus={onPasswordAgainFocus}
+            onBlur={onBlur}
             onChangeText={onPasswordAgainChange}
             value={passwordAgain}
             secureTextEntry={true}
@@ -143,13 +170,12 @@ export default ({
             flex: 1,
           }}>
             <Button
-              raised
               onPress={onSubmit}
               containerViewStyle={buttons.infoContainer}
               buttonStyle={buttons.infoButton}
               textStyle={buttons.infoText}
               disabled={isInFlight}
-              title={isInFlight ? 'Submitting' : 'Submit'}
+              title={isInFlight ? 'Submitting…' : 'Submit'}
             />
           </View>
         </View>

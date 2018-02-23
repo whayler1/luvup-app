@@ -14,12 +14,16 @@ import { forms, buttons, modal, scene, vars } from '../../styles';
 import Well from '../../components/Well';
 
 export default ({
+  onEmailFocus,
+  onCodeFocus,
   onEmailChange,
   onCodeChange,
+  onBlur,
   onSubmit,
   email,
   code,
   error,
+  focusInput,
   isInFlight,
 }) => {
   let codeEl;
@@ -38,7 +42,9 @@ export default ({
         <View style={forms.formGroup}>
           <Text style={forms.label}>Email</Text>
           <TextInput
-            style={forms.input}
+            style={focusInput === 'email' ? forms.inputFocus : forms.input}
+            onFocus={onEmailFocus}
+            onBlur={onBlur}
             onChangeText={onEmailChange}
             value={email}
             maxLength={100}
@@ -58,7 +64,9 @@ export default ({
           <Text style={forms.label}>Code</Text>
           <TextInput
             ref={el => codeEl = el}
-            style={forms.input}
+            style={focusInput === 'code' ? forms.inputFocus : forms.input}
+            onFocus={onCodeFocus}
+            onBlur={onBlur}
             onChangeText={onCodeChange}
             value={code}
             maxLength={6}
