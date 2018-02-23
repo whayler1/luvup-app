@@ -34,20 +34,22 @@ class SignUp extends Component {
   };
 
   submit = async () => {
+    console.log('submit', this.state.email);
     const res = await this.props.userRequest(this.state.email);
     console.log('res', res.body);
 
     if (!('body' in res && 'data' in res.body && 'userRequest' in res.body.data)) {
       this.setState({ error: 'response', isInFlight: false });
-    }
-    const { error } = res.body.data.userRequest;
-    if (error) {
-      this.setState({ error, isInFlight: false });
     } else {
-      this.setState({
-        error: '',
-        isInFlight: false,
-      }, () => Actions.signupconfirm());
+      const { error } = res.body.data.userRequest;
+      if (error) {
+        this.setState({ error, isInFlight: false });
+      } else {
+        this.setState({
+          error: '',
+          isInFlight: false,
+        }, () => Actions.confirmUserRequestCode());
+      }
     }
   };
 
