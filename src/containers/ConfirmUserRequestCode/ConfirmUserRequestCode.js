@@ -22,10 +22,14 @@ class ConfirmUserRequestCode extends Component {
     email: this.props.email || '',
     code: '',
     error: '',
+    focusInput: '',
   };
 
+  onEmailFocus = () => this.setState({ focusInput: 'email' });
+  onCodeFocus = () => this.setState({ focusInput: 'code' });
   onEmailChange = email => this.setState({ email });
   onCodeChange = code => this.setState({ code });
+  onBlur = () => this.setState({ focusInput: '' });
 
   getValidationError = () => {
     const { email, code, } = this.state;
@@ -43,6 +47,7 @@ class ConfirmUserRequestCode extends Component {
 
   onSubmitSuccess = () => {
     console.log('success boo');
+    Actions.confirmUserRequestCreateProfile();
   }
 
   submit = async () => {
@@ -85,8 +90,11 @@ class ConfirmUserRequestCode extends Component {
   render() {
     return <Template
       {..._.pick(this,
+        'onEmailFocus',
+        'onCodeFocus',
         'onEmailChange',
         'onCodeChange',
+        'onBlur',
         'onSubmit',
       )}
       {...this.state}
