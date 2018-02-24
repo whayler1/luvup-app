@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import superagent from 'superagent';
-// import { Actions } from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
@@ -36,6 +36,8 @@ class CreateLoverRequest extends Component {
 
     if(!_.at(res, 'body.data.requestLover.id')) {
       this.setState({ requestLoverIsInFlight: false, error: 'request-lover' });
+    } else {
+      Actions.dashboard();
     }
   };
 

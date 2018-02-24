@@ -16,7 +16,7 @@ export default StyleSheet.create({
     paddingTop: 8,
     paddingBottom: 16,
     borderBottomColor: vars.blueGrey100,
-    borderBottomWidth: 1,
+    borderBottomWidth: 0.5,
   },
   renderItemName: {
     fontSize: 20,
