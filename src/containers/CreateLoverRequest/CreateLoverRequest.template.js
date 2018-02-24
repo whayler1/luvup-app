@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Button } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import styles from './CreateLoverRequest.styles';
 import { forms, buttons, scene, modal, vars, } from '../../styles';
@@ -54,6 +55,17 @@ export default ({
             <View style={styles.renderItem}>
               <Text style={styles.renderItemName}>{`${item.firstName} ${item.lastName}`}</Text>
               <Text style={styles.renderItemUsername}>{item.username}</Text>
+              <View style={{
+                position: 'absolute',
+                top: 18,
+                right: 0,
+              }}>
+                <Icon
+                  name="ios-arrow-forward-outline"
+                  size={30}
+                  color={vars.link}
+                />
+              </View>
             </View>
           </TouchableOpacity>
         )}

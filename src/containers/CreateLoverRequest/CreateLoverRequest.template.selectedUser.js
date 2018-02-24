@@ -1,9 +1,18 @@
 import React from 'react';
-import { Text, TextInput, FlatList, View, TouchableOpacity } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import {
+  Text,
+  TextInput,
+  FlatList,
+  View,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+} from 'react-native';
 import { Button } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-import { forms, buttons, scene } from '../../styles';
+import styles from './CreateLoverRequest.styles';
+import { forms, buttons, modal, scene, vars } from '../../styles';
+import Well from '../../components/Well';
 
 export default ({
   clearSelectedUser,
@@ -12,30 +21,53 @@ export default ({
   requestLoverIsInFlight,
   error,
 }) => (
-  <KeyboardAwareScrollView
-    resetScrollToCoords={{ x: 0, y: 0 }}
-    contentContainerStyle={scene.container}
-    scrollEnabled={true}
+  <KeyboardAvoidingView
+    contentContainerStyle={scene.keyboardAvoidingView}
+    style={styles.container}
+    keyboardVerticalOffset={32}
+    behavior="padding"
   >
-    {(() => console.log('zfzfzfff', requestLover))()}
-    <Button
-      raised
-      onPress={clearSelectedUser}
-      containerViewStyle={buttons.infoContainer}
-      buttonStyle={buttons.infoButton}
-      textStyle={buttons.infoText}
-      title={'Back'}
-    />
-    <Text>Send Lover Request to {`${selectedUser.firstName} ${selectedUser.lastName}?`}</Text>
-    {error === 'request-lover' && <Text style={styles.error}>There was an error requesting your lover.</Text>}
-    <Button
-      raised
-      onPress={requestLover}
-      containerViewStyle={buttons.infoContainer}
-      buttonStyle={buttons.infoButton}
-      textStyle={buttons.infoText}
-      disabled={requestLoverIsInFlight}
-      title={'Request Lover'}
-    />
-  </KeyboardAwareScrollView>
+    <View style={scene.content}>
+      <View style={{
+        alignItems: 'center',
+      }}>
+        <Icon
+          name="ios-send-outline"
+          size={80}
+          color={vars.blue500}
+        />
+      </View>
+      <Text style={[scene.copy, { textAlign: 'center' }]}>Send Lover Request to</Text>
+      <Text style={[scene.copy, { textAlign: 'center', fontSize: 30, }]}>{`${selectedUser.firstName} ${selectedUser.lastName}?`}</Text>
+      {error === 'request-lover' && <Well text="There was an error requesting your lover."/>}
+      <View style={forms.buttonRow}>
+        <View style={{
+          flex: 0.5,
+          paddingRight: 8,
+        }}>
+          <Button
+            onPress={clearSelectedUser}
+            containerViewStyle={buttons.container}
+            buttonStyle={buttons.secondarySkeletonButton}
+            textStyle={buttons.secondarySkeletonText}
+            disabled={requestLoverIsInFlight}
+            title="Back"
+          />
+        </View>
+        <View style={{
+          flex: 0.5,
+          paddingLeft: 8,
+        }}>
+          <Button
+            onPress={requestLover}
+            containerViewStyle={buttons.infoContainer}
+            buttonStyle={buttons.infoButton}
+            textStyle={buttons.infoText}
+            disabled={requestLoverIsInFlight}
+            title={requestLoverIsInFlight ? 'Requesting…' : 'Request Lover'}
+          />
+        </View>
+      </View>
+    </View>
+  </KeyboardAvoidingView>
 );
