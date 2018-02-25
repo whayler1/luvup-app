@@ -19,6 +19,7 @@ import config from '../../config';
 
 class Hero extends Component {
   static propTypes = {
+    relationshipId: PropTypes.string,
     relationshipScore: PropTypes.number,
     createRelationshipScore: PropTypes.func.isRequired,
     sendCoin: PropTypes.func.isRequired,
@@ -28,12 +29,18 @@ class Hero extends Component {
     relationshipScoreQuartile: PropTypes.number,
     sentCoins: PropTypes.array,
     sentJalapenos: PropTypes.array,
+    loverRequestFirstName: PropTypes.string,
+    loverRequestLastName: PropTypes.string,
+    loverRequestCreatedAt: PropTypes.string,
   };
 
   state = {
     dragDirection: 0,
     recentlySentCoinCount: 0,
     recentlySentJalapenoCount: 0,
+    isInRelationship: this.props.relationshipId.length > 0,
+    loverRequestCreatedAtTimeAgo: this.props.loverRequestCreatedAt ?
+      moment(new Date(this.props.loverRequestCreatedAt)).fromNow() : '',
   };
 
   translateY = new Animated.Value(0);
@@ -302,6 +309,8 @@ class Hero extends Component {
       relationshipScoreQuartile={this.props.relationshipScoreQuartile}
       dragDirection={this.dragDirection}
       directionsOpacity={this.directionsOpacity}
+      loverRequestFirstName={this.props.loverRequestFirstName}
+      loverRequestLastName={this.props.loverRequestLastName}
       {...this.state}
     />;
   }
@@ -309,10 +318,14 @@ class Hero extends Component {
 
 export default connect(
   state => ({
+    relationshipId: state.relationship.id,
     relationshipScore: state.relationshipScore.score,
     relationshipScoreQuartile: state.relationshipScore.scoreQuartile,
     sentJalapenos: state.jalapeno.sentJalapenos,
     sentCoins: state.coin.sentCoins,
+    loverRequestFirstName: state.loverRequest.firstName,
+    loverRequestLastName: state.loverRequest.lastName,
+    loverRequestCreatedAt: state.loverRequest.createdAt,
   }),
   {
     createRelationshipScore: createRelationshipScoreAction,

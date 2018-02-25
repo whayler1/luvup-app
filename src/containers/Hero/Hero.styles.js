@@ -7,6 +7,14 @@ const directionsText = {
   fontSize: 30,
   alignItems: 'center'
 };
+const loverRequestText = {
+  ...directionsText,
+  fontSize: 20,
+};
+const loverRequestTextLarge = {
+  ...loverRequestText,
+  fontSize: 35,
+}
 
 export default StyleSheet.create({
   heartView: {
@@ -28,5 +36,7 @@ export default StyleSheet.create({
   directionsTextDown: {
     ...directionsText,
     marginTop: 32,
-  }
+  },
+  loverRequestText,
+  loverRequestTextLarge,
 });

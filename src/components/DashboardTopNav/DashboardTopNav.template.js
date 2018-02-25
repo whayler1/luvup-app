@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import _ from 'lodash';
 
 import Pushdown from '../../components/Pushdown';
 import { vars } from '../../styles';
@@ -71,6 +72,16 @@ export default ({
         paddingBottom: 8,
       }}
     >
+      {!loverFirstName.length &&
+      <View
+        style={{
+          flex: 0.33,
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}
+      />
+      }
+      {loverFirstName.length > 0 &&
       <TouchableOpacity
         onPress={onScoreClick}
         style={{
@@ -115,6 +126,7 @@ export default ({
           {jalapenoCount}
         </Text>
       </TouchableOpacity>
+      }
       <View
         style={{
           flex: 0.33,
@@ -145,7 +157,7 @@ export default ({
             color: vars.blueGrey500,
           }}
         >
-          {userFirstName.substr(0,1)}{userLastName.substr(0,1)} + {loverFirstName.substr(0,1)}{loverLastName.substr(0,1)}
+          {userFirstName.substr(0,1)}{userLastName.substr(0,1)}{loverFirstName ? ' + ' : ''}{loverFirstName.substr(0,1)}{loverLastName.substr(0,1)}
         </Text>
       </TouchableOpacity>
     </View>

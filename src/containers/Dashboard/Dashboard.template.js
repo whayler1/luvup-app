@@ -63,7 +63,6 @@ export default ({
       unviewedCoinCount={unviewedCoinCount}
       unviewedJalapenoCount={unviewedJalapenoCount}
     />
-    {loverRequestUsername.length > 0 && <Text>You sent a loverRequest to {loverRequestUsername} {moment(new Date(loverRequestCreatedAt)).fromNow()}</Text>}
     <Hero
       openModal={openModal}
     />
