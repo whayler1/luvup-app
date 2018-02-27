@@ -47,6 +47,7 @@ export default ({
   loverRequestFirstName,
   loverRequestLastName,
   loverRequestCreatedAtTimeAgo,
+  cancelLoverRequest,
 }) => {
   if (!isInRelationship) {
     return (
@@ -88,6 +89,28 @@ export default ({
           <Text style={styles.loverRequestText}>Your lover request was sent to</Text>
           <Text style={styles.loverRequestTextLarge}>{loverRequestFirstName + ' ' + loverRequestLastName}</Text>
           <Text style={styles.loverRequestText}>{loverRequestCreatedAtTimeAgo}</Text>
+        </View>
+        <View style={forms.buttonRow}>
+          <View style={[forms.buttonCell2ColLeft, { paddingLeft: 16 }]}>
+            <Button
+              onPress={cancelLoverRequest}
+              containerViewStyle={buttons.container}
+              buttonStyle={buttons.secondarySkeletonButton}
+              textStyle={buttons.secondarySkeletonText}
+              disabled={false}
+              title="Cancel"
+            />
+          </View>
+          <View style={[forms.buttonCell2ColRight, { paddingRight: 16 }]}>
+            <Button
+              onPress={() => {}}
+              containerViewStyle={buttons.infoContainer}
+              buttonStyle={buttons.infoButton}
+              textStyle={buttons.infoText}
+              disabled={false}
+              title="Resend"
+            />
+          </View>
         </View>
       </View>
     );

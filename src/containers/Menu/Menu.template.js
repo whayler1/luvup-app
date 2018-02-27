@@ -105,6 +105,7 @@ export default ({
             />
           </TouchableOpacity>
         </View>
+        {relationshipCreatedAt.length > 0 &&
         <View style={styles.group}>
           <Text style={styles.title}>My Relationship</Text>
           <Text style={styles.label}>Lover</Text>
@@ -132,6 +133,7 @@ export default ({
             />
           </TouchableOpacity>
         </View>
+        }
         <View style={{
           marginTop: 40,
         }}>
