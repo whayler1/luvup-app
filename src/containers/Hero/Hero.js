@@ -77,7 +77,7 @@ class Hero extends Component {
     const res = await this.props.resendLoverRequestEmail(this.props.loverRequestId);
     const resendLoverRequestEmailObj = _.at(res, 'body.data.resendLoverRequestEmail')[0];
 
-    if (resendLoverRequestEmailObj.success) {
+    if (_.isObject(resendLoverRequestEmailObj) && resendLoverRequestEmailObj.success) {
       this.setState({
         resendIsInFlight: false,
         isResendSuccess: true,
