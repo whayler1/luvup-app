@@ -7,6 +7,26 @@ import PropTypes from 'prop-types';
 
 import { vars, wells, } from '../../styles';
 
+const getViewStyle = type => {
+  switch (type) {
+    case 'success':
+      return wells.success;
+      break;
+    default:
+      return wells.error;
+  };
+};
+
+const getTextStyle = type => {
+  switch (type) {
+    case 'success':
+      return wells.successText;
+      break;
+    default:
+      return wells.errorText;
+  }
+};
+
 export default class Well extends PureComponent {
   static propTypes = {
     type: PropTypes.oneOf([
@@ -20,8 +40,8 @@ export default class Well extends PureComponent {
 
   render() {
     return (
-      <View style={wells.error}>
-        {this.props.text && <Text style={wells.errorText}>{this.props.text}</Text>}
+      <View style={getViewStyle(this.props.type)}>
+        {this.props.text && <Text style={getTextStyle(this.props.type)}>{this.props.text}</Text>}
       </View>
     );
   }

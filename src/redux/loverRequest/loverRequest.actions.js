@@ -6,6 +6,7 @@ import config from '../../config';
 export const REQUEST_LOVER = 'lover-request/request-lover';
 export const SET_LOVER_REQUEST = 'lover-request/set-lover-request';
 export const CANCEL_LOVER_REQUEST = 'lover-request/cancel-lover-request';
+export const RESEND_LOVER_REQUEST_EMAIL = 'lover-request/resend-lover-request-email';
 
 export const requestLover = recipientId => async dispatch => {
   console.log('requestLover recipientId', recipientId);
@@ -36,7 +37,7 @@ export const requestLover = recipientId => async dispatch => {
 
 export const cancelLoverRequest = loverRequestId => async dispatch => {
   try {
-    const res = await superagent.post(config.graphQlUrl, {
+    const res = await superagent.post(config.graphQlUrl+'f', {
       query: `mutation {
         cancelLoverRequest (
           loverRequestId: "${loverRequestId}"
@@ -70,3 +71,22 @@ export const cancelLoverRequest = loverRequestId => async dispatch => {
     return err;
   }
 }
+
+export const resendLoverRequestEmail = loverRequestId => async () => {
+  try {
+    const res = await superagent.post(config.graphQlUrl, {
+      query: `mutation {
+        resendLoverRequestEmail (
+          loverRequestId: "${loverRequestId}"
+        ) {
+          success error
+        }
+      }`,
+    });
+
+    return res;
+  } catch (err) {
+    console.log('resendLoverRequestEmail err', err);
+    return err;
+  }
+};
