@@ -18,6 +18,7 @@ import {
 } from '../../redux/jalapeno/jalapeno.actions';
 import {
   cancelLoverRequest as cancelLoverRequestAction,
+  resendLoverRequestEmail as resendLoverRequestEmailAction,
 } from '../../redux/loverRequest/loverRequest.actions';
 import config from '../../config';
 
@@ -30,6 +31,7 @@ class Hero extends Component {
     sendJalapeno: PropTypes.func.isRequired,
     openModal: PropTypes.func.isRequired,
     cancelLoverRequest: PropTypes.func.isRequired,
+    resendLoverRequestEmail: PropTypes.func.isRequired,
     relationshipScore: PropTypes.number,
     relationshipScoreQuartile: PropTypes.number,
     sentCoins: PropTypes.array,
@@ -47,6 +49,10 @@ class Hero extends Component {
     isInRelationship: this.props.relationshipId.length > 0,
     loverRequestCreatedAtTimeAgo: this.props.loverRequestCreatedAt ?
       moment(new Date(this.props.loverRequestCreatedAt)).fromNow() : '',
+    error: '',
+    isCancelInFlight: false,
+    resendIsInFlight: false,
+    isResendSuccess: false,
   };
 
   translateY = new Animated.Value(0);
@@ -63,7 +69,32 @@ class Hero extends Component {
    */
   isMaxItemsPerHourSent = (items) => items.length < config.maxItemsPerHour || (items.length >= config.maxItemsPerHour && moment(new Date(items[config.maxItemsPerHour - 1].createdAt)).isBefore(moment().subtract(1, 'hour')));
 
+  resendLoverRequestEmail = async () => {
+    await new Promise(resolve => this.setState({
+      resendIsInFlight: true,
+      error: '',
+    }, () => resolve()));
+    const res = await this.props.resendLoverRequestEmail(this.props.loverRequestId);
+    const resendLoverRequestEmailObj = _.at(res, 'body.data.resendLoverRequestEmail')[0];
+
+    if (resendLoverRequestEmailObj.success) {
+      this.setState({
+        resendIsInFlight: false,
+        isResendSuccess: true,
+      });
+    } else {
+      this.setState({
+        resendIsInFlight: false,
+        error: 'resend-error',
+      });
+    }
+  }
+
   cancelLoverRequest = async () => {
+    await new Promise(resolve => this.setState({
+      isCancelInFlight: true,
+      error: '',
+    }, () => resolve()));
     const res = await this.props.cancelLoverRequest(this.props.loverRequestId);
 
     const loverRequest = _.at(res, 'body.data.cancelLoverRequest.loverRequest')[0];
@@ -71,6 +102,10 @@ class Hero extends Component {
     if (_.isObject(loverRequest) && 'id' in loverRequest) {
       Actions.createloverrequest();
     } else {
+      this.setState({
+        isCancelInFlight: false,
+        error: 'cancel-error',
+      });
       console.log('error cancelling lover request');
     }
   };
@@ -330,6 +365,7 @@ class Hero extends Component {
       loverRequestFirstName={this.props.loverRequestFirstName}
       loverRequestLastName={this.props.loverRequestLastName}
       cancelLoverRequest={this.cancelLoverRequest}
+      resendLoverRequestEmail={this.resendLoverRequestEmail}
       {...this.state}
     />;
   }
@@ -352,5 +388,6 @@ export default connect(
     sendCoin: sendCoinAction,
     sendJalapeno: sendJalapenoAction,
     cancelLoverRequest: cancelLoverRequestAction,
+    resendLoverRequestEmail: resendLoverRequestEmailAction,
   }
 )(Hero);

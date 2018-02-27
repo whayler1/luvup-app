@@ -21,6 +21,7 @@ import HeroEye from '../../components/HeroEye';
 import HeroMouth from '../../components/HeroMouth';
 import CoinArt from '../../components/CoinArt';
 import JalapenoArt from '../../components/JalapenoArt';
+import Well from '../../components/Well';
 
 const heartImgs = [
   require('../../images/hero/heart-sadest.png'),
@@ -48,6 +49,11 @@ export default ({
   loverRequestLastName,
   loverRequestCreatedAtTimeAgo,
   cancelLoverRequest,
+  resendLoverRequestEmail,
+  error,
+  isCancelInFlight,
+  isResendSuccess,
+  resendIsInFlight,
 }) => {
   if (!isInRelationship) {
     return (
@@ -90,6 +96,19 @@ export default ({
           <Text style={styles.loverRequestTextLarge}>{loverRequestFirstName + ' ' + loverRequestLastName}</Text>
           <Text style={styles.loverRequestText}>{loverRequestCreatedAtTimeAgo}</Text>
         </View>
+        {error === 'cancel-error' &&
+          <View style={{ alignSelf: 'stretch', paddingHorizontal: 16, paddingTop: 8 }}>
+            <Well text="There was an error cancelling your lover request. If the problem persists please contact justin@luvup.io"/>
+          </View>
+        }
+        {isResendSuccess &&
+          <View style={{ alignSelf: 'stretch', paddingHorizontal: 16, paddingTop: 8 }}>
+            <Well
+              type="success"
+              text="Your lover request was resent!"
+            />
+          </View>
+        }
         <View style={forms.buttonRow}>
           <View style={[forms.buttonCell2ColLeft, { paddingLeft: 16 }]}>
             <Button
@@ -97,18 +116,18 @@ export default ({
               containerViewStyle={buttons.container}
               buttonStyle={buttons.secondarySkeletonButton}
               textStyle={buttons.secondarySkeletonText}
-              disabled={false}
-              title="Cancel"
+              disabled={isCancelInFlight || resendIsInFlight}
+              title={isCancelInFlight ? 'Cancelling…' : 'Cancel'}
             />
           </View>
           <View style={[forms.buttonCell2ColRight, { paddingRight: 16 }]}>
             <Button
-              onPress={() => {}}
+              onPress={resendLoverRequestEmail}
               containerViewStyle={buttons.infoContainer}
-              buttonStyle={buttons.infoButton}
-              textStyle={buttons.infoText}
-              disabled={false}
-              title="Resend"
+              buttonStyle={buttons.infoSkeletonButton}
+              textStyle={buttons.infoSkeletonText}
+              disabled={isCancelInFlight || resendIsInFlight}
+              title={resendIsInFlight ? 'Renseding…' : 'Resend'}
             />
           </View>
         </View>
