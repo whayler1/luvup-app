@@ -95,10 +95,16 @@ export default ({
           <Text style={styles.loverRequestText}>Your lover request was sent to</Text>
           <Text style={styles.loverRequestTextLarge}>{loverRequestFirstName + ' ' + loverRequestLastName}</Text>
           <Text style={styles.loverRequestText}>{loverRequestCreatedAtTimeAgo}</Text>
+
         </View>
         {error === 'cancel-error' &&
           <View style={{ alignSelf: 'stretch', paddingHorizontal: 16, paddingTop: 8 }}>
             <Well text="There was an error cancelling your lover request. If the problem persists please contact justin@luvup.io"/>
+          </View>
+        }
+        {error === 'resend-error' &&
+          <View style={{ alignSelf: 'stretch', paddingHorizontal: 16, paddingTop: 8 }}>
+            <Well text="There was an error resending your lover request. If the problem persists please contact justin@luvup.io"/>
           </View>
         }
         {isResendSuccess &&
