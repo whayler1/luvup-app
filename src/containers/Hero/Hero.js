@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Animated, Easing, PanResponder } from 'react-native';
 import moment from 'moment';
+import { Actions } from 'react-native-router-flux';
 
 import Template from './Hero.template';
 import {
@@ -15,6 +16,9 @@ import {
 import {
   sendJalapeno as sendJalapenoAction,
 } from '../../redux/jalapeno/jalapeno.actions';
+import {
+  cancelLoverRequest as cancelLoverRequestAction,
+} from '../../redux/loverRequest/loverRequest.actions';
 import config from '../../config';
 
 class Hero extends Component {
@@ -25,6 +29,7 @@ class Hero extends Component {
     sendCoin: PropTypes.func.isRequired,
     sendJalapeno: PropTypes.func.isRequired,
     openModal: PropTypes.func.isRequired,
+    cancelLoverRequest: PropTypes.func.isRequired,
     relationshipScore: PropTypes.number,
     relationshipScoreQuartile: PropTypes.number,
     sentCoins: PropTypes.array,
@@ -32,6 +37,7 @@ class Hero extends Component {
     loverRequestFirstName: PropTypes.string,
     loverRequestLastName: PropTypes.string,
     loverRequestCreatedAt: PropTypes.string,
+    loverRequestId: PropTypes.string,
   };
 
   state = {
@@ -56,6 +62,18 @@ class Hero extends Component {
    * JW: This logic could probably be simplified somehow. But works-for-now™
    */
   isMaxItemsPerHourSent = (items) => items.length < config.maxItemsPerHour || (items.length >= config.maxItemsPerHour && moment(new Date(items[config.maxItemsPerHour - 1].createdAt)).isBefore(moment().subtract(1, 'hour')));
+
+  cancelLoverRequest = async () => {
+    const res = await this.props.cancelLoverRequest(this.props.loverRequestId);
+
+    const loverRequest = _.at(res, 'body.data.cancelLoverRequest.loverRequest')[0];
+
+    if (_.isObject(loverRequest) && 'id' in loverRequest) {
+      Actions.createloverrequest();
+    } else {
+      console.log('error cancelling lover request');
+    }
+  };
 
   sendCoin = async () => {
     const { sentCoins } = this.props;
@@ -311,6 +329,7 @@ class Hero extends Component {
       directionsOpacity={this.directionsOpacity}
       loverRequestFirstName={this.props.loverRequestFirstName}
       loverRequestLastName={this.props.loverRequestLastName}
+      cancelLoverRequest={this.cancelLoverRequest}
       {...this.state}
     />;
   }
@@ -323,6 +342,7 @@ export default connect(
     relationshipScoreQuartile: state.relationshipScore.scoreQuartile,
     sentJalapenos: state.jalapeno.sentJalapenos,
     sentCoins: state.coin.sentCoins,
+    loverRequestId: state.loverRequest.id,
     loverRequestFirstName: state.loverRequest.firstName,
     loverRequestLastName: state.loverRequest.lastName,
     loverRequestCreatedAt: state.loverRequest.createdAt,
@@ -331,5 +351,6 @@ export default connect(
     createRelationshipScore: createRelationshipScoreAction,
     sendCoin: sendCoinAction,
     sendJalapeno: sendJalapenoAction,
+    cancelLoverRequest: cancelLoverRequestAction,
   }
 )(Hero);

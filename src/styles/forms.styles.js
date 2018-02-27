@@ -46,4 +46,12 @@ export default StyleSheet.create({
     marginTop: 40,
     flexDirection: 'row',
   },
+  buttonCell2ColLeft: {
+    flex: 0.5,
+    paddingRight: 8,
+  },
+  buttonCell2ColRight: {
+    flex: 0.5,
+    paddingLeft: 8,
+  },
 });
