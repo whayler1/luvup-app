@@ -25,7 +25,18 @@ export const requestLover = recipientId => async dispatch => {
 
     dispatch({
       type: REQUEST_LOVER,
-      ...res.body.data.requestLover,
+      ..._.pick(res.body.data.requestLover, [
+        'id',
+        'isAccepted',
+        'isSenderCanceled',
+        'isRecipientCanceled',
+        'createdAt',
+      ]),
+      ..._.pick(res.body.data.requestLover.recipient, [
+        'username',
+        'firstName',
+        'lastName',
+      ]),
     });
 
     return res;
@@ -36,14 +47,15 @@ export const requestLover = recipientId => async dispatch => {
 };
 
 export const cancelLoverRequest = loverRequestId => async dispatch => {
+  console.log('cancelLoverRequest', { loverRequestId });
   try {
-    const res = await superagent.post(config.graphQlUrl+'f', {
+    const res = await superagent.post(config.graphQlUrl, {
       query: `mutation {
-        cancelLoverRequest (
+        cancelLoverRequest(
           loverRequestId: "${loverRequestId}"
         ) {
           loverRequest {
-            id isAccepted isSenderCanceled isRecipientCanceled createdAt
+            id isAccepted isSenderCanceled isRecipientCanceled
           }
           error
         }
