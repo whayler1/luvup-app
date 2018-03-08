@@ -8,6 +8,7 @@ import { SET_LOVER_REQUEST } from '../loverRequest/loverRequest.actions';
 import { setRelationship } from '../relationship/relationship.actions';
 import { setSentCoins, setUnviewedCoinCount } from '../coin/coin.actions';
 import { setSentJalapenos, setUnviewedJalapenoCount } from '../jalapeno/jalapeno.actions';
+import { setReceivedLoverRequests } from '../receivedLoverRequests/receivedLoverRequests.actions';
 
 export const SET_USER = 'user/set-user';
 export const LOGIN = 'user/login';
@@ -80,6 +81,15 @@ export const getMe = () => async dispatch => {
             }
           }
         }
+        receivedLoverRequests {
+          rows {
+            id
+            sender {
+              id email firstName lastName
+            }
+          }
+          count
+        }
         sentCoins(limit: ${config.maxItemsPerHour}) {
           rows {
             id createdAt isUsed
@@ -121,6 +131,14 @@ export const getMe = () => async dispatch => {
       const lover = relationship.lovers[0];
       console.log('\n\nlover', lover);
       dispatch(setLover(lover.id, lover.username, lover.firstName, lover.lastName));
+    }
+
+    const receivedLoverRequests = _.at(res, 'body.data.receivedLoverRequests')[0];
+    if (receivedLoverRequests) {
+      dispatch(setReceivedLoverRequests(
+        receivedLoverRequests.rows,
+        receivedLoverRequests.count
+      ));
     }
 
     if (_.at(res, 'body.data.activeLoverRequest.loverRequest')[0]) {
