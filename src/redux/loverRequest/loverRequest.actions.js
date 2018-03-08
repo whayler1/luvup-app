@@ -9,7 +9,6 @@ export const CANCEL_LOVER_REQUEST = 'lover-request/cancel-lover-request';
 export const RESEND_LOVER_REQUEST_EMAIL = 'lover-request/resend-lover-request-email';
 
 export const requestLover = recipientId => async dispatch => {
-  console.log('requestLover recipientId', recipientId);
   try {
     const res = await superagent.post(config.graphQlUrl, {
       query: `mutation {
@@ -21,7 +20,6 @@ export const requestLover = recipientId => async dispatch => {
         }
       }`
     });
-    console.log('requestLover es', res.body.data);
 
     dispatch({
       type: REQUEST_LOVER,
@@ -47,7 +45,6 @@ export const requestLover = recipientId => async dispatch => {
 };
 
 export const cancelLoverRequest = loverRequestId => async dispatch => {
-  console.log('cancelLoverRequest', { loverRequestId });
   try {
     const res = await superagent.post(config.graphQlUrl, {
       query: `mutation {

@@ -26,6 +26,7 @@ class Root extends Component {
     reauth: PropTypes.func.isRequired,
     getMe: PropTypes.func.isRequired,
     setIsFontLoaded: PropTypes.func.isRequired,
+    receivedLoverRequests: PropTypes.array,
   };
 
   /**
@@ -41,6 +42,8 @@ class Root extends Component {
     } else if (this.props.relationshipId || this.props.loverRequestId) {
       console.log('goto dashboard');
       Actions.dashboard();
+    } else if (_.isArray(this.props.receivedLoverRequests) && this.props.receivedLoverRequests.length > 0) {
+      //show received lover request
     } else {
       Actions.createloverrequest();
     }
@@ -90,6 +93,7 @@ export default connect(
     loverRequestId: state.loverRequest.id,
     relationshipId: state.relationship.id,
     isFontLoaded: state.font.isFontLoaded,
+    receivedLoverRequests: state.receivedLoverRequests.rows,
   }),
   {
     reauth: reauthAction,
