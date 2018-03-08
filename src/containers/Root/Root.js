@@ -44,6 +44,7 @@ class Root extends Component {
       Actions.dashboard();
     } else if (_.isArray(this.props.receivedLoverRequests) && this.props.receivedLoverRequests.length > 0) {
       //show received lover request
+      Actions.confirmLoverRequest();
     } else {
       Actions.createloverrequest();
     }

@@ -28,6 +28,7 @@ import Dashboard from './src/containers/Dashboard';
 import CreateLoverRequest from './src/containers/CreateLoverRequest';
 import Timeline from './src/containers/Timeline';
 import Menu from './src/containers/Menu';
+import ConfirmLoverRequest from './src/containers/ConfirmLoverRequest';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -111,6 +112,11 @@ const App = () => (
         <Scene
           key="menu"
           component={Menu}
+          hideNavBar={true}
+        />
+        <Scene
+          key="confirmLoverRequest"
+          component={ConfirmLoverRequest}
           hideNavBar={true}
         />
       </Stack>
