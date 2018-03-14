@@ -1,6 +1,7 @@
 import superagent from 'superagent';
 
 import config from '../../config';
+import { clearLover } from '../lover/lover.actions';
 
 export const SET_RELATIONSHIP = 'relationship/set-relationship';
 export const END_RELATIONSHIP = 'relationship/end-relationship';
@@ -12,7 +13,7 @@ export const setRelationship = (id, createdAt) => dispatch => {
 
 export const endRelationship = () => async dispatch => {
   try {
-    const res = await superagent.post(confir.graphQlUrl, {
+    const res = await superagent.post(config.graphQlUrl, {
       query: `mutation {
         endRelationship {
           relationship {
@@ -21,8 +22,12 @@ export const endRelationship = () => async dispatch => {
         }
       }`,
     });
-    console.log('end relationship success', res);
 
+    console.log('end relationship success', res);
+    dispatch({ type: END_RELATIONSHIP });
+    dispatch(clearLover());
+
+    return res;
   } catch (err) {
     console.log('endRelationship err', err);
     return err;

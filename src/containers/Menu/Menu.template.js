@@ -30,6 +30,7 @@ export default ({
   modalType,
   onChangePasswordClick,
   closeModal,
+  endRelationship,
 }) => (
   <View style={scene.container}>
     <View
@@ -114,6 +115,7 @@ export default ({
           <Text style={styles.value}>{relationshipCreatedAtFormatted}</Text>
           <Text style={styles.label}>Options</Text>
           <TouchableOpacity
+            onPress={endRelationship}
             style={{
               flexDirection: 'row',
               marginTop: 8,
