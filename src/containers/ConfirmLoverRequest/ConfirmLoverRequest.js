@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 
 import { cancelLoverRequest as cancelLoverRequestAction } from '../../redux/loverRequest/loverRequest.actions';
-import { getReceivedLoverRequests as getReceivedLoverRequestsAction} from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
+import {
+  getReceivedLoverRequests as getReceivedLoverRequestsAction,
+  acceptLoverRequest as acceptLoverRequestAction,
+} from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
 import Template from './ConfirmLoverRequest.template';
 
 class ConfirmLoverRequest extends Component {
@@ -14,6 +17,7 @@ class ConfirmLoverRequest extends Component {
     relationshipId: PropTypes.string,
     cancelLoverRequest: PropTypes.func.isRequired,
     getReceivedLoverRequests: PropTypes.func.isRequired,
+    acceptLoverRequest: PropTypes.func.isRequired,
   };
 
   state = {
@@ -47,7 +51,15 @@ class ConfirmLoverRequest extends Component {
     } else {
       Actions.createloverrequest();
     }
-  }
+  };
+
+  acceptLoverRequest = async () => {
+    this.setState({
+      isInFlight: true,
+    });
+    const res = await this.props.acceptLoverRequest(this.state.currentLoverRequestId);
+    console.log('this.props.receivedLoverRequests[0]', this.props.receivedLoverRequests[0])
+  };
 
   componentWillMount() {
     this.setCurrentLoverRequest();
@@ -57,6 +69,7 @@ class ConfirmLoverRequest extends Component {
     return <Template
       {...this.state}
       cancelLoverRequest={this.cancelLoverRequest}
+      acceptLoverRequest={this.acceptLoverRequest}
     />;
   }
 }
@@ -70,5 +83,6 @@ export default connect(
   {
     cancelLoverRequest: cancelLoverRequestAction,
     getReceivedLoverRequests: getReceivedLoverRequestsAction,
+    acceptLoverRequest: acceptLoverRequestAction
   }
 )(ConfirmLoverRequest);

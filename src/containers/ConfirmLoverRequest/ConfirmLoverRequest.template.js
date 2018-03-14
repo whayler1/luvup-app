@@ -14,6 +14,7 @@ export default ({
   senderLastName,
   isInFlight,
   cancelLoverRequest,
+  acceptLoverRequest,
 }) => (
   <View style={scene.container}>
     <View style={scene.content}>
@@ -32,7 +33,7 @@ export default ({
         </View>
         <View style={forms.buttonCell2ColRight}>
           <Button
-            onPress={() => {}}
+            onPress={acceptLoverRequest}
             containerViewStyle={buttons.infoContainer}
             buttonStyle={buttons.infoButton}
             textStyle={buttons.infoText}

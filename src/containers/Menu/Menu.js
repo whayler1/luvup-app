@@ -3,9 +3,11 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import _ from 'lodash';
 
 import Template from './Menu.template';
 import { logout as logoutAction } from '../../redux/user/user.actions';
+import { endRelationship as endRelationshipAction } from '../../redux/relationship/relationship.actions';
 
 class Menu extends PureComponent {
   static propTypes = {
@@ -16,12 +18,15 @@ class Menu extends PureComponent {
     loverLastName: PropTypes.string,
     relationshipCreatedAt: PropTypes.string,
     logout: PropTypes.func.isRequired,
+    endRelationship: PropTypes.func.isRequired,
   };
 
   state = {
     relationshipCreatedAtFormatted: undefined,
     isModalVisible: false,
     modalType: '',
+    isInFlight: false,
+    error: '',
   };
 
   goToDashboard = () => Actions.dashboard();
@@ -39,6 +44,20 @@ class Menu extends PureComponent {
     Actions.login();
   };
 
+  endRelationship = async () => {
+    this.setState({ isInFlight: true });
+    const res = await this.props.endRelationship();
+    const relationship = _.at(res, 'body.data.endRelationship.relationship')[0];
+    if (_.isObject(relationship) && relationship.id) {
+      Actions.createloverrequest();
+    } else {
+      this.setState({
+        error: 'end-relationship',
+        isInFlight: false,
+      });
+    }
+  }
+
   componentWillMount() {
     const { relationshipCreatedAt } = this.props;
     this.setState({ relationshipCreatedAtFormatted: moment(new Date(relationshipCreatedAt)).format('MMM DD, YYYY') });
@@ -52,6 +71,7 @@ class Menu extends PureComponent {
       onChangePasswordClick={this.onChangePasswordClick}
       closeModal={this.closeModal}
       onLogout={this.onLogout}
+      endRelationship={this.endRelationship}
     />;
   }
 }
@@ -66,6 +86,7 @@ export default connect(
     relationshipCreatedAt: state.relationship.createdAt,
   }),
   {
-    logout: logoutAction
+    logout: logoutAction,
+    endRelationship: endRelationshipAction,
   }
 )(Menu);

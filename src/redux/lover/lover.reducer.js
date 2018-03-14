@@ -1,5 +1,8 @@
 import _ from 'lodash';
-import { SET_LOVER } from './lover.actions';
+import {
+  SET_LOVER,
+  CLEAR_LOVER,
+} from './lover.actions';
 
 const defaultState = {
   id: '',
@@ -15,6 +18,13 @@ export default function reducer(state = defaultState, action) {
         ...state,
         ..._.pick(action, 'id', 'username', 'firstName', 'lastName'),
       };
+    case CLEAR_LOVER:
+      return {
+        id: '',
+        username: '',
+        firstName: '',
+        lastName: '',
+      }
     default:
       return state;
   }

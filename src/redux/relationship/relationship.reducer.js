@@ -1,5 +1,8 @@
 import _ from 'lodash';
-import { SET_RELATIONSHIP } from './relationship.actions';
+import {
+  SET_RELATIONSHIP,
+  END_RELATIONSHIP,
+} from './relationship.actions';
 
 const defaultState = {
   id: '',
@@ -12,6 +15,11 @@ export default function reducer(state = defaultState, action) {
       return {
         ...state,
         ..._.pick(action, 'id', 'createdAt'),
+      };
+    case END_RELATIONSHIP:
+      return {
+        id: '',
+        createdAt: '',
       };
     default:
       return state;
