@@ -73,9 +73,10 @@ class Root extends Component {
     this.props.setIsFontLoaded(true);
 
     const id_token = await AsyncStorage.getItem('id_token');
+    console.log('\n\nid_token', id_token);
 
     if (id_token) {
-      this.reauth();
+      this.reauth(id_token);
     } else {
       Actions.login();
     }
