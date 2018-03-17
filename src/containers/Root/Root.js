@@ -8,6 +8,7 @@ import { Font } from 'expo';
 
 import config from '../../config.js';
 import Template from './Root.template';
+import { userLoginRouteSwitch } from '../../helpers';
 import {
   reauth as reauthAction,
   getMe as getMeAction,
@@ -29,34 +30,13 @@ class Root extends Component {
     receivedLoverRequests: PropTypes.array,
   };
 
-  /**
-   * JW: This method is identical to `onSubmitSuccess` in Login. Find a way to
-   * DRY this up.
-   */
-  onReauthSuccess = async () => {
-    console.log('onReauthSuccess');
-    const meRes = await this.props.getMe();
-
-    if (!('body' in meRes)) {
-      Actions.login();
-    } else if (this.props.relationshipId || this.props.loverRequestId) {
-      console.log('goto dashboard');
-      Actions.dashboard();
-    } else if (_.isArray(this.props.receivedLoverRequests) && this.props.receivedLoverRequests.length > 0) {
-      //show received lover request
-      Actions.confirmLoverRequest();
-    } else {
-      Actions.createloverrequest();
-    }
-  };
-
   reauth = async id_token => {
     console.log('reauth');
     const res = await this.props.reauth(id_token);
 
     if (this.props.id) {
       console.log('success');
-      this.onReauthSuccess();
+      userLoginRouteSwitch();
     } else {
       console.log('fail');
       Actions.login();
