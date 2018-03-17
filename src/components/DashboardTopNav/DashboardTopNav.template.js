@@ -143,23 +143,27 @@ export default ({
           luvup
         </Text>
       </View>
-      <TouchableOpacity
-        onPress={onInitialsClick}
-        style={{
-          flex: 0.33,
-          alignItems: 'flex-end',
-        }}
-      >
-        <Text
+      {(_.isString(userFirstName) && userFirstName.length > 1) ?
+        <TouchableOpacity
+          onPress={onInitialsClick}
           style={{
-            fontFamily: 'latoblack',
-            fontSize: 16,
-            color: vars.blueGrey500,
+            flex: 0.33,
+            alignItems: 'flex-end',
           }}
         >
-          {userFirstName.substr(0,1)}{userLastName.substr(0,1)}{loverFirstName ? ' + ' : ''}{loverFirstName.substr(0,1)}{loverLastName.substr(0,1)}
-        </Text>
-      </TouchableOpacity>
+          <Text
+            style={{
+              fontFamily: 'latoblack',
+              fontSize: 16,
+              color: vars.blueGrey500,
+            }}
+          >
+            {userFirstName.substr(0,1)}{userLastName.substr(0,1)}{loverFirstName ? ' + ' : ''}{loverFirstName.substr(0,1)}{loverLastName.substr(0,1)}
+          </Text>
+        </TouchableOpacity>
+        :
+        <View style={{ flex: 33 }} />
+      }
     </View>
   </View>
 );

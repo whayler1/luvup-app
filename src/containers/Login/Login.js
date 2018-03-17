@@ -11,6 +11,7 @@ import {
   login as loginAction,
   getMe as getMeAction,
 } from '../../redux/user/user.actions';
+import UserLoginRouteSwitch from '../UserLoginRouteSwitch';
 
 class Login extends Component {
   static propTypes = {
@@ -53,22 +54,27 @@ class Login extends Component {
    * JW: This method is identical to `onReathSuccess` in Root. Find a way to
    * DRY this up.
    */
-  onSubmitSuccess = async () => {
-    const meRes = await this.props.getMe();
-
-    if (this.props.relationshipId || this.props.loverRequestId) {
-      Actions.dashboard();
-    } else {
-      Actions.createloverrequest();
-    }
-  };
+  // onSubmitSuccess = async () => {
+  //   const meRes = await this.props.getMe();
+  //   console.log('\n\n------\n', { meRes });
+  //
+  //   if (this.props.relationshipId || this.props.loverRequestId) {
+  //     Actions.dashboard();
+  //   } else {
+  //     Actions.createloverrequest();
+  //   }
+  // };
 
   submit = async () => {
     const { username, password } = this.state;
     const loginres = await this.props.login(username, password);
 
+    console.log('\n\n', { loginres }, loginres.constructor);
+    console.log('this.props.userId', this.props.userId);
+
     if (this.props.userId) {
-      this.onSubmitSuccess();
+      // this.onSubmitSuccess();
+      <UserLoginRouteSwitch />
     } else {
       this.setState({
         error: 'server',
@@ -102,11 +108,13 @@ class Login extends Component {
 };
 
 export default connect(
-  state => ({
+  state => {
+    console.log('\n\nstate.user', state.user);
+    return {
     userId: state.user.id,
     relationshipId: state.relationship.id,
     loverRequestId: state.loverRequest.id,
-  }),
+  }},
   {
     login: loginAction,
     getMe: getMeAction,

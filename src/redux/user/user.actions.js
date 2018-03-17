@@ -53,6 +53,7 @@ export const reauth = id_token => async dispatch => {
       username,
       email,
     });
+    console.log('\n\nreauth success!');
     return res.body;
   } catch (err) {
     console.log('reauth err', err);
@@ -130,7 +131,9 @@ export const getMe = () => async dispatch => {
 
       const lover = relationship.lovers[0];
       console.log('\n\nlover', lover);
-      dispatch(setLover(lover.id, lover.username, lover.firstName, lover.lastName));
+      if (lover) {
+        dispatch(setLover(lover.id, lover.username, lover.firstName, lover.lastName));
+      }
     }
 
     const receivedLoverRequests = _.at(res, 'body.data.receivedLoverRequests')[0];
