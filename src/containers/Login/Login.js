@@ -6,12 +6,12 @@ import superagent from 'superagent';
 import { Actions } from 'react-native-router-flux';
 
 import config from '../../config.js';
+import { userLoginRouteSwitch } from '../../helpers';
 import Template from './Login.template';
 import {
   login as loginAction,
   getMe as getMeAction,
 } from '../../redux/user/user.actions';
-import UserLoginRouteSwitch from '../UserLoginRouteSwitch';
 
 class Login extends Component {
   static propTypes = {
@@ -50,21 +50,6 @@ class Login extends Component {
   navigateToSignUp = () => Actions.signup();
   navigateToSignUpConfirm = () => Actions.confirmUserRequestCode();
 
-  /**
-   * JW: This method is identical to `onReathSuccess` in Root. Find a way to
-   * DRY this up.
-   */
-  // onSubmitSuccess = async () => {
-  //   const meRes = await this.props.getMe();
-  //   console.log('\n\n------\n', { meRes });
-  //
-  //   if (this.props.relationshipId || this.props.loverRequestId) {
-  //     Actions.dashboard();
-  //   } else {
-  //     Actions.createloverrequest();
-  //   }
-  // };
-
   submit = async () => {
     const { username, password } = this.state;
     const loginres = await this.props.login(username, password);
@@ -73,8 +58,7 @@ class Login extends Component {
     console.log('this.props.userId', this.props.userId);
 
     if (this.props.userId) {
-      // this.onSubmitSuccess();
-      <UserLoginRouteSwitch />
+      userLoginRouteSwitch();
     } else {
       this.setState({
         error: 'server',
