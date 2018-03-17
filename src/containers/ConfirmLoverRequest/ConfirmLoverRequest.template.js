@@ -7,12 +7,14 @@ import { Button } from 'react-native-elements';
 
 import { buttons, forms, scene, modal, vars } from '../../styles';
 import config from '../../config';
+import Well from '../../components/Well';
 
 export default ({
   currentLoverRequestId,
   senderFirstName,
   senderLastName,
   isInFlight,
+  error,
   cancelLoverRequest,
   acceptLoverRequest,
 }) => (
@@ -20,6 +22,7 @@ export default ({
     <View style={scene.content}>
       <Text style={[modal.title, { fontFamily: vars.fontRegular }]}>{'You Received a\nLover Request from'}</Text>
       <Text style={modal.title}>{senderFirstName} {senderLastName}</Text>
+      {error === 'accept-lover' && <Well text="There was an error accepting your lover request" />}
       <View style={forms.buttonRow}>
         <View style={forms.buttonCell2ColLeft}>
           <Button

@@ -1,6 +1,6 @@
 import superagent from 'superagent';
-import config from '../../config';
 import _ from 'lodash';
+import config from '../../config';
 export const SET_RECEIVED_LOVER_REQUESTS = 'received-lover-requests/set-received-lover-requests';
 export const ACCEPT_LOVER_REQUEST = 'received-lover-requests/accept-lover-request';
 
@@ -27,7 +27,6 @@ export const getReceivedLoverRequests = () => async dispatch => {
     });
 
     const receivedLoverRequests = _.at(res, 'body.data.receivedLoverRequests')[0];
-    console.log('\n\n', { receivedLoverRequests });
 
     if (receivedLoverRequests) {
       dispatch(setReceivedLoverRequests(
@@ -58,18 +57,16 @@ export const acceptLoverRequest = loverRequestId => async dispatch => {
       }`,
     });
 
-    const loverRequest = _.at(res, 'body.data.acceptLoverRequest.loverRequest')[0];
+    const loverRequest = _.get(res, 'body.data.acceptLoverRequest.loverRequest');
 
     if (_.isObject(loverRequest) && loverRequest.id) {
       dispatch({
         type: ACCEPT_LOVER_REQUEST,
-        ..._.pick(loverRequest, [
-          'id',
-          'isAccepted',
-          'isSenderCanceled',
-          'isRecipientCanceled',
-          'createdAt',
-        ]),
+        id: loverRequest.id,
+        isAccepted: loverRequest.isAccepted,
+        isSenderCanceled: loverRequest.isSenderCanceled,
+        isRecipientCanceled: loverRequest.isRecipientCanceled,
+        createdAt: loverRequest.createdAt,
       });
     }
 
