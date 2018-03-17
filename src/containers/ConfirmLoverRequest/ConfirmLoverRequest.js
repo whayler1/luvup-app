@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
+import _ from 'lodash';
 
 import { cancelLoverRequest as cancelLoverRequestAction } from '../../redux/loverRequest/loverRequest.actions';
 import {
@@ -58,7 +59,16 @@ class ConfirmLoverRequest extends Component {
       isInFlight: true,
     });
     const res = await this.props.acceptLoverRequest(this.state.currentLoverRequestId);
-    console.log('this.props.receivedLoverRequests[0]', this.props.receivedLoverRequests[0])
+    const loverRequest = _.get(res, 'body.data.acceptLoverRequest.loverRequest');
+
+    if (_.isObject(loverRequest) && loverRequest.id) {
+      Actions.dashboard();
+    } else {
+      this.setState({
+        isInFlight: false,
+        error: 'accept-lover',
+      })
+    }
   };
 
   componentWillMount() {

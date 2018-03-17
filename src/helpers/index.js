@@ -12,7 +12,8 @@ export const userLoginRouteSwitch = async () => {
   const state = store.getState();
   const relationshipId = state.relationship.id;
   const loverRequestId = state.loverRequest.id;
-  const receivedLoverRequests = state.receivedLoverRequests.row;
+  const receivedLoverRequests = state.receivedLoverRequests.rows;
+  console.log('\n\n------\n',{receivedLoverRequests});
 
   if (!('body' in res)) {
     Actions.login();

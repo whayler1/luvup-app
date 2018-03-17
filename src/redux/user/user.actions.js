@@ -126,6 +126,14 @@ export const getMe = () => async dispatch => {
       lastName,
     ));
 
+    console.log('\n\n getme dispatch setUser', {
+      email,
+      username,
+      id,
+      firstName,
+      lastName,
+    });
+
     if (relationship) {
       dispatch(setRelationship(relationship.id, relationship.createdAt));
 
@@ -136,7 +144,7 @@ export const getMe = () => async dispatch => {
       }
     }
 
-    const receivedLoverRequests = _.at(res, 'body.data.receivedLoverRequests')[0];
+    const receivedLoverRequests = _.get(res, 'body.data.receivedLoverRequests');
     if (receivedLoverRequests) {
       dispatch(setReceivedLoverRequests(
         receivedLoverRequests.rows,
@@ -144,7 +152,7 @@ export const getMe = () => async dispatch => {
       ));
     }
 
-    if (_.at(res, 'body.data.activeLoverRequest.loverRequest')[0]) {
+    if (_.get(res, 'body.data.activeLoverRequest.loverRequest')) {
       const { loverRequest } = res.body.data.activeLoverRequest;
 
       if (loverRequest) {
