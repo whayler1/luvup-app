@@ -9,6 +9,9 @@ import {
   getReceivedLoverRequests as getReceivedLoverRequestsAction,
   acceptLoverRequest as acceptLoverRequestAction,
 } from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
+import {
+  getMe as getMeAction,
+} from '../../redux/user/user.actions';
 import Template from './ConfirmLoverRequest.template';
 
 class ConfirmLoverRequest extends Component {
@@ -19,6 +22,7 @@ class ConfirmLoverRequest extends Component {
     cancelLoverRequest: PropTypes.func.isRequired,
     getReceivedLoverRequests: PropTypes.func.isRequired,
     acceptLoverRequest: PropTypes.func.isRequired,
+    getMe: PropTypes.func.isRequired,
   };
 
   state = {
@@ -62,9 +66,11 @@ class ConfirmLoverRequest extends Component {
       inFlightType: 'accept',
     });
     const res = await this.props.acceptLoverRequest(this.state.currentLoverRequestId);
+    await this.props.getMe();
     const loverRequest = _.get(res, 'body.data.acceptLoverRequest.loverRequest');
 
     if (_.isObject(loverRequest) && loverRequest.id) {
+      console.log('\n\n redirect to dashboard');
       Actions.dashboard();
     } else {
       this.setState({
@@ -97,6 +103,7 @@ export default connect(
   {
     cancelLoverRequest: cancelLoverRequestAction,
     getReceivedLoverRequests: getReceivedLoverRequestsAction,
-    acceptLoverRequest: acceptLoverRequestAction
+    acceptLoverRequest: acceptLoverRequestAction,
+    getMe: getMeAction,
   }
 )(ConfirmLoverRequest);
