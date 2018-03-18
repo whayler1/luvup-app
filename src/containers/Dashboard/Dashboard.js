@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { PanResponder, Animated, Easing, } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -71,6 +70,7 @@ class Dashboard extends Component {
   };
 
   componentDidMount() {
+    console.log('dashboard mounted');
     const {
       unviewedCoinCount,
       unviewedJalapenoCount,
