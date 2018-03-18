@@ -26,12 +26,7 @@ export default function reducer(state = defaultState, action) {
         ..._.pick(action, 'id', 'email', 'username', 'firstName', 'lastName'),
       };
     case LOGOUT:
-      const emptyObj = Object.keys(state).reduce((accumulator, key) => {
-        accumulator[key] = '';
-        return accumulator;
-      }, {});
-
-      return emptyObj;
+      return {...defaultState};
     case USER_REQUEST:
       return {
         ...state,

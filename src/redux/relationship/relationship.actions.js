@@ -5,6 +5,7 @@ import { clearLover } from '../lover/lover.actions';
 
 export const SET_RELATIONSHIP = 'relationship/set-relationship';
 export const END_RELATIONSHIP = 'relationship/end-relationship';
+export const CLEAR_RELATIONSHIP = 'relationship/clear-relationship';
 
 export const setRelationship = (id, createdAt) => dispatch => {
   console.log('setRelationship', id, createdAt);
@@ -33,3 +34,5 @@ export const endRelationship = () => async dispatch => {
     return err;
   }
 }
+
+export const clearRelationship = () => ({ type: CLEAR_RELATIONSHIP });

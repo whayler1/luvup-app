@@ -3,6 +3,7 @@ import _ from 'lodash';
 import config from '../../config';
 export const SET_RECEIVED_LOVER_REQUESTS = 'received-lover-requests/set-received-lover-requests';
 export const ACCEPT_LOVER_REQUEST = 'received-lover-requests/accept-lover-request';
+export const CLEAR_RECEIVED_LOVER_REQUESTS = 'received-lover-requests/clear-received-lover-requests';
 
 export const setReceivedLoverRequests = (rows, count) => ({
   type: SET_RECEIVED_LOVER_REQUESTS,
@@ -76,3 +77,5 @@ export const acceptLoverRequest = loverRequestId => async dispatch => {
     return err;
   }
 };
+
+export const clearReceivedLoverRequests = () => ({ type: CLEAR_RECEIVED_LOVER_REQUESTS });

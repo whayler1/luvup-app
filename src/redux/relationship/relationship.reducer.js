@@ -2,6 +2,7 @@ import _ from 'lodash';
 import {
   SET_RELATIONSHIP,
   END_RELATIONSHIP,
+  CLEAR_RELATIONSHIP,
 } from './relationship.actions';
 
 const defaultState = {
@@ -21,6 +22,8 @@ export default function reducer(state = defaultState, action) {
         id: '',
         createdAt: '',
       };
+    case CLEAR_RELATIONSHIP:
+      return { ...defaultState };
     default:
       return state;
   }
