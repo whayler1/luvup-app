@@ -26,6 +26,7 @@ class ConfirmLoverRequest extends Component {
     senderFirstName: '',
     senderLastName: '',
     isInFlight: false,
+    inFlightType: '',
   }
 
   setCurrentLoverRequest = () => {
@@ -42,6 +43,7 @@ class ConfirmLoverRequest extends Component {
   cancelLoverRequest = async () => {
     this.setState({
       isInFlight: true,
+      inFlightType: 'cancel',
     });
     const res = await this.props.cancelLoverRequest(this.state.currentLoverRequestId);
     await this.props.getReceivedLoverRequests();
@@ -57,6 +59,7 @@ class ConfirmLoverRequest extends Component {
   acceptLoverRequest = async () => {
     this.setState({
       isInFlight: true,
+      inFlightType: 'accept',
     });
     const res = await this.props.acceptLoverRequest(this.state.currentLoverRequestId);
     const loverRequest = _.get(res, 'body.data.acceptLoverRequest.loverRequest');
@@ -66,6 +69,7 @@ class ConfirmLoverRequest extends Component {
     } else {
       this.setState({
         isInFlight: false,
+        inFlightType: '',
         error: 'accept-lover',
       })
     }

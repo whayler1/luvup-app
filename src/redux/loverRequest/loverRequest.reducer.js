@@ -3,6 +3,7 @@ import {
   REQUEST_LOVER,
   SET_LOVER_REQUEST,
   CANCEL_LOVER_REQUEST,
+  CLEAR_LOVER_REQUEST,
 } from './loverRequest.actions';
 
 const defaultState = {
@@ -44,6 +45,8 @@ export default function reducer(state = defaultState, action) {
           'createdAt',
         ]),
       };
+    case CLEAR_LOVER_REQUEST:
+      return { ...defaultState };
     default:
       return state;
   }

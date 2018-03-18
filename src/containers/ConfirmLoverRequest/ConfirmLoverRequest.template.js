@@ -14,6 +14,7 @@ export default ({
   senderFirstName,
   senderLastName,
   isInFlight,
+  inFlightType,
   error,
   cancelLoverRequest,
   acceptLoverRequest,
@@ -31,7 +32,7 @@ export default ({
             buttonStyle={buttons.secondarySkeletonButton}
             textStyle={buttons.secondarySkeletonText}
             disabled={isInFlight}
-            title="Reject"
+            title={inFlightType === 'cancel' ? 'Rejecting…' : 'Reject'}
           />
         </View>
         <View style={forms.buttonCell2ColRight}>
@@ -41,7 +42,7 @@ export default ({
             buttonStyle={buttons.infoButton}
             textStyle={buttons.infoText}
             disabled={isInFlight}
-            title="Accept"
+            title={inFlightType === 'accept' ? 'Accepting…' : 'Accept'}
           />
         </View>
       </View>

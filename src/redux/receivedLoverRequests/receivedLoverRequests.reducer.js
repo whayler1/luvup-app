@@ -2,6 +2,7 @@ import _ from 'lodash';
 import {
   SET_RECEIVED_LOVER_REQUESTS,
   ACCEPT_LOVER_REQUEST,
+  CLEAR_RECEIVED_LOVER_REQUESTS,
 } from './receivedLoverRequests.actions';
 
 const defaultState = {
@@ -35,6 +36,8 @@ export default function reducer(state = defaultState, action) {
         ...state,
         rows,
       };
+    case CLEAR_RECEIVED_LOVER_REQUESTS:
+      return { ...defaultState };
     default:
       return state;
   }

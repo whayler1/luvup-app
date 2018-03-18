@@ -7,6 +7,7 @@ export const REQUEST_LOVER = 'lover-request/request-lover';
 export const SET_LOVER_REQUEST = 'lover-request/set-lover-request';
 export const CANCEL_LOVER_REQUEST = 'lover-request/cancel-lover-request';
 export const RESEND_LOVER_REQUEST_EMAIL = 'lover-request/resend-lover-request-email';
+export const CLEAR_LOVER_REQUEST = 'lover-request/clear-lover-request';
 
 export const requestLover = recipientId => async dispatch => {
   try {
@@ -99,3 +100,5 @@ export const resendLoverRequestEmail = loverRequestId => async () => {
     return err;
   }
 };
+
+export const clearLoverRequest = () => ({ type: CLEAR_LOVER_REQUEST });

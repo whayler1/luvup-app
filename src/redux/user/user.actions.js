@@ -3,12 +3,12 @@ import { AsyncStorage } from 'react-native';
 import _ from 'lodash';
 
 import config from '../../config';
-import { setLover } from '../lover/lover.actions';
-import { SET_LOVER_REQUEST } from '../loverRequest/loverRequest.actions';
-import { setRelationship } from '../relationship/relationship.actions';
+import { setLover, clearLover } from '../lover/lover.actions';
+import { SET_LOVER_REQUEST, clearLoverRequest } from '../loverRequest/loverRequest.actions';
+import { setRelationship, clearRelationship } from '../relationship/relationship.actions';
 import { setSentCoins, setUnviewedCoinCount } from '../coin/coin.actions';
 import { setSentJalapenos, setUnviewedJalapenoCount } from '../jalapeno/jalapeno.actions';
-import { setReceivedLoverRequests } from '../receivedLoverRequests/receivedLoverRequests.actions';
+import { setReceivedLoverRequests, clearReceivedLoverRequests } from '../receivedLoverRequests/receivedLoverRequests.actions';
 
 export const SET_USER = 'user/set-user';
 export const LOGIN = 'user/login';
@@ -38,6 +38,10 @@ export const login = (usernameOrEmail, password) => async dispatch => {
 
 export const logout = () => async dispatch => {
   await AsyncStorage.removeItem('id_token');
+  dispatch(clearLover());
+  dispatch(clearLoverRequest());
+  dispatch(clearReceivedLoverRequests());
+  dispatch(clearRelationship());
   dispatch({ type: LOGOUT });
   return true;
 }
