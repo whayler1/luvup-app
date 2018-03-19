@@ -72,60 +72,59 @@ export default ({
         paddingBottom: 8,
       }}
     >
-      {!loverFirstName.length &&
-      <View
-        style={{
-          flex: 0.33,
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}
-      />
-      }
-      {loverFirstName.length > 0 &&
-      <TouchableOpacity
-        onPress={onScoreClick}
-        style={{
-          flex: 0.33,
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}
-      >
-        <Image
-          source={require('../../images/coin.png')}
+      {(_.isNumber(coinCount) && _.isNumber(jalapenoCount)) ?
+        <TouchableOpacity
+          onPress={onScoreClick}
           style={{
-            width: 30,
-            height: 30,
-          }}
-        />
-        <Text
-          style={{
-            paddingLeft: 5,
-            fontFamily: 'latoblack',
-            fontSize: 16,
-            color: vars.blueGrey500,
+            flex: 0.33,
+            flexDirection: 'row',
+            alignItems: 'center',
           }}
         >
-          {coinCount}
-        </Text>
-        <Image
-          source={require('../../images/jalapeno.png')}
+          <Image
+            source={require('../../images/coin.png')}
+            style={{
+              width: 30,
+              height: 30,
+            }}
+          />
+          <Text
+            style={{
+              paddingLeft: 5,
+              fontFamily: 'latoblack',
+              fontSize: 16,
+              color: vars.blueGrey500,
+            }}
+          >
+            {coinCount}
+          </Text>
+          <Image
+            source={require('../../images/jalapeno.png')}
+            style={{
+              width: 23,
+              height: 30,
+              marginLeft: 10,
+            }}
+          />
+          <Text
+            style={{
+              paddingLeft: 5,
+              fontFamily: 'latoblack',
+              fontSize: 16,
+              color: vars.blueGrey500,
+            }}
+          >
+            {jalapenoCount}
+          </Text>
+        </TouchableOpacity>
+        :
+        <View
           style={{
-            width: 23,
-            height: 30,
-            marginLeft: 10,
+            flex: 0.33,
+            flexDirection: 'row',
+            alignItems: 'center',
           }}
         />
-        <Text
-          style={{
-            paddingLeft: 5,
-            fontFamily: 'latoblack',
-            fontSize: 16,
-            color: vars.blueGrey500,
-          }}
-        >
-          {jalapenoCount}
-        </Text>
-      </TouchableOpacity>
       }
       <View
         style={{
@@ -158,7 +157,7 @@ export default ({
               color: vars.blueGrey500,
             }}
           >
-            {userFirstName.substr(0,1)}{userLastName.substr(0,1)}{loverFirstName ? ' + ' : ''}{loverFirstName.substr(0,1)}{loverLastName.substr(0,1)}
+            {userFirstName.substr(0,1)}{userLastName.substr(0,1)}{loverFirstName ? ' + ' : ''}{_.isString(loverFirstName) && loverFirstName.substr(0,1)}{_.isString(loverLastName) && loverLastName.substr(0,1)}
           </Text>
         </TouchableOpacity>
         :

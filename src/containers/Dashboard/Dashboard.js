@@ -15,9 +15,9 @@ import Template from './Dashboard.template';
 
 class Dashboard extends Component {
   static propTypes = {
-    userFirstName: PropTypes.string.isRequired,
-    userLastName: PropTypes.string.isRequired,
-    username: PropTypes.string.isRequired,
+    userFirstName: PropTypes.string,
+    userLastName: PropTypes.string,
+    username: PropTypes.string,
     loverFirstName: PropTypes.string,
     loverLastName: PropTypes.string,
     loverUsername: PropTypes.string,

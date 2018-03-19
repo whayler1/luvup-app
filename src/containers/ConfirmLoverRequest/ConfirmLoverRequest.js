@@ -19,6 +19,8 @@ class ConfirmLoverRequest extends Component {
     receivedLoverRequests: PropTypes.array,
     loverRequestId: PropTypes.string,
     relationshipId: PropTypes.string,
+    userFirstName: PropTypes.string,
+    userLastName: PropTypes.string,
     cancelLoverRequest: PropTypes.func.isRequired,
     getReceivedLoverRequests: PropTypes.func.isRequired,
     acceptLoverRequest: PropTypes.func.isRequired,
@@ -90,6 +92,10 @@ class ConfirmLoverRequest extends Component {
       {...this.state}
       cancelLoverRequest={this.cancelLoverRequest}
       acceptLoverRequest={this.acceptLoverRequest}
+      {..._.pick(this.props, [
+        'userFirstName',
+        'userLastName',
+      ])}
     />;
   }
 }
@@ -99,6 +105,8 @@ export default connect(
     receivedLoverRequests: state.receivedLoverRequests.rows,
     loverRequestId: state.loverRequest.id,
     relationshipId: state.relationship.id,
+    userFirstName: state.user.firstName,
+    userLastName: state.user.lastName,
   }),
   {
     cancelLoverRequest: cancelLoverRequestAction,

@@ -14,6 +14,8 @@ class CreateLoverRequest extends Component {
   static propTypes = {
     relationshipId: PropTypes.string,
     requestLover: PropTypes.func.isRequired,
+    userFirstName: PropTypes.string,
+    userLastName: PropTypes.string,
   };
 
   state = {
@@ -80,11 +82,16 @@ class CreateLoverRequest extends Component {
 
   onSearchChange = search => this.setState({ search, isInFlight: true, }, this.searchDebounce);
 
+  goToMenu = () => Actions.menu();
+
   render() {
     if (!this.state.selectedUser) {
       return <Template
         onSearchChange={this.onSearchChange}
         onListItemClick={this.onListItemClick}
+        userFirstName={this.props.userFirstName}
+        userLastName={this.props.userLastName}
+        goToMenu={this.goToMenu}
         {...this.state}
       />;
     } else {
@@ -100,6 +107,8 @@ class CreateLoverRequest extends Component {
 export default connect(
   state => ({
       relationshipId: state.relationship.id,
+      userFirstName: state.user.firstName,
+      userLastName: state.user.lastName,
   }),
   {
     requestLover: requestLoverAction,
