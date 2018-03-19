@@ -11,6 +11,9 @@ import {
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Ionicons';
+import _ from 'lodash';
+
+import DashboardTopNav from '../../components/DashboardTopNav';
 
 import styles from './CreateLoverRequest.styles';
 import { forms, buttons, scene, modal, vars, } from '../../styles';
@@ -23,6 +26,9 @@ export default ({
   search,
   users,
   isInFlight,
+  userFirstName,
+  userLastName,
+  goToMenu,
 }) => (
   <KeyboardAvoidingView
     contentContainerStyle={scene.keyboardAvoidingView}
@@ -30,6 +36,29 @@ export default ({
     keyboardVerticalOffset={32}
     behavior="padding"
   >
+    <View
+      style={scene.topNav}
+    >
+      <View style={scene.topNavContent}>
+        <TouchableOpacity
+          onPress={goToMenu}
+          style={{
+            flex: 1,
+            alignItems: 'flex-end',
+          }}
+        >
+          <Text
+            style={{
+              fontFamily: 'latoblack',
+              fontSize: 16,
+              color: vars.blueGrey500,
+            }}
+          >
+            {_.isString(userFirstName) && userFirstName.substr(0,1)}{_.isString(userLastName) && userLastName.substr(0,1)}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
     <ScrollView style={scene.content}>
       <View style={scene.formGroup}>
         <Text style={forms.label}>Search for your lover</Text>
