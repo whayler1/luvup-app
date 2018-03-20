@@ -27,8 +27,10 @@ export default ({
   relationshipCreatedAtFormatted,
   onLogout,
   isModalVisible,
+  isInFlight,
   modalType,
   onChangePasswordClick,
+  openEndRelationshipModal,
   closeModal,
   endRelationship,
 }) => (
@@ -54,9 +56,6 @@ export default ({
       <ScrollView
         contentContainerStyle={{
           alignSelf: 'stretch',
-          // paddingTop: 100,
-          // backgroundColor: 'pink',
-          // flex: 1,
         }}
       >
         <View>
@@ -86,7 +85,7 @@ export default ({
               color={vars.link}
             />
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={{
               flexDirection: 'row',
               marginTop: 16,
@@ -104,7 +103,7 @@ export default ({
               size={22}
               color={vars.link}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         {relationshipCreatedAt.length > 0 &&
         <View style={styles.group}>
@@ -115,7 +114,7 @@ export default ({
           <Text style={styles.value}>{relationshipCreatedAtFormatted}</Text>
           <Text style={styles.label}>Options</Text>
           <TouchableOpacity
-            onPress={endRelationship}
+            onPress={openEndRelationshipModal}
             style={{
               flexDirection: 'row',
               marginTop: 8,
@@ -153,11 +152,53 @@ export default ({
     <ModalContentWrap
       visible={isModalVisible}
     >
-      {modalType === 'changePassword' &&
+      {modalType === 'changePassword' && (
         <ChangePasswordModalContent
           closeModal={closeModal}
         />
-      }
+      )}
+      {modalType === 'endRelationship' && (
+        <View
+          style={{
+            alignSelf: 'stretch',
+            alignItems: 'center',
+          }}
+        >
+          <Icon
+            name="md-alert"
+            size={60}
+            color={vars.danger}
+          />
+          <Text style={modal.title}>
+            End Relationship
+          </Text>
+          <Text style={modal.copy}>
+            This can not be undone!
+          </Text>
+          <View style={forms.buttonRow}>
+            <View style={forms.buttonCell2ColLeft}>
+              <Button
+                onPress={closeModal}
+                containerViewStyle={buttons.container}
+                buttonStyle={buttons.secondarySkeletonButton}
+                textStyle={buttons.secondarySkeletonText}
+                title="Close"
+                disabled={isInFlight}
+              />
+            </View>
+            <View style={forms.buttonCell2ColRight}>
+              <Button
+                onPress={endRelationship}
+                containerViewStyle={buttons.container}
+                buttonStyle={buttons.dangerButton}
+                textStyle={buttons.text}
+                title={isInFlight ? 'Ending…' : 'End'}
+                disabled={isInFlight}
+              />
+            </View>
+          </View>
+        </View>
+      )}
     </ModalContentWrap>
   </View>
 );
