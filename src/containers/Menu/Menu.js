@@ -29,7 +29,13 @@ class Menu extends PureComponent {
     error: '',
   };
 
-  goToDashboard = () => Actions.dashboard();
+  goToDashboard = () => {
+    if (this.props.loverFirstName.length > 0) {
+      Actions.dashboard();
+    } else {
+      Actions.createloverrequest();
+    }
+  }
 
   onChangePasswordClick = () => this.setState({
     isModalVisible: true,
