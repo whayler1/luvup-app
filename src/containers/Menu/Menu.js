@@ -41,6 +41,10 @@ class Menu extends PureComponent {
     isModalVisible: true,
     modalType: 'changePassword',
   });
+  openEndRelationshipModal = () => this.setState({
+    isModalVisible: true,
+    modalType: 'endRelationship',
+  });
   closeModal = () => this.setState({ isModalVisible: false });
 
   onLogout = async () => {
@@ -55,7 +59,9 @@ class Menu extends PureComponent {
     const res = await this.props.endRelationship();
     const relationship = _.at(res, 'body.data.endRelationship.relationship')[0];
     if (_.isObject(relationship) && relationship.id) {
-      Actions.createloverrequest();
+      this.setState({
+        isModalVisible: false,
+      }, () => Actions.createloverrequest());
     } else {
       this.setState({
         error: 'end-relationship',
@@ -75,6 +81,7 @@ class Menu extends PureComponent {
       {...this.state}
       goToDashboard={this.goToDashboard}
       onChangePasswordClick={this.onChangePasswordClick}
+      openEndRelationshipModal={this.openEndRelationshipModal}
       closeModal={this.closeModal}
       onLogout={this.onLogout}
       endRelationship={this.endRelationship}
