@@ -4,10 +4,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import {
-  getCoinCount as getCoinCountAction
+  getCoinCount as getCoinCountAction,
+  setUnviewedCoinCount as setUnviewedCoinCountAction,
 } from '../../redux/coin/coin.actions';
 import {
   getJalapenoCount as getJalapenoCountAction,
+  setUnviewedJalapenoCount as setUnviewedJalapenoCountAction,
 } from '../../redux/jalapeno/jalapeno.actions';
 
 import config from '../../config.js';
@@ -31,6 +33,8 @@ class Dashboard extends Component {
     sentJalapenos: PropTypes.array,
     unviewedCoinCount: PropTypes.number,
     unviewedJalapenoCount: PropTypes.number,
+    setUnviewedCoinCount: PropTypes.func.isRequired,
+    setUnviewedJalapenoCount: PropTypes.func.isRequired,
   };
 
   state = {
@@ -54,7 +58,11 @@ class Dashboard extends Component {
   closeModal = () => this.setState({
     isModalOpen: false,
   });
-  closePushdown = () => this.setState({ isPushdownVisible: false });
+  closePushdown = () => {
+    this.props.setUnviewedCoinCount(0);
+    this.props.setUnviewedJalapenoCount(0);
+    this.setState({ isPushdownVisible: false });
+  };
 
   setAvailableTime(collection, stateKey) {
     const now = moment();
@@ -64,13 +72,11 @@ class Dashboard extends Component {
     this.setState({ [stateKey]: availableTime });
   };
 
-  componentWillMount() {
-    this.props.getCoinCount();
-    this.props.getJalapenoCount();
-  };
-
   componentDidMount() {
     console.log('dashboard mounted');
+    this.props.getCoinCount();
+    this.props.getJalapenoCount();
+
     const {
       unviewedCoinCount,
       unviewedJalapenoCount,
@@ -123,5 +129,7 @@ export default connect(
   {
     getCoinCount: getCoinCountAction,
     getJalapenoCount: getJalapenoCountAction,
+    setUnviewedCoinCount: setUnviewedCoinCountAction,
+    setUnviewedJalapenoCount: setUnviewedJalapenoCountAction,
   }
 )(Dashboard);

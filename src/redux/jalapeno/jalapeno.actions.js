@@ -57,7 +57,8 @@ export const getJalapenoCount = () => async dispatch => {
       }`,
     });
 
-    const jalapenos = _.at(res, 'body.data.jalapenos')[0];
+    const jalapenos = _.get(res, 'body.data.jalapenos');
+    console.log('\n\n', { jalapenos });
 
     if(_.isObject(jalapenos)) {
       dispatch({
