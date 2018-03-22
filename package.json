@@ -33,6 +33,7 @@
     ]
   },
   "dependencies": {
+    "analytics-react-native": "^1.2.0",
     "art": "^0.10.1",
     "babel-plugin-transform-inline-environment-variables": "^0.2.0",
     "color": "^3.0.0",
