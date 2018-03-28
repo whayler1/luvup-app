@@ -2,7 +2,18 @@
   "expo": {
     "name": "Luvup",
     "slug": "luvup",
+    "version": "0.0.1",
     "sdkVersion": "22.0.0",
-    "orientation": "portrait"
+    "orientation": "portrait",
+    "icon": "./src/images/icon/icon.png",
+    "splash": {
+      "image": "./src/images/splash/splash.png",
+      "backgroundColor": "#FFFFFF",
+      "resizeMode": "contain"
+    },
+    "ios": {
+      "bundleIdentifier": "io.terriblesolutions.luvup",
+      "loadJSInBackgroundExperimental": true
+    }
   }
 }
