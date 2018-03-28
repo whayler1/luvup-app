@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import _ from 'lodash';
 
+import analytics from '../../services/analytics';
 import Template from './Menu.template';
 import { logout as logoutAction } from '../../redux/user/user.actions';
 import { endRelationship as endRelationshipAction } from '../../redux/relationship/relationship.actions';
@@ -14,6 +15,7 @@ class Menu extends PureComponent {
     userFirstName: PropTypes.string,
     userLastName: PropTypes.string,
     userEmail: PropTypes.string,
+    userId: PropTypes.string,
     loverFirstName: PropTypes.string,
     loverLastName: PropTypes.string,
     relationshipCreatedAt: PropTypes.string,
@@ -75,6 +77,13 @@ class Menu extends PureComponent {
     this.setState({ relationshipCreatedAtFormatted: moment(new Date(relationshipCreatedAt)).format('MMM DD, YYYY') });
   }
 
+  componentDidMount() {
+    analytics.screen({
+      userId: this.props.userId,
+      name: 'Menu',
+    });
+  }
+
   render() {
     return <Template
       {...this.props}
@@ -94,6 +103,7 @@ export default connect(
     userFirstName: state.user.firstName,
     userLastName: state.user.lastName,
     userEmail: state.user.email,
+    userId: state.user.id,
     loverFirstName: state.lover.firstName,
     loverLastName: state.lover.lastName,
     relationshipCreatedAt: state.relationship.createdAt,

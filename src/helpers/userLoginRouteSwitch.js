@@ -14,7 +14,7 @@ const userLoginRouteSwitch = async () => {
   const receivedLoverRequests = state.receivedLoverRequests.rows;
   const user = state.user;
 
-  const analRes = await analytics.identify({
+  analytics.identify({
     userId: user.id,
     traits: {
       first_name: user.firstName,
@@ -22,8 +22,6 @@ const userLoginRouteSwitch = async () => {
       email: user.email,
     },
   });
-
-  console.log('\n\n analres', analRes);
 
   if (!('body' in res)) {
     Actions.login();

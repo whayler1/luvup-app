@@ -74,7 +74,7 @@ class ConfirmUserRequestCreateProfile extends Component {
     const res = await this.props.login(username, password);
     await this.props.getMe();
 
-    Actions.dashboard();
+    Actions.createloverrequest();
   };
 
   submit = async () => {
