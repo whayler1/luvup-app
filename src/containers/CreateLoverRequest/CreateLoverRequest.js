@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
+import analytics from '../../services/analytics';
 import config from '../../config.js';
 import Template from './CreateLoverRequest.template';
 import TemplateSelectedUser from './CreateLoverRequest.template.selectedUser';
@@ -16,6 +17,7 @@ class CreateLoverRequest extends Component {
     requestLover: PropTypes.func.isRequired,
     userFirstName: PropTypes.string,
     userLastName: PropTypes.string,
+    userId: PropTypes.string,
   };
 
   state = {
@@ -84,6 +86,13 @@ class CreateLoverRequest extends Component {
 
   goToMenu = () => Actions.menu();
 
+  componentDidMount() {
+    analytics.screen({
+      userId: this.props.userId,
+      name: 'CreateLoverRequest',
+    });
+  }
+
   render() {
     if (!this.state.selectedUser) {
       return <Template
@@ -109,6 +118,7 @@ export default connect(
       relationshipId: state.relationship.id,
       userFirstName: state.user.firstName,
       userLastName: state.user.lastName,
+      userId: state.user.id,
   }),
   {
     requestLover: requestLoverAction,
