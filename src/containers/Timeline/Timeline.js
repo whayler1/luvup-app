@@ -6,6 +6,7 @@ import superagent from 'superagent';
 import moment from 'moment';
 import _ from 'lodash';
 
+import analytics from '../../services/analytics';
 import {
   setUserEvents as setUserEventsAction,
   getUserEvents as getUserEventsAction,
@@ -56,6 +57,7 @@ class Timeline extends Component {
   static propTypes = {
     userFirstName: PropTypes.string,
     userLastName: PropTypes.string,
+    userId: PropTypes.string,
     loverFirstName: PropTypes.string,
     loverLastName: PropTypes.string,
     coinCount: PropTypes.number,
@@ -167,6 +169,13 @@ class Timeline extends Component {
     }
   }
 
+  componentDidMount() {
+    analytics.screen({
+      userId: this.props.userId,
+      name: 'Timeline',
+    });
+  }
+
   render() {
     return <Template
       {...this.props}
@@ -182,6 +191,7 @@ export default connect(
   state => ({
     userFirstName: state.user.firstName,
     userLastName: state.user.lastName,
+    userId: state.user.id,
     loverFirstName: state.lover.firstName,
     loverLastName: state.lover.lastName,
     coinCount: state.coin.count,

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import _ from 'lodash';
 
+import analytics from '../../services/analytics';
 import { cancelLoverRequest as cancelLoverRequestAction } from '../../redux/loverRequest/loverRequest.actions';
 import {
   getReceivedLoverRequests as getReceivedLoverRequestsAction,
@@ -19,6 +20,7 @@ class ConfirmLoverRequest extends Component {
     receivedLoverRequests: PropTypes.array,
     loverRequestId: PropTypes.string,
     relationshipId: PropTypes.string,
+    userId: PropTypes.string,
     userFirstName: PropTypes.string,
     userLastName: PropTypes.string,
     cancelLoverRequest: PropTypes.func.isRequired,
@@ -87,6 +89,13 @@ class ConfirmLoverRequest extends Component {
     this.setCurrentLoverRequest();
   }
 
+  componentDidMount() {
+    analytics.screen({
+      userId: this.props.userId,
+      name: 'ConfirmLoverRequest',
+    });
+  }
+
   render() {
     return <Template
       {...this.state}
@@ -105,6 +114,7 @@ export default connect(
     receivedLoverRequests: state.receivedLoverRequests.rows,
     loverRequestId: state.loverRequest.id,
     relationshipId: state.relationship.id,
+    userId: state.user.id,
     userFirstName: state.user.firstName,
     userLastName: state.user.lastName,
   }),

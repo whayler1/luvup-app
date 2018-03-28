@@ -3,6 +3,8 @@ import { PanResponder, Animated, Easing, } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+
+import analytics from '../../services/analytics';
 import {
   getCoinCount as getCoinCountAction,
   setUnviewedCoinCount as setUnviewedCoinCountAction,
@@ -20,6 +22,7 @@ class Dashboard extends Component {
     userFirstName: PropTypes.string,
     userLastName: PropTypes.string,
     username: PropTypes.string,
+    userId: PropTypes.string,
     loverFirstName: PropTypes.string,
     loverLastName: PropTypes.string,
     loverUsername: PropTypes.string,
@@ -85,6 +88,12 @@ class Dashboard extends Component {
     if (unviewedCoinCount > 0 || unviewedJalapenoCount > 0) {
       this.setState({ isPushdownVisible: true });
     }
+    if (this.props.userId && this.props.userId.length) {
+      analytics.screen({
+        userId: this.props.userId,
+        name: 'Dashboard',
+      });
+    }
   }
 
   render() {
@@ -114,6 +123,7 @@ export default connect(
     userFirstName: state.user.firstName,
     userLastName: state.user.lastName,
     username: state.user.username,
+    userId: state.user.id,
     loverFirstName: state.lover.firstName,
     loverLastName: state.lover.lastName,
     loverUsername: state.lover.username,
