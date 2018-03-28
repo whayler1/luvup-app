@@ -2,9 +2,18 @@
   "expo": {
     "name": "Luvup",
     "slug": "luvup",
+    "description": "Improving romantic relationships with gamification",
     "version": "0.0.1",
     "sdkVersion": "22.0.0",
+    "platforms": [
+      "ios"
+    ],
+    "primaryColor": "#FFFFFF",
     "orientation": "portrait",
+    "notification": {
+      "icon": "./src/images/icon/icon-notification.png",
+      "color": "#FFFFFF"
+    },
     "icon": "./src/images/icon/icon.png",
     "splash": {
       "image": "./src/images/splash/splash.png",
@@ -13,6 +22,7 @@
     },
     "ios": {
       "bundleIdentifier": "io.terriblesolutions.luvup",
+      "icon": "./src/images/icon/icon.png",
       "loadJSInBackgroundExperimental": true
     }
   }
