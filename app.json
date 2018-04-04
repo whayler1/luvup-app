@@ -5,9 +5,6 @@
     "description": "Improving romantic relationships with gamification",
     "version": "0.0.1",
     "sdkVersion": "22.0.0",
-    "platforms": [
-      "ios"
-    ],
     "primaryColor": "#FFFFFF",
     "orientation": "portrait",
     "notification": {
@@ -22,8 +19,7 @@
     },
     "ios": {
       "bundleIdentifier": "io.terriblesolutions.luvup",
-      "icon": "./src/images/icon/icon.png",
-      "loadJSInBackgroundExperimental": true
+      "icon": "./src/images/icon/icon.png"
     }
   }
 }
