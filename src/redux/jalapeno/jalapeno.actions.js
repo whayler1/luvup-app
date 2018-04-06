@@ -7,6 +7,7 @@ export const SEND_JALAPENO = 'jalapeno/send-jalapeno';
 export const SET_SENT_JALAPENOS = 'jalapeno/set-sent-jalapenos';
 export const SET_SENT_JALAPENOS_COUNT = 'jalapeno/set-sent-jalapenos-count';
 export const GET_JALAPENO_COUNT = 'jalapeno/get-jalapeno-count';
+export const CLEAR_JALAPENO_COUNT = 'jalapeno/clear-jalapeno-count';
 export const SET_UNVIEWED_JALAPENO_COUNT = 'jalapeno/set-unviewed-jalapeno-count';
 
 export const sendJalapeno = () => async dispatch => {
@@ -73,6 +74,8 @@ export const getJalapenoCount = () => async dispatch => {
     return err;
   }
 };
+
+export const clearJalapenoCount = () => ({ type: CLEAR_JALAPENO_COUNT });
 
 export const setUnviewedJalapenoCount = unviewedJalapenoCount => ({
   type: SET_UNVIEWED_JALAPENO_COUNT,

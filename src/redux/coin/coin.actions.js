@@ -5,6 +5,7 @@ import config from '../../config';
 
 export const SEND_COIN = 'coin/send-coin';
 export const GET_COIN_COUNT = 'coin/get-coin-count';
+export const CLEAR_COIN_COUNT = 'coin/clear-coin-count';
 export const GET_SENT_COINS = 'coin/get-sent-coins';
 export const SET_SENT_COINS = 'coin/set-sent-coins';
 export const SET_SENT_COINS_COUNT = 'coin/set-sent-coins-count';
@@ -65,6 +66,8 @@ export const getCoinCount = () => async dispatch => {
     return err;
   }
 }
+
+export const clearCoinCount = () => ({ type: CLEAR_COIN_COUNT });
 
 export const getSentCoins = (limit, offset) => async dispatch => {
   try {

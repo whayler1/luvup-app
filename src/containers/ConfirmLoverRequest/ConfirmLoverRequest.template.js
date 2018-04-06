@@ -24,6 +24,8 @@ export default ({
       <Text style={[modal.title, { fontFamily: vars.fontRegular }]}>{'You Received a\nLover Request from'}</Text>
       <Text style={modal.title}>{senderFirstName} {senderLastName}</Text>
       {error === 'accept-lover' && <Well text="There was an error accepting your lover request" />}
+      {error === 'cancel' && <Well text="There was an error cancelling your lover request" />}
+      {error === 'get-received' && <Well text="There was an error updating your lover request" />}
       <View style={forms.buttonRow}>
         <View style={forms.buttonCell2ColLeft}>
           <Button

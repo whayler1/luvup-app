@@ -35,11 +35,12 @@ class ConfirmLoverRequest extends Component {
     senderLastName: '',
     isInFlight: false,
     inFlightType: '',
+    error: '',
   }
 
   setCurrentLoverRequest = () => {
     const { id, sender: { firstName, lastName } } = this.props.receivedLoverRequests[0];
-    console.log('\n\n setCurrentLoverRequest', id, firstName, lastName);
+
     this.setState({
       currentLoverRequestId: id,
       senderFirstName: firstName,
@@ -52,9 +53,25 @@ class ConfirmLoverRequest extends Component {
     this.setState({
       isInFlight: true,
       inFlightType: 'cancel',
+      error: '',
     });
     const res = await this.props.cancelLoverRequest(this.state.currentLoverRequestId);
-    await this.props.getReceivedLoverRequests();
+    if (!_.get(res, 'body.data.cancelLoverRequest.loverRequest')) {
+      this.setState({
+        isInFlight: false,
+        inFlightType: '',
+        error: 'cancel'
+      });
+    }
+    const resReceivedLover = await this.props.getReceivedLoverRequests();
+    if (!_.get(res, 'body.data.getReceivedLoverRequests')) {
+      this.setState({
+        isInFlight: false,
+        inFlightType: '',
+        error: 'get-received'
+      });
+    }
+
     if (this.props.receivedLoverRequests.length > 0) {
       this.setCurrentLoverRequest();
     } else if (this.props.relationshipId || this.props.loverRequestId) {
