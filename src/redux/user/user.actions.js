@@ -49,9 +49,13 @@ export const logout = () => async dispatch => {
 }
 
 export const reauth = id_token => async dispatch => {
+  console.log('here at reauth');
   try {
+    console.log('trying');
     const res = await superagent.post(`${config.baseUrl}/reauth`, { id_token });
+    console.log('step 2');
     await AsyncStorage.setItem('id_token', res.body.id_token);
+    console.log('step 3');
     const { id, username, email } = res.body.user;
     dispatch({
       type: REAUTH,

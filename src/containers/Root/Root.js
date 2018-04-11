@@ -8,10 +8,12 @@ import { Font } from 'expo';
 
 import config from '../../config.js';
 import Template from './Root.template';
-import { userLoginRouteSwitch } from '../../helpers';
+import {
+  userLoginRouteSwitch,
+  registerForPushNotifications,
+} from '../../helpers';
 import {
   reauth as reauthAction,
-  getMe as getMeAction,
 } from '../../redux/user/user.actions';
 import {
   setIsFontLoaded as setIsFontLoadedAction,
@@ -25,17 +27,18 @@ class Root extends Component {
     relationshipId: PropTypes.string,
     isFontLoaded: PropTypes.bool,
     reauth: PropTypes.func.isRequired,
-    getMe: PropTypes.func.isRequired,
     setIsFontLoaded: PropTypes.func.isRequired,
     receivedLoverRequests: PropTypes.array,
   };
 
   reauth = async id_token => {
-    console.log('reauth');
+    console.log('reauth', id_token);
     const res = await this.props.reauth(id_token);
+    console.log({ res });
 
     if (this.props.id) {
       console.log('success');
+      registerForPushNotifications();
       userLoginRouteSwitch();
     } else {
       console.log('fail');
@@ -79,7 +82,6 @@ export default connect(
   }),
   {
     reauth: reauthAction,
-    getMe: getMeAction,
     setIsFontLoaded: setIsFontLoadedAction,
   }
 )(Root);
