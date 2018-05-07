@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { Animated, Easing, PanResponder } from 'react-native';
 import moment from 'moment';
 import { Actions } from 'react-native-router-flux';
+import { AlertIOS } from 'react-native';
 
 import Template from './Hero.template';
 import {
@@ -116,6 +117,9 @@ class Hero extends Component {
     if (this.isMaxItemsPerHourSent(sentCoins)) {
       this.fireCoin();
       const res = await this.props.sendCoin();
+      if (_.isError(res)) {
+        AlertIOS.alert('There was an error sending your Luvup. Please make sure you are connected to wifi or cellular data.');
+      }
     } else {
       this.props.openModal('coin');
     }
@@ -127,7 +131,9 @@ class Hero extends Component {
     if (this.isMaxItemsPerHourSent(sentJalapenos)) {
       this.fireJalapeno();
       const res = await this.props.sendJalapeno();
-      console.log('sendJalapeno', res.body.data);
+      if (_.isError(res)) {
+        AlertIOS.alert('There was an error sending your jalapeno. Please make sure you are connected to wifi or cellular data.');
+      }
     } else {
       this.props.openModal('jalapeno');
     }
