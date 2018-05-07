@@ -23,7 +23,7 @@ export const sendCoin = () => async dispatch => {
       }`
     });
 
-    const sendCoin = _.at(res, 'body.data.sendCoin')[0];
+    const sendCoin = _.get(res, 'body.data.sendCoin');
     console.log('--- sendCoin', sendCoin);
 
     if(_.isObject(sendCoin)) {
@@ -50,7 +50,7 @@ export const getCoinCount = () => async dispatch => {
       }`
     });
 
-    const coinCount = _.at(res, 'body.data.coinCount')[0];
+    const coinCount = _.get(res, 'body.data.coinCount');
 
     if (_.isObject(coinCount)) {
       console.log('coinCount.count', coinCount.count);

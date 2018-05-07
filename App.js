@@ -4,15 +4,8 @@ import { Platform, Text, View } from 'react-native';
 import {
   Scene,
   Router,
-  Actions,
   Reducer,
-  ActionConst,
-  Overlay,
-  Tabs,
-  Modal,
-  Drawer,
   Stack,
-  Lightbox,
 } from 'react-native-router-flux';
 import _ from 'lodash';
 
