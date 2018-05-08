@@ -1,6 +1,8 @@
 node_modules/
+luvup.app/
 .expo/
 .DS_Store
 echo
 npm-debug.*
 .env
+yarn-error.log
