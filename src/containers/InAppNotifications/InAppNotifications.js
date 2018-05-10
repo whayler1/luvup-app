@@ -8,9 +8,14 @@ class InAppNotifications extends PureComponent {
     return (
       <Template
         children={this.props.children}
+        isFontLoaded={this.props.isFontLoaded}
       />
     )
   }
 };
 
-export default connect()(InAppNotifications);
+export default connect(
+  state => ({
+    isFontLoaded: state.font.isFontLoaded
+  }),
+)(InAppNotifications);
