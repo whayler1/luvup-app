@@ -6,7 +6,7 @@ import { forms, scene } from '../../styles';
 
 export default ({ isFontLoaded }) => (
   <View style={scene.container}>
-    <StatusBar barStyle="light-content" />
+    <StatusBar barStyle="dark-content" />
     {isFontLoaded && <Text style={styles.title}>luvup</Text>}
   </View>
 );
