@@ -89,10 +89,7 @@ class ConfirmUserRequestCreateProfile extends Component {
       if (error) {
         this.setState({ error, isInFlight: false });
       } else {
-        this.setState({
-          error: '',
-          isInFlight: false,
-        }, () => this.login());
+        this.login();
       }
     }
   }

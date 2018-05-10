@@ -60,7 +60,7 @@ export const cancelLoverRequest = loverRequestId => async dispatch => {
       }`,
     });
 
-    const loverRequest = _.at(res, 'body.data.cancelLoverRequest.loverRequest')[0];
+    const loverRequest = _.get(res, 'body.data.cancelLoverRequest.loverRequest');
 
     if (loverRequest && loverRequest.id) {
       dispatch({

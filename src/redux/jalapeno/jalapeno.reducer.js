@@ -4,6 +4,7 @@ import {
   SET_SENT_JALAPENOS,
   SET_SENT_JALAPENOS_COUNT,
   GET_JALAPENO_COUNT,
+  CLEAR_JALAPENO_COUNT,
   SET_UNVIEWED_JALAPENO_COUNT,
 } from './jalapeno.actions';
 
@@ -35,7 +36,12 @@ export default function reducer(state = defaultState, action) {
     case GET_JALAPENO_COUNT:
       return {
         ...state,
-        count: action.count
+        count: action.count,
+      }
+    case CLEAR_JALAPENO_COUNT:
+      return {
+        ...state,
+        count: 0,
       }
     case SET_UNVIEWED_JALAPENO_COUNT:
       return {
