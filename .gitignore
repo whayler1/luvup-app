@@ -1,5 +1,7 @@
 node_modules/
+luvup.app/
 .expo/
+luvup.app/
 .DS_Store
 echo
 npm-debug.*
