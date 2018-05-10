@@ -6,7 +6,10 @@ import superagent from 'superagent';
 import { Actions } from 'react-native-router-flux';
 
 import config from '../../config.js';
-import { userLoginRouteSwitch } from '../../helpers';
+import {
+  userLoginRouteSwitch,
+  registerForPushNotifications,
+} from '../../helpers';
 import Template from './Login.template';
 import {
   login as loginAction,
@@ -58,6 +61,7 @@ class Login extends Component {
     console.log('this.props.userId', this.props.userId);
 
     if (this.props.userId) {
+      registerForPushNotifications();
       userLoginRouteSwitch();
     } else {
       this.setState({

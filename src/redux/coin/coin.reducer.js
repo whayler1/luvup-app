@@ -2,6 +2,7 @@ import _ from 'lodash';
 import {
   SEND_COIN,
   GET_COIN_COUNT,
+  CLEAR_COIN_COUNT,
   SET_SENT_COINS,
   SET_SENT_COINS_COUNT,
   SET_UNVIEWED_COIN_COUNT,
@@ -26,6 +27,11 @@ export default function reducer(state = defaultState, action) {
       return {
         ...state,
         count: action.count,
+      }
+    case CLEAR_COIN_COUNT:
+      return {
+        ...state,
+        count: 0,
       }
     case SET_SENT_COINS:
       return {

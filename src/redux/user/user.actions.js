@@ -6,8 +6,8 @@ import config from '../../config';
 import { setLover, clearLover } from '../lover/lover.actions';
 import { SET_LOVER_REQUEST, clearLoverRequest } from '../loverRequest/loverRequest.actions';
 import { setRelationship, clearRelationship } from '../relationship/relationship.actions';
-import { setSentCoins, setUnviewedCoinCount } from '../coin/coin.actions';
-import { setSentJalapenos, setUnviewedJalapenoCount } from '../jalapeno/jalapeno.actions';
+import { setSentCoins, setUnviewedCoinCount, clearCoinCount } from '../coin/coin.actions';
+import { setSentJalapenos, setUnviewedJalapenoCount, clearJalapenoCount } from '../jalapeno/jalapeno.actions';
 import { setReceivedLoverRequests, clearReceivedLoverRequests } from '../receivedLoverRequests/receivedLoverRequests.actions';
 
 export const SET_USER = 'user/set-user';
@@ -42,14 +42,20 @@ export const logout = () => async dispatch => {
   dispatch(clearLoverRequest());
   dispatch(clearReceivedLoverRequests());
   dispatch(clearRelationship());
+  dispatch(clearCoinCount());
+  dispatch(clearJalapenoCount());
   dispatch({ type: LOGOUT });
   return true;
 }
 
 export const reauth = id_token => async dispatch => {
+  console.log('here at reauth');
   try {
+    console.log('trying');
     const res = await superagent.post(`${config.baseUrl}/reauth`, { id_token });
+    console.log('step 2');
     await AsyncStorage.setItem('id_token', res.body.id_token);
+    console.log('step 3');
     const { id, username, email } = res.body.user;
     dispatch({
       type: REAUTH,
