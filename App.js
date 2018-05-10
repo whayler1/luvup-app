@@ -22,6 +22,7 @@ import CreateLoverRequest from './src/containers/CreateLoverRequest';
 import Timeline from './src/containers/Timeline';
 import Menu from './src/containers/Menu';
 import ConfirmLoverRequest from './src/containers/ConfirmLoverRequest';
+import InAppNotifications from './src/containers/InAppNotifications';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -49,71 +50,73 @@ const sceneDefaults = {
 
 const App = () => (
   <Provider store={store}>
-    <Router
-      createReducer={reducerCreate}
-      getSceneStyle={getSceneStyle}
-    >
-      <Stack key="root">
-        <Scene
-          key="init"
-          component={Root}
-          title="Root"
-          hideNavBar={true}
-          init={true}
-        />
-        <Scene
-          key="login"
-          component={Login}
-          title="Login"
-          renderLeftButton={() => <View></View>}
-          {...sceneDefaults}
-        />
-        <Scene
-          key="signup"
-          component={SignUp}
-          title="Sign Up"
-          {...sceneDefaults}
-        />
-        <Scene
-          key="confirmUserRequestCode"
-          component={ConfirmUserRequestCode}
-          title="Enter Code"
-          {...sceneDefaults}
-        />
-        <Scene
-          key="confirmUserRequestCreateProfile"
-          component={ConfirmUserRequestCreateProfile}
-          title="Create Profile"
-          {...sceneDefaults}
-        />
-        <Scene
-          key="dashboard"
-          component={Dashboard}
-          title="Dashboard"
-          hideNavBar={true}
-        />
-        <Scene
-          key="createloverrequest"
-          component={CreateLoverRequest}
-          hideNavBar={true}
-        />
-        <Scene
-          key="timeline"
-          component={Timeline}
-          hideNavBar={true}
-        />
-        <Scene
-          key="menu"
-          component={Menu}
-          hideNavBar={true}
-        />
-        <Scene
-          key="confirmLoverRequest"
-          component={ConfirmLoverRequest}
-          hideNavBar={true}
-        />
-      </Stack>
-    </Router>
+    <InAppNotifications>
+      <Router
+        createReducer={reducerCreate}
+        getSceneStyle={getSceneStyle}
+      >
+        <Stack key="root">
+          <Scene
+            key="init"
+            component={Root}
+            title="Root"
+            hideNavBar={true}
+            init={true}
+          />
+          <Scene
+            key="login"
+            component={Login}
+            title="Login"
+            renderLeftButton={() => <View></View>}
+            {...sceneDefaults}
+          />
+          <Scene
+            key="signup"
+            component={SignUp}
+            title="Sign Up"
+            {...sceneDefaults}
+          />
+          <Scene
+            key="confirmUserRequestCode"
+            component={ConfirmUserRequestCode}
+            title="Enter Code"
+            {...sceneDefaults}
+          />
+          <Scene
+            key="confirmUserRequestCreateProfile"
+            component={ConfirmUserRequestCreateProfile}
+            title="Create Profile"
+            {...sceneDefaults}
+          />
+          <Scene
+            key="dashboard"
+            component={Dashboard}
+            title="Dashboard"
+            hideNavBar={true}
+          />
+          <Scene
+            key="createloverrequest"
+            component={CreateLoverRequest}
+            hideNavBar={true}
+          />
+          <Scene
+            key="timeline"
+            component={Timeline}
+            hideNavBar={true}
+          />
+          <Scene
+            key="menu"
+            component={Menu}
+            hideNavBar={true}
+          />
+          <Scene
+            key="confirmLoverRequest"
+            component={ConfirmLoverRequest}
+            hideNavBar={true}
+          />
+        </Stack>
+      </Router>
+    </InAppNotifications>
   </Provider>
 );
 
