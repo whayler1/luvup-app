@@ -13,54 +13,43 @@ export default ({
   isReady,
 }) => (
   <View style={{
-    padding: 0,
+    borderRadius: 4,
+    backgroundColor: vars.blue500,
     position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
+    left: 8,
+    right: 8,
+    top: 96,
+    zIndex: 100,
+    padding: 16,
+    shadowColor: vars.blueGrey700,
+    shadowOffset: {
+      width: 2,
+      height:2,
+    },
+    shadowOpacity: 0.2,
+    flexDirection: 'row',
   }}>
-    {isReady && (
-      <View style={{
-        borderRadius: 4,
-        backgroundColor: vars.blue500,
-        position: 'absolute',
-        left: 8,
-        right: 8,
-        top: 46,
-        zIndex: 100,
-        padding: 16,
-        shadowColor: vars.blueGrey700,
-        shadowOffset: {
-          width: 2,
-          height:2,
-        },
-        shadowOpacity: 0.2,
-        flexDirection: 'row',
-      }}>
-        <Text style={{
-          fontFamily: vars.fontBlack,
-          fontSize: 16,
-          color: 'white',
-          flex: 1,
-          alignSelf: 'stretch',
-          paddingRight: 16,
-        }}>
-          Something something 123 Something gg something 123 Something something 123 Something something 123
-        </Text>
-        <TouchableOpacity
-          onPress={() => {}}
-          style={{
-            flex: 0,
-          }}
-        >
-          <Icon
-            name="md-close"
-            size={30}
-            color="white"
-          />
-        </TouchableOpacity>
-      </View>
-    )}
+    <Text style={{
+      fontFamily: vars.fontBlack,
+      fontSize: 16,
+      color: 'white',
+      flex: 1,
+      alignSelf: 'stretch',
+      paddingRight: 16,
+    }}>
+      Something something 123 Something gg something 123 Something something 123 Something something 123
+    </Text>
+    <TouchableOpacity
+      onPress={() => {}}
+      style={{
+        flex: 0,
+      }}
+    >
+      <Icon
+        name="md-close"
+        size={30}
+        color="white"
+      />
+    </TouchableOpacity>
   </View>
 );
