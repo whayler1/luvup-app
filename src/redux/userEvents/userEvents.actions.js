@@ -37,7 +37,7 @@ export const getUserEvents = (limit, offset, shouldAppend=false) => async dispat
 
     return res;
   } catch (err) {
-    console.log('getUserEvents err', err);
+    
   }
 };
 

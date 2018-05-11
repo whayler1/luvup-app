@@ -27,7 +27,6 @@ import InAppNotifications from './src/containers/InAppNotifications';
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
   return (state, action) => {
-    console.log('ACTION:', action);
     return defaultReducer(state, action);
   };
 };

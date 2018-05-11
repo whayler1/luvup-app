@@ -76,7 +76,7 @@ class Dashboard extends Component {
   };
 
   componentDidMount() {
-    console.log('dashboard mounted');
+    
     this.props.getCoinCount();
     this.props.getJalapenoCount();
 

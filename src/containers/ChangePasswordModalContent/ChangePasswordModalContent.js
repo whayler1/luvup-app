@@ -52,11 +52,11 @@ class ChangePasswordModalContent extends Component {
   };
 
   submit = async () => {
-    console.log('submit');
+    
     const { currentPassword, newPassword } = this.state;
 
     try {
-      console.log('try');
+      
       const res = await superagent.post(config.graphQlUrl, {
         query: `mutation {
           changePassword(
@@ -67,7 +67,7 @@ class ChangePasswordModalContent extends Component {
           }
         }`,
       });
-      console.log('res', res);
+      
 
       const changePassword = _.at(res, 'body.data.changePassword')[0];
 
@@ -86,7 +86,7 @@ class ChangePasswordModalContent extends Component {
         }
       }
     } catch (err) {
-      console.log({ err });
+      
       this.setState({
         isInFlight: false,
         error: 'server-error',

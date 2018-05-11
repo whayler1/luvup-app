@@ -31,7 +31,7 @@ export const login = (usernameOrEmail, password) => async dispatch => {
     });
     return res;
   } catch (err) {
-    console.log('login err', err);
+
     return err;
   }
 };
@@ -49,13 +49,13 @@ export const logout = () => async dispatch => {
 }
 
 export const reauth = id_token => async dispatch => {
-  console.log('here at reauth');
+
   try {
-    console.log('trying');
+
     const res = await superagent.post(`${config.baseUrl}/reauth`, { id_token });
-    console.log('step 2');
+
     await AsyncStorage.setItem('id_token', res.body.id_token);
-    console.log('step 3');
+
     const { id, username, email } = res.body.user;
     dispatch({
       type: REAUTH,
@@ -63,10 +63,10 @@ export const reauth = id_token => async dispatch => {
       username,
       email,
     });
-    console.log('\n\nreauth success!');
+
     return res.body;
   } catch (err) {
-    console.log('reauth err', err);
+
     return err;
   }
 };
@@ -136,19 +136,11 @@ export const getMe = () => async dispatch => {
       lastName,
     ));
 
-    console.log('\n\n getme dispatch setUser', {
-      email,
-      username,
-      id,
-      firstName,
-      lastName,
-    });
-
     if (relationship) {
       dispatch(setRelationship(relationship.id, relationship.createdAt));
 
       const lover = relationship.lovers[0];
-      console.log('\n\nlover', lover);
+
       if (lover) {
         dispatch(setLover(lover.id, lover.username, lover.firstName, lover.lastName));
       }
@@ -208,7 +200,7 @@ export const getMe = () => async dispatch => {
     }
     return res;
   } catch (err) {
-    console.log('getMe error', err);
+
     return err;
   }
 }
@@ -285,13 +277,13 @@ export const confirmUserRequestCode = (email, code) => async dispatch => {
         }
       }`,
     });
-    console.log('res', res.body);
+
 
     const confirmUserRequestCode = _.at(res, 'body.data.confirmUserRequestCode')[0];
-    console.log({ confirmUserRequestCode});
+
 
     if (confirmUserRequestCode && confirmUserRequestCode.success) {
-      console.log('dispatch!!!');
+
       dispatch({
         type: CONFIRM_USER_REQUEST_CODE,
         email,
@@ -301,7 +293,7 @@ export const confirmUserRequestCode = (email, code) => async dispatch => {
 
     return res;
   } catch (err) {
-    console.log('confirmUserRequestCode err', err);
+
     return err;
   }
 };

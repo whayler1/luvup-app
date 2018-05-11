@@ -159,7 +159,7 @@ class Timeline extends Component {
       this.setSections();
     } catch (err) {
       this.setState({ isModalVisible: true });
-      console.log('Timeline componentWillMount err', err);
+      
     }
   }
 

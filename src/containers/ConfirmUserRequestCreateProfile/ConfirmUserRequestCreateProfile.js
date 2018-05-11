@@ -96,7 +96,7 @@ class ConfirmUserRequestCreateProfile extends Component {
 
   onSubmit = () => {
     const errorStr = this.getValidationError();
-    console.log('errorStr', errorStr);
+    
     if (errorStr.length) {
       this.setState({ error: errorStr });
       return;

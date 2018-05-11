@@ -38,7 +38,7 @@ export const getReceivedLoverRequests = () => async dispatch => {
 
     return res;
   } catch (err) {
-    console.log('getReceivedLoverRequests err', err);
+    
     return err;
   }
 };
@@ -73,7 +73,7 @@ export const acceptLoverRequest = loverRequestId => async dispatch => {
 
     return res;
   } catch (err) {
-    console.log('acceptLoverRequest err', err);
+    
     return err;
   }
 };

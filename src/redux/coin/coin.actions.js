@@ -24,7 +24,7 @@ export const sendCoin = () => async dispatch => {
     });
 
     const sendCoin = _.get(res, 'body.data.sendCoin');
-    console.log('--- sendCoin', sendCoin);
+    
 
     if(_.isObject(sendCoin)) {
       dispatch({
@@ -35,7 +35,7 @@ export const sendCoin = () => async dispatch => {
 
     return res;
   } catch (err) {
-    console.log('sendCoin err', err);
+    
     return err;
   }
 };
@@ -53,7 +53,7 @@ export const getCoinCount = () => async dispatch => {
     const coinCount = _.get(res, 'body.data.coinCount');
 
     if (_.isObject(coinCount)) {
-      console.log('coinCount.count', coinCount.count);
+      
       dispatch({
         type: GET_COIN_COUNT,
         count: coinCount.count,
@@ -62,7 +62,7 @@ export const getCoinCount = () => async dispatch => {
 
     return res;
   } catch (err) {
-    console.log('getCoinCount err', err);
+    
     return err;
   }
 }
@@ -97,7 +97,7 @@ export const getSentCoins = (limit, offset) => async dispatch => {
 
     return res;
   } catch (err) {
-    console.log('getSentCoins err', err);
+    
     return err;
   }
 };
