@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Actions } from 'react-native-router-flux';
 import {
   Animated,
   Easing,
@@ -46,11 +47,14 @@ class InAppNotifications extends PureComponent {
     this.slideIn();
   }
 
+  close = () => Actions.pop();
+
   render() {
     return (
       <Template
         translateY={this.translateY}
         opacity={this.opacity}
+        close={this.close}
       />
     )
   }

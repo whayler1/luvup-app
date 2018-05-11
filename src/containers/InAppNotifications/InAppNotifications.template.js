@@ -12,6 +12,7 @@ import { forms, buttons, scene, modal, vars, } from '../../styles';
 export default ({
   translateY,
   opacity,
+  close,
 }) => (
   <Animated.View style={{
     borderRadius: 4,
@@ -45,7 +46,7 @@ export default ({
       Something something 123 Something gg something 123 Something something 123 Something something 123
     </Text>
     <TouchableOpacity
-      onPress={() => {}}
+      onPress={close}
       style={{
         flex: 0,
       }}
