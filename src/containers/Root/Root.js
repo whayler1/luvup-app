@@ -46,7 +46,8 @@ class Root extends Component {
     }
   };
 
-  componentWillMount = async () => {
+  componentDidMount = async () => {
+
     await Font.loadAsync({
       'yesteryear': require('../../fonts/yesteryear/yesteryear.ttf'),
       'latoregular': require('../../fonts/lato/latoregular.ttf'),
@@ -59,8 +60,10 @@ class Root extends Component {
 
 
     if (id_token) {
+
       this.reauth(id_token);
     } else {
+
       Actions.login();
     }
   };

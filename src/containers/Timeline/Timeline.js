@@ -129,7 +129,12 @@ class Timeline extends Component {
     });
   };
 
-  componentWillMount = async () => {
+  componentDidMount = async () => {
+    analytics.screen({
+      userId: this.props.userId,
+      name: 'Timeline',
+    });
+    
     this.setInitials();
 
     const query = `{
@@ -159,7 +164,7 @@ class Timeline extends Component {
       this.setSections();
     } catch (err) {
       this.setState({ isModalVisible: true });
-      
+
     }
   }
 
@@ -167,13 +172,6 @@ class Timeline extends Component {
     if (nextProps.userEvents.length && nextProps.userEvents[0].createdAt !== this.state.prevMostRecentUserEvent) {
       this.setSections();
     }
-  }
-
-  componentDidMount() {
-    analytics.screen({
-      userId: this.props.userId,
-      name: 'Timeline',
-    });
   }
 
   render() {

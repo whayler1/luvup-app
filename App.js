@@ -6,6 +6,7 @@ import {
   Router,
   Reducer,
   Stack,
+  Lightbox,
 } from 'react-native-router-flux';
 import _ from 'lodash';
 
@@ -49,11 +50,11 @@ const sceneDefaults = {
 
 const App = () => (
   <Provider store={store}>
-    <InAppNotifications>
-      <Router
-        createReducer={reducerCreate}
-        getSceneStyle={getSceneStyle}
-      >
+    <Router
+      createReducer={reducerCreate}
+      getSceneStyle={getSceneStyle}
+    >
+      <Lightbox>
         <Stack key="root">
           <Scene
             key="init"
@@ -114,8 +115,12 @@ const App = () => (
             hideNavBar={true}
           />
         </Stack>
-      </Router>
-    </InAppNotifications>
+        <Scene
+          key="notificationLightbox"
+          component={InAppNotifications}
+        />
+      </Lightbox>
+    </Router>
   </Provider>
 );
 
