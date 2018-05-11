@@ -107,7 +107,7 @@ class Hero extends Component {
         isCancelInFlight: false,
         error: 'cancel-error',
       });
-      console.log('error cancelling lover request');
+      
     }
   };
 
@@ -242,7 +242,7 @@ class Hero extends Component {
   }
 
   showDirections() {
-    // console.log('showDirections', this.directionsOpacity);
+    // 
     Animated.timing(
       this.directionsOpacity,
       {
@@ -254,7 +254,7 @@ class Hero extends Component {
     ).start();
   }
   hideDirections() {
-    // console.log('hideDirections');
+    // 
     Animated.timing(
       this.directionsOpacity,
       {
@@ -294,7 +294,7 @@ class Hero extends Component {
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
 
       onPanResponderGrant: (evt, gestureState) => {
-        console.log('grant');
+        
         this.scaleBGHeart.setValue(1);
         this.springScaleTouch();
         this.showDirections();
@@ -325,7 +325,7 @@ class Hero extends Component {
       },
       onPanResponderTerminationRequest: (evt, gestureState) => true,
       onPanResponderRelease: (evt, gestureState) => {
-        console.log('release', gestureState.dy);
+        
         this.springY();
         this.springScaleBack();
         this.hideDirections();

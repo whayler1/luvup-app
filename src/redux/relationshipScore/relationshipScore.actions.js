@@ -30,7 +30,7 @@ export const createRelationshipScore = () => async dispatch => {
 
     return res;
   } catch (err) {
-    console.log('createRelationshipScore err', err);
+    
     return err;
   }
 };

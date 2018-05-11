@@ -91,7 +91,7 @@ class ConfirmLoverRequest extends Component {
     const loverRequest = _.get(res, 'body.data.acceptLoverRequest.loverRequest');
 
     if (_.isObject(loverRequest) && loverRequest.id) {
-      console.log('\n\n redirect to dashboard');
+      
       Actions.dashboard();
     } else {
       this.setState({

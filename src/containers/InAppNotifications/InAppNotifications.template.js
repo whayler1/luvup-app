@@ -10,10 +10,14 @@ import { forms, buttons, scene, modal, vars, } from '../../styles';
 
 export default ({
   children,
-  isFontLoaded,
+  isReady,
 }) => (
-  <View style={{ flex: 1 }}>
-    {isFontLoaded && (
+  <View style={{
+    padding: 0,
+    flex: 1,
+    flexDirection: 'column',
+  }}>
+    {isReady && (
       <View style={{
         borderRadius: 4,
         backgroundColor: vars.blue500,
@@ -21,7 +25,7 @@ export default ({
         left: 8,
         right: 8,
         top: 46,
-        zIndex: 15,
+        zIndex: 100,
         padding: 16,
         shadowColor: vars.blueGrey700,
         shadowOffset: {
@@ -38,12 +42,13 @@ export default ({
           flex: 1,
           alignSelf: 'stretch',
           paddingRight: 16,
-        }}>Something something 123 Something gg something 123 Something something 123 Something something 123</Text>
+        }}>
+          Something something 123 Something gg something 123 Something something 123 Something something 123
+        </Text>
         <TouchableOpacity
           onPress={() => {}}
           style={{
             flex: 0,
-            width: 30,
           }}
         >
           <Icon

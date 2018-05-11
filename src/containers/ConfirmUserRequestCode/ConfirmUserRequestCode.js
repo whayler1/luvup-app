@@ -46,12 +46,12 @@ class ConfirmUserRequestCode extends Component {
   }
 
   onSubmitSuccess = () => {
-    console.log('success boo');
+    
     Actions.confirmUserRequestCreateProfile();
   }
 
   submit = async () => {
-    console.log('submit');
+    
     const { email, code } = this.state;
     const res = await this.props.confirmUserRequestCode(email, code);
 
@@ -79,7 +79,7 @@ class ConfirmUserRequestCode extends Component {
 
   onSubmit = () => {
     const errorStr = this.getValidationError();
-    console.log('errorStr', errorStr);
+    
     if (errorStr.length) {
       this.setState({ error: errorStr });
       return;

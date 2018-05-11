@@ -40,7 +40,7 @@ export const requestLover = recipientId => async dispatch => {
 
     return res;
   } catch (err) {
-    console.log('request lover error', err);
+    
     return err;
   }
 };
@@ -77,7 +77,7 @@ export const cancelLoverRequest = loverRequestId => async dispatch => {
 
     return res;
   } catch (err) {
-    console.log('cancelLoverRequest err', err);
+    
     return err;
   }
 }
@@ -96,7 +96,7 @@ export const resendLoverRequestEmail = loverRequestId => async () => {
 
     return res;
   } catch (err) {
-    console.log('resendLoverRequestEmail err', err);
+    
     return err;
   }
 };
