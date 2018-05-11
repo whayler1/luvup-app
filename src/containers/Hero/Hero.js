@@ -24,6 +24,90 @@ import {
 import config from '../../config';
 
 class Hero extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      dragDirection: 0,
+      recentlySentCoinCount: 0,
+      recentlySentJalapenoCount: 0,
+      isInRelationship: props.relationshipId.length > 0,
+      loverRequestCreatedAtTimeAgo: props.loverRequestCreatedAt ?
+        moment(new Date(props.loverRequestCreatedAt)).fromNow() : '',
+      error: '',
+      isCancelInFlight: false,
+      resendIsInFlight: false,
+      isResendSuccess: false,
+    };
+
+    this.panResponder = PanResponder.create({
+      // Ask to be the responder:
+      onStartShouldSetPanResponder: (evt, gestureState) => true,
+      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+      onMoveShouldSetPanResponder: (evt, gestureState) => true,
+      onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+
+      onPanResponderGrant: (evt, gestureState) => {
+
+        this.scaleBGHeart.setValue(1);
+        this.springScaleTouch();
+        this.showDirections();
+        // The gesture has started. Show visual feedback so the user knows
+        // what is happening!
+
+        // gestureState.d{x,y} will be set to zero now
+      },
+      onPanResponderMove: (evt, gestureState) => {
+        const { dy } = gestureState;
+        this.translateY.setValue(dy);
+        this.scale.setValue((-dy / 700) + 1);
+
+        if (dy < -3) {
+          this.setDragDirection(1);
+          this.hideDirections();
+        } else if ( dy > 3) {
+          this.setDragDirection(-1);
+          this.hideDirections();
+        } else {
+          this.setDragDirection(0);
+        }
+
+        // The most recent move distance is gestureState.move{X,Y}
+
+        // The accumulated gesture distance since becoming responder is
+        // gestureState.d{x,y}
+      },
+      onPanResponderTerminationRequest: (evt, gestureState) => true,
+      onPanResponderRelease: (evt, gestureState) => {
+
+        this.springY();
+        this.springScaleBack();
+        this.hideDirections();
+
+        const { dy } = gestureState;
+        const { swipeThreshold } = config;
+
+        if (dy < -swipeThreshold) {
+          this.setState({
+            recentlySentCoinCount: this.state.recentlySentCoinCount + 1
+          }, this.sendCoin);
+        } else if (dy > swipeThreshold) {
+          this.setState({
+            recentlySentJalapenoCount: this.state.recentlySentJalapenoCount + 1
+          }, this.sendJalapeno);
+        }
+
+        this.setDragDirection(0);
+        // The user has released all touches while this view is the
+        // responder. This typically means a gesture has succeeded
+      },
+      onPanResponderTerminate: (evt, gestureState) => {
+        // Another component has become the responder, so this gesture
+        // should be cancelled
+      },
+    });
+  };
+
   static propTypes = {
     relationshipId: PropTypes.string,
     relationshipScore: PropTypes.number,
@@ -41,19 +125,6 @@ class Hero extends Component {
     loverRequestLastName: PropTypes.string,
     loverRequestCreatedAt: PropTypes.string,
     loverRequestId: PropTypes.string,
-  };
-
-  state = {
-    dragDirection: 0,
-    recentlySentCoinCount: 0,
-    recentlySentJalapenoCount: 0,
-    isInRelationship: this.props.relationshipId.length > 0,
-    loverRequestCreatedAtTimeAgo: this.props.loverRequestCreatedAt ?
-      moment(new Date(this.props.loverRequestCreatedAt)).fromNow() : '',
-    error: '',
-    isCancelInFlight: false,
-    resendIsInFlight: false,
-    isResendSuccess: false,
   };
 
   translateY = new Animated.Value(0);
@@ -107,7 +178,7 @@ class Hero extends Component {
         isCancelInFlight: false,
         error: 'cancel-error',
       });
-      
+
     }
   };
 
@@ -242,7 +313,7 @@ class Hero extends Component {
   }
 
   showDirections() {
-    // 
+    //
     Animated.timing(
       this.directionsOpacity,
       {
@@ -254,7 +325,7 @@ class Hero extends Component {
     ).start();
   }
   hideDirections() {
-    // 
+    //
     Animated.timing(
       this.directionsOpacity,
       {
@@ -281,77 +352,10 @@ class Hero extends Component {
     this.setState({ [keyStr]: count });
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.createRelationshipScore();
     this.setRecentlySentCount(this.props.sentCoins, 'recentlySentCoinCount');
     this.setRecentlySentCount(this.props.sentJalapenos, 'recentlySentJalapenoCount');
-
-    this.panResponder = PanResponder.create({
-      // Ask to be the responder:
-      onStartShouldSetPanResponder: (evt, gestureState) => true,
-      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-      onMoveShouldSetPanResponder: (evt, gestureState) => true,
-      onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
-
-      onPanResponderGrant: (evt, gestureState) => {
-        
-        this.scaleBGHeart.setValue(1);
-        this.springScaleTouch();
-        this.showDirections();
-        // The gesture has started. Show visual feedback so the user knows
-        // what is happening!
-
-        // gestureState.d{x,y} will be set to zero now
-      },
-      onPanResponderMove: (evt, gestureState) => {
-        const { dy } = gestureState;
-        this.translateY.setValue(dy);
-        this.scale.setValue((-dy / 700) + 1);
-
-        if (dy < -3) {
-          this.setDragDirection(1);
-          this.hideDirections();
-        } else if ( dy > 3) {
-          this.setDragDirection(-1);
-          this.hideDirections();
-        } else {
-          this.setDragDirection(0);
-        }
-
-        // The most recent move distance is gestureState.move{X,Y}
-
-        // The accumulated gesture distance since becoming responder is
-        // gestureState.d{x,y}
-      },
-      onPanResponderTerminationRequest: (evt, gestureState) => true,
-      onPanResponderRelease: (evt, gestureState) => {
-        
-        this.springY();
-        this.springScaleBack();
-        this.hideDirections();
-
-        const { dy } = gestureState;
-        const { swipeThreshold } = config;
-
-        if (dy < -swipeThreshold) {
-          this.setState({
-            recentlySentCoinCount: this.state.recentlySentCoinCount + 1
-          }, this.sendCoin);
-        } else if (dy > swipeThreshold) {
-          this.setState({
-            recentlySentJalapenoCount: this.state.recentlySentJalapenoCount + 1
-          }, this.sendJalapeno);
-        }
-
-        this.setDragDirection(0);
-        // The user has released all touches while this view is the
-        // responder. This typically means a gesture has succeeded
-      },
-      onPanResponderTerminate: (evt, gestureState) => {
-        // Another component has become the responder, so this gesture
-        // should be cancelled
-      },
-    });
   };
 
   render() {

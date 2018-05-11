@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { PanResponder, Animated, Easing, } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -76,7 +77,7 @@ class Dashboard extends Component {
   };
 
   componentDidMount() {
-    
+
     this.props.getCoinCount();
     this.props.getJalapenoCount();
 
@@ -94,6 +95,11 @@ class Dashboard extends Component {
         name: 'Dashboard',
       });
     }
+
+    setTimeout(
+      () => Actions.notificationLightbox(),
+      1000
+    );
   }
 
   render() {

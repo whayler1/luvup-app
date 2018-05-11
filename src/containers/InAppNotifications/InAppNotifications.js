@@ -15,6 +15,7 @@ class InAppNotifications extends PureComponent {
   }
 
   componentDidMount() {
+
     Notifications.addListener(this.onNotificationReceived);
 
   }
@@ -36,7 +37,7 @@ class InAppNotifications extends PureComponent {
     return (
       <Template
         children={this.props.children}
-        isReady={false}
+        isReady={this.props.isFontLoaded}
       />
     )
   }

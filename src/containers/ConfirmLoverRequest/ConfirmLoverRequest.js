@@ -91,7 +91,7 @@ class ConfirmLoverRequest extends Component {
     const loverRequest = _.get(res, 'body.data.acceptLoverRequest.loverRequest');
 
     if (_.isObject(loverRequest) && loverRequest.id) {
-      
+
       Actions.dashboard();
     } else {
       this.setState({
@@ -102,11 +102,8 @@ class ConfirmLoverRequest extends Component {
     }
   };
 
-  componentWillMount() {
-    this.setCurrentLoverRequest();
-  }
-
   componentDidMount() {
+    this.setCurrentLoverRequest();
     analytics.screen({
       userId: this.props.userId,
       name: 'ConfirmLoverRequest',
