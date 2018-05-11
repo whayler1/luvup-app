@@ -1,6 +1,7 @@
 import superagent from 'superagent';
 import { AsyncStorage } from 'react-native';
 import _ from 'lodash';
+import { listen as listenToNotifications, remove as removeNotificationsListener } from '../../services/notifications';
 
 import config from '../../config';
 import { setLover, clearLover } from '../lover/lover.actions';
@@ -29,6 +30,7 @@ export const login = (usernameOrEmail, password) => async dispatch => {
       email: res.body.user.email,
       username: res.body.user.username,
     });
+    listenToNotifications();
     return res;
   } catch (err) {
 
@@ -45,6 +47,7 @@ export const logout = () => async dispatch => {
   dispatch(clearCoinCount());
   dispatch(clearJalapenoCount());
   dispatch({ type: LOGOUT });
+  removeNotificationsListener();
   return true;
 }
 
@@ -63,7 +66,7 @@ export const reauth = id_token => async dispatch => {
       username,
       email,
     });
-
+    listenToNotifications();
     return res.body;
   } catch (err) {
 

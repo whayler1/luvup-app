@@ -1,7 +1,10 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
+import {
+  Animated,
+  Easing,
+} from 'react-native';
 import Template from './InAppNotifications.template';
 
 
@@ -13,14 +16,41 @@ class InAppNotifications extends PureComponent {
     jalapenoReceivedNotifications: [],
   }
 
-  componentDidMount() {
+  translateY = new Animated.Value(-150);
+  opacity = new Animated.Value(0);
 
+  slideIn() {
+    Animated.parallel([
+      Animated.timing(
+        this.opacity,
+        {
+          toValue: 1,
+          duration: 250,
+          delay: 250,
+          easing: Easing.inOut(Easing.linear)
+        }
+      ),
+      Animated.timing(
+        this.translateY,
+        {
+          toValue: 0,
+          duration: 250,
+          delay: 250,
+          easing: Easing.inOut(Easing.quad)
+        }
+      ),
+    ]).start();
+  }
+
+  componentDidMount() {
+    this.slideIn();
   }
 
   render() {
     return (
       <Template
-        isReady={this.props.isFontLoaded}
+        translateY={this.translateY}
+        opacity={this.opacity}
       />
     )
   }

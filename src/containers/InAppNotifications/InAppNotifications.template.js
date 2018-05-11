@@ -3,23 +3,24 @@ import {
   View,
   Text,
   TouchableOpacity,
+  Animated,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { forms, buttons, scene, modal, vars, } from '../../styles';
 
 export default ({
-  children,
-  isReady,
+  translateY,
+  opacity,
 }) => (
-  <View style={{
+  <Animated.View style={{
     borderRadius: 4,
     backgroundColor: vars.blue500,
     position: 'absolute',
     left: 8,
     right: 8,
     top: 96,
-    zIndex: 100,
+    zIndex: 500,
     padding: 16,
     shadowColor: vars.blueGrey700,
     shadowOffset: {
@@ -28,6 +29,10 @@ export default ({
     },
     shadowOpacity: 0.2,
     flexDirection: 'row',
+    opacity,
+    transform: [{
+      translateY
+    }],
   }}>
     <Text style={{
       fontFamily: vars.fontBlack,
@@ -51,5 +56,5 @@ export default ({
         color="white"
       />
     </TouchableOpacity>
-  </View>
+  </Animated.View>
 );
