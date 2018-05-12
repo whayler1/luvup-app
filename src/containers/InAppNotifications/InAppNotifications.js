@@ -7,14 +7,19 @@ import {
   Easing,
 } from 'react-native';
 import Template from './InAppNotifications.template';
-
-
+import { clearNotifications as clearNotificationsAction } from '../../redux/notifictions/notifictions.actions';
 
 class InAppNotifications extends PureComponent {
   state = {
-    notifications: [],
-    luvupReceivedNotifications: [],
-    jalapenoReceivedNotifications: [],
+    isVisible: false,
+  };
+
+  static propTypes = {
+    isFontLoaded: PropTypes.boolean.isRequired,
+    notifictions: PropTypes.array.isRequired,
+    jalapenoNotifications: PropTypes.array.isRequired,
+    luvupNotifications: PropTypes.array.isRequired,
+    clearNotifications: PropTypes.func.isRequired,
   }
 
   translateY = new Animated.Value(-150);
@@ -47,7 +52,28 @@ class InAppNotifications extends PureComponent {
     this.slideIn();
   }
 
-  close = () => Actions.pop();
+  componentDidUpdate(prevProps) {
+    if (prevProps.notifications.length !== this.props.notifictions.length) {
+      if (notifictions.length > 0 && !this.state.isVisible) {
+        this.setState({
+          isVisible: true,
+        }, () => {
+          this.slideIn();
+        });
+      } else if (otifictions.length < 1 && this.state.isVisible) {
+        this.setState({
+          isVisible: false,
+        }, () => {
+          this.close();
+        });
+      }
+    }
+  }
+
+  close = () => {
+    Actions.pop();
+    this.props.clearNotifications();
+  }
 
   render() {
     return (
@@ -60,10 +86,12 @@ class InAppNotifications extends PureComponent {
   }
 };
 
-// export default InAppNotifications;
-
 export default connect(
   state => ({
-    isFontLoaded: state.font.isFontLoaded
+    isFontLoaded: state.font.isFontLoaded,
+    ...state.notifictions,
   }),
+  {
+    clearNotifications: clearNotificationsAction,
+  }
 )(InAppNotifications);
