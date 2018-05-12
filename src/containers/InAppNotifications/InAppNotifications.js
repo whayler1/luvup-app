@@ -7,7 +7,7 @@ import {
   Easing,
 } from 'react-native';
 import Template from './InAppNotifications.template';
-import { clearNotifications as clearNotificationsAction } from '../../redux/notifictions/notifictions.actions';
+import { clearNotifications as clearNotificationsAction } from '../../redux/notifications/notifications.actions';
 
 class InAppNotifications extends PureComponent {
   state = {
@@ -15,8 +15,8 @@ class InAppNotifications extends PureComponent {
   };
 
   static propTypes = {
-    isFontLoaded: PropTypes.boolean.isRequired,
-    notifictions: PropTypes.array.isRequired,
+    // isFontLoaded: PropTypes.boolean.isRequired,
+    notifications: PropTypes.array.isRequired,
     jalapenoNotifications: PropTypes.array.isRequired,
     luvupNotifications: PropTypes.array.isRequired,
     clearNotifications: PropTypes.func.isRequired,
@@ -71,8 +71,10 @@ class InAppNotifications extends PureComponent {
   }
 
   close = () => {
-    Actions.pop();
+    this.translateY.setValue(-150);
+    this.opacity.setValue(0);
     this.props.clearNotifications();
+    Actions.pop();
   }
 
   render() {
@@ -89,7 +91,7 @@ class InAppNotifications extends PureComponent {
 export default connect(
   state => ({
     isFontLoaded: state.font.isFontLoaded,
-    ...state.notifictions,
+    ...state.notifications,
   }),
   {
     clearNotifications: clearNotificationsAction,
