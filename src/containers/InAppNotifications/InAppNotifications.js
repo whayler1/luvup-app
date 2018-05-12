@@ -49,7 +49,9 @@ class InAppNotifications extends PureComponent {
   }
 
   componentDidMount() {
-    this.slideIn();
+    if (this.props.notifications.length) {
+      this.slideIn();
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -83,6 +85,8 @@ class InAppNotifications extends PureComponent {
         translateY={this.translateY}
         opacity={this.opacity}
         close={this.close}
+        jalapenoNotifications={this.props.jalapenoNotifications}
+        luvupNotifications={this.props.luvupNotifications}
       />
     )
   }

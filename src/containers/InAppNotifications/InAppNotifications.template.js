@@ -13,6 +13,8 @@ export default ({
   translateY,
   opacity,
   close,
+  jalapenoNotifications,
+  luvupNotifications,
 }) => (
   <Animated.View style={{
     borderRadius: 4,
@@ -35,16 +37,30 @@ export default ({
       translateY
     }],
   }}>
-    <Text style={{
-      fontFamily: vars.fontBlack,
-      fontSize: 16,
-      color: 'white',
-      flex: 1,
-      alignSelf: 'stretch',
-      paddingRight: 16,
-    }}>
-      Something something 123 Something gg something 123 Something something 123 Something something 123
-    </Text>
+    {luvupNotifications.length > 0 && (
+      <Text style={{
+        fontFamily: vars.fontBlack,
+        fontSize: 16,
+        color: 'white',
+        flex: 1,
+        alignSelf: 'stretch',
+        paddingRight: 16,
+      }}>
+        You received {luvupdNotifications.length ? luvupdNotifications.length : 'a'} Luvup{luvupNotifications.length > 0 && 's'}!
+      </Text>
+    )}
+    {jalapenoNotifications.length > 0 && (
+      <Text style={{
+        fontFamily: vars.fontBlack,
+        fontSize: 16,
+        color: 'white',
+        flex: 1,
+        alignSelf: 'stretch',
+        paddingRight: 16,
+      }}>
+        You received {jalapenoNotifications.length ? jalapenoNotifications.length : 'a'} Jalapeno{jalapenoNotifications.length > 0 && 's'}
+      </Text>
+    )}
     <TouchableOpacity
       onPress={close}
       style={{
