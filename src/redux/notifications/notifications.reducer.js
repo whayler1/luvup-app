@@ -8,21 +8,21 @@ import {
 const defaultState = {
   notifications: [],
   jalapenoNotifications: [],
-  luvupReceivedNotifications: [],
+  luvupNotifications: [],
 };
 
 export default function reducer(state = defaultState, action) {
   switch(action.type) {
     case ADD_NOTIFICATION:
       const { notifiction } = action;
-      const updatedNotifications = [...state.notifications, notification];
-      const luvupReceivedNotifications = updatedNotifications.filter(notification => _.get(notification, 'data.type') === 'luvup-received');
-      const jalapenoReceivedNotifications = updatedNotifications.filter(notification => _.get(notification, 'data.type') === 'jalapeno-received');
+      const notifications = [...state.notifications, notification];
+      const luvupdNotifications = updatedNotifications.filter(notification => _.get(notification, 'data.type') === 'luvup-received');
+      const jalapenoNotifications = updatedNotifications.filter(notification => _.get(notification, 'data.type') === 'jalapeno-received');
 
       return {
-        notifications: updatedNotifications,
-        luvupReceivedNotifications,
-        jalapenoReceivedNotifications
+        notifications,
+        luvupNotifications,
+        jalapenoNotifications,
       };
     case CLEAR_NOTIFICATIONS:
       return { ...defaultState };
