@@ -49,7 +49,9 @@ class InAppNotifications extends PureComponent {
   }
 
   componentDidMount() {
+    console.log('I mounted');
     if (this.props.notifications.length) {
+      console.log('I got length');
       this.slideIn();
     }
   }
