@@ -46,7 +46,7 @@ export default ({
         alignSelf: 'stretch',
         paddingRight: 16,
       }}>
-        You received {luvupdNotifications.length ? luvupdNotifications.length : 'a'} Luvup{luvupNotifications.length > 0 && 's'}!
+        You received {luvupNotifications.length ? luvupNotifications.length : 'a'} Luvup{luvupNotifications.length > 0 && 's'}!
       </Text>
     )}
     {jalapenoNotifications.length > 0 && (

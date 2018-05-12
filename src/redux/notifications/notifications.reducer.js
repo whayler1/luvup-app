@@ -14,10 +14,11 @@ const defaultState = {
 export default function reducer(state = defaultState, action) {
   switch(action.type) {
     case ADD_NOTIFICATION:
-      const { notifiction } = action;
+      console.log('add notification');
+      const { notification } = action;
       const notifications = [...state.notifications, notification];
-      const luvupdNotifications = updatedNotifications.filter(notification => _.get(notification, 'data.type') === 'luvup-received');
-      const jalapenoNotifications = updatedNotifications.filter(notification => _.get(notification, 'data.type') === 'jalapeno-received');
+      const luvupNotifications = notifications.filter(notification => _.get(notification, 'data.type') === 'luvup-received');
+      const jalapenoNotifications = notifications.filter(notification => _.get(notification, 'data.type') === 'jalapeno-received');
 
       return {
         notifications,

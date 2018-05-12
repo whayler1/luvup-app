@@ -14,6 +14,7 @@ import {
   getJalapenoCount as getJalapenoCountAction,
   setUnviewedJalapenoCount as setUnviewedJalapenoCountAction,
 } from '../../redux/jalapeno/jalapeno.actions';
+import { onNotificationReceived } from '../../services/notifications';
 
 import config from '../../config.js';
 import Template from './Dashboard.template';
@@ -97,7 +98,11 @@ class Dashboard extends Component {
     }
 
     setTimeout(
-      () => Actions.notificationLightbox(),
+      () => onNotificationReceived({
+        data: {
+          type: 'luvup-received',
+        },
+      }),
       1000
     );
   }
