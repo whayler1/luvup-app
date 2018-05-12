@@ -3,7 +3,7 @@ import _ from 'lodash';
 import {
   ADD_NOTIFICATION,
   CLEAR_NOTIFICATIONS,
-} from './notification.actions';
+} from './notifications.actions';
 
 const defaultState = {
   notifications: [],
