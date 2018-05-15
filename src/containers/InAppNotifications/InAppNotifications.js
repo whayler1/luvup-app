@@ -11,9 +11,18 @@ import { clearNotifications as clearNotificationsAction } from '../../redux/noti
 import _ from 'lodash';
 
 class InAppNotifications extends PureComponent {
-  state = {
-    isVisible: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      isVisible: false,
+    };
+
+    this.closeDebounce = _.debounce(() => this.setState({
+      isVisible: false,
+    }, () => {
+      this.close();
+    }), 7000);
+  }
 
   static propTypes = {
     // isFontLoaded: PropTypes.boolean.isRequired,
@@ -58,12 +67,6 @@ class InAppNotifications extends PureComponent {
     Actions.pop();
   });
 
-  closeDebounce = _.debounce(() => this.setState({
-    isVisible: false,
-  }, () => {
-    this.close();
-  }), 7000);
-
   show = () => this.setState({
     isVisible: true,
   }, () => {
@@ -87,6 +90,11 @@ class InAppNotifications extends PureComponent {
         this.close();
       }
     }
+  }
+
+  componentWillUnmount = () => {
+    this.closeDebounce.cancel();
+    this.props.clearNotifications();
   }
 
   render() {
