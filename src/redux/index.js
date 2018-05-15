@@ -11,6 +11,7 @@ import font from './font/font.reducer';
 import userEvents from './userEvents/userEvents.reducer';
 import relationshipScore from './relationshipScore/relationshipScore.reducer';
 import receivedLoverRequests from './receivedLoverRequests/receivedLoverRequests.reducer';
+import notifications from './notifications/notifications.reducer';
 
 export const reducer = combineReducers({
   user,
@@ -23,6 +24,7 @@ export const reducer = combineReducers({
   userEvents,
   relationshipScore,
   receivedLoverRequests,
+  notifications,
 });
 
 export const store = createStore(

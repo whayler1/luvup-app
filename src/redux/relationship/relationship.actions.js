@@ -8,7 +8,7 @@ export const END_RELATIONSHIP = 'relationship/end-relationship';
 export const CLEAR_RELATIONSHIP = 'relationship/clear-relationship';
 
 export const setRelationship = (id, createdAt) => dispatch => {
-  console.log('setRelationship', id, createdAt);
+  
   dispatch({ type: SET_RELATIONSHIP, id, createdAt });
 };
 
@@ -24,13 +24,13 @@ export const endRelationship = () => async dispatch => {
       }`,
     });
 
-    console.log('end relationship success', res);
+    
     dispatch({ type: END_RELATIONSHIP });
     dispatch(clearLover());
 
     return res;
   } catch (err) {
-    console.log('endRelationship err', err);
+    
     return err;
   }
 }

@@ -34,7 +34,7 @@ class CreateLoverRequest extends Component {
   onListItemClick = selectedUserId => this.setState({ selectedUser: this.state.users.find(user => user.id === selectedUserId) });
 
   requestLover = async () => {
-    console.log('request lover hit', this.state.selectedUser.id);
+    
     this.setState({ requestLoverIsInFlight: true });
     const res = await this.props.requestLover(this.state.selectedUser.id);
 
@@ -68,7 +68,7 @@ class CreateLoverRequest extends Component {
         isInFlight: false,
       });
     } catch (err) {
-      console.log('err', err);
+      
       this.setState({ error: 'response', isInFlight: false, });
     }
   };

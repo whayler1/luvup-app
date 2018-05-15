@@ -57,8 +57,8 @@ class Login extends Component {
     const { username, password } = this.state;
     const loginres = await this.props.login(username, password);
 
-    console.log('\n\n', { loginres }, loginres.constructor);
-    console.log('this.props.userId', this.props.userId);
+    
+    
 
     if (this.props.userId) {
       registerForPushNotifications();
@@ -97,7 +97,7 @@ class Login extends Component {
 
 export default connect(
   state => {
-    console.log('\n\nstate.user', state.user);
+    
     return {
     userId: state.user.id,
     relationshipId: state.relationship.id,

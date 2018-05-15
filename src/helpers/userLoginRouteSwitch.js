@@ -15,6 +15,7 @@ const indentifyUser = user => analytics.identify({
 });
 
 const userLoginRouteSwitch = async () => {
+  
   const res = await store.dispatch(getMe());
 
   const state = store.getState();
@@ -24,8 +25,10 @@ const userLoginRouteSwitch = async () => {
   const user = state.user;
 
   if (!('body' in res)) {
+
     Actions.login();
   } else if (relationshipId || loverRequestId) {
+
     Actions.dashboard();
     indentifyUser(user);
   } else if (_.isArray(receivedLoverRequests) && receivedLoverRequests.length > 0) {

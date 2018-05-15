@@ -11,6 +11,18 @@ import { logout as logoutAction } from '../../redux/user/user.actions';
 import { endRelationship as endRelationshipAction } from '../../redux/relationship/relationship.actions';
 
 class Menu extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      relationshipCreatedAtFormatted: moment(new Date(props.relationshipCreatedAt)).format('MMM DD, YYYY'),
+      isModalVisible: false,
+      modalType: '',
+      isInFlight: false,
+      error: '',
+    };
+  };
+
   static propTypes = {
     userFirstName: PropTypes.string,
     userLastName: PropTypes.string,
@@ -21,14 +33,6 @@ class Menu extends PureComponent {
     relationshipCreatedAt: PropTypes.string,
     logout: PropTypes.func.isRequired,
     endRelationship: PropTypes.func.isRequired,
-  };
-
-  state = {
-    relationshipCreatedAtFormatted: undefined,
-    isModalVisible: false,
-    modalType: '',
-    isInFlight: false,
-    error: '',
   };
 
   goToDashboard = () => {
@@ -50,9 +54,9 @@ class Menu extends PureComponent {
   closeModal = () => this.setState({ isModalVisible: false });
 
   onLogout = async () => {
-    console.log('Menu logout');
+
     await this.props.logout();
-    console.log('got here');
+
     Actions.login();
   };
 
@@ -70,11 +74,6 @@ class Menu extends PureComponent {
         isInFlight: false,
       });
     }
-  }
-
-  componentWillMount() {
-    const { relationshipCreatedAt } = this.props;
-    this.setState({ relationshipCreatedAtFormatted: moment(new Date(relationshipCreatedAt)).format('MMM DD, YYYY') });
   }
 
   componentDidMount() {
