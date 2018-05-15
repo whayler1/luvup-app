@@ -23,7 +23,7 @@ export const sendJalapeno = () => async dispatch => {
     });
 
     const sendJalapeno = _.at(res, 'body.data.sendJalapeno')[0];
-    console.log('sendJalapeno', sendJalapeno);
+    
 
     if(_.isObject(sendJalapeno)) {
       dispatch({
@@ -34,7 +34,7 @@ export const sendJalapeno = () => async dispatch => {
 
     return res;
   } catch (err) {
-    console.log('sendJalapeno error', err);
+    
     return err;
   }
 };
@@ -59,7 +59,7 @@ export const getJalapenoCount = () => async dispatch => {
     });
 
     const jalapenos = _.get(res, 'body.data.jalapenos');
-    console.log('\n\n', { jalapenos });
+    
 
     if(_.isObject(jalapenos)) {
       dispatch({
@@ -70,7 +70,7 @@ export const getJalapenoCount = () => async dispatch => {
 
     return res;
   } catch (err) {
-    console.log('getJalapenoCount err', err);
+    
     return err;
   }
 };

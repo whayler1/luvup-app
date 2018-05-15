@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { PanResponder, Animated, Easing, } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -13,6 +14,7 @@ import {
   getJalapenoCount as getJalapenoCountAction,
   setUnviewedJalapenoCount as setUnviewedJalapenoCountAction,
 } from '../../redux/jalapeno/jalapeno.actions';
+import { onNotificationReceived } from '../../services/notifications';
 
 import config from '../../config.js';
 import Template from './Dashboard.template';
@@ -76,7 +78,7 @@ class Dashboard extends Component {
   };
 
   componentDidMount() {
-    console.log('dashboard mounted');
+
     this.props.getCoinCount();
     this.props.getJalapenoCount();
 
@@ -94,6 +96,15 @@ class Dashboard extends Component {
         name: 'Dashboard',
       });
     }
+
+    // setTimeout(
+    //   () => onNotificationReceived({
+    //     data: {
+    //       type: 'luvup-received',
+    //     },
+    //   }),
+    //   1000
+    // );
   }
 
   render() {

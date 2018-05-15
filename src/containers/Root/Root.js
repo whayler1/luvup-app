@@ -32,21 +32,22 @@ class Root extends Component {
   };
 
   reauth = async id_token => {
-    console.log('reauth', id_token);
+
     const res = await this.props.reauth(id_token);
-    console.log({ res });
+
 
     if (this.props.id) {
-      console.log('success');
+
       registerForPushNotifications();
       userLoginRouteSwitch();
     } else {
-      console.log('fail');
+
       Actions.login();
     }
   };
 
-  componentWillMount = async () => {
+  componentDidMount = async () => {
+
     await Font.loadAsync({
       'yesteryear': require('../../fonts/yesteryear/yesteryear.ttf'),
       'latoregular': require('../../fonts/lato/latoregular.ttf'),
@@ -56,11 +57,13 @@ class Root extends Component {
     this.props.setIsFontLoaded(true);
 
     const id_token = await AsyncStorage.getItem('id_token');
-    console.log('\n\nid_token', id_token);
+
 
     if (id_token) {
+
       this.reauth(id_token);
     } else {
+
       Actions.login();
     }
   };
