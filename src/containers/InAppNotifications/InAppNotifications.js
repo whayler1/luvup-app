@@ -49,22 +49,20 @@ class InAppNotifications extends PureComponent {
   }
 
   componentDidMount() {
-    console.log('I mounted');
     if (this.props.notifications.length) {
-      console.log('I got length');
       this.slideIn();
     }
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.notifications.length !== this.props.notifictions.length) {
-      if (notifictions.length > 0 && !this.state.isVisible) {
+    if (prevProps.notifications.length !== this.props.notifications.length) {
+      if (this.props.notifications.length > 0 && !this.state.isVisible) {
         this.setState({
           isVisible: true,
         }, () => {
           this.slideIn();
         });
-      } else if (otifictions.length < 1 && this.state.isVisible) {
+      } else if (this.props.notifications.length < 1 && this.state.isVisible) {
         this.setState({
           isVisible: false,
         }, () => {
