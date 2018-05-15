@@ -14,7 +14,6 @@ const defaultState = {
 export default function reducer(state = defaultState, action) {
   switch(action.type) {
     case ADD_NOTIFICATION:
-      console.log('add notification');
       const { notification } = action;
       const notifications = [...state.notifications, notification];
       const luvupNotifications = notifications.filter(notification => _.get(notification, 'data.type') === 'luvup-received');

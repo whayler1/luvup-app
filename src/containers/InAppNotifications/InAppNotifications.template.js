@@ -46,7 +46,7 @@ export default ({
         alignSelf: 'stretch',
         paddingRight: 16,
       }}>
-        You received {luvupNotifications.length ? luvupNotifications.length : 'a'} Luvup{luvupNotifications.length > 0 && 's'}!
+        You received {luvupNotifications.length > 1 ? luvupNotifications.length : 'a'} Luvup{luvupNotifications.length > 1 && 's'}!
       </Text>
     )}
     {jalapenoNotifications.length > 0 && (
@@ -58,7 +58,7 @@ export default ({
         alignSelf: 'stretch',
         paddingRight: 16,
       }}>
-        You received {jalapenoNotifications.length ? jalapenoNotifications.length : 'a'} Jalapeno{jalapenoNotifications.length > 0 && 's'}
+        You received {jalapenoNotifications.length > 1 ? jalapenoNotifications.length : 'a'} Jalapeno{jalapenoNotifications.length > 1 && 's'}
       </Text>
     )}
     <TouchableOpacity

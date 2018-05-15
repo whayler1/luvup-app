@@ -97,14 +97,14 @@ class Dashboard extends Component {
       });
     }
 
-    setTimeout(
-      () => onNotificationReceived({
-        data: {
-          type: 'luvup-received',
-        },
-      }),
-      1000
-    );
+    // setTimeout(
+    //   () => onNotificationReceived({
+    //     data: {
+    //       type: 'luvup-received',
+    //     },
+    //   }),
+    //   1000
+    // );
   }
 
   render() {
