@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import Template from './InAppNotifications.template';
 import { clearNotifications as clearNotificationsAction } from '../../redux/notifications/notifications.actions';
+import _ from 'lodash';
 
 class InAppNotifications extends PureComponent {
   state = {
@@ -48,35 +49,44 @@ class InAppNotifications extends PureComponent {
     ]).start();
   }
 
+  close = () => this.setState({
+    isVisible: false,
+  }, () => {
+    this.translateY.setValue(-150);
+    this.opacity.setValue(0);
+    this.props.clearNotifications();
+    Actions.pop();
+  });
+
+  closeDebounce = _.debounce(() => this.setState({
+    isVisible: false,
+  }, () => {
+    this.close();
+  }), 7000);
+
+  show = () => this.setState({
+    isVisible: true,
+  }, () => {
+    this.slideIn();
+    this.closeDebounce();
+  });
+
   componentDidMount() {
     if (this.props.notifications.length) {
-      this.slideIn();
+      this.show();
     }
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.notifications.length !== this.props.notifications.length) {
       if (this.props.notifications.length > 0 && !this.state.isVisible) {
-        this.setState({
-          isVisible: true,
-        }, () => {
-          this.slideIn();
-        });
+        this.show();
+      } else if (this.props.notifications.length > 0 && this.state.isVisible) {
+        this.closeDebounce();
       } else if (this.props.notifications.length < 1 && this.state.isVisible) {
-        this.setState({
-          isVisible: false,
-        }, () => {
-          this.close();
-        });
+        this.close();
       }
     }
-  }
-
-  close = () => {
-    this.translateY.setValue(-150);
-    this.opacity.setValue(0);
-    this.props.clearNotifications();
-    Actions.pop();
   }
 
   render() {
