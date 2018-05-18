@@ -9,6 +9,7 @@ const defaultState = {
   notifications: [],
   jalapenoNotifications: [],
   luvupNotifications: [],
+  otherNotifications: [],
 };
 
 export default function reducer(state = defaultState, action) {
@@ -18,11 +19,13 @@ export default function reducer(state = defaultState, action) {
       const notifications = [...state.notifications, notification];
       const luvupNotifications = notifications.filter(notification => _.get(notification, 'data.type') === 'luvup-received');
       const jalapenoNotifications = notifications.filter(notification => _.get(notification, 'data.type') === 'jalapeno-received');
+      const otherNotifications = _.xor(notifications, luvupNotifications, jalapenoNotifications);
 
       return {
         notifications,
         luvupNotifications,
         jalapenoNotifications,
+        otherNotifications,
       };
     case CLEAR_NOTIFICATIONS:
       return { ...defaultState };

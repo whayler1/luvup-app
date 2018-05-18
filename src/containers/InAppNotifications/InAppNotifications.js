@@ -29,6 +29,7 @@ class InAppNotifications extends PureComponent {
     notifications: PropTypes.array.isRequired,
     jalapenoNotifications: PropTypes.array.isRequired,
     luvupNotifications: PropTypes.array.isRequired,
+    otherNotifications: PropTypes.array.isRequired,
     clearNotifications: PropTypes.func.isRequired,
   }
 
@@ -105,6 +106,7 @@ class InAppNotifications extends PureComponent {
         close={this.close}
         jalapenoNotifications={this.props.jalapenoNotifications}
         luvupNotifications={this.props.luvupNotifications}
+        otherNotifications={this.props.otherNotifications}
       />
     )
   }

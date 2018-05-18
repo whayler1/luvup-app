@@ -16,6 +16,7 @@ export default ({
   close,
   jalapenoNotifications,
   luvupNotifications,
+  otherNotifications,
 }) => (
   <Animated.View
     style={[
@@ -36,9 +37,12 @@ export default ({
       )}
       {jalapenoNotifications.length > 0 && (
         <Text style={styles.text}>
-          You received {jalapenoNotifications.length > 1 ? jalapenoNotifications.length : 'a'} Jalapeno{jalapenoNotifications.length > 1 && 's'}
+          You received {jalapenoNotifications.length > 1 ? jalapenoNotifications.length : 'a'} jalapeno{jalapenoNotifications.length > 1 && 's'}
         </Text>
       )}
+      {otherNotifications.map((notification, i) => (
+        <Text key={i} style={styles.text}>{notification.data.message || notification.data.type}</Text>
+      ))}
     </View>
     <TouchableOpacity
       onPress={close}
