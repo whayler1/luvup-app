@@ -1,6 +1,7 @@
 import superagent from 'superagent';
 import _ from 'lodash';
 import config from '../../config';
+import config from '../../config';
 export const SET_RECEIVED_LOVER_REQUESTS = 'received-lover-requests/set-received-lover-requests';
 export const ACCEPT_LOVER_REQUEST = 'received-lover-requests/accept-lover-request';
 export const CLEAR_RECEIVED_LOVER_REQUESTS = 'received-lover-requests/clear-received-lover-requests';
@@ -27,7 +28,7 @@ export const getReceivedLoverRequests = () => async dispatch => {
       }`,
     });
 
-    const receivedLoverRequests = _.at(res, 'body.data.receivedLoverRequests')[0];
+    const receivedLoverRequests = _.get(res, 'body.data.receivedLoverRequests');
 
     if (receivedLoverRequests) {
       dispatch(setReceivedLoverRequests(
@@ -38,7 +39,7 @@ export const getReceivedLoverRequests = () => async dispatch => {
 
     return res;
   } catch (err) {
-    
+
     return err;
   }
 };
@@ -73,7 +74,7 @@ export const acceptLoverRequest = loverRequestId => async dispatch => {
 
     return res;
   } catch (err) {
-    
+
     return err;
   }
 };

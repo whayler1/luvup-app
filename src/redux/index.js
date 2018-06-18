@@ -12,6 +12,7 @@ import userEvents from './userEvents/userEvents.reducer';
 import relationshipScore from './relationshipScore/relationshipScore.reducer';
 import receivedLoverRequests from './receivedLoverRequests/receivedLoverRequests.reducer';
 import notifications from './notifications/notifications.reducer';
+import loveNote from './loveNote/loveNote.reducer';
 
 export const reducer = combineReducers({
   user,
@@ -25,6 +26,7 @@ export const reducer = combineReducers({
   relationshipScore,
   receivedLoverRequests,
   notifications,
+  loveNote,
 });
 
 export const store = createStore(
