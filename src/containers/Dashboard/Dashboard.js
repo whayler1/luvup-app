@@ -98,6 +98,8 @@ class Dashboard extends Component {
     }
   }
 
+  onLoveNotePress = () => Actions.createLoveNoteModal();
+
   render() {
     return <Template
       userFirstName={this.props.userFirstName}
@@ -115,6 +117,7 @@ class Dashboard extends Component {
       closePushdown={this.closePushdown}
       unviewedCoinCount={this.props.unviewedCoinCount}
       unviewedJalapenoCount={this.props.unviewedJalapenoCount}
+      onLoveNotePress={this.onLoveNotePress}
       {...this.state}
     />;
   }

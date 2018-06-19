@@ -125,6 +125,7 @@ const App = () => (
           <Scene
             key="createLoveNoteModal"
             component={CreateLoveNote}
+            {...sceneDefaults}
           />
         </Modal>
       </Lightbox>
