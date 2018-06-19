@@ -25,7 +25,7 @@ import Timeline from './src/containers/Timeline';
 import Menu from './src/containers/Menu';
 import ConfirmLoverRequest from './src/containers/ConfirmLoverRequest';
 import InAppNotifications from './src/containers/InAppNotifications';
-// import CreateLoveNote from './src/containers/CreateLoveNote';
+import CreateLoveNote from './src/containers/CreateLoveNote';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -121,6 +121,10 @@ const App = () => (
           <Scene
             key="notificationLightbox"
             component={InAppNotifications}
+          />
+          <Scene
+            key="createLoveNoteModal"
+            component={CreateLoveNote}
           />
         </Modal>
       </Lightbox>

@@ -66,6 +66,20 @@ export default ({
     <Hero
       openModal={openModal}
     />
+    <View style={{
+      flex: 0,
+      alignItems: 'center',
+      alignSelf: 'stretch',
+      backgroundColor: 'pink',
+      paddingBottom: 26,
+      paddingTop: 16,
+    }}>
+      <TouchableOpacity
+        onPress={() => {}}
+      >
+        <Text>Love Note</Text>
+      </TouchableOpacity>
+    </View>
     <Modal
       visible={isModalOpen}
       animationType={'fade'}
