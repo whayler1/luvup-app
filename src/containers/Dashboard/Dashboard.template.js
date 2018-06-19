@@ -18,6 +18,7 @@ import config from '../../config';
 import DashboardTopNav from '../../components/DashboardTopNav';
 import CoinArt from '../../components/CoinArt';
 import JalapenoArt from '../../components/JalapenoArt';
+import LoveNoteArt from '../../components/LoveNoteArt';
 import Hero from '../Hero';
 
 export default ({
@@ -70,14 +71,13 @@ export default ({
       flex: 0,
       alignItems: 'center',
       alignSelf: 'stretch',
-      backgroundColor: 'pink',
-      paddingBottom: 26,
-      paddingTop: 16,
+      paddingBottom: 42,
+      paddingTop: 8,
     }}>
       <TouchableOpacity
         onPress={() => {}}
       >
-        <Text>Love Note</Text>
+        <LoveNoteArt />
       </TouchableOpacity>
     </View>
     <Modal
