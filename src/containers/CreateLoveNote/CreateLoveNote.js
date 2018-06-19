@@ -8,6 +8,7 @@ import Template from './CreateLoveNote.template';
 
 class CreateLoveNote extends PureComponent {
   static propTypes = {
+    loverFirstName: PropTypes.string.isRequired,
     createLoveNote: PropTypes.func.isRequired,
   }
 
@@ -36,6 +37,9 @@ class CreateLoveNote extends PureComponent {
         'addJalapeno',
         'removeJalapeno',
       ]),
+      ..._.pick(this.props, [
+        'loverFirstName',
+      ]),
     }
     return (
       <Template {...props} />
@@ -44,7 +48,9 @@ class CreateLoveNote extends PureComponent {
 }
 
 export default connect(
-  null,
+  state => ({
+    loverFirstName: state.lover.firstName,
+  }),
   {
     createLoveNote: createLoveNoteAction,
   },
