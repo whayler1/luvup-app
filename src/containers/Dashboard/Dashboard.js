@@ -96,15 +96,6 @@ class Dashboard extends Component {
         name: 'Dashboard',
       });
     }
-
-    // setTimeout(
-    //   () => onNotificationReceived({
-    //     data: {
-    //       type: 'luvup-received',
-    //     },
-    //   }),
-    //   1000
-    // );
   }
 
   render() {

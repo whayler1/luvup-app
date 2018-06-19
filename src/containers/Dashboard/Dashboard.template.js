@@ -6,7 +6,7 @@ import {
   Image,
   Animated,
   Modal,
-  TabBarIOS,
+  TouchableOpacity,
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import moment from 'moment';
