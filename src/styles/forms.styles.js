@@ -12,6 +12,15 @@ const input = {
   color: vars.blueGrey500,
   marginTop: 4,
 };
+const multilineInput = {
+  ...input,
+  height: 40 * 4,
+  borderWidth: 1,
+  borderBottomWidth: 1,
+  borderColor: vars.blueGrey500,
+  borderRadius: 4,
+  padding: 16,
+};
 const inputDanger = {
   ...input,
   borderBottomColor: vars.danger,
@@ -23,6 +32,7 @@ const inputFocus = {
 
 export default StyleSheet.create({
   input,
+  multilineInput,
   inputDanger,
   inputFocus,
   title: {

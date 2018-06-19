@@ -27,6 +27,8 @@ import ConfirmLoverRequest from './src/containers/ConfirmLoverRequest';
 import InAppNotifications from './src/containers/InAppNotifications';
 import CreateLoveNote from './src/containers/CreateLoveNote';
 
+import LoveNoteArt from './src/components/LoveNoteArt';
+
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
   return (state, action) => {
@@ -49,6 +51,18 @@ const sceneDefaults = {
     fontSize: 30,
   }}>luvup</Text></View>
 };
+const loveNoteModalDefaults = {
+  ...sceneDefaults,
+  renderTitle: (
+    <View style={{
+      transform: [{
+        scale: 0.5,
+      }],
+    }}>
+      <LoveNoteArt />
+    </View>
+  ),
+}
 
 const App = () => (
   <Provider store={store}>
@@ -125,7 +139,7 @@ const App = () => (
           <Scene
             key="createLoveNoteModal"
             component={CreateLoveNote}
-            {...sceneDefaults}
+            {...loveNoteModalDefaults}
           />
         </Modal>
       </Lightbox>
