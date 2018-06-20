@@ -55,7 +55,7 @@ const loveNoteModalDefaults = {
   ...sceneDefaults,
   renderTitle: (
     <Text style={{
-      fontFamily: vars.fontRegular,
+      fontFamily: vars.fontBlack,
       color: vars.blueGrey500,
       fontSize: 30,
     }}>
