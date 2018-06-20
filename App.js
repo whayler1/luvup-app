@@ -54,13 +54,13 @@ const sceneDefaults = {
 const loveNoteModalDefaults = {
   ...sceneDefaults,
   renderTitle: (
-    <View style={{
-      transform: [{
-        scale: 0.5,
-      }],
+    <Text style={{
+      fontFamily: vars.fontRegular,
+      color: vars.blueGrey500,
+      fontSize: 30,
     }}>
-      <LoveNoteArt />
-    </View>
+      Love Note
+    </Text>
   ),
 }
 

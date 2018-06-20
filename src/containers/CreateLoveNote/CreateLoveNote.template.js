@@ -8,6 +8,7 @@ import {
   Animated,
   Image,
 } from 'react-native';
+import { Button } from 'react-native-elements';
 
 import styles from './CreateLoveNote.styles.js';
 import { forms, buttons, scene, modal, vars, } from '../../styles';
@@ -27,9 +28,8 @@ export default ({
       behavior="height"
     >
       <View style={{
-          paddingTop: 16,
+          paddingTop: 8,
         }}>
-        <Text style={modal.title}>Love Note</Text>
         <View style={[forms.formGroup, { marginTop: 8 }]}>
           <TextInput
             style={[forms.multilineInput, focusInput === 'currentPassword' && forms.inputFocus]}
@@ -44,7 +44,25 @@ export default ({
         </View>
       </View>
       <View style={{
-        paddingTop: 16,
+        paddingTop: 24,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+      }}>
+        <Text style={{
+          fontFamily: vars.fontRegular,
+          color: vars.blueGrey900,
+        }}>
+          Attach Luvups
+        </Text>
+        <Text style={{
+          fontFamily: vars.fontRegular,
+          color: vars.blueGrey900,
+        }}>
+          Attach Jalapeños
+        </Text>
+      </View>
+      <View style={{
+        paddingTop: 8,
         flexDirection: 'row',
         justifyContent: 'space-around',
       }}>
@@ -125,6 +143,15 @@ export default ({
             </Text>
           </TouchableOpacity>
         </View>
+      </View>
+      <View style={{ marginTop: 32 }}>
+        <Button
+          onPress={() => {}}
+          containerViewStyle={buttons.container}
+          buttonStyle={buttons.infoButton}
+          textStyle={buttons.infoText}
+          title={'Send'}
+        />
       </View>
     </KeyboardAvoidingView>
   </View>
