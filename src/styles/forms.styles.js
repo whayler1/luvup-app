@@ -14,7 +14,7 @@ const input = {
 };
 const multilineInput = {
   ...input,
-  height: 40 * 4,
+  height: 40 * 3,
   borderWidth: 1,
   borderBottomWidth: 1,
   borderColor: vars.blueGrey500,
