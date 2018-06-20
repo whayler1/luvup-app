@@ -9,6 +9,7 @@ import ReactArt, {
     Surface,
     Transform,
 } from 'ReactNativeART';
+import _ from 'lodash';
 
 import Circle from '../Circle';
 import { vars } from '../../styles';
@@ -40,15 +41,19 @@ export default ({
         <Circle radius={innerRadius} stroke={'#aa9b12'} strokeWidth={4} />
       </Group>
     </Surface>
-    <Text
-      style={{
-        position: 'absolute',
-        color: 'white',
-        backgroundColor: 'transparent',
-        fontFamily: vars.fontBlack,
-        fontSize: 28,
-        zIndex: 10,
-      }}
-    >+{ recentlySentCoinCount }</Text>
+    {_.isNumber(recentlySentCoinCount) && (
+      <Text
+        style={{
+          position: 'absolute',
+          color: 'white',
+          backgroundColor: 'transparent',
+          fontFamily: vars.fontBlack,
+          fontSize: 28,
+          zIndex: 10,
+        }}
+      >
+        +{ recentlySentCoinCount }
+      </Text>
+    )}
   </View>
 );

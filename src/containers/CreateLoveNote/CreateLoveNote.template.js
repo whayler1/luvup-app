@@ -4,7 +4,9 @@ import {
   Text,
   TextInput,
   KeyboardAvoidingView,
+  TouchableOpacity,
   Animated,
+  Image,
 } from 'react-native';
 
 import styles from './CreateLoveNote.styles.js';
@@ -17,32 +19,113 @@ export default ({
   focusInput = '',
   isInFlight = false,
 }) => (
-  <KeyboardAvoidingView
-    contentContainerStyle={{
-      flex: 1
-    }}
-    style={{
-      flex: 1,
-    }}
-    behavior="padding"
-  >
-    <View style={{
-      paddingHorizontal: 16,
-      paddingTop: 16,
-    }}>
-      <Text style={modal.title}>Love Note</Text>
-      <View style={forms.formGroup}>
-        <TextInput
-          style={[forms.multilineInput, focusInput === 'currentPassword' && forms.inputFocus]}
-          onChangeText={onNoteChange}
-          value={note}
-          maxLength={1000}
-          editable={!isInFlight}
-          placeholder={`Tell ${ loverFirstName } what's on your mind.`}
-          placeholderTextColor={vars.blueGrey100}
-          multiline={true}
-        />
+  <View style={{flex: 1}}>
+    <KeyboardAvoidingView
+      style={{
+        paddingHorizontal: 16,
+      }}
+      behavior="height"
+    >
+      <View style={{
+          paddingTop: 16,
+        }}>
+        <Text style={modal.title}>Love Note</Text>
+        <View style={[forms.formGroup, { marginTop: 8 }]}>
+          <TextInput
+            style={[forms.multilineInput, focusInput === 'currentPassword' && forms.inputFocus]}
+            onChangeText={onNoteChange}
+            value={note}
+            maxLength={1000}
+            editable={!isInFlight}
+            placeholder={`Tell ${ loverFirstName } what's on your mind…`}
+            placeholderTextColor={vars.blueGrey100}
+            multiline={true}
+          />
+        </View>
       </View>
-    </View>
-  </KeyboardAvoidingView>
+      <View style={{
+        paddingTop: 16,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+      }}>
+        <View style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+        }}>
+          <TouchableOpacity>
+            <Text
+              style={{
+                fontFamily: vars.fontBlack,
+                fontSize: 40,
+                color: vars.blueGrey500,
+                marginRight: 8,
+              }}
+            >
+              -
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Image
+              source={require('../../images/coin.png')}
+              style={{
+                width: 40,
+                height: 40,
+              }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text
+              style={{
+                fontFamily: vars.fontBlack,
+                fontSize: 40,
+                color: vars.blueGrey500,
+                marginLeft: 8,
+              }}
+            >
+              +
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
+          <TouchableOpacity>
+            <Text
+              style={{
+                fontFamily: vars.fontBlack,
+                fontSize: 40,
+                color: vars.blueGrey500,
+                marginRight: 8,
+              }}
+            >
+              -
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Image
+              source={require('../../images/jalapeno.png')}
+              style={{
+                width: 30.6,
+                height: 40,
+                marginLeft: 10,
+              }}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Text
+              style={{
+                fontFamily: vars.fontBlack,
+                fontSize: 40,
+                color: vars.blueGrey500,
+                marginLeft: 8,
+              }}
+            >
+              +
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </KeyboardAvoidingView>
+  </View>
 );
