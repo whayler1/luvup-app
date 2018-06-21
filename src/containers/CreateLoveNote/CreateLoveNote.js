@@ -42,11 +42,17 @@ class CreateLoveNote extends PureComponent {
       note: '',
       numLuvups: 0,
       numJalapenos: 0,
+      isSending: false,
+      isSendError: false,
+      isNoteEmpty: false,
       placeholder: getLoveNotePlaceholder(props.loverFirstName),
     };
   }
 
-  onNoteChange = note => this.setState({ note });
+  onNoteChange = note => this.setState({
+    note,
+    isNoteEmpty: false,
+  });
   addLuvup = () => this.setState({ numLuvups: addToken(this.state, 'numLuvups') });
   removeLuvup = () => this.setState({ numLuvups: removeToken(this.state, 'numLuvups') });
   addJalapeno = () => this.setState({ numJalapenos: addToken(this.state, 'numJalapenos') });
@@ -57,8 +63,17 @@ class CreateLoveNote extends PureComponent {
 
     if (isValid) {
       const { note, numLuvups, numJalapenos } = this.state;
+      this.setState({ isSending: true });
 
       const res = await this.props.createLoveNote(note, { numLuvups, numJalapenos });
+      const loveNoteId = _.get(res, 'body.data.createLoveNote.loveNote.id');
+
+      if (!loveNoteId) {
+        this.setState({
+          isSending: false,
+          isSendError: true,
+        })
+      }
       console.log('\n\n res', res);
     }
   };
@@ -73,7 +88,8 @@ class CreateLoveNote extends PureComponent {
       errorObj.isNoteEmpty = true;
       isValid = false;
     }
-
+    
+    this.setState(errorObj);
     return isValid;
   };
 

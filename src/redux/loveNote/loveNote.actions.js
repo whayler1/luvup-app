@@ -14,13 +14,12 @@ export const createLoveNote = (note, { numLuvups = 0, numJalapenos = 0 }) => asy
           numLuvups: ${numLuvups},
         ) {
           loveNote {
-            note id numLuvups numJalapenos
+            id
           }
         }
       }`,
     });
-    const loveNoteId = _.get(res, 'body.data.createLoveNote.loveNote.id');
-    console.log('\n\nres', res);
+
     return res;
   } catch (err) {
     console.log('\n\nerr', err);
