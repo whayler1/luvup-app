@@ -27,6 +27,7 @@ export default ({
   addJalapeno,
   removeLuvup,
   removeJalapeno,
+  onSendClick,
 }) => (
   <View style={{flex: 1}}>
     <KeyboardAvoidingView
@@ -154,7 +155,7 @@ export default ({
       </View>
       <View style={{ marginTop: 32 }}>
         <Button
-          onPress={() => {}}
+          onPress={onSendClick}
           containerViewStyle={buttons.container}
           buttonStyle={buttons.infoButton}
           textStyle={buttons.infoText}
