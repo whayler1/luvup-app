@@ -16,7 +16,7 @@ import { forms, buttons, scene, modal, vars, } from '../../styles';
 export default ({
   note,
   onNoteChange,
-  loverFirstName,
+  placeholder,
   focusInput = '',
   isInFlight = false,
 }) => (
@@ -37,7 +37,7 @@ export default ({
             value={note}
             maxLength={1000}
             editable={!isInFlight}
-            placeholder={`Tell ${ loverFirstName } what's on your mind…`}
+            placeholder={placeholder}
             placeholderTextColor={vars.blueGrey100}
             multiline={true}
           />
