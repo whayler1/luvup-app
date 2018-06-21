@@ -12,6 +12,7 @@ import { Button } from 'react-native-elements';
 
 import styles from './CreateLoveNote.styles.js';
 import { forms, buttons, scene, modal, vars, } from '../../styles';
+import Well from '../../components/Well';
 
 const getCountString = (n, verb) => `Attach ${ n > 0 ? n : '' } ${verb}${ n !== 1 ? 's' : '' }`;
 
@@ -28,6 +29,9 @@ export default ({
   removeLuvup,
   removeJalapeno,
   onSendClick,
+  isSending,
+  isSendError,
+  isNoteEmpty,
 }) => (
   <View style={{flex: 1}}>
     <KeyboardAvoidingView
@@ -50,6 +54,7 @@ export default ({
             placeholderTextColor={vars.blueGrey100}
             multiline={true}
           />
+          {isNoteEmpty && <Text style={forms.error}>Write a note to send</Text>}
         </View>
       </View>
       <View style={{
@@ -153,13 +158,15 @@ export default ({
           </TouchableOpacity>
         </View>
       </View>
+      {isSendError && <Well text="There was an error sending your Love Note. Make sure you are connected to wifi or data." />}
       <View style={{ marginTop: 32 }}>
         <Button
           onPress={onSendClick}
           containerViewStyle={buttons.container}
           buttonStyle={buttons.infoButton}
           textStyle={buttons.infoText}
-          title={'Send'}
+          title={isSending ? 'Sending…' : 'Send'}
+          disabled={isSending}
         />
       </View>
     </KeyboardAvoidingView>
