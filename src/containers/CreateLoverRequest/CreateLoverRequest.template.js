@@ -49,7 +49,7 @@ export default ({
         >
           <Text
             style={{
-              fontFamily: 'latoblack',
+              fontFamily: vars.fontBlack,
               fontSize: 16,
               color: vars.blueGrey500,
             }}

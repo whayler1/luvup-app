@@ -43,7 +43,7 @@ export default ({
           position: 'absolute',
           top: 6,
           right: 0,
-          fontFamily: 'latoblack',
+          fontFamily: vars.fontBlack,
           fontSize: 26,
           color: vars.jalapeno,
         }}

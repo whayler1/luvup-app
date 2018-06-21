@@ -91,7 +91,7 @@ export default ({
           <Text
             style={{
               paddingLeft: 5,
-              fontFamily: 'latoblack',
+              fontFamily: vars.fontBlack,
               fontSize: 16,
               color: vars.blueGrey500,
             }}
@@ -109,7 +109,7 @@ export default ({
           <Text
             style={{
               paddingLeft: 5,
-              fontFamily: 'latoblack',
+              fontFamily: vars.fontBlack,
               fontSize: 16,
               color: vars.blueGrey500,
             }}
@@ -152,7 +152,7 @@ export default ({
         >
           <Text
             style={{
-              fontFamily: 'latoblack',
+              fontFamily: vars.fontBlack,
               fontSize: 16,
               color: vars.blueGrey500,
             }}
