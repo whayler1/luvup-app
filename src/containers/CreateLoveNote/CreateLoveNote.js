@@ -6,6 +6,18 @@ import _ from 'lodash';
 import { createLoveNote as createLoveNoteAction } from '../../redux/loveNote/loveNote.actions';
 import Template from './CreateLoveNote.template';
 
+const getLoveNotePlaceholder = (loverFirstName) => {
+  const placeholders = [
+    `Share your feelings with ${ loverFirstName }…`,
+    `Maybe ${ loverFirstName } just needs a little nudge to get the message accross?`,
+    `Tell ${ loverFirstName } what's on your mind…`,
+    `Don't be afraid to open up to ${ loverFirstName }…`,
+    `It all starts with communication…`,
+  ];
+
+  return placeholders[Math.floor(Math.random() * placeholders.length)];
+}
+
 class CreateLoveNote extends PureComponent {
   static propTypes = {
     loverFirstName: PropTypes.string.isRequired,
@@ -18,6 +30,7 @@ class CreateLoveNote extends PureComponent {
       note: '',
       numLuvups: 0,
       numJalapenos: 0,
+      placeholder: getLoveNotePlaceholder(props.loverFirstName),
     };
   }
 
@@ -36,9 +49,6 @@ class CreateLoveNote extends PureComponent {
         'removeLuvup',
         'addJalapeno',
         'removeJalapeno',
-      ]),
-      ..._.pick(this.props, [
-        'loverFirstName',
       ]),
     }
     return (
