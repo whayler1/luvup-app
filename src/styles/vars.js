@@ -17,7 +17,7 @@ const green500 = '#4CAF50';
 
 // fonts
 
-const fontBlack = 'quicksandblack';
+const fontBlack = 'quicksandbold';
 const fontRegular = 'quicksandregular';
 const fontVanity = 'yesteryear';
 

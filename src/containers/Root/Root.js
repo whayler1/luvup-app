@@ -51,7 +51,7 @@ class Root extends Component {
     await Font.loadAsync({
       'yesteryear': require('../../fonts/yesteryear/yesteryear.ttf'),
       'quicksandregular': require('../../fonts/Quicksand/Quicksand-Regular.ttf'),
-      'quicksandblack': require('../../fonts/Quicksand/Quicksand-Bold.ttf'),
+      'quicksandbold': require('../../fonts/Quicksand/Quicksand-Bold.ttf'),
     });
 
     this.props.setIsFontLoaded(true);
