@@ -17,8 +17,8 @@ const green500 = '#4CAF50';
 
 // fonts
 
-const fontBlack = 'latoblack';
-const fontRegular = 'latoregular';
+const fontBlack = 'quicksandblack';
+const fontRegular = 'quicksandregular';
 const fontVanity = 'yesteryear';
 
 export default {
