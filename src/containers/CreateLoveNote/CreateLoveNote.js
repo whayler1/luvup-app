@@ -52,6 +52,31 @@ class CreateLoveNote extends PureComponent {
   addJalapeno = () => this.setState({ numJalapenos: addToken(this.state, 'numJalapenos') });
   removeJalapeno = () => this.setState({ numJalapenos: removeToken(this.state, 'numJalapenos') });
 
+  onSendClick = async () => {
+    const isValid = this.validate();
+
+    if (isValid) {
+      const { note, numLuvups, numJalapenos } = this.state;
+
+      const res = await this.props.createLoveNote(note, { numLuvups, numJalapenos });
+      console.log('\n\n res', res);
+    }
+  };
+
+  validate = () => {
+    const errorObj = {
+      isNoteEmpty: false,
+    };
+    let isValid = true;
+
+    if (this.state.note.length < 1) {
+      errorObj.isNoteEmpty = true;
+      isValid = false;
+    }
+
+    return isValid;
+  };
+
   render() {
     const props = {
       ...this.state,
@@ -61,6 +86,7 @@ class CreateLoveNote extends PureComponent {
         'removeLuvup',
         'addJalapeno',
         'removeJalapeno',
+        'onSendClick',
       ]),
     }
     return (
