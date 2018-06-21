@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
+import { Vibration } from 'react-native';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
@@ -18,6 +19,17 @@ const getLoveNotePlaceholder = (loverFirstName) => {
   return placeholders[Math.floor(Math.random() * placeholders.length)];
 }
 
+const maxTokens = 5;
+const addToken = (state, key) => {
+  if (state[key] + 1 > maxTokens) {
+    Vibration.vibrate();
+    return maxTokens;
+  } else {
+    return state[key] + 1;
+  }
+};
+const removeToken = (state, key) => state[key] - 1 > -1 ? state[key] - 1 : 0;
+
 class CreateLoveNote extends PureComponent {
   static propTypes = {
     loverFirstName: PropTypes.string.isRequired,
@@ -35,10 +47,10 @@ class CreateLoveNote extends PureComponent {
   }
 
   onNoteChange = note => this.setState({ note });
-  addLuvup = () => this.setState({ numLuvups: this.state.numLuvups + 1 });
-  removeLuvup = () => this.setState({ numLuvups: this.state.numLuvups - 1 });
-  addJalapeno = () => this.setState({ numLuvups: this.state.numJalapenos + 1 });
-  removeJalapeno = () => this.setState({ numLuvups: this.state.numJalapenos - 1 });
+  addLuvup = () => this.setState({ numLuvups: addToken(this.state, 'numLuvups') });
+  removeLuvup = () => this.setState({ numLuvups: removeToken(this.state, 'numLuvups') });
+  addJalapeno = () => this.setState({ numJalapenos: addToken(this.state, 'numJalapenos') });
+  removeJalapeno = () => this.setState({ numJalapenos: removeToken(this.state, 'numJalapenos') });
 
   render() {
     const props = {

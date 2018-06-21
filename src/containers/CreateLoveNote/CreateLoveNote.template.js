@@ -13,12 +13,20 @@ import { Button } from 'react-native-elements';
 import styles from './CreateLoveNote.styles.js';
 import { forms, buttons, scene, modal, vars, } from '../../styles';
 
+const getCountString = (n, verb) => `Attach ${ n > 0 ? n : '' } ${verb}${ n !== 1 ? 's' : '' }`;
+
 export default ({
   note,
   onNoteChange,
   placeholder,
   focusInput = '',
   isInFlight = false,
+  numLuvups,
+  numJalapenos,
+  addLuvup,
+  addJalapeno,
+  removeLuvup,
+  removeJalapeno,
 }) => (
   <View style={{flex: 1}}>
     <KeyboardAvoidingView
@@ -52,13 +60,13 @@ export default ({
           fontFamily: vars.fontRegular,
           color: vars.blueGrey900,
         }}>
-          Attach Luvups
+          { getCountString(numLuvups, 'Luvup') }
         </Text>
         <Text style={{
           fontFamily: vars.fontRegular,
           color: vars.blueGrey900,
         }}>
-          Attach Jalapeños
+          { getCountString(numJalapenos, 'Jalapeño') }
         </Text>
       </View>
       <View style={{
@@ -70,7 +78,7 @@ export default ({
             flexDirection: 'row',
             alignItems: 'center',
         }}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={removeLuvup}>
             <Text
               style={{
                 fontFamily: vars.fontBlack,
@@ -82,7 +90,7 @@ export default ({
               -
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={addLuvup}>
             <Image
               source={require('../../images/coin.png')}
               style={{
@@ -91,7 +99,7 @@ export default ({
               }}
             />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={addLuvup}>
             <Text
               style={{
                 fontFamily: vars.fontBlack,
@@ -108,7 +116,7 @@ export default ({
           flexDirection: 'row',
           alignItems: 'center',
         }}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={removeJalapeno}>
             <Text
               style={{
                 fontFamily: vars.fontBlack,
@@ -120,7 +128,7 @@ export default ({
               -
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={addJalapeno}>
             <Image
               source={require('../../images/jalapeno.png')}
               style={{
@@ -130,7 +138,7 @@ export default ({
               }}
             />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={addJalapeno}>
             <Text
               style={{
                 fontFamily: vars.fontBlack,
