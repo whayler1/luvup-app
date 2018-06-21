@@ -7,9 +7,9 @@ export default StyleSheet.create({
     marginTop: 32,
   },
   title: {
-    fontFamily: vars.fontBlack,
-    fontSize: 30,
     color: vars.blueGrey800,
+    fontSize: 20,
+    fontFamily: vars.fontBlack,
   },
   label: {
     fontFamily: vars.fontBlack,
