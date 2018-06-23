@@ -8,7 +8,7 @@ export default StyleSheet.create({
   },
   title: {
     color: vars.blueGrey800,
-    fontSize: 20,
+    fontSize: 27,
     fontFamily: vars.fontBlack,
   },
   label: {

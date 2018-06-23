@@ -98,7 +98,7 @@ class Dashboard extends Component {
     }
   }
 
-  onLoveNotePress = () => Actions.createLoveNoteModal();
+  onLoveNotePress = () => Actions.createLoveNote();
 
   render() {
     return <Template

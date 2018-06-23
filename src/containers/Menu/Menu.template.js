@@ -59,7 +59,7 @@ export default ({
         }}
       >
         <View>
-          <Text style={styles.title}>My Profile</Text>
+          <Text style={styles.title}>Profile</Text>
           <Text style={styles.label}>Name</Text>
           <Text style={styles.value}>{userFirstName} {userLastName}</Text>
           <Text style={styles.label}>Email</Text>
@@ -107,7 +107,7 @@ export default ({
         </View>
         {relationshipCreatedAt.length > 0 &&
         <View style={styles.group}>
-          <Text style={styles.title}>My Relationship</Text>
+          <Text style={styles.title}>Relationship</Text>
           <Text style={styles.label}>Lover</Text>
           <Text style={styles.value}>{loverFirstName} {loverLastName}</Text>
           <Text style={styles.label}>Start Date</Text>
