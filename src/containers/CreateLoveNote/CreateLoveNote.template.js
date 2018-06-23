@@ -14,7 +14,14 @@ import styles from './CreateLoveNote.styles.js';
 import { forms, buttons, scene, modal, vars, } from '../../styles';
 import Well from '../../components/Well';
 
-const getCountString = (n, verb) => `Attach ${ n > 0 ? n : '' } ${verb}${ n !== 1 ? 's' : '' }`;
+const CountText = ({n, verb}) => (
+  <Text style={{
+    fontFamily: vars.fontRegular,
+    color: vars.blueGrey900,
+  }}>
+    Attach <Text style={{ fontFamily: vars.fontBlack, color: vars.blueGrey900 }}>{ n > 0 ? n : '' }</Text> {verb}{ n !== 1 ? 's' : '' }
+  </Text>
+);
 
 export default ({
   note,
@@ -62,18 +69,14 @@ export default ({
         flexDirection: 'row',
         justifyContent: 'space-around',
       }}>
-        <Text style={{
-          fontFamily: vars.fontRegular,
-          color: vars.blueGrey900,
-        }}>
-          { getCountString(numLuvups, 'Luvup') }
-        </Text>
-        <Text style={{
-          fontFamily: vars.fontRegular,
-          color: vars.blueGrey900,
-        }}>
-          { getCountString(numJalapenos, 'Jalapeño') }
-        </Text>
+        <CountText
+          n={numLuvups}
+          verb="Luvup"
+        />
+        <CountText
+          n={numJalapenos}
+          verb="Jalapeño"
+        />
       </View>
       <View style={{
         paddingTop: 8,
