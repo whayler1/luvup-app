@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { Vibration } from 'react-native';
 import PropTypes from 'prop-types';
@@ -9,26 +10,18 @@ import Template from './CreateLoveNote.template';
 
 const getLoveNotePlaceholder = (loverFirstName) => {
   const placeholders = [
+    `send ${ loverFirstName } a nice message, like "Hey boo, I need them Luvups"`,
     `Share your feelings with ${ loverFirstName }…`,
     `Maybe ${ loverFirstName } just needs a little nudge to get the message accross?`,
     `Tell ${ loverFirstName } what's on your mind…`,
     `Don't be afraid to open up to ${ loverFirstName }…`,
-    `It all starts with communication…`,
+    'It all starts with communication…',
   ];
 
   return placeholders[Math.floor(Math.random() * placeholders.length)];
 }
 
 const maxTokens = 5;
-const addToken = (state, key) => {
-  if (state[key] + 1 > maxTokens) {
-    Vibration.vibrate();
-    return maxTokens;
-  } else {
-    return state[key] + 1;
-  }
-};
-const removeToken = (state, key) => state[key] - 1 > -1 ? state[key] - 1 : 0;
 
 class CreateLoveNote extends PureComponent {
   static propTypes = {
@@ -53,10 +46,33 @@ class CreateLoveNote extends PureComponent {
     note,
     isNoteEmpty: false,
   });
-  addLuvup = () => this.setState({ numLuvups: addToken(this.state, 'numLuvups') });
-  removeLuvup = () => this.setState({ numLuvups: removeToken(this.state, 'numLuvups') });
-  addJalapeno = () => this.setState({ numJalapenos: addToken(this.state, 'numJalapenos') });
-  removeJalapeno = () => this.setState({ numJalapenos: removeToken(this.state, 'numJalapenos') });
+
+  addToken = (key) => {
+    const { state } = this;
+    if (!state.isSending) {
+      let n;
+      if (state[key] + 1 > maxTokens) {
+        Vibration.vibrate();
+        n = maxTokens;
+      } else {
+        n = state[key] + 1;
+      }
+      this.setState({ [key]: n });
+    }
+  };
+
+  removeToken = (key) => {
+    const { state } = this;
+    if (!state.isSending) {
+      const n = state[key] - 1 > -1 ? state[key] - 1 : 0;
+      this.setState({ [key]: n });
+    }
+  }
+
+  addLuvup = () => this.addToken('numLuvups');
+  removeLuvup = () => this.removeToken('numLuvups');
+  addJalapeno = () => this.addToken('numJalapenos');
+  removeJalapeno = () => this.removeToken('numJalapenos');
 
   onSendClick = async () => {
     const isValid = this.validate();
@@ -88,10 +104,12 @@ class CreateLoveNote extends PureComponent {
       errorObj.isNoteEmpty = true;
       isValid = false;
     }
-    
+
     this.setState(errorObj);
     return isValid;
   };
+
+  back = () => Actions.pop();
 
   render() {
     const props = {
@@ -103,6 +121,7 @@ class CreateLoveNote extends PureComponent {
         'addJalapeno',
         'removeJalapeno',
         'onSendClick',
+        'back'
       ]),
     }
     return (

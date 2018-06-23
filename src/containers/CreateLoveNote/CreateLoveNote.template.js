@@ -39,6 +39,7 @@ export default ({
   isSending,
   isSendError,
   isNoteEmpty,
+  back,
 }) => (
   <View style={{flex: 1}}>
     <KeyboardAvoidingView
@@ -171,6 +172,13 @@ export default ({
           title={isSending ? 'Sending…' : 'Send'}
           disabled={isSending}
         />
+      </View>
+      <View style={{ marginTop: 32 }}>
+        <TouchableOpacity onPress={back}>
+          <Text style={buttons.secondarySkeletonText}>
+            Close
+          </Text>
+        </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
   </View>
