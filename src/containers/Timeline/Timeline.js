@@ -103,7 +103,7 @@ class Timeline extends Component {
     }
   }, 250);
 
-  goToDashboard = () => Actions.dashboard();
+  goBack = () => Actions.pop();
 
   setSections = () => {
     const sections = getSections(this.props.userEvents);
@@ -134,7 +134,7 @@ class Timeline extends Component {
       userId: this.props.userId,
       name: 'Timeline',
     });
-    
+
     this.setInitials();
 
     const query = `{
@@ -178,7 +178,7 @@ class Timeline extends Component {
     return <Template
       {...this.props}
       {...this.state}
-      goToDashboard={this.goToDashboard}
+      goBack={this.goBack}
       onEndReached={this.onEndReached}
       closeModal={this.closeModal}
     />;

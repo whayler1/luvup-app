@@ -4,7 +4,7 @@ import { vars } from '../../styles';
 const directionsText = {
   color: vars.p,
   fontFamily: vars.fontRegular,
-  fontSize: 30,
+  fontSize: 20,
   alignItems: 'center'
 };
 const loverRequestText = {
@@ -20,6 +20,7 @@ export default StyleSheet.create({
   heartView: {
     alignSelf: 'stretch',
     flex: 1,
+    paddingTop: 80,
     alignItems: 'center',
     justifyContent: 'center',
   },

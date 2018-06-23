@@ -84,7 +84,7 @@ export default ({
                 opacity: flyingNoteOpacity,
               }]}
             >
-              Love Note Sent!
+              Sent!
             </Animated.Text>
             <View style={{
               marginTop: 32,

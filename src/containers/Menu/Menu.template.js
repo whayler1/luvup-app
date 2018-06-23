@@ -22,7 +22,7 @@ export default ({
   userEmail,
   loverFirstName,
   loverLastName,
-  goToDashboard,
+  goBack,
   relationshipCreatedAt,
   relationshipCreatedAtFormatted,
   onLogout,
@@ -40,7 +40,7 @@ export default ({
     >
       <View style={scene.topNavContent}>
         <TouchableOpacity
-          onPress={goToDashboard}
+          onPress={goBack}
         >
           <Image
             source={require('../../images/heart.png')}
