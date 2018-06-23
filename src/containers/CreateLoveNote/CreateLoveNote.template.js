@@ -3,7 +3,6 @@ import {
   View,
   Text,
   TextInput,
-  KeyboardAvoidingView,
   TouchableOpacity,
   Animated,
   Image,
@@ -40,17 +39,22 @@ export default ({
   isSendError,
   isNoteEmpty,
   back,
+  mainUiY,
+  mainUiOpacity,
 }) => (
   <View style={{flex: 1}}>
-    <KeyboardAvoidingView
+    <Animated.View
       style={{
         paddingHorizontal: 16,
+        opacity: mainUiOpacity,
+        transform: [
+          { translateY: mainUiY },
+        ],
       }}
-      behavior="height"
     >
       <View style={{
-          paddingTop: 8,
-        }}>
+        paddingTop: 8,
+      }}>
         <View style={[forms.formGroup, { marginTop: 8 }]}>
           <TextInput
             style={[forms.multilineInput, focusInput === 'currentPassword' && forms.inputFocus]}
@@ -180,6 +184,6 @@ export default ({
           </Text>
         </TouchableOpacity>
       </View>
-    </KeyboardAvoidingView>
+    </Animated.View>
   </View>
 );
