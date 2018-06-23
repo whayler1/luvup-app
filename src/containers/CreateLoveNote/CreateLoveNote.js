@@ -10,7 +10,7 @@ import Template from './CreateLoveNote.template';
 
 const getLoveNotePlaceholder = (loverFirstName) => {
   const placeholders = [
-    `send ${ loverFirstName } a nice message, like "Hey boo, I need them Luvups"`,
+    `Send ${ loverFirstName } a nice message, like "Hey boo, I need them Luvups"`,
     `Share your feelings with ${ loverFirstName }…`,
     `Maybe ${ loverFirstName } just needs a little nudge to get the message accross?`,
     `Tell ${ loverFirstName } what's on your mind…`,
@@ -36,6 +36,7 @@ class CreateLoveNote extends PureComponent {
       numLuvups: 0,
       numJalapenos: 0,
       isSending: false,
+      isSuccess: false,
       isSendError: false,
       isNoteEmpty: false,
       placeholder: getLoveNotePlaceholder(props.loverFirstName),
@@ -76,6 +77,31 @@ class CreateLoveNote extends PureComponent {
 
   mainUiY = new Animated.Value(0);
   mainUiOpacity = new Animated.Value(1);
+  flyingNoteX = new Animated.Value(-150);
+  flyingNoteOpacity = new Animated.Value(0);
+
+  showFlyingNote = () => {
+    Animated.parallel([
+      Animated.spring(
+        this.flyingNoteX,
+        {
+          toValue: 0,
+          delay: 250,
+          friction: 5,
+          tension: 20,
+        },
+      ),
+      Animated.timing(
+        this.flyingNoteOpacity,
+        {
+          toValue: 1,
+          duration: 100,
+          delay: 250,
+          easing: Easing.inOut(Easing.linear),
+        },
+      ),
+    ]).start();
+  }
 
   hideContent = () => {
     Animated.parallel([
@@ -103,7 +129,10 @@ class CreateLoveNote extends PureComponent {
 
     if (isValid) {
       const { note, numLuvups, numJalapenos } = this.state;
-      this.setState({ isSending: true }, this.hideContent);
+      this.setState({ isSending: true, isSendError: false }, () => {
+        this.hideContent();
+        this.showFlyingNote();
+      });
 
       const res = await this.props.createLoveNote(note, { numLuvups, numJalapenos });
       const loveNoteId = _.get(res, 'body.data.createLoveNote.loveNote.id');
@@ -113,8 +142,13 @@ class CreateLoveNote extends PureComponent {
           isSending: false,
           isSendError: true,
         })
+      } else {
+        this.setState({
+          isSuccess: true,
+          isSending: false,
+          isSendError: false,
+        });
       }
-      console.log('\n\n res', res);
     }
   };
 
@@ -148,6 +182,8 @@ class CreateLoveNote extends PureComponent {
         'back',
         'mainUiY',
         'mainUiOpacity',
+        'flyingNoteX',
+        'flyingNoteOpacity',
       ]),
     }
     return (

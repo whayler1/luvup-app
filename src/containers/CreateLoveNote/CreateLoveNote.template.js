@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import {
   View,
   Text,
@@ -12,6 +12,7 @@ import { Button } from 'react-native-elements';
 import styles from './CreateLoveNote.styles.js';
 import { forms, buttons, scene, modal, vars, } from '../../styles';
 import Well from '../../components/Well';
+import LoveNoteArtFlying from '../../components/LoveNoteArtFlying';
 
 const CountText = ({n, verb}) => (
   <Text style={{
@@ -36,13 +37,72 @@ export default ({
   removeJalapeno,
   onSendClick,
   isSending,
+  isSuccess,
   isSendError,
   isNoteEmpty,
   back,
   mainUiY,
   mainUiOpacity,
+  flyingNoteX,
+  flyingNoteOpacity,
 }) => (
   <View style={{flex: 1}}>
+    {isSending || isSuccess && (
+      <View
+        style={{
+          position: 'absolute',
+          top: 42,
+          left: 0,
+          right: 0,
+          alignItems: 'center',
+        }}
+      >
+        <Animated.View style={{
+          opacity: flyingNoteOpacity,
+          transform: [
+            { translateX: flyingNoteX },
+          ],
+        }}>
+          <LoveNoteArtFlying />
+        </Animated.View>
+        {isSending && (
+          <Animated.Text style={[
+            scene.copy, {
+              marginTop: 16,
+              opacity: flyingNoteOpacity,
+            }]}
+          >
+            Sending…
+          </Animated.Text>
+        )}
+        {isSuccess && (
+          <Fragment>
+            <Animated.Text style={[
+              scene.copy, {
+                marginTop: 16,
+                fontFamily: vars.fontBlack,
+                opacity: flyingNoteOpacity,
+              }]}
+            >
+              Love Note Sent!
+            </Animated.Text>
+            <View style={{
+              marginTop: 32,
+              paddingHorizontal: 16,
+              alignSelf: 'stretch',
+            }}>
+              <Button
+                onPress={back}
+                containerViewStyle={buttons.container}
+                buttonStyle={buttons.infoSkeletonButton}
+                textStyle={buttons.infoSkeletonText}
+                title="Close"
+              />
+            </View>
+          </Fragment>
+        )}
+      </View>
+    )}
     <Animated.View
       style={{
         paddingHorizontal: 16,
