@@ -17,6 +17,7 @@ import coinImg from '../../images/coin.png';
 import coinSentImg from '../../images/coin-sent.png';
 import coinReceivedImg from '../../images/coin-received.png';
 import LoveNoteArtFlying from '../../components/LoveNoteArtFlying';
+import LoveNoteArtReceived from '../../components/LoveNoteArtReceived';
 
 const getEventDisplayName = (eventName, count) => {
   const plur = count > 1 ? 's' : '';
@@ -92,7 +93,11 @@ const getEventImage = eventName => {
       );
     case 'lovenote-sent':
       return (
-        <LoveNoteArtFlying scale={0.3} />
+        <LoveNoteArtFlying scale={0.4} />
+      );
+    case 'lovenote-received':
+      return (
+        <LoveNoteArtReceived scale={0.4} />
       );
     default:
       return;
