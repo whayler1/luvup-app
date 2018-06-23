@@ -7,7 +7,6 @@ import {
   Reducer,
   Stack,
   Lightbox,
-  Modal,
 } from 'react-native-router-flux';
 import _ from 'lodash';
 
@@ -71,77 +70,76 @@ const App = () => (
       getSceneStyle={getSceneStyle}
     >
       <Lightbox>
-        <Modal>
-          <Stack key="root">
-            <Scene
-              key="init"
-              component={Root}
-              title="Root"
-              hideNavBar={true}
-              init={true}
-            />
-            <Scene
-              key="login"
-              component={Login}
-              title="Login"
-              renderLeftButton={() => <View></View>}
-              {...sceneDefaults}
-            />
-            <Scene
-              key="signup"
-              component={SignUp}
-              title="Sign Up"
-              {...sceneDefaults}
-            />
-            <Scene
-              key="confirmUserRequestCode"
-              component={ConfirmUserRequestCode}
-              title="Enter Code"
-              {...sceneDefaults}
-            />
-            <Scene
-              key="confirmUserRequestCreateProfile"
-              component={ConfirmUserRequestCreateProfile}
-              title="Create Profile"
-              {...sceneDefaults}
-            />
-            <Scene
-              key="dashboard"
-              component={Dashboard}
-              title="Dashboard"
-              hideNavBar={true}
-            />
-            <Scene
-              key="createloverrequest"
-              component={CreateLoverRequest}
-              hideNavBar={true}
-            />
-            <Scene
-              key="timeline"
-              component={Timeline}
-              hideNavBar={true}
-            />
-            <Scene
-              key="menu"
-              component={Menu}
-              hideNavBar={true}
-            />
-            <Scene
-              key="confirmLoverRequest"
-              component={ConfirmLoverRequest}
-              hideNavBar={true}
-            />
-          </Stack>
+        <Stack key="root">
           <Scene
-            key="notificationLightbox"
-            component={InAppNotifications}
+            key="init"
+            component={Root}
+            title="Root"
+            hideNavBar={true}
+            init={true}
           />
           <Scene
-            key="createLoveNoteModal"
+            key="login"
+            component={Login}
+            title="Login"
+            renderLeftButton={() => <View></View>}
+            {...sceneDefaults}
+          />
+          <Scene
+            key="signup"
+            component={SignUp}
+            title="Sign Up"
+            {...sceneDefaults}
+          />
+          <Scene
+            key="confirmUserRequestCode"
+            component={ConfirmUserRequestCode}
+            title="Enter Code"
+            {...sceneDefaults}
+          />
+          <Scene
+            key="confirmUserRequestCreateProfile"
+            component={ConfirmUserRequestCreateProfile}
+            title="Create Profile"
+            {...sceneDefaults}
+          />
+          <Scene
+            key="dashboard"
+            component={Dashboard}
+            title="Dashboard"
+            hideNavBar={true}
+          />
+          <Scene
+            key="createloverrequest"
+            component={CreateLoverRequest}
+            hideNavBar={true}
+          />
+          <Scene
+            key="timeline"
+            component={Timeline}
+            hideNavBar={true}
+          />
+          <Scene
+            key="menu"
+            component={Menu}
+            hideNavBar={true}
+          />
+          <Scene
+            key="confirmLoverRequest"
+            component={ConfirmLoverRequest}
+            hideNavBar={true}
+          />
+          <Scene
+            key="createLoveNote"
             component={CreateLoveNote}
+            backTitle=" "
             {...loveNoteModalDefaults}
           />
-        </Modal>
+        </Stack>
+        <Scene
+          key="notificationLightbox"
+          component={InAppNotifications}
+        />
       </Lightbox>
     </Router>
   </Provider>
