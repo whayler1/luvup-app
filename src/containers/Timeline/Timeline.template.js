@@ -26,7 +26,7 @@ export default ({
   sentCoinsCount,
   sentJalapenosCount,
   userEvents,
-  goToDashboard,
+  goBack,
   sections,
   placeholderSections,
   isSectionsLoaded,
@@ -47,7 +47,7 @@ export default ({
       style={scene.topNav}
     >
       <TouchableOpacity
-        onPress={goToDashboard}
+        onPress={goBack}
         style={{
           flex: 1,
           alignItems: 'flex-end',
