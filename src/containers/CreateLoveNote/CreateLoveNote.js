@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { Vibration } from 'react-native';
+import { Vibration, Animated, Easing } from 'react-native';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
@@ -74,12 +74,36 @@ class CreateLoveNote extends PureComponent {
   addJalapeno = () => this.addToken('numJalapenos');
   removeJalapeno = () => this.removeToken('numJalapenos');
 
+  mainUiY = new Animated.Value(0);
+  mainUiOpacity = new Animated.Value(1);
+
+  hideContent = () => {
+    Animated.parallel([
+      Animated.timing(
+        this.mainUiY,
+        {
+          toValue: 500,
+          duration: 250,
+          easing: Easing.inOut(Easing.linear)
+        },
+      ),
+      Animated.timing(
+        this.mainUiOpacity,
+        {
+          toValue: 0,
+          duration: 250,
+          easing: Easing.inOut(Easing.linear)
+        },
+      ),
+    ]).start();
+  }
+
   onSendClick = async () => {
     const isValid = this.validate();
 
     if (isValid) {
       const { note, numLuvups, numJalapenos } = this.state;
-      this.setState({ isSending: true });
+      this.setState({ isSending: true }, this.hideContent);
 
       const res = await this.props.createLoveNote(note, { numLuvups, numJalapenos });
       const loveNoteId = _.get(res, 'body.data.createLoveNote.loveNote.id');
@@ -121,7 +145,9 @@ class CreateLoveNote extends PureComponent {
         'addJalapeno',
         'removeJalapeno',
         'onSendClick',
-        'back'
+        'back',
+        'mainUiY',
+        'mainUiOpacity',
       ]),
     }
     return (
