@@ -3,7 +3,7 @@ import { vars } from '../../styles';
 
 const directionsText = {
   color: vars.p,
-  fontFamily: vars.fontRegular,
+  fontFamily: vars.fontBlack,
   fontSize: 20,
   alignItems: 'center'
 };

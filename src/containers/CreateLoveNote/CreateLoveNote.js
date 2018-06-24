@@ -124,15 +124,36 @@ class CreateLoveNote extends PureComponent {
     ]).start();
   }
 
+  showContent = () => {
+    Animated.parallel([
+      Animated.timing(
+        this.mainUiY,
+        {
+          toValue: 0,
+          duration: 250,
+          easing: Easing.inOut(Easing.linear)
+        },
+      ),
+      Animated.timing(
+        this.mainUiOpacity,
+        {
+          toValue: 1,
+          duration: 250,
+          easing: Easing.inOut(Easing.linear)
+        },
+      ),
+    ]).start();
+  }
+
   onSendClick = async () => {
     const isValid = this.validate();
 
     if (isValid) {
       const { note, numLuvups, numJalapenos } = this.state;
-      this.setState({ isSending: true, isSendError: false }, () => {
-        this.hideContent();
-        this.showFlyingNote();
-      });
+      await this.setState({ isSending: true, isSendError: false });
+
+      this.hideContent();
+      this.showFlyingNote();
 
       const res = await this.props.createLoveNote(note, { numLuvups, numJalapenos });
       const loveNoteId = _.get(res, 'body.data.createLoveNote.loveNote.id');
@@ -141,7 +162,7 @@ class CreateLoveNote extends PureComponent {
         this.setState({
           isSending: false,
           isSendError: true,
-        })
+        }, () => this.showContent())
       } else {
         this.setState({
           isSuccess: true,
