@@ -7,8 +7,10 @@ import {
   SET_SENT_COINS_COUNT,
   SET_UNVIEWED_COIN_COUNT,
 } from './coin.actions';
+import getRecentlySentTokenCount from '../../helpers/getRecentlySentTokenCount';
 
 const defaultState = {
+  recentlySentCoinCount: 0,
   sentCoins: [],
   sentCoinsCount: null,
   count: null,
@@ -18,9 +20,11 @@ const defaultState = {
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
     case SEND_COIN:
+      const sentCoins = [ action.coin, ...state.sentCoins ];
       return {
         ...state,
-        sentCoins: [ action.coin, ...state.sentCoins ],
+        sentCoins,
+        recentlySentCoinCount: getRecentlySentTokenCount(sentCoins),
         sentCoinsCount: action.count,
       }
     case GET_COIN_COUNT:
@@ -38,6 +42,7 @@ export default function reducer(state = defaultState, action) {
         ...state,
         sentCoins: action.sentCoins,
         sentCoinsCount: action.sentCoinsCount,
+        recentlySentCoinCount: getRecentlySentTokenCount(action.sentCoins),
       }
     case SET_SENT_COINS_COUNT:
       return {
