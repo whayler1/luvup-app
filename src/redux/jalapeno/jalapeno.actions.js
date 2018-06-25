@@ -12,7 +12,7 @@ export const GET_JALAPENO_COUNT = 'jalapeno/get-jalapeno-count';
 export const CLEAR_JALAPENO_COUNT = 'jalapeno/clear-jalapeno-count';
 export const SET_UNVIEWED_JALAPENO_COUNT = 'jalapeno/set-unviewed-jalapeno-count';
 
-export const refreshSentJalapenoCount = () => ({ type: REFRESH_SENT_COIN_COUNT });
+export const refreshSentJalapenoCount = () => ({ type: REFRESH_SENT_JALAPENO_COUNT });
 
 export const sendJalapeno = () => async dispatch => {
   dispatch({ type: SEND_JALAPENO_ATTEMPT });
