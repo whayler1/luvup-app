@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import { createLoveNote as createLoveNoteAction } from '../../redux/loveNote/loveNote.actions';
+import { refreshSentCoinCount as refreshSentCoinCountAction } from '../../redux/coin/coin.actions';
+import { refreshSentJalapenoCount as refreshSentJalapenoCountAction } from '../../redux/jalapeno/jalapeno.actions';
 import Template from './CreateLoveNote.template';
 
 const getLoveNotePlaceholder = (loverFirstName) => {
@@ -27,6 +29,8 @@ class CreateLoveNote extends PureComponent {
   static propTypes = {
     loverFirstName: PropTypes.string.isRequired,
     createLoveNote: PropTypes.func.isRequired,
+    refreshSentCoinCount: PropTypes.func.isRequired,
+    refreshSentJalapenoCount: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -41,6 +45,8 @@ class CreateLoveNote extends PureComponent {
       isNoteEmpty: false,
       placeholder: getLoveNotePlaceholder(props.loverFirstName),
     };
+    props.refreshSentCoinCount();
+    props.refreshSentJalapenoCount();
   }
 
   onNoteChange = note => this.setState({
@@ -219,5 +225,7 @@ export default connect(
   }),
   {
     createLoveNote: createLoveNoteAction,
+    refreshSentCoinCount: refreshSentCoinCountAction,
+    refreshSentJalapenoCount: refreshSentJalapenoCountAction,
   },
 )(CreateLoveNote);
