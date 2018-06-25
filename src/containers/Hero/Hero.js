@@ -12,6 +12,7 @@ import {
   createRelationshipScore as createRelationshipScoreAction,
 } from '../../redux/relationshipScore/relationshipScore.actions';
 import {
+  refreshSentCoinCount as refreshSentCoinCountAction,
   sendCoin as sendCoinAction,
 } from '../../redux/coin/coin.actions';
 import {
@@ -29,7 +30,6 @@ class Hero extends Component {
 
     this.state = {
       dragDirection: 0,
-      // recentlySentCoinCount: 0,
       recentlySentJalapenoCount: 0,
       isInRelationship: props.relationshipId.length > 0,
       loverRequestCreatedAtTimeAgo: props.loverRequestCreatedAt ?
@@ -89,9 +89,6 @@ class Hero extends Component {
 
         if (dy < -swipeThreshold) {
           this.sendCoin();
-          // this.setState({
-          //   recentlySentCoinCount: this.state.recentlySentCoinCount + 1
-          // }, this.sendCoin);
         } else if (dy > swipeThreshold) {
           this.setState({
             recentlySentJalapenoCount: this.state.recentlySentJalapenoCount + 1
@@ -112,6 +109,7 @@ class Hero extends Component {
   static propTypes = {
     relationshipId: PropTypes.string,
     relationshipScore: PropTypes.number,
+    refreshSentCoinCount: PropTypes.func.isRequired,
     createRelationshipScore: PropTypes.func.isRequired,
     sendCoin: PropTypes.func.isRequired,
     sendJalapeno: PropTypes.func.isRequired,
@@ -356,6 +354,7 @@ class Hero extends Component {
 
   componentDidMount() {
     this.props.createRelationshipScore();
+    this.props.refreshSentCoinCount()
     // this.setRecentlySentCount(this.props.sentCoins, 'recentlySentCoinCount');
     this.setRecentlySentCount(this.props.sentJalapenos, 'recentlySentJalapenoCount');
   };
@@ -398,6 +397,7 @@ export default connect(
     recentlySentCoinCount: state.coin.recentlySentCoinCount,
   }),
   {
+    refreshSentCoinCount: refreshSentCoinCountAction,
     createRelationshipScore: createRelationshipScoreAction,
     sendCoin: sendCoinAction,
     sendJalapeno: sendJalapenoAction,

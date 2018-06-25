@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 import config from '../../config';
 
+export const REFRESH_SENT_COIN_COUNT = 'coin/refresh-sent-coin-count';
 export const SEND_COIN_ATTEMPT = 'coin/send-coin-attempt';
 export const SEND_COIN_SUCCESS = 'coin/send-coin-success';
 export const GET_COIN_COUNT = 'coin/get-coin-count';
@@ -12,9 +13,11 @@ export const SET_SENT_COINS = 'coin/set-sent-coins';
 export const SET_SENT_COINS_COUNT = 'coin/set-sent-coins-count';
 export const SET_UNVIEWED_COIN_COUNT = 'coin/set-unviewed-coin-count';
 
+export const refreshSentCoinCount = () => ({ type: REFRESH_SENT_COIN_COUNT });
+
 export const sendCoin = () => async dispatch => {
   dispatch({ type: SEND_COIN_ATTEMPT });
-  
+
   try {
     const res = await superagent.post(config.graphQlUrl, {
       query: `mutation {
