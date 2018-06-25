@@ -29,7 +29,7 @@ class Hero extends Component {
 
     this.state = {
       dragDirection: 0,
-      recentlySentCoinCount: 0,
+      // recentlySentCoinCount: 0,
       recentlySentJalapenoCount: 0,
       isInRelationship: props.relationshipId.length > 0,
       loverRequestCreatedAtTimeAgo: props.loverRequestCreatedAt ?
@@ -88,9 +88,10 @@ class Hero extends Component {
         const { swipeThreshold } = config;
 
         if (dy < -swipeThreshold) {
-          this.setState({
-            recentlySentCoinCount: this.state.recentlySentCoinCount + 1
-          }, this.sendCoin);
+          this.sendCoin();
+          // this.setState({
+          //   recentlySentCoinCount: this.state.recentlySentCoinCount + 1
+          // }, this.sendCoin);
         } else if (dy > swipeThreshold) {
           this.setState({
             recentlySentJalapenoCount: this.state.recentlySentJalapenoCount + 1
@@ -125,6 +126,7 @@ class Hero extends Component {
     loverRequestLastName: PropTypes.string,
     loverRequestCreatedAt: PropTypes.string,
     loverRequestId: PropTypes.string,
+    recentlySentCoinCount: PropTypes.number.isRequired,
   };
 
   translateY = new Animated.Value(0);
@@ -354,7 +356,7 @@ class Hero extends Component {
 
   componentDidMount() {
     this.props.createRelationshipScore();
-    this.setRecentlySentCount(this.props.sentCoins, 'recentlySentCoinCount');
+    // this.setRecentlySentCount(this.props.sentCoins, 'recentlySentCoinCount');
     this.setRecentlySentCount(this.props.sentJalapenos, 'recentlySentJalapenoCount');
   };
 
@@ -376,6 +378,7 @@ class Hero extends Component {
       loverRequestLastName={this.props.loverRequestLastName}
       cancelLoverRequest={this.cancelLoverRequest}
       resendLoverRequestEmail={this.resendLoverRequestEmail}
+      recentlySentCoinCount={this.props.recentlySentCoinCount}
       {...this.state}
     />;
   }
@@ -392,6 +395,7 @@ export default connect(
     loverRequestFirstName: state.loverRequest.firstName,
     loverRequestLastName: state.loverRequest.lastName,
     loverRequestCreatedAt: state.loverRequest.createdAt,
+    recentlySentCoinCount: state.coin.recentlySentCoinCount,
   }),
   {
     createRelationshipScore: createRelationshipScoreAction,

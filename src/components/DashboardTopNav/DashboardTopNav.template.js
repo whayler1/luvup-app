@@ -28,7 +28,6 @@ export default ({
     style={{
       position: 'absolute',
       alignItems: 'center',
-      backgroundColor: 'white',
       top: 0,
       left: 0,
       right: 0,
