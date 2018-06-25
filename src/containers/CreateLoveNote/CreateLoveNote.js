@@ -9,6 +9,9 @@ import { createLoveNote as createLoveNoteAction } from '../../redux/loveNote/lov
 import { refreshSentCoinCount as refreshSentCoinCountAction } from '../../redux/coin/coin.actions';
 import { refreshSentJalapenoCount as refreshSentJalapenoCountAction } from '../../redux/jalapeno/jalapeno.actions';
 import Template from './CreateLoveNote.template';
+import config from '../../config';
+
+const { maxItemsPerHour } = config;
 
 const getLoveNotePlaceholder = (loverFirstName) => {
   const placeholders = [
@@ -31,6 +34,8 @@ class CreateLoveNote extends PureComponent {
     createLoveNote: PropTypes.func.isRequired,
     refreshSentCoinCount: PropTypes.func.isRequired,
     refreshSentJalapenoCount: PropTypes.func.isRequired,
+    recentlySentCoinCount: PropTypes.number.isRequired,
+    recentlySentJalapenoCount: PropTypes.number.isRequired,
   }
 
   constructor(props) {
@@ -54,17 +59,17 @@ class CreateLoveNote extends PureComponent {
     isNoteEmpty: false,
   });
 
-  addToken = (key) => {
+  addToken = (key, recentlySentKey) => {
     const { state } = this;
+    const recentlySentCount = this.props[recentlySentKey];
     if (!state.isSending) {
-      let n;
-      if (state[key] + 1 > maxTokens) {
+      const keyPLus1 = state[key] + 1;
+
+      if (keyPLus1 + recentlySentCount > maxTokens) {
         Vibration.vibrate();
-        n = maxTokens;
       } else {
-        n = state[key] + 1;
+        this.setState({ [key]: keyPLus1 });
       }
-      this.setState({ [key]: n });
     }
   };
 
@@ -76,9 +81,9 @@ class CreateLoveNote extends PureComponent {
     }
   }
 
-  addLuvup = () => this.addToken('numLuvups');
+  addLuvup = () => this.addToken('numLuvups', 'recentlySentCoinCount');
   removeLuvup = () => this.removeToken('numLuvups');
-  addJalapeno = () => this.addToken('numJalapenos');
+  addJalapeno = () => this.addToken('numJalapenos', 'recentlySentJalapenoCount');
   removeJalapeno = () => this.removeToken('numJalapenos');
 
   mainUiY = new Animated.Value(0);
@@ -222,6 +227,8 @@ class CreateLoveNote extends PureComponent {
 export default connect(
   state => ({
     loverFirstName: state.lover.firstName,
+    recentlySentCoinCount: state.coin.recentlySentCoinCount,
+    recentlySentJalapenoCount: state.jalapeno.recentlySentJalapenoCount,
   }),
   {
     createLoveNote: createLoveNoteAction,
