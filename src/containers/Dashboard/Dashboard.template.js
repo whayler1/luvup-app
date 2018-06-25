@@ -19,8 +19,8 @@ import DashboardTopNav from '../../components/DashboardTopNav';
 import CoinArt from '../../components/CoinArt';
 import JalapenoArt from '../../components/JalapenoArt';
 import LoveNoteArt from '../../components/LoveNoteArt';
-import Hero from '../Hero';
 import LimitExceededModal from '../../components/LimitExceededModal';
+import Hero from '../Hero';
 
 export default ({
   userFirstName,

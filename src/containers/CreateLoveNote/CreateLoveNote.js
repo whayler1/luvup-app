@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Vibration, Animated, Easing } from 'react-native';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import moment from 'moment';
 
 import { createLoveNote as createLoveNoteAction } from '../../redux/loveNote/loveNote.actions';
 import { refreshSentCoinCount as refreshSentCoinCountAction } from '../../redux/coin/coin.actions';
@@ -36,6 +37,8 @@ class CreateLoveNote extends PureComponent {
     refreshSentJalapenoCount: PropTypes.func.isRequired,
     recentlySentCoinCount: PropTypes.number.isRequired,
     recentlySentJalapenoCount: PropTypes.number.isRequired,
+    sentCoins: PropTypes.array.isRequired,
+    sentJalapenos: PropTypes.array.isRequired,
   }
 
   constructor(props) {
@@ -49,17 +52,41 @@ class CreateLoveNote extends PureComponent {
       isSendError: false,
       isNoteEmpty: false,
       placeholder: getLoveNotePlaceholder(props.loverFirstName),
+      isModalOpen: false,
+      modalContent: '',
+      coinsAvailableTime: null,
+      jalapenosAvailableTime: null,
     };
     props.refreshSentCoinCount();
     props.refreshSentJalapenoCount();
   }
+
+  setAvailableTime(collection, stateKey) {
+    const now = moment();
+    const anHrAgo = moment().subtract(1, 'hour');
+    const leastRecentWithinAnHr = moment(new Date([...collection].filter(item => moment(new Date(item.createdAt)).isAfter(anHrAgo)).pop().createdAt));
+    const availableTime = moment(new Date(leastRecentWithinAnHr)).add(1, 'hour').fromNow();
+    this.setState({ [stateKey]: availableTime });
+  };
 
   onNoteChange = note => this.setState({
     note,
     isNoteEmpty: false,
   });
 
-  addToken = (key, recentlySentKey) => {
+  openModal = (modalContent) => {
+    if (modalContent === 'coin') {
+      this.setAvailableTime(this.props.sentCoins, 'coinsAvailableTime');
+    } else {
+      this.setAvailableTime(this.props.sentJalapenos, 'jalapenosAvailableTime');
+    }
+    this.setState({
+      isModalOpen: true,
+      modalContent,
+    });
+  };
+
+  addToken = (key, recentlySentKey, modalContent) => {
     const { state } = this;
     const recentlySentCount = this.props[recentlySentKey];
     if (!state.isSending) {
@@ -67,6 +94,7 @@ class CreateLoveNote extends PureComponent {
 
       if (keyPLus1 + recentlySentCount > maxTokens) {
         Vibration.vibrate();
+        this.openModal(modalContent);
       } else {
         this.setState({ [key]: keyPLus1 });
       }
@@ -81,10 +109,12 @@ class CreateLoveNote extends PureComponent {
     }
   }
 
-  addLuvup = () => this.addToken('numLuvups', 'recentlySentCoinCount');
+  addLuvup = () => this.addToken('numLuvups', 'recentlySentCoinCount', 'coin');
   removeLuvup = () => this.removeToken('numLuvups');
-  addJalapeno = () => this.addToken('numJalapenos', 'recentlySentJalapenoCount');
+  addJalapeno = () => this.addToken('numJalapenos', 'recentlySentJalapenoCount', 'jalapeno');
   removeJalapeno = () => this.removeToken('numJalapenos');
+
+  closeModal = () => this.setState({ isModalOpen: false });
 
   mainUiY = new Animated.Value(0);
   mainUiOpacity = new Animated.Value(1);
@@ -216,6 +246,10 @@ class CreateLoveNote extends PureComponent {
         'mainUiOpacity',
         'flyingNoteX',
         'flyingNoteOpacity',
+        'closeModal',
+      ]),
+      ..._.pick(this.props, [
+        'loverFirstName',
       ]),
     }
     return (
@@ -229,6 +263,8 @@ export default connect(
     loverFirstName: state.lover.firstName,
     recentlySentCoinCount: state.coin.recentlySentCoinCount,
     recentlySentJalapenoCount: state.jalapeno.recentlySentJalapenoCount,
+    sentCoins: state.coin.sentCoins,
+    sentJalapenos: state.jalapeno.sentJalapenos,
   }),
   {
     createLoveNote: createLoveNoteAction,
