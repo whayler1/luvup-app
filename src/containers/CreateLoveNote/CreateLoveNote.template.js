@@ -13,6 +13,7 @@ import styles from './CreateLoveNote.styles.js';
 import { forms, buttons, scene, modal, vars, } from '../../styles';
 import Well from '../../components/Well';
 import LoveNoteArtFlying from '../../components/LoveNoteArtFlying';
+import LimitExceededModal from '../../components/LimitExceededModal';
 
 const CountText = ({n, verb}) => (
   <Text style={{
@@ -45,6 +46,12 @@ export default ({
   mainUiOpacity,
   flyingNoteX,
   flyingNoteOpacity,
+  isModalOpen,
+  modalContent,
+  loverFirstName,
+  closeModal,
+  coinsAvailableTime,
+  jalapenosAvailableTime,
 }) => (
   <View style={{flex: 1}}>
     {isSending || isSuccess && (
@@ -245,5 +252,13 @@ export default ({
         </TouchableOpacity>
       </View>
     </Animated.View>
+    <LimitExceededModal
+      isModalOpen={isModalOpen}
+      closeModal={closeModal}
+      modalContent={modalContent}
+      loverFirstName={loverFirstName}
+      coinsAvailableTime={coinsAvailableTime}
+      jalapenosAvailableTime={jalapenosAvailableTime}
+    />
   </View>
 );
