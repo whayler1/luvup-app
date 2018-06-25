@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import {
+  REFRESH_SENT_COIN_COUNT,
   SEND_COIN_ATTEMPT,
   SEND_COIN_SUCCESS,
   GET_COIN_COUNT,
@@ -20,10 +21,11 @@ const defaultState = {
 
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
+    case REFRESH_SENT_COIN_COUNT:
     case SEND_COIN_ATTEMPT:
       return {
         ...state,
-        recentlySentCoinCount: state.recentlySentCoinCount + 1,
+        recentlySentCoinCount: getRecentlySentTokenCount(state.sentCoins) + 1,
       }
     case SEND_COIN_SUCCESS:
       const sentCoins = [ action.coin, ...state.sentCoins ];
