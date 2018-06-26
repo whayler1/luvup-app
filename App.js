@@ -25,6 +25,7 @@ import Menu from './src/containers/Menu';
 import ConfirmLoverRequest from './src/containers/ConfirmLoverRequest';
 import InAppNotifications from './src/containers/InAppNotifications';
 import CreateLoveNote from './src/containers/CreateLoveNote';
+import LoveNotes from './src/containers/LoveNotes';
 
 import LoveNoteArt from './src/components/LoveNoteArt';
 
@@ -132,6 +133,12 @@ const App = () => (
           <Scene
             key="createLoveNote"
             component={CreateLoveNote}
+            backTitle=" "
+            {...loveNoteModalDefaults}
+          />
+          <Scene
+            key="loveNotes"
+            component={LoveNotes}
             backTitle=" "
             {...loveNoteModalDefaults}
           />
