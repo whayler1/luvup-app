@@ -14,6 +14,7 @@ import { forms, buttons, scene, modal, vars, } from '../../styles';
 import Well from '../../components/Well';
 import LoveNoteArtFlying from '../../components/LoveNoteArtFlying';
 import LimitExceededModal from '../../components/LimitExceededModal';
+import config from '../../config';
 
 const CountText = ({n, verb}) => (
   <Text style={{
@@ -23,6 +24,11 @@ const CountText = ({n, verb}) => (
     Attach <Text style={{ fontFamily: vars.fontBlack, color: vars.blueGrey900 }}>{ n > 0 ? n : '' }</Text> {verb}{ n !== 1 ? 's' : '' }
   </Text>
 );
+
+const getModalCopy = (n, verb) => {
+  const endStr = n < config.maxItemsPerHour ? ` You have ${n} left.` : '';
+  return `You can send a maximum of ${config.maxItemsPerHour} ${verb}s per hour.${endStr}`;
+};
 
 export default ({
   note,
@@ -259,6 +265,8 @@ export default ({
       loverFirstName={loverFirstName}
       coinsAvailableTime={coinsAvailableTime}
       jalapenosAvailableTime={jalapenosAvailableTime}
+      coinCopy={getModalCopy(numLuvups, 'Luvup')}
+      jalapenoCopy={getModalCopy(numJalapenos, 'jalapeño')}
     />
   </View>
 );
