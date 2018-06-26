@@ -61,25 +61,12 @@ class CreateLoveNote extends PureComponent {
     props.refreshSentJalapenoCount();
   }
 
-  // setAvailableTime(collection, stateKey) {
-  //   const now = moment();
-  //   const anHrAgo = moment().subtract(1, 'hour');
-  //   const leastRecentWithinAnHr = moment(new Date([...collection].filter(item => moment(new Date(item.createdAt)).isAfter(anHrAgo)).pop().createdAt));
-  //   const availableTime = moment(new Date(leastRecentWithinAnHr)).add(1, 'hour').fromNow();
-  //   this.setState({ [stateKey]: availableTime });
-  // };
-
   onNoteChange = note => this.setState({
     note,
     isNoteEmpty: false,
   });
 
   openModal = (modalContent) => {
-    // if (modalContent === 'coin') {
-    //   // this.setAvailableTime(this.props.sentCoins, 'coinsAvailableTime');
-    // } else {
-    //   // this.setAvailableTime(this.props.sentJalapenos, 'jalapenosAvailableTime');
-    // }
     this.setState({
       isModalOpen: true,
       modalContent,

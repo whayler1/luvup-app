@@ -9,6 +9,7 @@ import {
   SET_SENT_COINS_COUNT,
   SET_UNVIEWED_COIN_COUNT,
 } from './coin.actions';
+import { CREATE_LOVE_NOTE_SUCCESS } from '../loveNote/loveNote.actions';
 import getRecentlySentTokenCount from '../../helpers/getRecentlySentTokenCount';
 
 const defaultState = {
@@ -28,13 +29,20 @@ export default function reducer(state = defaultState, action) {
         recentlySentCoinCount: getRecentlySentTokenCount(state.sentCoins) + 1,
       }
     case SEND_COIN_SUCCESS:
-      const sentCoins = [ action.coin, ...state.sentCoins ];
+      let sentCoins = [ action.coin, ...state.sentCoins ];
       return {
         ...state,
         sentCoins,
         recentlySentCoinCount: getRecentlySentTokenCount(sentCoins),
         sentCoinsCount: action.count,
       }
+    case CREATE_LOVE_NOTE_SUCCESS:
+      sentCoins = [...action.luvups, ...state.sentCoins];
+      return {
+        ...state,
+        sentCoins,
+        recentlySentCoinCount: getRecentlySentTokenCount(sentCoins),
+      };
     case GET_COIN_COUNT:
       return {
         ...state,
