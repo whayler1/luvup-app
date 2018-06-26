@@ -28,9 +28,7 @@ export const createLoveNote = (note, { numLuvups = 0, numJalapenos = 0 }) => asy
 
     const loveNote = _.get(res, 'body.data.createLoveNote.loveNote');
 
-    console.log('\n\n loveNote', loveNote);
-
-    if (loveNote) {
+    if (res.ok && loveNote) {
       const { luvups, jalapenos } = loveNote;
       dispatch({
         type: CREATE_LOVE_NOTE_SUCCESS,
