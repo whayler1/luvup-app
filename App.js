@@ -7,6 +7,7 @@ import {
   Reducer,
   Stack,
   Lightbox,
+  Tabs,
 } from 'react-native-router-flux';
 import _ from 'lodash';
 
@@ -130,18 +131,22 @@ const App = () => (
             component={ConfirmLoverRequest}
             hideNavBar={true}
           />
-          <Scene
-            key="createLoveNote"
-            component={CreateLoveNote}
-            backTitle=" "
-            {...loveNoteModalDefaults}
-          />
-          <Scene
-            key="loveNotes"
-            component={LoveNotes}
-            backTitle=" "
-            {...loveNoteModalDefaults}
-          />
+          <Tabs>
+            <Scene
+              key="createLoveNote"
+              title="Write Love Note"
+              component={CreateLoveNote}
+              backTitle=" "
+              {...loveNoteModalDefaults}
+            />
+            <Scene
+              key="loveNotes"
+              title="Love Notes"
+              component={LoveNotes}
+              backTitle=" "
+              {...loveNoteModalDefaults}
+            />
+          </Tabs>
         </Stack>
         <Scene
           key="notificationLightbox"
