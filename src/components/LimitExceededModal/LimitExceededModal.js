@@ -44,11 +44,11 @@ const LimitExceededModal = ({
         }}>
           <Text style={modal.title}>
             {modalContent === 'coin' && 'Hourly Luvup\nLimit Exceeded'}
-            {modalContent === 'jalapeno' && 'Hourly Jalapeno\nLimit Exceeded'}
+            {modalContent === 'jalapeno' && 'Hourly Jalapeño\nLimit Exceeded'}
           </Text>
           <Text style={modal.copy}>
             {modalContent === 'coin' && (coinCopy || `Wow! ${loverFirstName} must be on fire right now. You've sent the max hourly limit of ${config.maxItemsPerHour} luvups. You'll have the opportunity to send another luvup ${coinsAvailableTime}.`)}
-            {modalContent === 'jalapeno' && (jalapenoCopy || `Looks like things are getting spicy with ${loverFirstName} right now. You've sent the max hourly limit of ${config.maxItemsPerHour} jalapenos. You'll have the oportunity to send another jalapeno ${jalapenosAvailableTime}.`)}
+            {modalContent === 'jalapeno' && (jalapenoCopy || `Looks like things are getting spicy with ${loverFirstName} right now. You've sent the max hourly limit of ${config.maxItemsPerHour} jalapeños. You'll have the oportunity to send another jalapeño ${jalapenosAvailableTime}.`)}
           </Text>
         </View>
         <View style={modal.buttonContainer}>

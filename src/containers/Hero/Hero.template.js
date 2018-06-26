@@ -256,7 +256,7 @@ export default ({
         }}
       >
         <Text style={styles.directionsText}>Swipe down to</Text>
-        <Text style={styles.directionsText}>send a Jalapeno</Text>
+        <Text style={styles.directionsText}>send a Jalapeño</Text>
         <Icon
           name="md-arrow-round-down"
           size={30}
