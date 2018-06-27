@@ -4,7 +4,7 @@ import {
   GET_RECEIVED_LOVE_NOTES_ATTEMPT,
   GET_RECEIVED_LOVE_NOTES_SUCCESS,
   GET_RECEIVED_LOVE_NOTES_FAILURE,
-} from './loveNote.reducer';
+} from './loveNote.actions';
 
 const defaultState = {
   isGetReceivedLoveNotesInFlight: false,
@@ -14,6 +14,7 @@ const defaultState = {
 };
 
 export default function reducer(state = defaultState, action) {
+  console.log('\n\n action', action);
   switch(action.type) {
     case GET_RECEIVED_LOVE_NOTES_ATTEMPT:
       return {
@@ -22,6 +23,7 @@ export default function reducer(state = defaultState, action) {
         getReceivedLoveNotesError: '',
       };
     case GET_RECEIVED_LOVE_NOTES_SUCCESS:
+      console.log('\n\n action', action);
       return {
         ...state,
         isGetReceivedLoveNotesInFlight: false,

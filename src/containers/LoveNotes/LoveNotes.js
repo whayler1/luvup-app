@@ -25,12 +25,13 @@ class LoveNotes extends PureComponent {
     super(props);
     props.getReceivedLoveNotes({
       isRead: null,
-      limit: 10,
+      limit: 20,
       offset: 0,
     });
   }
 
   render() {
+    console.log('this.props', this.props);
     return (
       <Template {...this.props} />
     );
