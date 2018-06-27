@@ -4,12 +4,32 @@ import {
   Text,
   FlatList,
 } from 'react-native';
+import moment from 'moment';
+
+import { scene } from '../../styles';
+import styles from './LoveNotes.styles';
+import CoinArt from '../../components/CoinArt';
 
 const keyExtractor = (item) => item.id;
 
 const RenderItem = ({item}) => (
-  <View>
-    <Text>{item.note}</Text>
+  <View style={styles.renderItemWrap}>
+    <Text style={styles.titleText}>{moment(new Date(item.createdAt)).format('MMM D, YYYY hh:mm a')}</Text>
+    {(item.numLuvups || item.numJalapenos) && (
+      <View>
+        {item.numLuvups && (
+          <View>
+            {item.numLuvups} Luvups
+          </View>
+        )}
+        {item.numJalapenos && (
+          <View>
+            {item.numJalapenos} Jalapenos
+          </View>
+        )}
+      </View>
+    )}
+    <Text style={[scene.copy, { marginTop: 8 }]}>{item.note}</Text>
   </View>
 );
 
