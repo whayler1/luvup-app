@@ -9,7 +9,7 @@ import {
 const defaultState = {
   isGetReceivedLoveNotesInFlight: false,
   getReceivedLoveNotesError: '',
-  receivedLoveNoteCount: null,
+  receivedLoveNoteCount: 0,
   receivedLoveNotes: [],
 };
 

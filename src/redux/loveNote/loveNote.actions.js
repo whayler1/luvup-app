@@ -47,7 +47,7 @@ export const createLoveNote = (note, { numLuvups = 0, numJalapenos = 0 }) => asy
   }
 };
 
-export const getReceivedLoveNotes = ({ isRead, limit = 10, offset = 0 }) => async dispatch => {
+export const getReceivedLoveNotes = ({ isRead = null, limit = 10, offset = 0 }) => async dispatch => {
   dispatch({ type: GET_RECEIVED_LOVE_NOTES_ATTEMPT });
   try {
     const isReadArg = _.isBoolean(isRead) ? `isRead: ${isRead}` : '';
