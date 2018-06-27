@@ -67,10 +67,8 @@ const RenderItem = ({item}) => (
 export default ({
   receivedLoveNotes,
 }) => {
-  console.log({ receivedLoveNotes });
   return (
     <View>
-      <Text>Love Notes</Text>
       <FlatList
         data={receivedLoveNotes}
         keyExtractor={keyExtractor}
