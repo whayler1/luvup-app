@@ -13,5 +13,25 @@ export default StyleSheet.create({
     fontFamily: vars.fontBlack,
     color: vars.blueGrey700,
     fontSize: 14,
-  }
+  },
+  titleTextSecondary: {
+    fontFamily: vars.fontBlack,
+    color: vars.blueGrey300,
+    fontSize: 14,
+  },
+  tokenWrap: {
+    flexDirection: 'row',
+    marginTop: 8,
+    alignItems: 'flex-start',
+  },
+  tokenUi: {
+    flexDirection: 'row',
+    alignContent: 'center',
+    marginRight: 16,
+  },
+  tokenText: {
+    fontFamily: vars.fontBlack,
+    color: vars.blueGrey700,
+    fontSize: 14,
+  },
 });
