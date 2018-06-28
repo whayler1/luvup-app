@@ -9,6 +9,8 @@ import moment from 'moment';
 
 import { scene } from '../../styles';
 import styles from './LoveNotes.styles';
+import Well from '../../components/Well';
+import Preloader from '../../components/Preloader';
 
 const keyExtractor = (item) => item.id;
 
@@ -35,6 +37,23 @@ const TokenUi = ({ n, Art }) => (
   <View style={styles.tokenUi}>
     <Art />
     <Text style={styles.tokenText}> +{n}</Text>
+  </View>
+);
+
+const ListEmptyComponent = ({
+  isGetReceivedLoveNotesInFlight,
+  getReceivedLoveNotesError,
+}) => (
+  <View style={{
+    paddingHorizontal: 16,
+    paddingVertical: 32
+  }}>
+    {getReceivedLoveNotesError && (
+      <Well text="There was an error loading your love notes. Make sure you are connected to wifi or data." />
+    )}
+    {isGetReceivedLoveNotesInFlight && (
+      <Preloader />
+    )}
   </View>
 );
 
@@ -65,6 +84,8 @@ const RenderItem = ({ item }) => (
 );
 
 export default ({
+  isGetReceivedLoveNotesInFlight,
+  getReceivedLoveNotesError,
   receivedLoveNotes,
   onEndReached,
 }) => {
@@ -75,6 +96,10 @@ export default ({
         keyExtractor={keyExtractor}
         renderItem={RenderItem}
         onEndReached={onEndReached}
+        ListEmptyComponent={<ListEmptyComponent
+          isGetReceivedLoveNotesInFlight={isGetReceivedLoveNotesInFlight}
+          getReceivedLoveNotesError={getReceivedLoveNotesError}
+        />}
       />
     </View>
   );

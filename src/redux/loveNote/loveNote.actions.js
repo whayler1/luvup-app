@@ -25,7 +25,6 @@ export const createLoveNote = (note, { numLuvups = 0, numJalapenos = 0 }) => asy
       }
     }
   }`;
-  console.log('\n\nquery\n', query);
   try {
     const res = await superagent.post(config.graphQlUrl, {
       query,
