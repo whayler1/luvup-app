@@ -8,25 +8,27 @@ export const GET_RECEIVED_LOVE_NOTES_SUCCESS = 'love-note/get-received-love-note
 export const GET_RECEIVED_LOVE_NOTES_FAILURE = 'love-note/get-received-love-notes-failure';
 
 export const createLoveNote = (note, { numLuvups = 0, numJalapenos = 0 }) => async dispatch => {
+  const query = `mutation {
+    createLoveNote(
+      note: "${encodeURI(note)}",
+      numJalapenos: ${numJalapenos},
+      numLuvups: ${numLuvups},
+    ) {
+      loveNote {
+        id
+        luvups {
+          id createdAt
+        }
+        jalapenos {
+          id createdAt
+        }
+      }
+    }
+  }`;
+  console.log('\n\nquery\n', query);
   try {
     const res = await superagent.post(config.graphQlUrl, {
-      query: `mutation {
-        createLoveNote(
-          note: "${note}",
-          numJalapenos: ${numJalapenos},
-          numLuvups: ${numLuvups},
-        ) {
-          loveNote {
-            id
-            luvups {
-              id createdAt
-            }
-            jalapenos {
-              id createdAt
-            }
-          }
-        }
-      }`,
+      query,
     });
 
     const loveNote = _.get(res, 'body.data.createLoveNote.loveNote');
