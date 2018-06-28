@@ -60,7 +60,7 @@ const RenderItem = ({item}) => (
         )}
       </View>
     )}
-    <Text style={[scene.copy, { marginTop: 16 }]}>{item.note}</Text>
+    <Text style={[scene.copy, { marginTop: 16 }]}>{decodeURI(item.note)}</Text>
   </View>
 );
 
