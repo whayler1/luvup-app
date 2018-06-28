@@ -46,7 +46,6 @@ class LoveNotes extends PureComponent {
   };
 
   onEndReached = () => {
-    console.log('\n\n onEndReached\n----');
     const { receivedLoveNoteCount, receivedLoveNotes } = this.props;
 
     if (receivedLoveNotes.length < receivedLoveNoteCount) {
