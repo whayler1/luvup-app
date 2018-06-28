@@ -22,11 +22,17 @@ export default function reducer(state = defaultState, action) {
         getReceivedLoveNotesError: '',
       };
     case GET_RECEIVED_LOVE_NOTES_SUCCESS:
+      let receivedLoveNotes;
+      if (action.shouldAppend === true) {
+        receivedLoveNotes = [...state.receivedLoveNotes, ...action.rows];
+      } else {
+        receivedLoveNotes = action.rows;
+      }
       return {
         ...state,
         isGetReceivedLoveNotesInFlight: false,
         receivedLoveNoteCount: action.count,
-        receivedLoveNotes: action.rows,
+        receivedLoveNotes,
       };
     case GET_RECEIVED_LOVE_NOTES_FAILURE:
       return {

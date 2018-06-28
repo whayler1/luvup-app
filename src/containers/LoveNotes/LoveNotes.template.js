@@ -31,14 +31,14 @@ const JalapenoArt = () => (
   />
 );
 
-const TokenUi = ({n, Art}) => (
+const TokenUi = ({ n, Art }) => (
   <View style={styles.tokenUi}>
     <Art />
     <Text style={styles.tokenText}> +{n}</Text>
   </View>
 );
 
-const RenderItem = ({item}) => (
+const RenderItem = ({ item }) => (
   <View style={styles.renderItemWrap}>
     <Text>
       <Text style={styles.titleText}>{moment(new Date(item.createdAt)).format('MMM D, YYYY')}</Text>
@@ -66,6 +66,7 @@ const RenderItem = ({item}) => (
 
 export default ({
   receivedLoveNotes,
+  onEndReached,
 }) => {
   return (
     <View>
@@ -73,6 +74,7 @@ export default ({
         data={receivedLoveNotes}
         keyExtractor={keyExtractor}
         renderItem={RenderItem}
+        onEndReached={onEndReached}
       />
     </View>
   );
