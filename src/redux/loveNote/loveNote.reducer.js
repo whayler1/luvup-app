@@ -8,6 +8,7 @@ import {
   SET_LOVE_NOTES_READ_WITH_CREATED_AT_SUCCESS,
   SET_LOVE_NOTES_READ_WITH_CREATED_AT_FAILURE,
 } from './loveNote.actions';
+import { GET_ME_SUCCESS } from '../user/user.actions';
 
 const defaultState = {
   isGetReceivedLoveNotesInFlight: false,
@@ -16,6 +17,7 @@ const defaultState = {
   setLoveNotesReadWithCreatedAtFailure: '',
   receivedLoveNoteCount: 0,
   receivedLoveNotes: [],
+  unreadReceivedLoveNoteCount: 0,
 };
 
 export default function reducer(state = defaultState, action) {
@@ -55,12 +57,19 @@ export default function reducer(state = defaultState, action) {
       return {
         ...state,
         isSetLoveNotesReadWithCreatedAtInFlight: false,
+        unreadReceivedLoveNoteCount: 0,
       };
     case SET_LOVE_NOTES_READ_WITH_CREATED_AT_FAILURE:
       return {
         ...state,
         isSetLoveNotesReadWithCreatedAtInFlight: true,
         setLoveNotesReadWithCreatedAtFailure: action.error,
+      };
+    case GET_ME_SUCCESS:
+      const unreadReceivedLoveNoteCount = _.get(action.data, 'receivedLoveNotes.count', 0);
+      return {
+        ...state,
+        unreadReceivedLoveNoteCount,
       };
     default:
       return state;

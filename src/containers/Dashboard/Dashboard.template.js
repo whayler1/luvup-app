@@ -44,6 +44,7 @@ export default ({
   modalContent,
   unviewedCoinCount,
   unviewedJalapenoCount,
+  unreadReceivedLoveNoteCount,
   onLoveNotePress,
 }) => (
   <View
@@ -79,6 +80,7 @@ export default ({
       <TouchableOpacity
         onPress={onLoveNotePress}
       >
+        <Text style={{ fontSize: 25 }}>{ unreadReceivedLoveNoteCount }</Text>
         <LoveNoteArt />
       </TouchableOpacity>
     </View>
