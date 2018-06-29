@@ -40,6 +40,7 @@ class Dashboard extends Component {
     unviewedJalapenoCount: PropTypes.number,
     setUnviewedCoinCount: PropTypes.func.isRequired,
     setUnviewedJalapenoCount: PropTypes.func.isRequired,
+    unreadReceivedLoveNoteCount: PropTypes.number.isRequired,
   };
 
   state = {
@@ -117,6 +118,7 @@ class Dashboard extends Component {
       closePushdown={this.closePushdown}
       unviewedCoinCount={this.props.unviewedCoinCount}
       unviewedJalapenoCount={this.props.unviewedJalapenoCount}
+      unreadReceivedLoveNoteCount={this.props.unreadReceivedLoveNoteCount}
       onLoveNotePress={this.onLoveNotePress}
       {...this.state}
     />;
@@ -140,6 +142,7 @@ export default connect(
     sentJalapenos: state.jalapeno.sentJalapenos,
     unviewedCoinCount: state.coin.unviewedCoinCount,
     unviewedJalapenoCount: state.jalapeno.unviewedJalapenoCount,
+    unreadReceivedLoveNoteCount: state.loveNote.unreadReceivedLoveNoteCount,
   }),
   {
     getCoinCount: getCoinCountAction,

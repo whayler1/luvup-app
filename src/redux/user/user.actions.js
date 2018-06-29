@@ -17,6 +17,7 @@ export const LOGOUT = 'user/logout';
 export const REAUTH = 'user/reauth';
 export const USER_REQUEST = 'user/user-request';
 export const CONFIRM_USER_REQUEST_CODE = 'user/confirm-user-request-code';
+export const GET_ME_SUCCESS = 'user/get-me-success';
 
 export const login = (usernameOrEmail, password) => async dispatch => {
   try {
@@ -119,6 +120,14 @@ export const getMe = () => async dispatch => {
         unviewedEventCounts {
           coinsReceived jalapenosReceived
         }
+        receivedLoveNotes(
+          limit: 2,
+          offset: 0,
+          isRead: false,
+        ) {
+          rows { id, createdAt, isRead, note }
+          count
+        }
       }`
     });
 
@@ -200,6 +209,13 @@ export const getMe = () => async dispatch => {
       dispatch(setUnviewedJalapenoCount(
         unviewedEventCounts.jalapenosReceived
       ));
+    }
+    const data = _.get(res, 'body.data');
+    if (data) {
+      dispatch({
+        type: GET_ME_SUCCESS,
+        data,
+      });
     }
     return res;
   } catch (err) {
