@@ -9,6 +9,7 @@ import {
   Lightbox,
   Tabs,
 } from 'react-native-router-flux';
+import Icon from 'react-native-vector-icons/Ionicons';
 import _ from 'lodash';
 
 import { store } from './src/redux';
@@ -64,6 +65,12 @@ const loveNoteModalDefaults = {
     </Text>
   ),
 }
+
+const WriteLoveNoteIcon = () => (
+  <View>
+    <Text>ABC 123 MEOW</Text>
+  </View>
+);
 
 const App = () => (
   <Provider store={store}>
@@ -131,13 +138,14 @@ const App = () => (
             component={ConfirmLoverRequest}
             hideNavBar={true}
           />
-          <Tabs>
+        <Tabs lazy={true}>
             <Scene
               key="createLoveNote"
               title="Write Love Note"
               component={CreateLoveNote}
               backTitle=" "
               {...loveNoteModalDefaults}
+              icon={WriteLoveNoteIcon}
             />
             <Scene
               key="loveNotes"

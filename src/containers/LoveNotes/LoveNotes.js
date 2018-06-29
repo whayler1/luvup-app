@@ -55,6 +55,10 @@ class LoveNotes extends PureComponent {
     }
   };
 
+  componentDidMount() {
+    console.log('\n\n LOVE NOTES MOUNTED\n-----');
+  }
+
   render() {
     const props = {
       ...this.props,
