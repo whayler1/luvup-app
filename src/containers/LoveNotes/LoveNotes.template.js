@@ -55,7 +55,7 @@ const ListEmptyComponent = ({
       <Preloader />
     )}
     {(!getReceivedLoveNotesError && !isGetReceivedLoveNotesInFlight) && (
-      <Text style={scene.copy}>You have not received any love notes yet. 🙄</Text>
+      <Text style={[scene.copy, { fontSize: 25, textAlign: 'center' }]}>You have not received any love notes yet. 🙄</Text>
     )}
   </View>
 );

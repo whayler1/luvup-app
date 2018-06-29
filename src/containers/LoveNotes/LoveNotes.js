@@ -5,7 +5,10 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import Template from './LoveNotes.template';
-import { getReceivedLoveNotes as getReceivedLoveNotesAction } from '../../redux/loveNote/loveNote.actions';
+import {
+  getReceivedLoveNotes as getReceivedLoveNotesAction,
+  setLoveNotesReadWithCreatedAt as setLoveNotesReadWithCreatedAtAction,
+} from '../../redux/loveNote/loveNote.actions';
 
 const limit = 20;
 
@@ -21,20 +24,37 @@ class LoveNotes extends PureComponent {
       numLuvups: PropTypes.number,
       numJalapenos: PropTypes.number,
     })).isRequired,
+    getReceivedLoveNotes: PropTypes.func.isRequired,
+    setLoveNotesReadWithCreatedAt: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
-    props.getReceivedLoveNotes({
-      isRead: null,
-      limit,
-      offset: 0,
-    });
+
+    this.getReceivedLoveNotes();
 
     this.state = {
       offset: 0,
     };
   }
+
+  getReceivedLoveNotes = async () => {
+    const {
+      setLoveNotesReadWithCreatedAt,
+      getReceivedLoveNotes,
+    } = this.props;
+    await getReceivedLoveNotes({
+      isRead: null,
+      limit,
+      offset: 0,
+    });
+    const { receivedLoveNotes } = this.props;
+
+    if (receivedLoveNotes.length > 0) {
+      const { createdAt } = receivedLoveNotes[0];
+      setLoveNotesReadWithCreatedAt(createdAt);
+    }
+  };
 
   appendReceivedLoveNotes = () => {
     this.props.getReceivedLoveNotes({
@@ -54,10 +74,6 @@ class LoveNotes extends PureComponent {
       }, this.appendReceivedLoveNotes);
     }
   };
-
-  componentDidMount() {
-    console.log('\n\n LOVE NOTES MOUNTED\n-----');
-  }
 
   render() {
     const props = {
@@ -83,5 +99,6 @@ export default connect(
   }),
   {
     getReceivedLoveNotes: getReceivedLoveNotesAction,
+    setLoveNotesReadWithCreatedAt: setLoveNotesReadWithCreatedAtAction,
   },
 )(LoveNotes);
