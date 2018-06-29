@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import moment from 'moment';
 
-import { scene } from '../../styles';
+import { scene, vars } from '../../styles';
 import styles from './LoveNotes.styles';
 import Well from '../../components/Well';
 import Preloader from '../../components/Preloader';
@@ -54,7 +54,14 @@ const ListEmptyComponent = ({
     {isGetReceivedLoveNotesInFlight && (
       <Preloader />
     )}
+    {(!getReceivedLoveNotesError && !isGetReceivedLoveNotesInFlight) && (
+      <Text style={scene.copy}>You have not received any love notes yet. 🙄</Text>
+    )}
   </View>
+);
+
+const ItemSeparatorComponent = () => (
+  <View style={{ borderTopColor: vars.blueGrey50, borderTopWidth: 1 }} />
 );
 
 const RenderItem = ({ item }) => (
@@ -100,6 +107,7 @@ export default ({
           isGetReceivedLoveNotesInFlight={isGetReceivedLoveNotesInFlight}
           getReceivedLoveNotesError={getReceivedLoveNotesError}
         />}
+        ItemSeparatorComponent={ItemSeparatorComponent}
       />
     </View>
   );
