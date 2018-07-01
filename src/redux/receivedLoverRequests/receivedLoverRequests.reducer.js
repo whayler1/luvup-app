@@ -18,7 +18,6 @@ export default function reducer(state = defaultState, action) {
         rows: action.rows,
         count: action.count,
       };
-      break;
     case ACCEPT_LOVER_REQUEST:
       const rows = [...state.rows];
       const loverRequestIndex = state.rows.findIndex(loverReq => loverReq.id === action.id);

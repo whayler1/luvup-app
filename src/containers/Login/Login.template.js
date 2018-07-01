@@ -119,7 +119,7 @@ export default ({
               containerViewStyle={buttons.container}
               buttonStyle={buttons.secondarySkeletonButton}
               textStyle={buttons.secondarySkeletonText}
-              title={'Confirm Sign Up'}
+              title={'Confirm Code'}
             />
           </View>
           <View style={{

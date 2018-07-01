@@ -28,7 +28,6 @@ export default ({
     style={{
       position: 'absolute',
       alignItems: 'center',
-      backgroundColor: 'white',
       top: 0,
       left: 0,
       right: 0,
@@ -91,7 +90,7 @@ export default ({
           <Text
             style={{
               paddingLeft: 5,
-              fontFamily: 'latoblack',
+              fontFamily: vars.fontBlack,
               fontSize: 16,
               color: vars.blueGrey500,
             }}
@@ -109,7 +108,7 @@ export default ({
           <Text
             style={{
               paddingLeft: 5,
-              fontFamily: 'latoblack',
+              fontFamily: vars.fontBlack,
               fontSize: 16,
               color: vars.blueGrey500,
             }}
@@ -152,7 +151,7 @@ export default ({
         >
           <Text
             style={{
-              fontFamily: 'latoblack',
+              fontFamily: vars.fontBlack,
               fontSize: 16,
               color: vars.blueGrey500,
             }}

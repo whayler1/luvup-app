@@ -12,9 +12,11 @@ import {
   createRelationshipScore as createRelationshipScoreAction,
 } from '../../redux/relationshipScore/relationshipScore.actions';
 import {
+  refreshSentCoinCount as refreshSentCoinCountAction,
   sendCoin as sendCoinAction,
 } from '../../redux/coin/coin.actions';
 import {
+  refreshSentJalapenoCount as refreshSentJalapenoCountAction,
   sendJalapeno as sendJalapenoAction,
 } from '../../redux/jalapeno/jalapeno.actions';
 import {
@@ -29,8 +31,6 @@ class Hero extends Component {
 
     this.state = {
       dragDirection: 0,
-      recentlySentCoinCount: 0,
-      recentlySentJalapenoCount: 0,
       isInRelationship: props.relationshipId.length > 0,
       loverRequestCreatedAtTimeAgo: props.loverRequestCreatedAt ?
         moment(new Date(props.loverRequestCreatedAt)).fromNow() : '',
@@ -88,13 +88,12 @@ class Hero extends Component {
         const { swipeThreshold } = config;
 
         if (dy < -swipeThreshold) {
-          this.setState({
-            recentlySentCoinCount: this.state.recentlySentCoinCount + 1
-          }, this.sendCoin);
+          this.sendCoin();
         } else if (dy > swipeThreshold) {
-          this.setState({
-            recentlySentJalapenoCount: this.state.recentlySentJalapenoCount + 1
-          }, this.sendJalapeno);
+          // this.setState({
+          //   recentlySentJalapenoCount: this.state.recentlySentJalapenoCount + 1
+          // }, this.sendJalapeno);
+          this.sendJalapeno();
         }
 
         this.setDragDirection(0);
@@ -111,6 +110,8 @@ class Hero extends Component {
   static propTypes = {
     relationshipId: PropTypes.string,
     relationshipScore: PropTypes.number,
+    refreshSentCoinCount: PropTypes.func.isRequired,
+    refreshSentJalapenoCount: PropTypes.func.isRequired,
     createRelationshipScore: PropTypes.func.isRequired,
     sendCoin: PropTypes.func.isRequired,
     sendJalapeno: PropTypes.func.isRequired,
@@ -125,6 +126,8 @@ class Hero extends Component {
     loverRequestLastName: PropTypes.string,
     loverRequestCreatedAt: PropTypes.string,
     loverRequestId: PropTypes.string,
+    recentlySentCoinCount: PropTypes.number.isRequired,
+    recentlySentJalapenoCount: PropTypes.number.isRequired,
   };
 
   translateY = new Animated.Value(0);
@@ -313,7 +316,6 @@ class Hero extends Component {
   }
 
   showDirections() {
-    //
     Animated.timing(
       this.directionsOpacity,
       {
@@ -325,7 +327,6 @@ class Hero extends Component {
     ).start();
   }
   hideDirections() {
-    //
     Animated.timing(
       this.directionsOpacity,
       {
@@ -354,8 +355,8 @@ class Hero extends Component {
 
   componentDidMount() {
     this.props.createRelationshipScore();
-    this.setRecentlySentCount(this.props.sentCoins, 'recentlySentCoinCount');
-    this.setRecentlySentCount(this.props.sentJalapenos, 'recentlySentJalapenoCount');
+    this.props.refreshSentCoinCount();
+    this.props.refreshSentJalapenoCount();
   };
 
   render() {
@@ -376,6 +377,8 @@ class Hero extends Component {
       loverRequestLastName={this.props.loverRequestLastName}
       cancelLoverRequest={this.cancelLoverRequest}
       resendLoverRequestEmail={this.resendLoverRequestEmail}
+      recentlySentCoinCount={this.props.recentlySentCoinCount}
+      recentlySentJalapenoCount={this.props.recentlySentJalapenoCount}
       {...this.state}
     />;
   }
@@ -392,8 +395,12 @@ export default connect(
     loverRequestFirstName: state.loverRequest.firstName,
     loverRequestLastName: state.loverRequest.lastName,
     loverRequestCreatedAt: state.loverRequest.createdAt,
+    recentlySentCoinCount: state.coin.recentlySentCoinCount,
+    recentlySentJalapenoCount: state.jalapeno.recentlySentJalapenoCount,
   }),
   {
+    refreshSentCoinCount: refreshSentCoinCountAction,
+    refreshSentJalapenoCount: refreshSentJalapenoCountAction,
     createRelationshipScore: createRelationshipScoreAction,
     sendCoin: sendCoinAction,
     sendJalapeno: sendJalapenoAction,

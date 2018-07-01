@@ -7,7 +7,9 @@ import {
   Reducer,
   Stack,
   Lightbox,
+  Tabs,
 } from 'react-native-router-flux';
+import Icon from 'react-native-vector-icons/Ionicons';
 import _ from 'lodash';
 
 import { store } from './src/redux';
@@ -24,6 +26,10 @@ import Timeline from './src/containers/Timeline';
 import Menu from './src/containers/Menu';
 import ConfirmLoverRequest from './src/containers/ConfirmLoverRequest';
 import InAppNotifications from './src/containers/InAppNotifications';
+import CreateLoveNote from './src/containers/CreateLoveNote';
+import LoveNotes from './src/containers/LoveNotes';
+
+import LoveNoteArt from './src/components/LoveNoteArt';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -47,6 +53,25 @@ const sceneDefaults = {
     fontSize: 30,
   }}>luvup</Text></View>
 };
+
+const getDefaultNavBar = (title) => ({
+  ...sceneDefaults,
+  renderTitle: (
+    <Text style={{
+      fontFamily: vars.fontBlack,
+      color: vars.blueGrey500,
+      fontSize: 25,
+    }}>
+      {title}
+    </Text>
+  ),
+});
+
+const WriteLoveNoteIcon = () => (
+  <View>
+    <Text>ABC 123 MEOW</Text>
+  </View>
+);
 
 const App = () => (
   <Provider store={store}>
@@ -113,6 +138,20 @@ const App = () => (
             key="confirmLoverRequest"
             component={ConfirmLoverRequest}
             hideNavBar={true}
+          />
+          <Scene
+            key="createLoveNote"
+            title="Write Love Note"
+            component={CreateLoveNote}
+            backTitle=" "
+            {...getDefaultNavBar('Write Love Note')}
+          />
+          <Scene
+            key="loveNotes"
+            title="Love Notes"
+            component={LoveNotes}
+            backTitle=" "
+            {...getDefaultNavBar('Read Love Notes')}
           />
         </Stack>
         <Scene

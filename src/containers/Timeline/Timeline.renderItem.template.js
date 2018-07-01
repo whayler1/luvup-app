@@ -16,6 +16,8 @@ import jalapenoReceivedImg from '../../images/jalapeno-received.png';
 import coinImg from '../../images/coin.png';
 import coinSentImg from '../../images/coin-sent.png';
 import coinReceivedImg from '../../images/coin-received.png';
+import LoveNoteArtFlying from '../../components/LoveNoteArtFlying';
+import LoveNoteArtReceived from '../../components/LoveNoteArtReceived';
 
 const getEventDisplayName = (eventName, count) => {
   const plur = count > 1 ? 's' : '';
@@ -31,6 +33,10 @@ const getEventDisplayName = (eventName, count) => {
       return `Jalapeno${plur} received`;
     case 'password-changed':
       return 'Password Changed';
+    case 'lovenote-sent':
+      return `Love note${plur} sent`;
+    case 'lovenote-received':
+      return `Love note${plur} received`;
     default:
       return eventName;
   }
@@ -84,6 +90,14 @@ const getEventImage = eventName => {
           size={36}
           color={vars.blueGrey500}
         />
+      );
+    case 'lovenote-sent':
+      return (
+        <LoveNoteArtFlying scale={0.4} />
+      );
+    case 'lovenote-received':
+      return (
+        <LoveNoteArtReceived scale={0.4} />
       );
     default:
       return;
