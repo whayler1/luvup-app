@@ -53,18 +53,19 @@ const sceneDefaults = {
     fontSize: 30,
   }}>luvup</Text></View>
 };
-const loveNoteModalDefaults = {
+
+const getDefaultNavBar = (title) => ({
   ...sceneDefaults,
   renderTitle: (
     <Text style={{
       fontFamily: vars.fontBlack,
       color: vars.blueGrey500,
-      fontSize: 30,
+      fontSize: 25,
     }}>
-      Love Note
+      {title}
     </Text>
   ),
-}
+});
 
 const WriteLoveNoteIcon = () => (
   <View>
@@ -143,14 +144,14 @@ const App = () => (
             title="Write Love Note"
             component={CreateLoveNote}
             backTitle=" "
-            {...loveNoteModalDefaults}
+            {...getDefaultNavBar('Write Love Note')}
           />
           <Scene
             key="loveNotes"
             title="Love Notes"
             component={LoveNotes}
             backTitle=" "
-            {...loveNoteModalDefaults}
+            {...getDefaultNavBar('Read Love Notes')}
           />
         </Stack>
         <Scene
