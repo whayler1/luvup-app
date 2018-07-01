@@ -23,10 +23,14 @@ const defaultState = {
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
     case REFRESH_SENT_JALAPENO_COUNT:
-    case SEND_JALAPENO_ATTEMPT:
       return {
         ...state,
         recentlySentJalapenoCount: getRecentlySentTokenCount(state.sentJalapenos),
+      };
+    case SEND_JALAPENO_ATTEMPT:
+      return {
+        ...state,
+        recentlySentJalapenoCount: getRecentlySentTokenCount(state.sentJalapenos) + 1,
       };
     case SEND_JALAPENO_SUCCESS:
       const sentJalapenos = [action.jalapeno, ...state.sentJalapenos];

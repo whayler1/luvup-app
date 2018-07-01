@@ -23,6 +23,10 @@ const defaultState = {
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
     case REFRESH_SENT_COIN_COUNT:
+      return {
+        ...state,
+        recentlySentCoinCount: getRecentlySentTokenCount(state.sentCoins),
+      }
     case SEND_COIN_ATTEMPT:
       return {
         ...state,

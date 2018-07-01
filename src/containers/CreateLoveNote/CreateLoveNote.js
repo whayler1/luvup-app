@@ -77,13 +77,13 @@ class CreateLoveNote extends PureComponent {
     const { state } = this;
     const recentlySentCount = this.props[recentlySentKey];
     if (!state.isSending) {
-      const keyPLus1 = state[key] + 1;
+      const keyPlus1 = state[key] + 1;
 
-      if (keyPLus1 + recentlySentCount > maxTokens) {
+      if (keyPlus1 + recentlySentCount > maxTokens) {
         Vibration.vibrate();
         this.openModal(modalContent);
       } else {
-        this.setState({ [key]: keyPLus1 });
+        this.setState({ [key]: keyPlus1 });
       }
     }
   };
