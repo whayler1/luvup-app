@@ -138,23 +138,20 @@ const App = () => (
             component={ConfirmLoverRequest}
             hideNavBar={true}
           />
-        <Tabs lazy={true}>
-            <Scene
-              key="createLoveNote"
-              title="Write Love Note"
-              component={CreateLoveNote}
-              backTitle=" "
-              {...loveNoteModalDefaults}
-              icon={WriteLoveNoteIcon}
-            />
-            <Scene
-              key="loveNotes"
-              title="Love Notes"
-              component={LoveNotes}
-              backTitle=" "
-              {...loveNoteModalDefaults}
-            />
-          </Tabs>
+          <Scene
+            key="createLoveNote"
+            title="Write Love Note"
+            component={CreateLoveNote}
+            backTitle=" "
+            {...loveNoteModalDefaults}
+          />
+          <Scene
+            key="loveNotes"
+            title="Love Notes"
+            component={LoveNotes}
+            backTitle=" "
+            {...loveNoteModalDefaults}
+          />
         </Stack>
         <Scene
           key="notificationLightbox"

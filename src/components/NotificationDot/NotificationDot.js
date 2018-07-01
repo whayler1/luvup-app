@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import ReactArt, {
   Group,
@@ -10,14 +11,17 @@ import ReactArt, {
 import Circle from '../Circle';
 import { vars } from '../../styles';
 
-const NotificationDot = ({ style }) => (
+const NotificationDot = ({ style = {} }) => (
   <View
-    style={{
-      position: 'absolute',
-      right: -6,
-      top: -6,
-      zIndex: 10,
-    }}
+    style={[
+      {
+        position: 'absolute',
+        right: -6,
+        top: -6,
+        zIndex: 10,
+      },
+      ...style,
+    ]}
   >
     <Surface
       width={16}
@@ -34,5 +38,9 @@ const NotificationDot = ({ style }) => (
     </Surface>
   </View>
 );
+
+NotificationDot.propTypes = {
+  style: PropTypes.object,
+};
 
 export default NotificationDot;

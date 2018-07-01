@@ -19,6 +19,8 @@ import DashboardTopNav from '../../components/DashboardTopNav';
 import CoinArt from '../../components/CoinArt';
 import JalapenoArt from '../../components/JalapenoArt';
 import LoveNoteArt from '../../components/LoveNoteArt';
+import LoveNoteReadArt from '../../components/LoveNoteReadArt';
+import LoveNoteWriteArt from '../../components/LoveNoteWriteArt';
 import LimitExceededModal from '../../components/LimitExceededModal';
 import Hero from '../Hero';
 import NotificationDot from '../../components/NotificationDot';
@@ -73,6 +75,7 @@ export default ({
     />
     <View style={{
       flex: 0,
+      flexDirection: 'row',
       alignItems: 'center',
       alignSelf: 'stretch',
       paddingBottom: 42,
@@ -81,10 +84,17 @@ export default ({
       <TouchableOpacity
         onPress={onLoveNotePress}
       >
+        <LoveNoteWriteArt scale={0.8} />
+        <Text style={styles.tabsText}>Write Love Note</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={onLoveNotePress}
+      >
         {unreadReceivedLoveNoteCount > 0 && (
           <NotificationDot />
         )}
-        <LoveNoteArt />
+        <LoveNoteReadArt scale={0.8} />
+        <Text style={styles.tabsText}>Read Love Notes</Text>
       </TouchableOpacity>
     </View>
     <LimitExceededModal
