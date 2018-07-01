@@ -20,7 +20,7 @@ const NotificationDot = ({ style = {} }) => (
         top: -6,
         zIndex: 10,
       },
-      ...style,
+      style,
     ]}
   >
     <Surface

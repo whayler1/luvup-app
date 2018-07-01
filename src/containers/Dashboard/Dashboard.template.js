@@ -87,7 +87,12 @@ export default ({
         onPress={onLoveNoteReadPress}
       >
         {unreadReceivedLoveNoteCount > 0 && (
-          <NotificationDot />
+          <NotificationDot
+            style={{
+              right: 19,
+              top: -1,
+            }}
+          />
         )}
         <LoveNoteReadArt scale={0.7} />
         <Text style={styles.tabsText}>Read Love Notes</Text>
