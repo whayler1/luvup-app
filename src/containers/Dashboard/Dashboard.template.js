@@ -11,6 +11,12 @@ import {
 import { Button } from 'react-native-elements';
 import moment from 'moment';
 import _ from 'lodash';
+import ReactArt, {
+  Group,
+  Shape,
+  Surface,
+  Transform,
+} from 'ReactNativeART';
 
 import styles from './Dashboard.styles';
 import { buttons, forms, scene, modal, vars } from '../../styles';
@@ -21,6 +27,7 @@ import JalapenoArt from '../../components/JalapenoArt';
 import LoveNoteArt from '../../components/LoveNoteArt';
 import LimitExceededModal from '../../components/LimitExceededModal';
 import Hero from '../Hero';
+import Circle from '../../components/Circle';
 
 export default ({
   userFirstName,
@@ -80,7 +87,30 @@ export default ({
       <TouchableOpacity
         onPress={onLoveNotePress}
       >
-        <Text style={{ fontSize: 25 }}>{ unreadReceivedLoveNoteCount }</Text>
+        {unreadReceivedLoveNoteCount > 0 && (
+          <View
+            style={{
+              position: 'absolute',
+              right: -6,
+              top: -6,
+              zIndex: 10,
+            }}
+          >
+            <Surface
+              width={16}
+              height={16}
+            >
+              <Group>
+                <Circle
+                  radius={8}
+                  fill={vars.red500}
+                  stroke="#ffffff"
+                  strokeWidth={3}
+                />
+              </Group>
+            </Surface>
+          </View>
+        )}
         <LoveNoteArt />
       </TouchableOpacity>
     </View>
