@@ -20,7 +20,7 @@ export default StyleSheet.create({
   heartView: {
     alignSelf: 'stretch',
     flex: 1,
-    paddingTop: 80,
+    marginTop: 80,
     alignItems: 'center',
     justifyContent: 'center',
   },
