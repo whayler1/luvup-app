@@ -13,6 +13,7 @@ import Well from '../../components/Well';
 import Preloader from '../../components/Preloader';
 
 const keyExtractor = (item) => item.id;
+const now = moment();
 
 const LuvupArt = () => (
   <Image
@@ -64,31 +65,41 @@ const ItemSeparatorComponent = () => (
   <View style={{ borderTopColor: vars.blueGrey50, borderTopWidth: 1 }} />
 );
 
-const RenderItem = ({ item }) => (
-  <View style={styles.renderItemWrap}>
-    <Text>
-      <Text style={styles.titleText}>{moment(new Date(item.createdAt)).format('MMM D, YYYY')}</Text>
-      <Text style={styles.titleTextSecondary}> at {moment(new Date(item.createdAt)).format('hh:mm a')}</Text>
-    </Text>
-    {(item.numLuvups || item.numJalapenos) && (
-      <View style={styles.tokenWrap}>
-        {item.numLuvups && (
-          <TokenUi
-            n={item.numLuvups}
-            Art={LuvupArt}
-          />
-        )}
-        {item.numJalapenos && (
-          <TokenUi
-            n={item.numJalapenos}
-            Art={JalapenoArt}
-          />
-        )}
-      </View>
-    )}
-    <Text style={[scene.copy, { marginTop: 16 }]}>{decodeURI(item.note)}</Text>
-  </View>
-);
+const RenderItem = ({ item }) => {
+  const createdAtMoment = moment(new Date(item.createdAt));
+  const diff = now.diff(createdAtMoment, 'days');
+  const isWithinThreshold = diff < 7;
+
+  return (
+    <View style={styles.renderItemWrap}>
+      {isWithinThreshold ? (
+        <Text style={styles.titleText}>{createdAtMoment.fromNow()}</Text>
+      ) : (
+        <Text>
+          <Text style={styles.titleText}>{moment(new Date(item.createdAt)).format('MMM D, YYYY')}</Text>
+          <Text style={styles.titleTextSecondary}> at {moment(new Date(item.createdAt)).format('hh:mm a')}</Text>
+        </Text>
+      )}
+      {(item.numLuvups || item.numJalapenos) && (
+        <View style={styles.tokenWrap}>
+          {item.numLuvups && (
+            <TokenUi
+              n={item.numLuvups}
+              Art={LuvupArt}
+            />
+          )}
+          {item.numJalapenos && (
+            <TokenUi
+              n={item.numJalapenos}
+              Art={JalapenoArt}
+            />
+          )}
+        </View>
+      )}
+      <Text style={[scene.copy, { marginTop: 16 }]}>{decodeURI(item.note)}</Text>
+    </View>
+  );
+}
 
 export default ({
   isGetReceivedLoveNotesInFlight,
