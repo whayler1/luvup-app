@@ -35,12 +35,8 @@ class Menu extends PureComponent {
     endRelationship: PropTypes.func.isRequired,
   };
 
-  goToDashboard = () => {
-    if (this.props.loverFirstName.length > 0) {
-      Actions.dashboard();
-    } else {
-      Actions.createloverrequest();
-    }
+  goBack = () => {
+    Actions.pop();
   }
 
   onChangePasswordClick = () => this.setState({
@@ -87,7 +83,7 @@ class Menu extends PureComponent {
     return <Template
       {...this.props}
       {...this.state}
-      goToDashboard={this.goToDashboard}
+      goBack={this.goBack}
       onChangePasswordClick={this.onChangePasswordClick}
       openEndRelationshipModal={this.openEndRelationshipModal}
       closeModal={this.closeModal}
