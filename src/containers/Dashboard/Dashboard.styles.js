@@ -17,7 +17,7 @@ export default StyleSheet.create({
   },
   tabsText: {
     fontSize: 12,
-    color: vars.blueGrey500,
+    color: vars.blueGrey300,
     fontFamily: vars.fontBlack,
     marginTop: 8,
   },
