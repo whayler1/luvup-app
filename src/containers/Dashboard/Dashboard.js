@@ -99,7 +99,8 @@ class Dashboard extends Component {
     }
   }
 
-  onLoveNotePress = () => Actions.createLoveNote();
+  onLoveNoteWritePress = () => Actions.createLoveNote();
+  onLoveNoteReadPress = () => Actions.loveNotes();
 
   render() {
     return <Template
@@ -119,7 +120,8 @@ class Dashboard extends Component {
       unviewedCoinCount={this.props.unviewedCoinCount}
       unviewedJalapenoCount={this.props.unviewedJalapenoCount}
       unreadReceivedLoveNoteCount={this.props.unreadReceivedLoveNoteCount}
-      onLoveNotePress={this.onLoveNotePress}
+      onLoveNoteWritePress={this.onLoveNoteWritePress}
+      onLoveNoteReadPress={this.onLoveNoteReadPress}
       {...this.state}
     />;
   }

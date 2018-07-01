@@ -48,7 +48,8 @@ export default ({
   unviewedCoinCount,
   unviewedJalapenoCount,
   unreadReceivedLoveNoteCount,
-  onLoveNotePress,
+  onLoveNoteWritePress,
+  onLoveNoteReadPress,
 }) => (
   <View
     style={{
@@ -73,27 +74,22 @@ export default ({
     <Hero
       openModal={openModal}
     />
-    <View style={{
-      flex: 0,
-      flexDirection: 'row',
-      alignItems: 'center',
-      alignSelf: 'stretch',
-      paddingBottom: 42,
-      paddingTop: 8,
-    }}>
+  <View style={styles.tabsContainer}>
       <TouchableOpacity
-        onPress={onLoveNotePress}
+        style={styles.tabsItem}
+        onPress={onLoveNoteWritePress}
       >
         <LoveNoteWriteArt scale={0.8} />
         <Text style={styles.tabsText}>Write Love Note</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={onLoveNotePress}
+        style={styles.tabsItem}
+        onPress={onLoveNoteReadPress}
       >
         {unreadReceivedLoveNoteCount > 0 && (
           <NotificationDot />
         )}
-        <LoveNoteReadArt scale={0.8} />
+        <LoveNoteReadArt scale={0.7} />
         <Text style={styles.tabsText}>Read Love Notes</Text>
       </TouchableOpacity>
     </View>
