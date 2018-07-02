@@ -58,24 +58,22 @@ export const getReceivedLoveNotes = ({
   dispatch({ type: GET_RECEIVED_LOVE_NOTES_ATTEMPT });
   try {
     const isReadArg = _.isBoolean(isRead) ? `isRead: ${isRead}` : '';
-    const res = await superagent.post(config.graphQlUrl, {
-      query: `{
-        receivedLoveNotes(
-          limit: ${limit}
-          offset: ${offset}
-          ${isReadArg}
-        ) {
-      		count
-          rows {
-            id note createdAt numLuvups numJalapenos
-          }
+    const res = await graphQlRequest(`{
+      receivedLoveNotes(
+        limit: ${limit}
+        offset: ${offset}
+        ${isReadArg}
+      ) {
+        count
+        rows {
+          id note createdAt numLuvups numJalapenos
         }
-      }`,
-    });
+      }
+    }`);
 
-    const { count, rows } = _.get(res, 'body.data.receivedLoveNotes', {});
+    const { count, rows } = _.get(res, 'receivedLoveNotes', {});
 
-    if (res.ok && _.isNumber(count)) {
+    if (_.isNumber(count)) {
       dispatch({
         type: GET_RECEIVED_LOVE_NOTES_SUCCESS,
         count,
@@ -99,19 +97,17 @@ export const getReceivedLoveNotes = ({
 export const setLoveNotesReadWithCreatedAt = (createdAt) => async dispatch => {
   dispatch({ type: SET_LOVE_NOTES_READ_WITH_CREATED_AT_ATTEMPT });
   try {
-    const res = await superagent.post(config.graphQlUrl, {
-      query: `mutation {
-        setLoveNotesReadWithCreatedAt(
-          createdAt: "${createdAt}"
-        ) {
-          count
-        }
-      }`,
-    });
+    const res = await graphQlRequest(`mutation {
+      setLoveNotesReadWithCreatedAt(
+        createdAt: "${createdAt}"
+      ) {
+        count
+      }
+    }`);
 
-    const count = _.get(res, 'body.data.setLoveNotesReadWithCreatedAt.count');
+    const count = _.get(res, 'setLoveNotesReadWithCreatedAt.count');
 
-    if (res.ok && _.isNumber(count)) {
+    if (_.isNumber(count)) {
       dispatch({ type: SET_LOVE_NOTES_READ_WITH_CREATED_AT_SUCCESS });
     } else {
       dispatch({
