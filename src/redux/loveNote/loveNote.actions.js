@@ -1,6 +1,7 @@
 import superagent from 'superagent';
 import _ from 'lodash';
 import config from '../../config';
+import { graphQlRequest } from '../../helpers';
 
 export const CREATE_LOVE_NOTE_SUCCESS = 'love-note/create-love-note-success';
 export const GET_RECEIVED_LOVE_NOTES_ATTEMPT = 'love-note/get-received-love-notes-attempt';
@@ -29,13 +30,11 @@ export const createLoveNote = (note, { numLuvups = 0, numJalapenos = 0 }) => asy
     }
   }`;
   try {
-    const res = await superagent.post(config.graphQlUrl, {
-      query,
-    });
+    const data = await graphQlRequest(query);
 
-    const loveNote = _.get(res, 'body.data.createLoveNote.loveNote');
+    const loveNote = _.get(data, 'createLoveNote.loveNote');
 
-    if (res.ok && loveNote) {
+    if (loveNote) {
       const { luvups, jalapenos } = loveNote;
       dispatch({
         type: CREATE_LOVE_NOTE_SUCCESS,
@@ -44,9 +43,8 @@ export const createLoveNote = (note, { numLuvups = 0, numJalapenos = 0 }) => asy
       });
     }
 
-    return res;
+    return data;
   } catch (err) {
-    console.log('\n\nerr', err);
     return err;
   }
 };

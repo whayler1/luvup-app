@@ -184,7 +184,7 @@ class CreateLoveNote extends PureComponent {
       this.showFlyingNote();
 
       const res = await this.props.createLoveNote(note, { numLuvups, numJalapenos });
-      const loveNoteId = _.get(res, 'body.data.createLoveNote.loveNote.id');
+      const loveNoteId = _.get(res, 'createLoveNote.loveNote.id');
 
       if (!loveNoteId) {
         this.setState({
