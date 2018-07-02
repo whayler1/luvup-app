@@ -1,6 +1,8 @@
 import userLoginRouteSwitchFunc from './userLoginRouteSwitch';
 import registerForPushNotificationsFunc from './registerForPushNotifications';
 
+export { default as graphQlRequest } from './graphQlRequest';
+
 export const emailRegex = /\S+@\S+\.\S+/;
 
 export const userLoginRouteSwitch = userLoginRouteSwitchFunc;
