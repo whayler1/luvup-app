@@ -1,6 +1,7 @@
 import superagent from 'superagent';
 import _ from 'lodash';
 import config from '../../config';
+import { graphQlRequest } from '../../helpers';
 
 export const CREATE_LOVE_NOTE_SUCCESS = 'love-note/create-love-note-success';
 export const GET_RECEIVED_LOVE_NOTES_ATTEMPT = 'love-note/get-received-love-notes-attempt';
@@ -29,13 +30,11 @@ export const createLoveNote = (note, { numLuvups = 0, numJalapenos = 0 }) => asy
     }
   }`;
   try {
-    const res = await superagent.post(config.graphQlUrl, {
-      query,
-    });
+    const data = await graphQlRequest(query);
 
-    const loveNote = _.get(res, 'body.data.createLoveNote.loveNote');
+    const loveNote = _.get(data, 'createLoveNote.loveNote');
 
-    if (res.ok && loveNote) {
+    if (loveNote) {
       const { luvups, jalapenos } = loveNote;
       dispatch({
         type: CREATE_LOVE_NOTE_SUCCESS,
@@ -44,9 +43,8 @@ export const createLoveNote = (note, { numLuvups = 0, numJalapenos = 0 }) => asy
       });
     }
 
-    return res;
+    return data;
   } catch (err) {
-    console.log('\n\nerr', err);
     return err;
   }
 };
@@ -60,24 +58,22 @@ export const getReceivedLoveNotes = ({
   dispatch({ type: GET_RECEIVED_LOVE_NOTES_ATTEMPT });
   try {
     const isReadArg = _.isBoolean(isRead) ? `isRead: ${isRead}` : '';
-    const res = await superagent.post(config.graphQlUrl, {
-      query: `{
-        receivedLoveNotes(
-          limit: ${limit}
-          offset: ${offset}
-          ${isReadArg}
-        ) {
-      		count
-          rows {
-            id note createdAt numLuvups numJalapenos
-          }
+    const res = await graphQlRequest(`{
+      receivedLoveNotes(
+        limit: ${limit}
+        offset: ${offset}
+        ${isReadArg}
+      ) {
+        count
+        rows {
+          id note createdAt numLuvups numJalapenos
         }
-      }`,
-    });
+      }
+    }`);
 
-    const { count, rows } = _.get(res, 'body.data.receivedLoveNotes', {});
+    const { count, rows } = _.get(res, 'receivedLoveNotes', {});
 
-    if (res.ok && _.isNumber(count)) {
+    if (_.isNumber(count)) {
       dispatch({
         type: GET_RECEIVED_LOVE_NOTES_SUCCESS,
         count,
@@ -101,19 +97,17 @@ export const getReceivedLoveNotes = ({
 export const setLoveNotesReadWithCreatedAt = (createdAt) => async dispatch => {
   dispatch({ type: SET_LOVE_NOTES_READ_WITH_CREATED_AT_ATTEMPT });
   try {
-    const res = await superagent.post(config.graphQlUrl, {
-      query: `mutation {
-        setLoveNotesReadWithCreatedAt(
-          createdAt: "${createdAt}"
-        ) {
-          count
-        }
-      }`,
-    });
+    const res = await graphQlRequest(`mutation {
+      setLoveNotesReadWithCreatedAt(
+        createdAt: "${createdAt}"
+      ) {
+        count
+      }
+    }`);
 
-    const count = _.get(res, 'body.data.setLoveNotesReadWithCreatedAt.count');
+    const count = _.get(res, 'setLoveNotesReadWithCreatedAt.count');
 
-    if (res.ok && _.isNumber(count)) {
+    if (_.isNumber(count)) {
       dispatch({ type: SET_LOVE_NOTES_READ_WITH_CREATED_AT_SUCCESS });
     } else {
       dispatch({
