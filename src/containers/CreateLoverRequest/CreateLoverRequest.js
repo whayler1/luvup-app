@@ -40,6 +40,7 @@ class CreateLoverRequest extends Component {
 
   checkForExistingLoverRequest = async () => {
     await this.props.getReceivedLoverRequests();
+    
   };
 
   requestLover = async () => {
