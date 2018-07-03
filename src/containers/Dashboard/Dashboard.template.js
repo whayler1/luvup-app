@@ -74,30 +74,32 @@ export default ({
     <Hero
       openModal={openModal}
     />
-  <View style={styles.tabsContainer}>
-      <TouchableOpacity
-        style={styles.tabsItem}
-        onPress={onLoveNoteWritePress}
-      >
-        <LoveNoteWriteArt scale={0.8} />
-        <Text style={styles.tabsText}>Write Love Note</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.tabsItem}
-        onPress={onLoveNoteReadPress}
-      >
-        {unreadReceivedLoveNoteCount > 0 && (
-          <NotificationDot
-            style={{
-              right: 19,
-              top: -1,
-            }}
-          />
-        )}
-        <LoveNoteReadArt scale={0.7} />
-        <Text style={styles.tabsText}>Read Love Notes</Text>
-      </TouchableOpacity>
-    </View>
+    {loverFirstName && (
+      <View style={styles.tabsContainer}>
+        <TouchableOpacity
+          style={styles.tabsItem}
+          onPress={onLoveNoteWritePress}
+        >
+          <LoveNoteWriteArt scale={0.8} />
+          <Text style={styles.tabsText}>Write Love Note</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.tabsItem}
+          onPress={onLoveNoteReadPress}
+        >
+          {unreadReceivedLoveNoteCount > 0 && (
+            <NotificationDot
+              style={{
+                right: 19,
+                top: -1,
+              }}
+            />
+          )}
+          <LoveNoteReadArt scale={0.7} />
+          <Text style={styles.tabsText}>Read Love Notes</Text>
+        </TouchableOpacity>
+      </View>
+    )}
     <LimitExceededModal
       isModalOpen={isModalOpen}
       closeModal={closeModal}
