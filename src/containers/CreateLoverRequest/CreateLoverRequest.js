@@ -10,6 +10,9 @@ import config from '../../config.js';
 import Template from './CreateLoverRequest.template';
 import TemplateSelectedUser from './CreateLoverRequest.template.selectedUser';
 import { requestLover as requestLoverAction } from '../../redux/loverRequest/loverRequest.actions';
+import {
+  getReceivedLoverRequests as getReceivedLoverRequestsAction,
+} from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
 
 class CreateLoverRequest extends Component {
   static propTypes = {
@@ -18,6 +21,8 @@ class CreateLoverRequest extends Component {
     userFirstName: PropTypes.string,
     userLastName: PropTypes.string,
     userId: PropTypes.string,
+    getReceivedLoverRequests: PropTypes.func.isRequired,
+    receivedLoverRequests: PropTypes.array,
   };
 
   state = {
@@ -33,8 +38,11 @@ class CreateLoverRequest extends Component {
 
   onListItemClick = selectedUserId => this.setState({ selectedUser: this.state.users.find(user => user.id === selectedUserId) });
 
+  checkForExistingLoverRequest = async () => {
+    await this.props.getReceivedLoverRequests();
+  };
+
   requestLover = async () => {
-    
     this.setState({ requestLoverIsInFlight: true });
     const res = await this.props.requestLover(this.state.selectedUser.id);
 
@@ -68,7 +76,7 @@ class CreateLoverRequest extends Component {
         isInFlight: false,
       });
     } catch (err) {
-      
+
       this.setState({ error: 'response', isInFlight: false, });
     }
   };
@@ -119,8 +127,10 @@ export default connect(
       userFirstName: state.user.firstName,
       userLastName: state.user.lastName,
       userId: state.user.id,
+      receivedLoverRequests: state.receivedLoverRequests.rows,
   }),
   {
     requestLover: requestLoverAction,
+    getReceivedLoverRequests: getReceivedLoverRequestsAction,
   }
 )(CreateLoverRequest);
