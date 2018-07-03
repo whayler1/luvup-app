@@ -21,7 +21,7 @@ export const listen = () => {
 
 export const remove = () => {
   if (eventSubscription !== undefined) {
-    Notifications.remove(eventSubscription);
+    eventSubscription.remove();
     eventSubscription = undefined;
   }
 }
