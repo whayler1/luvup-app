@@ -8,6 +8,8 @@ import { Button } from 'react-native-elements';
 import { buttons, forms, scene, modal, vars } from '../../styles';
 import config from '../../config';
 import Well from '../../components/Well';
+import LoveRequestArt from '../../components/LoveRequestArt';
+
 
 export default ({
   currentLoverRequestId,
@@ -21,6 +23,15 @@ export default ({
 }) => (
   <View style={scene.container}>
     <View style={scene.content}>
+      <View style={{
+        alignItems: 'center',
+        marginBottom: 32,
+      }}>
+        <LoveRequestArt
+          scale={0.3}
+          fill={vars.pink500}
+        />
+      </View>
       <Text style={[modal.title, { fontFamily: vars.fontRegular }]}>{'You Received a\nLover Request from'}</Text>
       <Text style={modal.title}>{senderFirstName} {senderLastName}</Text>
       {error === 'accept-lover' && <Well text="There was an error accepting your lover request" />}
