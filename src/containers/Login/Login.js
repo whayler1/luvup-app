@@ -10,7 +10,6 @@ import {
   userLoginRouteSwitch,
   registerForPushNotifications,
 } from '../../helpers';
-import appStateListener from '../../services/appStateListener';
 import Template from './Login.template';
 import {
   login as loginAction,
@@ -63,7 +62,6 @@ class Login extends Component {
 
     if (this.props.userId) {
       registerForPushNotifications();
-      appStateListener.start();
       userLoginRouteSwitch();
     } else {
       this.setState({
