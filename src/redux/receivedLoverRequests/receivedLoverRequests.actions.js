@@ -28,6 +28,7 @@ export const getReceivedLoverRequests = () => async dispatch => {
     });
 
     const receivedLoverRequests = _.get(res, 'body.data.receivedLoverRequests');
+    console.log('\n\n receivedLoverRequests', receivedLoverRequests);
 
     if (receivedLoverRequests) {
       dispatch(setReceivedLoverRequests(
