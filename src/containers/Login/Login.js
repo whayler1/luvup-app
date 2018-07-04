@@ -10,6 +10,7 @@ import {
   userLoginRouteSwitch,
   registerForPushNotifications,
 } from '../../helpers';
+import appStateListener from '../../services/appStateListener';
 import Template from './Login.template';
 import {
   login as loginAction,
@@ -57,11 +58,12 @@ class Login extends Component {
     const { username, password } = this.state;
     const loginres = await this.props.login(username, password);
 
-    
-    
+
+
 
     if (this.props.userId) {
       registerForPushNotifications();
+      appStateListener.start();
       userLoginRouteSwitch();
     } else {
       this.setState({
@@ -97,7 +99,7 @@ class Login extends Component {
 
 export default connect(
   state => {
-    
+
     return {
     userId: state.user.id,
     relationshipId: state.relationship.id,
