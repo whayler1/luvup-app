@@ -35,16 +35,6 @@ export default function reducer(state = defaultState, action) {
         ]),
       };
     case CANCEL_LOVER_REQUEST:
-      return {
-        ...state,
-        ..._.pick(action, [
-          'id',
-          'isAccepted',
-          'isSenderCanceled',
-          'isRecipientCanceled',
-          'createdAt',
-        ]),
-      };
     case CLEAR_LOVER_REQUEST:
       return { ...defaultState };
     default:

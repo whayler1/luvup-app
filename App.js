@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { Platform, Text, View } from 'react-native';
+import {
+  Platform,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 import {
   Scene,
   Router,
@@ -8,6 +13,7 @@ import {
   Stack,
   Lightbox,
   Tabs,
+  Actions,
 } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import _ from 'lodash';
@@ -92,7 +98,7 @@ const App = () => (
             key="login"
             component={Login}
             title="Login"
-            renderLeftButton={() => <View></View>}
+            renderLeftButton={() => <View />}
             {...sceneDefaults}
           />
           <Scene
@@ -137,7 +143,30 @@ const App = () => (
           <Scene
             key="confirmLoverRequest"
             component={ConfirmLoverRequest}
-            hideNavBar={true}
+            {...sceneDefaults}
+            rednerLeftButton={() => <View />}
+            renderBackButton={() => <View />}
+            renderRightButton={() => {
+              const state = store.getState();
+              const { firstName, lastName } = state.user;
+              const initials = firstName.substr(0,1).toUpperCase() + lastName.substr(0,1).toUpperCase();
+              return (
+                <View>
+                  <TouchableOpacity onPress={() => Actions.menu()}>
+                    <Text
+                      style={{
+                        fontFamily: vars.fontBlack,
+                        fontSize: 16,
+                        color: vars.blueGrey500,
+                        marginRight: 16,
+                      }}
+                    >
+                      { initials }
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              );
+            }}
           />
           <Scene
             key="createLoveNote"

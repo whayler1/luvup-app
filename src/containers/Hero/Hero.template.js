@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import ReactArt from 'ReactNativeART';
 import {
   View,
@@ -90,10 +90,18 @@ export default ({
           marginTop: 32,
           alignItems: 'center',
         }}>
-          <Text style={styles.loverRequestText}>Your lover request was sent to</Text>
-          <Text style={styles.loverRequestTextLarge}>{loverRequestFirstName + ' ' + loverRequestLastName}</Text>
-          <Text style={styles.loverRequestText}>{loverRequestCreatedAtTimeAgo}</Text>
-
+          {loverRequestFirstName ? (
+            <Fragment>
+              <Text style={styles.loverRequestText}>Your lover request was sent to</Text>
+              <Text style={styles.loverRequestTextLarge}>{loverRequestFirstName + ' ' + loverRequestLastName}</Text>
+              <Text style={styles.loverRequestText}>{loverRequestCreatedAtTimeAgo}</Text>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <Text style={styles.loverRequestText}>Your lover request has been</Text>
+              <Text style={styles.loverRequestTextLarge}>Canceled</Text>
+            </Fragment>
+          )}
         </View>
         {error === 'cancel-error' &&
           <View style={{ alignSelf: 'stretch', paddingHorizontal: 16, paddingTop: 8 }}>
@@ -131,7 +139,7 @@ export default ({
               buttonStyle={buttons.infoSkeletonButton}
               textStyle={buttons.infoSkeletonText}
               disabled={isCancelInFlight || resendIsInFlight}
-              title={resendIsInFlight ? 'Renseding…' : 'Resend'}
+              title={resendIsInFlight ? 'Resending…' : 'Resend'}
             />
           </View>
         </View>
