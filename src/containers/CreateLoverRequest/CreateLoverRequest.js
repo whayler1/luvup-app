@@ -52,7 +52,7 @@ class CreateLoverRequest extends Component {
     const existingRequest = await this.getExistingLoverRequest();
 
     if (existingRequest) {
-      Actions.confirmLoverRequest(existingRequest.id);
+      Actions.confirmLoverRequest({ selectedLoverRequestId: existingRequest.id});
       return;
     }
 
