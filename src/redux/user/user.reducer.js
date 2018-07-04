@@ -7,6 +7,7 @@ import {
   USER_REQUEST,
   CONFIRM_USER_REQUEST_CODE,
 } from './user.actions';
+import appStateListener from '../../services/appStateListener';
 
 const defaultState = {
   id: '',
@@ -19,13 +20,15 @@ const defaultState = {
 
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
-    case SET_USER:
     case LOGIN:
     case REAUTH:
+      appStateListener.start();
+    case SET_USER:
       return {
         ..._.pick(action, 'id', 'email', 'username', 'firstName', 'lastName'),
       };
     case LOGOUT:
+      appStateListener.stop();
       return {...defaultState};
     case USER_REQUEST:
       return {

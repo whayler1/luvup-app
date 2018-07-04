@@ -12,7 +12,6 @@ import {
   userLoginRouteSwitch,
   registerForPushNotifications,
 } from '../../helpers';
-import appStateListener from '../../services/appStateListener';
 import {
   reauth as reauthAction,
 } from '../../redux/user/user.actions';
@@ -39,7 +38,6 @@ class Root extends Component {
 
     if (this.props.id) {
       registerForPushNotifications();
-      appStateListener.start();
       userLoginRouteSwitch();
     } else {
 
