@@ -38,13 +38,24 @@ class CreateLoverRequest extends Component {
 
   onListItemClick = selectedUserId => this.setState({ selectedUser: this.state.users.find(user => user.id === selectedUserId) });
 
-  checkForExistingLoverRequest = async () => {
+  getExistingLoverRequest = async () => {
     await this.props.getReceivedLoverRequests();
-    
+    const existingRequest = this.props.receivedLoverRequests.find(
+      (loverRequest) => loverRequest.sender.id === this.state.selectedUser.id,
+    );
+    return existingRequest;
   };
 
   requestLover = async () => {
     this.setState({ requestLoverIsInFlight: true });
+
+    const existingRequest = await this.getExistingLoverRequest();
+
+    if (existingRequest) {
+      Actions.confirmLoverRequest(existingRequest.id);
+      return;
+    }
+
     const res = await this.props.requestLover(this.state.selectedUser.id);
 
     if(!_.at(res, 'body.data.requestLover.id')) {

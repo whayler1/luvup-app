@@ -57,6 +57,8 @@ class Menu extends PureComponent {
     Actions.login();
   };
 
+  goToCreateLoverRequest = () => Actions.createloverrequest();
+
   endRelationship = async () => {
     this.setState({ isInFlight: true });
     const res = await this.props.endRelationship();
@@ -90,6 +92,7 @@ class Menu extends PureComponent {
       closeModal={this.closeModal}
       onLogout={this.onLogout}
       endRelationship={this.endRelationship}
+      goToCreateLoverRequest={this.goToCreateLoverRequest}
     />;
   }
 }
