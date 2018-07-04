@@ -33,6 +33,7 @@ export default ({
   openEndRelationshipModal,
   closeModal,
   endRelationship,
+  receivedLoverRequests,
 }) => (
   <View style={scene.container}>
     <View
