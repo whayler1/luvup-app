@@ -19,8 +19,9 @@ export default ({
   error,
   cancelLoverRequest,
   acceptLoverRequest,
+  selectedLoverRequestId,
 }) => (
-  <View style={scene.container}>
+  <View>
     <View style={scene.content}>
       <View style={{
         alignItems: 'center',
@@ -31,7 +32,12 @@ export default ({
           fill={vars.pink500}
         />
       </View>
-      <Text style={[modal.title, { fontFamily: vars.fontRegular }]}>{'You Received a\nLover Request from'}</Text>
+      <Text style={[modal.title, { fontFamily: vars.fontRegular }]}>
+        {(selectedLoverRequestId === currentLoverRequestId) ?
+          'How Convenient!\nYou already have a Lover Request from' :
+          'You Received a\nLover Request from'
+        }
+      </Text>
       <Text style={modal.title}>{senderFirstName} {senderLastName}</Text>
       {error === 'accept-lover' && <Well text="There was an error accepting your lover request" />}
       {error === 'cancel' && <Well text="There was an error cancelling your lover request" />}

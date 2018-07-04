@@ -44,11 +44,11 @@ class ConfirmLoverRequest extends Component {
 
     if (props.selectedLoverRequestId) {
       const loverRequest = props.receivedLoverRequests.find(
-        (loverRequest) => loverRequest.id === selectedLoverRequestId,
+        (loverRequest) => loverRequest.id === props.selectedLoverRequestId,
       );
 
       if (loverRequest) {
-        this.state.currentLoverRequestId = selectedLoverRequestId;
+        this.state.currentLoverRequestId = props.selectedLoverRequestId;
         this.state.senderFirstName = loverRequest.sender.firstName;
         this.state.senderLastName = loverRequest.sender.lastName;
       }
@@ -141,6 +141,7 @@ class ConfirmLoverRequest extends Component {
       {..._.pick(this.props, [
         'userFirstName',
         'userLastName',
+        'selectedLoverRequestId',
       ])}
     />;
   }
