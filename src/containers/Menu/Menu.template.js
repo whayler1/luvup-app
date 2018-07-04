@@ -34,6 +34,7 @@ export default ({
   openEndRelationshipModal,
   closeModal,
   endRelationship,
+  goToCreateLoverRequest,
 }) => (
   <View style={scene.container}>
     <View
@@ -141,7 +142,7 @@ export default ({
             <Fragment>
               <Text style={styles.label}>Options</Text>
               <TouchableOpacity
-                onPress={() => {}}
+                onPress={goToCreateLoverRequest}
                 style={{
                   flexDirection: 'row',
                   marginTop: 8,
