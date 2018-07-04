@@ -10,6 +10,9 @@ import config from '../../config.js';
 import Template from './CreateLoverRequest.template';
 import TemplateSelectedUser from './CreateLoverRequest.template.selectedUser';
 import { requestLover as requestLoverAction } from '../../redux/loverRequest/loverRequest.actions';
+import {
+  getReceivedLoverRequests as getReceivedLoverRequestsAction,
+} from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
 
 class CreateLoverRequest extends Component {
   static propTypes = {
@@ -18,6 +21,8 @@ class CreateLoverRequest extends Component {
     userFirstName: PropTypes.string,
     userLastName: PropTypes.string,
     userId: PropTypes.string,
+    getReceivedLoverRequests: PropTypes.func.isRequired,
+    receivedLoverRequests: PropTypes.array,
   };
 
   state = {
@@ -33,9 +38,24 @@ class CreateLoverRequest extends Component {
 
   onListItemClick = selectedUserId => this.setState({ selectedUser: this.state.users.find(user => user.id === selectedUserId) });
 
+  getExistingLoverRequest = async () => {
+    await this.props.getReceivedLoverRequests();
+    const existingRequest = this.props.receivedLoverRequests.find(
+      (loverRequest) => loverRequest.sender.id === this.state.selectedUser.id,
+    );
+    return existingRequest;
+  };
+
   requestLover = async () => {
-    
     this.setState({ requestLoverIsInFlight: true });
+
+    const existingRequest = await this.getExistingLoverRequest();
+
+    if (existingRequest) {
+      Actions.confirmLoverRequest({ selectedLoverRequestId: existingRequest.id});
+      return;
+    }
+
     const res = await this.props.requestLover(this.state.selectedUser.id);
 
     if(!_.at(res, 'body.data.requestLover.id')) {
@@ -68,7 +88,7 @@ class CreateLoverRequest extends Component {
         isInFlight: false,
       });
     } catch (err) {
-      
+
       this.setState({ error: 'response', isInFlight: false, });
     }
   };
@@ -119,8 +139,10 @@ export default connect(
       userFirstName: state.user.firstName,
       userLastName: state.user.lastName,
       userId: state.user.id,
+      receivedLoverRequests: state.receivedLoverRequests.rows,
   }),
   {
     requestLover: requestLoverAction,
+    getReceivedLoverRequests: getReceivedLoverRequestsAction,
   }
 )(CreateLoverRequest);

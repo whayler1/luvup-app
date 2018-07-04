@@ -18,6 +18,7 @@ import Template from './ConfirmLoverRequest.template';
 class ConfirmLoverRequest extends Component {
   static propTypes = {
     receivedLoverRequests: PropTypes.array,
+    selectedLoverRequestId: PropTypes.string,
     loverRequestId: PropTypes.string,
     relationshipId: PropTypes.string,
     userId: PropTypes.string,
@@ -29,13 +30,29 @@ class ConfirmLoverRequest extends Component {
     getMe: PropTypes.func.isRequired,
   };
 
-  state = {
-    currentLoverRequestId: '',
-    senderFirstName: '',
-    senderLastName: '',
-    isInFlight: false,
-    inFlightType: '',
-    error: '',
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      currentLoverRequestId: '',
+      senderFirstName: '',
+      senderLastName: '',
+      isInFlight: false,
+      inFlightType: '',
+      error: '',
+    }
+
+    if (props.selectedLoverRequestId) {
+      const loverRequest = props.receivedLoverRequests.find(
+        (loverRequest) => loverRequest.id === props.selectedLoverRequestId,
+      );
+
+      if (loverRequest) {
+        this.state.currentLoverRequestId = props.selectedLoverRequestId;
+        this.state.senderFirstName = loverRequest.sender.firstName;
+        this.state.senderLastName = loverRequest.sender.lastName;
+      }
+    }
   }
 
   setCurrentLoverRequest = () => {
@@ -103,7 +120,11 @@ class ConfirmLoverRequest extends Component {
   };
 
   componentDidMount() {
-    this.setCurrentLoverRequest();
+    const { selectedLoverRequestId } = this.props;
+    const { currentLoverRequestId } = this.state;
+    if (selectedLoverRequestId !== currentLoverRequestId) {
+      this.setCurrentLoverRequest();
+    }
     analytics.screen({
       userId: this.props.userId,
       name: 'ConfirmLoverRequest',
@@ -118,6 +139,7 @@ class ConfirmLoverRequest extends Component {
       {..._.pick(this.props, [
         'userFirstName',
         'userLastName',
+        'selectedLoverRequestId',
       ])}
     />;
   }
