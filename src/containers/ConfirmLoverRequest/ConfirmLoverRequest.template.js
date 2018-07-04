@@ -10,7 +10,6 @@ import config from '../../config';
 import Well from '../../components/Well';
 import LoveRequestArt from '../../components/LoveRequestArt';
 
-
 export default ({
   currentLoverRequestId,
   senderFirstName,
