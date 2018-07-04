@@ -35,6 +35,8 @@ export default ({
   closeModal,
   endRelationship,
   goToCreateLoverRequest,
+  goToDashboard,
+  loverRequestId,
 }) => (
   <View style={scene.container}>
     <View
@@ -110,7 +112,7 @@ export default ({
 
         <View style={styles.group}>
           <Text style={styles.title}>Relationship</Text>
-          {loverId ? (
+          {loverId && (
             <Fragment>
               <Text style={styles.label}>Lover</Text>
               <Text style={styles.value}>{loverFirstName} {loverLastName}</Text>
@@ -138,7 +140,8 @@ export default ({
                 />
               </TouchableOpacity>
             </Fragment>
-          ) : (
+          )}
+          {(!loverId && !loverRequestId) && (
             <Fragment>
               <Text style={styles.label}>Options</Text>
               <TouchableOpacity
@@ -154,6 +157,31 @@ export default ({
                   fontSize: 20,
                 }}>
                   Send Lover Request
+                </Text>
+                <Icon
+                  name="md-send"
+                  size={22}
+                  color={vars.link}
+                />
+              </TouchableOpacity>
+            </Fragment>
+          )}
+          {(!loverId && loverRequestId) && (
+            <Fragment>
+              <Text style={styles.label}>Options</Text>
+              <TouchableOpacity
+                onPress={goToDashboard}
+                style={{
+                  flexDirection: 'row',
+                  marginTop: 8,
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Text style={{
+                  color: vars.link,
+                  fontSize: 20,
+                }}>
+                  View Pending Lover Request
                 </Text>
                 <Icon
                   name="md-send"

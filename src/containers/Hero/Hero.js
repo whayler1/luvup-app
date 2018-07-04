@@ -177,16 +177,13 @@ class Hero extends Component {
     }, () => resolve()));
     const res = await this.props.cancelLoverRequest(this.props.loverRequestId);
 
-    const loverRequest = _.at(res, 'body.data.cancelLoverRequest.loverRequest')[0];
+    const loverRequest = _.get(res, 'body.data.cancelLoverRequest.loverRequest');
 
     if (_.isObject(loverRequest) && 'id' in loverRequest) {
       await this.props.getReceivedLoverRequests();
-      console.log('\n\n receivedLoverRequestsCount', this.props.receivedLoverRequestsCount);
       if (this.props.receivedLoverRequestsCount) {
-        console.log('\n\n receivedLoverRequestsCount', this.props.receivedLoverRequestsCount);
         Actions.confirmLoverRequest();
       } else {
-        console.log('\n\n not the thing');
         Actions.createloverrequest();
       }
     } else {
