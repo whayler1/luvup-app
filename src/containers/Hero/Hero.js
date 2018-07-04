@@ -23,6 +23,9 @@ import {
   cancelLoverRequest as cancelLoverRequestAction,
   resendLoverRequestEmail as resendLoverRequestEmailAction,
 } from '../../redux/loverRequest/loverRequest.actions';
+import {
+  getReceivedLoverRequests as getReceivedLoverRequestsAction,
+} from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
 import config from '../../config';
 
 class Hero extends Component {
@@ -113,6 +116,7 @@ class Hero extends Component {
     refreshSentCoinCount: PropTypes.func.isRequired,
     refreshSentJalapenoCount: PropTypes.func.isRequired,
     createRelationshipScore: PropTypes.func.isRequired,
+    getReceivedLoverRequests: PropTypes.func.isRequired,
     sendCoin: PropTypes.func.isRequired,
     sendJalapeno: PropTypes.func.isRequired,
     openModal: PropTypes.func.isRequired,
@@ -128,6 +132,7 @@ class Hero extends Component {
     loverRequestId: PropTypes.string,
     recentlySentCoinCount: PropTypes.number.isRequired,
     recentlySentJalapenoCount: PropTypes.number.isRequired,
+    receivedLoverRequestsCount: PropTypes.number,
   };
 
   translateY = new Animated.Value(0);
@@ -175,7 +180,15 @@ class Hero extends Component {
     const loverRequest = _.at(res, 'body.data.cancelLoverRequest.loverRequest')[0];
 
     if (_.isObject(loverRequest) && 'id' in loverRequest) {
-      Actions.createloverrequest();
+      await this.props.getReceivedLoverRequests();
+      console.log('\n\n receivedLoverRequestsCount', this.props.receivedLoverRequestsCount);
+      if (this.props.receivedLoverRequestsCount) {
+        console.log('\n\n receivedLoverRequestsCount', this.props.receivedLoverRequestsCount);
+        Actions.confirmLoverRequest();
+      } else {
+        console.log('\n\n not the thing');
+        Actions.createloverrequest();
+      }
     } else {
       this.setState({
         isCancelInFlight: false,
@@ -397,6 +410,7 @@ export default connect(
     loverRequestCreatedAt: state.loverRequest.createdAt,
     recentlySentCoinCount: state.coin.recentlySentCoinCount,
     recentlySentJalapenoCount: state.jalapeno.recentlySentJalapenoCount,
+    receivedLoverRequestsCount: state.receivedLoverRequests.count,
   }),
   {
     refreshSentCoinCount: refreshSentCoinCountAction,
@@ -406,5 +420,6 @@ export default connect(
     sendJalapeno: sendJalapenoAction,
     cancelLoverRequest: cancelLoverRequestAction,
     resendLoverRequestEmail: resendLoverRequestEmailAction,
+    getReceivedLoverRequests: getReceivedLoverRequestsAction,
   }
 )(Hero);
