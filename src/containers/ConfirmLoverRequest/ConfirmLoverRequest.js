@@ -129,8 +129,6 @@ class ConfirmLoverRequest extends Component {
       userId: this.props.userId,
       name: 'ConfirmLoverRequest',
     });
-
-    console.log('selectedLoverRequestId', this.props.selectedLoverRequestId);
   }
 
   render() {

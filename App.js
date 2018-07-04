@@ -150,7 +150,6 @@ const App = () => (
               const state = store.getState();
               const { firstName, lastName } = state.user;
               const initials = firstName.substr(0,1).toUpperCase() + lastName.substr(0,1).toUpperCase();
-              console.log('state', state);
               return (
                 <View>
                   <TouchableOpacity onPress={() => Actions.menu()}>
