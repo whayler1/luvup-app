@@ -34,6 +34,7 @@ class Menu extends PureComponent {
     relationshipCreatedAt: PropTypes.string,
     logout: PropTypes.func.isRequired,
     endRelationship: PropTypes.func.isRequired,
+    loverRequestId: PropTypes.string,
   };
 
   goBack = () => {
@@ -58,6 +59,7 @@ class Menu extends PureComponent {
   };
 
   goToCreateLoverRequest = () => Actions.createloverrequest();
+  goToDashboard = () => Actions.dashboard();
 
   endRelationship = async () => {
     this.setState({ isInFlight: true });
@@ -93,6 +95,7 @@ class Menu extends PureComponent {
       onLogout={this.onLogout}
       endRelationship={this.endRelationship}
       goToCreateLoverRequest={this.goToCreateLoverRequest}
+      goToDashboard={this.goToDashboard}
     />;
   }
 }
@@ -107,6 +110,7 @@ export default connect(
     loverLastName: state.lover.lastName,
     loverId: state.lover.id,
     relationshipCreatedAt: state.relationship.createdAt,
+    loverRequestId: state.loverRequest.id,
   }),
   {
     logout: logoutAction,
