@@ -30,10 +30,10 @@ class Menu extends PureComponent {
     userId: PropTypes.string,
     loverFirstName: PropTypes.string,
     loverLastName: PropTypes.string,
+    loverId: PropTypes.string,
     relationshipCreatedAt: PropTypes.string,
     logout: PropTypes.func.isRequired,
     endRelationship: PropTypes.func.isRequired,
-    receivedLoverRequestsCount: PropTypes.number,
   };
 
   goBack = () => {
@@ -102,8 +102,8 @@ export default connect(
     userId: state.user.id,
     loverFirstName: state.lover.firstName,
     loverLastName: state.lover.lastName,
+    loverId: state.lover.id,
     relationshipCreatedAt: state.relationship.createdAt,
-    receivedLoverRequestsCount: state.receivedLoverRequests.count,
   }),
   {
     logout: logoutAction,

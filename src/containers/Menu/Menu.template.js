@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import {
   Text,
   View,
@@ -22,6 +22,7 @@ export default ({
   userEmail,
   loverFirstName,
   loverLastName,
+  loverId,
   goBack,
   relationshipCreatedAt,
   relationshipCreatedAtFormatted,
@@ -33,7 +34,6 @@ export default ({
   openEndRelationshipModal,
   closeModal,
   endRelationship,
-  receivedLoverRequests,
 }) => (
   <View style={scene.container}>
     <View
@@ -106,36 +106,63 @@ export default ({
             />
           </TouchableOpacity> */}
         </View>
-        {relationshipCreatedAt.length > 0 &&
+
         <View style={styles.group}>
           <Text style={styles.title}>Relationship</Text>
-          <Text style={styles.label}>Lover</Text>
-          <Text style={styles.value}>{loverFirstName} {loverLastName}</Text>
-          <Text style={styles.label}>Start Date</Text>
-          <Text style={styles.value}>{relationshipCreatedAtFormatted}</Text>
-          <Text style={styles.label}>Options</Text>
-          <TouchableOpacity
-            onPress={openEndRelationshipModal}
-            style={{
-              flexDirection: 'row',
-              marginTop: 8,
-              justifyContent: 'space-between',
-            }}
-          >
-            <Text style={{
-              color: vars.danger,
-              fontSize: 20,
-            }}>
-              End Relationship
-            </Text>
-            <Icon
-              name="md-alert"
-              size={22}
-              color={vars.danger}
-            />
-          </TouchableOpacity>
+          {loverId ? (
+            <Fragment>
+              <Text style={styles.label}>Lover</Text>
+              <Text style={styles.value}>{loverFirstName} {loverLastName}</Text>
+              <Text style={styles.label}>Start Date</Text>
+              <Text style={styles.value}>{relationshipCreatedAtFormatted}</Text>
+              <Text style={styles.label}>Options</Text>
+              <TouchableOpacity
+                onPress={openEndRelationshipModal}
+                style={{
+                  flexDirection: 'row',
+                  marginTop: 8,
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Text style={{
+                  color: vars.danger,
+                  fontSize: 20,
+                }}>
+                  End Relationship
+                </Text>
+                <Icon
+                  name="md-alert"
+                  size={22}
+                  color={vars.danger}
+                />
+              </TouchableOpacity>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <Text style={styles.label}>Options</Text>
+              <TouchableOpacity
+                onPress={() => {}}
+                style={{
+                  flexDirection: 'row',
+                  marginTop: 8,
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Text style={{
+                  color: vars.link,
+                  fontSize: 20,
+                }}>
+                  Send Lover Request
+                </Text>
+                <Icon
+                  name="md-send"
+                  size={22}
+                  color={vars.link}
+                />
+              </TouchableOpacity>
+            </Fragment>
+          )}
         </View>
-        }
         <View style={{
           marginTop: 40,
         }}>
