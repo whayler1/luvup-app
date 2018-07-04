@@ -37,7 +37,6 @@ class Root extends Component {
 
 
     if (this.props.id) {
-
       registerForPushNotifications();
       userLoginRouteSwitch();
     } else {
