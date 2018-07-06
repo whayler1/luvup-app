@@ -18,6 +18,14 @@ https://docs.expo.io/versions/latest/distribution/building-standalone-apps
 - log in to app store connect https://appstoreconnect.apple.com/
 - go to test flight
 
+### run with RNDebugger
+
+- `yarn debug`
+- first time you have to run `yarn postinstall`
+- you might have to run `yarn devtools`, not totally sure 🤷‍♂️ 
+- enable debug:
+  + once app is open `⌘-d`
+  + click "start remote debugging"
 
 ### running on iphone
 - open in expo App
