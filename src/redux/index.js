@@ -29,9 +29,19 @@ export const reducer = combineReducers({
   loveNote,
 });
 
-export const store = createStore(
-  reducer,
-  applyMiddleware(thunk)
-);
+const isNotComposeExtension = undefined === window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+
+export const store = isNotComposeExtension ?
+  createStore(
+    reducer,
+    applyMiddleware(thunk),
+  ) :
+  createStore(
+    reducer,
+    {},
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(
+      applyMiddleware(thunk),
+    ),
+  );
 
 export default store;
