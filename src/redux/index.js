@@ -31,7 +31,10 @@ export const reducer = combineReducers({
 
 export const store = createStore(
   reducer,
-  applyMiddleware(thunk)
+  {},
+  window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(
+    applyMiddleware(thunk),
+  ),
 );
 
 export default store;
