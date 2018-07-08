@@ -13,13 +13,13 @@ const ListEmptyComponent = ({
     paddingHorizontal: 16,
     paddingVertical: 32
   }}>
-    {getReceivedLoveNotesError && (
+    {error && (
       <Well text="There was an error loading your timeline. Make sure you are connected to wifi or data." />
     )}
-    {isGetReceivedLoveNotesInFlight && (
+    {isInFlight && (
       <Preloader />
     )}
-    {(!getReceivedLoveNotesError && !isGetReceivedLoveNotesInFlight) && (
+    {(!error && !isInFlight) && (
       <Text style={[scene.copy, { fontSize: 25, textAlign: 'center' }]}>You do not have any history yet. Send a Luvup to get things started!</Text>
     )}
   </View>
