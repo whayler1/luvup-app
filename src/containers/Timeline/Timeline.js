@@ -8,13 +8,10 @@ import _ from 'lodash';
 
 import analytics from '../../services/analytics';
 import {
-  // setUserEvents as setUserEventsAction,
   getUserEvents as getUserEventsAction,
   clearUserEvents as clearUserEventsAction,
 } from '../../redux/userEvents/userEvents.actions';
 import { getTimelineData as getTimelineDataAction } from '../../redux/user/user.actions';
-// import { setSentCoinsCount as setSentCoinsCountAction } from '../../redux/coin/coin.actions';
-// import { setSentJalapenosCount as setSentJalapenosCountAction } from '../../redux/jalapeno/jalapeno.actions';
 
 import config from '../../config';
 import Template from './Timeline.template';
@@ -68,11 +65,8 @@ class Timeline extends Component {
     sentJalapenosCount: PropTypes.number,
     userEvents: PropTypes.array,
     userEventsCount: PropTypes.number,
-    // setUserEvents: PropTypes.func.isRequired,
     getUserEvents: PropTypes.func.isRequired,
     clearUserEvents: PropTypes.func.isRequired,
-    // setSentCoinsCount: PropTypes.func.isRequired,
-    // setSentJalapenosCount: PropTypes.func.isRequired,
     getTimelineData: PropTypes.func.isRequired,
     isGetUserEventsInFlight: PropTypes.bool.isRequired,
     getUserEventsError: PropTypes.string.isRequired,
@@ -187,11 +181,8 @@ export default connect(
     getUserEventsError: state.userEvents.getUserEventsError,
   }),
   {
-    // setUserEvents: setUserEventsAction,
     getUserEvents: getUserEventsAction,
     clearUserEvents: clearUserEventsAction,
-    // setSentCoinsCount: setSentCoinsCountAction,
-    // setSentJalapenosCount: setSentJalapenosCountAction,
     getTimelineData: getTimelineDataAction,
   }
 )(Timeline);
