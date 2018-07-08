@@ -6,6 +6,11 @@ import {
   SET_USER_EVENTS,
   CLEAR_USER_EVENTS,
 } from './userEvents.actions';
+import {
+  GET_TIMELINE_DATA_ATTEMPT,
+  GET_TIMELINE_DATA_SUCCESS,
+  GET_TIMELINE_DATA_FAILURE,
+} from '../user/user.actions';
 
 const defaultState = {
   isGetUserEventsInFlight: false,
@@ -17,6 +22,7 @@ const defaultState = {
 export default function reducer(state = defaultState, action) {
   switch(action.type) {
     case GET_USER_EVENTS_ATTEMPT:
+    case GET_TIMELINE_DATA_ATTEMPT:
       console.log('get user events attempt');
       return {
         ...state,
@@ -26,7 +32,7 @@ export default function reducer(state = defaultState, action) {
     case GET_USER_EVENTS_SUCCESS:
     case SET_USER_EVENTS:
       console.log('\n\n---\n get user events success!');
-      const rows = action.shouldAppend ?
+      let rows = action.shouldAppend ?
         [...state.rows, ...action.rows] : action.rows;
       return {
         ...state,
@@ -34,9 +40,17 @@ export default function reducer(state = defaultState, action) {
         getUserEventsError: '',
         rows,
         count: action.count,
-      }
+      };
+    case GET_TIMELINE_DATA_SUCCESS:
+      return {
+        ...state,
+        ..._.pick(action.userEvents, [
+          'rows',
+          'count',
+        ]),
+      };
     case GET_USER_EVENTS_FAILURE:
-    console.log('get user events failure');
+    case GET_TIMELINE_DATA_FAILURE:
       return {
         ...state,
         isGetUserEventsInFlight: false,
