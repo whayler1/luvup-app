@@ -10,6 +10,7 @@ import {
   SET_UNVIEWED_JALAPENO_COUNT,
 } from './jalapeno.actions';
 import { CREATE_LOVE_NOTE_SUCCESS } from '../loveNote/loveNote.actions';
+import { GET_TIMELINE_DATA_SUCCESS } from '../user/user.actions';
 import getRecentlySentTokenCount from '../../helpers/getRecentlySentTokenCount';
 
 const defaultState = {
@@ -54,6 +55,7 @@ export default function reducer(state = defaultState, action) {
         recentlySentJalapenoCount: getRecentlySentTokenCount(action.sentJalapenos),
       };
     case SET_SENT_JALAPENOS_COUNT:
+    case GET_TIMELINE_DATA_SUCCESS:
       return {
         ...state,
         sentJalapenosCount: action.sentJalapenosCount,
