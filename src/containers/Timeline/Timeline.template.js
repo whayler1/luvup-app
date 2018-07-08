@@ -16,6 +16,7 @@ import renderItem from './Timeline.renderItem.template';
 import renderSectionHeader from './Timeline.renderSectionHeader.template';
 import ListHeaderComponent from './Timeline.ListHeaderComponent.template';
 import ListFooterComponent from './Timeline.ListFooterComponent.template';
+import ListEmptyComponent from './Timeline.ListEmptyComponent.template';
 import Preloader from '../../components/Preloader';
 
 const keyExtractor = item => item.id;
@@ -68,11 +69,12 @@ export default ({
         alignSelf: 'stretch',
       }}
     >
-      {!isSectionsLoaded && <Preloader
-        marginTop={32}
-      />}
-      {isSectionsLoaded && <SectionList
+      <SectionList
         style={styles.sectionList}
+        ListEmptyComponent={<ListEmptyComponent
+          isInFlight={false}
+          error=""
+        />}
         ListHeaderComponent={<ListHeaderComponent
           {...{
             coinCount,
@@ -90,7 +92,7 @@ export default ({
         renderItem={renderItem}
         sections={sections}
         onEndReached={onEndReached}
-      />}
+      />
     </View>
     <Modal
       visible={isModalVisible}
