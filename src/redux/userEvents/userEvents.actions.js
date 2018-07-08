@@ -6,7 +6,6 @@ import config from '../../config';
 export const GET_USER_EVENTS_ATTEMPT = 'userEvents/get-user-events-attempt';
 export const GET_USER_EVENTS_SUCCESS = 'userEvents/get-user-events-success';
 export const GET_USER_EVENTS_FAILURE = 'userEvents/get-user-events-failure';
-export const GET_USER_EVENTS = 'userEvents/get-user-events';
 export const SET_USER_EVENTS = 'userEvents/set-user-events';
 export const CLEAR_USER_EVENTS = 'userEvents/clear-user-events';
 

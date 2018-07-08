@@ -37,6 +37,8 @@ export default ({
   isModalVisible,
   closeModal,
   isAtEndOfList,
+  isGetUserEventsInFlight,
+  getUserEventsError,
 }) => (
   <View style={{
     flex: 1,
@@ -72,8 +74,8 @@ export default ({
       <SectionList
         style={styles.sectionList}
         ListEmptyComponent={<ListEmptyComponent
-          isInFlight={false}
-          error=""
+          isInFlight={isGetUserEventsInFlight}
+          error={getUserEventsError}
         />}
         ListHeaderComponent={<ListHeaderComponent
           {...{
@@ -86,7 +88,7 @@ export default ({
           }}
         />}
         ListFooterComponent={<ListFooterComponent
-          isPreloaderVisible={!isAtEndOfList}
+          isPreloaderVisible={isGetUserEventsInFlight}
         />}
         renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}
