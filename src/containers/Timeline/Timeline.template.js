@@ -92,7 +92,7 @@ export default ({
           />
         )}
         ListFooterComponent={(
-          <ListFooterComponent isPreloaderVisible={isGetUserEventsInFlight} />
+          <ListFooterComponent isPreloaderVisible={isGetUserEventsInFlight && isSectionsLoaded} />
         )}
         renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}

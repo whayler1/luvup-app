@@ -8,12 +8,14 @@ import _ from 'lodash';
 
 import analytics from '../../services/analytics';
 import {
-  setUserEvents as setUserEventsAction,
+  // setUserEvents as setUserEventsAction,
   getUserEvents as getUserEventsAction,
   clearUserEvents as clearUserEventsAction,
 } from '../../redux/userEvents/userEvents.actions';
-import { setSentCoinsCount as setSentCoinsCountAction } from '../../redux/coin/coin.actions';
-import { setSentJalapenosCount as setSentJalapenosCountAction } from '../../redux/jalapeno/jalapeno.actions';
+import { getTimelineData as getTimelineDataAction } from '../../redux/user/user.actions';
+// import { setSentCoinsCount as setSentCoinsCountAction } from '../../redux/coin/coin.actions';
+// import { setSentJalapenosCount as setSentJalapenosCountAction } from '../../redux/jalapeno/jalapeno.actions';
+
 import config from '../../config';
 import Template from './Timeline.template';
 
@@ -66,22 +68,29 @@ class Timeline extends Component {
     sentJalapenosCount: PropTypes.number,
     userEvents: PropTypes.array,
     userEventsCount: PropTypes.number,
-    setUserEvents: PropTypes.func.isRequired,
+    // setUserEvents: PropTypes.func.isRequired,
     getUserEvents: PropTypes.func.isRequired,
     clearUserEvents: PropTypes.func.isRequired,
-    setSentCoinsCount: PropTypes.func.isRequired,
-    setSentJalapenosCount: PropTypes.func.isRequired,
+    // setSentCoinsCount: PropTypes.func.isRequired,
+    // setSentJalapenosCount: PropTypes.func.isRequired,
+    getTimelineData: PropTypes.func.isRequired,
     isGetUserEventsInFlight: PropTypes.bool.isRequired,
     getUserEventsError: PropTypes.string.isRequired,
   };
 
-  state = {
-    prevMostRecentUserEvent: undefined,
-    sections: [],
-    isSectionsLoaded: false,
-    page: 0,
-    isModalVisible: false,
-    isAtEndOfList: false,
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      prevMostRecentUserEvent: undefined,
+      sections: [],
+      isSectionsLoaded: false,
+      page: 0,
+      isModalVisible: false,
+      isAtEndOfList: false,
+    };
+
+    props.getTimelineData(userEventsLimit);
   }
 
   closeModal = () => this.setState({ isModalVisible: false });
@@ -107,8 +116,9 @@ class Timeline extends Component {
 
   goBack = () => Actions.pop();
 
-  setSections = () => {
-    const sections = getSections(this.props.userEvents);
+  setSections = (userEvents) => {
+    const events = userEvents || this.props.userEvents;
+    const sections = getSections(events);
     /**
      * JW: we have to stagger "isSectionsLoaded" to happen one frame after
      * adding sections so the sections can draw before we fire onEndReached
@@ -138,41 +148,14 @@ class Timeline extends Component {
     });
 
     this.setInitials();
-
-    const query = `{
-      userEvents(
-        limit: ${userEventsLimit}
-        offset: 0
-      ) {
-        rows {
-          id isViewed createdAt name
-        }
-        count
-      }
-      sentCoins(limit: 0) { count }
-      sentJalapenos(limit: 0) { count }
-    }`;
-
-    try {
-      const res = await superagent.post(config.graphQlUrl, { query });
-
-      const { userEvents, sentCoins, sentJalapenos } = res.body.data;
-      const { setUserEvents, setSentCoinsCount, setSentJalapenosCount } = this.props;
-
-      setUserEvents(userEvents.rows, userEvents.count);
-      setSentCoinsCount(sentCoins.count);
-      setSentJalapenosCount(sentJalapenos.count);
-
+    if (this.props.userEvents.length) {
       this.setSections();
-    } catch (err) {
-      this.setState({ isModalVisible: true });
-
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.userEvents.length && nextProps.userEvents[0].createdAt !== this.state.prevMostRecentUserEvent) {
-      this.setSections();
+      this.setSections(nextProps.userEvents);
     }
   }
 
@@ -204,10 +187,11 @@ export default connect(
     getUserEventsError: state.userEvents.getUserEventsError,
   }),
   {
-    setUserEvents: setUserEventsAction,
+    // setUserEvents: setUserEventsAction,
     getUserEvents: getUserEventsAction,
     clearUserEvents: clearUserEventsAction,
-    setSentCoinsCount: setSentCoinsCountAction,
-    setSentJalapenosCount: setSentJalapenosCountAction,
+    // setSentCoinsCount: setSentCoinsCountAction,
+    // setSentJalapenosCount: setSentJalapenosCountAction,
+    getTimelineData: getTimelineDataAction,
   }
 )(Timeline);

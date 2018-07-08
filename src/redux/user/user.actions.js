@@ -344,7 +344,12 @@ export const getTimelineData = (limit) => async (dispatch) => {
     if (_.isArray(rows)) {
       dispatch({
         type: GET_TIMELINE_DATA_SUCCESS,
-        ...data,
+        ..._.pick(data.userEvents, [
+          'rows',
+          'count',
+        ]),
+        sentCoinsCount: data.sentCoins.count,
+        sentJalapenosCount: data.sentJalapenos.count,
       });
       return data;
     }

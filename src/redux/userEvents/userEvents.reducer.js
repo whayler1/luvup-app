@@ -31,7 +31,8 @@ export default function reducer(state = defaultState, action) {
       };
     case GET_USER_EVENTS_SUCCESS:
     case SET_USER_EVENTS:
-      console.log('\n\n---\n get user events success!');
+    case GET_TIMELINE_DATA_SUCCESS:
+      console.log('\n\n---\n get user events success!', action);
       let rows = action.shouldAppend ?
         [...state.rows, ...action.rows] : action.rows;
       return {
@@ -40,14 +41,6 @@ export default function reducer(state = defaultState, action) {
         getUserEventsError: '',
         rows,
         count: action.count,
-      };
-    case GET_TIMELINE_DATA_SUCCESS:
-      return {
-        ...state,
-        ..._.pick(action.userEvents, [
-          'rows',
-          'count',
-        ]),
       };
     case GET_USER_EVENTS_FAILURE:
     case GET_TIMELINE_DATA_FAILURE:
