@@ -73,23 +73,27 @@ export default ({
     >
       <SectionList
         style={styles.sectionList}
-        ListEmptyComponent={<ListEmptyComponent
-          isInFlight={isGetUserEventsInFlight}
-          error={getUserEventsError}
-        />}
-        ListHeaderComponent={<ListHeaderComponent
-          {...{
-            coinCount,
-            jalapenoCount,
-            userInitials,
-            loverInitials,
-            sentCoinsCount,
-            sentJalapenosCount,
-          }}
-        />}
-        ListFooterComponent={<ListFooterComponent
-          isPreloaderVisible={isGetUserEventsInFlight}
-        />}
+        ListEmptyComponent={(
+          <ListEmptyComponent
+            isInFlight={isGetUserEventsInFlight}
+            error={getUserEventsError}
+          />
+        )}
+        ListHeaderComponent={(
+          <ListHeaderComponent
+            {...{
+              coinCount,
+              jalapenoCount,
+              userInitials,
+              loverInitials,
+              sentCoinsCount,
+              sentJalapenosCount,
+            }}
+          />
+        )}
+        ListFooterComponent={(
+          <ListFooterComponent isPreloaderVisible={isGetUserEventsInFlight} />
+        )}
         renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}
         sections={sections}
