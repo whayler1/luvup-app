@@ -10,6 +10,7 @@ import { setRelationship, clearRelationship } from '../relationship/relationship
 import { setSentCoins, setUnviewedCoinCount, clearCoinCount } from '../coin/coin.actions';
 import { setSentJalapenos, setUnviewedJalapenoCount, clearJalapenoCount } from '../jalapeno/jalapeno.actions';
 import { setReceivedLoverRequests, clearReceivedLoverRequests } from '../receivedLoverRequests/receivedLoverRequests.actions';
+import graphQlRequest from '../../helpers/graphQlRequest';
 
 export const SET_USER = 'user/set-user';
 export const LOGIN = 'user/login';
@@ -18,6 +19,9 @@ export const REAUTH = 'user/reauth';
 export const USER_REQUEST = 'user/user-request';
 export const CONFIRM_USER_REQUEST_CODE = 'user/confirm-user-request-code';
 export const GET_ME_SUCCESS = 'user/get-me-success';
+export const GET_TIMELINE_DATA_ATTEMPT = 'user/get-timeline-data-attempt';
+export const GET_TIMELINE_DATA_SUCCESS = 'user/get-timeline-data-success';
+export const GET_TIMELINE_DATA_FAILURE = 'user/get-timeline-data-failure';
 
 export const login = (usernameOrEmail, password) => async dispatch => {
   try {
@@ -314,5 +318,45 @@ export const confirmUserRequestCode = (email, code) => async dispatch => {
   } catch (err) {
 
     return err;
+  }
+};
+
+export const getTimelineData = (limit) => async (dispatch) => {
+  dispatch({ type: GET_TIMELINE_DATA_ATTEMPT });
+
+  try {
+    const data = await graphQlRequest(`{
+      userEvents(
+        limit: ${limit}
+        offset: 0
+      ) {
+        rows {
+          id isViewed createdAt name
+        }
+        count
+      }
+      sentCoins(limit: 0) { count }
+      sentJalapenos(limit: 0) { count }
+    }`);
+
+    const rows = _.get(data, 'userEvents.rows');
+
+    if (_.isArray(rows)) {
+      dispatch({
+        type: GET_TIMELINE_DATA_SUCCESS,
+        ..._.pick(data.userEvents, [
+          'rows',
+          'count',
+        ]),
+        sentCoinsCount: data.sentCoins.count,
+        sentJalapenosCount: data.sentJalapenos.count,
+      });
+      return data;
+    }
+  } catch (err) {
+    dispatch({
+      type: GET_TIMELINE_DATA_FAILURE,
+      error: err.message,
+    });
   }
 };
