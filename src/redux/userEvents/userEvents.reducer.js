@@ -17,6 +17,7 @@ const defaultState = {
 export default function reducer(state = defaultState, action) {
   switch(action.type) {
     case GET_USER_EVENTS_ATTEMPT:
+      console.log('get user events attempt');
       return {
         ...state,
         isGetUserEventsInFlight: true,
@@ -24,6 +25,7 @@ export default function reducer(state = defaultState, action) {
       };
     case GET_USER_EVENTS_SUCCESS:
     case SET_USER_EVENTS:
+      console.log('\n\n---\n get user events success!');
       const rows = action.shouldAppend ?
         [...state.rows, ...action.rows] : action.rows;
       return {
@@ -34,6 +36,7 @@ export default function reducer(state = defaultState, action) {
         count: action.count,
       }
     case GET_USER_EVENTS_FAILURE:
+    console.log('get user events failure');
       return {
         ...state,
         isGetUserEventsInFlight: false,
