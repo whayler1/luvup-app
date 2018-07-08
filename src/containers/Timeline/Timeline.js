@@ -71,6 +71,8 @@ class Timeline extends Component {
     clearUserEvents: PropTypes.func.isRequired,
     setSentCoinsCount: PropTypes.func.isRequired,
     setSentJalapenosCount: PropTypes.func.isRequired,
+    isGetUserEventsInFlight: PropTypes.bool.isRequired,
+    getUserEventsError: PropTypes.string.isRequired,
   };
 
   state = {
@@ -198,6 +200,8 @@ export default connect(
     sentJalapenosCount: state.jalapeno.sentJalapenosCount,
     userEvents: state.userEvents.rows,
     userEventsCount: state.userEvents.count,
+    isGetUserEventsInFlight: state.userEvents.isGetUserEventsInFlight,
+    getUserEventsError: state.userEvents.getUserEventsError,
   }),
   {
     setUserEvents: setUserEventsAction,
