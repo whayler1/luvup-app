@@ -10,24 +10,32 @@ import {
 import { Button } from 'react-native-elements';
 
 import styles from './CreateLoveNote.styles.js';
-import { forms, buttons, scene, modal, vars, } from '../../styles';
+import { forms, buttons, scene, modal, vars } from '../../styles';
 import Well from '../../components/Well';
 import LoveNoteArtFlying from '../../components/LoveNoteArtFlying';
 import LimitExceededModal from '../../components/LimitExceededModal';
 import config from '../../config';
 
-const CountText = ({n, verb}) => (
-  <Text style={{
-    fontFamily: vars.fontRegular,
-    color: vars.blueGrey900,
-  }}>
-    Attach <Text style={{ fontFamily: vars.fontBlack, color: vars.blueGrey900 }}>{ n > 0 ? n : '' }</Text> {verb}{ n !== 1 ? 's' : '' }
+const CountText = ({ n, verb }) => (
+  <Text
+    style={{
+      fontFamily: vars.fontRegular,
+      color: vars.blueGrey900,
+    }}>
+    Attach{' '}
+    <Text style={{ fontFamily: vars.fontBlack, color: vars.blueGrey900 }}>
+      {n > 0 ? n : ''}
+    </Text>{' '}
+    {verb}
+    {n !== 1 ? 's' : ''}
   </Text>
 );
 
 const getModalCopy = (n, verb) => {
   const endStr = n < config.maxItemsPerHour ? ` You have ${n} left.` : '';
-  return `You can send a maximum of ${config.maxItemsPerHour} ${verb}s per hour.${endStr}`;
+  return `You can send a maximum of ${
+    config.maxItemsPerHour
+  } ${verb}s per hour.${endStr}`;
 };
 
 export default ({
@@ -59,78 +67,83 @@ export default ({
   coinsAvailableTime,
   jalapenosAvailableTime,
 }) => (
-  <View style={{flex: 1}}>
-    {isSending || isSuccess && (
-      <View
-        style={{
-          position: 'absolute',
-          top: 42,
-          left: 0,
-          right: 0,
-          alignItems: 'center',
-        }}
-      >
-        <Animated.View style={{
-          opacity: flyingNoteOpacity,
-          transform: [
-            { translateX: flyingNoteX },
-          ],
-        }}>
-          <LoveNoteArtFlying />
-        </Animated.View>
-        {isSending && (
-          <Animated.Text style={[
-            scene.copy, {
-              marginTop: 16,
+  <View style={{ flex: 1 }}>
+    {isSending ||
+      (isSuccess && (
+        <View
+          style={{
+            position: 'absolute',
+            top: 42,
+            left: 0,
+            right: 0,
+            alignItems: 'center',
+          }}>
+          <Animated.View
+            style={{
               opacity: flyingNoteOpacity,
-            }]}
-          >
-            Sending…
-          </Animated.Text>
-        )}
-        {isSuccess && (
-          <Fragment>
-            <Animated.Text style={[
-              scene.copy, {
-                marginTop: 16,
-                fontFamily: vars.fontBlack,
-                opacity: flyingNoteOpacity,
-              }]}
-            >
-              Sent!
-            </Animated.Text>
-            <View style={{
-              marginTop: 32,
-              paddingHorizontal: 16,
-              alignSelf: 'stretch',
+              transform: [{ translateX: flyingNoteX }],
             }}>
-              <Button
-                onPress={back}
-                containerViewStyle={buttons.container}
-                buttonStyle={buttons.infoSkeletonButton}
-                textStyle={buttons.infoSkeletonText}
-                title="Close"
-              />
-            </View>
-          </Fragment>
-        )}
-      </View>
-    )}
+            <LoveNoteArtFlying />
+          </Animated.View>
+          {isSending && (
+            <Animated.Text
+              style={[
+                scene.copy,
+                {
+                  marginTop: 16,
+                  opacity: flyingNoteOpacity,
+                },
+              ]}>
+              Sending…
+            </Animated.Text>
+          )}
+          {isSuccess && (
+            <Fragment>
+              <Animated.Text
+                style={[
+                  scene.copy,
+                  {
+                    marginTop: 16,
+                    fontFamily: vars.fontBlack,
+                    opacity: flyingNoteOpacity,
+                  },
+                ]}>
+                Sent!
+              </Animated.Text>
+              <View
+                style={{
+                  marginTop: 32,
+                  paddingHorizontal: 16,
+                  alignSelf: 'stretch',
+                }}>
+                <Button
+                  onPress={back}
+                  containerViewStyle={buttons.container}
+                  buttonStyle={buttons.infoSkeletonButton}
+                  textStyle={buttons.infoSkeletonText}
+                  title="Close"
+                />
+              </View>
+            </Fragment>
+          )}
+        </View>
+      ))}
     <Animated.View
       style={{
         paddingHorizontal: 16,
         opacity: mainUiOpacity,
-        transform: [
-          { translateY: mainUiY },
-        ],
-      }}
-    >
-      <View style={{
-        paddingTop: 8,
+        transform: [{ translateY: mainUiY }],
       }}>
+      <View
+        style={{
+          paddingTop: 8,
+        }}>
         <View style={[forms.formGroup, { marginTop: 8 }]}>
           <TextInput
-            style={[forms.multilineInput, focusInput === 'currentPassword' && forms.inputFocus]}
+            style={[
+              forms.multilineInput,
+              focusInput === 'currentPassword' && forms.inputFocus,
+            ]}
             onChangeText={onNoteChange}
             value={note}
             maxLength={1000}
@@ -142,29 +155,26 @@ export default ({
           {isNoteEmpty && <Text style={forms.error}>Write a note to send</Text>}
         </View>
       </View>
-      <View style={{
-        paddingTop: 24,
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-      }}>
-        <CountText
-          n={numLuvups}
-          verb="Luvup"
-        />
-        <CountText
-          n={numJalapenos}
-          verb="Jalapeño"
-        />
+      <View
+        style={{
+          paddingTop: 24,
+          flexDirection: 'row',
+          justifyContent: 'space-around',
+        }}>
+        <CountText n={numLuvups} verb="Luvup" />
+        <CountText n={numJalapenos} verb="Jalapeño" />
       </View>
-      <View style={{
-        paddingTop: 8,
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-      }}>
-        <View style={{
+      <View
+        style={{
+          paddingTop: 8,
+          flexDirection: 'row',
+          justifyContent: 'space-around',
+        }}>
+        <View
+          style={{
             flexDirection: 'row',
             alignItems: 'center',
-        }}>
+          }}>
           <TouchableOpacity onPress={removeLuvup}>
             <Text
               style={{
@@ -172,8 +182,7 @@ export default ({
                 fontSize: 40,
                 color: vars.blueGrey500,
                 marginRight: 8,
-              }}
-            >
+              }}>
               -
             </Text>
           </TouchableOpacity>
@@ -193,16 +202,16 @@ export default ({
                 fontSize: 40,
                 color: vars.blueGrey500,
                 marginLeft: 8,
-              }}
-            >
+              }}>
               +
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
           <TouchableOpacity onPress={removeJalapeno}>
             <Text
               style={{
@@ -210,8 +219,7 @@ export default ({
                 fontSize: 40,
                 color: vars.blueGrey500,
                 marginRight: 8,
-              }}
-            >
+              }}>
               -
             </Text>
           </TouchableOpacity>
@@ -232,14 +240,15 @@ export default ({
                 fontSize: 40,
                 color: vars.blueGrey500,
                 marginLeft: 8,
-              }}
-            >
+              }}>
               +
             </Text>
           </TouchableOpacity>
         </View>
       </View>
-      {isSendError && <Well text="There was an error sending your Love Note. Make sure you are connected to wifi or data." />}
+      {isSendError && (
+        <Well text="There was an error sending your Love Note. Make sure you are connected to wifi or data." />
+      )}
       <View style={{ marginTop: 32 }}>
         <Button
           onPress={onSendClick}
@@ -252,9 +261,7 @@ export default ({
       </View>
       <View style={{ marginTop: 32 }}>
         <TouchableOpacity onPress={back}>
-          <Text style={buttons.secondarySkeletonText}>
-            Close
-          </Text>
+          <Text style={buttons.secondarySkeletonText}>Close</Text>
         </TouchableOpacity>
       </View>
     </Animated.View>

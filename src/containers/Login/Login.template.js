@@ -34,13 +34,15 @@ export default ({
 
   return (
     <KeyboardAvoidingView
-      contentContainerStyle={[scene.container, {
-        alignSelf: 'stretch'
-      }]}
+      contentContainerStyle={[
+        scene.container,
+        {
+          alignSelf: 'stretch',
+        },
+      ]}
       style={scene.container}
       keyboardVerticalOffset={32}
-      behavior="padding"
-    >
+      behavior="padding">
       <ScrollView style={scene.content}>
         <Text style={modal.title}>Login</Text>
         <View style={forms.formGroup}>
@@ -61,12 +63,14 @@ export default ({
             returnKeyType="next"
             onSubmitEditing={focusPassword}
           />
-          {error === 'username' && <Text style={forms.error}>Please provide a valid email</Text>}
+          {error === 'username' && (
+            <Text style={forms.error}>Please provide a valid email</Text>
+          )}
         </View>
         <View style={forms.formGroup}>
           <Text style={forms.label}>Password</Text>
           <TextInput
-            ref={el => passwordInput = el}
+            ref={el => (passwordInput = el)}
             style={[forms.input, focus === 'password' && forms.inputFocus]}
             onFocus={onPasswordFocus}
             onBlur={onBlur}
@@ -81,17 +85,20 @@ export default ({
             returnKeyType="go"
             onSubmitEditing={onSubmit}
           />
-          {error === 'password' && <Text style={styles.error}>Please provide a password</Text>}
+          {error === 'password' && (
+            <Text style={styles.error}>Please provide a password</Text>
+          )}
         </View>
-        {(error === 'credentials' || error === 'server') &&
+        {(error === 'credentials' || error === 'server') && (
           <View style={[wells.error, { marginTop: 32, marginBottom: 0 }]}>
             <Text style={wells.errorText}>Invalid email or password</Text>
           </View>
-        }
+        )}
         <View style={forms.buttonRow}>
-          <View style={{
-            flex: 1,
-          }}>
+          <View
+            style={{
+              flex: 1,
+            }}>
             <Button
               onPress={onSubmit}
               containerViewStyle={buttons.container}
@@ -102,18 +109,18 @@ export default ({
             />
           </View>
         </View>
-        <View style={{
-          marginTop: 40,
-        }}>
-          <Text style={scene.copy}>
-            {'Don\'t have an account?'}
-          </Text>
-        </View>
-        <View style={[forms.buttonRow, { marginTop: 16, }]}>
-          <View style={{
-            flex: 0.5,
-            paddingRight: 8,
+        <View
+          style={{
+            marginTop: 40,
           }}>
+          <Text style={scene.copy}>{"Don't have an account?"}</Text>
+        </View>
+        <View style={[forms.buttonRow, { marginTop: 16 }]}>
+          <View
+            style={{
+              flex: 0.5,
+              paddingRight: 8,
+            }}>
             <Button
               onPress={navigateToSignUpConfirm}
               containerViewStyle={buttons.container}
@@ -122,10 +129,11 @@ export default ({
               title={'Confirm Code'}
             />
           </View>
-          <View style={{
-            flex: 0.5,
-            paddingLeft: 8,
-          }}>
+          <View
+            style={{
+              flex: 0.5,
+              paddingLeft: 8,
+            }}>
             <Button
               onPress={navigateToSignUp}
               containerViewStyle={buttons.container}

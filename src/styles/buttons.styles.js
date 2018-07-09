@@ -6,12 +6,12 @@ const container = {
   marginLeft: 0,
   marginRight: 0,
 };
-const infoContainer = {...container};
+const infoContainer = { ...container };
 const text = {
   textAlign: 'center',
   fontFamily: vars.fontBlack,
 };
-const infoText = {...text};
+const infoText = { ...text };
 const dangerSkeletonText = {
   ...text,
   color: vars.dangerButtonBg,

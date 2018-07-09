@@ -6,7 +6,8 @@ import config from '../../config';
 export const REQUEST_LOVER = 'lover-request/request-lover';
 export const SET_LOVER_REQUEST = 'lover-request/set-lover-request';
 export const CANCEL_LOVER_REQUEST = 'lover-request/cancel-lover-request';
-export const RESEND_LOVER_REQUEST_EMAIL = 'lover-request/resend-lover-request-email';
+export const RESEND_LOVER_REQUEST_EMAIL =
+  'lover-request/resend-lover-request-email';
 export const CLEAR_LOVER_REQUEST = 'lover-request/clear-lover-request';
 
 export const requestLover = recipientId => async dispatch => {
@@ -19,7 +20,7 @@ export const requestLover = recipientId => async dispatch => {
             username firstName lastName
           }
         }
-      }`
+      }`,
     });
 
     dispatch({
@@ -40,7 +41,6 @@ export const requestLover = recipientId => async dispatch => {
 
     return res;
   } catch (err) {
-    
     return err;
   }
 };
@@ -60,7 +60,10 @@ export const cancelLoverRequest = loverRequestId => async dispatch => {
       }`,
     });
 
-    const loverRequest = _.get(res, 'body.data.cancelLoverRequest.loverRequest');
+    const loverRequest = _.get(
+      res,
+      'body.data.cancelLoverRequest.loverRequest'
+    );
 
     if (loverRequest && loverRequest.id) {
       dispatch({
@@ -77,10 +80,9 @@ export const cancelLoverRequest = loverRequestId => async dispatch => {
 
     return res;
   } catch (err) {
-    
     return err;
   }
-}
+};
 
 export const resendLoverRequestEmail = loverRequestId => async () => {
   try {
@@ -96,7 +98,6 @@ export const resendLoverRequestEmail = loverRequestId => async () => {
 
     return res;
   } catch (err) {
-    
     return err;
   }
 };

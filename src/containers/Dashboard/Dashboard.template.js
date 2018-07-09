@@ -57,8 +57,7 @@ export default ({
       backgroundColor: 'transparent',
       justifyContent: 'space-between',
       alignItems: 'center',
-    }}
-  >
+    }}>
     <DashboardTopNav
       coinCount={coinCount}
       jalapenoCount={jalapenoCount}
@@ -71,22 +70,16 @@ export default ({
       unviewedCoinCount={unviewedCoinCount}
       unviewedJalapenoCount={unviewedJalapenoCount}
     />
-    <Hero
-      openModal={openModal}
-    />
+    <Hero openModal={openModal} />
     {loverFirstName && (
       <View style={styles.tabsContainer}>
         <TouchableOpacity
           style={styles.tabsItem}
-          onPress={onLoveNoteWritePress}
-        >
+          onPress={onLoveNoteWritePress}>
           <LoveNoteWriteArt scale={0.8} />
           <Text style={styles.tabsText}>Write Love Note</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.tabsItem}
-          onPress={onLoveNoteReadPress}
-        >
+        <TouchableOpacity style={styles.tabsItem} onPress={onLoveNoteReadPress}>
           {unreadReceivedLoveNoteCount > 0 && (
             <NotificationDot
               style={{

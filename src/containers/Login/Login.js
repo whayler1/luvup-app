@@ -31,7 +31,7 @@ class Login extends Component {
     error: '',
     isInFlight: false,
     focus: '',
-  }
+  };
 
   onUsernameFocus = () => this.setState({ focus: 'username' });
   onPasswordFocus = () => this.setState({ focus: 'password' });
@@ -48,7 +48,7 @@ class Login extends Component {
       return 'password';
     }
     return '';
-  }
+  };
 
   navigateToSignUp = () => Actions.signup();
   navigateToSignUpConfirm = () => Actions.confirmUserRequestCode();
@@ -56,9 +56,6 @@ class Login extends Component {
   submit = async () => {
     const { username, password } = this.state;
     const loginres = await this.props.login(username, password);
-
-
-
 
     if (this.props.userId) {
       registerForPushNotifications();
@@ -78,31 +75,33 @@ class Login extends Component {
       return;
     }
     this.setState({ isInFlight: true }, this.submit);
-  }
+  };
 
   render() {
-    return <Template
-      {...this.state}
-      navigateToSignUpConfirm={this.navigateToSignUpConfirm}
-      navigateToSignUp={this.navigateToSignUp}
-      onSubmit={this.onSubmit}
-      onUsernameFocus={this.onUsernameFocus}
-      onPasswordFocus={this.onPasswordFocus}
-      onUsernameChange={this.onUsernameChange}
-      onPasswordChange={this.onPasswordChange}
-      onBlur={this.onBlur}
-    />;
+    return (
+      <Template
+        {...this.state}
+        navigateToSignUpConfirm={this.navigateToSignUpConfirm}
+        navigateToSignUp={this.navigateToSignUp}
+        onSubmit={this.onSubmit}
+        onUsernameFocus={this.onUsernameFocus}
+        onPasswordFocus={this.onPasswordFocus}
+        onUsernameChange={this.onUsernameChange}
+        onPasswordChange={this.onPasswordChange}
+        onBlur={this.onBlur}
+      />
+    );
   }
-};
+}
 
 export default connect(
   state => {
-
     return {
-    userId: state.user.id,
-    relationshipId: state.relationship.id,
-    loverRequestId: state.loverRequest.id,
-  }},
+      userId: state.user.id,
+      relationshipId: state.relationship.id,
+      loverRequestId: state.loverRequest.id,
+    };
+  },
   {
     login: loginAction,
     getMe: getMeAction,

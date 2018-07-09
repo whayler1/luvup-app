@@ -14,18 +14,18 @@ import config from '../../config';
 
 const { maxItemsPerHour } = config;
 
-const getLoveNotePlaceholder = (loverFirstName) => {
+const getLoveNotePlaceholder = loverFirstName => {
   const placeholders = [
-    `Send ${ loverFirstName } a nice message, like "Hey boo, I need them Luvups"`,
-    `Share your feelings with ${ loverFirstName }…`,
-    `Maybe ${ loverFirstName } just needs a little nudge to get the message accross?`,
-    `Tell ${ loverFirstName } what's on your mind…`,
-    `Don't be afraid to open up to ${ loverFirstName }…`,
+    `Send ${loverFirstName} a nice message, like "Hey boo, I need them Luvups"`,
+    `Share your feelings with ${loverFirstName}…`,
+    `Maybe ${loverFirstName} just needs a little nudge to get the message accross?`,
+    `Tell ${loverFirstName} what's on your mind…`,
+    `Don't be afraid to open up to ${loverFirstName}…`,
     'It all starts with communication…',
   ];
 
   return placeholders[Math.floor(Math.random() * placeholders.length)];
-}
+};
 
 const maxTokens = 5;
 
@@ -39,7 +39,7 @@ class CreateLoveNote extends PureComponent {
     recentlySentJalapenoCount: PropTypes.number.isRequired,
     sentCoins: PropTypes.array.isRequired,
     sentJalapenos: PropTypes.array.isRequired,
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -61,12 +61,13 @@ class CreateLoveNote extends PureComponent {
     props.refreshSentJalapenoCount();
   }
 
-  onNoteChange = note => this.setState({
-    note,
-    isNoteEmpty: false,
-  });
+  onNoteChange = note =>
+    this.setState({
+      note,
+      isNoteEmpty: false,
+    });
 
-  openModal = (modalContent) => {
+  openModal = modalContent => {
     this.setState({
       isModalOpen: true,
       modalContent,
@@ -88,17 +89,18 @@ class CreateLoveNote extends PureComponent {
     }
   };
 
-  removeToken = (key) => {
+  removeToken = key => {
     const { state } = this;
     if (!state.isSending) {
       const n = state[key] - 1 > -1 ? state[key] - 1 : 0;
       this.setState({ [key]: n });
     }
-  }
+  };
 
   addLuvup = () => this.addToken('numLuvups', 'recentlySentCoinCount', 'coin');
   removeLuvup = () => this.removeToken('numLuvups');
-  addJalapeno = () => this.addToken('numJalapenos', 'recentlySentJalapenoCount', 'jalapeno');
+  addJalapeno = () =>
+    this.addToken('numJalapenos', 'recentlySentJalapenoCount', 'jalapeno');
   removeJalapeno = () => this.removeToken('numJalapenos');
 
   closeModal = () => this.setState({ isModalOpen: false });
@@ -110,68 +112,50 @@ class CreateLoveNote extends PureComponent {
 
   showFlyingNote = () => {
     Animated.parallel([
-      Animated.spring(
-        this.flyingNoteX,
-        {
-          toValue: 0,
-          delay: 250,
-          friction: 5,
-          tension: 20,
-        },
-      ),
-      Animated.timing(
-        this.flyingNoteOpacity,
-        {
-          toValue: 1,
-          duration: 100,
-          delay: 250,
-          easing: Easing.inOut(Easing.linear),
-        },
-      ),
+      Animated.spring(this.flyingNoteX, {
+        toValue: 0,
+        delay: 250,
+        friction: 5,
+        tension: 20,
+      }),
+      Animated.timing(this.flyingNoteOpacity, {
+        toValue: 1,
+        duration: 100,
+        delay: 250,
+        easing: Easing.inOut(Easing.linear),
+      }),
     ]).start();
-  }
+  };
 
   hideContent = () => {
     Animated.parallel([
-      Animated.timing(
-        this.mainUiY,
-        {
-          toValue: 500,
-          duration: 250,
-          easing: Easing.inOut(Easing.linear)
-        },
-      ),
-      Animated.timing(
-        this.mainUiOpacity,
-        {
-          toValue: 0,
-          duration: 250,
-          easing: Easing.inOut(Easing.linear)
-        },
-      ),
+      Animated.timing(this.mainUiY, {
+        toValue: 500,
+        duration: 250,
+        easing: Easing.inOut(Easing.linear),
+      }),
+      Animated.timing(this.mainUiOpacity, {
+        toValue: 0,
+        duration: 250,
+        easing: Easing.inOut(Easing.linear),
+      }),
     ]).start();
-  }
+  };
 
   showContent = () => {
     Animated.parallel([
-      Animated.timing(
-        this.mainUiY,
-        {
-          toValue: 0,
-          duration: 250,
-          easing: Easing.inOut(Easing.linear)
-        },
-      ),
-      Animated.timing(
-        this.mainUiOpacity,
-        {
-          toValue: 1,
-          duration: 250,
-          easing: Easing.inOut(Easing.linear)
-        },
-      ),
+      Animated.timing(this.mainUiY, {
+        toValue: 0,
+        duration: 250,
+        easing: Easing.inOut(Easing.linear),
+      }),
+      Animated.timing(this.mainUiOpacity, {
+        toValue: 1,
+        duration: 250,
+        easing: Easing.inOut(Easing.linear),
+      }),
     ]).start();
-  }
+  };
 
   onSendClick = async () => {
     const isValid = this.validate();
@@ -183,14 +167,20 @@ class CreateLoveNote extends PureComponent {
       this.hideContent();
       this.showFlyingNote();
 
-      const res = await this.props.createLoveNote(note, { numLuvups, numJalapenos });
+      const res = await this.props.createLoveNote(note, {
+        numLuvups,
+        numJalapenos,
+      });
       const loveNoteId = _.get(res, 'createLoveNote.loveNote.id');
 
       if (!loveNoteId) {
-        this.setState({
-          isSending: false,
-          isSendError: true,
-        }, () => this.showContent())
+        this.setState(
+          {
+            isSending: false,
+            isSendError: true,
+          },
+          () => this.showContent()
+        );
       } else {
         this.setState({
           isSuccess: true,
@@ -235,13 +225,9 @@ class CreateLoveNote extends PureComponent {
         'flyingNoteOpacity',
         'closeModal',
       ]),
-      ..._.pick(this.props, [
-        'loverFirstName',
-      ]),
-    }
-    return (
-      <Template {...props} />
-    );
+      ..._.pick(this.props, ['loverFirstName']),
+    };
+    return <Template {...props} />;
   }
 }
 
@@ -257,5 +243,5 @@ export default connect(
     createLoveNote: createLoveNoteAction,
     refreshSentCoinCount: refreshSentCoinCountAction,
     refreshSentJalapenoCount: refreshSentJalapenoCountAction,
-  },
+  }
 )(CreateLoveNote);

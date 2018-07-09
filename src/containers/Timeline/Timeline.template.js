@@ -40,22 +40,20 @@ export default ({
   isGetUserEventsInFlight,
   getUserEventsError,
 }) => (
-  <View style={{
-    flex: 1,
-    backgroundColor: 'transparent',
-    alignItems: 'center',
-    backgroundColor: 'white',
-  }}>
-    <View
-      style={scene.topNav}
-    >
+  <View
+    style={{
+      flex: 1,
+      backgroundColor: 'transparent',
+      alignItems: 'center',
+      backgroundColor: 'white',
+    }}>
+    <View style={scene.topNav}>
       <TouchableOpacity
         onPress={goBack}
         style={{
           flex: 1,
           alignItems: 'flex-end',
-        }}
-      >
+        }}>
         <Image
           source={require('../../images/heart.png')}
           style={{
@@ -69,17 +67,16 @@ export default ({
       style={{
         paddingTop: 83,
         alignSelf: 'stretch',
-      }}
-    >
+      }}>
       <SectionList
         style={styles.sectionList}
-        ListEmptyComponent={(
+        ListEmptyComponent={
           <ListEmptyComponent
             isInFlight={isGetUserEventsInFlight}
             error={getUserEventsError}
           />
-        )}
-        ListHeaderComponent={(
+        }
+        ListHeaderComponent={
           <ListHeaderComponent
             {...{
               coinCount,
@@ -90,28 +87,25 @@ export default ({
               sentJalapenosCount,
             }}
           />
-        )}
-        ListFooterComponent={(
-          <ListFooterComponent isPreloaderVisible={isGetUserEventsInFlight && isSectionsLoaded} />
-        )}
+        }
+        ListFooterComponent={
+          <ListFooterComponent
+            isPreloaderVisible={isGetUserEventsInFlight && isSectionsLoaded}
+          />
+        }
         renderSectionHeader={renderSectionHeader}
         renderItem={renderItem}
         sections={sections}
         onEndReached={onEndReached}
       />
     </View>
-    <Modal
-      visible={isModalVisible}
-      animationType={'fade'}
-      transparent={true}
-    >
+    <Modal visible={isModalVisible} animationType={'fade'} transparent={true}>
       <View style={modal.outerContainer}>
         <View style={modal.innerContainer}>
-          <Text style={modal.title}>
-            Error
-          </Text>
+          <Text style={modal.title}>Error</Text>
           <Text style={modal.copy}>
-            There was an error loading your timeline. Most likely this is due to network conectivity.
+            There was an error loading your timeline. Most likely this is due to
+            network conectivity.
           </Text>
           <View style={modal.buttonContainer}>
             <Button
@@ -120,7 +114,7 @@ export default ({
               containerViewStyle={buttons.infoContainer}
               buttonStyle={buttons.infoButton}
               textStyle={buttons.infoText}
-              title='Dismiss'
+              title="Dismiss"
             />
           </View>
         </View>

@@ -25,21 +25,23 @@ export default ({
     contentContainerStyle={scene.keyboardAvoidingView}
     style={styles.container}
     keyboardVerticalOffset={32}
-    behavior="padding"
-  >
+    behavior="padding">
     <View style={scene.content}>
-      <View style={{
-        alignItems: 'center',
-      }}>
-        <Icon
-          name="ios-send-outline"
-          size={80}
-          color={vars.blue500}
-        />
+      <View
+        style={{
+          alignItems: 'center',
+        }}>
+        <Icon name="ios-send-outline" size={80} color={vars.blue500} />
       </View>
-      <Text style={[scene.copy, { textAlign: 'center' }]}>Send Lover Request to</Text>
-      <Text style={[scene.copy, { textAlign: 'center', fontSize: 30, }]}>{`${selectedUser.firstName} ${selectedUser.lastName}?`}</Text>
-      {error === 'request-lover' && <Well text="There was an error requesting your lover."/>}
+      <Text style={[scene.copy, { textAlign: 'center' }]}>
+        Send Lover Request to
+      </Text>
+      <Text style={[scene.copy, { textAlign: 'center', fontSize: 30 }]}>{`${
+        selectedUser.firstName
+      } ${selectedUser.lastName}?`}</Text>
+      {error === 'request-lover' && (
+        <Well text="There was an error requesting your lover." />
+      )}
       <View style={forms.buttonRow}>
         <View style={forms.buttonCell2ColLeft}>
           <Button

@@ -1,11 +1,8 @@
 import React, { PureComponent } from 'react';
-import {
-  View,
-  Text,
-} from 'react-native';
+import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { vars, wells, } from '../../styles';
+import { vars, wells } from '../../styles';
 
 const getViewStyle = type => {
   switch (type) {
@@ -14,7 +11,7 @@ const getViewStyle = type => {
       break;
     default:
       return wells.error;
-  };
+  }
 };
 
 const getTextStyle = type => {
@@ -29,19 +26,16 @@ const getTextStyle = type => {
 
 export default class Well extends PureComponent {
   static propTypes = {
-    type: PropTypes.oneOf([
-      'danger',
-      'warning',
-      'info',
-      'success',
-    ]),
+    type: PropTypes.oneOf(['danger', 'warning', 'info', 'success']),
     text: PropTypes.string,
-  }
+  };
 
   render() {
     return (
       <View style={getViewStyle(this.props.type)}>
-        {this.props.text && <Text style={getTextStyle(this.props.type)}>{this.props.text}</Text>}
+        {this.props.text && (
+          <Text style={getTextStyle(this.props.type)}>{this.props.text}</Text>
+        )}
       </View>
     );
   }
