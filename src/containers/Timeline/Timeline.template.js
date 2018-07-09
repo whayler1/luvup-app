@@ -22,7 +22,7 @@ import Preloader from '../../components/Preloader';
 const keyExtractor = item => item.id;
 
 /**
- * JW: some comment
+ * JW: some comment. Another benign change
  */
 
 export default ({
