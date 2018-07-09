@@ -15,5 +15,5 @@ export default StyleSheet.create({
   },
   copyContainer: {
     paddingRight: 32,
-  }
+  },
 });

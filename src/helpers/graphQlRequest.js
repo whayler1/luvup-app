@@ -2,7 +2,7 @@ import superagent from 'superagent';
 import config from '../config';
 import _ from 'lodash';
 
-const graphQlRequest = async (query) => {
+const graphQlRequest = async query => {
   try {
     const res = await superagent.post(config.graphQlUrl, { query });
     const data = _.get(res, 'body.data');

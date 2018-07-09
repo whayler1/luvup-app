@@ -1,9 +1,12 @@
 import superagent from 'superagent';
 import _ from 'lodash';
 import config from '../../config';
-export const SET_RECEIVED_LOVER_REQUESTS = 'received-lover-requests/set-received-lover-requests';
-export const ACCEPT_LOVER_REQUEST = 'received-lover-requests/accept-lover-request';
-export const CLEAR_RECEIVED_LOVER_REQUESTS = 'received-lover-requests/clear-received-lover-requests';
+export const SET_RECEIVED_LOVER_REQUESTS =
+  'received-lover-requests/set-received-lover-requests';
+export const ACCEPT_LOVER_REQUEST =
+  'received-lover-requests/accept-lover-request';
+export const CLEAR_RECEIVED_LOVER_REQUESTS =
+  'received-lover-requests/clear-received-lover-requests';
 
 export const setReceivedLoverRequests = (rows, count) => ({
   type: SET_RECEIVED_LOVER_REQUESTS,
@@ -30,15 +33,16 @@ export const getReceivedLoverRequests = () => async dispatch => {
     const receivedLoverRequests = _.get(res, 'body.data.receivedLoverRequests');
 
     if (receivedLoverRequests) {
-      dispatch(setReceivedLoverRequests(
-        receivedLoverRequests.rows,
-        receivedLoverRequests.count,
-      ));
+      dispatch(
+        setReceivedLoverRequests(
+          receivedLoverRequests.rows,
+          receivedLoverRequests.count
+        )
+      );
     }
 
     return res;
   } catch (err) {
-
     return err;
   }
 };
@@ -58,7 +62,10 @@ export const acceptLoverRequest = loverRequestId => async dispatch => {
       }`,
     });
 
-    const loverRequest = _.get(res, 'body.data.acceptLoverRequest.loverRequest');
+    const loverRequest = _.get(
+      res,
+      'body.data.acceptLoverRequest.loverRequest'
+    );
 
     if (_.isObject(loverRequest) && loverRequest.id) {
       dispatch({
@@ -73,9 +80,10 @@ export const acceptLoverRequest = loverRequestId => async dispatch => {
 
     return res;
   } catch (err) {
-
     return err;
   }
 };
 
-export const clearReceivedLoverRequests = () => ({ type: CLEAR_RECEIVED_LOVER_REQUESTS });
+export const clearReceivedLoverRequests = () => ({
+  type: CLEAR_RECEIVED_LOVER_REQUESTS,
+});

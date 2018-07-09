@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { scene, vars, } from '../../styles';
+import { scene, vars } from '../../styles';
 
 const container = {
   flex: 1,
@@ -8,7 +8,7 @@ const container = {
   justifyContent: 'center',
   alignItems: 'center',
   alignItems: 'flex-start',
-}
+};
 
 export default StyleSheet.create({
   container,
@@ -27,5 +27,5 @@ export default StyleSheet.create({
     fontSize: 16,
     fontFamily: vars.fontRegular,
     color: vars.blueGrey500,
-  }
+  },
 });

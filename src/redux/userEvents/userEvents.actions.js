@@ -9,7 +9,11 @@ export const GET_USER_EVENTS_FAILURE = 'userEvents/get-user-events-failure';
 export const SET_USER_EVENTS = 'userEvents/set-user-events';
 export const CLEAR_USER_EVENTS = 'userEvents/clear-user-events';
 
-export const getUserEvents = (limit, offset, shouldAppend=false) => async dispatch => {
+export const getUserEvents = (
+  limit,
+  offset,
+  shouldAppend = false
+) => async dispatch => {
   dispatch({ type: GET_USER_EVENTS_ATTEMPT });
 
   try {
@@ -24,13 +28,10 @@ export const getUserEvents = (limit, offset, shouldAppend=false) => async dispat
           }
           count
         }
-      }`
+      }`,
     });
 
-    const {
-      rows,
-      count,
-    } = res.body.data.userEvents;
+    const { rows, count } = res.body.data.userEvents;
 
     if (res.ok && _.isArray(rows)) {
       dispatch({
@@ -51,7 +52,7 @@ export const getUserEvents = (limit, offset, shouldAppend=false) => async dispat
     dispatch({
       type: GET_USER_EVENTS_FAILURE,
       error: error.message,
-    })
+    });
   }
 };
 

@@ -8,7 +8,7 @@ export default function reducer(state = defaultState, action) {
   switch (action.type) {
     case SET_IS_FONT_LOADED:
       return {
-        isFontLoaded: action.isFontLoaded
+        isFontLoaded: action.isFontLoaded,
       };
     default:
       return state;

@@ -22,7 +22,7 @@ export default StyleSheet.create({
     shadowOpacity: 0.3,
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowRadius: 2,
   },

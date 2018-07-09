@@ -4,7 +4,9 @@ const elWidth = 200;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, backgroundColor: 'transparent', justifyContent: 'center',
+    flex: 1,
+    backgroundColor: 'transparent',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   title: {
@@ -16,7 +18,13 @@ const styles = StyleSheet.create({
   error: {
     color: 'red',
   },
-  input: {height: 40, width: elWidth, borderColor: 'gray', borderWidth: 1, marginTop: 10},
+  input: {
+    height: 40,
+    width: elWidth,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginTop: 10,
+  },
   submitButton: {
     backgroundColor: 'lightblue',
     borderRadius: 2,
@@ -27,7 +35,7 @@ const styles = StyleSheet.create({
   },
   submitContainer: {
     width: elWidth,
-  }
+  },
 });
 
 export default styles;

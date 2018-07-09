@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  Image,
-} from 'react-native';
+import { View, Text, FlatList, Image } from 'react-native';
 import moment from 'moment';
 
 import { scene, vars } from '../../styles';
@@ -12,7 +7,7 @@ import styles from './LoveNotes.styles';
 import Well from '../../components/Well';
 import Preloader from '../../components/Preloader';
 
-const keyExtractor = (item) => item.id;
+const keyExtractor = item => item.id;
 const now = moment();
 
 const LuvupArt = () => (
@@ -45,19 +40,21 @@ const ListEmptyComponent = ({
   isGetReceivedLoveNotesInFlight,
   getReceivedLoveNotesError,
 }) => (
-  <View style={{
-    paddingHorizontal: 16,
-    paddingVertical: 32
-  }}>
+  <View
+    style={{
+      paddingHorizontal: 16,
+      paddingVertical: 32,
+    }}>
     {getReceivedLoveNotesError && (
       <Well text="There was an error loading your love notes. Make sure you are connected to wifi or data." />
     )}
-    {isGetReceivedLoveNotesInFlight && (
-      <Preloader />
-    )}
-    {(!getReceivedLoveNotesError && !isGetReceivedLoveNotesInFlight) && (
-      <Text style={[scene.copy, { fontSize: 25, textAlign: 'center' }]}>You have not received any love notes yet. 🙄</Text>
-    )}
+    {isGetReceivedLoveNotesInFlight && <Preloader />}
+    {!getReceivedLoveNotesError &&
+      !isGetReceivedLoveNotesInFlight && (
+        <Text style={[scene.copy, { fontSize: 25, textAlign: 'center' }]}>
+          You have not received any love notes yet. 🙄
+        </Text>
+      )}
   </View>
 );
 
@@ -76,30 +73,29 @@ const RenderItem = ({ item }) => {
         <Text style={styles.titleText}>{createdAtMoment.fromNow()}</Text>
       ) : (
         <Text>
-          <Text style={styles.titleText}>{moment(new Date(item.createdAt)).format('MMM D, YYYY')}</Text>
-          <Text style={styles.titleTextSecondary}> at {moment(new Date(item.createdAt)).format('hh:mm a')}</Text>
+          <Text style={styles.titleText}>
+            {moment(new Date(item.createdAt)).format('MMM D, YYYY')}
+          </Text>
+          <Text style={styles.titleTextSecondary}>
+            {' '}
+            at {moment(new Date(item.createdAt)).format('hh:mm a')}
+          </Text>
         </Text>
       )}
       {(item.numLuvups || item.numJalapenos) && (
         <View style={styles.tokenWrap}>
-          {item.numLuvups && (
-            <TokenUi
-              n={item.numLuvups}
-              Art={LuvupArt}
-            />
-          )}
+          {item.numLuvups && <TokenUi n={item.numLuvups} Art={LuvupArt} />}
           {item.numJalapenos && (
-            <TokenUi
-              n={item.numJalapenos}
-              Art={JalapenoArt}
-            />
+            <TokenUi n={item.numJalapenos} Art={JalapenoArt} />
           )}
         </View>
       )}
-      <Text style={[scene.copy, { marginTop: 16 }]}>{decodeURI(item.note)}</Text>
+      <Text style={[scene.copy, { marginTop: 16 }]}>
+        {decodeURI(item.note)}
+      </Text>
     </View>
   );
-}
+};
 
 export default ({
   isGetReceivedLoveNotesInFlight,
@@ -114,10 +110,12 @@ export default ({
         keyExtractor={keyExtractor}
         renderItem={RenderItem}
         onEndReached={onEndReached}
-        ListEmptyComponent={<ListEmptyComponent
-          isGetReceivedLoveNotesInFlight={isGetReceivedLoveNotesInFlight}
-          getReceivedLoveNotesError={getReceivedLoveNotesError}
-        />}
+        ListEmptyComponent={
+          <ListEmptyComponent
+            isGetReceivedLoveNotesInFlight={isGetReceivedLoveNotesInFlight}
+            getReceivedLoveNotesError={getReceivedLoveNotesError}
+          />
+        }
         ItemSeparatorComponent={ItemSeparatorComponent}
       />
     </View>

@@ -4,7 +4,7 @@ import { getMe } from '../redux/user/user.actions';
 
 let appState = AppState.currentState;
 
-const handleAppStateChange = (nextAppState) => {
+const handleAppStateChange = nextAppState => {
   if (appState.match(/inactive|background/) && nextAppState === 'active') {
     store.dispatch(getMe());
   }
@@ -22,4 +22,4 @@ const stop = () => {
 export default {
   start,
   stop,
-}
+};

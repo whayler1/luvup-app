@@ -24,11 +24,11 @@ const multilineInput = {
 const inputDanger = {
   ...input,
   borderBottomColor: vars.danger,
-}
+};
 const inputFocus = {
   ...input,
   borderBottomColor: vars.link,
-}
+};
 
 export default StyleSheet.create({
   input,

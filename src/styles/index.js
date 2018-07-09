@@ -6,12 +6,4 @@ import modal from './modal.styles';
 import wells from './wells.styles';
 import navbar from './navbar.styles';
 
-export {
-  buttons,
-  forms,
-  scene,
-  modal,
-  wells,
-  navbar,
-  vars,
-}
+export { buttons, forms, scene, modal, wells, navbar, vars };

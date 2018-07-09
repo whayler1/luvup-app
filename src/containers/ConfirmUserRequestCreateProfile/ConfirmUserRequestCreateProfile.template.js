@@ -49,8 +49,7 @@ export default ({
       contentContainerStyle={scene.keyboardAvoidingView}
       style={scene.container}
       keyboardVerticalOffset={32}
-      behavior="padding"
-    >
+      behavior="padding">
       <ScrollView style={scene.content}>
         <Text style={modal.title}>Create Your Profile</Text>
         <View style={forms.formGroup}>
@@ -70,21 +69,36 @@ export default ({
             returnKeyType="next"
             onSubmitEditing={focusFirstName}
           />
-          {error === 'username' && <Text style={forms.error}>Please provide a username</Text>}
-          {error === 'username-length' && <Text style={forms.error}>Usernames must be at least 3 characters</Text>}
-          {error === 'username taken' && <Text style={forms.error}>Username taken</Text>}
+          {error === 'username' && (
+            <Text style={forms.error}>Please provide a username</Text>
+          )}
+          {error === 'username-length' && (
+            <Text style={forms.error}>
+              Usernames must be at least 3 characters
+            </Text>
+          )}
+          {error === 'username taken' && (
+            <Text style={forms.error}>Username taken</Text>
+          )}
         </View>
-        <View style={{
-          flexDirection: 'row',
-        }}>
-          <View style={[forms.formGroup, {
-            flex: 0.5,
-            paddingRight: 8,
-          }]}>
+        <View
+          style={{
+            flexDirection: 'row',
+          }}>
+          <View
+            style={[
+              forms.formGroup,
+              {
+                flex: 0.5,
+                paddingRight: 8,
+              },
+            ]}>
             <Text style={forms.label}>First Name</Text>
             <TextInput
-              ref={el => firstNameEl = el}
-              style={[focusInput === 'firstName' ? forms.inputFocus : forms.input]}
+              ref={el => (firstNameEl = el)}
+              style={[
+                focusInput === 'firstName' ? forms.inputFocus : forms.input,
+              ]}
               onFocus={onFirstNameFocus}
               onBlur={onBlur}
               onChangeText={onFirstNameChange}
@@ -99,14 +113,20 @@ export default ({
               onSubmitEditing={focusLastNameEl}
             />
           </View>
-          <View style={[forms.formGroup, {
-            flex: 0.5,
-            paddingLeft: 8,
-          }]}>
+          <View
+            style={[
+              forms.formGroup,
+              {
+                flex: 0.5,
+                paddingLeft: 8,
+              },
+            ]}>
             <Text style={forms.label}>Last Name</Text>
             <TextInput
-              ref={el => lastNameEl = el}
-              style={[focusInput === 'lastName' ? forms.inputFocus : forms.input]}
+              ref={el => (lastNameEl = el)}
+              style={[
+                focusInput === 'lastName' ? forms.inputFocus : forms.input,
+              ]}
               onFocus={onLastNameFocus}
               onBlur={onBlur}
               onChangeText={onLastNameChange}
@@ -125,7 +145,7 @@ export default ({
         <View style={forms.formGroup}>
           <Text style={forms.label}>Password</Text>
           <TextInput
-            ref={el => passwordEl = el}
+            ref={el => (passwordEl = el)}
             style={[focusInput === 'password' ? forms.inputFocus : forms.input]}
             onFocus={onPasswordFocus}
             onBlur={onBlur}
@@ -140,14 +160,22 @@ export default ({
             returnKeyType="next"
             onSubmitEditing={focusPasswordAgainEl}
           />
-          {error === 'password' && <Text style={forms.error}>Please provide a password</Text>}
-          {error === 'password-length' && <Text style={forms.error}>Passwords must be at least 8 characters</Text>}
+          {error === 'password' && (
+            <Text style={forms.error}>Please provide a password</Text>
+          )}
+          {error === 'password-length' && (
+            <Text style={forms.error}>
+              Passwords must be at least 8 characters
+            </Text>
+          )}
         </View>
         <View style={forms.formGroup}>
           <Text style={forms.label}>Re-Enter Password</Text>
           <TextInput
-            ref={el => passwordAgainEl = el}
-            style={[focusInput === 'passwordAgain' ? forms.inputFocus : forms.input]}
+            ref={el => (passwordAgainEl = el)}
+            style={[
+              focusInput === 'passwordAgain' ? forms.inputFocus : forms.input,
+            ]}
             onFocus={onPasswordAgainFocus}
             onBlur={onBlur}
             onChangeText={onPasswordAgainChange}
@@ -161,14 +189,21 @@ export default ({
             returnKeyType="go"
             onSubmitEditing={onSubmit}
           />
-          {error === 'password-mismatch' && <Text style={forms.error}>Passwords do not match</Text>}
+          {error === 'password-mismatch' && (
+            <Text style={forms.error}>Passwords do not match</Text>
+          )}
         </View>
-        {error === 'response' && <Well text="There was an error confirming signup"/>}
-        {error === 'user request used' && <Well text="This user already exists"/>}
+        {error === 'response' && (
+          <Well text="There was an error confirming signup" />
+        )}
+        {error === 'user request used' && (
+          <Well text="This user already exists" />
+        )}
         <View style={forms.buttonRow}>
-          <View style={{
-            flex: 1,
-          }}>
+          <View
+            style={{
+              flex: 1,
+            }}>
             <Button
               onPress={onSubmit}
               containerViewStyle={buttons.infoContainer}

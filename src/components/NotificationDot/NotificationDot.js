@@ -1,12 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
-import ReactArt, {
-  Group,
-  Shape,
-  Surface,
-  Transform,
-} from 'ReactNativeART';
+import ReactArt, { Group, Shape, Surface, Transform } from 'ReactNativeART';
 
 import Circle from '../Circle';
 import { vars } from '../../styles';
@@ -21,12 +16,8 @@ const NotificationDot = ({ style = {} }) => (
         zIndex: 10,
       },
       style,
-    ]}
-  >
-    <Surface
-      width={16}
-      height={16}
-    >
+    ]}>
+    <Surface width={16} height={16}>
       <Group>
         <Circle
           radius={8}

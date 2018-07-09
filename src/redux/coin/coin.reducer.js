@@ -27,20 +27,20 @@ export default function reducer(state = defaultState, action) {
       return {
         ...state,
         recentlySentCoinCount: getRecentlySentTokenCount(state.sentCoins),
-      }
+      };
     case SEND_COIN_ATTEMPT:
       return {
         ...state,
         recentlySentCoinCount: getRecentlySentTokenCount(state.sentCoins) + 1,
-      }
+      };
     case SEND_COIN_SUCCESS:
-      let sentCoins = [ action.coin, ...state.sentCoins ];
+      let sentCoins = [action.coin, ...state.sentCoins];
       return {
         ...state,
         sentCoins,
         recentlySentCoinCount: getRecentlySentTokenCount(sentCoins),
         sentCoinsCount: action.count,
-      }
+      };
     case CREATE_LOVE_NOTE_SUCCESS:
       sentCoins = [...action.luvups, ...state.sentCoins];
       return {
@@ -52,31 +52,31 @@ export default function reducer(state = defaultState, action) {
       return {
         ...state,
         count: action.count,
-      }
+      };
     case CLEAR_COIN_COUNT:
       return {
         ...state,
         count: 0,
-      }
+      };
     case SET_SENT_COINS:
       return {
         ...state,
         sentCoins: action.sentCoins,
         sentCoinsCount: action.sentCoinsCount,
         recentlySentCoinCount: getRecentlySentTokenCount(action.sentCoins),
-      }
+      };
     case SET_SENT_COINS_COUNT:
     case GET_TIMELINE_DATA_SUCCESS:
       return {
         ...state,
         sentCoinsCount: action.sentCoinsCount,
-      }
+      };
     case SET_UNVIEWED_COIN_COUNT:
       return {
         ...state,
         unviewedCoinCount: action.unviewedCoinCount,
-      }
+      };
     default:
       return state;
   }
-};
+}

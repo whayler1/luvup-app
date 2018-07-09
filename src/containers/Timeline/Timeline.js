@@ -41,7 +41,6 @@ const getSections = userEvents => {
         time: moment(new Date(event.createdAt)).format('h:mma'),
         count: 1,
       });
-
     } else {
       const lastVal = val[val.length - 1];
       const lastEvt = lastVal.data[lastVal.data.length - 1];
@@ -90,19 +89,28 @@ class Timeline extends Component {
   closeModal = () => this.setState({ isModalVisible: false });
 
   getMoreUserEvents = async () => {
-    const res = await this.props.getUserEvents(userEventsLimit, this.state.page * userEventsLimit, true);
-  }
+    const res = await this.props.getUserEvents(
+      userEventsLimit,
+      this.state.page * userEventsLimit,
+      true
+    );
+  };
 
   onEndReached = _.throttle(() => {
     /**
      * - do not do anything if sections havent loaded yet.
      * - do not do anything if # items loaded is equal to or more then count
      */
-    if (this.state.isSectionsLoaded &&
-        (userEventsLimit * (this.state.page + 1)) < this.props.userEventsCount) {
-      this.setState({
-        page: this.state.page + 1,
-      }, this.getMoreUserEvents);
+    if (
+      this.state.isSectionsLoaded &&
+      userEventsLimit * (this.state.page + 1) < this.props.userEventsCount
+    ) {
+      this.setState(
+        {
+          page: this.state.page + 1,
+        },
+        this.getMoreUserEvents
+      );
     } else {
       this.setState({ isAtEndOfList: true });
     }
@@ -110,15 +118,16 @@ class Timeline extends Component {
 
   goBack = () => Actions.pop();
 
-  setSections = (userEvents) => {
+  setSections = userEvents => {
     const events = userEvents || this.props.userEvents;
     const sections = getSections(events);
     /**
      * JW: we have to stagger "isSectionsLoaded" to happen one frame after
      * adding sections so the sections can draw before we fire onEndReached
      */
-    this.setState({ sections },
-      () => setTimeout(() => this.setState({ isSectionsLoaded: true }), 500));
+    this.setState({ sections }, () =>
+      setTimeout(() => this.setState({ isSectionsLoaded: true }), 500)
+    );
   };
 
   setInitials = () => {
@@ -130,8 +139,12 @@ class Timeline extends Component {
     } = this.props;
 
     this.setState({
-      userInitials: (userFirstName.substr(0,1) + userLastName.substr(0,1)).toUpperCase(),
-      loverInitials: (loverFirstName.substr(0,1) + loverLastName.substr(0,1)).toUpperCase(),
+      userInitials: (
+        userFirstName.substr(0, 1) + userLastName.substr(0, 1)
+      ).toUpperCase(),
+      loverInitials: (
+        loverFirstName.substr(0, 1) + loverLastName.substr(0, 1)
+      ).toUpperCase(),
     });
   };
 
@@ -145,22 +158,27 @@ class Timeline extends Component {
     if (this.props.userEvents.length) {
       this.setSections();
     }
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.userEvents.length && nextProps.userEvents[0].createdAt !== this.state.prevMostRecentUserEvent) {
+    if (
+      nextProps.userEvents.length &&
+      nextProps.userEvents[0].createdAt !== this.state.prevMostRecentUserEvent
+    ) {
       this.setSections(nextProps.userEvents);
     }
   }
 
   render() {
-    return <Template
-      {...this.props}
-      {...this.state}
-      goBack={this.goBack}
-      onEndReached={this.onEndReached}
-      closeModal={this.closeModal}
-    />;
+    return (
+      <Template
+        {...this.props}
+        {...this.state}
+        goBack={this.goBack}
+        onEndReached={this.onEndReached}
+        closeModal={this.closeModal}
+      />
+    );
   }
 }
 

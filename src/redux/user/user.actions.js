@@ -1,15 +1,35 @@
 import superagent from 'superagent';
 import { AsyncStorage } from 'react-native';
 import _ from 'lodash';
-import { listen as listenToNotifications, remove as removeNotificationsListener } from '../../services/notifications';
+import {
+  listen as listenToNotifications,
+  remove as removeNotificationsListener,
+} from '../../services/notifications';
 
 import config from '../../config';
 import { setLover, clearLover } from '../lover/lover.actions';
-import { SET_LOVER_REQUEST, clearLoverRequest } from '../loverRequest/loverRequest.actions';
-import { setRelationship, clearRelationship } from '../relationship/relationship.actions';
-import { setSentCoins, setUnviewedCoinCount, clearCoinCount } from '../coin/coin.actions';
-import { setSentJalapenos, setUnviewedJalapenoCount, clearJalapenoCount } from '../jalapeno/jalapeno.actions';
-import { setReceivedLoverRequests, clearReceivedLoverRequests } from '../receivedLoverRequests/receivedLoverRequests.actions';
+import {
+  SET_LOVER_REQUEST,
+  clearLoverRequest,
+} from '../loverRequest/loverRequest.actions';
+import {
+  setRelationship,
+  clearRelationship,
+} from '../relationship/relationship.actions';
+import {
+  setSentCoins,
+  setUnviewedCoinCount,
+  clearCoinCount,
+} from '../coin/coin.actions';
+import {
+  setSentJalapenos,
+  setUnviewedJalapenoCount,
+  clearJalapenoCount,
+} from '../jalapeno/jalapeno.actions';
+import {
+  setReceivedLoverRequests,
+  clearReceivedLoverRequests,
+} from '../receivedLoverRequests/receivedLoverRequests.actions';
 import graphQlRequest from '../../helpers/graphQlRequest';
 
 export const SET_USER = 'user/set-user';
@@ -25,7 +45,10 @@ export const GET_TIMELINE_DATA_FAILURE = 'user/get-timeline-data-failure';
 
 export const login = (usernameOrEmail, password) => async dispatch => {
   try {
-    const res = await superagent.post(`${config.baseUrl}/login`, { username: usernameOrEmail, password });
+    const res = await superagent.post(`${config.baseUrl}/login`, {
+      username: usernameOrEmail,
+      password,
+    });
 
     await AsyncStorage.setItem('id_token', res.body.id_token);
 
@@ -38,7 +61,6 @@ export const login = (usernameOrEmail, password) => async dispatch => {
     listenToNotifications();
     return res;
   } catch (err) {
-
     return err;
   }
 };
@@ -54,12 +76,10 @@ export const logout = () => async dispatch => {
   dispatch({ type: LOGOUT });
   removeNotificationsListener();
   return true;
-}
+};
 
 export const reauth = id_token => async dispatch => {
-
   try {
-
     const res = await superagent.post(`${config.baseUrl}/reauth`, { id_token });
 
     await AsyncStorage.setItem('id_token', res.body.id_token);
@@ -74,7 +94,6 @@ export const reauth = id_token => async dispatch => {
     listenToNotifications();
     return res.body;
   } catch (err) {
-
     return err;
   }
 };
@@ -132,7 +151,7 @@ export const getMe = () => async dispatch => {
           rows { id, createdAt, isRead, note }
           count
         }
-      }`
+      }`,
     });
 
     const {
@@ -144,13 +163,7 @@ export const getMe = () => async dispatch => {
       relationship,
     } = res.body.data.me;
 
-    dispatch(setUser(
-      email,
-      username,
-      id,
-      firstName,
-      lastName,
-    ));
+    dispatch(setUser(email, username, id, firstName, lastName));
 
     if (relationship) {
       dispatch(setRelationship(relationship.id, relationship.createdAt));
@@ -158,16 +171,20 @@ export const getMe = () => async dispatch => {
       const lover = relationship.lovers[0];
 
       if (lover) {
-        dispatch(setLover(lover.id, lover.username, lover.firstName, lover.lastName));
+        dispatch(
+          setLover(lover.id, lover.username, lover.firstName, lover.lastName)
+        );
       }
     }
 
     const receivedLoverRequests = _.get(res, 'body.data.receivedLoverRequests');
     if (receivedLoverRequests) {
-      dispatch(setReceivedLoverRequests(
-        receivedLoverRequests.rows,
-        receivedLoverRequests.count
-      ));
+      dispatch(
+        setReceivedLoverRequests(
+          receivedLoverRequests.rows,
+          receivedLoverRequests.count
+        )
+      );
     }
 
     if (_.get(res, 'body.data.activeLoverRequest.loverRequest')) {
@@ -193,26 +210,16 @@ export const getMe = () => async dispatch => {
     }
     if (_.at(res, 'body.data.sentCoins')[0]) {
       const { sentCoins } = res.body.data;
-      dispatch(setSentCoins(
-        sentCoins.rows,
-        sentCoins.count,
-      ));
+      dispatch(setSentCoins(sentCoins.rows, sentCoins.count));
     }
     if (_.at(res, 'body.data.sentJalapenos')[0]) {
       const { sentJalapenos } = res.body.data;
-      dispatch(setSentJalapenos(
-        sentJalapenos.rows,
-        sentJalapenos.count,
-      ));
+      dispatch(setSentJalapenos(sentJalapenos.rows, sentJalapenos.count));
     }
     if (_.at(res, 'body.data.unviewedEventCounts')[0]) {
       const { unviewedEventCounts } = res.body.data;
-      dispatch(setUnviewedCoinCount(
-        unviewedEventCounts.coinsReceived
-      ));
-      dispatch(setUnviewedJalapenoCount(
-        unviewedEventCounts.jalapenosReceived
-      ));
+      dispatch(setUnviewedCoinCount(unviewedEventCounts.coinsReceived));
+      dispatch(setUnviewedJalapenoCount(unviewedEventCounts.jalapenosReceived));
     }
     const data = _.get(res, 'body.data');
     if (data) {
@@ -223,10 +230,9 @@ export const getMe = () => async dispatch => {
     }
     return res;
   } catch (err) {
-
     return err;
   }
-}
+};
 
 export const userRequest = email => async dispatch => {
   try {
@@ -235,7 +241,7 @@ export const userRequest = email => async dispatch => {
         userRequest( email: "${email}") {
           email error
         }
-      }`
+      }`,
     });
 
     dispatch({
@@ -247,9 +253,16 @@ export const userRequest = email => async dispatch => {
   } catch (err) {
     return err;
   }
-}
+};
 
-export const confirmUser = (email, username, firstName, lastName, code, password) => async () => {
+export const confirmUser = (
+  email,
+  username,
+  firstName,
+  lastName,
+  code,
+  password
+) => async () => {
   try {
     const res = await superagent.post(config.graphQlUrl, {
       query: `mutation {
@@ -270,7 +283,7 @@ export const confirmUser = (email, username, firstName, lastName, code, password
           }
           error
         }
-      }`
+      }`,
     });
 
     return res;
@@ -279,7 +292,13 @@ export const confirmUser = (email, username, firstName, lastName, code, password
   }
 };
 
-export const setUser = (email, username='', id='', firstName='', lastName='') => ({
+export const setUser = (
+  email,
+  username = '',
+  id = '',
+  firstName = '',
+  lastName = ''
+) => ({
   type: SET_USER,
   id,
   email,
@@ -301,12 +320,12 @@ export const confirmUserRequestCode = (email, code) => async dispatch => {
       }`,
     });
 
-
-    const confirmUserRequestCode = _.at(res, 'body.data.confirmUserRequestCode')[0];
-
+    const confirmUserRequestCode = _.at(
+      res,
+      'body.data.confirmUserRequestCode'
+    )[0];
 
     if (confirmUserRequestCode && confirmUserRequestCode.success) {
-
       dispatch({
         type: CONFIRM_USER_REQUEST_CODE,
         email,
@@ -316,12 +335,11 @@ export const confirmUserRequestCode = (email, code) => async dispatch => {
 
     return res;
   } catch (err) {
-
     return err;
   }
 };
 
-export const getTimelineData = (limit) => async (dispatch) => {
+export const getTimelineData = limit => async dispatch => {
   dispatch({ type: GET_TIMELINE_DATA_ATTEMPT });
 
   try {
@@ -344,10 +362,7 @@ export const getTimelineData = (limit) => async (dispatch) => {
     if (_.isArray(rows)) {
       dispatch({
         type: GET_TIMELINE_DATA_SUCCESS,
-        ..._.pick(data.userEvents, [
-          'rows',
-          'count',
-        ]),
+        ..._.pick(data.userEvents, ['rows', 'count']),
         sentCoinsCount: data.sentCoins.count,
         sentJalapenosCount: data.sentJalapenos.count,
       });

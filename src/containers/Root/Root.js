@@ -12,13 +12,8 @@ import {
   userLoginRouteSwitch,
   registerForPushNotifications,
 } from '../../helpers';
-import {
-  reauth as reauthAction,
-} from '../../redux/user/user.actions';
-import {
-  setIsFontLoaded as setIsFontLoadedAction,
-} from '../../redux/font/font.actions';
-
+import { reauth as reauthAction } from '../../redux/user/user.actions';
+import { setIsFontLoaded as setIsFontLoadedAction } from '../../redux/font/font.actions';
 
 class Root extends Component {
   static propTypes = {
@@ -32,46 +27,37 @@ class Root extends Component {
   };
 
   reauth = async id_token => {
-
     const res = await this.props.reauth(id_token);
-
 
     if (this.props.id) {
       registerForPushNotifications();
       userLoginRouteSwitch();
     } else {
-
       Actions.login();
     }
   };
 
   componentDidMount = async () => {
-
     await Font.loadAsync({
-      'yesteryear': require('../../fonts/yesteryear/yesteryear.ttf'),
-      'quicksandregular': require('../../fonts/Quicksand/Quicksand-Regular.ttf'),
-      'quicksandbold': require('../../fonts/Quicksand/Quicksand-Bold.ttf'),
+      yesteryear: require('../../fonts/yesteryear/yesteryear.ttf'),
+      quicksandregular: require('../../fonts/Quicksand/Quicksand-Regular.ttf'),
+      quicksandbold: require('../../fonts/Quicksand/Quicksand-Bold.ttf'),
     });
 
     this.props.setIsFontLoaded(true);
 
     const id_token = await AsyncStorage.getItem('id_token');
 
-
     if (id_token) {
-
       this.reauth(id_token);
     } else {
-
       Actions.login();
     }
   };
 
   render() {
-    return <Template
-      isFontLoaded={this.props.isFontLoaded}
-    />;
-  };
+    return <Template isFontLoaded={this.props.isFontLoaded} />;
+  }
 }
 
 export default connect(

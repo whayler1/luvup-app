@@ -39,13 +39,9 @@ export default ({
   loverRequestId,
 }) => (
   <View style={scene.container}>
-    <View
-      style={scene.topNav}
-    >
+    <View style={scene.topNav}>
       <View style={scene.topNavContent}>
-        <TouchableOpacity
-          onPress={goBack}
-        >
+        <TouchableOpacity onPress={goBack}>
           <Image
             source={require('../../images/heart.png')}
             style={{
@@ -60,12 +56,13 @@ export default ({
       <ScrollView
         contentContainerStyle={{
           alignSelf: 'stretch',
-        }}
-      >
+        }}>
         <View>
           <Text style={styles.title}>Profile</Text>
           <Text style={styles.label}>Name</Text>
-          <Text style={styles.value}>{userFirstName} {userLastName}</Text>
+          <Text style={styles.value}>
+            {userFirstName} {userLastName}
+          </Text>
           <Text style={styles.label}>Email</Text>
           <Text style={styles.value}>{userEmail}</Text>
           <Text style={styles.label}>Options</Text>
@@ -75,19 +72,15 @@ export default ({
               flexDirection: 'row',
               marginTop: 8,
               justifyContent: 'space-between',
-            }}
-          >
-            <Text style={{
-              color: vars.link,
-              fontSize: 20,
             }}>
+            <Text
+              style={{
+                color: vars.link,
+                fontSize: 20,
+              }}>
               Change Password
             </Text>
-            <Icon
-              name="md-unlock"
-              size={22}
-              color={vars.link}
-            />
+            <Icon name="md-unlock" size={22} color={vars.link} />
           </TouchableOpacity>
           {/* <TouchableOpacity
             style={{
@@ -115,7 +108,9 @@ export default ({
           {loverId && (
             <Fragment>
               <Text style={styles.label}>Lover</Text>
-              <Text style={styles.value}>{loverFirstName} {loverLastName}</Text>
+              <Text style={styles.value}>
+                {loverFirstName} {loverLastName}
+              </Text>
               <Text style={styles.label}>Start Date</Text>
               <Text style={styles.value}>{relationshipCreatedAtFormatted}</Text>
               <Text style={styles.label}>Options</Text>
@@ -125,76 +120,67 @@ export default ({
                   flexDirection: 'row',
                   marginTop: 8,
                   justifyContent: 'space-between',
-                }}
-              >
-                <Text style={{
-                  color: vars.danger,
-                  fontSize: 20,
                 }}>
+                <Text
+                  style={{
+                    color: vars.danger,
+                    fontSize: 20,
+                  }}>
                   End Relationship
                 </Text>
-                <Icon
-                  name="md-alert"
-                  size={22}
-                  color={vars.danger}
-                />
+                <Icon name="md-alert" size={22} color={vars.danger} />
               </TouchableOpacity>
             </Fragment>
           )}
-          {(!loverId && !loverRequestId) && (
-            <Fragment>
-              <Text style={styles.label}>Options</Text>
-              <TouchableOpacity
-                onPress={goToCreateLoverRequest}
-                style={{
-                  flexDirection: 'row',
-                  marginTop: 8,
-                  justifyContent: 'space-between',
-                }}
-              >
-                <Text style={{
-                  color: vars.link,
-                  fontSize: 20,
-                }}>
-                  Send Lover Request
-                </Text>
-                <Icon
-                  name="md-send"
-                  size={22}
-                  color={vars.link}
-                />
-              </TouchableOpacity>
-            </Fragment>
-          )}
-          {(!loverId && loverRequestId) && (
-            <Fragment>
-              <Text style={styles.label}>Options</Text>
-              <TouchableOpacity
-                onPress={goToDashboard}
-                style={{
-                  flexDirection: 'row',
-                  marginTop: 8,
-                  justifyContent: 'space-between',
-                }}
-              >
-                <Text style={{
-                  color: vars.link,
-                  fontSize: 20,
-                }}>
-                  View Pending Lover Request
-                </Text>
-                <Icon
-                  name="md-send"
-                  size={22}
-                  color={vars.link}
-                />
-              </TouchableOpacity>
-            </Fragment>
-          )}
+          {!loverId &&
+            !loverRequestId && (
+              <Fragment>
+                <Text style={styles.label}>Options</Text>
+                <TouchableOpacity
+                  onPress={goToCreateLoverRequest}
+                  style={{
+                    flexDirection: 'row',
+                    marginTop: 8,
+                    justifyContent: 'space-between',
+                  }}>
+                  <Text
+                    style={{
+                      color: vars.link,
+                      fontSize: 20,
+                    }}>
+                    Send Lover Request
+                  </Text>
+                  <Icon name="md-send" size={22} color={vars.link} />
+                </TouchableOpacity>
+              </Fragment>
+            )}
+          {!loverId &&
+            loverRequestId && (
+              <Fragment>
+                <Text style={styles.label}>Options</Text>
+                <TouchableOpacity
+                  onPress={goToDashboard}
+                  style={{
+                    flexDirection: 'row',
+                    marginTop: 8,
+                    justifyContent: 'space-between',
+                  }}>
+                  <Text
+                    style={{
+                      color: vars.link,
+                      fontSize: 20,
+                    }}>
+                    View Pending Lover Request
+                  </Text>
+                  <Icon name="md-send" size={22} color={vars.link} />
+                </TouchableOpacity>
+              </Fragment>
+            )}
         </View>
-        <View style={{
-          marginTop: 40,
-        }}>
+        <View
+          style={{
+            marginTop: 40,
+          }}>
           <Button
             raised
             onPress={onLogout}
@@ -206,32 +192,19 @@ export default ({
         </View>
       </ScrollView>
     </View>
-    <ModalContentWrap
-      visible={isModalVisible}
-    >
+    <ModalContentWrap visible={isModalVisible}>
       {modalType === 'changePassword' && (
-        <ChangePasswordModalContent
-          closeModal={closeModal}
-        />
+        <ChangePasswordModalContent closeModal={closeModal} />
       )}
       {modalType === 'endRelationship' && (
         <View
           style={{
             alignSelf: 'stretch',
             alignItems: 'center',
-          }}
-        >
-          <Icon
-            name="md-alert"
-            size={60}
-            color={vars.danger}
-          />
-          <Text style={modal.title}>
-            End Relationship
-          </Text>
-          <Text style={modal.copy}>
-            This can not be undone!
-          </Text>
+          }}>
+          <Icon name="md-alert" size={60} color={vars.danger} />
+          <Text style={modal.title}>End Relationship</Text>
+          <Text style={modal.copy}>This can not be undone!</Text>
           <View style={forms.buttonRow}>
             <View style={forms.buttonCell2ColLeft}>
               <Button
