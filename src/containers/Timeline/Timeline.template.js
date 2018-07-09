@@ -21,6 +21,10 @@ import Preloader from '../../components/Preloader';
 
 const keyExtractor = item => item.id;
 
+/**
+ * JW: some comment
+ */
+
 export default ({
   coinCount,
   jalapenoCount,
