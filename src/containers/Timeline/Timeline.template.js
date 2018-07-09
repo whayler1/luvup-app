@@ -7,6 +7,7 @@ import {
   SectionList,
   Header,
   Modal,
+  Blorp,
 } from 'react-native';
 import { Button } from 'react-native-elements';
 
@@ -20,10 +21,6 @@ import ListEmptyComponent from './Timeline.ListEmptyComponent.template';
 import Preloader from '../../components/Preloader';
 
 const keyExtractor = item => item.id;
-
-/**
- * JW: some comment. Another benign change
- */
 
 export default ({
   coinCount,
