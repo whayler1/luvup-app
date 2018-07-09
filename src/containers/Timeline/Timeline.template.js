@@ -5,14 +5,12 @@ import {
   TouchableOpacity,
   Image,
   SectionList,
-  Header,
   Modal,
-  lhjjk,
 } from 'react-native';
 import { Button } from 'react-native-elements';
 
 import styles from './Timeline.styles';
-import { buttons, forms, scene, modal, vars } from '../../styles';
+import { buttons, scene, modal } from '../../styles';
 import renderItem from './Timeline.renderItem.template';
 import renderSectionHeader from './Timeline.renderSectionHeader.template';
 import ListHeaderComponent from './Timeline.ListHeaderComponent.template';
