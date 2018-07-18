@@ -1,15 +1,6 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-} from 'react-native';
-import ReactArt, {
-    Group,
-    Shape,
-    Surface,
-    Transform,
-} from 'ReactNativeART';
+import { View, Text, Image } from 'react-native';
+import ReactArt, { Group, Shape, Surface, Transform } from 'ReactNativeART';
 
 import Circle from '../../components/Circle';
 import { vars } from '../../styles';
@@ -20,29 +11,19 @@ import jalapenoImg from '../../images/jalapeno.png';
 const circumfrance = 36;
 const radius = circumfrance / 2;
 
-const leaderboardSlot = ({
-  initials,
-  coinCount,
-  jalapenoCount,
-  isSecond,
-}) => (
-  <View style={isSecond ? styles.leaderboardSlotSecond : styles.leaderboardSlot}>
-    <View style={{
-      width: 44,
-      height: 44,
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}>
-      <Surface
-        width={44}
-        height={44}
-      >
+const leaderboardSlot = ({ initials, coinCount, jalapenoCount, isSecond }) => (
+  <View
+    style={isSecond ? styles.leaderboardSlotSecond : styles.leaderboardSlot}>
+    <View
+      style={{
+        width: 44,
+        height: 44,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <Surface width={44} height={44}>
         <Group x={1} y={1}>
-          <Circle
-            radius={21}
-            stroke={vars.blueGrey500}
-            strokeColor={2}
-          />
+          <Circle radius={21} stroke={vars.blueGrey500} strokeColor={2} />
         </Group>
       </Surface>
       <Text
@@ -52,16 +33,16 @@ const leaderboardSlot = ({
           color: vars.blueGrey800,
           fontFamily: vars.fontBlack,
           fontSize: 20,
-        }}
-      >
+        }}>
         {initials}
       </Text>
     </View>
-    <View style={{
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}>
+    <View
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
       <Image
         source={coinImg}
         style={{
@@ -70,7 +51,7 @@ const leaderboardSlot = ({
           marginLeft: 16,
         }}
       />
-      <Text style={styles.leaderboardText}>{ coinCount }</Text>
+      <Text style={styles.leaderboardText}>{coinCount}</Text>
       <Image
         source={jalapenoImg}
         style={{
@@ -79,7 +60,7 @@ const leaderboardSlot = ({
           marginLeft: 16,
         }}
       />
-      <Text style={styles.leaderboardText}>{ jalapenoCount }</Text>
+      <Text style={styles.leaderboardText}>{jalapenoCount}</Text>
     </View>
   </View>
 );

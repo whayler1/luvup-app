@@ -1,7 +1,5 @@
 import _ from 'lodash';
-import {
-  CREATE_RELATIONSHIP_SCORE
-} from './relationshipScore.actions';
+import { CREATE_RELATIONSHIP_SCORE } from './relationshipScore.actions';
 
 const defaultState = {
   id: '',
@@ -22,7 +20,7 @@ export default function reducer(state = defaultState, action) {
         ...state,
         ..._.pick(action, ['id', 'createdAt', 'score']),
         scoreQuartile: Math.min(Math.floor(action.score * 0.04), 3),
-      }
+      };
     default:
       return state;
   }

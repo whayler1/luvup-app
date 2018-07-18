@@ -17,13 +17,15 @@ class LoveNotes extends PureComponent {
     isGetReceivedLoveNotesInFlight: PropTypes.bool.isRequired,
     getReceivedLoveNotesError: PropTypes.string.isRequired,
     receivedLoveNoteCount: PropTypes.number.isRequired,
-    receivedLoveNotes: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      note: PropTypes.string.isRequired,
-      createdAt: PropTypes.string.isRequired,
-      numLuvups: PropTypes.number,
-      numJalapenos: PropTypes.number,
-    })).isRequired,
+    receivedLoveNotes: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        note: PropTypes.string.isRequired,
+        createdAt: PropTypes.string.isRequired,
+        numLuvups: PropTypes.number,
+        numJalapenos: PropTypes.number,
+      })
+    ).isRequired,
     getReceivedLoveNotes: PropTypes.func.isRequired,
     setLoveNotesReadWithCreatedAt: PropTypes.func.isRequired,
   };
@@ -39,10 +41,7 @@ class LoveNotes extends PureComponent {
   }
 
   getReceivedLoveNotes = async () => {
-    const {
-      setLoveNotesReadWithCreatedAt,
-      getReceivedLoveNotes,
-    } = this.props;
+    const { setLoveNotesReadWithCreatedAt, getReceivedLoveNotes } = this.props;
     await getReceivedLoveNotes({
       isRead: null,
       limit,
@@ -69,24 +68,23 @@ class LoveNotes extends PureComponent {
     const { receivedLoveNoteCount, receivedLoveNotes } = this.props;
 
     if (receivedLoveNotes.length < receivedLoveNoteCount) {
-      this.setState({
-        offset: this.state.offset += limit,
-      }, this.appendReceivedLoveNotes);
+      this.setState(
+        {
+          offset: (this.state.offset += limit),
+        },
+        this.appendReceivedLoveNotes
+      );
     }
   };
 
   render() {
     const props = {
       ...this.props,
-      ..._.pick(this, [
-        'onEndReached',
-      ]),
+      ..._.pick(this, ['onEndReached']),
     };
-    return (
-      <Template {...props} />
-    );
+    return <Template {...props} />;
   }
-};
+}
 
 export default connect(
   state => ({
@@ -100,5 +98,5 @@ export default connect(
   {
     getReceivedLoveNotes: getReceivedLoveNotesAction,
     setLoveNotesReadWithCreatedAt: setLoveNotesReadWithCreatedAtAction,
-  },
+  }
 )(LoveNotes);

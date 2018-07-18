@@ -9,7 +9,6 @@ import { emailRegex } from '../../helpers';
 import Template from './SignUp.template';
 import { userRequest as userRequestAction } from '../../redux/user/user.actions';
 
-
 class SignUp extends Component {
   static propTypes = {
     userRequest: PropTypes.func.isRequired,
@@ -34,21 +33,24 @@ class SignUp extends Component {
   };
 
   submit = async () => {
-    
     const res = await this.props.userRequest(this.state.email);
-    
 
-    if (!('body' in res && 'data' in res.body && 'userRequest' in res.body.data)) {
+    if (
+      !('body' in res && 'data' in res.body && 'userRequest' in res.body.data)
+    ) {
       this.setState({ error: 'response', isInFlight: false });
     } else {
       const { error } = res.body.data.userRequest;
       if (error) {
         this.setState({ error, isInFlight: false });
       } else {
-        this.setState({
-          error: '',
-          isInFlight: false,
-        }, () => Actions.confirmUserRequestCode());
+        this.setState(
+          {
+            error: '',
+            isInFlight: false,
+          },
+          () => Actions.confirmUserRequestCode()
+        );
       }
     }
   };
@@ -63,15 +65,17 @@ class SignUp extends Component {
   };
 
   render() {
-    return <Template
-      onEmailFocus={this.onEmailFocus}
-      onEmailChange={this.onEmailChange}
-      onBlur={this.onBlure}
-      onSubmit={this.onSubmit}
-      {...this.state}
-    />;
-  };
-};
+    return (
+      <Template
+        onEmailFocus={this.onEmailFocus}
+        onEmailChange={this.onEmailChange}
+        onBlur={this.onBlure}
+        onSubmit={this.onSubmit}
+        {...this.state}
+      />
+    );
+  }
+}
 
 export default connect(
   null,

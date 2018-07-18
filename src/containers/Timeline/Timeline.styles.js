@@ -27,6 +27,11 @@ const leaderboardSlotSecond = {
 };
 
 export default new StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    alignItems: 'center',
+  },
   sectionList: {
     alignSelf: 'stretch',
   },
@@ -78,5 +83,17 @@ export default new StyleSheet.create({
     color: vars.blueGrey500,
     fontSize: 14,
     fontFamily: vars.fontRegular,
+  },
+  heartBtn: {
+    flex: 1,
+    alignItems: 'flex-end',
+  },
+  heartImg: {
+    width: 32,
+    height: 30,
+  },
+  sectionListWrapper: {
+    paddingTop: 83,
+    alignSelf: 'stretch',
   },
 });

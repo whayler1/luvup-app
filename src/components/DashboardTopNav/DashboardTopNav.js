@@ -18,10 +18,12 @@ export default class DashboardTopNav extends Component {
   onInitialsClick = () => Actions.menu();
 
   render() {
-    return <Template
-      onScoreClick={this.onScoreClick}
-      onInitialsClick={this.onInitialsClick}
-      {...this.props}
-    />;
+    return (
+      <Template
+        onScoreClick={this.onScoreClick}
+        onInitialsClick={this.onInitialsClick}
+        {...this.props}
+      />
+    );
   }
-};
+}

@@ -43,7 +43,7 @@ class ConfirmUserRequestCreateProfile extends Component {
   onPasswordAgainFocus = this._onFocusFunc('passwordAgain');
   onBlur = this._onFocusFunc('');
   onUsernameChange = this._onChangeFunc('username');
-  onFirstNameChange = this._onChangeFunc('firstName')
+  onFirstNameChange = this._onChangeFunc('firstName');
   onLastNameChange = this._onChangeFunc('lastName');
   onPasswordChange = this._onChangeFunc('password');
   onPasswordAgainChange = this._onChangeFunc('passwordAgain');
@@ -57,7 +57,7 @@ class ConfirmUserRequestCreateProfile extends Component {
       return 'username-length';
     }
     if (!password) {
-      return 'password'
+      return 'password';
     }
     if (password.length < 6) {
       return 'password-length';
@@ -66,7 +66,7 @@ class ConfirmUserRequestCreateProfile extends Component {
       return 'password-mismatch';
     }
     return '';
-  }
+  };
 
   login = async () => {
     const { username, password } = this.state;
@@ -80,9 +80,16 @@ class ConfirmUserRequestCreateProfile extends Component {
   submit = async () => {
     const { email, code } = this.props;
     const { username, firstName, lastName, password } = this.state;
-    const res = await this.props.confirmUser(email, username, firstName, lastName, code, password);
+    const res = await this.props.confirmUser(
+      email,
+      username,
+      firstName,
+      lastName,
+      code,
+      password
+    );
 
-    if (!(_.at(res, 'body.data.confirmUser')[0])) {
+    if (!_.at(res, 'body.data.confirmUser')[0]) {
       this.setState({ error: 'response', isInFlight: false });
     } else {
       const { error } = res.body.data.confirmUser;
@@ -92,11 +99,11 @@ class ConfirmUserRequestCreateProfile extends Component {
         this.login();
       }
     }
-  }
+  };
 
   onSubmit = () => {
     const errorStr = this.getValidationError();
-    
+
     if (errorStr.length) {
       this.setState({ error: errorStr });
       return;
@@ -105,25 +112,28 @@ class ConfirmUserRequestCreateProfile extends Component {
   };
 
   render() {
-    return <Template
-      {..._.pick(this,
-        'onUsernameFocus',
-        'onFirstNameFocus',
-        'onLastNameFocus',
-        'onPasswordFocus',
-        'onPasswordAgainFocus',
-        'onBlur',
-        'onUsernameChange',
-        'onFirstNameChange',
-        'onLastNameChange',
-        'onPasswordChange',
-        'onPasswordAgainChange',
-        'onSubmit',
-      )}
-      {...this.state}
-    />;
-  };
-};
+    return (
+      <Template
+        {..._.pick(
+          this,
+          'onUsernameFocus',
+          'onFirstNameFocus',
+          'onLastNameFocus',
+          'onPasswordFocus',
+          'onPasswordAgainFocus',
+          'onBlur',
+          'onUsernameChange',
+          'onFirstNameChange',
+          'onLastNameChange',
+          'onPasswordChange',
+          'onPasswordAgainChange',
+          'onSubmit'
+        )}
+        {...this.state}
+      />
+    );
+  }
+}
 
 export default connect(
   state => ({

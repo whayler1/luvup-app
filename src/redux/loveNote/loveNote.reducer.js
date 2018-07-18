@@ -8,9 +8,7 @@ import {
   SET_LOVE_NOTES_READ_WITH_CREATED_AT_SUCCESS,
   SET_LOVE_NOTES_READ_WITH_CREATED_AT_FAILURE,
 } from './loveNote.actions';
-import {
-  ADD_NOTIFICATION,
-} from '../notifications/notifications.actions';
+import { ADD_NOTIFICATION } from '../notifications/notifications.actions';
 import { GET_ME_SUCCESS } from '../user/user.actions';
 
 const defaultState = {
@@ -24,7 +22,7 @@ const defaultState = {
 };
 
 export default function reducer(state = defaultState, action) {
-  switch(action.type) {
+  switch (action.type) {
     case GET_RECEIVED_LOVE_NOTES_ATTEMPT:
       return {
         ...state,
@@ -69,7 +67,11 @@ export default function reducer(state = defaultState, action) {
         setLoveNotesReadWithCreatedAtFailure: action.error,
       };
     case GET_ME_SUCCESS:
-      let unreadReceivedLoveNoteCount = _.get(action.data, 'receivedLoveNotes.count', 0);
+      let unreadReceivedLoveNoteCount = _.get(
+        action.data,
+        'receivedLoveNotes.count',
+        0
+      );
       return {
         ...state,
         unreadReceivedLoveNoteCount,
@@ -87,4 +89,4 @@ export default function reducer(state = defaultState, action) {
     default:
       return state;
   }
-};
+}

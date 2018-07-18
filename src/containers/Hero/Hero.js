@@ -8,9 +8,7 @@ import { Actions } from 'react-native-router-flux';
 import { AlertIOS } from 'react-native';
 
 import Template from './Hero.template';
-import {
-  createRelationshipScore as createRelationshipScoreAction,
-} from '../../redux/relationshipScore/relationshipScore.actions';
+import { createRelationshipScore as createRelationshipScoreAction } from '../../redux/relationshipScore/relationshipScore.actions';
 import {
   refreshSentCoinCount as refreshSentCoinCountAction,
   sendCoin as sendCoinAction,
@@ -23,9 +21,7 @@ import {
   cancelLoverRequest as cancelLoverRequestAction,
   resendLoverRequestEmail as resendLoverRequestEmailAction,
 } from '../../redux/loverRequest/loverRequest.actions';
-import {
-  getReceivedLoverRequests as getReceivedLoverRequestsAction,
-} from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
+import { getReceivedLoverRequests as getReceivedLoverRequestsAction } from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
 import config from '../../config';
 
 class Hero extends Component {
@@ -35,8 +31,9 @@ class Hero extends Component {
     this.state = {
       dragDirection: 0,
       isInRelationship: props.relationshipId.length > 0,
-      loverRequestCreatedAtTimeAgo: props.loverRequestCreatedAt ?
-        moment(new Date(props.loverRequestCreatedAt)).fromNow() : '',
+      loverRequestCreatedAtTimeAgo: props.loverRequestCreatedAt
+        ? moment(new Date(props.loverRequestCreatedAt)).fromNow()
+        : '',
       error: '',
       isCancelInFlight: false,
       resendIsInFlight: false,
@@ -51,7 +48,6 @@ class Hero extends Component {
       onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
 
       onPanResponderGrant: (evt, gestureState) => {
-
         this.scaleBGHeart.setValue(1);
         this.springScaleTouch();
         this.showDirections();
@@ -63,12 +59,12 @@ class Hero extends Component {
       onPanResponderMove: (evt, gestureState) => {
         const { dy } = gestureState;
         this.translateY.setValue(dy);
-        this.scale.setValue((-dy / 700) + 1);
+        this.scale.setValue(-dy / 700 + 1);
 
         if (dy < -3) {
           this.setDragDirection(1);
           this.hideDirections();
-        } else if ( dy > 3) {
+        } else if (dy > 3) {
           this.setDragDirection(-1);
           this.hideDirections();
         } else {
@@ -82,7 +78,6 @@ class Hero extends Component {
       },
       onPanResponderTerminationRequest: (evt, gestureState) => true,
       onPanResponderRelease: (evt, gestureState) => {
-
         this.springY();
         this.springScaleBack();
         this.hideDirections();
@@ -108,7 +103,7 @@ class Hero extends Component {
         // should be cancelled
       },
     });
-  };
+  }
 
   static propTypes = {
     relationshipId: PropTypes.string,
@@ -147,17 +142,35 @@ class Hero extends Component {
   /**
    * JW: This logic could probably be simplified somehow. But works-for-now™
    */
-  isMaxItemsPerHourSent = (items) => items.length < config.maxItemsPerHour || (items.length >= config.maxItemsPerHour && moment(new Date(items[config.maxItemsPerHour - 1].createdAt)).isBefore(moment().subtract(1, 'hour')));
+  isMaxItemsPerHourSent = items =>
+    items.length < config.maxItemsPerHour ||
+    (items.length >= config.maxItemsPerHour &&
+      moment(new Date(items[config.maxItemsPerHour - 1].createdAt)).isBefore(
+        moment().subtract(1, 'hour')
+      ));
 
   resendLoverRequestEmail = async () => {
-    await new Promise(resolve => this.setState({
-      resendIsInFlight: true,
-      error: '',
-    }, () => resolve()));
-    const res = await this.props.resendLoverRequestEmail(this.props.loverRequestId);
-    const resendLoverRequestEmailObj = _.at(res, 'body.data.resendLoverRequestEmail')[0];
+    await new Promise(resolve =>
+      this.setState(
+        {
+          resendIsInFlight: true,
+          error: '',
+        },
+        () => resolve()
+      )
+    );
+    const res = await this.props.resendLoverRequestEmail(
+      this.props.loverRequestId
+    );
+    const resendLoverRequestEmailObj = _.at(
+      res,
+      'body.data.resendLoverRequestEmail'
+    )[0];
 
-    if (_.isObject(resendLoverRequestEmailObj) && resendLoverRequestEmailObj.success) {
+    if (
+      _.isObject(resendLoverRequestEmailObj) &&
+      resendLoverRequestEmailObj.success
+    ) {
       this.setState({
         resendIsInFlight: false,
         isResendSuccess: true,
@@ -168,16 +181,24 @@ class Hero extends Component {
         error: 'resend-error',
       });
     }
-  }
+  };
 
   cancelLoverRequest = async () => {
-    await new Promise(resolve => this.setState({
-      isCancelInFlight: true,
-      error: '',
-    }, () => resolve()));
+    await new Promise(resolve =>
+      this.setState(
+        {
+          isCancelInFlight: true,
+          error: '',
+        },
+        () => resolve()
+      )
+    );
     const res = await this.props.cancelLoverRequest(this.props.loverRequestId);
 
-    const loverRequest = _.get(res, 'body.data.cancelLoverRequest.loverRequest');
+    const loverRequest = _.get(
+      res,
+      'body.data.cancelLoverRequest.loverRequest'
+    );
 
     if (_.isObject(loverRequest) && 'id' in loverRequest) {
       await this.props.getReceivedLoverRequests();
@@ -191,7 +212,6 @@ class Hero extends Component {
         isCancelInFlight: false,
         error: 'cancel-error',
       });
-
     }
   };
 
@@ -202,7 +222,9 @@ class Hero extends Component {
       this.fireCoin();
       const res = await this.props.sendCoin();
       if (_.isError(res)) {
-        AlertIOS.alert('There was an error sending your Luvup. Please make sure you are connected to wifi or cellular data.');
+        AlertIOS.alert(
+          'There was an error sending your Luvup. Please make sure you are connected to wifi or cellular data.'
+        );
       }
     } else {
       this.props.openModal('coin');
@@ -216,75 +238,59 @@ class Hero extends Component {
       this.fireJalapeno();
       const res = await this.props.sendJalapeno();
       if (_.isError(res)) {
-        AlertIOS.alert('There was an error sending your jalapeno. Please make sure you are connected to wifi or cellular data.');
+        AlertIOS.alert(
+          'There was an error sending your jalapeno. Please make sure you are connected to wifi or cellular data.'
+        );
       }
     } else {
       this.props.openModal('jalapeno');
     }
-  }
+  };
 
   springY() {
-    Animated.spring(
-      this.translateY,
-      {
-        toValue: 0,
-        friction: 4
-      }
-    ).start()
-  };
+    Animated.spring(this.translateY, {
+      toValue: 0,
+      friction: 4,
+    }).start();
+  }
 
   springScaleBack() {
-    Animated.spring(
-      this.scaleBGHeart,
-      {
-        toValue: 1,
-        friction: 4
-      }
-    ).start()
-  };
+    Animated.spring(this.scaleBGHeart, {
+      toValue: 1,
+      friction: 4,
+    }).start();
+  }
 
   springScaleTouch() {
-    Animated.spring(
-      this.scaleBGHeart,
-      {
-        toValue: 1.05,
-        friction: 3,
-      }
-    ).start();
-  };
+    Animated.spring(this.scaleBGHeart, {
+      toValue: 1.05,
+      friction: 3,
+    }).start();
+  }
 
   fireCoin() {
     this.coinTranslateY.setValue(0);
     this.coinOpacity.setValue(1);
 
     Animated.sequence([
-      Animated.timing(
-        this.coinTranslateY,
-        {
-          toValue: -160,
-          duration: 250,
-          easing: Easing.out(Easing.ease),
-        }
-      ),
+      Animated.timing(this.coinTranslateY, {
+        toValue: -160,
+        duration: 250,
+        easing: Easing.out(Easing.ease),
+      }),
       Animated.parallel([
-        Animated.timing(
-          this.coinOpacity,
-          {
-            toValue: 0,
-            duration: 250,
-            delay: 250,
-            easing: Easing.inOut(Easing.linear)
-          }
-        ),
-        Animated.timing(
-          this.coinTranslateY,
-          {
-            toValue: -200,
-            duration: 250,
-            delay: 250,
-            easing: Easing.inOut(Easing.linear)
-          }
-        ),
+        Animated.timing(this.coinOpacity, {
+          toValue: 0,
+          duration: 250,
+          delay: 250,
+          easing: Easing.inOut(Easing.linear),
+        }),
+        Animated.timing(this.coinTranslateY, {
+          toValue: -200,
+          duration: 250,
+          delay: 250,
+          easing: Easing.inOut(Easing.linear),
+        }),
       ]),
     ]).start();
   }
@@ -294,60 +300,47 @@ class Hero extends Component {
     this.jalapenoOpacity.setValue(1);
 
     Animated.sequence([
-      Animated.timing(
-        this.jalapenoTranslateY,
-        {
-          toValue: 180,
-          duration: 250,
-          easing: Easing.out(Easing.ease),
-        }
-      ),
+      Animated.timing(this.jalapenoTranslateY, {
+        toValue: 180,
+        duration: 250,
+        easing: Easing.out(Easing.ease),
+      }),
       Animated.parallel([
-        Animated.timing(
-          this.jalapenoOpacity,
-          {
-            toValue: 0,
-            duration: 250,
-            delay: 250,
-            easing: Easing.inOut(Easing.linear)
-          }
-        ),
-        Animated.timing(
-          this.jalapenoTranslateY,
-          {
-            toValue: 220,
-            duration: 250,
-            delay: 250,
-            easing: Easing.inOut(Easing.linear)
-          }
-        ),
+        Animated.timing(this.jalapenoOpacity, {
+          toValue: 0,
+          duration: 250,
+          delay: 250,
+          easing: Easing.inOut(Easing.linear),
+        }),
+        Animated.timing(this.jalapenoTranslateY, {
+          toValue: 220,
+          duration: 250,
+          delay: 250,
+          easing: Easing.inOut(Easing.linear),
+        }),
       ]),
     ]).start();
   }
 
   showDirections() {
-    Animated.timing(
-      this.directionsOpacity,
-      {
-        toValue: 1,
-        duration: 250,
-        delay: 250,
-        easing: Easing.inOut(Easing.linear)
-      }
-    ).start();
+    Animated.timing(this.directionsOpacity, {
+      toValue: 1,
+      duration: 250,
+      delay: 250,
+      easing: Easing.inOut(Easing.linear),
+    }).start();
   }
   hideDirections() {
-    Animated.timing(
-      this.directionsOpacity,
-      {
-        toValue: 0,
-        duration: 250,
-        easing: Easing.inOut(Easing.linear)
-      }
-    ).start();
+    Animated.timing(this.directionsOpacity, {
+      toValue: 0,
+      duration: 250,
+      easing: Easing.inOut(Easing.linear),
+    }).start();
   }
 
-  setDragDirection = dragDirection => this.state.dragDirection !== dragDirection && this.setState({ dragDirection });
+  setDragDirection = dragDirection =>
+    this.state.dragDirection !== dragDirection &&
+    this.setState({ dragDirection });
 
   setRecentlySentCount = (collection, keyStr) => {
     const anHrAgo = moment().subtract(1, 'hour');
@@ -367,30 +360,32 @@ class Hero extends Component {
     this.props.createRelationshipScore();
     this.props.refreshSentCoinCount();
     this.props.refreshSentJalapenoCount();
-  };
+  }
 
   render() {
-    return <Template
-      panResponder={this.panResponder}
-      translateY={this.translateY}
-      scale={this.scale}
-      scaleBGHeart={this.scaleBGHeart}
-      coinTranslateY={this.coinTranslateY}
-      coinOpacity={this.coinOpacity}
-      jalapenoTranslateY={this.jalapenoTranslateY}
-      closeModal={this.closeModal}
-      jalapenoOpacity={this.jalapenoOpacity}
-      relationshipScoreQuartile={this.props.relationshipScoreQuartile}
-      dragDirection={this.dragDirection}
-      directionsOpacity={this.directionsOpacity}
-      loverRequestFirstName={this.props.loverRequestFirstName}
-      loverRequestLastName={this.props.loverRequestLastName}
-      cancelLoverRequest={this.cancelLoverRequest}
-      resendLoverRequestEmail={this.resendLoverRequestEmail}
-      recentlySentCoinCount={this.props.recentlySentCoinCount}
-      recentlySentJalapenoCount={this.props.recentlySentJalapenoCount}
-      {...this.state}
-    />;
+    return (
+      <Template
+        panResponder={this.panResponder}
+        translateY={this.translateY}
+        scale={this.scale}
+        scaleBGHeart={this.scaleBGHeart}
+        coinTranslateY={this.coinTranslateY}
+        coinOpacity={this.coinOpacity}
+        jalapenoTranslateY={this.jalapenoTranslateY}
+        closeModal={this.closeModal}
+        jalapenoOpacity={this.jalapenoOpacity}
+        relationshipScoreQuartile={this.props.relationshipScoreQuartile}
+        dragDirection={this.dragDirection}
+        directionsOpacity={this.directionsOpacity}
+        loverRequestFirstName={this.props.loverRequestFirstName}
+        loverRequestLastName={this.props.loverRequestLastName}
+        cancelLoverRequest={this.cancelLoverRequest}
+        resendLoverRequestEmail={this.resendLoverRequestEmail}
+        recentlySentCoinCount={this.props.recentlySentCoinCount}
+        recentlySentJalapenoCount={this.props.recentlySentJalapenoCount}
+        {...this.state}
+      />
+    );
   }
 }
 

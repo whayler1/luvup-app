@@ -1,8 +1,5 @@
 import _ from 'lodash';
-import {
-  SET_LOVER,
-  CLEAR_LOVER,
-} from './lover.actions';
+import { SET_LOVER, CLEAR_LOVER } from './lover.actions';
 
 const defaultState = {
   id: '',
@@ -24,8 +21,8 @@ export default function reducer(state = defaultState, action) {
         username: '',
         firstName: '',
         lastName: '',
-      }
+      };
     default:
       return state;
   }
-};
+}

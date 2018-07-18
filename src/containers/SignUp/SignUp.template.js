@@ -24,8 +24,7 @@ export default ({
     contentContainerStyle={scene.keyboardAvoidingView}
     style={scene.container}
     keyboardVerticalOffset={32}
-    behavior="padding"
-  >
+    behavior="padding">
     <ScrollView style={scene.content}>
       <Text style={modal.title}>Sign Up</Text>
       <View style={forms.formGroup}>
@@ -46,27 +45,36 @@ export default ({
           returnKeyType="go"
           onSubmitEditing={onSubmit}
         />
-        {error === 'email' && <Text style={forms.error}>Please provide a valid email</Text>}
+        {error === 'email' && (
+          <Text style={forms.error}>Please provide a valid email</Text>
+        )}
       </View>
-      {error === 'response' &&
+      {error === 'response' && (
         <View style={[wells.error, { marginTop: 32, marginBottom: 0 }]}>
-          <Text style={wells.errorText}>There was an error submitting your signup request. Please verify you are submitting a valid email. If the problem presists please email justin@luvup.io</Text>
+          <Text style={wells.errorText}>
+            There was an error submitting your signup request. Please verify you
+            are submitting a valid email. If the problem presists please email
+            justin@luvup.io
+          </Text>
         </View>
-      }
-      {error === 'email error' &&
+      )}
+      {error === 'email error' && (
         <View style={[wells.error, { marginTop: 32, marginBottom: 0 }]}>
           <Text style={wells.errorText}>Error sending signup email</Text>
         </View>
-      }
-      {error === 'used' &&
+      )}
+      {error === 'used' && (
         <View style={[wells.error, { marginTop: 32, marginBottom: 0 }]}>
-          <Text style={wells.errorText}>There is already a user with this email</Text>
+          <Text style={wells.errorText}>
+            There is already a user with this email
+          </Text>
         </View>
-      }
+      )}
       <View style={forms.buttonRow}>
-        <View style={{
-          flex: 1,
-        }}>
+        <View
+          style={{
+            flex: 1,
+          }}>
           <Button
             onPress={onSubmit}
             containerViewStyle={buttons.container}

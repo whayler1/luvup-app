@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  Image,
-} from 'react-native';
+import { View, Text, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import styles from './Timeline.styles';
@@ -64,15 +60,15 @@ const getEventImage = eventName => {
         />
       );
     case 'jalapeno-sent':
-    return (
-      <Image
-        style={{
-          width: 24,
-          height: 25,
-        }}
-        source={jalapenoSentImg}
-      />
-    );
+      return (
+        <Image
+          style={{
+            width: 24,
+            height: 25,
+          }}
+          source={jalapenoSentImg}
+        />
+      );
     case 'jalapeno-received':
       return (
         <Image
@@ -84,38 +80,32 @@ const getEventImage = eventName => {
         />
       );
     case 'password-changed':
-      return (
-        <Icon
-          name="md-lock"
-          size={36}
-          color={vars.blueGrey500}
-        />
-      );
+      return <Icon name="md-lock" size={36} color={vars.blueGrey500} />;
     case 'lovenote-sent':
-      return (
-        <LoveNoteArtFlying scale={0.4} />
-      );
+      return <LoveNoteArtFlying scale={0.4} />;
     case 'lovenote-received':
-      return (
-        <LoveNoteArtReceived scale={0.4} />
-      );
+      return <LoveNoteArtReceived scale={0.4} />;
     default:
       return;
   }
 };
 
-export default ({ item, index, section, }) => (
-  <View style={index + 1 === section.data.length ? styles.renderItemContainerLast : styles.renderItemContainer}>
+export default ({ item, index, section }) => (
+  <View
+    style={
+      index + 1 === section.data.length
+        ? styles.renderItemContainerLast
+        : styles.renderItemContainer
+    }>
     <View style={styles.renderItemContent}>
       {getEventImage(item.name)}
       <Text style={styles.renderItemContentText}>
-        {item.name !== 'password-changed' ? item.count : ''} {getEventDisplayName(item.name, item.count)}
+        {item.name !== 'password-changed' ? item.count : ''}{' '}
+        {getEventDisplayName(item.name, item.count)}
       </Text>
     </View>
     <View>
-      <Text style={styles.renderItemContentSmall}>
-        {item.time}
-      </Text>
+      <Text style={styles.renderItemContentSmall}>{item.time}</Text>
     </View>
   </View>
 );

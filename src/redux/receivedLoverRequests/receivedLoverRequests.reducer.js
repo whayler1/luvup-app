@@ -20,7 +20,9 @@ export default function reducer(state = defaultState, action) {
       };
     case ACCEPT_LOVER_REQUEST:
       const rows = [...state.rows];
-      const loverRequestIndex = state.rows.findIndex(loverReq => loverReq.id === action.id);
+      const loverRequestIndex = state.rows.findIndex(
+        loverReq => loverReq.id === action.id
+      );
       rows[loverRequestIndex] = {
         ...rows[loverRequestIndex],
         ..._.pick(action, [
@@ -40,4 +42,4 @@ export default function reducer(state = defaultState, action) {
     default:
       return state;
   }
-};
+}

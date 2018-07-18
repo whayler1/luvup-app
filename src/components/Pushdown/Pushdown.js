@@ -1,9 +1,5 @@
 import React, { PureComponent } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PropTypes from 'prop-types';
 
@@ -19,29 +15,22 @@ export default class extends PureComponent {
   componentDidMount() {
     const timeout = this.props.timeout ? this.props.timeout : 5000;
     this.to = setTimeout(this.props.closeFunc, timeout);
-  };
+  }
 
   componentWillUnmount() {
     clearTimeout(this.to);
-  };
+  }
 
   render() {
     return (
-      <View
-        style={styles.container}
-      >
+      <View style={styles.container}>
         <View style={styles.copyContainer}>{this.props.children}</View>
         <TouchableOpacity
           onPress={this.props.closeFunc}
-          style={styles.closeBtn}
-        >
-          <Icon
-            name="md-close"
-            size={30}
-            color="white"
-          />
+          style={styles.closeBtn}>
+          <Icon name="md-close" size={30} color="white" />
         </TouchableOpacity>
       </View>
     );
   }
-};
+}

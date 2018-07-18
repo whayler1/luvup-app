@@ -1,0 +1,9 @@
+{
+  "extends": [
+    "react-native",
+    "react-native-prettier"
+  ],
+  rules: {
+    "react-native/no-color-literals": "warn"
+  }
+}

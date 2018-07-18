@@ -3,7 +3,8 @@ import superagent from 'superagent';
 
 import config from '../../config';
 
-export const CREATE_RELATIONSHIP_SCORE = 'relationship-score/create-relationship-score';
+export const CREATE_RELATIONSHIP_SCORE =
+  'relationship-score/create-relationship-score';
 
 export const createRelationshipScore = () => async dispatch => {
   try {
@@ -24,13 +25,12 @@ export const createRelationshipScore = () => async dispatch => {
           'id',
           'createdAt',
           'score',
-        ])
-      })
+        ]),
+      });
     }
 
     return res;
   } catch (err) {
-    
     return err;
   }
 };
