@@ -4,6 +4,7 @@
     "react-native-prettier"
   ],
   rules: {
-    "react-native/no-color-literals": "warn"
+    "react-native/no-color-literals": "warn",
+    "no-console": "warn"
   }
 }

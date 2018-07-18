@@ -2,10 +2,9 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Animated, Easing, PanResponder } from 'react-native';
+import { Animated, Easing, PanResponder, AlertIOS } from 'react-native'; /* eslint-disable-line */
 import moment from 'moment';
 import { Actions } from 'react-native-router-flux';
-import { AlertIOS } from 'react-native';
 
 import Template from './Hero.template';
 import { createRelationshipScore as createRelationshipScoreAction } from '../../redux/relationshipScore/relationshipScore.actions';
@@ -117,7 +116,6 @@ class Hero extends Component {
     openModal: PropTypes.func.isRequired,
     cancelLoverRequest: PropTypes.func.isRequired,
     resendLoverRequestEmail: PropTypes.func.isRequired,
-    relationshipScore: PropTypes.number,
     relationshipScoreQuartile: PropTypes.number,
     sentCoins: PropTypes.array,
     sentJalapenos: PropTypes.array,
@@ -149,16 +147,11 @@ class Hero extends Component {
         moment().subtract(1, 'hour')
       ));
 
-  resendLoverRequestEmail = async () => {
-    await new Promise(resolve =>
-      this.setState(
-        {
-          resendIsInFlight: true,
-          error: '',
-        },
-        () => resolve()
-      )
-    );
+  async resendLoverRequestEmail() {
+    await this.setState({
+      resendIsInFlight: true,
+      error: '',
+    });
     const res = await this.props.resendLoverRequestEmail(
       this.props.loverRequestId
     );
@@ -181,9 +174,9 @@ class Hero extends Component {
         error: 'resend-error',
       });
     }
-  };
+  }
 
-  cancelLoverRequest = async () => {
+  async cancelLoverRequest() {
     await new Promise(resolve =>
       this.setState(
         {
@@ -213,9 +206,9 @@ class Hero extends Component {
         error: 'cancel-error',
       });
     }
-  };
+  }
 
-  sendCoin = async () => {
+  async sendCoin() {
     const { sentCoins } = this.props;
 
     if (this.isMaxItemsPerHourSent(sentCoins)) {
@@ -229,9 +222,9 @@ class Hero extends Component {
     } else {
       this.props.openModal('coin');
     }
-  };
+  }
 
-  sendJalapeno = async () => {
+  async sendJalapeno() {
     const { sentJalapenos } = this.props;
 
     if (this.isMaxItemsPerHourSent(sentJalapenos)) {
@@ -245,7 +238,7 @@ class Hero extends Component {
     } else {
       this.props.openModal('jalapeno');
     }
-  };
+  }
 
   springY() {
     Animated.spring(this.translateY, {
@@ -323,6 +316,8 @@ class Hero extends Component {
   }
 
   showDirections() {
+    clearTimeout(this.showDirectionsTimeout);
+
     Animated.timing(this.directionsOpacity, {
       toValue: 1,
       duration: 250,
@@ -331,6 +326,9 @@ class Hero extends Component {
     }).start();
   }
   hideDirections() {
+    clearTimeout(this.showDirectionsTimeout);
+    clearTimeout(this.hideDirectionsTimeout);
+
     Animated.timing(this.directionsOpacity, {
       toValue: 0,
       duration: 250,
@@ -338,11 +336,13 @@ class Hero extends Component {
     }).start();
   }
 
-  setDragDirection = dragDirection =>
-    this.state.dragDirection !== dragDirection &&
-    this.setState({ dragDirection });
+  setDragDirection(dragDirection) {
+    if (this.state.dragDirection !== dragDirection) {
+      this.setState({ dragDirection });
+    }
+  }
 
-  setRecentlySentCount = (collection, keyStr) => {
+  setRecentlySentCount(collection, keyStr) {
     const anHrAgo = moment().subtract(1, 'hour');
     let count = 0;
 
@@ -354,12 +354,25 @@ class Hero extends Component {
       }
     }
     this.setState({ [keyStr]: count });
-  };
+  }
 
   componentDidMount() {
     this.props.createRelationshipScore();
     this.props.refreshSentCoinCount();
     this.props.refreshSentJalapenoCount();
+    this.showDirectionsTimeout = setTimeout(() => {
+      this.showDirections();
+      this.hideDirectionsTimeout = setTimeout(
+        () => this.hideDirections(),
+        7000
+      );
+    }, 1000);
+  }
+
+  componentWillUnmount() {
+    console.log('componentWillUnmount!');
+    clearTimeout(this.showDirectionsTimeout);
+    clearTimeout(this.hideDirectionsTimeout);
   }
 
   render() {
