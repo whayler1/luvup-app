@@ -26,13 +26,12 @@ export const sendCoin = () => async dispatch => {
             id createdAt
           }
         }
-      }`
+      }`,
     });
 
     const sendCoin = _.get(res, 'body.data.sendCoin');
 
-
-    if(_.isObject(sendCoin)) {
+    if (_.isObject(sendCoin)) {
       dispatch({
         type: SEND_COIN_SUCCESS,
         coin: sendCoin.coin,
@@ -41,7 +40,6 @@ export const sendCoin = () => async dispatch => {
 
     return res;
   } catch (err) {
-
     return err;
   }
 };
@@ -53,13 +51,12 @@ export const getCoinCount = () => async dispatch => {
         coinCount {
           count
         }
-      }`
+      }`,
     });
 
     const coinCount = _.get(res, 'body.data.coinCount');
 
     if (_.isObject(coinCount)) {
-
       dispatch({
         type: GET_COIN_COUNT,
         count: coinCount.count,
@@ -68,10 +65,9 @@ export const getCoinCount = () => async dispatch => {
 
     return res;
   } catch (err) {
-
     return err;
   }
-}
+};
 
 export const clearCoinCount = () => ({ type: CLEAR_COIN_COUNT });
 
@@ -103,7 +99,6 @@ export const getSentCoins = (limit, offset) => async dispatch => {
 
     return res;
   } catch (err) {
-
     return err;
   }
 };

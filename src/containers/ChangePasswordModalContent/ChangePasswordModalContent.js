@@ -20,23 +20,23 @@ class ChangePasswordModalContent extends Component {
     error: '',
     isInFlight: false,
     success: false,
-  }
+  };
 
-  onCurrentPasswordChange = currentPassword => this.setState({ currentPassword });
+  onCurrentPasswordChange = currentPassword =>
+    this.setState({ currentPassword });
   onNewPasswordChange = newPassword => this.setState({ newPassword });
-  onNewPasswordAgainChange = newPasswordAgain => this.setState({ newPasswordAgain });
+  onNewPasswordAgainChange = newPasswordAgain =>
+    this.setState({ newPasswordAgain });
 
-  onCurrentPasswordFocus = () => this.setState({ focusInput: 'currentPassword' });
+  onCurrentPasswordFocus = () =>
+    this.setState({ focusInput: 'currentPassword' });
   onNewPasswordFocus = () => this.setState({ focusInput: 'newPassword' });
-  onNewPasswordAgainFocus = () => this.setState({ focusInput: 'newPasswordAgain' });
+  onNewPasswordAgainFocus = () =>
+    this.setState({ focusInput: 'newPasswordAgain' });
   onBlur = () => this.setState({ focusInput: '' });
 
   validate = () => {
-    const {
-      currentPassword,
-      newPassword,
-      newPasswordAgain,
-    } = this.state;
+    const { currentPassword, newPassword, newPasswordAgain } = this.state;
     let error = '';
 
     if (!currentPassword) {
@@ -52,11 +52,9 @@ class ChangePasswordModalContent extends Component {
   };
 
   submit = async () => {
-    
     const { currentPassword, newPassword } = this.state;
 
     try {
-      
       const res = await superagent.post(config.graphQlUrl, {
         query: `mutation {
           changePassword(
@@ -67,7 +65,6 @@ class ChangePasswordModalContent extends Component {
           }
         }`,
       });
-      
 
       const changePassword = _.at(res, 'body.data.changePassword')[0];
 
@@ -81,47 +78,49 @@ class ChangePasswordModalContent extends Component {
           this.setState({
             isInFlight: false,
             success: false,
-            error: changePassword.error
+            error: changePassword.error,
           });
         }
       }
     } catch (err) {
-      
       this.setState({
         isInFlight: false,
         error: 'server-error',
-      })
+      });
     }
   };
 
   onSubmit = async () => {
     await this.validate();
     if (!this.state.error) {
-      this.setState({
-        isInFlight: true,
-      }, this.submit)
+      this.setState(
+        {
+          isInFlight: true,
+        },
+        this.submit
+      );
     }
   };
 
   render() {
-    return <Template
-      {...this.props}
-      {...this.state}
-      onCurrentPasswordChange={this.onCurrentPasswordChange}
-      onNewPasswordChange={this.onNewPasswordChange}
-      onNewPasswordAgainChange={this.onNewPasswordAgainChange}
-      onCurrentPasswordFocus={this.onCurrentPasswordFocus}
-      onNewPasswordFocus={this.onNewPasswordFocus}
-      onNewPasswordAgainFocus={this.onNewPasswordAgainFocus}
-      onBlur={this.onBlur}
-      onSubmit={this.onSubmit}
-    />;
+    return (
+      <Template
+        {...this.props}
+        {...this.state}
+        onCurrentPasswordChange={this.onCurrentPasswordChange}
+        onNewPasswordChange={this.onNewPasswordChange}
+        onNewPasswordAgainChange={this.onNewPasswordAgainChange}
+        onCurrentPasswordFocus={this.onCurrentPasswordFocus}
+        onNewPasswordFocus={this.onNewPasswordFocus}
+        onNewPasswordAgainFocus={this.onNewPasswordAgainFocus}
+        onBlur={this.onBlur}
+        onSubmit={this.onSubmit}
+      />
+    );
   }
-};
+}
 
 export default connect(
   undefined,
-  {
-
-  }
+  {}
 )(ChangePasswordModalContent);

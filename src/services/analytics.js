@@ -5,7 +5,7 @@ const { segmentWriteKey } = config;
 
 const warnFunc = () =>
   console.warn(
-    'analytics calls will not be made because of missing segment write key',
+    'analytics calls will not be made because of missing segment write key'
   );
 
 const analytics = segmentWriteKey

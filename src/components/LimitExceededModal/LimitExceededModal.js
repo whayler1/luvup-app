@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  Modal,
-  Image,
-} from 'react-native';
+import { View, Text, Modal, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 
 import { buttons, forms, scene, modal, vars } from '../../styles';
@@ -26,29 +21,37 @@ const LimitExceededModal = ({
     visible={isModalOpen}
     animationType={'fade'}
     onRequestClose={closeModal}
-    transparent={true}
-  >
+    transparent={true}>
     <View style={modal.outerContainer}>
       <View style={modal.innerContainer}>
         <View>
-          {modalContent === 'coin' && <CoinArt
-            recentlySentCoinCount={config.maxItemsPerHour}
-          />}
-          {modalContent === 'jalapeno' && <JalapenoArt
-            recentlySentJalapenoCount={config.maxItemsPerHour}
-          />}
+          {modalContent === 'coin' && (
+            <CoinArt recentlySentCoinCount={config.maxItemsPerHour} />
+          )}
+          {modalContent === 'jalapeno' && (
+            <JalapenoArt recentlySentJalapenoCount={config.maxItemsPerHour} />
+          )}
         </View>
-        <View style={{
-          marginTop: 16,
-          alignItems: 'center',
-        }}>
+        <View
+          style={{
+            marginTop: 16,
+            alignItems: 'center',
+          }}>
           <Text style={modal.title}>
             {modalContent === 'coin' && 'Hourly Luvup\nLimit Exceeded'}
             {modalContent === 'jalapeno' && 'Hourly Jalapeño\nLimit Exceeded'}
           </Text>
           <Text style={modal.copy}>
-            {modalContent === 'coin' && (coinCopy || `Wow! ${loverFirstName} must be on fire right now. You've sent the max hourly limit of ${config.maxItemsPerHour} luvups. You'll have the opportunity to send another luvup ${coinsAvailableTime}.`)}
-            {modalContent === 'jalapeno' && (jalapenoCopy || `Looks like things are getting spicy with ${loverFirstName} right now. You've sent the max hourly limit of ${config.maxItemsPerHour} jalapeños. You'll have the oportunity to send another jalapeño ${jalapenosAvailableTime}.`)}
+            {modalContent === 'coin' &&
+              (coinCopy ||
+                `Wow! ${loverFirstName} must be on fire right now. You've sent the max hourly limit of ${
+                  config.maxItemsPerHour
+                } luvups. You'll have the opportunity to send another luvup ${coinsAvailableTime}.`)}
+            {modalContent === 'jalapeno' &&
+              (jalapenoCopy ||
+                `Looks like things are getting spicy with ${loverFirstName} right now. You've sent the max hourly limit of ${
+                  config.maxItemsPerHour
+                } jalapeños. You'll have the oportunity to send another jalapeño ${jalapenosAvailableTime}.`)}
           </Text>
         </View>
         <View style={modal.buttonContainer}>
@@ -58,7 +61,7 @@ const LimitExceededModal = ({
             containerViewStyle={buttons.infoContainer}
             buttonStyle={buttons.infoButton}
             textStyle={buttons.infoText}
-            title='Dismiss'
+            title="Dismiss"
           />
         </View>
       </View>

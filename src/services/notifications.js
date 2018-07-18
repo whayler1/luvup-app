@@ -9,7 +9,7 @@ let eventSubscription;
 
 export const onNotificationReceived = notification => {
   store.dispatch(addNotification(notification));
-  Actions.notificationLightbox()
+  Actions.notificationLightbox();
   Vibration.vibrate();
 };
 
@@ -24,4 +24,4 @@ export const remove = () => {
     eventSubscription.remove();
     eventSubscription = undefined;
   }
-}
+};

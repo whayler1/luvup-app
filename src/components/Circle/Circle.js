@@ -1,14 +1,11 @@
 import React from 'react';
-import {
-  ART,
-} from 'react-native';
+import { ART } from 'react-native';
 
-export default ({radius, ...rest}) => {
-
+export default ({ radius, ...rest }) => {
   const circle = ART.Path()
     .move(radius, 0)
     .arc(0, radius * 2, radius)
-    .arc(0, radius * -2, radius)
+    .arc(0, radius * -2, radius);
 
-  return <ART.Shape {...rest} d={circle} />
+  return <ART.Shape {...rest} d={circle} />;
 };

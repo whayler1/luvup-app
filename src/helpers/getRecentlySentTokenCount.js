@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-const getRecentlySentTokenCount = (collection) => {
+const getRecentlySentTokenCount = collection => {
   const anHrAgo = moment().subtract(1, 'hour');
   let count = 0;
 

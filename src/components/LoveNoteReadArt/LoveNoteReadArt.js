@@ -1,19 +1,19 @@
 import React from 'react';
 import Svg, {
-    Circle,
-    Ellipse,
-    G,
-    LinearGradient,
-    RadialGradient,
-    Line,
-    Path,
-    Polygon,
-    Polyline,
-    Rect,
-    Symbol,
-    Use,
-    Defs,
-    Stop
+  Circle,
+  Ellipse,
+  G,
+  LinearGradient,
+  RadialGradient,
+  Line,
+  Path,
+  Polygon,
+  Polyline,
+  Rect,
+  Symbol,
+  Use,
+  Defs,
+  Stop,
 } from 'react-native-svg';
 import _ from 'lodash';
 
@@ -21,14 +21,8 @@ import { vars } from '../../styles';
 
 const defaultColor = vars.blueGrey500;
 
-export default ({
-  fill,
-  scale = 1,
-}) => (
-  <Svg
-    width={84 * scale}
-    height={82 * scale}
-  >
+export default ({ fill, scale = 1 }) => (
+  <Svg width={84 * scale} height={82 * scale}>
     <Path
       fill={fill || defaultColor}
       scale={scale}

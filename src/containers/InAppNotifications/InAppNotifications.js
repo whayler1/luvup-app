@@ -2,10 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
-import {
-  Animated,
-  Easing,
-} from 'react-native';
+import { Animated, Easing } from 'react-native';
 import Template from './InAppNotifications.template';
 import { clearNotifications as clearNotificationsAction } from '../../redux/notifications/notifications.actions';
 import _ from 'lodash';
@@ -17,11 +14,18 @@ class InAppNotifications extends PureComponent {
       isVisible: false,
     };
 
-    this.closeDebounce = _.debounce(() => this.setState({
-      isVisible: false,
-    }, () => {
-      this.close();
-    }), 7000);
+    this.closeDebounce = _.debounce(
+      () =>
+        this.setState(
+          {
+            isVisible: false,
+          },
+          () => {
+            this.close();
+          }
+        ),
+      7000
+    );
   }
 
   static propTypes = {
@@ -31,49 +35,51 @@ class InAppNotifications extends PureComponent {
     luvupNotifications: PropTypes.array.isRequired,
     otherNotifications: PropTypes.array.isRequired,
     clearNotifications: PropTypes.func.isRequired,
-  }
+  };
 
   translateY = new Animated.Value(-150);
   opacity = new Animated.Value(0);
 
   slideIn() {
     Animated.parallel([
-      Animated.timing(
-        this.opacity,
-        {
-          toValue: 1,
-          duration: 250,
-          delay: 250,
-          easing: Easing.inOut(Easing.linear)
-        }
-      ),
-      Animated.timing(
-        this.translateY,
-        {
-          toValue: 0,
-          duration: 250,
-          delay: 250,
-          easing: Easing.inOut(Easing.quad)
-        }
-      ),
+      Animated.timing(this.opacity, {
+        toValue: 1,
+        duration: 250,
+        delay: 250,
+        easing: Easing.inOut(Easing.linear),
+      }),
+      Animated.timing(this.translateY, {
+        toValue: 0,
+        duration: 250,
+        delay: 250,
+        easing: Easing.inOut(Easing.quad),
+      }),
     ]).start();
   }
 
-  close = () => this.setState({
-    isVisible: false,
-  }, () => {
-    this.translateY.setValue(-150);
-    this.opacity.setValue(0);
-    this.props.clearNotifications();
-    Actions.pop();
-  });
+  close = () =>
+    this.setState(
+      {
+        isVisible: false,
+      },
+      () => {
+        this.translateY.setValue(-150);
+        this.opacity.setValue(0);
+        this.props.clearNotifications();
+        Actions.pop();
+      }
+    );
 
-  show = () => this.setState({
-    isVisible: true,
-  }, () => {
-    this.slideIn();
-    this.closeDebounce();
-  });
+  show = () =>
+    this.setState(
+      {
+        isVisible: true,
+      },
+      () => {
+        this.slideIn();
+        this.closeDebounce();
+      }
+    );
 
   componentDidMount() {
     if (this.props.notifications.length) {
@@ -96,7 +102,7 @@ class InAppNotifications extends PureComponent {
   componentWillUnmount = () => {
     this.closeDebounce.cancel();
     this.props.clearNotifications();
-  }
+  };
 
   render() {
     return (
@@ -108,9 +114,9 @@ class InAppNotifications extends PureComponent {
         luvupNotifications={this.props.luvupNotifications}
         otherNotifications={this.props.otherNotifications}
       />
-    )
+    );
   }
-};
+}
 
 export default connect(
   state => ({

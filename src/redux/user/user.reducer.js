@@ -34,7 +34,7 @@ export default function reducer(state = defaultState, action) {
       };
     case LOGOUT:
       appStateListener.stop();
-      return {...defaultState};
+      return { ...defaultState };
     case USER_REQUEST:
       return {
         ...state,
@@ -62,8 +62,8 @@ export default function reducer(state = defaultState, action) {
         ...state,
         isGetTimelineDataInFlight: false,
         error: action.error,
-      }
+      };
     default:
       return state;
-  };
-};
+  }
+}

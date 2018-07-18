@@ -15,13 +15,15 @@ class Menu extends PureComponent {
     super(props);
 
     this.state = {
-      relationshipCreatedAtFormatted: moment(new Date(props.relationshipCreatedAt)).format('MMM DD, YYYY'),
+      relationshipCreatedAtFormatted: moment(
+        new Date(props.relationshipCreatedAt)
+      ).format('MMM DD, YYYY'),
       isModalVisible: false,
       modalType: '',
       isInFlight: false,
       error: '',
     };
-  };
+  }
 
   static propTypes = {
     userFirstName: PropTypes.string,
@@ -39,20 +41,21 @@ class Menu extends PureComponent {
 
   goBack = () => {
     Actions.pop();
-  }
+  };
 
-  onChangePasswordClick = () => this.setState({
-    isModalVisible: true,
-    modalType: 'changePassword',
-  });
-  openEndRelationshipModal = () => this.setState({
-    isModalVisible: true,
-    modalType: 'endRelationship',
-  });
+  onChangePasswordClick = () =>
+    this.setState({
+      isModalVisible: true,
+      modalType: 'changePassword',
+    });
+  openEndRelationshipModal = () =>
+    this.setState({
+      isModalVisible: true,
+      modalType: 'endRelationship',
+    });
   closeModal = () => this.setState({ isModalVisible: false });
 
   onLogout = async () => {
-
     await this.props.logout();
 
     Actions.login();
@@ -66,16 +69,19 @@ class Menu extends PureComponent {
     const res = await this.props.endRelationship();
     const relationship = _.at(res, 'body.data.endRelationship.relationship')[0];
     if (_.isObject(relationship) && relationship.id) {
-      this.setState({
-        isModalVisible: false,
-      }, () => Actions.createloverrequest());
+      this.setState(
+        {
+          isModalVisible: false,
+        },
+        () => Actions.createloverrequest()
+      );
     } else {
       this.setState({
         error: 'end-relationship',
         isInFlight: false,
       });
     }
-  }
+  };
 
   componentDidMount() {
     analytics.screen({
@@ -85,18 +91,20 @@ class Menu extends PureComponent {
   }
 
   render() {
-    return <Template
-      {...this.props}
-      {...this.state}
-      goBack={this.goBack}
-      onChangePasswordClick={this.onChangePasswordClick}
-      openEndRelationshipModal={this.openEndRelationshipModal}
-      closeModal={this.closeModal}
-      onLogout={this.onLogout}
-      endRelationship={this.endRelationship}
-      goToCreateLoverRequest={this.goToCreateLoverRequest}
-      goToDashboard={this.goToDashboard}
-    />;
+    return (
+      <Template
+        {...this.props}
+        {...this.state}
+        goBack={this.goBack}
+        onChangePasswordClick={this.onChangePasswordClick}
+        openEndRelationshipModal={this.openEndRelationshipModal}
+        closeModal={this.closeModal}
+        onLogout={this.onLogout}
+        endRelationship={this.endRelationship}
+        goToCreateLoverRequest={this.goToCreateLoverRequest}
+        goToDashboard={this.goToDashboard}
+      />
+    );
   }
 }
 

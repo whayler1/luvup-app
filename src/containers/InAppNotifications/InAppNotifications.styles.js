@@ -14,7 +14,7 @@ export default StyleSheet.create({
     shadowColor: vars.blueGrey700,
     shadowOffset: {
       width: 2,
-      height:2,
+      height: 2,
     },
     shadowOpacity: 0.2,
     flexDirection: 'row',

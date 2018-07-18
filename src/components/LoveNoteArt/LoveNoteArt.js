@@ -1,19 +1,19 @@
 import React from 'react';
 import Svg, {
-    Circle,
-    Ellipse,
-    G,
-    LinearGradient,
-    RadialGradient,
-    Line,
-    Path,
-    Polygon,
-    Polyline,
-    Rect,
-    Symbol,
-    Use,
-    Defs,
-    Stop
+  Circle,
+  Ellipse,
+  G,
+  LinearGradient,
+  RadialGradient,
+  Line,
+  Path,
+  Polygon,
+  Polyline,
+  Rect,
+  Symbol,
+  Use,
+  Defs,
+  Stop,
 } from 'react-native-svg';
 import _ from 'lodash';
 
@@ -21,13 +21,8 @@ import { vars } from '../../styles';
 
 const defaultColor = vars.blueGrey500;
 
-export default ({
-  fill,
-}) => (
-  <Svg
-    width={72}
-    height={50}
-  >
+export default ({ fill }) => (
+  <Svg width={72} height={50}>
     <Path
       fill={fill || defaultColor}
       d="M67.339,0 L4.66,0 C2.173,0.007 0.168,2.012 0.161,4.5 L0.161,45 C0.168,47.488 2.172,49.493 4.66,49.5 L67.339,49.5 C69.827,49.493 71.832,47.488 71.84,45 L71.84,4.5 C71.832,2.011 69.826,0.007 67.339,0 Z M4.018,6.169 L16.11,16.715 L4.018,27.259 L4.018,6.169 Z M67.982,45 C67.982,45.175 67.915,45.326 67.791,45.452 C67.666,45.574 67.514,45.643 67.339,45.643 L4.66,45.643 C4.485,45.643 4.333,45.574 4.208,45.452 C4.086,45.326 4.019,45.175 4.018,45 L4.018,32.378 L19.044,19.274 L23.263,22.953 C23.202,21.147 23.633,19.768 24.288,18.729 L7.234,3.857 L64.763,3.857 L47.729,18.713 C48.454,19.909 48.665,21.001 48.665,21.001 C48.77,21.722 48.775,22.372 48.721,22.967 L52.957,19.274 L67.983,32.378 L67.983,45 L67.982,45 Z M67.982,27.259 L55.89,16.715 L67.983,6.17 L67.983,27.259 L67.982,27.259 Z"

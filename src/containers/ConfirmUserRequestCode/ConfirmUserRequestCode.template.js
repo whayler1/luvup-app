@@ -34,11 +34,12 @@ export default ({
       contentContainerStyle={scene.keyboardAvoidingView}
       style={scene.container}
       keyboardVerticalOffset={32}
-      behavior="padding"
-    >
+      behavior="padding">
       <ScrollView style={scene.content}>
         <Text style={modal.title}>Confirm Sign Up Code</Text>
-        <Text style={[modal.copy, { textAlign: 'center' }]}>Enter your email address and the code you received via email below.</Text>
+        <Text style={[modal.copy, { textAlign: 'center' }]}>
+          Enter your email address and the code you received via email below.
+        </Text>
         <View style={forms.formGroup}>
           <Text style={forms.label}>Email</Text>
           <TextInput
@@ -57,13 +58,19 @@ export default ({
             returnKeyType="next"
             onSubmitEditing={focusCode}
           />
-          {error === 'email' && <Text style={forms.error}>Please provide a valid email</Text>}
-          {error === 'no user request' && <Text style={forms.error}>There is no sign up request for that email</Text>}
+          {error === 'email' && (
+            <Text style={forms.error}>Please provide a valid email</Text>
+          )}
+          {error === 'no user request' && (
+            <Text style={forms.error}>
+              There is no sign up request for that email
+            </Text>
+          )}
         </View>
         <View style={forms.formGroup}>
           <Text style={forms.label}>Code</Text>
           <TextInput
-            ref={el => codeEl = el}
+            ref={el => (codeEl = el)}
             style={focusInput === 'code' ? forms.inputFocus : forms.input}
             onFocus={onCodeFocus}
             onBlur={onBlur}
@@ -79,21 +86,32 @@ export default ({
             returnKeyType="go"
             onSubmitEditing={onSubmit}
           />
-          {error === 'code' && <Text style={forms.error}>Please provide the code that was emailed to you</Text>}
-          {error === 'code-length' && <Text style={forms.error}>Codes are 6 characters long</Text>}
-          {error === 'invalid code' && <Text style={forms.error}>Invalid Code</Text>}
-          {error === 'expired code' && <Text style={forms.error}>Expired Code</Text>}
+          {error === 'code' && (
+            <Text style={forms.error}>
+              Please provide the code that was emailed to you
+            </Text>
+          )}
+          {error === 'code-length' && (
+            <Text style={forms.error}>Codes are 6 characters long</Text>
+          )}
+          {error === 'invalid code' && (
+            <Text style={forms.error}>Invalid Code</Text>
+          )}
+          {error === 'expired code' && (
+            <Text style={forms.error}>Expired Code</Text>
+          )}
         </View>
-        {error === 'response' &&
-          <Well text="There was an error confirming your signup code"/>
-        }
-        {error === 'user request used' &&
-          <Well text="This user already exists"/>
-        }
+        {error === 'response' && (
+          <Well text="There was an error confirming your signup code" />
+        )}
+        {error === 'user request used' && (
+          <Well text="This user already exists" />
+        )}
         <View style={forms.buttonRow}>
-          <View style={{
-            flex: 1,
-          }}>
+          <View
+            style={{
+              flex: 1,
+            }}>
             <Button
               onPress={onSubmit}
               containerViewStyle={buttons.container}

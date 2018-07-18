@@ -26,12 +26,15 @@ export default function reducer(state = defaultState, action) {
     case REFRESH_SENT_JALAPENO_COUNT:
       return {
         ...state,
-        recentlySentJalapenoCount: getRecentlySentTokenCount(state.sentJalapenos),
+        recentlySentJalapenoCount: getRecentlySentTokenCount(
+          state.sentJalapenos
+        ),
       };
     case SEND_JALAPENO_ATTEMPT:
       return {
         ...state,
-        recentlySentJalapenoCount: getRecentlySentTokenCount(state.sentJalapenos) + 1,
+        recentlySentJalapenoCount:
+          getRecentlySentTokenCount(state.sentJalapenos) + 1,
       };
     case SEND_JALAPENO_SUCCESS:
       const sentJalapenos = [action.jalapeno, ...state.sentJalapenos];
@@ -52,7 +55,9 @@ export default function reducer(state = defaultState, action) {
         ...state,
         sentJalapenos: action.sentJalapenos,
         sentJalapenosCount: action.sentJalapenosCount,
-        recentlySentJalapenoCount: getRecentlySentTokenCount(action.sentJalapenos),
+        recentlySentJalapenoCount: getRecentlySentTokenCount(
+          action.sentJalapenos
+        ),
       };
     case SET_SENT_JALAPENOS_COUNT:
     case GET_TIMELINE_DATA_SUCCESS:
@@ -64,17 +69,17 @@ export default function reducer(state = defaultState, action) {
       return {
         ...state,
         count: action.count,
-      }
+      };
     case CLEAR_JALAPENO_COUNT:
       return {
         ...state,
         count: 0,
-      }
+      };
     case SET_UNVIEWED_JALAPENO_COUNT:
       return {
         ...state,
         unviewedJalapenoCount: action.unviewedJalapenoCount,
-      }
+      };
     default:
       return state;
   }

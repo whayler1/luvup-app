@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import { View, Text, TouchableOpacity, Image } from 'react-native';
 import _ from 'lodash';
 
 import Pushdown from '../../components/Pushdown';
@@ -34,30 +29,34 @@ export default ({
       paddingTop: 16,
       marginTop: 28,
       zIndex: 10,
-    }}
-  >
+    }}>
     {isPushdownVisible && (
-      <Pushdown
-        closeFunc={closePushdown}
-      >
-        {unviewedCoinCount > 0 && <Text
-          style={{
-            color: 'white',
-            fontFamily: vars.fontRegular,
-            fontSize: 18,
-          }}
-        >
-          You received {unviewedCoinCount} luvup{ unviewedCoinCount > 1 ? 's' : ''}!
-        </Text>}
-        {unviewedJalapenoCount > 0 && <Text
-          style={{
-            color: 'white',
-            fontFamily: vars.fontRegular,
-            fontSize: 18,
-          }}
-        >
-          You received {unviewedJalapenoCount} jalapeno{ unviewedJalapenoCount > 1 ? 's' : '' }
-        </Text>}
+      <Pushdown closeFunc={closePushdown}>
+        {unviewedCoinCount > 0 && (
+          <Text
+            style={{
+              color: 'white',
+              fontFamily: vars.fontRegular,
+              fontSize: 18,
+            }}>
+            You received {unviewedCoinCount} luvup{unviewedCoinCount > 1
+              ? 's'
+              : ''}!
+          </Text>
+        )}
+        {unviewedJalapenoCount > 0 && (
+          <Text
+            style={{
+              color: 'white',
+              fontFamily: vars.fontRegular,
+              fontSize: 18,
+            }}>
+            You received {unviewedJalapenoCount} jalapeno{unviewedJalapenoCount >
+            1
+              ? 's'
+              : ''}
+          </Text>
+        )}
       </Pushdown>
     )}
     <View
@@ -69,17 +68,15 @@ export default ({
         paddingLeft: 8,
         paddingRight: 8,
         paddingBottom: 8,
-      }}
-    >
-      {(_.isNumber(coinCount) && _.isNumber(jalapenoCount)) ?
+      }}>
+      {_.isNumber(coinCount) && _.isNumber(jalapenoCount) ? (
         <TouchableOpacity
           onPress={onScoreClick}
           style={{
             flex: 0.33,
             flexDirection: 'row',
             alignItems: 'center',
-          }}
-        >
+          }}>
           <Image
             source={require('../../images/coin.png')}
             style={{
@@ -93,8 +90,7 @@ export default ({
               fontFamily: vars.fontBlack,
               fontSize: 16,
               color: vars.blueGrey500,
-            }}
-          >
+            }}>
             {coinCount}
           </Text>
           <Image
@@ -111,12 +107,11 @@ export default ({
               fontFamily: vars.fontBlack,
               fontSize: 16,
               color: vars.blueGrey500,
-            }}
-          >
+            }}>
             {jalapenoCount}
           </Text>
         </TouchableOpacity>
-        :
+      ) : (
         <View
           style={{
             flex: 0.33,
@@ -124,44 +119,44 @@ export default ({
             alignItems: 'center',
           }}
         />
-      }
+      )}
       <View
         style={{
           flex: 0.33,
           alignItems: 'center',
-        }}
-      >
+        }}>
         <Text
           style={{
             fontFamily: vars.fontVanity,
             color: vars.blueGrey700,
             fontSize: 30,
-          }}
-        >
+          }}>
           luvup
         </Text>
       </View>
-      {(_.isString(userFirstName) && userFirstName.length > 1) ?
+      {_.isString(userFirstName) && userFirstName.length > 1 ? (
         <TouchableOpacity
           onPress={onInitialsClick}
           style={{
             flex: 0.33,
             alignItems: 'flex-end',
-          }}
-        >
+          }}>
           <Text
             style={{
               fontFamily: vars.fontBlack,
               fontSize: 16,
               color: vars.blueGrey500,
-            }}
-          >
-            {userFirstName.substr(0,1)}{userLastName.substr(0,1)}{loverFirstName ? ' + ' : ''}{_.isString(loverFirstName) && loverFirstName.substr(0,1)}{_.isString(loverLastName) && loverLastName.substr(0,1)}
+            }}>
+            {userFirstName.substr(0, 1)}
+            {userLastName.substr(0, 1)}
+            {loverFirstName ? ' + ' : ''}
+            {_.isString(loverFirstName) && loverFirstName.substr(0, 1)}
+            {_.isString(loverLastName) && loverLastName.substr(0, 1)}
           </Text>
         </TouchableOpacity>
-        :
+      ) : (
         <View style={{ flex: 33 }} />
-      }
+      )}
     </View>
   </View>
 );

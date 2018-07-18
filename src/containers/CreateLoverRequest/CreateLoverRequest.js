@@ -10,9 +10,7 @@ import config from '../../config.js';
 import Template from './CreateLoverRequest.template';
 import TemplateSelectedUser from './CreateLoverRequest.template.selectedUser';
 import { requestLover as requestLoverAction } from '../../redux/loverRequest/loverRequest.actions';
-import {
-  getReceivedLoverRequests as getReceivedLoverRequestsAction,
-} from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
+import { getReceivedLoverRequests as getReceivedLoverRequestsAction } from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
 
 class CreateLoverRequest extends Component {
   static propTypes = {
@@ -36,12 +34,15 @@ class CreateLoverRequest extends Component {
 
   clearSelectedUser = () => this.setState({ selectedUser: null });
 
-  onListItemClick = selectedUserId => this.setState({ selectedUser: this.state.users.find(user => user.id === selectedUserId) });
+  onListItemClick = selectedUserId =>
+    this.setState({
+      selectedUser: this.state.users.find(user => user.id === selectedUserId),
+    });
 
   getExistingLoverRequest = async () => {
     await this.props.getReceivedLoverRequests();
     const existingRequest = this.props.receivedLoverRequests.find(
-      (loverRequest) => loverRequest.sender.id === this.state.selectedUser.id,
+      loverRequest => loverRequest.sender.id === this.state.selectedUser.id
     );
     return existingRequest;
   };
@@ -52,13 +53,15 @@ class CreateLoverRequest extends Component {
     const existingRequest = await this.getExistingLoverRequest();
 
     if (existingRequest) {
-      Actions.confirmLoverRequest({ selectedLoverRequestId: existingRequest.id});
+      Actions.confirmLoverRequest({
+        selectedLoverRequestId: existingRequest.id,
+      });
       return;
     }
 
     const res = await this.props.requestLover(this.state.selectedUser.id);
 
-    if(!_.at(res, 'body.data.requestLover.id')) {
+    if (!_.at(res, 'body.data.requestLover.id')) {
       this.setState({ requestLoverIsInFlight: false, error: 'request-lover' });
     } else {
       Actions.dashboard();
@@ -79,7 +82,7 @@ class CreateLoverRequest extends Component {
               id username firstName lastName
             }
           }
-        }`
+        }`,
       });
 
       this.setState({
@@ -88,21 +91,21 @@ class CreateLoverRequest extends Component {
         isInFlight: false,
       });
     } catch (err) {
-
-      this.setState({ error: 'response', isInFlight: false, });
+      this.setState({ error: 'response', isInFlight: false });
     }
   };
 
   searchDebounce = _.debounce(() => {
     const { search } = this.state;
     if (search.length > 2) {
-      this.getUsers()
+      this.getUsers();
     } else {
-      this.setState({ error: '', users: [], isInFlight: false, });
+      this.setState({ error: '', users: [], isInFlight: false });
     }
   }, 500);
 
-  onSearchChange = search => this.setState({ search, isInFlight: true, }, this.searchDebounce);
+  onSearchChange = search =>
+    this.setState({ search, isInFlight: true }, this.searchDebounce);
 
   goToMenu = () => Actions.menu();
 
@@ -115,31 +118,35 @@ class CreateLoverRequest extends Component {
 
   render() {
     if (!this.state.selectedUser) {
-      return <Template
-        onSearchChange={this.onSearchChange}
-        onListItemClick={this.onListItemClick}
-        userFirstName={this.props.userFirstName}
-        userLastName={this.props.userLastName}
-        goToMenu={this.goToMenu}
-        {...this.state}
-      />;
+      return (
+        <Template
+          onSearchChange={this.onSearchChange}
+          onListItemClick={this.onListItemClick}
+          userFirstName={this.props.userFirstName}
+          userLastName={this.props.userLastName}
+          goToMenu={this.goToMenu}
+          {...this.state}
+        />
+      );
     } else {
-      return <TemplateSelectedUser
-        clearSelectedUser={this.clearSelectedUser}
-        requestLover={this.requestLover}
-        {...this.state}
-      />;
+      return (
+        <TemplateSelectedUser
+          clearSelectedUser={this.clearSelectedUser}
+          requestLover={this.requestLover}
+          {...this.state}
+        />
+      );
     }
-  };
-};
+  }
+}
 
 export default connect(
   state => ({
-      relationshipId: state.relationship.id,
-      userFirstName: state.user.firstName,
-      userLastName: state.user.lastName,
-      userId: state.user.id,
-      receivedLoverRequests: state.receivedLoverRequests.rows,
+    relationshipId: state.relationship.id,
+    userFirstName: state.user.firstName,
+    userLastName: state.user.lastName,
+    userId: state.user.id,
+    receivedLoverRequests: state.receivedLoverRequests.rows,
   }),
   {
     requestLover: requestLoverAction,

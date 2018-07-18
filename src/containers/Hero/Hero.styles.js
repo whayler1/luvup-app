@@ -5,7 +5,7 @@ const directionsText = {
   color: vars.p,
   fontFamily: vars.fontBlack,
   fontSize: 20,
-  alignItems: 'center'
+  alignItems: 'center',
 };
 const loverRequestText = {
   ...directionsText,
@@ -14,7 +14,7 @@ const loverRequestText = {
 const loverRequestTextLarge = {
   ...loverRequestText,
   fontSize: 35,
-}
+};
 
 export default StyleSheet.create({
   heartView: {

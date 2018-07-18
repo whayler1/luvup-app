@@ -10,9 +10,7 @@ import {
   getReceivedLoverRequests as getReceivedLoverRequestsAction,
   acceptLoverRequest as acceptLoverRequestAction,
 } from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
-import {
-  getMe as getMeAction,
-} from '../../redux/user/user.actions';
+import { getMe as getMeAction } from '../../redux/user/user.actions';
 import Template from './ConfirmLoverRequest.template';
 
 class ConfirmLoverRequest extends Component {
@@ -40,11 +38,11 @@ class ConfirmLoverRequest extends Component {
       isInFlight: false,
       inFlightType: '',
       error: '',
-    }
+    };
 
     if (props.selectedLoverRequestId) {
       const loverRequest = props.receivedLoverRequests.find(
-        (loverRequest) => loverRequest.id === props.selectedLoverRequestId,
+        loverRequest => loverRequest.id === props.selectedLoverRequestId
       );
 
       if (loverRequest) {
@@ -56,7 +54,10 @@ class ConfirmLoverRequest extends Component {
   }
 
   setCurrentLoverRequest = () => {
-    const { id, sender: { firstName, lastName } } = this.props.receivedLoverRequests[0];
+    const {
+      id,
+      sender: { firstName, lastName },
+    } = this.props.receivedLoverRequests[0];
 
     this.setState({
       currentLoverRequestId: id,
@@ -72,12 +73,14 @@ class ConfirmLoverRequest extends Component {
       inFlightType: 'cancel',
       error: '',
     });
-    const res = await this.props.cancelLoverRequest(this.state.currentLoverRequestId);
+    const res = await this.props.cancelLoverRequest(
+      this.state.currentLoverRequestId
+    );
     if (!_.get(res, 'body.data.cancelLoverRequest.loverRequest')) {
       this.setState({
         isInFlight: false,
         inFlightType: '',
-        error: 'cancel'
+        error: 'cancel',
       });
     }
     const resReceivedLover = await this.props.getReceivedLoverRequests();
@@ -85,7 +88,7 @@ class ConfirmLoverRequest extends Component {
       this.setState({
         isInFlight: false,
         inFlightType: '',
-        error: 'get-received'
+        error: 'get-received',
       });
     }
 
@@ -103,19 +106,23 @@ class ConfirmLoverRequest extends Component {
       isInFlight: true,
       inFlightType: 'accept',
     });
-    const res = await this.props.acceptLoverRequest(this.state.currentLoverRequestId);
+    const res = await this.props.acceptLoverRequest(
+      this.state.currentLoverRequestId
+    );
     await this.props.getMe();
-    const loverRequest = _.get(res, 'body.data.acceptLoverRequest.loverRequest');
+    const loverRequest = _.get(
+      res,
+      'body.data.acceptLoverRequest.loverRequest'
+    );
 
     if (_.isObject(loverRequest) && loverRequest.id) {
-
       Actions.dashboard();
     } else {
       this.setState({
         isInFlight: false,
         inFlightType: '',
         error: 'accept-lover',
-      })
+      });
     }
   };
 
@@ -132,16 +139,18 @@ class ConfirmLoverRequest extends Component {
   }
 
   render() {
-    return <Template
-      {...this.state}
-      cancelLoverRequest={this.cancelLoverRequest}
-      acceptLoverRequest={this.acceptLoverRequest}
-      {..._.pick(this.props, [
-        'userFirstName',
-        'userLastName',
-        'selectedLoverRequestId',
-      ])}
-    />;
+    return (
+      <Template
+        {...this.state}
+        cancelLoverRequest={this.cancelLoverRequest}
+        acceptLoverRequest={this.acceptLoverRequest}
+        {..._.pick(this.props, [
+          'userFirstName',
+          'userLastName',
+          'selectedLoverRequestId',
+        ])}
+      />
+    );
   }
 }
 

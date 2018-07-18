@@ -1,25 +1,20 @@
-import React, { PureComponent } from 'react'
-import {
-  View,
-  Animated,
-  Easing,
-  Text,
-} from 'react-native';
+import React, { PureComponent } from 'react';
+import { View, Animated, Easing, Text } from 'react-native';
 import Svg, {
-    Circle,
-    Ellipse,
-    G,
-    LinearGradient,
-    RadialGradient,
-    Line,
-    Path,
-    Polygon,
-    Polyline,
-    Rect,
-    Symbol,
-    Use,
-    Defs,
-    Stop
+  Circle,
+  Ellipse,
+  G,
+  LinearGradient,
+  RadialGradient,
+  Line,
+  Path,
+  Polygon,
+  Polyline,
+  Rect,
+  Symbol,
+  Use,
+  Defs,
+  Stop,
 } from 'react-native-svg';
 import PropTypes from 'prop-types';
 
@@ -35,16 +30,13 @@ export default class Preloader extends PureComponent {
 
   spinValue = new Animated.Value(0);
 
-  spin () {
+  spin() {
     this.spinValue.setValue(0);
-    Animated.timing(
-      this.spinValue,
-      {
-        toValue: 1,
-        duration: 2000,
-        easing: Easing.linear
-      }
-    ).start(() => this.spin())
+    Animated.timing(this.spinValue, {
+      toValue: 1,
+      duration: 2000,
+      easing: Easing.linear,
+    }).start(() => this.spin());
   }
 
   componentDidMount() {
@@ -54,7 +46,7 @@ export default class Preloader extends PureComponent {
   render() {
     const spin = this.spinValue.interpolate({
       inputRange: [0, 1],
-      outputRange: ['0deg', '360deg']
+      outputRange: ['0deg', '360deg'],
     });
     return (
       <Animated.View
@@ -62,15 +54,13 @@ export default class Preloader extends PureComponent {
           alignSelf: 'stretch',
           alignItems: 'center',
           marginTop: this.props.marginTop || 0,
-          transform: [{
-            rotate: spin
-          }]
-        }}
-      >
-        <Svg
-          width={circumfrance + 4}
-          height={circumfrance + 4}
-        >
+          transform: [
+            {
+              rotate: spin,
+            },
+          ],
+        }}>
+        <Svg width={circumfrance + 4} height={circumfrance + 4}>
           <Rect
             stroke={vars.blue500}
             strokeWidth={4}
@@ -82,16 +72,10 @@ export default class Preloader extends PureComponent {
             rx={radius}
           />
           <G>
-            <Rect
-              fill="white"
-              x={14}
-              y={0}
-              width={20}
-              height={20}
-            />
+            <Rect fill="white" x={14} y={0} width={20} height={20} />
           </G>
         </Svg>
       </Animated.View>
     );
   }
-};
+}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PanResponder, Animated, Easing, } from 'react-native';
+import { PanResponder, Animated, Easing } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -54,16 +54,17 @@ class Dashboard extends Component {
   openModal = modalContent => {
     const isCoin = modalContent === 'coin';
     const collection = isCoin ? this.props.sentCoins : this.props.sentJalapenos;
-    const stateKey = isCoin ? 'coinsAvailableTime': 'jalapenosAvailableTime';
+    const stateKey = isCoin ? 'coinsAvailableTime' : 'jalapenosAvailableTime';
     this.setAvailableTime(collection, stateKey);
     this.setState({
       isModalOpen: true,
       modalContent,
     });
   };
-  closeModal = () => this.setState({
-    isModalOpen: false,
-  });
+  closeModal = () =>
+    this.setState({
+      isModalOpen: false,
+    });
   closePushdown = () => {
     this.props.setUnviewedCoinCount(0);
     this.props.setUnviewedJalapenoCount(0);
@@ -73,20 +74,24 @@ class Dashboard extends Component {
   setAvailableTime(collection, stateKey) {
     const now = moment();
     const anHrAgo = moment().subtract(1, 'hour');
-    const leastRecentWithinAnHr = moment(new Date([...collection].filter(item => moment(new Date(item.createdAt)).isAfter(anHrAgo)).pop().createdAt));
-    const availableTime = moment(new Date(leastRecentWithinAnHr)).add(1, 'hour').fromNow();
+    const leastRecentWithinAnHr = moment(
+      new Date(
+        [...collection]
+          .filter(item => moment(new Date(item.createdAt)).isAfter(anHrAgo))
+          .pop().createdAt
+      )
+    );
+    const availableTime = moment(new Date(leastRecentWithinAnHr))
+      .add(1, 'hour')
+      .fromNow();
     this.setState({ [stateKey]: availableTime });
-  };
+  }
 
   componentDidMount() {
-
     this.props.getCoinCount();
     this.props.getJalapenoCount();
 
-    const {
-      unviewedCoinCount,
-      unviewedJalapenoCount,
-    } = this.props;
+    const { unviewedCoinCount, unviewedJalapenoCount } = this.props;
 
     if (unviewedCoinCount > 0 || unviewedJalapenoCount > 0) {
       this.setState({ isPushdownVisible: true });
@@ -103,27 +108,29 @@ class Dashboard extends Component {
   onLoveNoteReadPress = () => Actions.loveNotes();
 
   render() {
-    return <Template
-      userFirstName={this.props.userFirstName}
-      userLastName={this.props.userLastName}
-      username={this.props.username}
-      loverFirstName={this.props.loverFirstName}
-      loverLastName={this.props.loverLastName}
-      loverUsername={this.props.loverUsername}
-      loverRequestUsername={this.props.loverRequestUsername}
-      loverRequestCreatedAt={this.props.loverRequestCreatedAt}
-      coinCount={this.props.coinCount}
-      jalapenoCount={this.props.jalapenoCount}
-      openModal={this.openModal}
-      closeModal={this.closeModal}
-      closePushdown={this.closePushdown}
-      unviewedCoinCount={this.props.unviewedCoinCount}
-      unviewedJalapenoCount={this.props.unviewedJalapenoCount}
-      unreadReceivedLoveNoteCount={this.props.unreadReceivedLoveNoteCount}
-      onLoveNoteWritePress={this.onLoveNoteWritePress}
-      onLoveNoteReadPress={this.onLoveNoteReadPress}
-      {...this.state}
-    />;
+    return (
+      <Template
+        userFirstName={this.props.userFirstName}
+        userLastName={this.props.userLastName}
+        username={this.props.username}
+        loverFirstName={this.props.loverFirstName}
+        loverLastName={this.props.loverLastName}
+        loverUsername={this.props.loverUsername}
+        loverRequestUsername={this.props.loverRequestUsername}
+        loverRequestCreatedAt={this.props.loverRequestCreatedAt}
+        coinCount={this.props.coinCount}
+        jalapenoCount={this.props.jalapenoCount}
+        openModal={this.openModal}
+        closeModal={this.closeModal}
+        closePushdown={this.closePushdown}
+        unviewedCoinCount={this.props.unviewedCoinCount}
+        unviewedJalapenoCount={this.props.unviewedJalapenoCount}
+        unreadReceivedLoveNoteCount={this.props.unreadReceivedLoveNoteCount}
+        onLoveNoteWritePress={this.onLoveNoteWritePress}
+        onLoveNoteReadPress={this.onLoveNoteReadPress}
+        {...this.state}
+      />
+    );
   }
 }
 
