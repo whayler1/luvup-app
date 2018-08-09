@@ -1,9 +1,14 @@
 {
+  "plugins": [
+    "babel"
+  ],
   "extends": [
     "react-native",
     "react-native-prettier"
   ],
   rules: {
-    "react-native/no-color-literals": "warn"
+    "react-native/no-color-literals": "warn",
+    "no-invalid-this": 0,
+    "babel/no-invalid-this": 1
   }
 }
