@@ -129,6 +129,14 @@ export default ({
         <Text
           style={{
             fontFamily: vars.fontBlack,
+            color: vars.blueGrey300,
+            fontSize: 12,
+          }}>
+          Relationship Score
+        </Text>
+        <Text
+          style={{
+            fontFamily: vars.fontBlack,
             color: vars.blueGrey700,
             fontSize: 30,
           }}>
