@@ -1,24 +1,8 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Image,
-  Animated,
-  Modal,
-  TouchableOpacity,
-} from 'react-native';
-import { Button } from 'react-native-elements';
-import moment from 'moment';
-import _ from 'lodash';
+import { View, Text, TouchableOpacity } from 'react-native';
 
 import styles from './Dashboard.styles';
-import { buttons, forms, scene, modal, vars } from '../../styles';
-import config from '../../config';
 import DashboardTopNav from '../../components/DashboardTopNav';
-import CoinArt from '../../components/CoinArt';
-import JalapenoArt from '../../components/JalapenoArt';
-import LoveNoteArt from '../../components/LoveNoteArt';
 import LoveNoteReadArt from '../../components/LoveNoteReadArt';
 import LoveNoteWriteArt from '../../components/LoveNoteWriteArt';
 import LimitExceededModal from '../../components/LimitExceededModal';
@@ -28,15 +12,10 @@ import NotificationDot from '../../components/NotificationDot';
 export default ({
   userFirstName,
   userLastName,
-  username,
   loverFirstName,
   loverLastName,
-  loverUsername,
-  loverRequestUsername,
-  loverRequestCreatedAt,
   coinCount,
   jalapenoCount,
-  isFontLoaded,
   coinsAvailableTime,
   jalapenosAvailableTime,
   openModal,
@@ -50,6 +29,7 @@ export default ({
   unreadReceivedLoveNoteCount,
   onLoveNoteWritePress,
   onLoveNoteReadPress,
+  relationshipScore,
 }) => (
   <View
     style={{
@@ -69,6 +49,7 @@ export default ({
       isPushdownVisible={isPushdownVisible}
       unviewedCoinCount={unviewedCoinCount}
       unviewedJalapenoCount={unviewedJalapenoCount}
+      relationshipScore={relationshipScore}
     />
     <Hero openModal={openModal} />
     {loverFirstName && (

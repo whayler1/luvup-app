@@ -12,6 +12,7 @@ export default class DashboardTopNav extends Component {
     userLastName: PropTypes.string,
     loverFirstName: PropTypes.string,
     loverLastName: PropTypes.string,
+    relationshipScore: PropTypes.number,
   };
 
   onScoreClick = () => Actions.timeline();
