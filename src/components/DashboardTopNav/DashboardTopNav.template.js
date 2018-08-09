@@ -18,6 +18,7 @@ export default ({
   closePushdown,
   unviewedCoinCount,
   unviewedJalapenoCount,
+  relationshipScore,
 }) => (
   <View
     style={{
@@ -127,11 +128,11 @@ export default ({
         }}>
         <Text
           style={{
-            fontFamily: vars.fontVanity,
+            fontFamily: vars.fontBlack,
             color: vars.blueGrey700,
             fontSize: 30,
           }}>
-          luvup
+          {relationshipScore}%
         </Text>
       </View>
       {_.isString(userFirstName) && userFirstName.length > 1 ? (

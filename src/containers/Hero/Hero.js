@@ -2,10 +2,9 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Animated, Easing, PanResponder } from 'react-native';
+import { Animated, Easing, PanResponder, Alert } from 'react-native';
 import moment from 'moment';
 import { Actions } from 'react-native-router-flux';
-import { AlertIOS } from 'react-native';
 
 import Template from './Hero.template';
 import { createRelationshipScore as createRelationshipScoreAction } from '../../redux/relationshipScore/relationshipScore.actions';
@@ -42,12 +41,12 @@ class Hero extends Component {
 
     this.panResponder = PanResponder.create({
       // Ask to be the responder:
-      onStartShouldSetPanResponder: (evt, gestureState) => true,
-      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-      onMoveShouldSetPanResponder: (evt, gestureState) => true,
-      onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+      onStartShouldSetPanResponder: () => true,
+      onStartShouldSetPanResponderCapture: () => true,
+      onMoveShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponderCapture: () => true,
 
-      onPanResponderGrant: (evt, gestureState) => {
+      onPanResponderGrant: () => {
         this.scaleBGHeart.setValue(1);
         this.springScaleTouch();
         this.showDirections();
@@ -76,9 +75,10 @@ class Hero extends Component {
         // The accumulated gesture distance since becoming responder is
         // gestureState.d{x,y}
       },
-      onPanResponderTerminationRequest: (evt, gestureState) => true,
+      onPanResponderTerminationRequest: () => true,
       onPanResponderRelease: (evt, gestureState) => {
         this.springY();
+        this.scaleBack();
         this.springScaleBack();
         this.hideDirections();
 
@@ -98,7 +98,7 @@ class Hero extends Component {
         // The user has released all touches while this view is the
         // responder. This typically means a gesture has succeeded
       },
-      onPanResponderTerminate: (evt, gestureState) => {
+      onPanResponderTerminate: () => {
         // Another component has become the responder, so this gesture
         // should be cancelled
       },
@@ -117,7 +117,6 @@ class Hero extends Component {
     openModal: PropTypes.func.isRequired,
     cancelLoverRequest: PropTypes.func.isRequired,
     resendLoverRequestEmail: PropTypes.func.isRequired,
-    relationshipScore: PropTypes.number,
     relationshipScoreQuartile: PropTypes.number,
     sentCoins: PropTypes.array,
     sentJalapenos: PropTypes.array,
@@ -222,7 +221,7 @@ class Hero extends Component {
       this.fireCoin();
       const res = await this.props.sendCoin();
       if (_.isError(res)) {
-        AlertIOS.alert(
+        Alert.alert(
           'There was an error sending your Luvup. Please make sure you are connected to wifi or cellular data.'
         );
       }
@@ -238,7 +237,7 @@ class Hero extends Component {
       this.fireJalapeno();
       const res = await this.props.sendJalapeno();
       if (_.isError(res)) {
-        AlertIOS.alert(
+        Alert.alert(
           'There was an error sending your jalapeno. Please make sure you are connected to wifi or cellular data.'
         );
       }
@@ -250,6 +249,13 @@ class Hero extends Component {
   springY() {
     Animated.spring(this.translateY, {
       toValue: 0,
+      friction: 4,
+    }).start();
+  }
+
+  scaleBack() {
+    Animated.spring(this.scale, {
+      toValue: 1,
       friction: 4,
     }).start();
   }
