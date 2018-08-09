@@ -41,15 +41,22 @@ class Dashboard extends Component {
     setUnviewedCoinCount: PropTypes.func.isRequired,
     setUnviewedJalapenoCount: PropTypes.func.isRequired,
     unreadReceivedLoveNoteCount: PropTypes.number.isRequired,
+    relationshipScore: PropTypes.number,
   };
 
-  state = {
-    isPushdownVisible: false,
-    isModalOpen: false,
-    modalContent: undefined,
-    coinsAvailableTime: undefined,
-    jalapenosAvailableTime: undefined,
-  };
+  constructor(props) {
+    super(props);
+
+    const { unviewedCoinCount, unviewedJalapenoCount } = props;
+
+    this.state = {
+      isPushdownVisible: unviewedCoinCount > 0 || unviewedJalapenoCount > 0,
+      isModalOpen: false,
+      modalContent: undefined,
+      coinsAvailableTime: undefined,
+      jalapenosAvailableTime: undefined,
+    };
+  }
 
   openModal = modalContent => {
     const isCoin = modalContent === 'coin';
@@ -61,10 +68,12 @@ class Dashboard extends Component {
       modalContent,
     });
   };
+
   closeModal = () =>
     this.setState({
       isModalOpen: false,
     });
+
   closePushdown = () => {
     this.props.setUnviewedCoinCount(0);
     this.props.setUnviewedJalapenoCount(0);
@@ -72,7 +81,6 @@ class Dashboard extends Component {
   };
 
   setAvailableTime(collection, stateKey) {
-    const now = moment();
     const anHrAgo = moment().subtract(1, 'hour');
     const leastRecentWithinAnHr = moment(
       new Date(
@@ -91,11 +99,6 @@ class Dashboard extends Component {
     this.props.getCoinCount();
     this.props.getJalapenoCount();
 
-    const { unviewedCoinCount, unviewedJalapenoCount } = this.props;
-
-    if (unviewedCoinCount > 0 || unviewedJalapenoCount > 0) {
-      this.setState({ isPushdownVisible: true });
-    }
     if (this.props.userId && this.props.userId.length) {
       analytics.screen({
         userId: this.props.userId,
@@ -120,6 +123,7 @@ class Dashboard extends Component {
         loverRequestCreatedAt={this.props.loverRequestCreatedAt}
         coinCount={this.props.coinCount}
         jalapenoCount={this.props.jalapenoCount}
+        relationshipScore={this.props.relationshipScore}
         openModal={this.openModal}
         closeModal={this.closeModal}
         closePushdown={this.closePushdown}
@@ -152,6 +156,7 @@ export default connect(
     unviewedCoinCount: state.coin.unviewedCoinCount,
     unviewedJalapenoCount: state.jalapeno.unviewedJalapenoCount,
     unreadReceivedLoveNoteCount: state.loveNote.unreadReceivedLoveNoteCount,
+    relationshipScore: state.relationshipScore.score,
   }),
   {
     getCoinCount: getCoinCountAction,
