@@ -1,6 +1,9 @@
 import _ from 'lodash';
 import {
   CREATE_RELATIONSHIP_SCORE,
+  GET_RELATIONSHIP_SCORE_ATTEMPT,
+  GET_RELATIONSHIP_SCORE_SUCCESS,
+  GET_RELATIONSHIP_SCORE_FAILURE,
   GET_RELATIONSHIP_SCORES_ATTEMPT,
   GET_RELATIONSHIP_SCORES_SUCCESS,
   GET_RELATIONSHIP_SCORES_FAILURE,
@@ -17,6 +20,8 @@ const defaultState = {
    * this helps simplify drawing views that only care about quartile.
    */
   scoreQuartile: 0,
+  isGettingRelationshipScore: false,
+  getRelationshipScoreError: '',
   isGettingRelationshipScores: false,
   getRelationshipScoresError: '',
   relationshipScores: [],
@@ -29,6 +34,24 @@ export default function reducer(state = defaultState, action) {
         ...state,
         ..._.pick(action, ['id', 'createdAt', 'score']),
         scoreQuartile: Math.min(Math.floor(action.score * 0.04), 3),
+      };
+    case GET_RELATIONSHIP_SCORE_ATTEMPT:
+      return {
+        ...state,
+        isGettingRelationshipScore: true,
+        getRelationshipScoreError: '',
+      };
+    case GET_RELATIONSHIP_SCORE_SUCCESS:
+      return {
+        ...state,
+        isGettingRelationshipScore: false,
+        score: action.score,
+      };
+    case GET_RELATIONSHIP_SCORE_FAILURE:
+      return {
+        ...state,
+        isGettingRelationshipScore: false,
+        getRelationshipScoreError: action.error,
       };
     case GET_RELATIONSHIP_SCORES_ATTEMPT:
       return {
