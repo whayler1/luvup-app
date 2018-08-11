@@ -11,7 +11,7 @@ const defaultState = {
 
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
-    case ADD_NOTIFICATION:
+    case ADD_NOTIFICATION: {
       const { notification } = action;
       const notifications = [...state.notifications, notification];
       const luvupNotifications = notifications.filter(
@@ -32,6 +32,7 @@ export default function reducer(state = defaultState, action) {
         jalapenoNotifications,
         otherNotifications,
       };
+    }
     case CLEAR_NOTIFICATIONS:
       return { ...defaultState };
     default:

@@ -3,7 +3,6 @@ import { View, Text, TouchableOpacity, Animated } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import styles from './InAppNotifications.styles';
-import { forms, buttons, scene, modal, vars } from '../../styles';
 
 export default ({
   translateY,
