@@ -3,16 +3,27 @@ import { Vibration } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { addNotification } from '../redux/notifications/notifications.actions';
 import { getRelationshipScore } from '../redux/relationshipScore/relationshipScore.actions';
-import _ from 'lodash';
-import store from '../redux';
+import { store } from '../redux';
 
 let eventSubscription;
+const relationshipScoreUpdateTypes = [
+  'luvup-sent',
+  'luvup-received',
+  'jalapeno-sent',
+  'jalapeno-received',
+  'lovenote-sent',
+  'lovenote-received',
+];
 
 export const onNotificationReceived = notification => {
   store.dispatch(addNotification(notification));
-  store.dispatch(getRelationshipScore());
   Actions.notificationLightbox();
   Vibration.vibrate();
+
+  const { type } = notification.data;
+  if (relationshipScoreUpdateTypes.includes(type)) {
+    store.dispatch(getRelationshipScore());
+  }
 };
 
 export const listen = () => {
