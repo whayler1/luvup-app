@@ -58,7 +58,7 @@ export const getRelationshipScore = () => async dispatch => {
         }
       }
     }`);
-    const { rows } = res;
+    const rows = _.get(res, 'relationshipScores.rows');
 
     if (_.isArray(rows) && rows.length > 0) {
       dispatch({
@@ -99,7 +99,7 @@ export const getRelationshipScores = (
       }
     }`);
 
-    const { rows } = res;
+    const rows = _.get(res, 'relationshipScores.rows');
 
     if (_.isArray(rows)) {
       dispatch({
