@@ -151,19 +151,15 @@ export const getMe = () => async dispatch => {
           rows { id, createdAt, isRead, note }
           count
         }
+        relationshipScores(limit: 1) {
+          rows {
+            score
+          }
+        }
       }`,
     });
 
-    const {
-      email,
-      username,
-      id,
-      firstName,
-      lastName,
-      relationship,
-    } = res.body.data.me;
-
-    dispatch(setUser(email, username, id, firstName, lastName));
+    const { relationship } = res.body.data.me;
 
     if (relationship) {
       dispatch(setRelationship(relationship.id, relationship.createdAt));

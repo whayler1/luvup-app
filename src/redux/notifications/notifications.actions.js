@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 export const ADD_NOTIFICATION = 'notifications/add-notification';
 export const CLEAR_NOTIFICATIONS = 'notifications/clear-notifications';
 

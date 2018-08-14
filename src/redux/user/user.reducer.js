@@ -9,6 +9,7 @@ import {
   GET_TIMELINE_DATA_ATTEMPT,
   GET_TIMELINE_DATA_FAILURE,
   GET_TIMELINE_DATA_SUCCESS,
+  GET_ME_SUCCESS,
 } from './user.actions';
 import appStateListener from '../../services/appStateListener';
 
@@ -23,14 +24,21 @@ const defaultState = {
   fetTimelineDataError: '',
 };
 
+const userAttribs = ['id', 'email', 'username', 'firstName', 'lastName'];
+
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
     case LOGIN:
     case REAUTH:
       appStateListener.start();
+      return {
+        ...state,
+        ..._.pick(action, userAttribs),
+      };
     case SET_USER:
       return {
-        ..._.pick(action, 'id', 'email', 'username', 'firstName', 'lastName'),
+        ...state,
+        ..._.pick(action, userAttribs),
       };
     case LOGOUT:
       appStateListener.stop();
@@ -62,6 +70,11 @@ export default function reducer(state = defaultState, action) {
         ...state,
         isGetTimelineDataInFlight: false,
         error: action.error,
+      };
+    case GET_ME_SUCCESS:
+      return {
+        ...state,
+        ..._.pick(action.data.me, userAttribs),
       };
     default:
       return state;
