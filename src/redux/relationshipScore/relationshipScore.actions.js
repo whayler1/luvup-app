@@ -83,7 +83,6 @@ export const getRelationshipScores = (
   limit = 20,
   offset = 0
 ) => async dispatch => {
-  console.log('getRelationshipScores');
   dispatch({ type: GET_RELATIONSHIP_SCORES_ATTEMPT });
 
   try {
@@ -100,8 +99,6 @@ export const getRelationshipScores = (
       }
     }`);
 
-    console.log('res', res);
-
     const rows = _.get(res, 'relationshipScores.rows');
 
     if (_.isArray(rows)) {
@@ -116,7 +113,6 @@ export const getRelationshipScores = (
       });
     }
   } catch (error) {
-    console.log('error', error);
     dispatch({
       type: GET_RELATIONSHIP_SCORES_FAILURE,
       error,
