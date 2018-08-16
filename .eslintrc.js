@@ -36,6 +36,9 @@ module.exports = {
         "react-native/no-inline-styles": "warn",
         "react/jsx-handler-names": "warn",
         "no-invalid-this": 0,
-        "babel/no-invalid-this": 1
+        "babel/no-invalid-this": 1,
+        "no-console": [
+          "warn"
+        ],
     }
 };
