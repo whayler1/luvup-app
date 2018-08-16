@@ -83,13 +83,14 @@ export const getRelationshipScores = (
   limit = 20,
   offset = 0
 ) => async dispatch => {
+  console.log('getRelationshipScores');
   dispatch({ type: GET_RELATIONSHIP_SCORES_ATTEMPT });
 
   try {
     const res = await graphQlRequest(`{
       relationshipScores(
-        limit: "${limit}"
-        offset: "${offset}"
+        limit: ${limit}
+        offset: ${offset}
       ) {
         rows {
           id
@@ -98,6 +99,8 @@ export const getRelationshipScores = (
         }
       }
     }`);
+
+    console.log('res', res);
 
     const rows = _.get(res, 'relationshipScores.rows');
 
@@ -113,6 +116,7 @@ export const getRelationshipScores = (
       });
     }
   } catch (error) {
+    console.log('error', error);
     dispatch({
       type: GET_RELATIONSHIP_SCORES_FAILURE,
       error,
