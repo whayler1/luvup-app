@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import {
-  Platform,
-  Text,
-  View,
-  TouchableOpacity,
-} from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import {
   Scene,
   Router,
@@ -15,7 +10,6 @@ import {
   Tabs,
   Actions,
 } from 'react-native-router-flux';
-import Icon from 'react-native-vector-icons/Ionicons';
 import _ from 'lodash';
 
 import { store } from './src/redux';
@@ -29,19 +23,16 @@ import ConfirmUserRequestCreateProfile from './src/containers/ConfirmUserRequest
 import Dashboard from './src/containers/Dashboard';
 import CreateLoverRequest from './src/containers/CreateLoverRequest';
 import Timeline from './src/containers/Timeline';
+import TimelineRelationshipScore from './src/containers/TimelineRelationshipScore';
 import Menu from './src/containers/Menu';
 import ConfirmLoverRequest from './src/containers/ConfirmLoverRequest';
 import InAppNotifications from './src/containers/InAppNotifications';
 import CreateLoveNote from './src/containers/CreateLoveNote';
 import LoveNotes from './src/containers/LoveNotes';
 
-import LoveNoteArt from './src/components/LoveNoteArt';
-
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
-  return (state, action) => {
-    return defaultReducer(state, action);
-  };
+  return (state, action) => defaultReducer(state, action);
 };
 
 const getSceneStyle = () => ({
@@ -49,51 +40,42 @@ const getSceneStyle = () => ({
 });
 
 const sceneDefaults = {
-  ..._.pick(navbar, [
-    'navigationBarStyle',
-  ]),
+  ..._.pick(navbar, ['navigationBarStyle']),
   navBarButtonColor: vars.cyan500,
-  renderTitle: <View><Text style={{
-    fontFamily: vars.fontVanity,
-    color: vars.blueGrey700,
-    fontSize: 30,
-  }}>luvup</Text></View>
+  renderTitle: (
+    <View>
+      <Text
+        style={{
+          fontFamily: vars.fontVanity,
+          color: vars.blueGrey700,
+          fontSize: 30,
+        }}>
+        luvup
+      </Text>
+    </View>
+  ),
 };
 
-const getDefaultNavBar = (title) => ({
+const getDefaultNavBar = title => ({
   ...sceneDefaults,
   renderTitle: (
-    <Text style={{
-      fontFamily: vars.fontBlack,
-      color: vars.blueGrey500,
-      fontSize: 25,
-    }}>
+    <Text
+      style={{
+        fontFamily: vars.fontBlack,
+        color: vars.blueGrey500,
+        fontSize: 25,
+      }}>
       {title}
     </Text>
   ),
 });
 
-const WriteLoveNoteIcon = () => (
-  <View>
-    <Text>ABC 123 MEOW</Text>
-  </View>
-);
-
 const App = () => (
   <Provider store={store}>
-    <Router
-      createReducer={reducerCreate}
-      getSceneStyle={getSceneStyle}
-    >
+    <Router createReducer={reducerCreate} getSceneStyle={getSceneStyle}>
       <Lightbox>
         <Stack key="root">
-          <Scene
-            key="init"
-            component={Root}
-            title="Root"
-            hideNavBar={true}
-            init={true}
-          />
+          <Scene key="init" component={Root} title="Root" hideNavBar init />
           <Scene
             key="login"
             component={Login}
@@ -123,23 +105,22 @@ const App = () => (
             key="dashboard"
             component={Dashboard}
             title="Dashboard"
-            hideNavBar={true}
+            hideNavBar
           />
           <Scene
             key="createloverrequest"
             component={CreateLoverRequest}
-            hideNavBar={true}
+            hideNavBar
           />
-          <Scene
-            key="timeline"
-            component={Timeline}
-            hideNavBar={true}
-          />
-          <Scene
-            key="menu"
-            component={Menu}
-            hideNavBar={true}
-          />
+          <Tabs>
+            <Scene key="timeline" component={Timeline} hideNavBar />
+            <Scene
+              key="timelineRelationshipScore"
+              component={TimelineRelationshipScore}
+              hideNavBar
+            />
+          </Tabs>
+          <Scene key="menu" component={Menu} hideNavBar />
           <Scene
             key="confirmLoverRequest"
             component={ConfirmLoverRequest}
@@ -149,7 +130,9 @@ const App = () => (
             renderRightButton={() => {
               const state = store.getState();
               const { firstName, lastName } = state.user;
-              const initials = firstName.substr(0,1).toUpperCase() + lastName.substr(0,1).toUpperCase();
+              const initials =
+                firstName.substr(0, 1).toUpperCase() +
+                lastName.substr(0, 1).toUpperCase();
               return (
                 <View>
                   <TouchableOpacity onPress={() => Actions.menu()}>
@@ -159,9 +142,8 @@ const App = () => (
                         fontSize: 16,
                         color: vars.blueGrey500,
                         marginRight: 16,
-                      }}
-                    >
-                      { initials }
+                      }}>
+                      {initials}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -183,10 +165,7 @@ const App = () => (
             {...getDefaultNavBar('Read Love Notes')}
           />
         </Stack>
-        <Scene
-          key="notificationLightbox"
-          component={InAppNotifications}
-        />
+        <Scene key="notificationLightbox" component={InAppNotifications} />
       </Lightbox>
     </Router>
   </Provider>
