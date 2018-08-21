@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 import {
   CREATE_RELATIONSHIP_SCORE,
   GET_RELATIONSHIP_SCORE_ATTEMPT,
@@ -25,7 +26,26 @@ const defaultState = {
   isGettingRelationshipScores: false,
   getRelationshipScoresError: '',
   relationshipScores: [],
+  relationshipScoresByDate: [],
 };
+
+const getRelationshipScoresByDate = rows =>
+  rows.reduce((accumulator, row) => {
+    const day = moment(new Date(row.createdAt)).format('YYYY-MM-DD');
+    const newRow = { ...row, day };
+    const lastRow = accumulator[accumulator.length - 1];
+
+    if (!accumulator.length || (lastRow && lastRow.day > day)) {
+      accumulator.push(newRow);
+      return accumulator;
+    }
+
+    if (newRow.score > lastRow.score) {
+      accumulator[accumulator.length - 1] = newRow;
+    }
+
+    return accumulator;
+  }, []);
 
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
@@ -64,6 +84,7 @@ export default function reducer(state = defaultState, action) {
         ...state,
         isGettingRelationshipScores: false,
         relationshipScores: action.rows,
+        relationshipScoresByDate: getRelationshipScoresByDate(action.rows),
       };
     case GET_RELATIONSHIP_SCORES_FAILURE:
       return {
