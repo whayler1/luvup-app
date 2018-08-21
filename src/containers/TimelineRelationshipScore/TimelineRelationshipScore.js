@@ -47,13 +47,17 @@ class TimelineRelationshipScore extends PureComponent {
               }}>
               {moment(score.day).format("MMM D, 'YY")}
             </Text>
-            <View style={{ flex: 1 }}>
+            <View
+              style={{
+                flex: 1,
+                width: 70,
+              }}>
               <View
                 style={{
                   position: 'absolute',
                   bottom: `${score.score}%`,
-                  left: '50%',
-                  marginLeft: -35,
+                  left: 0,
+                  right: 0,
                   width: 70,
                   height: 70,
                   alignItems: 'center',
