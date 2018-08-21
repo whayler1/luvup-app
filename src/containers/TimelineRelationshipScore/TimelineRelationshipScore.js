@@ -4,11 +4,34 @@ import { Text, ScrollView, View } from 'react-native';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Surface } from 'ReactNativeART';
+import Color from 'color';
 
 import { getRelationshipScores } from '../../redux/relationshipScore/relationshipScore.actions';
 import { store } from '../../redux';
 import { vars } from '../../styles';
 import Circle from '../../components/Circle';
+
+const getFill = score => {
+  let lowerColor;
+  let higherColor;
+  let threshold;
+  if (score < 33) {
+    lowerColor = vars.blue500;
+    higherColor = vars.purple500;
+    threshold = 0;
+  } else if (score < 66) {
+    lowerColor = vars.purple500;
+    higherColor = vars.red500;
+    threshold = 33;
+  } else {
+    lowerColor = vars.red500;
+    higherColor = vars.pink500;
+    threshold = 66;
+  }
+
+  const pct = (score - threshold) / 33;
+  return Color(lowerColor).mix(Color(higherColor), pct);
+};
 
 class TimelineRelationshipScore extends PureComponent {
   static onEnter() {
@@ -67,7 +90,7 @@ class TimelineRelationshipScore extends PureComponent {
                   width={70}
                   height={70}
                   style={{ position: 'absolute' }}>
-                  <Circle radius={35} fill="red" />
+                  <Circle radius={35} fill={getFill(score.score)} />
                 </Surface>
                 <Text
                   style={{
