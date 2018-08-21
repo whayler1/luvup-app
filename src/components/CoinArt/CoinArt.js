@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import ReactArt, { Group, Shape, Surface, Transform } from 'ReactNativeART';
+import { Group, Surface } from 'ReactNativeART';
 import _ from 'lodash';
 
 import Circle from '../Circle';
