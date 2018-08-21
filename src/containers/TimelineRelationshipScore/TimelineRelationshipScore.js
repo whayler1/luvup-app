@@ -50,6 +50,10 @@ class TimelineRelationshipScore extends PureComponent {
             <View style={{ flex: 1 }}>
               <View
                 style={{
+                  position: 'absolute',
+                  bottom: `${score.score}%`,
+                  left: '50%',
+                  marginLeft: -35,
                   width: 70,
                   height: 70,
                   alignItems: 'center',
