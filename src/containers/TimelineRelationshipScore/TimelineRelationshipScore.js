@@ -105,16 +105,21 @@ class TimelineRelationshipScore extends PureComponent {
   };
 
   render() {
+    const { isGettingRelationshipScores } = this.props;
+    const style = { marginTop: 90 };
+    if (isGettingRelationshipScores) {
+      style.alignSelf = 'stretch';
+    }
     return (
       <FlatList
-        horizontal
-        style={{ marginTop: 90 }}
+        horizontal={!isGettingRelationshipScores}
+        style={style}
         renderItem={renderItem}
         data={this.props.relationshipScoresByDate}
         keyExtractor={keyExtractor}
         ListEmptyComponent={
           <ListEmptyComponent
-            isInFlight={this.props.isGettingRelationshipScores}
+            isInFlight={isGettingRelationshipScores}
             error={this.props.getRelationshipScoresError}
           />
         }
