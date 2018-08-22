@@ -113,9 +113,15 @@ const App = () => (
             hideNavBar
           />
           <Tabs>
-            <Scene key="timeline" component={Timeline} hideNavBar />
+            <Scene
+              key="timeline"
+              component={Timeline}
+              hideNavBar
+              title="History"
+            />
             <Scene
               key="timelineRelationshipScore"
+              title="Relationship Scores"
               component={TimelineRelationshipScore}
               hideNavBar
             />
@@ -125,7 +131,7 @@ const App = () => (
             key="confirmLoverRequest"
             component={ConfirmLoverRequest}
             {...sceneDefaults}
-            rednerLeftButton={() => <View />}
+            renderLeftButton={() => <View />}
             renderBackButton={() => <View />}
             renderRightButton={() => {
               const state = store.getState();

@@ -91,6 +91,7 @@ export const getRelationshipScores = (
         limit: ${limit}
         offset: ${offset}
       ) {
+        count
         rows {
           id
           score
@@ -99,12 +100,14 @@ export const getRelationshipScores = (
       }
     }`);
 
-    const rows = _.get(res, 'relationshipScores.rows');
+    const { rows, count } = _.get(res, 'relationshipScores', {});
 
     if (_.isArray(rows)) {
       dispatch({
         type: GET_RELATIONSHIP_SCORES_SUCCESS,
+        count,
         rows,
+        offset,
       });
     } else {
       dispatch({
