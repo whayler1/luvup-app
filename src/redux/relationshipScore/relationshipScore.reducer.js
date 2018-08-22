@@ -27,6 +27,7 @@ const defaultState = {
   getRelationshipScoresError: '',
   relationshipScores: [],
   relationshipScoresByDate: [],
+  count: undefined,
 };
 
 const getRelationshipScoresByDate = rows =>
@@ -79,13 +80,28 @@ export default function reducer(state = defaultState, action) {
         isGettingRelationshipScores: true,
         getRelationshipScoresError: '',
       };
-    case GET_RELATIONSHIP_SCORES_SUCCESS:
+    case GET_RELATIONSHIP_SCORES_SUCCESS: {
+      let relationshipScores;
+      let relationshipScoresByDate;
+
+      if (action.offset > 0) {
+        relationshipScores = [...state.relationshipScores, ...action.rows];
+        relationshipScoresByDate = [
+          ...state.relationshipScoresByDate,
+          ...getRelationshipScoresByDate(action.rows),
+        ];
+      } else {
+        relationshipScores = action.rows;
+        relationshipScoresByDate = getRelationshipScoresByDate(action.rows);
+      }
       return {
         ...state,
         isGettingRelationshipScores: false,
-        relationshipScores: action.rows,
-        relationshipScoresByDate: getRelationshipScoresByDate(action.rows),
+        relationshipScores,
+        relationshipScoresByDate,
+        count: action.count,
       };
+    }
     case GET_RELATIONSHIP_SCORES_FAILURE:
       return {
         ...state,
