@@ -10,9 +10,10 @@ const ListEmptyComponent = ({ isInFlight, error }) => (
     style={{
       paddingHorizontal: 16,
       paddingVertical: 32,
+      alignSelf: 'stretch',
     }}>
     {error && (
-      <Well text="There was an error loading your timeline. Make sure you are connected to wifi or data." />
+      <Well text="There was an error loading the timeline. Make sure you are connected to wifi or data." />
     )}
     {isInFlight && <Preloader />}
     {!error &&

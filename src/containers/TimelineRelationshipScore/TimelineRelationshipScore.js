@@ -10,6 +10,7 @@ import { getRelationshipScores } from '../../redux/relationshipScore/relationshi
 import { store } from '../../redux';
 import { vars } from '../../styles';
 import Circle from '../../components/Circle';
+import ListEmptyComponent from '../Timeline/Timeline.ListEmptyComponent.template';
 
 const getFill = score => {
   let lowerColor;
@@ -99,6 +100,8 @@ class TimelineRelationshipScore extends PureComponent {
         day: PropTypes.string.isRequired,
       })
     ),
+    isGettingRelationshipScores: PropTypes.bool.isRequired,
+    getRelationshipScoresError: PropTypes.string,
   };
 
   render() {
@@ -109,6 +112,12 @@ class TimelineRelationshipScore extends PureComponent {
         renderItem={renderItem}
         data={this.props.relationshipScoresByDate}
         keyExtractor={keyExtractor}
+        ListEmptyComponent={
+          <ListEmptyComponent
+            isInFlight={this.props.isGettingRelationshipScores}
+            error={this.props.getRelationshipScoresError}
+          />
+        }
       />
     );
   }
@@ -116,4 +125,8 @@ class TimelineRelationshipScore extends PureComponent {
 
 export default connect(state => ({
   relationshipScoresByDate: state.relationshipScore.relationshipScoresByDate,
+  isGettingRelationshipScores:
+    state.relationshipScore.isGettingRelationshipScores,
+  getRelationshipScoresError:
+    state.relationshipScore.getRelationshipScoresError,
 }))(TimelineRelationshipScore);
