@@ -89,19 +89,11 @@ export default function reducer(state = defaultState, action) {
         const newRelationshipScoresByDate = getRelationshipScoresByDate(
           action.rows
         );
-        console.log(
-          'last old',
-          state.relationshipScoresByDate[
-            state.relationshipScoresByDate.length - 1
-          ].day
-        );
-        console.log('first new', newRelationshipScoresByDate[0].day);
         if (
           state.relationshipScoresByDate[
             state.relationshipScoresByDate.length - 1
           ].day === newRelationshipScoresByDate[0].day
         ) {
-          console.log('past if');
           newRelationshipScoresByDate.splice(0, 1);
         }
         relationshipScoresByDate = [

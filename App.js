@@ -70,6 +70,17 @@ const getDefaultNavBar = title => ({
   ),
 });
 
+const TabIcon = () => (
+  <View
+    style={{
+      width: 100,
+      height: 100,
+      backgroundColor: 'red',
+    }}>
+    <Text>Icon</Text>
+  </View>
+);
+
 const App = () => (
   <Provider store={store}>
     <Router createReducer={reducerCreate} getSceneStyle={getSceneStyle}>
@@ -112,16 +123,18 @@ const App = () => (
             component={CreateLoverRequest}
             hideNavBar
           />
-          <Tabs>
+          <Tabs key="timelineTabs">
             <Scene
               key="timeline"
+              title="History"
+              icon={TabIcon}
               component={Timeline}
               hideNavBar
-              title="History"
             />
             <Scene
               key="timelineRelationshipScore"
               title="Relationship Scores"
+              icon={TabIcon}
               component={TimelineRelationshipScore}
               hideNavBar
             />
