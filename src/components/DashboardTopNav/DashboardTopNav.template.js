@@ -14,6 +14,7 @@ export default ({
   loverLastName,
   onScoreClick,
   onInitialsClick,
+  onRelationshipScoreClick,
   isPushdownVisible,
   closePushdown,
   unviewedCoinCount,
@@ -121,7 +122,8 @@ export default ({
           }}
         />
       )}
-      <View
+      <TouchableOpacity
+        onPress={onRelationshipScoreClick}
         style={{
           flex: 0.33,
           alignItems: 'center',
@@ -142,7 +144,7 @@ export default ({
           }}>
           {relationshipScore}%
         </Text>
-      </View>
+      </TouchableOpacity>
       {_.isString(userFirstName) && userFirstName.length > 1 ? (
         <TouchableOpacity
           onPress={onInitialsClick}

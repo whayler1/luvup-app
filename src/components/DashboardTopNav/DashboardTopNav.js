@@ -15,14 +15,16 @@ export default class DashboardTopNav extends Component {
     relationshipScore: PropTypes.number,
   };
 
-  onScoreClick = () => Actions.timeline();
-  onInitialsClick = () => Actions.menu();
+  handleScoreClick = () => Actions.timeline();
+  handleInitialsClick = () => Actions.menu();
+  handleRelationshipScoreClick = () => Actions.timelineRelationshipScore();
 
   render() {
     return (
       <Template
-        onScoreClick={this.onScoreClick}
-        onInitialsClick={this.onInitialsClick}
+        onScoreClick={this.handleScoreClick}
+        onInitialsClick={this.handleInitialsClick}
+        onRelationshipScoreClick={this.handleRelationshipScoreClick}
         {...this.props}
       />
     );
