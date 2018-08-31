@@ -97,7 +97,7 @@ const keyExtractor = item => item.relationshipScore.id;
 const DAY_STEPPER_AMOUNT = 20;
 const formatStr = 'YYYY-MM-DD';
 const dateStepper = (dateStr, amount = DAY_STEPPER_AMOUNT) =>
-  moment()
+  moment(dateStr)
     .subtract(amount, 'days')
     .format(formatStr);
 
@@ -123,6 +123,7 @@ class TimelineRelationshipScore extends PureComponent {
     isGettingRelationshipScoresByDay: PropTypes.bool,
     getRelationshipScoresByDayError: PropTypes.string,
     getRelationshipScoresByDay: PropTypes.func.isRequired,
+    firstDate: PropTypes.string,
   };
 
   constructor(props) {
@@ -135,19 +136,28 @@ class TimelineRelationshipScore extends PureComponent {
     };
   }
 
-  handleEndReached = async () => {
+  handleEndReached = () => {
     const { currentDate } = this.state;
+    const { firstDate } = this.props;
+    console.log('\n\n--- handleEndReached currentDate:', currentDate);
     const startDate = currentDate;
     const endDate = dateStepper(currentDate);
+    console.log({ startDate, endDate });
     // wrap this in an if
-    this.props.getRelationshipScoresByDay({
-      endDate,
-      startDate,
-    });
-
-    this.setState({
-      currentDate: dateStepper(endDate, 1),
-    });
+    if (firstDate <= startDate) {
+      this.setState(
+        {
+          currentDate: dateStepper(endDate, 1),
+        },
+        () => {
+          this.props.getRelationshipScoresByDay({
+            endDate,
+            startDate,
+            isAppend: true,
+          });
+        }
+      );
+    }
   };
 
   render() {
@@ -187,8 +197,9 @@ export default connect(
     relationshipScoresByDay: state.relationshipScore.relationshipScoresByDay,
     isGettingRelationshipScores:
       state.relationshipScore.isGettingRelationshipScores,
-    getRelationshipScoresError:
-      state.relationshipScore.getRelationshipScoresError,
+    getRelationshipScoresByDayError:
+      state.relationshipScore.getRelationshipScoresByDayError,
+    firstDate: state.relationshipScore.firstDate,
   }),
   {
     getRelationshipScoresByDay,
