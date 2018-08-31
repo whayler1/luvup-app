@@ -94,7 +94,7 @@ const ItemSeparatorComponent = () => (
 
 const keyExtractor = item => item.relationshipScore.id;
 
-const DAY_STEPPER_AMOUNT = 20;
+const DAY_STEPPER_AMOUNT = 10;
 const formatStr = 'YYYY-MM-DD';
 const dateStepper = (dateStr, amount = DAY_STEPPER_AMOUNT) =>
   moment(dateStr)
@@ -129,25 +129,20 @@ class TimelineRelationshipScore extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      currentDate: dateStepper(
-        moment().format('YYYY-MM-DD'),
-        DAY_STEPPER_AMOUNT + 1
-      ),
+      currentDate: dateStepper(moment().format('YYYY-MM-DD')),
     };
   }
 
   handleEndReached = () => {
     const { currentDate } = this.state;
     const { firstDate } = this.props;
-    console.log('\n\n--- handleEndReached currentDate:', currentDate);
     const startDate = currentDate;
     const endDate = dateStepper(currentDate);
-    console.log({ startDate, endDate });
     // wrap this in an if
     if (firstDate <= startDate) {
       this.setState(
         {
-          currentDate: dateStepper(endDate, 1),
+          currentDate: endDate,
         },
         () => {
           this.props.getRelationshipScoresByDay({
