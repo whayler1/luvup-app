@@ -8,6 +8,9 @@ import {
   GET_RELATIONSHIP_SCORES_ATTEMPT,
   GET_RELATIONSHIP_SCORES_SUCCESS,
   GET_RELATIONSHIP_SCORES_FAILURE,
+  GET_RELATIONSHIP_SCORES_BY_DAY_ATTEMPT,
+  GET_RELATIONSHIP_SCORES_BY_DAY_SUCCESS,
+  GET_RELATIONSHIP_SCORES_BY_DAY_FAILURE,
 } from './relationshipScore.actions';
 import { GET_ME_SUCCESS } from '../user/user.actions';
 
@@ -26,27 +29,12 @@ const defaultState = {
   isGettingRelationshipScores: false,
   getRelationshipScoresError: '',
   relationshipScores: [],
+  isGettingRelationshipScoresByDate: false,
+  getRelationshipScoresByDateError: '',
   relationshipScoresByDate: [],
+  firstDate: null,
   count: undefined,
 };
-
-const getRelationshipScoresByDate = rows =>
-  rows.reduce((accumulator, row) => {
-    const day = moment(new Date(row.createdAt)).format('YYYY-MM-DD');
-    const newRow = { ...row, day };
-    const lastRow = accumulator[accumulator.length - 1];
-
-    if (!accumulator.length || (lastRow && lastRow.day > day)) {
-      accumulator.push(newRow);
-      return accumulator;
-    }
-
-    if (newRow.score > lastRow.score) {
-      accumulator[accumulator.length - 1] = newRow;
-    }
-
-    return accumulator;
-  }, []);
 
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
@@ -82,33 +70,16 @@ export default function reducer(state = defaultState, action) {
       };
     case GET_RELATIONSHIP_SCORES_SUCCESS: {
       let relationshipScores;
-      let relationshipScoresByDate;
 
       if (action.offset > 0) {
         relationshipScores = [...state.relationshipScores, ...action.rows];
-        const newRelationshipScoresByDate = getRelationshipScoresByDate(
-          action.rows
-        );
-        if (
-          state.relationshipScoresByDate[
-            state.relationshipScoresByDate.length - 1
-          ].day === newRelationshipScoresByDate[0].day
-        ) {
-          newRelationshipScoresByDate.splice(0, 1);
-        }
-        relationshipScoresByDate = [
-          ...state.relationshipScoresByDate,
-          ...newRelationshipScoresByDate,
-        ];
       } else {
         relationshipScores = action.rows;
-        relationshipScoresByDate = getRelationshipScoresByDate(action.rows);
       }
       return {
         ...state,
         isGettingRelationshipScores: false,
         relationshipScores,
-        relationshipScoresByDate,
         count: action.count,
       };
     }
@@ -117,6 +88,27 @@ export default function reducer(state = defaultState, action) {
         ...state,
         isGettingRelationshipScores: false,
         getRelationshipScoresError: action.error,
+      };
+    case GET_RELATIONSHIP_SCORES_BY_DAY_ATTEMPT:
+      return {
+        ...state,
+        isGettingRelationshipScoresByDate: true,
+        getRelationshipScoresByDateError: '',
+      };
+    case GET_RELATIONSHIP_SCORES_BY_DAY_SUCCESS:
+      return {
+        ...state,
+        isGettingRelationshipScoresByDate: false,
+        relationshipScoresByDay: action.isAppend
+          ? [...state.relationshipScoresByDay, ...action.rows]
+          : action.rows,
+        firstDate: action.firstDate,
+      };
+    case GET_RELATIONSHIP_SCORES_BY_DAY_FAILURE:
+      return {
+        ...state,
+        isGettingRelationshipScoresByDate: false,
+        getRelationshipScoresByDay: action.error,
       };
     case GET_ME_SUCCESS:
       return {
