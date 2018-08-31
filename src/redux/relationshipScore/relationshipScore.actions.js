@@ -140,7 +140,7 @@ export const getRelationshipScoresByDay = ({
   try {
     const startDateStr = startDate ? `startDate: "${startDate}"` : '';
     const res = await graphQlRequest(`{
-      relationshipScoresByDate(
+      relationshipScoresByDay(
         endDate: "${endDate}"
         ${startDateStr}
       ) {
@@ -156,7 +156,7 @@ export const getRelationshipScoresByDay = ({
 
     console.log('res', res);
 
-    const { rows, firstDate } = res.relationshipScoresByDate;
+    const { rows, firstDate } = res.relationshipScoresByDay;
 
     if (_.isArray(rows)) {
       dispatch({
