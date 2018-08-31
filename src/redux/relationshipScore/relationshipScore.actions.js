@@ -132,6 +132,7 @@ export const getRelationshipScores = (
 export const getRelationshipScoresByDay = ({
   endDate,
   startDate,
+  isAppend = false,
 }) => async dispatch => {
   dispatch({
     type: GET_RELATIONSHIP_SCORES_BY_DAY_ATTEMPT,
@@ -160,6 +161,7 @@ export const getRelationshipScoresByDay = ({
         type: GET_RELATIONSHIP_SCORES_BY_DAY_SUCCESS,
         rows,
         firstDate,
+        isAppend,
       });
     } else {
       dispatch({
