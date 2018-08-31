@@ -7,7 +7,7 @@ import { Surface } from 'ReactNativeART';
 import Color from 'color';
 import _ from 'lodash';
 
-import { getRelationshipScores } from '../../redux/relationshipScore/relationshipScore.actions';
+import { getRelationshipScoresByDay } from '../../redux/relationshipScore/relationshipScore.actions';
 import { store } from '../../redux';
 import { vars } from '../../styles';
 import Circle from '../../components/Circle';
@@ -94,16 +94,23 @@ const ItemSeparatorComponent = () => (
 
 const keyExtractor = item => item.id;
 
-const RELATIONSHIP_SCORE_LIMIT = 100;
-let relationshipScoreOffset = 0;
+const DAY_STEPPER_AMOUNT = 20;
+const formatStr = 'YYYY-MM-DD';
+const dateStepper = (dateStr, amount = DAY_STEPPER_AMOUNT) =>
+  moment()
+    .subtract(amount, 'days')
+    .format(formatStr);
 
 class TimelineRelationshipScore extends PureComponent {
   static onEnter() {
-    store.dispatch(getRelationshipScores(RELATIONSHIP_SCORE_LIMIT));
+    const endDate = moment()
+      .subtract(DAY_STEPPER_AMOUNT, 'days')
+      .format(formatStr);
+    store.dispatch(getRelationshipScoresByDay({ endDate }));
   }
 
   static propTypes = {
-    relationshipScoresByDate: PropTypes.arrayOf(
+    relationshipScoresByDay: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
         score: PropTypes.number.isRequired,
@@ -111,52 +118,61 @@ class TimelineRelationshipScore extends PureComponent {
         day: PropTypes.string.isRequired,
       })
     ),
-    relationshipScores: PropTypes.array,
-    relationshipScoreCount: PropTypes.number,
-    isGettingRelationshipScores: PropTypes.bool,
-    getRelationshipScoresError: PropTypes.string,
-    getRelationshipScores: PropTypes.func.isRequired,
+    isGettingRelationshipScoresByDay: PropTypes.bool,
+    getRelationshipScoresByDayError: PropTypes.string,
+    getRelationshipScoresByDay: PropTypes.func.isRequired,
   };
 
-  handleEndReached = () => {
-    const { relationshipScores, relationshipScoreCount } = this.props;
+  constructor(props) {
+    super(props);
+    this.state = {
+      currentDate: dateStepper(
+        moment().format('YYYY-MM-DD'),
+        DAY_STEPPER_AMOUNT + 1
+      ),
+    };
+  }
 
-    if (
-      _.isArray(relationshipScores) &&
-      relationshipScores.length < relationshipScoreCount
-    ) {
-      relationshipScoreOffset += RELATIONSHIP_SCORE_LIMIT;
-      this.props.getRelationshipScores(
-        RELATIONSHIP_SCORE_LIMIT,
-        relationshipScoreOffset
-      );
-    }
+  handleEndReached = async () => {
+    const { currentDate } = this.state;
+    const startDate = currentDate;
+    const endDate = dateStepper(currentDate);
+    // wrap this in an if
+    this.props.getRelationshipScoresByDay({
+      endDate,
+      startDate,
+    });
+
+    this.setState({
+      currentDate: dateStepper(endDate, 1),
+    });
   };
 
   render() {
     const {
-      isGettingRelationshipScores,
-      relationshipScoresByDate,
+      isGettingRelationshipScoresByDay,
+      relationshipScoresByDay,
     } = this.props;
     const style = { marginTop: 90 };
-    if (isGettingRelationshipScores) {
+    if (isGettingRelationshipScoresByDay) {
       style.alignSelf = 'stretch';
     }
     return (
       <FlatList
         horizontal={
-          !isGettingRelationshipScores || relationshipScoresByDate.length > 0
+          !isGettingRelationshipScoresByDay ||
+          relationshipScoresByDay.length > 0
         }
         style={style}
         renderItem={renderItem}
-        data={relationshipScoresByDate}
+        data={relationshipScoresByDay}
         keyExtractor={keyExtractor}
         onEndReached={this.handleEndReached}
         ItemSeparatorComponent={ItemSeparatorComponent}
         ListEmptyComponent={
           <ListEmptyComponent
-            isInFlight={isGettingRelationshipScores}
-            error={this.props.getRelationshipScoresError}
+            isInFlight={isGettingRelationshipScoresByDay}
+            error={this.props.getRelationshipScoresByDayError}
           />
         }
       />
@@ -166,15 +182,13 @@ class TimelineRelationshipScore extends PureComponent {
 
 export default connect(
   state => ({
-    relationshipScoresByDate: state.relationshipScore.relationshipScoresByDate,
-    relationshipScoreCount: state.relationshipScore.count,
-    relationshipScores: state.relationshipScore.relationshipScores,
+    relationshipScoresByDay: state.relationshipScore.relationshipScoresByDay,
     isGettingRelationshipScores:
       state.relationshipScore.isGettingRelationshipScores,
     getRelationshipScoresError:
       state.relationshipScore.getRelationshipScoresError,
   }),
   {
-    getRelationshipScores,
+    getRelationshipScoresByDay,
   }
 )(TimelineRelationshipScore);
