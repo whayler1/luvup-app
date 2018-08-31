@@ -29,9 +29,9 @@ const defaultState = {
   isGettingRelationshipScores: false,
   getRelationshipScoresError: '',
   relationshipScores: [],
-  isGettingRelationshipScoresByDate: false,
-  getRelationshipScoresByDateError: '',
-  relationshipScoresByDate: [],
+  isGettingRelationshipScoresByDay: false,
+  getRelationshipScoresByDayError: '',
+  relationshipScoresByDay: [],
   firstDate: null,
   count: undefined,
 };
@@ -92,13 +92,13 @@ export default function reducer(state = defaultState, action) {
     case GET_RELATIONSHIP_SCORES_BY_DAY_ATTEMPT:
       return {
         ...state,
-        isGettingRelationshipScoresByDate: true,
-        getRelationshipScoresByDateError: '',
+        isGettingRelationshipScoresByDay: true,
+        getRelationshipScoresByDayError: '',
       };
     case GET_RELATIONSHIP_SCORES_BY_DAY_SUCCESS:
       return {
         ...state,
-        isGettingRelationshipScoresByDate: false,
+        isGettingRelationshipScoresByDay: false,
         relationshipScoresByDay: action.isAppend
           ? [...state.relationshipScoresByDay, ...action.rows]
           : action.rows,
@@ -107,7 +107,7 @@ export default function reducer(state = defaultState, action) {
     case GET_RELATIONSHIP_SCORES_BY_DAY_FAILURE:
       return {
         ...state,
-        isGettingRelationshipScoresByDate: false,
+        isGettingRelationshipScoresByDay: false,
         getRelationshipScoresByDay: action.error,
       };
     case GET_ME_SUCCESS:
