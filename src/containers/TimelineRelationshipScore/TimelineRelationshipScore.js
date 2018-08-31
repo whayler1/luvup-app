@@ -37,7 +37,7 @@ const getFill = score => {
 
 const renderItem = ({ item }) => (
   <View
-    key={item.id}
+    key={item.relationshipScore.id}
     style={{
       paddingLeft: 16,
       paddingRight: 16,
@@ -59,7 +59,7 @@ const renderItem = ({ item }) => (
       <View
         style={{
           position: 'absolute',
-          bottom: `${item.score}%`,
+          bottom: `${item.relationshipScore.score}%`,
           left: 0,
           right: 0,
           width: 70,
@@ -68,7 +68,7 @@ const renderItem = ({ item }) => (
           justifyContent: 'center',
         }}>
         <Surface width={70} height={70} style={{ position: 'absolute' }}>
-          <Circle radius={35} fill={getFill(item.score)} />
+          <Circle radius={35} fill={getFill(item.relationshipScore.score)} />
         </Surface>
         <Text
           style={{
@@ -76,7 +76,7 @@ const renderItem = ({ item }) => (
             color: 'white',
             fontSize: 18,
           }}>
-          {item.score}
+          {item.relationshipScore.score}
         </Text>
       </View>
     </View>
@@ -92,7 +92,7 @@ const ItemSeparatorComponent = () => (
   />
 );
 
-const keyExtractor = item => item.id;
+const keyExtractor = item => item.relationshipScore.id;
 
 const DAY_STEPPER_AMOUNT = 20;
 const formatStr = 'YYYY-MM-DD';
@@ -112,10 +112,12 @@ class TimelineRelationshipScore extends PureComponent {
   static propTypes = {
     relationshipScoresByDay: PropTypes.arrayOf(
       PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        score: PropTypes.number.isRequired,
-        createdAt: PropTypes.string.isRequired,
         day: PropTypes.string.isRequired,
+        relationshipScore: PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          score: PropTypes.number.isRequired,
+          createdAt: PropTypes.string.isRequired,
+        }),
       })
     ),
     isGettingRelationshipScoresByDay: PropTypes.bool,
