@@ -30,6 +30,7 @@ import InAppNotifications from './src/containers/InAppNotifications';
 import CreateLoveNote from './src/containers/CreateLoveNote';
 import LoveNotes from './src/containers/LoveNotes';
 import TimelineRelationshipScoreArt from './src/components/Art/TimelineRelationshipScoreArt';
+import TimelineArt from './src/components/Art/TimelineArt';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -70,16 +71,6 @@ const getDefaultNavBar = title => ({
     </Text>
   ),
 });
-
-const TabIcon = () => (
-  <View
-    style={{
-      width: 100,
-      height: 125,
-    }}>
-    <TimelineRelationshipScoreArt scale="0.8" />
-  </View>
-);
 
 const App = () => (
   <Provider store={store}>
@@ -127,14 +118,31 @@ const App = () => (
             <Scene
               key="timeline"
               title="History"
-              icon={TabIcon}
+              icon={() => (
+                <View
+                  style={{
+                    width: 21,
+                    height: 22,
+                  }}>
+                  <TimelineArt scale={0.3} />
+                </View>
+              )}
               component={Timeline}
               hideNavBar
             />
             <Scene
               key="timelineRelationshipScore"
               title="Relationship Scores"
-              icon={TabIcon}
+              icon={() => (
+                <View
+                  style={{
+                    paddingTop: 3,
+                    width: 30,
+                    height: 37.5,
+                  }}>
+                  <TimelineRelationshipScoreArt scale={0.3} />
+                </View>
+              )}
               component={TimelineRelationshipScore}
               hideNavBar
             />
