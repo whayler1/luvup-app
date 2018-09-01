@@ -154,8 +154,6 @@ export const getRelationshipScoresByDay = ({
       }
     }`);
 
-    console.log('res', res);
-
     const { rows, firstDate } = res.relationshipScoresByDay;
 
     if (_.isArray(rows)) {
