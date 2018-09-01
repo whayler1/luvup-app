@@ -1,23 +1,19 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { FlatList, View } from 'react-native';
+import { FlatList, View, TouchableOpacity, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { Actions } from 'react-native-router-flux';
 
 import { getRelationshipScoresByDay } from '../../redux/relationshipScore/relationshipScore.actions';
 import { store } from '../../redux';
-import { vars } from '../../styles';
+import { vars, scene } from '../../styles';
+import styles from './TimelineRelationshipScore.styles';
+import timelineStyles from '../Timeline/Timeline.styles';
 import ListEmptyComponent from '../Timeline/Timeline.ListEmptyComponent.template';
 import TimelineRelationshipScoreRenderItem from './TimelineRelationshipScoreRenderItem';
 
-const ItemSeparatorComponent = () => (
-  <View
-    style={{
-      borderRightColor: vars.blueGrey50,
-      borderRightWidth: 1,
-    }}
-  />
-);
+const ItemSeparatorComponent = () => <View style={styles.separator} />;
 
 const keyExtractor = item => item.relationshipScore.id;
 
@@ -60,6 +56,10 @@ class TimelineRelationshipScore extends PureComponent {
     };
   }
 
+  handleBack = () => {
+    Actions.pop();
+  };
+
   handleEndReached = () => {
     const { currentDate } = this.state;
     const { firstDate } = this.props;
@@ -92,24 +92,42 @@ class TimelineRelationshipScore extends PureComponent {
       style.alignSelf = 'stretch';
     }
     return (
-      <FlatList
-        horizontal={
-          !isGettingRelationshipScoresByDay ||
-          relationshipScoresByDay.length > 0
-        }
-        style={style}
-        renderItem={TimelineRelationshipScoreRenderItem}
-        data={relationshipScoresByDay}
-        keyExtractor={keyExtractor}
-        onEndReached={this.handleEndReached}
-        ItemSeparatorComponent={ItemSeparatorComponent}
-        ListEmptyComponent={
-          <ListEmptyComponent
-            isInFlight={isGettingRelationshipScoresByDay}
-            error={this.props.getRelationshipScoresByDayError}
-          />
-        }
-      />
+      <View style={styles.container}>
+        <View
+          style={{
+            flex: 0,
+            paddingTop: 16,
+            paddingBottom: 16,
+            marginTop: 28,
+          }}>
+          <TouchableOpacity
+            onPress={this.handleBack}
+            style={timelineStyles.heartBtn}>
+            <Image
+              source={require('../../images/heart.png')}
+              style={timelineStyles.heartImg}
+            />
+          </TouchableOpacity>
+        </View>
+        <FlatList
+          horizontal={
+            !isGettingRelationshipScoresByDay ||
+            relationshipScoresByDay.length > 0
+          }
+          style={style}
+          renderItem={TimelineRelationshipScoreRenderItem}
+          data={relationshipScoresByDay}
+          keyExtractor={keyExtractor}
+          onEndReached={this.handleEndReached}
+          ItemSeparatorComponent={ItemSeparatorComponent}
+          ListEmptyComponent={
+            <ListEmptyComponent
+              isInFlight={isGettingRelationshipScoresByDay}
+              error={this.props.getRelationshipScoresByDayError}
+            />
+          }
+        />
+      </View>
     );
   }
 }
