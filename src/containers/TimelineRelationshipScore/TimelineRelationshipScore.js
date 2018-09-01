@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Surface } from 'ReactNativeART';
 import Color from 'color';
-import _ from 'lodash';
 
 import { getRelationshipScoresByDay } from '../../redux/relationshipScore/relationshipScore.actions';
 import { store } from '../../redux';
 import { vars } from '../../styles';
 import Circle from '../../components/Circle';
 import ListEmptyComponent from '../Timeline/Timeline.ListEmptyComponent.template';
+import TimelineRelationshipScoreRenderItem from './TimelineRelationshipScoreRenderItem';
 
 const getFill = score => {
   let lowerColor;
@@ -171,7 +171,7 @@ class TimelineRelationshipScore extends PureComponent {
           relationshipScoresByDay.length > 0
         }
         style={style}
-        renderItem={renderItem}
+        renderItem={TimelineRelationshipScoreRenderItem}
         data={relationshipScoresByDay}
         keyExtractor={keyExtractor}
         onEndReached={this.handleEndReached}
