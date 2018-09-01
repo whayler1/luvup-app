@@ -29,6 +29,7 @@ import ConfirmLoverRequest from './src/containers/ConfirmLoverRequest';
 import InAppNotifications from './src/containers/InAppNotifications';
 import CreateLoveNote from './src/containers/CreateLoveNote';
 import LoveNotes from './src/containers/LoveNotes';
+import TimelineRelationshipScoreArt from './src/components/Art/TimelineRelationshipScoreArt';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -74,10 +75,9 @@ const TabIcon = () => (
   <View
     style={{
       width: 100,
-      height: 100,
-      backgroundColor: 'red',
+      height: 125,
     }}>
-    <Text>Icon</Text>
+    <TimelineRelationshipScoreArt scale="0.8" />
   </View>
 );
 
