@@ -7,6 +7,7 @@ import Color from 'color';
 
 import Circle from '../../components/Circle';
 import { vars } from '../../styles';
+import styles from './TimelineRelationshipScore.styles';
 
 const getFill = score => {
   let lowerColor;
@@ -31,46 +32,22 @@ const getFill = score => {
 };
 
 const RenderItem = ({ item }) => (
-  <View
-    key={item.relationshipScore.id}
-    style={{
-      paddingLeft: 16,
-      paddingRight: 16,
-      alignItems: 'center',
-    }}>
-    <Text
-      style={{
-        fontFamily: vars.fontBlack,
-        color: vars.blueGrey500,
-        fontSize: 12,
-      }}>
+  <View style={styles.renderItemContainer}>
+    <Text style={styles.renderItemText}>
       {moment(item.day).format("MMM D, 'YY")}
     </Text>
-    <View
-      style={{
-        flex: 1,
-        width: 70,
-      }}>
+    <View style={styles.renderItemScoreContainer}>
       <View
-        style={{
-          position: 'absolute',
-          bottom: `${item.relationshipScore.score}%`,
-          left: 0,
-          right: 0,
-          width: 70,
-          height: 70,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <Surface width={70} height={70} style={{ position: 'absolute' }}>
+        style={[
+          styles.renderItemScore,
+          {
+            bottom: `${item.relationshipScore.score}%`,
+          },
+        ]}>
+        <Surface width={70} height={70} style={styles.renderItemBubble}>
           <Circle radius={35} fill={getFill(item.relationshipScore.score)} />
         </Surface>
-        <Text
-          style={{
-            fontFamily: vars.fontBlack,
-            color: 'white',
-            fontSize: 18,
-          }}>
+        <Text style={styles.renderItemScoreText}>
           {item.relationshipScore.score}
         </Text>
       </View>
