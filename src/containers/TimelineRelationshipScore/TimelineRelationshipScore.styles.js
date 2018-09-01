@@ -3,6 +3,10 @@ import { StyleSheet } from 'react-native';
 import { vars } from '../../styles';
 
 export default StyleSheet.create({
+  container: {
+    flex: 1,
+    alignSelf: 'stretch',
+  },
   renderItemContainer: {
     paddingLeft: 16,
     paddingRight: 16,
@@ -31,5 +35,9 @@ export default StyleSheet.create({
     fontFamily: vars.fontBlack,
     color: 'white',
     fontSize: 18,
+  },
+  separator: {
+    borderRightColor: vars.blueGrey50,
+    borderRightWidth: 1,
   },
 });
