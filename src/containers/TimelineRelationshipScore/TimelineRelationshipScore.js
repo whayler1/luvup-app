@@ -65,7 +65,7 @@ class TimelineRelationshipScore extends PureComponent {
     const { firstDate } = this.props;
     const startDate = currentDate;
     const endDate = dateStepper(currentDate);
-    // wrap this in an if
+
     if (firstDate <= startDate) {
       this.setState(
         {
