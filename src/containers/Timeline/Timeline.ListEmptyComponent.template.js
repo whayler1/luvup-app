@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-import { scene, vars } from '../../styles';
+import { scene } from '../../styles';
 import Well from '../../components/Well';
 import Preloader from '../../components/Preloader';
 
