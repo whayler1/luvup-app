@@ -40,4 +40,11 @@ export default StyleSheet.create({
     borderRightColor: vars.blueGrey50,
     borderRightWidth: 1,
   },
+  headerContainer: {
+    flex: 0,
+    paddingTop: 16,
+    paddingBottom: 16,
+    paddingRight: 8,
+    marginTop: 28,
+  },
 });
