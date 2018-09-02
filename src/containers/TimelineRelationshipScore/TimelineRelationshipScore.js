@@ -129,8 +129,8 @@ class TimelineRelationshipScore extends PureComponent {
 export default connect(
   state => ({
     relationshipScoresByDay: state.relationshipScore.relationshipScoresByDay,
-    isGettingRelationshipScores:
-      state.relationshipScore.isGettingRelationshipScores,
+    isGettingRelationshipScoresByDay:
+      state.relationshipScore.isGettingRelationshipScoresByDay,
     getRelationshipScoresByDayError:
       state.relationshipScore.getRelationshipScoresByDayError,
     firstDate: state.relationshipScore.firstDate,
