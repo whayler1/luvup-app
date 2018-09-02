@@ -18,6 +18,12 @@ export const GET_RELATIONSHIP_SCORES_SUCCESS =
   'relationship-score/get-relationship-scores-success';
 export const GET_RELATIONSHIP_SCORES_FAILURE =
   'relationship-score/get-relationship-scores-failure';
+export const GET_RELATIONSHIP_SCORES_BY_DAY_ATTEMPT =
+  'relationship-score/get-relationship-scores-by-day-attempt';
+export const GET_RELATIONSHIP_SCORES_BY_DAY_SUCCESS =
+  'relationship-score/get-relationship-scores-by-day-success';
+export const GET_RELATIONSHIP_SCORES_BY_DAY_FAILURE =
+  'relationship-score/get-relationship-scores-by-day-failure';
 
 export const createRelationshipScore = () => async dispatch => {
   try {
@@ -88,9 +94,10 @@ export const getRelationshipScores = (
   try {
     const res = await graphQlRequest(`{
       relationshipScores(
-        limit: "${limit}"
-        offset: "${offset}"
+        limit: ${limit}
+        offset: ${offset}
       ) {
+        count
         rows {
           id
           score
@@ -99,12 +106,14 @@ export const getRelationshipScores = (
       }
     }`);
 
-    const rows = _.get(res, 'relationshipScores.rows');
+    const { rows, count } = _.get(res, 'relationshipScores', {});
 
     if (_.isArray(rows)) {
       dispatch({
         type: GET_RELATIONSHIP_SCORES_SUCCESS,
+        count,
         rows,
+        offset,
       });
     } else {
       dispatch({
@@ -116,6 +125,54 @@ export const getRelationshipScores = (
     dispatch({
       type: GET_RELATIONSHIP_SCORES_FAILURE,
       error,
+    });
+  }
+};
+
+export const getRelationshipScoresByDay = ({
+  endDate,
+  startDate,
+  isAppend = false,
+}) => async dispatch => {
+  dispatch({
+    type: GET_RELATIONSHIP_SCORES_BY_DAY_ATTEMPT,
+  });
+  try {
+    const startDateStr = startDate ? `startDate: "${startDate}"` : '';
+    const res = await graphQlRequest(`{
+      relationshipScoresByDay(
+        endDate: "${endDate}"
+        ${startDateStr}
+      ) {
+        rows {
+          day
+          relationshipScore {
+            id score createdAt
+          }
+        }
+        firstDate
+      }
+    }`);
+
+    const { rows, firstDate } = res.relationshipScoresByDay;
+
+    if (_.isArray(rows)) {
+      dispatch({
+        type: GET_RELATIONSHIP_SCORES_BY_DAY_SUCCESS,
+        rows,
+        firstDate,
+        isAppend,
+      });
+    } else {
+      dispatch({
+        type: GET_RELATIONSHIP_SCORES_BY_DAY_FAILURE,
+        error: 'no rows',
+      });
+    }
+  } catch (err) {
+    dispatch({
+      type: GET_RELATIONSHIP_SCORES_BY_DAY_FAILURE,
+      error: err.message,
     });
   }
 };
