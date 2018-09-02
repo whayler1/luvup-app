@@ -57,7 +57,7 @@ class TimelineRelationshipScore extends PureComponent {
   }
 
   handleBack = () => {
-    Actions.pop();
+    Actions.dashboard();
   };
 
   handleEndReached = () => {
@@ -87,19 +87,13 @@ class TimelineRelationshipScore extends PureComponent {
       isGettingRelationshipScoresByDay,
       relationshipScoresByDay,
     } = this.props;
-    const style = { marginTop: 90 };
+    const style = { marginTop: 24 };
     if (isGettingRelationshipScoresByDay) {
       style.alignSelf = 'stretch';
     }
     return (
       <View style={styles.container}>
-        <View
-          style={{
-            flex: 0,
-            paddingTop: 16,
-            paddingBottom: 16,
-            marginTop: 28,
-          }}>
+        <View style={styles.headerContainer}>
           <TouchableOpacity
             onPress={this.handleBack}
             style={timelineStyles.heartBtn}>
