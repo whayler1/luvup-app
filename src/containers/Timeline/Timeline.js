@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
-import superagent from 'superagent';
 import moment from 'moment';
 import _ from 'lodash';
 
@@ -13,7 +12,6 @@ import {
 } from '../../redux/userEvents/userEvents.actions';
 import { getTimelineData as getTimelineDataAction } from '../../redux/user/user.actions';
 
-import config from '../../config';
 import Template from './Timeline.template';
 
 const userEventsLimit = 100;
@@ -23,7 +21,7 @@ const getSections = userEvents => {
   let currentCreatedDate;
   let currentEventName;
   const today = moment().format(format);
-  return userEvents.reduce((val, event, i) => {
+  return userEvents.reduce((val, event) => {
     const eventCreatedDate = moment(new Date(event.createdAt)).format(format);
     if (eventCreatedDate !== currentCreatedDate) {
       currentCreatedDate = eventCreatedDate;
@@ -116,7 +114,7 @@ class Timeline extends Component {
     }
   }, 250);
 
-  goBack = () => Actions.pop();
+  goBack = () => Actions.dashboard();
 
   setSections = userEvents => {
     const events = userEvents || this.props.userEvents;
@@ -160,7 +158,7 @@ class Timeline extends Component {
     }
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       nextProps.userEvents.length &&
       nextProps.userEvents[0].createdAt !== this.state.prevMostRecentUserEvent

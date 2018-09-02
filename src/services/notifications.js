@@ -7,12 +7,9 @@ import { store } from '../redux';
 
 let eventSubscription;
 const relationshipScoreUpdateTypes = [
-  'luvup-sent',
   'luvup-received',
-  'jalapeno-sent',
   'jalapeno-received',
-  'lovenote-sent',
-  'lovenote-received',
+  'love-note',
 ];
 
 export const onNotificationReceived = notification => {

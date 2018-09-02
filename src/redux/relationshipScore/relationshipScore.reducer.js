@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 import {
   CREATE_RELATIONSHIP_SCORE,
   GET_RELATIONSHIP_SCORE_ATTEMPT,
@@ -7,6 +8,9 @@ import {
   GET_RELATIONSHIP_SCORES_ATTEMPT,
   GET_RELATIONSHIP_SCORES_SUCCESS,
   GET_RELATIONSHIP_SCORES_FAILURE,
+  GET_RELATIONSHIP_SCORES_BY_DAY_ATTEMPT,
+  GET_RELATIONSHIP_SCORES_BY_DAY_SUCCESS,
+  GET_RELATIONSHIP_SCORES_BY_DAY_FAILURE,
 } from './relationshipScore.actions';
 import { GET_ME_SUCCESS } from '../user/user.actions';
 
@@ -25,6 +29,11 @@ const defaultState = {
   isGettingRelationshipScores: false,
   getRelationshipScoresError: '',
   relationshipScores: [],
+  isGettingRelationshipScoresByDay: false,
+  getRelationshipScoresByDayError: '',
+  relationshipScoresByDay: [],
+  firstDate: null,
+  count: undefined,
 };
 
 export default function reducer(state = defaultState, action) {
@@ -59,17 +68,47 @@ export default function reducer(state = defaultState, action) {
         isGettingRelationshipScores: true,
         getRelationshipScoresError: '',
       };
-    case GET_RELATIONSHIP_SCORES_SUCCESS:
+    case GET_RELATIONSHIP_SCORES_SUCCESS: {
+      let relationshipScores;
+
+      if (action.offset > 0) {
+        relationshipScores = [...state.relationshipScores, ...action.rows];
+      } else {
+        relationshipScores = action.rows;
+      }
       return {
         ...state,
         isGettingRelationshipScores: false,
-        relationshipScores: action.rows,
+        relationshipScores,
+        count: action.count,
       };
+    }
     case GET_RELATIONSHIP_SCORES_FAILURE:
       return {
         ...state,
         isGettingRelationshipScores: false,
         getRelationshipScoresError: action.error,
+      };
+    case GET_RELATIONSHIP_SCORES_BY_DAY_ATTEMPT:
+      return {
+        ...state,
+        isGettingRelationshipScoresByDay: true,
+        getRelationshipScoresByDayError: '',
+      };
+    case GET_RELATIONSHIP_SCORES_BY_DAY_SUCCESS:
+      return {
+        ...state,
+        isGettingRelationshipScoresByDay: false,
+        relationshipScoresByDay: action.isAppend
+          ? [...state.relationshipScoresByDay, ...action.rows]
+          : action.rows,
+        firstDate: action.firstDate,
+      };
+    case GET_RELATIONSHIP_SCORES_BY_DAY_FAILURE:
+      return {
+        ...state,
+        isGettingRelationshipScoresByDay: false,
+        getRelationshipScoresByDay: action.error,
       };
     case GET_ME_SUCCESS:
       return {
