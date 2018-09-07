@@ -20,6 +20,8 @@ export default StyleSheet.create({
   renderItemScoreContainer: {
     flex: 1,
     width: 70,
+    paddingTop: 43,
+    paddingBottom: 43,
   },
   renderItemScore: {
     position: 'absolute',
