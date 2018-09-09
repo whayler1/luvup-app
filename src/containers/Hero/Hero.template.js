@@ -13,6 +13,7 @@ import HeroEye from '../../components/HeroEye';
 import HeroMouth from '../../components/HeroMouth';
 import CoinArt from '../../components/CoinArt';
 import JalapenoArt from '../../components/JalapenoArt';
+import HeartArt from '../../components/Art/HeartArt';
 import Well from '../../components/Well';
 
 const heartImgs = [
@@ -186,8 +187,7 @@ export default ({
             },
           ],
         }}>
-        <Animated.Image
-          source={heartImgs[relationshipScoreQuartile]}
+        <Animated.View
           style={{
             width: 300,
             height: 275,
@@ -199,8 +199,9 @@ export default ({
                 scaleY: scaleBGHeart,
               },
             ],
-          }}
-        />
+          }}>
+          <HeartArt scale={0.3367} />
+        </Animated.View>
         <View
           style={{
             position: 'absolute',
