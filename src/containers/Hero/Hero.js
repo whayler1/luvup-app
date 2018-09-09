@@ -404,7 +404,6 @@ class Hero extends Component {
         jalapenoTranslateY={this.jalapenoTranslateY}
         closeModal={this.closeModal}
         jalapenoOpacity={this.jalapenoOpacity}
-        relationshipScore={this.props.relationshipScore}
         relationshipScoreQuartile={this.props.relationshipScoreQuartile}
         dragDirection={this.dragDirection}
         directionsOpacity={this.directionsOpacity}
