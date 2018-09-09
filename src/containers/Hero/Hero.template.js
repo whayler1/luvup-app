@@ -15,6 +15,7 @@ import CoinArt from '../../components/CoinArt';
 import JalapenoArt from '../../components/JalapenoArt';
 import HeartArt from '../../components/Art/HeartArt';
 import Well from '../../components/Well';
+import getRelationshipScoreFill from '../../helpers/getRelationshipScoreFill';
 
 const heartImgs = [
   require('../../images/hero/heart-sadest.png'),
@@ -32,6 +33,7 @@ export default ({
   jalapenoTranslateY,
   jalapenoOpacity,
   panResponder,
+  relationshipScore,
   relationshipScoreQuartile,
   dragDirection,
   recentlySentCoinCount,
@@ -200,7 +202,10 @@ export default ({
               },
             ],
           }}>
-          <HeartArt scale={0.3367} />
+          <HeartArt
+            fill={getRelationshipScoreFill(relationshipScore).hex()}
+            scale={0.3367}
+          />
         </Animated.View>
         <View
           style={{
