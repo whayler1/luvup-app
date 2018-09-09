@@ -22,6 +22,14 @@ import {
 } from '../../redux/loverRequest/loverRequest.actions';
 import { getReceivedLoverRequests as getReceivedLoverRequestsAction } from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
 import config from '../../config';
+// import getRelationshipScoreFill from '../../helpers/getRelationshipScoreFill';
+import { vars } from '../../styles';
+
+const getInterpolatedColor = animatedValue =>
+  animatedValue.interpolate({
+    inputRange: [0, 33, 66, 100],
+    outputRange: [vars.blue500, vars.purple500, vars.red500, vars.pink500],
+  });
 
 class Hero extends Component {
   constructor(props) {
@@ -129,6 +137,7 @@ class Hero extends Component {
     receivedLoverRequestsCount: PropTypes.number,
   };
 
+  heartFill = new Animated.Value(this.props.relationshipScore);
   translateY = new Animated.Value(0);
   scale = new Animated.Value(1);
   scaleBGHeart = new Animated.Value(1);
@@ -245,6 +254,13 @@ class Hero extends Component {
       this.props.openModal('jalapeno');
     }
   };
+
+  changeHeartColor(toValue) {
+    Animated.spring(this.heartFill, {
+      toValue,
+      friction: 4,
+    }).start();
+  }
 
   springY() {
     Animated.spring(this.translateY, {
@@ -368,10 +384,18 @@ class Hero extends Component {
     this.props.refreshSentJalapenoCount();
   }
 
+  componentDidUpdate(prevProps) {
+    const { relationshipScore } = this.props;
+    if (prevProps.relationshipScore !== relationshipScore) {
+      this.changeHeartColor(relationshipScore);
+    }
+  }
+
   render() {
     return (
       <Template
         panResponder={this.panResponder}
+        heartFill={getInterpolatedColor(this.heartFill)}
         translateY={this.translateY}
         scale={this.scale}
         scaleBGHeart={this.scaleBGHeart}
