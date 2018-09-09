@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Svg, { Path } from 'react-native-svg';
 
 import { vars } from '../../../styles';
@@ -7,6 +8,7 @@ const defaultFill = vars.blueGrey500;
 
 const TimelineArt = ({ fill, scale = 1 }) => {
   const props = { fill: fill || defaultFill, scale };
+  console.log('fill', fill);
   return (
     <Svg width={891 * scale} height={807 * scale}>
       <Path
@@ -15,6 +17,11 @@ const TimelineArt = ({ fill, scale = 1 }) => {
       />
     </Svg>
   );
+};
+
+TimelineArt.propTypes = {
+  fill: PropTypes.string,
+  scale: PropTypes.number,
 };
 
 export default TimelineArt;
