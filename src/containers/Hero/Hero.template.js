@@ -25,6 +25,7 @@ const heartImgs = [
 ];
 
 export default ({
+  heartFill,
   translateY,
   scale,
   scaleBGHeart,
@@ -33,7 +34,6 @@ export default ({
   jalapenoTranslateY,
   jalapenoOpacity,
   panResponder,
-  relationshipScore,
   relationshipScoreQuartile,
   dragDirection,
   recentlySentCoinCount,
@@ -50,6 +50,7 @@ export default ({
   isResendSuccess,
   resendIsInFlight,
 }) => {
+  console.log('heartFill', heartFill);
   if (!isInRelationship) {
     return (
       <View style={styles.heartView}>
@@ -202,10 +203,7 @@ export default ({
               },
             ],
           }}>
-          <HeartArt
-            fill={getRelationshipScoreFill(relationshipScore).hex()}
-            scale={0.3367}
-          />
+          <HeartArt fill={heartFill} scale={0.3367} />
         </Animated.View>
         <View
           style={{
