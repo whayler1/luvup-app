@@ -22,14 +22,8 @@ import {
 } from '../../redux/loverRequest/loverRequest.actions';
 import { getReceivedLoverRequests as getReceivedLoverRequestsAction } from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
 import config from '../../config';
-// import getRelationshipScoreFill from '../../helpers/getRelationshipScoreFill';
+import { getAnimatedRelationshipScoreFill } from '../../helpers/getRelationshipScoreFill';
 import { vars } from '../../styles';
-
-const getInterpolatedColor = animatedValue =>
-  animatedValue.interpolate({
-    inputRange: [0, 33, 66, 100],
-    outputRange: [vars.blue500, vars.purple500, vars.red500, vars.pink500],
-  });
 
 class Hero extends Component {
   constructor(props) {
@@ -395,7 +389,7 @@ class Hero extends Component {
     return (
       <Template
         panResponder={this.panResponder}
-        heartFill={getInterpolatedColor(this.heartFill)}
+        heartFill={getAnimatedRelationshipScoreFill(this.heartFill)}
         translateY={this.translateY}
         scale={this.scale}
         scaleBGHeart={this.scaleBGHeart}
