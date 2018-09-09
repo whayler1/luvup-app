@@ -50,7 +50,6 @@ export default ({
   isResendSuccess,
   resendIsInFlight,
 }) => {
-  console.log('heartFill', heartFill);
   if (!isInRelationship) {
     return (
       <View style={styles.heartView}>

@@ -1,6 +1,12 @@
 import Color from 'color';
 import { vars } from '../styles';
 
+export const getAnimatedRelationshipScoreFill = animatedScore =>
+  animatedScore.interpolate({
+    inputRange: [0, 33, 66, 100],
+    outputRange: [vars.blue500, vars.purple500, vars.red500, vars.pink500],
+  });
+
 const getRelationshipScoreFill = score => {
   let lowerColor;
   let higherColor;
