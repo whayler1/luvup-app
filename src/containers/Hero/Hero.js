@@ -132,10 +132,6 @@ class Hero extends Component {
   };
 
   heartFill = new Animated.Value(this.props.relationshipScore);
-  heartFillColor = this.heartFill.interpolate({
-    inputRange: [0, 33, 66, 100],
-    outputRange: [vars.blue500, vars.purple500, vars.red500, vars.pink500],
-  });
   translateY = new Animated.Value(0);
   scale = new Animated.Value(1);
   scaleBGHeart = new Animated.Value(1);
@@ -254,15 +250,11 @@ class Hero extends Component {
   };
 
   changeHeartColor(toValue) {
-    console.log('changeHeartColor', this.heartFill);
-    console.log('toValue', toValue);
     Animated.timing(this.heartFill, {
       toValue,
       duration: 500,
       easing: Easing.inOut(Easing.linear),
-    }).start(() => {
-      console.log('over', this.heartFill);
-    });
+    }).start();
   }
 
   springY() {
@@ -386,8 +378,7 @@ class Hero extends Component {
     this.props.refreshSentCoinCount();
     this.props.refreshSentJalapenoCount();
     setTimeout(() => {
-      console.log('timeout');
-      this.changeHeartColor(100);
+      this.changeHeartColor(10);
     }, 6000);
   }
 

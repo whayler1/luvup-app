@@ -191,7 +191,7 @@ export default ({
               },
             ],
           }}>
-          <HeartArt fill={heartFill} scale={0.3367} />
+          <HeartArt animatedFillPct={heartFill} scale={0.3367} />
         </Animated.View>
         <View
           style={{
