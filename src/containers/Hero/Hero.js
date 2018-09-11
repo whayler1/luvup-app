@@ -61,6 +61,7 @@ class Hero extends Component {
         const { dy } = gestureState;
         this.translateY.setValue(dy);
         this.scale.setValue(-dy / 700 + 1);
+        this.heartFill.setValue(this.props.relationshipScore + dy / 5);
 
         if (dy < -3) {
           this.setDragDirection(1);
@@ -83,6 +84,7 @@ class Hero extends Component {
         this.scaleBack();
         this.springScaleBack();
         this.hideDirections();
+        this.changeHeartColor(this.props.relationshipScore);
 
         const { dy } = gestureState;
         const { swipeThreshold } = config;
@@ -377,9 +379,6 @@ class Hero extends Component {
     this.props.createRelationshipScore();
     this.props.refreshSentCoinCount();
     this.props.refreshSentJalapenoCount();
-    setTimeout(() => {
-      this.changeHeartColor(10);
-    }, 6000);
   }
 
   componentDidUpdate(prevProps) {
