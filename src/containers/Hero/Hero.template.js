@@ -1,28 +1,17 @@
 import React, { Fragment } from 'react';
-import ReactArt from 'ReactNativeART';
-import { View, Text, TextInput, Image, Animated } from 'react-native';
+import { View, Text, Image, Animated } from 'react-native';
 import { Button } from 'react-native-elements';
-import moment from 'moment';
-import _ from 'lodash';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import styles from './Hero.styles';
-import { buttons, forms, scene, vars } from '../../styles';
-import config from '../../config';
+import { buttons, forms, vars } from '../../styles';
 import HeroEye from '../../components/HeroEye';
 import HeroMouth from '../../components/HeroMouth';
 import CoinArt from '../../components/CoinArt';
 import JalapenoArt from '../../components/JalapenoArt';
 import HeartArt from '../../components/Art/HeartArt';
 import Well from '../../components/Well';
-import getRelationshipScoreFill from '../../helpers/getRelationshipScoreFill';
-
-const heartImgs = [
-  require('../../images/hero/heart-sadest.png'),
-  require('../../images/hero/heart-sad.png'),
-  require('../../images/hero/heart-happy.png'),
-  require('../../images/hero/heart-happiest.png'),
-];
+import heartImg from '../../images/hero/heart-sadest.png';
 
 export default ({
   heartFill,
@@ -60,7 +49,7 @@ export default ({
             zIndex: 10,
           }}>
           <Image
-            source={heartImgs[0]}
+            source={heartImg}
             style={{
               width: 300,
               height: 275,
