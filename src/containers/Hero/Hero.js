@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { Animated, Easing, PanResponder, Alert } from 'react-native';
 import moment from 'moment';
 import { Actions } from 'react-native-router-flux';
+import BezierEasing from 'bezier-easing';
 
 import Template from './Hero.template';
 import { createRelationshipScore as createRelationshipScoreAction } from '../../redux/relationshipScore/relationshipScore.actions';
@@ -24,6 +25,27 @@ import { getReceivedLoverRequests as getReceivedLoverRequestsAction } from '../.
 import config from '../../config';
 // import { getAnimatedRelationshipScoreFill } from '../../helpers/getRelationshipScoreFill';
 import { vars } from '../../styles';
+
+const easing = BezierEasing(0, 0, 1, 1);
+
+const getEasedDy = (dy, max) => {
+  const absDy = Math.abs(dy);
+  const fullDy = absDy > max ? max : absDy;
+  const dyFract = fullDy / max;
+  const easedDy = easing(dyFract) * max;
+  const finalDy = dy < 0 ? -easedDy : easedDy;
+  return finalDy;
+};
+
+const getHeartFillValue = (relationshipScore, easedDy) => {
+  let heartFillValue = relationshipScore - easedDy / 2;
+  if (heartFillValue > 100) {
+    heartFillValue = 100;
+  } else if (heartFillValue < 0) {
+    heartFillValue = 0;
+  }
+  return heartFillValue;
+};
 
 class Hero extends Component {
   constructor(props) {
@@ -59,9 +81,13 @@ class Hero extends Component {
       },
       onPanResponderMove: (evt, gestureState) => {
         const { dy } = gestureState;
-        this.translateY.setValue(dy);
-        this.scale.setValue(-dy / 700 + 1);
-        this.heartFill.setValue(this.props.relationshipScore + dy / 5);
+        const easedDy = getEasedDy(dy, 80);
+
+        this.translateY.setValue(easedDy);
+        this.scale.setValue(-easedDy / 700 + 1);
+        this.heartFill.setValue(
+          getHeartFillValue(this.props.relationshipScore, easedDy)
+        );
 
         if (dy < -3) {
           this.setDragDirection(1);
