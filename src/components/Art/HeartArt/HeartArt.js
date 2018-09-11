@@ -2,13 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Svg, { Path } from 'react-native-svg';
 import extractBrush from 'react-native-svg/lib/extract/extractBrush';
-import { vars } from '../../../styles';
-
-const getInterpolatedFill = value =>
-  value.interpolate({
-    inputRange: [0, 33, 66, 100],
-    outputRange: [vars.blue500, vars.purple500, vars.red500, vars.pink500],
-  });
+import { getAnimatedRelationshipScoreFill } from '../../../helpers/getRelationshipScoreFill';
 
 class HeartArt extends PureComponent {
   static propTypes = {
@@ -20,7 +14,7 @@ class HeartArt extends PureComponent {
     const { animatedFillPct } = this.props;
 
     this.animatedListener = animatedFillPct.addListener(() => {
-      const fill = getInterpolatedFill(animatedFillPct);
+      const fill = getAnimatedRelationshipScoreFill(animatedFillPct);
 
       // Make sure that the ref was acquired.
       if (this.pathRef) {
@@ -37,7 +31,7 @@ class HeartArt extends PureComponent {
 
   render() {
     const { animatedFillPct, scale } = this.props;
-    const fill = getInterpolatedFill(animatedFillPct).__getValue();
+    const fill = getAnimatedRelationshipScoreFill(animatedFillPct).__getValue();
 
     return (
       <Svg width={891 * scale} height={807 * scale}>
