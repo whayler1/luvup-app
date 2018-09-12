@@ -157,16 +157,6 @@ class Hero extends Component {
     receivedLoverRequestsCount: PropTypes.number,
   };
 
-  heartFill = new Animated.Value(this.props.relationshipScore);
-  translateY = new Animated.Value(0);
-  scale = new Animated.Value(1);
-  scaleBGHeart = new Animated.Value(1);
-  coinTranslateY = new Animated.Value(0);
-  coinOpacity = new Animated.Value(0);
-  jalapenoTranslateY = new Animated.Value(0);
-  jalapenoOpacity = new Animated.Value(0);
-  directionsOpacity = new Animated.Value(0);
-
   /**
    * JW: This logic could probably be simplified somehow. But works-for-now™
    */
@@ -274,6 +264,16 @@ class Hero extends Component {
       this.props.openModal('jalapeno');
     }
   };
+
+  heartFill = new Animated.Value(this.props.relationshipScore);
+  translateY = new Animated.Value(0);
+  scale = new Animated.Value(1);
+  scaleBGHeart = new Animated.Value(1);
+  coinTranslateY = new Animated.Value(0);
+  coinOpacity = new Animated.Value(0);
+  jalapenoTranslateY = new Animated.Value(0);
+  jalapenoOpacity = new Animated.Value(0);
+  directionsOpacity = new Animated.Value(0);
 
   changeHeartColor(toValue) {
     Animated.timing(this.heartFill, {
@@ -403,6 +403,11 @@ class Hero extends Component {
     this.props.createRelationshipScore();
     this.props.refreshSentCoinCount();
     this.props.refreshSentJalapenoCount();
+    // this.startHeartShake();
+    // setTimeout(() => {
+    //   console.log('timeout');
+    //   this.stopHeartShake();
+    // }, 3000);
   }
 
   componentDidUpdate(prevProps) {
