@@ -124,22 +124,15 @@ const App = () => (
               icon={({ focused, title }) => (
                 <View
                   style={{
+                    paddingTop: 5,
                     width: 80,
                     height: 30,
                     alignItems: 'center',
                   }}>
                   <TimelineArt
                     fill={focused ? vars.razzleDazzleRose : vars.blueGrey500}
-                    scale={0.3}
+                    scale={0.4}
                   />
-                  <Text
-                    style={{
-                      fontSize: 8,
-                      fontFamily: vars.fontBlack,
-                      color: focused ? vars.razzleDazzleRose : vars.blueGrey500,
-                    }}>
-                    {title}
-                  </Text>
                 </View>
               )}
               component={Timeline}
@@ -151,23 +144,14 @@ const App = () => (
               icon={({ focused, title }) => (
                 <View
                   style={{
-                    paddingTop: 3,
                     width: 80,
                     height: 30,
                     alignItems: 'center',
                   }}>
                   <TimelineRelationshipScoreArt
                     fill={focused ? vars.razzleDazzleRose : vars.blueGrey500}
-                    scale={0.3}
+                    scale={0.4}
                   />
-                  <Text
-                    style={{
-                      fontSize: 8,
-                      fontFamily: vars.fontBlack,
-                      color: focused ? vars.razzleDazzleRose : vars.blueGrey500,
-                    }}>
-                    {title}
-                  </Text>
                 </View>
               )}
               component={TimelineRelationshipScore}
