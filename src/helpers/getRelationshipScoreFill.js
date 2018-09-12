@@ -1,7 +1,9 @@
 import Color from 'color';
 import { vars } from '../styles';
 
-const colors = ['#72e7f9', '#75eaff', '#da60ff', '#f94dda'];
+const { malibu, anakiwa, heliotrope, razzleDazzleRose } = vars;
+
+const colors = [malibu, anakiwa, heliotrope, razzleDazzleRose];
 
 export const getAnimatedRelationshipScoreFill = animatedScore =>
   animatedScore.interpolate({
