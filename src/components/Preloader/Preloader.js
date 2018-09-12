@@ -1,21 +1,6 @@
 import React, { PureComponent } from 'react';
-import { View, Animated, Easing, Text } from 'react-native';
-import Svg, {
-  Circle,
-  Ellipse,
-  G,
-  LinearGradient,
-  RadialGradient,
-  Line,
-  Path,
-  Polygon,
-  Polyline,
-  Rect,
-  Symbol,
-  Use,
-  Defs,
-  Stop,
-} from 'react-native-svg';
+import { Animated, Easing } from 'react-native';
+import Svg, { G, Rect } from 'react-native-svg';
 import PropTypes from 'prop-types';
 
 import { vars } from '../../styles';

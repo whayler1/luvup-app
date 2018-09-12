@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { Animated, Easing, PanResponder, Alert } from 'react-native';
 import moment from 'moment';
 import { Actions } from 'react-native-router-flux';
+import BezierEasing from 'bezier-easing';
 
 import Template from './Hero.template';
 import { createRelationshipScore as createRelationshipScoreAction } from '../../redux/relationshipScore/relationshipScore.actions';
@@ -22,6 +23,27 @@ import {
 } from '../../redux/loverRequest/loverRequest.actions';
 import { getReceivedLoverRequests as getReceivedLoverRequestsAction } from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
 import config from '../../config';
+
+const easing = BezierEasing(0, 0, 0.5, 1);
+
+const getEasedDy = (dy, max) => {
+  const absDy = Math.abs(dy);
+  const fullDy = absDy > max ? max : absDy;
+  const dyFract = fullDy / max;
+  const easedDy = easing(dyFract) * max;
+  const finalDy = dy < 0 ? -easedDy : easedDy;
+  return finalDy;
+};
+
+const getHeartFillValue = (relationshipScore, easedDy) => {
+  let heartFillValue = relationshipScore - easedDy / 2;
+  if (heartFillValue > 100) {
+    heartFillValue = 100;
+  } else if (heartFillValue < 0) {
+    heartFillValue = 0;
+  }
+  return heartFillValue;
+};
 
 class Hero extends Component {
   constructor(props) {
@@ -57,8 +79,13 @@ class Hero extends Component {
       },
       onPanResponderMove: (evt, gestureState) => {
         const { dy } = gestureState;
-        this.translateY.setValue(dy);
-        this.scale.setValue(-dy / 700 + 1);
+        const easedDy = getEasedDy(dy, 80);
+
+        this.translateY.setValue(easedDy);
+        this.scale.setValue(-easedDy / 700 + 1);
+        this.heartFill.setValue(
+          getHeartFillValue(this.props.relationshipScore, easedDy)
+        );
 
         if (dy < -3) {
           this.setDragDirection(1);
@@ -81,6 +108,7 @@ class Hero extends Component {
         this.scaleBack();
         this.springScaleBack();
         this.hideDirections();
+        this.changeHeartColor(this.props.relationshipScore);
 
         const { dy } = gestureState;
         const { swipeThreshold } = config;
@@ -128,15 +156,6 @@ class Hero extends Component {
     recentlySentJalapenoCount: PropTypes.number.isRequired,
     receivedLoverRequestsCount: PropTypes.number,
   };
-
-  translateY = new Animated.Value(0);
-  scale = new Animated.Value(1);
-  scaleBGHeart = new Animated.Value(1);
-  coinTranslateY = new Animated.Value(0);
-  coinOpacity = new Animated.Value(0);
-  jalapenoTranslateY = new Animated.Value(0);
-  jalapenoOpacity = new Animated.Value(0);
-  directionsOpacity = new Animated.Value(0);
 
   /**
    * JW: This logic could probably be simplified somehow. But works-for-now™
@@ -245,6 +264,24 @@ class Hero extends Component {
       this.props.openModal('jalapeno');
     }
   };
+
+  heartFill = new Animated.Value(this.props.relationshipScore);
+  translateY = new Animated.Value(0);
+  scale = new Animated.Value(1);
+  scaleBGHeart = new Animated.Value(1);
+  coinTranslateY = new Animated.Value(0);
+  coinOpacity = new Animated.Value(0);
+  jalapenoTranslateY = new Animated.Value(0);
+  jalapenoOpacity = new Animated.Value(0);
+  directionsOpacity = new Animated.Value(0);
+
+  changeHeartColor(toValue) {
+    Animated.timing(this.heartFill, {
+      toValue,
+      duration: 500,
+      easing: Easing.inOut(Easing.linear),
+    }).start();
+  }
 
   springY() {
     Animated.spring(this.translateY, {
@@ -366,12 +403,25 @@ class Hero extends Component {
     this.props.createRelationshipScore();
     this.props.refreshSentCoinCount();
     this.props.refreshSentJalapenoCount();
+    // this.startHeartShake();
+    // setTimeout(() => {
+    //   console.log('timeout');
+    //   this.stopHeartShake();
+    // }, 3000);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { relationshipScore } = this.props;
+    if (prevProps.relationshipScore !== relationshipScore) {
+      this.changeHeartColor(relationshipScore);
+    }
   }
 
   render() {
     return (
       <Template
         panResponder={this.panResponder}
+        heartFill={this.heartFill}
         translateY={this.translateY}
         scale={this.scale}
         scaleBGHeart={this.scaleBGHeart}
