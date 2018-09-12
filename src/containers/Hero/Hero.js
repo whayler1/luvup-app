@@ -59,6 +59,7 @@ class Hero extends Component {
       isCancelInFlight: false,
       resendIsInFlight: false,
       isResendSuccess: false,
+      isHeartShake: false,
     };
 
     this.panResponder = PanResponder.create({
@@ -78,14 +79,27 @@ class Hero extends Component {
         // gestureState.d{x,y} will be set to zero now
       },
       onPanResponderMove: (evt, gestureState) => {
+        const max = 80;
         const { dy } = gestureState;
-        const easedDy = getEasedDy(dy, 80);
+        const easedDy = getEasedDy(dy, max);
+        const { isHeartShake } = this.state;
 
         this.translateY.setValue(easedDy);
         this.scale.setValue(-easedDy / 700 + 1);
         this.heartFill.setValue(
           getHeartFillValue(this.props.relationshipScore, easedDy)
         );
+
+        if (easedDy === -max && !isHeartShake) {
+          this.setState({ isHeartShake: true }, () => {
+            this.heartShake();
+          });
+        } else if (easedDy > -max && isHeartShake) {
+          this.setState({ isHeartShake: false }, () => {
+            this.heartTranslateY.stopAnimation();
+            this.heartTranslateY.setValue(0);
+          });
+        }
 
         if (dy < -3) {
           this.setDragDirection(1);
@@ -112,6 +126,13 @@ class Hero extends Component {
 
         const { dy } = gestureState;
         const { swipeThreshold } = config;
+
+        if (this.state.isHeartShake) {
+          this.setState({ isHeartShake: false }, () => {
+            this.heartTranslateY.stopAnimation();
+            this.heartTranslateY.setValue(0);
+          });
+        }
 
         if (dy < -swipeThreshold) {
           this.sendCoin();
@@ -266,6 +287,7 @@ class Hero extends Component {
   };
 
   heartFill = new Animated.Value(this.props.relationshipScore);
+  heartTranslateY = new Animated.Value(0);
   translateY = new Animated.Value(0);
   scale = new Animated.Value(1);
   scaleBGHeart = new Animated.Value(1);
@@ -274,6 +296,28 @@ class Hero extends Component {
   jalapenoTranslateY = new Animated.Value(0);
   jalapenoOpacity = new Animated.Value(0);
   directionsOpacity = new Animated.Value(0);
+
+  heartShake() {
+    const easing = Easing.inOut(Easing.linear);
+    const duration = 150;
+
+    Animated.sequence([
+      Animated.timing(this.heartTranslateY, {
+        toValue: -6,
+        duration,
+        easing,
+      }),
+      Animated.timing(this.heartTranslateY, {
+        toValue: 6,
+        duration,
+        easing,
+      }),
+    ]).start(o => {
+      if (o.finished) {
+        this.heartShake();
+      }
+    });
+  }
 
   changeHeartColor(toValue) {
     Animated.timing(this.heartFill, {
@@ -423,6 +467,7 @@ class Hero extends Component {
         panResponder={this.panResponder}
         heartFill={this.heartFill}
         translateY={this.translateY}
+        heartTranslateY={this.heartTranslateY}
         scale={this.scale}
         scaleBGHeart={this.scaleBGHeart}
         coinTranslateY={this.coinTranslateY}

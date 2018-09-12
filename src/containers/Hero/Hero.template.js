@@ -16,6 +16,7 @@ import heartImg from '../../images/hero/heart-sadest.png';
 export default ({
   heartFill,
   translateY,
+  heartTranslateY,
   scale,
   scaleBGHeart,
   coinTranslateY,
@@ -184,47 +185,58 @@ export default ({
             height: 275,
             transform: [
               {
-                scaleX: scaleBGHeart,
-              },
-              {
-                scaleY: scaleBGHeart,
+                translateY: heartTranslateY,
               },
             ],
           }}>
-          <HeartArt animatedFillPct={heartFill} scale={0.3367} />
+          <Animated.View
+            style={{
+              width: 300,
+              height: 275,
+              transform: [
+                {
+                  scaleX: scaleBGHeart,
+                },
+                {
+                  scaleY: scaleBGHeart,
+                },
+              ],
+            }}>
+            <HeartArt animatedFillPct={heartFill} scale={0.3367} />
+          </Animated.View>
+          <View
+            style={{
+              position: 'absolute',
+              left: 40,
+              top: 60,
+            }}>
+            <HeroEye />
+          </View>
+          <View
+            style={{
+              position: 'absolute',
+              right: 40,
+              top: 60,
+              transform: [
+                {
+                  scaleX: -1,
+                },
+              ],
+            }}>
+            <HeroEye />
+          </View>
+          <View
+            style={{
+              position: 'absolute',
+              left: 110,
+              top: 170,
+            }}>
+            <HeroMouth
+              relationshipScoreQuartile={relationshipScoreQuartile}
+              dragDirection={dragDirection}
+            />
+          </View>
         </Animated.View>
-        <View
-          style={{
-            position: 'absolute',
-            left: 40,
-            top: 60,
-          }}>
-          <HeroEye />
-        </View>
-        <View
-          style={{
-            position: 'absolute',
-            right: 40,
-            top: 60,
-            transform: [
-              {
-                scaleX: -1,
-              },
-            ],
-          }}>
-          <HeroEye />
-        </View>
-        <View
-          style={{
-            position: 'absolute',
-            left: 110,
-            top: 170,
-          }}>
-          <HeroMouth
-            relationshipScoreQuartile={relationshipScoreQuartile}
-            dragDirection={dragDirection}
-          />
-        </View>
       </Animated.View>
       <Animated.View
         style={{
