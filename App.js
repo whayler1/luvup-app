@@ -114,17 +114,25 @@ const App = () => (
             component={CreateLoverRequest}
             hideNavBar
           />
-          <Tabs key="timelineTabs">
+          <Tabs
+            key="timelineTabs"
+            showLabel={false}
+            style={{ backgroundColor: 'white' }}>
             <Scene
               key="timeline"
               title="History"
-              icon={() => (
+              icon={({ focused, title }) => (
                 <View
                   style={{
-                    width: 21,
-                    height: 22,
+                    paddingTop: 5,
+                    width: 80,
+                    height: 30,
+                    alignItems: 'center',
                   }}>
-                  <TimelineArt scale={0.3} />
+                  <TimelineArt
+                    fill={focused ? vars.razzleDazzleRose : vars.blueGrey500}
+                    scale={0.4}
+                  />
                 </View>
               )}
               component={Timeline}
@@ -133,14 +141,17 @@ const App = () => (
             <Scene
               key="timelineRelationshipScore"
               title="Relationship Scores"
-              icon={() => (
+              icon={({ focused, title }) => (
                 <View
                   style={{
-                    paddingTop: 3,
-                    width: 30,
-                    height: 37.5,
+                    width: 80,
+                    height: 30,
+                    alignItems: 'center',
                   }}>
-                  <TimelineRelationshipScoreArt scale={0.3} />
+                  <TimelineRelationshipScoreArt
+                    fill={focused ? vars.razzleDazzleRose : vars.blueGrey500}
+                    scale={0.4}
+                  />
                 </View>
               )}
               component={TimelineRelationshipScore}

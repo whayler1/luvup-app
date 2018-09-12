@@ -14,6 +14,10 @@ const purple500 = '#9C27B0';
 const red500 = '#F44336';
 const pink500 = '#E91E63';
 const green500 = '#4CAF50';
+const malibu = '#72e7f9';
+const anakiwa = '#75eaff';
+const heliotrope = '#da60ff';
+const razzleDazzleRose = '#f94dda';
 
 // fonts
 
@@ -39,6 +43,11 @@ export default {
   pink500,
   // jalapeno
   green500,
+
+  malibu,
+  anakiwa,
+  heliotrope,
+  razzleDazzleRose,
 
   radius: 2,
 

@@ -3,33 +3,10 @@ import { View, Text } from 'react-native';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { Surface } from 'ReactNativeART';
-import Color from 'color';
 
 import Circle from '../../components/Circle';
-import { vars } from '../../styles';
 import styles from './TimelineRelationshipScore.styles';
-
-const getFill = score => {
-  let lowerColor;
-  let higherColor;
-  let threshold;
-  if (score < 33) {
-    lowerColor = vars.blue500;
-    higherColor = vars.purple500;
-    threshold = 0;
-  } else if (score < 66) {
-    lowerColor = vars.purple500;
-    higherColor = vars.red500;
-    threshold = 33;
-  } else {
-    lowerColor = vars.red500;
-    higherColor = vars.pink500;
-    threshold = 66;
-  }
-
-  const pct = (score - threshold) / 33;
-  return Color(lowerColor).mix(Color(higherColor), pct);
-};
+import getRelationshipScoreFill from '../../helpers/getRelationshipScoreFill';
 
 const RenderItem = ({ item }) => (
   <View style={styles.renderItemContainer}>
@@ -45,7 +22,10 @@ const RenderItem = ({ item }) => (
           },
         ]}>
         <Surface width={70} height={70} style={styles.renderItemBubble}>
-          <Circle radius={35} fill={getFill(item.relationshipScore.score)} />
+          <Circle
+            radius={35}
+            fill={getRelationshipScoreFill(item.relationshipScore.score).hex()}
+          />
         </Surface>
         <Text style={styles.renderItemScoreText}>
           {item.relationshipScore.score}

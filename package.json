@@ -46,6 +46,7 @@
     "analytics-react-native": "^1.2.0",
     "art": "^0.10.3",
     "babel-plugin-transform-inline-environment-variables": "^0.2.0",
+    "bezier-easing": "^2.1.0",
     "color": "^3.0.0",
     "eslint-config-react-native": "^3.0.0",
     "eslint-plugin-babel": "^5.1.0",
