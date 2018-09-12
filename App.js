@@ -114,7 +114,7 @@ const App = () => (
             component={CreateLoverRequest}
             hideNavBar
           />
-          <Tabs key="timelineTabs">
+          <Tabs key="timelineTabs" style={{ backgroundColor: 'white' }}>
             <Scene
               key="timeline"
               title="History"

@@ -23,10 +23,8 @@ import {
 } from '../../redux/loverRequest/loverRequest.actions';
 import { getReceivedLoverRequests as getReceivedLoverRequestsAction } from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
 import config from '../../config';
-// import { getAnimatedRelationshipScoreFill } from '../../helpers/getRelationshipScoreFill';
-import { vars } from '../../styles';
 
-const easing = BezierEasing(0, 0, 1, 1);
+const easing = BezierEasing(0, 0, 0.5, 1);
 
 const getEasedDy = (dy, max) => {
   const absDy = Math.abs(dy);
