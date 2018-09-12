@@ -10,6 +10,8 @@ import HeroMouth from '../../components/HeroMouth';
 import CoinArt from '../../components/CoinArt';
 import JalapenoArt from '../../components/JalapenoArt';
 import HeartArt from '../../components/Art/HeartArt';
+import TearDropArt from '../../components/Art/TearDropArt';
+
 import Well from '../../components/Well';
 import heartImg from '../../images/hero/heart-sadest.png';
 
@@ -211,6 +213,14 @@ export default ({
               top: 60,
             }}>
             <HeroEye />
+          </View>
+          <View
+            style={{
+              position: 'absolute',
+              left: 105,
+              top: 90,
+            }}>
+            <TearDropArt fill="white" scale={0.2} />
           </View>
           <View
             style={{

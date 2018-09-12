@@ -5,7 +5,7 @@ import { vars } from '../../../styles';
 
 const defaultColor = vars.blueGrey500;
 
-const TearDrop = ({ fill, scale = 1 }) => {
+const TearDropArt = ({ fill, scale = 1 }) => {
   const props = { fill: fill || defaultColor, scale };
   return (
     <Svg width={68 * scale} height={98 * scale}>
@@ -21,4 +21,4 @@ const TearDrop = ({ fill, scale = 1 }) => {
   );
 };
 
-export default TearDrop;
+export default TearDropArt;
