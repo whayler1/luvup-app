@@ -288,6 +288,8 @@ class Hero extends Component {
 
   heartFill = new Animated.Value(this.props.relationshipScore);
   heartTranslateY = new Animated.Value(0);
+  tearDropATranslateY = new Animated.Value(0);
+  tearDropAOpacity = new Animated.Value(0);
   translateY = new Animated.Value(0);
   scale = new Animated.Value(1);
   scaleBGHeart = new Animated.Value(1);
@@ -296,6 +298,33 @@ class Hero extends Component {
   jalapenoTranslateY = new Animated.Value(0);
   jalapenoOpacity = new Animated.Value(0);
   directionsOpacity = new Animated.Value(0);
+
+  heartCry(delay = 0) {
+    const easing = Easing.in(Easing.linear);
+    const duration = 250;
+
+    this.tearDropATranslateY.setValue(0);
+    this.tearDropAOpacity.setValue(1);
+
+    Animated.parallel([
+      Animated.timing(this.tearDropATranslateY, {
+        toValue: 80,
+        duration,
+        delay,
+        easing,
+      }),
+      Animated.timing(this.tearDropAOpacity, {
+        toValue: 0,
+        duration: 100,
+        delay: delay + 150,
+        easing,
+      }),
+    ]).start(o => {
+      if (o.finished) {
+        this.heartCry(250);
+      }
+    });
+  }
 
   heartShake() {
     const easing = Easing.inOut(Easing.linear);
@@ -447,11 +476,8 @@ class Hero extends Component {
     this.props.createRelationshipScore();
     this.props.refreshSentCoinCount();
     this.props.refreshSentJalapenoCount();
-    // this.startHeartShake();
-    // setTimeout(() => {
-    //   console.log('timeout');
-    //   this.stopHeartShake();
-    // }, 3000);
+
+    this.heartCry();
   }
 
   componentDidUpdate(prevProps) {
@@ -466,6 +492,8 @@ class Hero extends Component {
       <Template
         panResponder={this.panResponder}
         heartFill={this.heartFill}
+        tearDropAOpacity={this.tearDropAOpacity}
+        tearDropATranslateY={this.tearDropATranslateY}
         translateY={this.translateY}
         heartTranslateY={this.heartTranslateY}
         scale={this.scale}

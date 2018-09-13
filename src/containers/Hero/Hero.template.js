@@ -17,6 +17,8 @@ import heartImg from '../../images/hero/heart-sadest.png';
 
 export default ({
   heartFill,
+  tearDropAOpacity,
+  tearDropATranslateY,
   translateY,
   heartTranslateY,
   scale,
@@ -214,14 +216,20 @@ export default ({
             }}>
             <HeroEye />
           </View>
-          <View
+          <Animated.View
             style={{
               position: 'absolute',
               left: 105,
               top: 90,
+              opacity: tearDropAOpacity,
+              transform: [
+                {
+                  translateY: tearDropATranslateY,
+                },
+              ],
             }}>
             <TearDropArt fill="white" scale={0.2} />
-          </View>
+          </Animated.View>
           <View
             style={{
               position: 'absolute',
