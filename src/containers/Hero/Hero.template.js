@@ -19,6 +19,8 @@ export default ({
   heartFill,
   tearDropAOpacity,
   tearDropATranslateY,
+  tearDropBOpacity,
+  tearDropBTranslateY,
   translateY,
   heartTranslateY,
   scale,
@@ -243,14 +245,20 @@ export default ({
             }}>
             <HeroEye />
           </View>
-          <View
+          <Animated.View
             style={{
               position: 'absolute',
               left: 181,
               top: 90,
+              opacity: tearDropBOpacity,
+              transform: [
+                {
+                  translateY: tearDropBTranslateY,
+                },
+              ],
             }}>
             <TearDropArt fill="white" scale={0.2} />
-          </View>
+          </Animated.View>
           <View
             style={{
               position: 'absolute',

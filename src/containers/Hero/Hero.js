@@ -290,6 +290,8 @@ class Hero extends Component {
   heartTranslateY = new Animated.Value(0);
   tearDropATranslateY = new Animated.Value(0);
   tearDropAOpacity = new Animated.Value(0);
+  tearDropBTranslateY = new Animated.Value(0);
+  tearDropBOpacity = new Animated.Value(0);
   translateY = new Animated.Value(0);
   scale = new Animated.Value(1);
   scaleBGHeart = new Animated.Value(1);
@@ -299,29 +301,46 @@ class Hero extends Component {
   jalapenoOpacity = new Animated.Value(0);
   directionsOpacity = new Animated.Value(0);
 
-  heartCry(delay = 0) {
+  heartCry() {
     const easing = Easing.in(Easing.linear);
-    const duration = 250;
+    const duration = 400;
+    const tearBDelay = Math.random() * 400 + 150;
 
     this.tearDropATranslateY.setValue(0);
     this.tearDropAOpacity.setValue(1);
+    this.tearDropBTranslateY.setValue(0);
+    this.tearDropBOpacity.setValue(1);
 
     Animated.parallel([
       Animated.timing(this.tearDropATranslateY, {
         toValue: 80,
         duration,
-        delay,
         easing,
       }),
       Animated.timing(this.tearDropAOpacity, {
         toValue: 0,
         duration: 100,
-        delay: delay + 150,
+        delay: 300,
+        easing,
+      }),
+      Animated.timing(this.tearDropBTranslateY, {
+        toValue: 80,
+        duration,
+        delay: tearBDelay,
+        easing,
+      }),
+      Animated.timing(this.tearDropBOpacity, {
+        toValue: 0,
+        duration: 100,
+        delay: tearBDelay + 300,
         easing,
       }),
     ]).start(o => {
       if (o.finished) {
-        this.heartCry(250);
+        const timeout = Math.random() * 600 + 100;
+        this.tearDropTo = setTimeout(() => {
+          this.heartCry();
+        }, timeout);
       }
     });
   }
@@ -494,6 +513,8 @@ class Hero extends Component {
         heartFill={this.heartFill}
         tearDropAOpacity={this.tearDropAOpacity}
         tearDropATranslateY={this.tearDropATranslateY}
+        tearDropBOpacity={this.tearDropBOpacity}
+        tearDropBTranslateY={this.tearDropBTranslateY}
         translateY={this.translateY}
         heartTranslateY={this.heartTranslateY}
         scale={this.scale}
