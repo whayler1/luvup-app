@@ -238,6 +238,14 @@ export default ({
           <View
             style={{
               position: 'absolute',
+              left: 181,
+              top: 90,
+            }}>
+            <TearDropArt fill="white" scale={0.2} />
+          </View>
+          <View
+            style={{
+              position: 'absolute',
               left: 110,
               top: 170,
             }}>
