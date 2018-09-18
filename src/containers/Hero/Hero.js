@@ -323,7 +323,6 @@ class Hero extends Component {
     const delay = forcedDelay || Math.random() * 600 + 100;
 
     translateY.setValue(0);
-    // opacity.setValue(1);
 
     Animated.sequence([
       Animated.timing(opacity, {
