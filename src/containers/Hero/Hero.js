@@ -301,48 +301,85 @@ class Hero extends Component {
   jalapenoOpacity = new Animated.Value(0);
   directionsOpacity = new Animated.Value(0);
 
-  heartCry() {
+  eyeCry(translateY, opacity) {
     const easing = Easing.in(Easing.linear);
     const duration = 400;
-    const tearBDelay = Math.random() * 400 + 150;
+    const delay = Math.random() * 600 + 100;
 
-    this.tearDropATranslateY.setValue(0);
-    this.tearDropAOpacity.setValue(1);
-    this.tearDropBTranslateY.setValue(0);
-    this.tearDropBOpacity.setValue(1);
+    translateY.setValue(0);
+    // opacity.setValue(1);
 
-    Animated.parallel([
-      Animated.timing(this.tearDropATranslateY, {
-        toValue: 80,
-        duration,
+    Animated.sequence([
+      Animated.timing(opacity, {
+        toValue: 1,
+        duration: 0,
+        delay,
         easing,
       }),
-      Animated.timing(this.tearDropAOpacity, {
-        toValue: 0,
-        duration: 100,
-        delay: 300,
-        easing,
-      }),
-      Animated.timing(this.tearDropBTranslateY, {
-        toValue: 80,
-        duration,
-        delay: tearBDelay,
-        easing,
-      }),
-      Animated.timing(this.tearDropBOpacity, {
-        toValue: 0,
-        duration: 100,
-        delay: tearBDelay + 300,
-        easing,
-      }),
+      Animated.parallel([
+        Animated.timing(translateY, {
+          toValue: 80,
+          duration,
+          easing,
+        }),
+        Animated.timing(opacity, {
+          toValue: 0,
+          duration: 100,
+          delay: 300,
+          easing,
+        }),
+      ]),
     ]).start(o => {
       if (o.finished) {
-        const timeout = Math.random() * 600 + 100;
-        this.tearDropTo = setTimeout(() => {
-          this.heartCry();
-        }, timeout);
+        this.eyeCry(translateY, opacity);
       }
     });
+  }
+
+  heartCry() {
+    this.eyeCry(this.tearDropATranslateY, this.tearDropAOpacity);
+    this.eyeCry(this.tearDropBTranslateY, this.tearDropBOpacity);
+    // const easing = Easing.in(Easing.linear);
+    // const duration = 400;
+    // const tearBDelay = Math.random() * 400 + 150;
+    //
+    // this.tearDropATranslateY.setValue(0);
+    // this.tearDropAOpacity.setValue(1);
+    // this.tearDropBTranslateY.setValue(0);
+    // this.tearDropBOpacity.setValue(1);
+    //
+    // Animated.parallel([
+    //   Animated.timing(this.tearDropATranslateY, {
+    //     toValue: 80,
+    //     duration,
+    //     easing,
+    //   }),
+    //   Animated.timing(this.tearDropAOpacity, {
+    //     toValue: 0,
+    //     duration: 100,
+    //     delay: 300,
+    //     easing,
+    //   }),
+    //   Animated.timing(this.tearDropBTranslateY, {
+    //     toValue: 80,
+    //     duration,
+    //     delay: tearBDelay,
+    //     easing,
+    //   }),
+    //   Animated.timing(this.tearDropBOpacity, {
+    //     toValue: 0,
+    //     duration: 100,
+    //     delay: tearBDelay + 300,
+    //     easing,
+    //   }),
+    // ]).start(o => {
+    // if (o.finished) {
+    //   const timeout = Math.random() * 600 + 100;
+    //   this.tearDropTo = setTimeout(() => {
+    //     this.heartCry();
+    //   }, timeout);
+    // }
+    // });
   }
 
   heartShake() {
