@@ -60,6 +60,7 @@ class Hero extends Component {
       resendIsInFlight: false,
       isResendSuccess: false,
       isHeartShake: false,
+      isHeartCry: false,
     };
 
     this.panResponder = PanResponder.create({
@@ -82,7 +83,7 @@ class Hero extends Component {
         const max = 80;
         const { dy } = gestureState;
         const easedDy = getEasedDy(dy, max);
-        const { isHeartShake } = this.state;
+        const { isHeartShake, isHeartCry } = this.state;
 
         this.translateY.setValue(easedDy);
         this.scale.setValue(-easedDy / 700 + 1);
@@ -98,6 +99,16 @@ class Hero extends Component {
           this.setState({ isHeartShake: false }, () => {
             this.heartTranslateY.stopAnimation();
             this.heartTranslateY.setValue(0);
+          });
+        }
+
+        if (easedDy === max && !isHeartCry) {
+          this.setState({ isHeartCry: true }, () => {
+            this.heartCry();
+          });
+        } else if (easedDy < max && isHeartCry) {
+          this.setState({ isHeartCry: false }, () => {
+            this.cancelHeartCry();
           });
         }
 
@@ -131,6 +142,11 @@ class Hero extends Component {
           this.setState({ isHeartShake: false }, () => {
             this.heartTranslateY.stopAnimation();
             this.heartTranslateY.setValue(0);
+          });
+        }
+        if (this.state.isHeartCry) {
+          this.setState({ isHeartCry: false }, () => {
+            this.cancelHeartCry();
           });
         }
 
@@ -301,10 +317,10 @@ class Hero extends Component {
   jalapenoOpacity = new Animated.Value(0);
   directionsOpacity = new Animated.Value(0);
 
-  eyeCry(translateY, opacity) {
+  eyeCry(translateY, opacity, forcedDelay) {
     const easing = Easing.in(Easing.linear);
     const duration = 400;
-    const delay = Math.random() * 600 + 100;
+    const delay = forcedDelay || Math.random() * 600 + 100;
 
     translateY.setValue(0);
     // opacity.setValue(1);
@@ -338,48 +354,16 @@ class Hero extends Component {
 
   heartCry() {
     this.eyeCry(this.tearDropATranslateY, this.tearDropAOpacity);
-    this.eyeCry(this.tearDropBTranslateY, this.tearDropBOpacity);
-    // const easing = Easing.in(Easing.linear);
-    // const duration = 400;
-    // const tearBDelay = Math.random() * 400 + 150;
-    //
-    // this.tearDropATranslateY.setValue(0);
-    // this.tearDropAOpacity.setValue(1);
-    // this.tearDropBTranslateY.setValue(0);
-    // this.tearDropBOpacity.setValue(1);
-    //
-    // Animated.parallel([
-    //   Animated.timing(this.tearDropATranslateY, {
-    //     toValue: 80,
-    //     duration,
-    //     easing,
-    //   }),
-    //   Animated.timing(this.tearDropAOpacity, {
-    //     toValue: 0,
-    //     duration: 100,
-    //     delay: 300,
-    //     easing,
-    //   }),
-    //   Animated.timing(this.tearDropBTranslateY, {
-    //     toValue: 80,
-    //     duration,
-    //     delay: tearBDelay,
-    //     easing,
-    //   }),
-    //   Animated.timing(this.tearDropBOpacity, {
-    //     toValue: 0,
-    //     duration: 100,
-    //     delay: tearBDelay + 300,
-    //     easing,
-    //   }),
-    // ]).start(o => {
-    // if (o.finished) {
-    //   const timeout = Math.random() * 600 + 100;
-    //   this.tearDropTo = setTimeout(() => {
-    //     this.heartCry();
-    //   }, timeout);
-    // }
-    // });
+    this.eyeCry(this.tearDropBTranslateY, this.tearDropBOpacity, 0);
+  }
+
+  cancelHeartCry() {
+    this.tearDropATranslateY.stopAnimation();
+    this.tearDropBTranslateY.stopAnimation();
+    this.tearDropAOpacity.stopAnimation();
+    this.tearDropBOpacity.stopAnimation();
+    this.tearDropAOpacity.setValue(0);
+    this.tearDropBOpacity.setValue(0);
   }
 
   heartShake() {
@@ -532,8 +516,6 @@ class Hero extends Component {
     this.props.createRelationshipScore();
     this.props.refreshSentCoinCount();
     this.props.refreshSentJalapenoCount();
-
-    this.heartCry();
   }
 
   componentDidUpdate(prevProps) {
