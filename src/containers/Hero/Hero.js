@@ -60,6 +60,7 @@ class Hero extends Component {
       resendIsInFlight: false,
       isResendSuccess: false,
       isHeartShake: false,
+      isHeartCry: false,
     };
 
     this.panResponder = PanResponder.create({
@@ -82,7 +83,7 @@ class Hero extends Component {
         const max = 80;
         const { dy } = gestureState;
         const easedDy = getEasedDy(dy, max);
-        const { isHeartShake } = this.state;
+        const { isHeartShake, isHeartCry } = this.state;
 
         this.translateY.setValue(easedDy);
         this.scale.setValue(-easedDy / 700 + 1);
@@ -98,6 +99,16 @@ class Hero extends Component {
           this.setState({ isHeartShake: false }, () => {
             this.heartTranslateY.stopAnimation();
             this.heartTranslateY.setValue(0);
+          });
+        }
+
+        if (easedDy === max && !isHeartCry) {
+          this.setState({ isHeartCry: true }, () => {
+            this.heartCry();
+          });
+        } else if (easedDy < max && isHeartCry) {
+          this.setState({ isHeartCry: false }, () => {
+            this.cancelHeartCry();
           });
         }
 
@@ -131,6 +142,11 @@ class Hero extends Component {
           this.setState({ isHeartShake: false }, () => {
             this.heartTranslateY.stopAnimation();
             this.heartTranslateY.setValue(0);
+          });
+        }
+        if (this.state.isHeartCry) {
+          this.setState({ isHeartCry: false }, () => {
+            this.cancelHeartCry();
           });
         }
 
@@ -288,6 +304,10 @@ class Hero extends Component {
 
   heartFill = new Animated.Value(this.props.relationshipScore);
   heartTranslateY = new Animated.Value(0);
+  tearDropATranslateY = new Animated.Value(0);
+  tearDropAOpacity = new Animated.Value(0);
+  tearDropBTranslateY = new Animated.Value(0);
+  tearDropBOpacity = new Animated.Value(0);
   translateY = new Animated.Value(0);
   scale = new Animated.Value(1);
   scaleBGHeart = new Animated.Value(1);
@@ -296,6 +316,54 @@ class Hero extends Component {
   jalapenoTranslateY = new Animated.Value(0);
   jalapenoOpacity = new Animated.Value(0);
   directionsOpacity = new Animated.Value(0);
+
+  eyeCry(translateY, opacity, forcedDelay) {
+    const easing = Easing.in(Easing.linear);
+    const duration = 400;
+    const delay = forcedDelay || Math.random() * 600 + 100;
+
+    translateY.setValue(0);
+
+    Animated.sequence([
+      Animated.timing(opacity, {
+        toValue: 1,
+        duration: 0,
+        delay,
+        easing,
+      }),
+      Animated.parallel([
+        Animated.timing(translateY, {
+          toValue: 80,
+          duration,
+          easing,
+        }),
+        Animated.timing(opacity, {
+          toValue: 0,
+          duration: 100,
+          delay: 300,
+          easing,
+        }),
+      ]),
+    ]).start(o => {
+      if (o.finished) {
+        this.eyeCry(translateY, opacity);
+      }
+    });
+  }
+
+  heartCry() {
+    this.eyeCry(this.tearDropATranslateY, this.tearDropAOpacity);
+    this.eyeCry(this.tearDropBTranslateY, this.tearDropBOpacity, 0);
+  }
+
+  cancelHeartCry() {
+    this.tearDropATranslateY.stopAnimation();
+    this.tearDropBTranslateY.stopAnimation();
+    this.tearDropAOpacity.stopAnimation();
+    this.tearDropBOpacity.stopAnimation();
+    this.tearDropAOpacity.setValue(0);
+    this.tearDropBOpacity.setValue(0);
+  }
 
   heartShake() {
     const easing = Easing.inOut(Easing.linear);
@@ -447,11 +515,6 @@ class Hero extends Component {
     this.props.createRelationshipScore();
     this.props.refreshSentCoinCount();
     this.props.refreshSentJalapenoCount();
-    // this.startHeartShake();
-    // setTimeout(() => {
-    //   console.log('timeout');
-    //   this.stopHeartShake();
-    // }, 3000);
   }
 
   componentDidUpdate(prevProps) {
@@ -466,6 +529,10 @@ class Hero extends Component {
       <Template
         panResponder={this.panResponder}
         heartFill={this.heartFill}
+        tearDropAOpacity={this.tearDropAOpacity}
+        tearDropATranslateY={this.tearDropATranslateY}
+        tearDropBOpacity={this.tearDropBOpacity}
+        tearDropBTranslateY={this.tearDropBTranslateY}
         translateY={this.translateY}
         heartTranslateY={this.heartTranslateY}
         scale={this.scale}

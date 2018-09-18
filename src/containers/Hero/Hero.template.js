@@ -10,11 +10,17 @@ import HeroMouth from '../../components/HeroMouth';
 import CoinArt from '../../components/CoinArt';
 import JalapenoArt from '../../components/JalapenoArt';
 import HeartArt from '../../components/Art/HeartArt';
+import TearDropArt from '../../components/Art/TearDropArt';
+
 import Well from '../../components/Well';
 import heartImg from '../../images/hero/heart-sadest.png';
 
 export default ({
   heartFill,
+  tearDropAOpacity,
+  tearDropATranslateY,
+  tearDropBOpacity,
+  tearDropBTranslateY,
   translateY,
   heartTranslateY,
   scale,
@@ -212,6 +218,20 @@ export default ({
             }}>
             <HeroEye />
           </View>
+          <Animated.View
+            style={{
+              position: 'absolute',
+              left: 105,
+              top: 90,
+              opacity: tearDropAOpacity,
+              transform: [
+                {
+                  translateY: tearDropATranslateY,
+                },
+              ],
+            }}>
+            <TearDropArt fill="white" scale={0.2} />
+          </Animated.View>
           <View
             style={{
               position: 'absolute',
@@ -225,6 +245,20 @@ export default ({
             }}>
             <HeroEye />
           </View>
+          <Animated.View
+            style={{
+              position: 'absolute',
+              left: 181,
+              top: 90,
+              opacity: tearDropBOpacity,
+              transform: [
+                {
+                  translateY: tearDropBTranslateY,
+                },
+              ],
+            }}>
+            <TearDropArt fill="white" scale={0.2} />
+          </Animated.View>
           <View
             style={{
               position: 'absolute',
