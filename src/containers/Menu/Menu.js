@@ -9,6 +9,7 @@ import analytics from '../../services/analytics';
 import Template from './Menu.template';
 import { logout as logoutAction } from '../../redux/user/user.actions';
 import { endRelationship as endRelationshipAction } from '../../redux/relationship/relationship.actions';
+import { Permissions, ImagePicker } from 'expo';
 
 class Menu extends PureComponent {
   constructor(props) {
@@ -41,6 +42,25 @@ class Menu extends PureComponent {
 
   goBack = () => {
     Actions.pop();
+  };
+
+  handleImageUploadPress = async () => {
+    const permissions = Permissions.CAMERA_ROLL;
+    const { status } = await Permissions.askAsync(permissions);
+
+    console.log(permissions, status);
+    if (status === 'granted') {
+      const image = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: 'Images',
+      }).catch(error => console.log(permissions, { error }));
+      console.log(permissions, 'SUCCESS', image);
+    }
+    // const result = await ImagePicker.launchImageLibraryAsync({
+    //   allowsEditing: true,
+    //   aspect: [4, 3],
+    // });
+
+    // console.log('\n\n result', result);
   };
 
   onChangePasswordClick = () =>
@@ -96,6 +116,7 @@ class Menu extends PureComponent {
         {...this.props}
         {...this.state}
         goBack={this.goBack}
+        onImageUploadPress={this.handleImageUploadPress}
         onChangePasswordClick={this.onChangePasswordClick}
         openEndRelationshipModal={this.openEndRelationshipModal}
         closeModal={this.closeModal}

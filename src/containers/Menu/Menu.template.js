@@ -1,14 +1,6 @@
 import React, { Fragment } from 'react';
-import {
-  Text,
-  View,
-  FlatList,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-} from 'react-native';
+import { Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
-import _ from 'lodash';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { scene, buttons, forms, modal, vars } from '../../styles';
@@ -24,12 +16,12 @@ export default ({
   loverLastName,
   loverId,
   goBack,
-  relationshipCreatedAt,
   relationshipCreatedAtFormatted,
   onLogout,
   isModalVisible,
   isInFlight,
   modalType,
+  onImageUploadPress,
   onChangePasswordClick,
   openEndRelationshipModal,
   closeModal,
@@ -58,6 +50,11 @@ export default ({
           alignSelf: 'stretch',
         }}>
         <View>
+          <TouchableOpacity onPress={onImageUploadPress}>
+            <Text>Bloop</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.group}>
           <Text style={styles.title}>Profile</Text>
           <Text style={styles.label}>Name</Text>
           <Text style={styles.value}>
