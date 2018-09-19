@@ -213,7 +213,7 @@ export default ({
           <View
             style={{
               position: 'absolute',
-              left: 40,
+              left: 38,
               top: 60,
             }}>
             <HeroEye />
@@ -235,7 +235,7 @@ export default ({
           <View
             style={{
               position: 'absolute',
-              right: 40,
+              right: 42,
               top: 60,
               transform: [
                 {
