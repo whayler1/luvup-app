@@ -27,6 +27,12 @@ export const getUserEvents = (
             id isViewed createdAt name
           }
           count
+          loveNoteEvents {
+            id loveNoteId userEventId
+          }
+          loveNotes {
+            id note createdAt isRead senderId recipientId numLuvups numJalapenos
+          }
         }
       }`,
     });
