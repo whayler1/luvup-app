@@ -38,12 +38,8 @@ export const getUserEvents = (
     });
 
     const { rows, count, loveNotes, loveNoteEvents } = res.body.data.userEvents;
-    console.log('res.body.data.userEvents', res.body.data.userEvents);
-    console.log('limit', limit);
-    console.log('offset', offset);
 
     if (res.ok && _.isArray(rows)) {
-      console.log('res is ok');
       dispatch({
         type: GET_USER_EVENTS_SUCCESS,
         rows,
