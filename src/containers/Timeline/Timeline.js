@@ -87,7 +87,7 @@ class Timeline extends Component {
   closeModal = () => this.setState({ isModalVisible: false });
 
   getMoreUserEvents = async () => {
-    const res = await this.props.getUserEvents(
+    await this.props.getUserEvents(
       userEventsLimit,
       this.state.page * userEventsLimit,
       true

@@ -10,8 +10,8 @@ export const SET_USER_EVENTS = 'userEvents/set-user-events';
 export const CLEAR_USER_EVENTS = 'userEvents/clear-user-events';
 
 export const getUserEvents = (
-  limit,
-  offset,
+  limit = 0,
+  offset = 0,
   shouldAppend = false
 ) => async dispatch => {
   dispatch({ type: GET_USER_EVENTS_ATTEMPT });
@@ -37,14 +37,20 @@ export const getUserEvents = (
       }`,
     });
 
-    const { rows, count } = res.body.data.userEvents;
+    const { rows, count, loveNotes, loveNoteEvents } = res.body.data.userEvents;
+    console.log('res.body.data.userEvents', res.body.data.userEvents);
+    console.log('limit', limit);
+    console.log('offset', offset);
 
     if (res.ok && _.isArray(rows)) {
+      console.log('res is ok');
       dispatch({
         type: GET_USER_EVENTS_SUCCESS,
         rows,
         count,
         shouldAppend,
+        loveNotes,
+        loveNoteEvents,
       });
     } else {
       dispatch({
