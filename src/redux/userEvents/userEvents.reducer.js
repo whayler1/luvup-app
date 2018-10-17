@@ -1,10 +1,8 @@
-import _ from 'lodash';
 import {
   GET_USER_EVENTS_ATTEMPT,
   GET_USER_EVENTS_SUCCESS,
   GET_USER_EVENTS_FAILURE,
   SET_USER_EVENTS,
-  CLEAR_USER_EVENTS,
 } from './userEvents.actions';
 import {
   GET_TIMELINE_DATA_ATTEMPT,
@@ -19,6 +17,22 @@ const defaultState = {
   count: null,
 };
 
+const getDecoratedRows = (rows, loveNoteEvents, loveNotes) =>
+  rows.map(row => {
+    const loveNoteEvent = loveNoteEvents.find(
+      loveNoteEvent => loveNoteEvent.userEventId === row.id
+    );
+    // console.log('\n loveNoteEvent', loveNoteEvent);
+
+    if (loveNoteEvent) {
+      const loveNote = loveNotes.find(
+        loveNote => loveNote.id === loveNoteEvent.loveNoteId
+      );
+      return { ...row, loveNote };
+    }
+    return row;
+  });
+
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
     case GET_USER_EVENTS_ATTEMPT:
@@ -30,10 +44,15 @@ export default function reducer(state = defaultState, action) {
       };
     case GET_USER_EVENTS_SUCCESS:
     case SET_USER_EVENTS:
-    case GET_TIMELINE_DATA_SUCCESS:
-      let rows = action.shouldAppend
+    case GET_TIMELINE_DATA_SUCCESS: {
+      const initialRows = action.shouldAppend
         ? [...state.rows, ...action.rows]
         : action.rows;
+      const rows = getDecoratedRows(
+        initialRows,
+        action.loveNoteEvents || [],
+        action.loveNotes || []
+      );
       return {
         ...state,
         isGetUserEventsInFlight: false,
@@ -41,6 +60,7 @@ export default function reducer(state = defaultState, action) {
         rows,
         count: action.count,
       };
+    }
     case GET_USER_EVENTS_FAILURE:
     case GET_TIMELINE_DATA_FAILURE:
       return {
