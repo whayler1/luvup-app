@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import _ from 'lodash';
 
 import styles from './Timeline.styles';
 import { vars } from '../../styles';
@@ -90,22 +91,36 @@ const getEventImage = eventName => {
   }
 };
 
-export default ({ item, index, section }) => (
-  <View
-    style={
-      index + 1 === section.data.length
-        ? styles.renderItemContainerLast
-        : styles.renderItemContainer
-    }>
-    <View style={styles.renderItemContent}>
-      {getEventImage(item.name)}
-      <Text style={styles.renderItemContentText}>
-        {item.name !== 'password-changed' ? item.count : ''}{' '}
-        {getEventDisplayName(item.name, item.count)}
-      </Text>
-    </View>
+export default ({ item, index, section }) => {
+  const isLovenoteItem = /^lovenote/.test(item.name);
+
+  return (
     <View>
-      <Text style={styles.renderItemContentSmall}>{item.time}</Text>
+      <View
+        style={
+          index + 1 === section.data.length
+            ? styles.renderItemContainerLast
+            : styles.renderItemContainer
+        }>
+        <View style={styles.renderItemContent}>
+          {getEventImage(item.name)}
+          <Text style={styles.renderItemContentText}>
+            {item.name !== 'password-changed' && !isLovenoteItem
+              ? item.count
+              : ''}{' '}
+            {getEventDisplayName(item.name, item.count)}
+          </Text>
+        </View>
+        <View>
+          <Text style={styles.renderItemContentSmall}>{item.time}</Text>
+        </View>
+      </View>
+      {isLovenoteItem &&
+        _.isString(_.get(item, 'loveNote.note')) && (
+          <View>
+            <Text>{decodeURI(item.loveNote.note)}</Text>
+          </View>
+        )}
     </View>
-  </View>
-);
+  );
+};
