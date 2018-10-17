@@ -104,23 +104,43 @@ export default ({ item, index, section }) => {
         }>
         <View style={styles.renderItemContent}>
           {getEventImage(item.name)}
-          <Text style={styles.renderItemContentText}>
-            {item.name !== 'password-changed' && !isLovenoteItem
-              ? item.count
-              : ''}{' '}
-            {getEventDisplayName(item.name, item.count)}
-          </Text>
-        </View>
-        <View>
-          <Text style={styles.renderItemContentSmall}>{item.time}</Text>
+          <View
+            style={{
+              paddingLeft: 16,
+              paddingRight: 16,
+              backgroundColor: 'aqua',
+              flex: 1,
+            }}>
+            <Text style={styles.renderItemContentText}>
+              {item.name !== 'password-changed' && !isLovenoteItem
+                ? item.count + ' '
+                : ''}
+              {getEventDisplayName(item.name, item.count)}
+            </Text>
+            {isLovenoteItem &&
+              _.isString(_.get(item, 'loveNote.note')) && (
+                <Text
+                  style={{
+                    color: vars.blueGrey500,
+                    fontSize: 14,
+                    fontFamily: vars.fontRegular,
+                    backgroundColor: 'yellow',
+                    paddingTop: 8,
+                  }}>
+                  {decodeURI(item.loveNote.note)}
+                </Text>
+              )}
+          </View>
+          <View
+            style={{
+              // alignSelf: 'flex-end',
+              justifySelf: 'flex-end',
+              backgroundColor: 'pink',
+            }}>
+            <Text style={styles.renderItemContentSmall}>{item.time}</Text>
+          </View>
         </View>
       </View>
-      {isLovenoteItem &&
-        _.isString(_.get(item, 'loveNote.note')) && (
-          <View>
-            <Text>{decodeURI(item.loveNote.note)}</Text>
-          </View>
-        )}
     </View>
   );
 };

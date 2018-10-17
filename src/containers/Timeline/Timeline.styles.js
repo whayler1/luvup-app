@@ -71,13 +71,15 @@ export default new StyleSheet.create({
   renderItemContainerLast,
   renderItemContent: {
     flexDirection: 'row',
-    alignItems: 'center',
+    // alignItems: 'center',
+    backgroundColor: 'lightblue',
+    flex: 1,
   },
   renderItemContentText: {
     color: vars.blueGrey500,
     fontSize: 20,
-    paddingLeft: 8,
     fontFamily: vars.fontRegular,
+    flex: 1,
   },
   renderItemContentSmall: {
     color: vars.blueGrey500,
