@@ -22,7 +22,6 @@ const getDecoratedRows = (rows, loveNoteEvents, loveNotes) =>
     const loveNoteEvent = loveNoteEvents.find(
       loveNoteEvent => loveNoteEvent.userEventId === row.id
     );
-    // console.log('\n loveNoteEvent', loveNoteEvent);
 
     if (loveNoteEvent) {
       const loveNote = loveNotes.find(
