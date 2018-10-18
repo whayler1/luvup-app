@@ -95,23 +95,6 @@ export default ({
             }}>
             {coinCount}
           </Text>
-          <Image
-            source={require('../../images/jalapeno.png')}
-            style={{
-              width: 23,
-              height: 30,
-              marginLeft: 10,
-            }}
-          />
-          <Text
-            style={{
-              paddingLeft: 5,
-              fontFamily: vars.fontBlack,
-              fontSize: 16,
-              color: vars.blueGrey500,
-            }}>
-            {jalapenoCount}
-          </Text>
         </TouchableOpacity>
       ) : (
         <View
@@ -158,11 +141,13 @@ export default ({
               fontSize: 16,
               color: vars.blueGrey500,
             }}>
-            {userFirstName.substr(0, 1)}
-            {userLastName.substr(0, 1)}
+            {userFirstName.substr(0, 1).toUpperCase()}
+            {userLastName.substr(0, 1).toUpperCase()}
             {loverFirstName ? ' + ' : ''}
-            {_.isString(loverFirstName) && loverFirstName.substr(0, 1)}
-            {_.isString(loverLastName) && loverLastName.substr(0, 1)}
+            {_.isString(loverFirstName) &&
+              loverFirstName.substr(0, 1).toUpperCase()}
+            {_.isString(loverLastName) &&
+              loverLastName.substr(0, 1).toUpperCase()}
           </Text>
         </TouchableOpacity>
       ) : (
