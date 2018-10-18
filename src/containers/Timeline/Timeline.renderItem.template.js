@@ -83,9 +83,17 @@ const getEventImage = eventName => {
     case 'password-changed':
       return <Icon name="md-lock" size={36} color={vars.blueGrey500} />;
     case 'lovenote-sent':
-      return <LoveNoteArtFlying scale={0.4} />;
+      return (
+        <View style={{ paddingTop: 3 }}>
+          <LoveNoteArtFlying scale={0.4} />
+        </View>
+      );
     case 'lovenote-received':
-      return <LoveNoteArtReceived scale={0.4} />;
+      return (
+        <View style={{ paddingTop: 3 }}>
+          <LoveNoteArtReceived scale={0.4} />
+        </View>
+      );
     default:
       return;
   }
@@ -103,12 +111,16 @@ export default ({ item, index, section }) => {
             : styles.renderItemContainer
         }>
         <View style={styles.renderItemContent}>
-          {getEventImage(item.name)}
+          <View
+            style={{
+              minWidth: 50,
+            }}>
+            {getEventImage(item.name)}
+          </View>
           <View
             style={{
               paddingLeft: 16,
               paddingRight: 16,
-              backgroundColor: 'aqua',
               flex: 1,
             }}>
             <Text style={styles.renderItemContentText}>
@@ -120,23 +132,18 @@ export default ({ item, index, section }) => {
             {isLovenoteItem &&
               _.isString(_.get(item, 'loveNote.note')) && (
                 <Text
+                  numberOfLines={1}
                   style={{
                     color: vars.blueGrey500,
                     fontSize: 14,
                     fontFamily: vars.fontRegular,
-                    backgroundColor: 'yellow',
                     paddingTop: 8,
                   }}>
                   {decodeURI(item.loveNote.note)}
                 </Text>
               )}
           </View>
-          <View
-            style={{
-              // alignSelf: 'flex-end',
-              justifySelf: 'flex-end',
-              backgroundColor: 'pink',
-            }}>
+          <View>
             <Text style={styles.renderItemContentSmall}>{item.time}</Text>
           </View>
         </View>
