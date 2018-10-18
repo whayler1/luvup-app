@@ -80,6 +80,7 @@ export default new StyleSheet.create({
     color: vars.blueGrey500,
     fontSize: 14,
     fontFamily: vars.fontRegular,
+    paddingTop: 4,
   },
   heartBtn: {
     flex: 1,
