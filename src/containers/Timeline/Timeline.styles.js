@@ -29,18 +29,15 @@ const leaderboardSlotSecond = {
 export default new StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: 'transparent',
     alignItems: 'center',
   },
   sectionList: {
     alignSelf: 'stretch',
   },
   listHeaderContainer: {
-    backgroundColor: 'white',
     paddingBottom: 24,
   },
   listFooterContainer: {
-    backgroundColor: 'white',
     paddingBottom: 16,
     paddingTop: 16,
   },
@@ -71,8 +68,6 @@ export default new StyleSheet.create({
   renderItemContainerLast,
   renderItemContent: {
     flexDirection: 'row',
-    // alignItems: 'center',
-    backgroundColor: 'lightblue',
     flex: 1,
   },
   renderItemContentText: {
