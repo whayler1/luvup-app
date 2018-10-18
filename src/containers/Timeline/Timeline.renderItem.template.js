@@ -7,6 +7,7 @@ import _ from 'lodash';
 import styles from './Timeline.styles';
 import { vars } from '../../styles';
 
+import NotificationDot from '../../components/NotificationDot';
 import jalapenoSentImg from '../../images/jalapeno-sent.png';
 import jalapenoReceivedImg from '../../images/jalapeno-received.png';
 import coinSentImg from '../../images/coin-sent.png';
@@ -97,10 +98,21 @@ const getEventImage = eventName => {
   }
 };
 
-const Wrapper = ({ children, isLink, loveNoteId }) => {
-  if (_.isString(loveNoteId)) {
+const Wrapper = ({ children, eventName, loveNote = {} }) => {
+  if (_.isString(loveNote.id)) {
     return (
-      <TouchableOpacity onPress={() => Actions.viewLoveNote({ loveNoteId })}>
+      <TouchableOpacity
+        onPress={() => Actions.viewLoveNote({ loveNoteId: loveNote.id })}>
+        {eventName === 'lovenote-received' &&
+          !loveNote.isRead && (
+            <NotificationDot
+              style={{
+                position: 'absolute',
+                left: 12,
+                top: 10,
+              }}
+            />
+          )}
         {...children}
       </TouchableOpacity>
     );
@@ -116,7 +128,8 @@ export default ({ item, index, section }) => {
   return (
     <Wrapper
       isLink={isLovenoteItemWithNote}
-      loveNoteId={_.get(item, 'loveNote.id')}>
+      loveNote={item.loveNote}
+      eventName={item.name}>
       <View
         style={
           index + 1 === section.data.length
