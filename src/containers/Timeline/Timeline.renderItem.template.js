@@ -1,16 +1,14 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import _ from 'lodash';
 
 import styles from './Timeline.styles';
 import { vars } from '../../styles';
 
-import heartImg from '../../images/heart.png';
-import jalapenoImg from '../../images/jalapeno.png';
 import jalapenoSentImg from '../../images/jalapeno-sent.png';
 import jalapenoReceivedImg from '../../images/jalapeno-received.png';
-import coinImg from '../../images/coin.png';
 import coinSentImg from '../../images/coin-sent.png';
 import coinReceivedImg from '../../images/coin-received.png';
 import LoveNoteArtFlying from '../../components/LoveNoteArtFlying';
@@ -99,11 +97,26 @@ const getEventImage = eventName => {
   }
 };
 
+const Wrapper = ({ children, isLink, loveNoteId }) => {
+  if (_.isString(loveNoteId)) {
+    return (
+      <TouchableOpacity onPress={() => Actions.viewLoveNote({ loveNoteId })}>
+        {...children}
+      </TouchableOpacity>
+    );
+  }
+  return <View>{...children}</View>;
+};
+
 export default ({ item, index, section }) => {
   const isLovenoteItem = /^lovenote/.test(item.name);
+  const isLovenoteItemWithNote =
+    isLovenoteItem && _.isString(_.get(item, 'loveNote.id'));
 
   return (
-    <View>
+    <Wrapper
+      isLink={isLovenoteItemWithNote}
+      loveNoteId={_.get(item, 'loveNote.id')}>
       <View
         style={
           index + 1 === section.data.length
@@ -148,6 +161,6 @@ export default ({ item, index, section }) => {
           </View>
         </View>
       </View>
-    </View>
+    </Wrapper>
   );
 };
