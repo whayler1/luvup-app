@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Quotes from '../../components/Art/Quotes';
+import { vars } from '../../styles';
 
 class ViewLoveNote extends PureComponent {
   static propTypes = {
@@ -29,7 +31,6 @@ class ViewLoveNote extends PureComponent {
   render() {
     return (
       <View>
-        <Text>Love Note Id: {this.props.loveNoteId}</Text>
         {this.isSender ? (
           <Text>
             You sent {this.props.loverFirstName} a love note on{' '}
@@ -41,7 +42,22 @@ class ViewLoveNote extends PureComponent {
             {this.loveNote.createdAt}.
           </Text>
         )}
-        <Text>{decodeURI(this.loveNote.note)}</Text>
+        <View
+          style={{
+            alignItems: 'center',
+            paddingTop: 16,
+          }}>
+          <Quotes fill={vars.blueGrey100} />
+        </View>
+        <Text
+          style={{
+            marginTop: -20,
+            textAlign: 'center',
+            fontSize: 20,
+            fontFamily: vars.fontRegular,
+          }}>
+          {decodeURI(this.loveNote.note)}
+        </Text>
       </View>
     );
   }
