@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
+import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 import Quotes from '../../components/Art/Quotes';
 import { vars } from '../../styles';
@@ -25,21 +26,29 @@ class ViewLoveNote extends PureComponent {
     this.loveNote = loveNotes.find(
       loveNote => loveNote.id === props.loveNoteId
     );
+    const createdAtDate = new Date(this.loveNote.createdAt);
+    this.formattedCreatedAt =
+      format(createdAtDate, 'MMM Do YYYY') +
+      ' at ' +
+      format(createdAtDate, 'h:mma');
     this.isSender = userId === this.loveNote.senderId;
   }
 
   render() {
     return (
-      <View>
+      <View
+        style={{
+          padding: 8,
+        }}>
         {this.isSender ? (
           <Text>
             You sent {this.props.loverFirstName} a love note on{' '}
-            {this.loveNote.createdAt}.
+            {this.formattedCreatedAt}.
           </Text>
         ) : (
           <Text>
             {this.props.loverFirstName} sent you a love note on{' '}
-            {this.loveNote.createdAt}.
+            {this.formattedCreatedAt}.
           </Text>
         )}
         <View
@@ -47,13 +56,13 @@ class ViewLoveNote extends PureComponent {
             alignItems: 'center',
             paddingTop: 16,
           }}>
-          <Quotes fill={vars.blueGrey100} />
+          <Quotes scale={0.6} fill={vars.blueGrey100} />
         </View>
         <Text
           style={{
-            marginTop: -20,
+            paddingTop: 8,
             textAlign: 'center',
-            fontSize: 20,
+            fontSize: 30,
             fontFamily: vars.fontRegular,
           }}>
           {decodeURI(this.loveNote.note)}
