@@ -48,6 +48,7 @@
     "babel-plugin-transform-inline-environment-variables": "^0.2.0",
     "bezier-easing": "^2.1.0",
     "color": "^3.0.0",
+    "date-fns": "^1.29.0",
     "eslint-config-react-native": "^3.0.0",
     "eslint-plugin-babel": "^5.1.0",
     "expo": "^27.0.0",
