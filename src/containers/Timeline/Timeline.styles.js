@@ -82,6 +82,16 @@ export default new StyleSheet.create({
     fontFamily: vars.fontRegular,
     paddingTop: 4,
   },
+  renderItemLoveNoteTokenItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  renderItemLoveNoteTokenText: {
+    fontFamily: vars.fontBlack,
+    fontSize: 14,
+    color: vars.blueGrey500,
+    paddingLeft: 2,
+  },
   heartBtn: {
     flex: 1,
     alignItems: 'flex-end',
