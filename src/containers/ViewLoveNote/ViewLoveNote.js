@@ -1,12 +1,14 @@
 import React, { PureComponent, Fragment } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { Button } from 'react-native-elements';
+import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
 import Quotes from '../../components/Art/Quotes';
 import CoinArt from '../../components/CoinArt';
 import JalapenoArt from '../../components/JalapenoArt';
-import { vars } from '../../styles';
+import { vars, buttons } from '../../styles';
 
 class ViewLoveNote extends PureComponent {
   static propTypes = {
@@ -36,15 +38,22 @@ class ViewLoveNote extends PureComponent {
     this.isSender = userId === this.loveNote.senderId;
   }
 
+  handleWriteLoveNotePress = () => {
+    Actions.createLoveNote();
+  };
+
   render() {
     const {
+      isSender,
       loveNote: { numLuvups, numJalapenos },
     } = this;
     const isTokens = numLuvups > 0 || numJalapenos > 0;
     return (
-      <View
-        style={{
-          padding: 8,
+      <ScrollView
+        contentContainerStyle={{
+          paddingTop: 16,
+          paddingBottom: 60,
+          paddingHorizontal: 8,
         }}>
         <Text
           style={{
@@ -55,7 +64,7 @@ class ViewLoveNote extends PureComponent {
             zIndex: 10,
             paddingTop: 12,
           }}>
-          {this.isSender ? (
+          {isSender ? (
             <Fragment>
               <Text style={{ fontFamily: vars.fontBlack }}>
                 You sent {this.props.loverFirstName} a love note
@@ -105,7 +114,6 @@ class ViewLoveNote extends PureComponent {
             {numJalapenos && (
               <View style={{ paddingHorizontal: 16 }}>
                 <JalapenoArt
-                  fill={vars.blueGrey300}
                   scale={0.8}
                   recentlySentJalapenoCount={numJalapenos}
                 />
@@ -113,7 +121,14 @@ class ViewLoveNote extends PureComponent {
             )}
           </View>
         )}
-      </View>
+        <View style={{ marginTop: 32 }}>
+          <TouchableOpacity onPress={this.handleWriteLoveNotePress}>
+            <Text style={buttons.secondarySkeletonText}>
+              {isSender ? 'Write Another Love Note' : 'Write a New Love Note'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     );
   }
 }

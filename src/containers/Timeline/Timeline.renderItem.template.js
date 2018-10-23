@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -14,6 +14,8 @@ import coinSentImg from '../../images/coin-sent.png';
 import coinReceivedImg from '../../images/coin-received.png';
 import LoveNoteArtFlying from '../../components/LoveNoteArtFlying';
 import LoveNoteArtReceived from '../../components/LoveNoteArtReceived';
+import CoinArt from '../../components/CoinArt';
+import JalapenoArt from '../../components/JalapenoArt';
 
 const getEventDisplayName = (eventName, count) => {
   const plur = count > 1 ? 's' : '';
@@ -157,16 +159,34 @@ export default ({ item, index, section }) => {
             </Text>
             {isLovenoteItem &&
               _.isString(_.get(item, 'loveNote.note')) && (
-                <Text
-                  numberOfLines={1}
-                  style={{
-                    color: vars.blueGrey500,
-                    fontSize: 14,
-                    fontFamily: vars.fontRegular,
-                    paddingTop: 8,
-                  }}>
-                  {decodeURI(item.loveNote.note)}
-                </Text>
+                <Fragment>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      marginTop: 8,
+                    }}>
+                    <View style={styles.renderItemLoveNoteTokenItem}>
+                      <CoinArt
+                        fill={vars.blueGrey300}
+                        stroke={vars.blueGrey500}
+                        scale={0.25}
+                      />
+                      <Text style={styles.renderItemLoveNoteTokenText}>
+                        +{item.loveNote.numLuvups}
+                      </Text>
+                    </View>
+                  </View>
+                  <Text
+                    numberOfLines={1}
+                    style={{
+                      color: vars.blueGrey500,
+                      fontSize: 14,
+                      fontFamily: vars.fontRegular,
+                      paddingTop: 8,
+                    }}>
+                    {decodeURI(item.loveNote.note)}
+                  </Text>
+                </Fragment>
               )}
           </View>
           <View>
