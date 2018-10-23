@@ -11,7 +11,11 @@ const radius = circumfrance / 2;
 const innerOffset = 8;
 const innerRadius = radius - innerOffset;
 
-export default ({ recentlySentCoinCount }) => (
+export default ({
+  recentlySentCoinCount,
+  fill = '#d1c008',
+  stroke = '#aa9b12',
+}) => (
   <View
     style={{
       width: circumfrance,
@@ -21,10 +25,10 @@ export default ({ recentlySentCoinCount }) => (
     }}>
     <Surface width={circumfrance} height={circumfrance}>
       <Group>
-        <Circle radius={radius} fill={'#d1c008'} />
+        <Circle radius={radius} fill={fill} />
       </Group>
       <Group x={innerOffset} y={innerOffset}>
-        <Circle radius={innerRadius} stroke={'#aa9b12'} strokeWidth={4} />
+        <Circle radius={innerRadius} stroke={stroke} strokeWidth={4} />
       </Group>
     </Surface>
     {_.isNumber(recentlySentCoinCount) && (
