@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {
   GET_USER_EVENTS_ATTEMPT,
   GET_USER_EVENTS_SUCCESS,
@@ -9,6 +10,7 @@ import {
   GET_TIMELINE_DATA_SUCCESS,
   GET_TIMELINE_DATA_FAILURE,
 } from '../user/user.actions';
+import { SET_LOVE_NOTE_READ_ATTEMPT } from '../loveNote.actions';
 
 const defaultState = {
   isGetUserEventsInFlight: false,
@@ -67,6 +69,28 @@ export default function reducer(state = defaultState, action) {
         isGetUserEventsInFlight: false,
         getUserEventsError: action.error,
       };
+    case SET_LOVE_NOTE_READ_ATTEMPT: {
+      const userEventIndex = state.rows.findIndex(
+        row => _.get(row, 'loveNote.id', '') === action.loveNoteId
+      );
+      const userEventAtIndex = state.rows[userEventIndex];
+      const userEvent = {
+        ...userEventAtIndex,
+        loveNote: {
+          ...userEventAtIndex.loveNote,
+          isRead: true,
+        },
+      };
+      const rows = [
+        ...state.rows.slice(0, userEventIndex - 1),
+        userEvent,
+        ...state.rows.slice(userEventIndex + 1, state.rows.length - 1),
+      ];
+      return {
+        ...state,
+        rows,
+      };
+    }
     default:
       return state;
   }

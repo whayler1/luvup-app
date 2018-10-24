@@ -1,6 +1,7 @@
 import _ from 'lodash';
-import { graphQlRequest } from '../../helpers';
 
+import { graphQlRequest } from '../../helpers';
+import analytics from '../../services/analytics';
 export const CREATE_LOVE_NOTE_SUCCESS = 'love-note/create-love-note-success';
 export const GET_RECEIVED_LOVE_NOTES_ATTEMPT =
   'love-note/get-received-love-notes-attempt';
@@ -10,10 +11,6 @@ export const GET_RECEIVED_LOVE_NOTES_FAILURE =
   'love-note/get-received-love-notes-failure';
 export const SET_LOVE_NOTE_READ_ATTEMPT =
   'love-note/set-love-note-read-attempt';
-export const SET_LOVE_NOTE_READ_SUCCESS =
-  'love-note/set-love-note-read-success';
-export const SET_LOVE_NOTE_READ_FAILURE =
-  'love-note/set-love-note-read-failure';
 export const SET_LOVE_NOTES_READ_WITH_CREATED_AT_ATTEMPT =
   'love-note/set-love-notes-read-with-created-at-attempt';
 export const SET_LOVE_NOTES_READ_WITH_CREATED_AT_SUCCESS =
@@ -107,11 +104,12 @@ export const getReceivedLoveNotes = ({
   }
 };
 
-export const setLoveNoteRead = loveNoteId => async dispatch => {
+export const setLoveNoteRead = loveNoteId => async (dispatch, getState) => {
   dispatch({
     type: SET_LOVE_NOTE_READ_ATTEMPT,
     loveNoteId,
   });
+  const userId = getState().user.id;
   try {
     const res = await graphQlRequest(`mutation {
       setLoveNoteRead(
@@ -123,16 +121,23 @@ export const setLoveNoteRead = loveNoteId => async dispatch => {
 
     const { id, isRead } = _.get(res, 'loveNote', {});
 
-    if (id && isRead === true) {
-      dispatch({ type: SET_LOVE_NOTE_READ_SUCCESS });
-    } else {
-      dispatch({
-        type: SET_LOVE_NOTE_READ_FAILURE,
-        errorMessage: 'isRead note set properly',
+    if (!id || isRead === false) {
+      analytics.track({
+        userId,
+        event: 'setLoveNoteRead error',
+        properties: {
+          message: 'Did not return love note id or isRead is false',
+        },
       });
     }
   } catch (err) {
-    dispatch({ type: SET_LOVE_NOTE_READ_FAILURE, errorMessage: err.message });
+    analytics.track({
+      userId,
+      event: 'setLoveNoteRead error',
+      properties: {
+        message: err.message,
+      },
+    });
   }
 };
 
