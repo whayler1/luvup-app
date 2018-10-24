@@ -4,6 +4,9 @@ import {
   GET_RECEIVED_LOVE_NOTES_ATTEMPT,
   GET_RECEIVED_LOVE_NOTES_SUCCESS,
   GET_RECEIVED_LOVE_NOTES_FAILURE,
+  SET_LOVE_NOTE_READ_ATTEMPT,
+  // SET_LOVE_NOTE_READ_SUCCESS,
+  // SET_LOVE_NOTE_READ_FAILURE,
   SET_LOVE_NOTES_READ_WITH_CREATED_AT_ATTEMPT,
   SET_LOVE_NOTES_READ_WITH_CREATED_AT_SUCCESS,
   SET_LOVE_NOTES_READ_WITH_CREATED_AT_FAILURE,
@@ -54,6 +57,24 @@ export default function reducer(state = defaultState, action) {
         isGetReceivedLoveNotesInFlight: false,
         getReceivedLoveNotesError: action.error,
       };
+    case SET_LOVE_NOTE_READ_ATTEMPT: {
+      const loveNoteIndex = state.loveNotes.findIndex(
+        loveNote => loveNote.id === action.loveNoteId
+      );
+      const loveNote = {
+        ...state.loveNote[action.loveNoteId],
+        isRead: true,
+      };
+      const loveNotes = [
+        ...state.loveNotes.slice(0, loveNoteIndex - 1),
+        loveNote,
+        ...state.loveNotes.slice(loveNoteIndex + 1, state.loveNotes.length - 1),
+      ];
+      return {
+        ...state,
+        loveNotes,
+      };
+    }
     case SET_LOVE_NOTES_READ_WITH_CREATED_AT_ATTEMPT:
       return {
         ...state,
