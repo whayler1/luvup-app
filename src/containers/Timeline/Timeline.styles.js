@@ -71,7 +71,7 @@ export default new StyleSheet.create({
     flex: 1,
   },
   renderItemContentText: {
-    color: vars.blueGrey500,
+    color: vars.blueGrey700,
     fontSize: 20,
     fontFamily: vars.fontRegular,
     flex: 1,
@@ -81,6 +81,16 @@ export default new StyleSheet.create({
     fontSize: 14,
     fontFamily: vars.fontRegular,
     paddingTop: 4,
+  },
+  renderItemLoveNoteText: {
+    color: vars.blueGrey300,
+    fontSize: 14,
+    fontFamily: vars.fontBlack,
+    paddingTop: 4,
+  },
+  renderItemLoveNoteTokenRow: {
+    flexDirection: 'row',
+    marginTop: 8,
   },
   renderItemLoveNoteTokenItem: {
     flexDirection: 'row',
