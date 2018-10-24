@@ -126,6 +126,8 @@ export default ({ item, index, section }) => {
   const isLovenoteItem = /^lovenote/.test(item.name);
   const isLovenoteItemWithNote =
     isLovenoteItem && _.isString(_.get(item, 'loveNote.id'));
+  const isNumLuvups = _.get(item, 'loveNote.numLuvups', 0) > 0;
+  const isNumJalapenos = _.get(item, 'loveNote.numJalapenos', 0) > 0;
 
   return (
     <Wrapper
@@ -159,35 +161,40 @@ export default ({ item, index, section }) => {
             </Text>
             {isLovenoteItem &&
               _.isString(_.get(item, 'loveNote.note')) && (
-                <Fragment>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      marginTop: 8,
-                    }}>
-                    <View style={styles.renderItemLoveNoteTokenItem}>
-                      <CoinArt
-                        fill={vars.blueGrey300}
-                        stroke={vars.blueGrey500}
-                        scale={0.25}
-                      />
-                      <Text style={styles.renderItemLoveNoteTokenText}>
-                        +{item.loveNote.numLuvups}
-                      </Text>
-                    </View>
-                  </View>
-                  <Text
-                    numberOfLines={1}
-                    style={{
-                      color: vars.blueGrey500,
-                      fontSize: 14,
-                      fontFamily: vars.fontRegular,
-                      paddingTop: 8,
-                    }}>
-                    {decodeURI(item.loveNote.note)}
-                  </Text>
-                </Fragment>
+                <Text numberOfLines={1} style={styles.renderItemLoveNoteText}>
+                  {decodeURI(item.loveNote.note)}
+                </Text>
               )}
+            {(isNumLuvups || isNumJalapenos) && (
+              <View style={styles.renderItemLoveNoteTokenRow}>
+                {isNumLuvups && (
+                  <View style={styles.renderItemLoveNoteTokenItem}>
+                    <CoinArt
+                      fill={vars.blueGrey300}
+                      stroke={vars.blueGrey500}
+                      scale={0.2}
+                    />
+                    <Text style={styles.renderItemLoveNoteTokenText}>
+                      +{item.loveNote.numLuvups}
+                    </Text>
+                  </View>
+                )}
+                {isNumJalapenos && (
+                  <View
+                    style={[
+                      styles.renderItemLoveNoteTokenItem,
+                      {
+                        paddingLeft: isNumLuvups && isNumJalapenos ? 8 : 0,
+                      },
+                    ]}>
+                    <JalapenoArt fill={vars.blueGrey300} scale={0.17} />
+                    <Text style={styles.renderItemLoveNoteTokenText}>
+                      +{item.loveNote.numJalapenos}
+                    </Text>
+                  </View>
+                )}
+              </View>
+            )}
           </View>
           <View>
             <Text style={styles.renderItemContentSmall}>{item.time}</Text>
