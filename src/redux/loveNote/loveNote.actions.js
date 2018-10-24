@@ -1,6 +1,4 @@
-import superagent from 'superagent';
 import _ from 'lodash';
-import config from '../../config';
 import { graphQlRequest } from '../../helpers';
 
 export const CREATE_LOVE_NOTE_SUCCESS = 'love-note/create-love-note-success';
@@ -10,6 +8,12 @@ export const GET_RECEIVED_LOVE_NOTES_SUCCESS =
   'love-note/get-received-love-notes-success';
 export const GET_RECEIVED_LOVE_NOTES_FAILURE =
   'love-note/get-received-love-notes-failure';
+export const SET_LOVE_NOTE_READ_ATTEMPT =
+  'love-note/set-love-note-read-attempt';
+export const SET_LOVE_NOTE_READ_SUCCESS =
+  'love-note/set-love-note-read-success';
+export const SET_LOVE_NOTE_READ_FAILURE =
+  'love-note/set-love-note-read-failure';
 export const SET_LOVE_NOTES_READ_WITH_CREATED_AT_ATTEMPT =
   'love-note/set-love-notes-read-with-created-at-attempt';
 export const SET_LOVE_NOTES_READ_WITH_CREATED_AT_SUCCESS =
@@ -100,6 +104,35 @@ export const getReceivedLoveNotes = ({
       type: GET_RECEIVED_LOVE_NOTES_FAILURE,
       error,
     });
+  }
+};
+
+export const setLoveNoteRead = loveNoteId => async dispatch => {
+  dispatch({
+    type: SET_LOVE_NOTE_READ_ATTEMPT,
+    loveNoteId,
+  });
+  try {
+    const res = await graphQlRequest(`mutation {
+      setLoveNoteRead(
+        loveNoteId: "${loveNoteId}"
+      ) {
+        loveNote { id, isRead }
+      }
+    }`);
+
+    const { id, isRead } = _.get(res, 'loveNote', {});
+
+    if (id && isRead === true) {
+      dispatch({ type: SET_LOVE_NOTE_READ_SUCCESS });
+    } else {
+      dispatch({
+        type: SET_LOVE_NOTE_READ_FAILURE,
+        errorMessage: 'isRead note set properly',
+      });
+    }
+  } catch (err) {
+    dispatch({ type: SET_LOVE_NOTE_READ_FAILURE, errorMessage: err.message });
   }
 };
 
