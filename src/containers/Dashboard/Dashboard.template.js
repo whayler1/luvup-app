@@ -28,13 +28,7 @@ export default ({
   onLoveNoteWritePress,
   relationshipScore,
 }) => (
-  <View
-    style={{
-      flex: 1,
-      backgroundColor: 'transparent',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    }}>
+  <View style={styles.wrapper}>
     <DashboardTopNav
       coinCount={coinCount}
       jalapenoCount={jalapenoCount}
