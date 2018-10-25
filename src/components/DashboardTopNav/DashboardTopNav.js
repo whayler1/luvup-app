@@ -13,6 +13,7 @@ export default class DashboardTopNav extends Component {
     loverFirstName: PropTypes.string,
     loverLastName: PropTypes.string,
     relationshipScore: PropTypes.number,
+    unreadReceivedLoveNoteCount: PropTypes.number,
   };
 
   handleScoreClick = () => Actions.timeline();
@@ -25,6 +26,7 @@ export default class DashboardTopNav extends Component {
         onScoreClick={this.handleScoreClick}
         onInitialsClick={this.handleInitialsClick}
         onRelationshipScoreClick={this.handleRelationshipScoreClick}
+        unreadReceivedLoveNoteCount={this.unreadReceivedLoveNoteCount}
         {...this.props}
       />
     );

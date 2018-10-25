@@ -1,3 +1,4 @@
 import TimelineRelationshipScoreArt from './TimelineRelationshipScoreArt';
+import Quotes from './Quotes';
 
-export default { TimelineRelationshipScoreArt };
+export default { TimelineRelationshipScoreArt, Quotes };
