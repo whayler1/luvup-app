@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, Image } from 'react-native';
 import _ from 'lodash';
 
 import Pushdown from '../../components/Pushdown';
+import NotificationDot from '../../components/NotificationDot';
+import CoinArt from '../../components/CoinArt';
 import { vars } from '../../styles';
 
 export default ({
@@ -19,6 +21,7 @@ export default ({
   closePushdown,
   unviewedCoinCount,
   unviewedJalapenoCount,
+  unreadReceivedLoveNoteCount,
   relationshipScore,
 }) => (
   <View
@@ -79,12 +82,18 @@ export default ({
             flexDirection: 'row',
             alignItems: 'center',
           }}>
-          <Image
-            source={require('../../images/coin.png')}
-            style={{
-              width: 30,
-              height: 30,
-            }}
+          {unreadReceivedLoveNoteCount && (
+            <NotificationDot
+              style={{
+                left: -2,
+                top: -3,
+              }}
+            />
+          )}
+          <CoinArt
+            scale={0.37}
+            fill={vars.blueGrey300}
+            stroke={vars.blueGrey500}
           />
           <Text
             style={{
