@@ -31,6 +31,7 @@ import CreateLoveNote from './src/containers/CreateLoveNote';
 import LoveNotes from './src/containers/LoveNotes';
 import TimelineRelationshipScoreArt from './src/components/Art/TimelineRelationshipScoreArt';
 import TimelineArt from './src/components/Art/TimelineArt';
+import ViewLoveNote from './src/containers/ViewLoveNote';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -113,6 +114,12 @@ const App = () => (
             key="createloverrequest"
             component={CreateLoverRequest}
             hideNavBar
+          />
+          <Scene
+            key="viewLoveNote"
+            path="/loveNote/loveNoteId"
+            component={ViewLoveNote}
+            {...sceneDefaults}
           />
           <Tabs
             key="timelineTabs"

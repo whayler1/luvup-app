@@ -29,18 +29,15 @@ const leaderboardSlotSecond = {
 export default new StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: 'transparent',
     alignItems: 'center',
   },
   sectionList: {
     alignSelf: 'stretch',
   },
   listHeaderContainer: {
-    backgroundColor: 'white',
     paddingBottom: 24,
   },
   listFooterContainer: {
-    backgroundColor: 'white',
     paddingBottom: 16,
     paddingTop: 16,
   },
@@ -71,18 +68,39 @@ export default new StyleSheet.create({
   renderItemContainerLast,
   renderItemContent: {
     flexDirection: 'row',
-    alignItems: 'center',
+    flex: 1,
   },
   renderItemContentText: {
-    color: vars.blueGrey500,
+    color: vars.blueGrey700,
     fontSize: 20,
-    paddingLeft: 8,
     fontFamily: vars.fontRegular,
+    flex: 1,
   },
   renderItemContentSmall: {
     color: vars.blueGrey500,
     fontSize: 14,
     fontFamily: vars.fontRegular,
+    paddingTop: 4,
+  },
+  renderItemLoveNoteText: {
+    color: vars.blueGrey300,
+    fontSize: 14,
+    fontFamily: vars.fontBlack,
+    paddingTop: 4,
+  },
+  renderItemLoveNoteTokenRow: {
+    flexDirection: 'row',
+    marginTop: 8,
+  },
+  renderItemLoveNoteTokenItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  renderItemLoveNoteTokenText: {
+    fontFamily: vars.fontBlack,
+    fontSize: 14,
+    color: vars.blueGrey500,
+    paddingLeft: 2,
   },
   heartBtn: {
     flex: 1,

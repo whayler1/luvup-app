@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import {
   View,
   Text,
@@ -9,8 +9,7 @@ import {
 } from 'react-native';
 import { Button } from 'react-native-elements';
 
-import styles from './CreateLoveNote.styles.js';
-import { forms, buttons, scene, modal, vars } from '../../styles';
+import { forms, buttons, scene, vars } from '../../styles';
 import Well from '../../components/Well';
 import LoveNoteArtFlying from '../../components/LoveNoteArtFlying';
 import LimitExceededModal from '../../components/LimitExceededModal';
@@ -150,7 +149,7 @@ export default ({
             editable={!isInFlight}
             placeholder={placeholder}
             placeholderTextColor={vars.blueGrey100}
-            multiline={true}
+            multiline
           />
           {isNoteEmpty && <Text style={forms.error}>Write a note to send</Text>}
         </View>

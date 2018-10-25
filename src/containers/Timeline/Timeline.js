@@ -31,7 +31,7 @@ const getSections = userEvents => {
         data: [],
       });
     }
-    if (event.name !== currentEventName) {
+    if (event.name !== currentEventName || /^lovenote/.test(event.name)) {
       currentEventName = event.name;
       val[val.length - 1].data.push({
         ...event,
@@ -87,7 +87,7 @@ class Timeline extends Component {
   closeModal = () => this.setState({ isModalVisible: false });
 
   getMoreUserEvents = async () => {
-    const res = await this.props.getUserEvents(
+    await this.props.getUserEvents(
       userEventsLimit,
       this.state.page * userEventsLimit,
       true

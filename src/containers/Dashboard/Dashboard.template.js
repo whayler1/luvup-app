@@ -3,11 +3,9 @@ import { View, Text, TouchableOpacity } from 'react-native';
 
 import styles from './Dashboard.styles';
 import DashboardTopNav from '../../components/DashboardTopNav';
-import LoveNoteReadArt from '../../components/LoveNoteReadArt';
-import LoveNoteWriteArt from '../../components/LoveNoteWriteArt';
+import LoveNoteArt from '../../components/LoveNoteArt';
 import LimitExceededModal from '../../components/LimitExceededModal';
 import Hero from '../Hero';
-import NotificationDot from '../../components/NotificationDot';
 
 export default ({
   userFirstName,
@@ -28,7 +26,6 @@ export default ({
   unviewedJalapenoCount,
   unreadReceivedLoveNoteCount,
   onLoveNoteWritePress,
-  onLoveNoteReadPress,
   relationshipScore,
 }) => (
   <View
@@ -50,6 +47,7 @@ export default ({
       unviewedCoinCount={unviewedCoinCount}
       unviewedJalapenoCount={unviewedJalapenoCount}
       relationshipScore={relationshipScore}
+      unreadReceivedLoveNoteCount={unreadReceivedLoveNoteCount}
     />
     <Hero openModal={openModal} />
     {loverFirstName && (
@@ -57,20 +55,8 @@ export default ({
         <TouchableOpacity
           style={styles.tabsItem}
           onPress={onLoveNoteWritePress}>
-          <LoveNoteWriteArt scale={0.8} />
+          <LoveNoteArt scale={0.8} />
           <Text style={styles.tabsText}>Write Love Note</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.tabsItem} onPress={onLoveNoteReadPress}>
-          {unreadReceivedLoveNoteCount > 0 && (
-            <NotificationDot
-              style={{
-                right: 19,
-                top: -1,
-              }}
-            />
-          )}
-          <LoveNoteReadArt scale={0.7} />
-          <Text style={styles.tabsText}>Read Love Notes</Text>
         </TouchableOpacity>
       </View>
     )}

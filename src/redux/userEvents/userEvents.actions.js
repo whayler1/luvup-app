@@ -10,8 +10,8 @@ export const SET_USER_EVENTS = 'userEvents/set-user-events';
 export const CLEAR_USER_EVENTS = 'userEvents/clear-user-events';
 
 export const getUserEvents = (
-  limit,
-  offset,
+  limit = 0,
+  offset = 0,
   shouldAppend = false
 ) => async dispatch => {
   dispatch({ type: GET_USER_EVENTS_ATTEMPT });
@@ -27,11 +27,17 @@ export const getUserEvents = (
             id isViewed createdAt name
           }
           count
+          loveNoteEvents {
+            id loveNoteId userEventId
+          }
+          loveNotes {
+            id note createdAt isRead senderId recipientId numLuvups numJalapenos
+          }
         }
       }`,
     });
 
-    const { rows, count } = res.body.data.userEvents;
+    const { rows, count, loveNotes, loveNoteEvents } = res.body.data.userEvents;
 
     if (res.ok && _.isArray(rows)) {
       dispatch({
@@ -39,6 +45,8 @@ export const getUserEvents = (
         rows,
         count,
         shouldAppend,
+        loveNotes,
+        loveNoteEvents,
       });
     } else {
       dispatch({
