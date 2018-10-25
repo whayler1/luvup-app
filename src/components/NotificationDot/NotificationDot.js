@@ -17,7 +17,7 @@ const NotificationDot = ({ style = {} }) => (
       },
       style,
     ]}>
-    <Surface width={16} height={16}>
+    <Surface width={18} height={18}>
       <Group>
         <Circle
           radius={8}
