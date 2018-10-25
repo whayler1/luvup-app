@@ -1,6 +1,5 @@
 import React, { PureComponent, Fragment } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
-import { Button } from 'react-native-elements';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { format } from 'date-fns';
@@ -9,6 +8,7 @@ import Quotes from '../../components/Art/Quotes';
 import CoinArt from '../../components/CoinArt';
 import JalapenoArt from '../../components/JalapenoArt';
 import { vars, buttons } from '../../styles';
+import { setLoveNoteRead as setLoveNoteReadAction } from '../../redux/loveNote/loveNote.actions';
 
 class ViewLoveNote extends PureComponent {
   static propTypes = {
@@ -21,6 +21,7 @@ class ViewLoveNote extends PureComponent {
         note: PropTypes.string.isRequired,
       })
     ),
+    setLoveNoteRead: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -30,6 +31,9 @@ class ViewLoveNote extends PureComponent {
     this.loveNote = loveNotes.find(
       loveNote => loveNote.id === props.loveNoteId
     );
+    if (!this.loveNote.isRead) {
+      props.setLoveNoteRead(props.loveNoteId);
+    }
     const createdAtDate = new Date(this.loveNote.createdAt);
     this.formattedCreatedAt =
       format(createdAtDate, 'MMM Do YYYY') +
@@ -133,8 +137,13 @@ class ViewLoveNote extends PureComponent {
   }
 }
 
-export default connect(state => ({
-  loveNotes: state.loveNote.loveNotes,
-  userId: state.user.id,
-  loverFirstName: state.lover.firstName,
-}))(ViewLoveNote);
+export default connect(
+  state => ({
+    loveNotes: state.loveNote.loveNotes,
+    userId: state.user.id,
+    loverFirstName: state.lover.firstName,
+  }),
+  {
+    setLoveNoteRead: setLoveNoteReadAction,
+  }
+)(ViewLoveNote);
