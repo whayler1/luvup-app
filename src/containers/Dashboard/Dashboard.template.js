@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 
 import styles from './Dashboard.styles';
 import DashboardTopNav from '../../components/DashboardTopNav';
-import LoveNoteWriteArt from '../../components/LoveNoteWriteArt';
+import LoveNoteArt from '../../components/LoveNoteArt';
 import LimitExceededModal from '../../components/LimitExceededModal';
 import Hero from '../Hero';
 
@@ -55,7 +55,7 @@ export default ({
         <TouchableOpacity
           style={styles.tabsItem}
           onPress={onLoveNoteWritePress}>
-          <LoveNoteWriteArt scale={0.8} />
+          <LoveNoteArt scale={0.8} />
           <Text style={styles.tabsText}>Write Love Note</Text>
         </TouchableOpacity>
       </View>

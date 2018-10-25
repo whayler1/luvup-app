@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import {
-  // CREATE_LOVE_NOTE_SUCCESS,
   GET_RECEIVED_LOVE_NOTES_ATTEMPT,
   GET_RECEIVED_LOVE_NOTES_SUCCESS,
   GET_RECEIVED_LOVE_NOTES_FAILURE,
@@ -72,6 +71,7 @@ export default function reducer(state = defaultState, action) {
       return {
         ...state,
         loveNotes,
+        unreadReceivedLoveNoteCount: state.unreadReceivedLoveNoteCount - 1,
       };
     }
     case SET_LOVE_NOTES_READ_WITH_CREATED_AT_ATTEMPT:
