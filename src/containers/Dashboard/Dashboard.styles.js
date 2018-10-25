@@ -3,6 +3,12 @@ import { StyleSheet } from 'react-native';
 import { buttons, forms, scene, modal, vars } from '../../styles';
 
 export default StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   tabsContainer: {
     flex: 0,
     flexDirection: 'row',
