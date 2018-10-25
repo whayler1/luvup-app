@@ -1,7 +1,7 @@
 {
   "name": "Luvup",
   "description": "Improving relationships through gamification",
-  "version": "0.0.28",
+  "version": "0.0.29",
   "private": true,
   "devDependencies": {
     "babel-jest": "^22.0.6",
