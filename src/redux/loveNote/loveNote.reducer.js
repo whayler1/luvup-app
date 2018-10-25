@@ -60,14 +60,15 @@ export default function reducer(state = defaultState, action) {
         loveNote => loveNote.id === action.loveNoteId
       );
       const loveNote = {
-        ...state.loveNote[action.loveNoteId],
+        ...state.loveNotes[loveNoteIndex],
         isRead: true,
       };
       const loveNotes = [
-        ...state.loveNotes.slice(0, loveNoteIndex - 1),
+        ...state.loveNotes.slice(0, loveNoteIndex),
         loveNote,
         ...state.loveNotes.slice(loveNoteIndex + 1, state.loveNotes.length - 1),
       ];
+
       return {
         ...state,
         loveNotes,

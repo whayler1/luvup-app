@@ -10,7 +10,7 @@ import {
   GET_TIMELINE_DATA_SUCCESS,
   GET_TIMELINE_DATA_FAILURE,
 } from '../user/user.actions';
-import { SET_LOVE_NOTE_READ_ATTEMPT } from '../loveNote.actions';
+import { SET_LOVE_NOTE_READ_ATTEMPT } from '../loveNote/loveNote.actions';
 
 const defaultState = {
   isGetUserEventsInFlight: false,
@@ -82,7 +82,7 @@ export default function reducer(state = defaultState, action) {
         },
       };
       const rows = [
-        ...state.rows.slice(0, userEventIndex - 1),
+        ...state.rows.slice(0, userEventIndex),
         userEvent,
         ...state.rows.slice(userEventIndex + 1, state.rows.length - 1),
       ];
