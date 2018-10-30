@@ -17,6 +17,32 @@ export const SET_LOVE_NOTES_READ_WITH_CREATED_AT_SUCCESS =
   'love-note/set-love-notes-read-with-created-at-success';
 export const SET_LOVE_NOTES_READ_WITH_CREATED_AT_FAILURE =
   'love-note/set-love-notes-read-with-created-at-failure';
+export const GET_UNREAD_LOVE_NOTES_SUCCESS =
+  'love-note/get-unread-love-notes-success';
+
+const getUnreadLoveNotes = async dispatch => {
+  const query = `{
+    receivedLoveNotes(
+      limit: 0,
+      offset: 0,
+      isRead: false,
+    ) { count }
+  }`;
+  try {
+    const data = await graphQlRequest(query);
+
+    const unreadReceivedLoveNoteCount = _.get(data, 'receivedLoveNotes.count');
+
+    if (_.isNumber(unreadReceivedLoveNoteCount)) {
+      dispatch({
+        type: GET_UNREAD_LOVE_NOTES_SUCCESS,
+        unreadReceivedLoveNoteCount,
+      });
+    }
+  } catch (err) {
+    // JW: handle err
+  }
+};
 
 export const createLoveNote = (
   note,
@@ -130,6 +156,7 @@ export const setLoveNoteRead = loveNoteId => async (dispatch, getState) => {
         },
       });
     }
+    getUnreadLoveNotes(dispatch);
   } catch (err) {
     analytics.track({
       userId,

@@ -119,7 +119,7 @@ const App = () => (
             key="viewLoveNote"
             path="/loveNote/loveNoteId"
             component={ViewLoveNote}
-            {...sceneDefaults}
+            {...getDefaultNavBar('')}
           />
           <Tabs
             key="timelineTabs"
