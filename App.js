@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
 import { Text, View, TouchableOpacity } from 'react-native';
 import {
@@ -32,6 +32,7 @@ import LoveNotes from './src/containers/LoveNotes';
 import TimelineRelationshipScoreArt from './src/components/Art/TimelineRelationshipScoreArt';
 import TimelineArt from './src/components/Art/TimelineArt';
 import ViewLoveNote from './src/containers/ViewLoveNote';
+import CreateQuiz from './src/containers/CreateQuiz';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -208,6 +209,12 @@ const App = () => (
             component={LoveNotes}
             backTitle=" "
             {...getDefaultNavBar('Read Love Notes')}
+          />
+          <Scene
+            key="createQuiz"
+            backTitle=" "
+            {...getDefaultNavBar('Create a Quiz')}
+            component={CreateQuiz}
           />
         </Stack>
         <Scene key="notificationLightbox" component={InAppNotifications} />
