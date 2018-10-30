@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from 'react-native';
 
 import styles from './Dashboard.styles';
 import DashboardTopNav from '../../components/DashboardTopNav';
+import QuizArt from '../../components/Art/QuizArt';
 import LoveNoteArt from '../../components/LoveNoteArt';
 import LimitExceededModal from '../../components/LimitExceededModal';
 import Hero from '../Hero';
@@ -26,6 +27,7 @@ export default ({
   unviewedJalapenoCount,
   unreadReceivedLoveNoteCount,
   onLoveNoteWritePress,
+  onCreateQuizPress,
   relationshipScore,
 }) => (
   <View style={styles.wrapper}>
@@ -51,6 +53,10 @@ export default ({
           onPress={onLoveNoteWritePress}>
           <LoveNoteArt scale={0.8} />
           <Text style={styles.tabsText}>Write Love Note</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.tabsItem} onPress={onCreateQuizPress}>
+          <QuizArt scale={0.85} />
+          <Text style={styles.tabsText}>Create a Quiz</Text>
         </TouchableOpacity>
       </View>
     )}
