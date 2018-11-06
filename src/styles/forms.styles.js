@@ -43,6 +43,11 @@ export default StyleSheet.create({
     fontSize: 15,
     color: vars.blueGrey500,
   },
+  description: {
+    fontFamily: vars.fontBlack,
+    fontSize: 12,
+    color: vars.blueGrey300,
+  },
   error: {
     color: 'red',
     paddingTop: 8,

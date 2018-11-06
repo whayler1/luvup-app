@@ -53,7 +53,7 @@ class CreateQuiz extends PureComponent {
     return (
       <ScrollView
         contentContainerStyle={{ paddingHorizontal: 16, paddingVertical: 32 }}>
-        <Text>Create Quiz</Text>
+        <Text style={forms.label}>Question</Text>
         <View style={[forms.formGroup, { marginTop: 8 }]}>
           <TextInput
             style={[
@@ -74,15 +74,25 @@ class CreateQuiz extends PureComponent {
             </Text>
           )}
         </View>
-        <View style={styles.luvupUiContainer}>
-          {_.times(5, i => (
-            <CreateQuizLuvupButton
-              key={i}
-              currentReward={this.state.reward}
-              reward={i + 1}
-              onPress={this.handleRewardPress}
-            />
-          ))}
+        <View style={styles.rewardContainer}>
+          <Text style={forms.label}>Reward</Text>
+          <Text style={forms.description}>
+            How many Luvups does {this.props.loverFirstName} win if they answer
+            this right?
+          </Text>
+          <View style={styles.luvupUiContainer}>
+            {_.times(5, i => (
+              <CreateQuizLuvupButton
+                key={i}
+                currentReward={this.state.reward}
+                reward={i + 1}
+                onPress={this.handleRewardPress}
+              />
+            ))}
+          </View>
+        </View>
+        <View style={styles.choicesCointainer}>
+          <Text style={forms.label}>Choices</Text>
         </View>
       </ScrollView>
     );
@@ -91,6 +101,7 @@ class CreateQuiz extends PureComponent {
 
 export default connect(
   state => ({
+    loverFirstName: state.lover.firstName,
     isCreateQuizItemInFlight: state.quizItem.isCreateQuizItemInFlight,
     createQuizItemErrorMessage: state.quizItem.createQuizItemErrorMessage,
   }),
