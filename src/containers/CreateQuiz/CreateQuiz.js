@@ -30,8 +30,8 @@ class CreateQuiz extends PureComponent {
     this.placeholder = getRandomQuestion();
     this.state = {
       question: '',
-      reward: 1,
-      choices: [],
+      reward: 3,
+      choices: [''],
       senderChoiceIndex: null,
     };
   }

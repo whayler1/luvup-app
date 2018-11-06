@@ -16,4 +16,7 @@ export default StyleSheet.create({
   choicesCointainer: {
     paddingVertical: 16,
   },
+  choicesList: {
+    paddingVertical: 16,
+  },
 });
