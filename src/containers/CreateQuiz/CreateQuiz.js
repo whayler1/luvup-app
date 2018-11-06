@@ -8,6 +8,7 @@ import { forms, vars } from '../../styles';
 import styles from './CreateQuiz.styles';
 import { createQuizItem as createQuizItemAction } from '../../redux/quizItem/quizItem.actions';
 import CreateQuizLuvupButton from './CreateQuizLuvupButton';
+import CreateQuizChoices from './CreateQuizChoices';
 
 const placeholders = [
   'Ask something flirty…',
@@ -23,6 +24,7 @@ class CreateQuiz extends PureComponent {
     isCreateQuizItemInFlight: PropTypes.bool.isRequired,
     createQuizItemErrorMessage: PropTypes.string.isRequired,
     createQuizItem: PropTypes.func.isRequired,
+    loverFirstName: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -42,6 +44,15 @@ class CreateQuiz extends PureComponent {
 
   handleRewardPress = reward => {
     this.setState({ reward });
+  };
+
+  handleChoiceChange = (text, index) => {
+    const choices = [
+      ...this.state.choices.slice(0, index),
+      text,
+      ...this.state.choices.slice(index + 1, this.state.choices.length - 1),
+    ];
+    this.setState({ choices });
   };
 
   handleSubmitPress = () => {
@@ -93,6 +104,10 @@ class CreateQuiz extends PureComponent {
         </View>
         <View style={styles.choicesCointainer}>
           <Text style={forms.label}>Choices</Text>
+          <CreateQuizChoices
+            choices={this.state.choices}
+            onChoiceChange={this.handleChoiceChange}
+          />
         </View>
       </ScrollView>
     );
