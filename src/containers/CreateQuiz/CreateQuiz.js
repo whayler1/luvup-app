@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { View, Text, TextInput } from 'react-native';
+import { View, Text, TextInput, ScrollView } from 'react-native';
 
 import { forms, vars } from '../../styles';
 
@@ -28,7 +28,7 @@ class CreateQuiz extends PureComponent {
 
   render() {
     return (
-      <View>
+      <ScrollView>
         <Text>Create Quiz</Text>
         <View style={[forms.formGroup, { marginTop: 8 }]}>
           <TextInput
@@ -46,7 +46,7 @@ class CreateQuiz extends PureComponent {
           />
           {false && <Text style={forms.error}>Some error</Text>}
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
