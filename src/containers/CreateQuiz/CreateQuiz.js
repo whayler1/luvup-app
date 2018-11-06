@@ -55,6 +55,12 @@ class CreateQuiz extends PureComponent {
     this.setState({ choices });
   };
 
+  handleAddChoice = () => {
+    this.setState({
+      choices: [...this.state.choices, ''],
+    });
+  };
+
   handleSubmitPress = () => {
     const { question, reward, choices, senderChoiceIndex } = this.state;
     this.props.createQuizItem(question, reward, choices, senderChoiceIndex);
@@ -107,6 +113,7 @@ class CreateQuiz extends PureComponent {
           <CreateQuizChoices
             choices={this.state.choices}
             onChoiceChange={this.handleChoiceChange}
+            onAddChoice={this.handleAddChoice}
           />
         </View>
       </ScrollView>
