@@ -18,12 +18,20 @@ class CreateQuizLuvupButton extends PureComponent {
   };
 
   render() {
-    const isActive = this.props.reward <= this.props.currentReward;
-    const coinFill = isActive ? vars.blueGrey300 : vars.blueGrey50;
-    const coinStroke = isActive ? vars.blueGrey500 : vars.blueGrey100;
+    const { reward, currentReward } = this.props;
+    const isActive = reward <= currentReward;
+    const fill = isActive ? undefined : vars.blueGrey50;
+    const stroke = isActive ? undefined : vars.blueGrey100;
+    const recentlySentCoinCount = reward === currentReward ? reward : undefined;
+    const coinProps = {
+      fill,
+      stroke,
+      recentlySentCoinCount,
+      scale: 0.7,
+    };
     return (
       <TouchableOpacity style={styles.luvupUiItem} onPress={this.handlePress}>
-        <CoinArt fill={coinFill} stroke={coinStroke} scale={0.7} />
+        <CoinArt {...coinProps} />
       </TouchableOpacity>
     );
   }
