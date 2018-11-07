@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, TextInput } from 'react-native';
+import { View, TouchableOpacity, TextInput } from 'react-native';
 
 import styles from './CreateQuiz.styles';
 import { forms } from '../../styles';
@@ -18,6 +18,7 @@ class CreateQuizChoice extends PureComponent {
     value: PropTypes.string.isRequired,
     enabled: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired,
     isChecked: PropTypes.bool.isRequired,
   };
 
@@ -31,6 +32,10 @@ class CreateQuizChoice extends PureComponent {
     this.props.onChange(text, this.props.index);
   };
 
+  handleSelectPress = () => {
+    this.props.onSelect(this.props.index);
+  };
+
   render() {
     return (
       <View style={styles.choiceItem}>
@@ -38,6 +43,7 @@ class CreateQuizChoice extends PureComponent {
           <CreateQuizChoiceCheckbox
             isChecked={this.props.isChecked}
             scale={0.5}
+            onPress={this.handleSelectPress}
           />
         </View>
         <View style={styles.choiceItemInputWrapper}>
