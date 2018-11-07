@@ -19,6 +19,15 @@ export default StyleSheet.create({
   choicesList: {
     paddingVertical: 16,
   },
+  choiceItem: {
+    flexDirection: 'row',
+    alignSelf: 'stretch',
+    backgroundColor: 'pink',
+  },
+  choiceItemCheckboxWrapper: {},
+  choiceItemInputWrapper: {
+    flex: 1,
+  },
   addChoiceButtonWrapper: {
     marginTop: 24,
   },

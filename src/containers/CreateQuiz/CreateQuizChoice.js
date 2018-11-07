@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { TextInput } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 
-// import styles from './CreateQuiz.styles';
+import styles from './CreateQuiz.styles';
 import { forms } from '../../styles';
+import CreateQuizChoiceCheckbox from './CreateQuizChoiceCheckbox';
 
 const placeholders = [
   'Think of a good answer',
@@ -31,13 +32,20 @@ class CreateQuizChoice extends PureComponent {
 
   render() {
     return (
-      <TextInput
-        style={forms.input}
-        placeholder={this.placeholder}
-        onChangeText={this.handleChangeText}
-        value={this.props.value}
-        enabled={this.props.enabled}
-      />
+      <View style={styles.choiceItem}>
+        <View style={styles.choiceItemCheckboxWrapper}>
+          <CreateQuizChoiceCheckbox />
+        </View>
+        <View style={styles.choiceItemInputWrapper}>
+          <TextInput
+            style={forms.input}
+            placeholder={this.placeholder}
+            onChangeText={this.handleChangeText}
+            value={this.props.value}
+            enabled={this.props.enabled}
+          />
+        </View>
+      </View>
     );
   }
 }
