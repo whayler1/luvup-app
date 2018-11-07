@@ -19,4 +19,18 @@ export default StyleSheet.create({
   choicesList: {
     paddingVertical: 16,
   },
+  addChoiceButtonWrapper: {
+    marginTop: 24,
+  },
+  addChoiceButton: {
+    width: 32,
+    height: 32,
+  },
+  addChoiceGlyph: {
+    color: vars.blueGrey500,
+    fontSize: 30,
+    position: 'absolute',
+    left: 7,
+    bottom: 0,
+  },
 });

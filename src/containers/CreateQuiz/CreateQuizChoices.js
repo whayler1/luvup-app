@@ -4,6 +4,7 @@ import { View, TouchableOpacity, Text } from 'react-native';
 
 import styles from './CreateQuiz.styles';
 import CreateQuizChoice from './CreateQuizChoice';
+import CreateQuizAddChoiceButton from './CreateQuizAddChoiceButton';
 
 const CreateQuizChoices = ({ choices, onChoiceChange, onAddChoice }) => (
   <View style={styles.choicesList}>
@@ -16,11 +17,7 @@ const CreateQuizChoices = ({ choices, onChoiceChange, onAddChoice }) => (
         enabled
       />
     ))}
-    {choices.length < 5 && (
-      <TouchableOpacity onPress={onAddChoice}>
-        <Text>+</Text>
-      </TouchableOpacity>
-    )}
+    {choices.length < 5 && <CreateQuizAddChoiceButton onPress={onAddChoice} />}
   </View>
 );
 
