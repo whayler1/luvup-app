@@ -30,9 +30,6 @@ export default StyleSheet.create({
   choiceItemInputWrapper: {
     flex: 1,
   },
-  addChoiceButtonWrapper: {
-    marginTop: 24,
-  },
   addChoiceButton: {
     width: 32,
     height: 32,
@@ -43,5 +40,12 @@ export default StyleSheet.create({
     position: 'absolute',
     left: 7,
     bottom: 0,
+  },
+  removeChoiceButton: {
+    marginLeft: 16,
+  },
+  creatQuizLengthUiWrapper: {
+    flexDirection: 'row',
+    marginTop: 16,
   },
 });

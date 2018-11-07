@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View } from 'react-native';
 
 import styles from './CreateQuiz.styles';
 import CreateQuizChoice from './CreateQuizChoice';
-import CreateQuizAddChoiceButton from './CreateQuizAddChoiceButton';
+import CreateQuizLengthUI from './CreateQuizLengthUI';
 
 const CreateQuizChoices = ({
   choices,
@@ -12,6 +12,7 @@ const CreateQuizChoices = ({
   onChoiceChange,
   onSelectChoice,
   onAddChoice,
+  onRemoveChoice,
 }) => (
   <View style={styles.choicesList}>
     {choices.map((choice, index) => (
@@ -25,7 +26,11 @@ const CreateQuizChoices = ({
         enabled
       />
     ))}
-    {choices.length < 5 && <CreateQuizAddChoiceButton onPress={onAddChoice} />}
+    <CreateQuizLengthUI
+      choices={choices}
+      onAddChoice={onAddChoice}
+      onRemoveChoice={onRemoveChoice}
+    />
   </View>
 );
 
@@ -35,6 +40,7 @@ CreateQuizChoices.propTypes = {
   onChoiceChange: PropTypes.func.isRequired,
   onSelectChoice: PropTypes.func.isRequired,
   onAddChoice: PropTypes.func.isRequired,
+  onRemoveChoice: PropTypes.func.isRequired,
 };
 
 export default CreateQuizChoices;
