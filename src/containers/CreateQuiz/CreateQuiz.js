@@ -46,6 +46,10 @@ class CreateQuiz extends PureComponent {
     this.setState({ reward });
   };
 
+  handleSelectChoice = senderChoiceIndex => {
+    this.setState({ senderChoiceIndex });
+  };
+
   handleChoiceChange = (text, index) => {
     const choices = [
       ...this.state.choices.slice(0, index),
@@ -114,6 +118,7 @@ class CreateQuiz extends PureComponent {
             choices={this.state.choices}
             senderChoiceIndex={this.state.senderChoiceIndex}
             onChoiceChange={this.handleChoiceChange}
+            onSelectChoice={this.handleSelectChoice}
             onAddChoice={this.handleAddChoice}
           />
         </View>

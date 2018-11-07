@@ -10,6 +10,7 @@ const CreateQuizChoices = ({
   choices,
   senderChoiceIndex,
   onChoiceChange,
+  onSelectChoice,
   onAddChoice,
 }) => (
   <View style={styles.choicesList}>
@@ -19,6 +20,7 @@ const CreateQuizChoices = ({
         index={index}
         value={choice}
         onChange={onChoiceChange}
+        onSelect={onSelectChoice}
         isChecked={index === senderChoiceIndex}
         enabled
       />
@@ -31,6 +33,7 @@ CreateQuizChoices.propTypes = {
   choices: PropTypes.arrayOf(PropTypes.string),
   senderChoiceIndex: PropTypes.number.isRequired,
   onChoiceChange: PropTypes.func.isRequired,
+  onSelectChoice: PropTypes.func.isRequired,
   onAddChoice: PropTypes.func.isRequired,
 };
 
