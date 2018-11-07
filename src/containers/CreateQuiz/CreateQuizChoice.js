@@ -18,6 +18,7 @@ class CreateQuizChoice extends PureComponent {
     value: PropTypes.string.isRequired,
     enabled: PropTypes.bool,
     onChange: PropTypes.func.isRequired,
+    isChecked: PropTypes.bool.isRequired,
   };
 
   constructor(props) {
@@ -34,7 +35,10 @@ class CreateQuizChoice extends PureComponent {
     return (
       <View style={styles.choiceItem}>
         <View style={styles.choiceItemCheckboxWrapper}>
-          <CreateQuizChoiceCheckbox />
+          <CreateQuizChoiceCheckbox
+            isChecked={this.props.isChecked}
+            scale={0.5}
+          />
         </View>
         <View style={styles.choiceItemInputWrapper}>
           <TextInput

@@ -33,8 +33,8 @@ class CreateQuiz extends PureComponent {
     this.state = {
       question: '',
       reward: 3,
-      choices: [''],
-      senderChoiceIndex: null,
+      choices: ['', '', ''],
+      senderChoiceIndex: 0,
     };
   }
 
@@ -112,6 +112,7 @@ class CreateQuiz extends PureComponent {
           <Text style={forms.label}>Choices</Text>
           <CreateQuizChoices
             choices={this.state.choices}
+            senderChoiceIndex={this.state.senderChoiceIndex}
             onChoiceChange={this.handleChoiceChange}
             onAddChoice={this.handleAddChoice}
           />

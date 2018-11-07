@@ -22,9 +22,11 @@ export default StyleSheet.create({
   choiceItem: {
     flexDirection: 'row',
     alignSelf: 'stretch',
-    backgroundColor: 'pink',
   },
-  choiceItemCheckboxWrapper: {},
+  choiceItemCheckboxWrapper: {
+    marginRight: 16,
+    marginTop: 5,
+  },
   choiceItemInputWrapper: {
     flex: 1,
   },

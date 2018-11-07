@@ -6,7 +6,12 @@ import styles from './CreateQuiz.styles';
 import CreateQuizChoice from './CreateQuizChoice';
 import CreateQuizAddChoiceButton from './CreateQuizAddChoiceButton';
 
-const CreateQuizChoices = ({ choices, onChoiceChange, onAddChoice }) => (
+const CreateQuizChoices = ({
+  choices,
+  senderChoiceIndex,
+  onChoiceChange,
+  onAddChoice,
+}) => (
   <View style={styles.choicesList}>
     {choices.map((choice, index) => (
       <CreateQuizChoice
@@ -14,6 +19,7 @@ const CreateQuizChoices = ({ choices, onChoiceChange, onAddChoice }) => (
         index={index}
         value={choice}
         onChange={onChoiceChange}
+        isChecked={index === senderChoiceIndex}
         enabled
       />
     ))}
@@ -23,6 +29,7 @@ const CreateQuizChoices = ({ choices, onChoiceChange, onAddChoice }) => (
 
 CreateQuizChoices.propTypes = {
   choices: PropTypes.arrayOf(PropTypes.string),
+  senderChoiceIndex: PropTypes.number.isRequired,
   onChoiceChange: PropTypes.func.isRequired,
   onAddChoice: PropTypes.func.isRequired,
 };
