@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { View, TouchableOpacity, TextInput } from 'react-native';
+import { View, TextInput } from 'react-native';
 
 import styles from './CreateQuiz.styles';
 import { forms } from '../../styles';

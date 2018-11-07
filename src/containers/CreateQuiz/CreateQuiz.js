@@ -60,9 +60,15 @@ class CreateQuiz extends PureComponent {
   };
 
   handleAddChoice = () => {
-    this.setState({
-      choices: [...this.state.choices, ''],
-    });
+    this.setState(state => ({
+      choices: [...state.choices, ''],
+    }));
+  };
+
+  handleRemoveChoice = () => {
+    this.setState(state => ({
+      choices: state.choices.splice(0, state.choices.length - 1),
+    }));
   };
 
   handleSubmitPress = () => {
@@ -120,6 +126,7 @@ class CreateQuiz extends PureComponent {
             onChoiceChange={this.handleChoiceChange}
             onSelectChoice={this.handleSelectChoice}
             onAddChoice={this.handleAddChoice}
+            onRemoveChoice={this.handleRemoveChoice}
           />
         </View>
       </ScrollView>
