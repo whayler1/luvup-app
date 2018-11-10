@@ -7,21 +7,33 @@ import Circle from '../../components/Circle';
 import { vars } from '../../styles';
 import styles from './CreateQuiz.styles';
 
-const CreateQuizAddChoiceButton = ({ onPress }) => (
+const CreateQuizAddChoiceButton = ({ onPress, isDisabled = false }) => (
   <View style={styles.addChoiceButtonWrapper}>
-    <TouchableOpacity style={styles.addChoiceButton} onPress={onPress}>
+    <TouchableOpacity
+      style={styles.addChoiceButton}
+      onPress={isDisabled ? null : onPress}>
       <Surface width={32} height={32}>
         <Group x={2} y={2}>
-          <Circle radius={14} strokeWidth={3} stroke={vars.cyan300} />
+          <Circle
+            radius={14}
+            strokeWidth={3}
+            stroke={isDisabled ? vars.blueGrey100 : vars.cyan300}
+          />
         </Group>
       </Surface>
-      <Text style={styles.addChoiceGlyph}>+</Text>
+      <Text
+        style={
+          isDisabled ? styles.addChoiceGlyphDisabled : styles.addChoiceGlyph
+        }>
+        +
+      </Text>
     </TouchableOpacity>
   </View>
 );
 
 CreateQuizAddChoiceButton.propTypes = {
   onPress: PropTypes.func,
+  isDisabled: PropTypes.bool,
 };
 
 export default CreateQuizAddChoiceButton;
