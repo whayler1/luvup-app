@@ -6,7 +6,7 @@ import styles from './CreateQuiz.styles';
 
 const CreateQuizRemoveChoiceButton = ({ onPress }) => (
   <TouchableOpacity style={styles.removeChoiceButton} onPress={onPress}>
-    <Text style={styles.addChoiceGlyph}>X</Text>
+    <Text style={styles.removeChoiceGlyph}>+</Text>
   </TouchableOpacity>
 );
 

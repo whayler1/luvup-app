@@ -33,6 +33,7 @@ export default StyleSheet.create({
   addChoiceButton: {
     width: 32,
     height: 32,
+    marginRight: 16,
   },
   addChoiceGlyph: {
     color: vars.blueGrey500,
@@ -41,8 +42,21 @@ export default StyleSheet.create({
     left: 7,
     bottom: 0,
   },
+  addChoiceGlyphDisabled: {
+    color: vars.blueGrey100,
+    fontSize: 30,
+    position: 'absolute',
+    left: 7,
+    bottom: 0,
+  },
   removeChoiceButton: {
-    marginLeft: 16,
+    width: 32,
+    height: 32,
+  },
+  removeChoiceGlyph: {
+    color: vars.blueGrey500,
+    fontSize: 30,
+    transform: [{ rotate: '45deg' }],
   },
   creatQuizLengthUiWrapper: {
     flexDirection: 'row',

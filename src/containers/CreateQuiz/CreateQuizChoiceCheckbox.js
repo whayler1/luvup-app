@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity } from 'react-native';
-import { Svg, Path, Rect, Polygon, G } from 'react-native-svg';
+import { Svg, Path } from 'react-native-svg';
 
 import { vars } from '../../styles';
 
@@ -36,6 +36,7 @@ CreateQuizChoiceCheckbox.propTypes = {
   scale: PropTypes.number,
   boxFill: PropTypes.string,
   checkFill: PropTypes.string,
+  boxFillChecked: PropTypes.string,
   onPress: PropTypes.func,
 };
 

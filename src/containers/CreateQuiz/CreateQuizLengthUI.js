@@ -8,7 +8,10 @@ import CreateQuizRemoveChoiceButton from './CreateQuizRemoveChoiceButton';
 
 const CreateQuizLengthUI = ({ choices, onAddChoice, onRemoveChoice }) => (
   <View style={styles.creatQuizLengthUiWrapper}>
-    {choices.length < 6 && <CreateQuizAddChoiceButton onPress={onAddChoice} />}
+    <CreateQuizAddChoiceButton
+      onPress={onAddChoice}
+      isDisabled={choices.length === 6}
+    />
     {choices.length > 3 && (
       <CreateQuizRemoveChoiceButton onPress={onRemoveChoice} />
     )}
