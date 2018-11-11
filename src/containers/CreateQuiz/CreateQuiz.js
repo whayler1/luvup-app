@@ -35,19 +35,22 @@ class CreateQuiz extends PureComponent {
       reward: 3,
       choices: ['', '', ''],
       senderChoiceIndex: 0,
+      isMaxChoicesLengthError: false,
     };
   }
 
+  maxChoicesLength = 6;
+
   handleQuestionChange = question => {
-    this.setState({ question });
+    this.setState({ question, isMaxChoicesLengthError: false });
   };
 
   handleRewardPress = reward => {
-    this.setState({ reward });
+    this.setState({ reward, isMaxChoicesLengthError: false });
   };
 
   handleSelectChoice = senderChoiceIndex => {
-    this.setState({ senderChoiceIndex });
+    this.setState({ senderChoiceIndex, isMaxChoicesLengthError: false });
   };
 
   handleChoiceChange = (text, index) => {
@@ -56,19 +59,31 @@ class CreateQuiz extends PureComponent {
       text,
       ...this.state.choices.slice(index + 1, this.state.choices.length - 1),
     ];
-    this.setState({ choices });
+    this.setState({ choices, isMaxChoicesLengthError: false });
   };
 
   handleAddChoice = () => {
-    this.setState(state => ({
-      choices: [...state.choices, ''],
-    }));
+    this.setState(state => {
+      const newState = {};
+      if (state.choices.length < this.maxChoicesLength) {
+        newState.choices = [...state.choices, ''];
+      } else {
+        newState.isMaxChoicesLengthError = true;
+      }
+      return newState;
+    });
   };
 
   handleRemoveChoice = () => {
-    this.setState(state => ({
-      choices: state.choices.splice(0, state.choices.length - 1),
-    }));
+    this.setState(state => {
+      const choices = state.choices.splice(0, state.choices.length - 1);
+      const newState = { choices, isMaxChoicesLengthError: false };
+      const lastIndex = choices.length - 1;
+      if (state.senderChoiceIndex > lastIndex) {
+        newState.senderChoiceIndex = lastIndex;
+      }
+      return newState;
+    });
   };
 
   handleSubmitPress = () => {
@@ -127,6 +142,8 @@ class CreateQuiz extends PureComponent {
             onSelectChoice={this.handleSelectChoice}
             onAddChoice={this.handleAddChoice}
             onRemoveChoice={this.handleRemoveChoice}
+            isMaxChoicesLengthError={this.state.isMaxChoicesLengthError}
+            maxChoicesLength={this.maxChoicesLength}
           />
         </View>
       </ScrollView>

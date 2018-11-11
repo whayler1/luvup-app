@@ -13,6 +13,8 @@ const CreateQuizChoices = ({
   onSelectChoice,
   onAddChoice,
   onRemoveChoice,
+  isMaxChoicesLengthError,
+  maxChoicesLength,
 }) => (
   <View style={styles.choicesList}>
     {choices.map((choice, index) => (
@@ -27,9 +29,13 @@ const CreateQuizChoices = ({
       />
     ))}
     <CreateQuizLengthUI
-      choices={choices}
-      onAddChoice={onAddChoice}
-      onRemoveChoice={onRemoveChoice}
+      {...{
+        choices,
+        onAddChoice,
+        onRemoveChoice,
+        isMaxChoicesLengthError,
+        maxChoicesLength,
+      }}
     />
   </View>
 );
@@ -41,6 +47,8 @@ CreateQuizChoices.propTypes = {
   onSelectChoice: PropTypes.func.isRequired,
   onAddChoice: PropTypes.func.isRequired,
   onRemoveChoice: PropTypes.func.isRequired,
+  isMaxChoicesLengthError: PropTypes.bool,
+  maxChoicesLength: PropTypes.number.isRequired,
 };
 
 export default CreateQuizChoices;

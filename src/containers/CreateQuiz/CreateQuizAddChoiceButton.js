@@ -9,9 +9,7 @@ import styles from './CreateQuiz.styles';
 
 const CreateQuizAddChoiceButton = ({ onPress, isDisabled = false }) => (
   <View style={styles.addChoiceButtonWrapper}>
-    <TouchableOpacity
-      style={styles.addChoiceButton}
-      onPress={isDisabled ? null : onPress}>
+    <TouchableOpacity style={styles.addChoiceButton} onPress={onPress}>
       <Surface width={32} height={32}>
         <Group x={2} y={2}>
           <Circle

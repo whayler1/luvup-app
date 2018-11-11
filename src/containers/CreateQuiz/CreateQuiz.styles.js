@@ -62,4 +62,10 @@ export default StyleSheet.create({
     flexDirection: 'row',
     marginTop: 16,
   },
+  maxChoiceLengthError: {
+    marginTop: 8,
+    color: vars.red500,
+    fontFamily: vars.fontRegular,
+    fontSize: 16,
+  },
 });
