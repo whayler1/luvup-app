@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { View, TextInput } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 
 import styles from './CreateQuiz.styles';
 import { forms } from '../../styles';
@@ -20,6 +20,7 @@ class CreateQuizChoice extends PureComponent {
     onChange: PropTypes.func.isRequired,
     onSelect: PropTypes.func.isRequired,
     isChecked: PropTypes.bool.isRequired,
+    error: PropTypes.string,
   };
 
   constructor(props) {
@@ -38,24 +39,29 @@ class CreateQuizChoice extends PureComponent {
 
   render() {
     return (
-      <View style={styles.choiceItem}>
-        <View style={styles.choiceItemCheckboxWrapper}>
-          <CreateQuizChoiceCheckbox
-            isChecked={this.props.isChecked}
-            scale={0.5}
-            onPress={this.handleSelectPress}
-          />
+      <Fragment>
+        <View style={styles.choiceItem}>
+          <View style={styles.choiceItemCheckboxWrapper}>
+            <CreateQuizChoiceCheckbox
+              isChecked={this.props.isChecked}
+              scale={0.5}
+              onPress={this.handleSelectPress}
+            />
+          </View>
+          <View style={styles.choiceItemInputWrapper}>
+            <TextInput
+              style={forms.input}
+              placeholder={this.placeholder}
+              onChangeText={this.handleChangeText}
+              value={this.props.value}
+              enabled={this.props.enabled}
+            />
+          </View>
         </View>
-        <View style={styles.choiceItemInputWrapper}>
-          <TextInput
-            style={forms.input}
-            placeholder={this.placeholder}
-            onChangeText={this.handleChangeText}
-            value={this.props.value}
-            enabled={this.props.enabled}
-          />
-        </View>
-      </View>
+        {this.props.error && (
+          <Text style={[forms.error, styles.choiceError]}>Create a choice</Text>
+        )}
+      </Fragment>
     );
   }
 }

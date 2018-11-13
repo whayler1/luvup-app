@@ -3,6 +3,19 @@ import { StyleSheet } from 'react-native';
 import { vars } from '../../styles';
 
 export default StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  scrollContainer: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingHorizontal: 16,
+    paddingVertical: 32,
+  },
+  submitButtonContainer: {
+    flex: 0,
+  },
   rewardContainer: {
     paddingTop: 32,
     paddingBottom: 16,
@@ -29,6 +42,9 @@ export default StyleSheet.create({
   },
   choiceItemInputWrapper: {
     flex: 1,
+  },
+  choiceError: {
+    marginBottom: 8,
   },
   addChoiceButton: {
     width: 32,
