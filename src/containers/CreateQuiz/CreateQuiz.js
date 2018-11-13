@@ -1,7 +1,13 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, Text, TextInput, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  TextInput,
+  ScrollView,
+  KeyboardAvoidingView,
+} from 'react-native';
 import { Button } from 'react-native-elements';
 import _ from 'lodash';
 
@@ -123,7 +129,10 @@ class CreateQuiz extends PureComponent {
 
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView
+        behavior="height"
+        style={styles.container}
+        contentContainerStyle={styles.container}>
         <ScrollView
           style={styles.scrollContainer}
           contentContainerStyle={styles.scrollContent}>
@@ -182,22 +191,22 @@ class CreateQuiz extends PureComponent {
               maxChoicesLength={this.maxChoicesLength}
             />
           </View>
+          <View style={styles.submitButtonContainer}>
+            <Button
+              onPress={this.handleSubmitPress}
+              containerViewStyle={buttons.container}
+              buttonStyle={buttons.infoButton}
+              textStyle={buttons.infoText}
+              title={
+                this.props.isCreateQuizItemInFlight
+                  ? 'Creating Quiz…'
+                  : 'Create Quiz'
+              }
+              disabled={this.props.isCreateQuizItemInFlight}
+            />
+          </View>
         </ScrollView>
-        <View style={styles.submitButtonContainer}>
-          <Button
-            onPress={this.handleSubmitPress}
-            containerViewStyle={buttons.container}
-            buttonStyle={buttons.infoButton}
-            textStyle={buttons.infoText}
-            title={
-              this.props.isCreateQuizItemInFlight
-                ? 'Creating Quiz…'
-                : 'Create Quiz'
-            }
-            disabled={this.props.isCreateQuizItemInFlight}
-          />
-        </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

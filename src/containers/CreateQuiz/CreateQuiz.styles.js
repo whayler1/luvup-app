@@ -14,7 +14,7 @@ export default StyleSheet.create({
     paddingVertical: 32,
   },
   submitButtonContainer: {
-    flex: 0,
+    marginBottom: 80,
   },
   rewardContainer: {
     paddingTop: 32,
