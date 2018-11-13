@@ -8,6 +8,7 @@ import CreateQuizLengthUI from './CreateQuizLengthUI';
 
 const CreateQuizChoices = ({
   choices,
+  choicesErrors,
   senderChoiceIndex,
   onChoiceChange,
   onSelectChoice,
@@ -25,6 +26,7 @@ const CreateQuizChoices = ({
         onChange={onChoiceChange}
         onSelect={onSelectChoice}
         isChecked={index === senderChoiceIndex}
+        error={choicesErrors[index]}
         enabled
       />
     ))}
@@ -42,6 +44,7 @@ const CreateQuizChoices = ({
 
 CreateQuizChoices.propTypes = {
   choices: PropTypes.arrayOf(PropTypes.string),
+  choicesErrors: PropTypes.arrayOf(PropTypes.string),
   senderChoiceIndex: PropTypes.number.isRequired,
   onChoiceChange: PropTypes.func.isRequired,
   onSelectChoice: PropTypes.func.isRequired,
