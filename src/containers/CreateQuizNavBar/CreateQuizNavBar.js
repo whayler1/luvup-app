@@ -14,12 +14,12 @@ class CreateQuizNavBar extends PureComponent {
         <TouchableOpacity
           style={styles.navBarBack}
           onPress={this.handleBackPress}>
-          <Text style={styles.navBarBackText}>Back</Text>
+          <Text style={styles.navBarPressableText}>Back</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navBarBack}
           onPress={this.props.onNextPress}>
-          <Text style={styles.navBarBackText}>Next</Text>
+          <Text style={styles.navBarPressableText}>Next</Text>
         </TouchableOpacity>
       </View>
     );
