@@ -33,6 +33,7 @@ import TimelineRelationshipScoreArt from './src/components/Art/TimelineRelations
 import TimelineArt from './src/components/Art/TimelineArt';
 import ViewLoveNote from './src/containers/ViewLoveNote';
 import CreateQuiz from './src/containers/CreateQuiz';
+import CreateQuizQuestion from './src/containers/CreateQuizQuestion';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -215,6 +216,11 @@ const App = () => (
             backTitle=" "
             {...getDefaultNavBar('Create a Quiz')}
             component={CreateQuiz}
+          />
+          <Scene
+            key="createQuizQuestion"
+            hideNavBar
+            component={CreateQuizQuestion}
           />
         </Stack>
         <Scene key="notificationLightbox" component={InAppNotifications} />

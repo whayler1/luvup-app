@@ -63,12 +63,15 @@ class CreateQuiz extends PureComponent {
   };
 
   handleChoiceChange = (text, index) => {
-    const choices = [
-      ...this.state.choices.slice(0, index),
-      text,
-      ...this.state.choices.slice(index + 1, this.state.choices.length - 1),
-    ];
-    this.setState({ choices, isMaxChoicesLengthError: false });
+    this.setState(state => {
+      const choices = [
+        ...state.choices.slice(0, index),
+        text,
+        ...state.choices.slice(index + 1, state.choices.length),
+      ];
+
+      return { choices, isMaxChoicesLengthError: false };
+    });
   };
 
   handleAddChoice = () => {
