@@ -108,7 +108,7 @@ class Dashboard extends Component {
   }
 
   handleLoveNoteWritePress = () => Actions.createLoveNote();
-  handleCreateQuizPress = () => Actions.createQuiz();
+  handleCreateQuizPress = () => Actions.createQuizQuestion();
 
   render() {
     return (
