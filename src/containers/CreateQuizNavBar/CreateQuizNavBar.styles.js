@@ -10,7 +10,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
   },
   navBarBack: {},
-  navBarBackText: {
+  navBarPressableText: {
     fontFamily: vars.fontBlack,
     fontSize: 16,
     color: vars.link,

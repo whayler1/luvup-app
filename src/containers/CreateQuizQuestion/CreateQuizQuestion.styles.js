@@ -11,7 +11,7 @@ export default StyleSheet.create({
   },
   scrollContent: {
     paddingHorizontal: 16,
-    paddingVertical: 32,
+    paddingBottom: 32,
   },
   submitButtonContainer: {
     marginBottom: 80,

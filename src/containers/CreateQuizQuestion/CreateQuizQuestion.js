@@ -12,6 +12,7 @@ import {
 import { forms, vars } from '../../styles';
 import styles from './CreateQuizQuestion.styles';
 import CreateQuizNavBar from '../CreateQuizNavBar';
+import { QuizItemType } from '../../types';
 
 const placeholders = [
   'Ask something flirty…',
@@ -23,14 +24,22 @@ const getRandomQuestion = () =>
   placeholders[Math.floor(Math.random() * placeholders.length)];
 
 class CreateQuizQuestion extends PureComponent {
-  static propTypes = {};
+  static propTypes = {
+    quizItem: QuizItemType,
+  };
+
+  static defaultProps = {
+    quizItem: {
+      question: '',
+    },
+  };
 
   constructor(props) {
     super(props);
 
     this.placeholder = getRandomQuestion();
     this.state = {
-      question: '',
+      question: props.quizItem.question,
       questionError: '',
     };
   }
@@ -41,13 +50,29 @@ class CreateQuizQuestion extends PureComponent {
 
   handleBackPress = () => Actions.pop();
 
+  handleNextPress = () => {
+    const { question } = this.state;
+
+    if (question.length < 1) {
+      this.setState({ questionError: 'no-question' });
+    } else {
+      const quizItem = {
+        ...this.props.quizItem,
+        question: this.state.question,
+      };
+      console.log('next success', quizItem);
+      // set quiz obj question
+      // Actions.createQuizCoices();
+    }
+  };
+
   render() {
     return (
       <KeyboardAvoidingView
         behavior="height"
         style={styles.container}
         contentContainerStyle={styles.container}>
-        <CreateQuizNavBar />
+        <CreateQuizNavBar onNextPress={this.handleNextPress} />
         <ScrollView
           style={styles.scrollContainer}
           contentContainerStyle={styles.scrollContent}>
