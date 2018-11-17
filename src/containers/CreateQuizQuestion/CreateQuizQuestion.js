@@ -9,8 +9,7 @@ import {
   TextInput,
 } from 'react-native';
 
-import { forms, vars } from '../../styles';
-import styles from './CreateQuizQuestion.styles';
+import { forms, vars, quiz as quizStyles } from '../../styles';
 import CreateQuizNavBar from '../CreateQuizNavBar';
 import { QuizItemType } from '../../types';
 
@@ -70,12 +69,12 @@ class CreateQuizQuestion extends PureComponent {
     return (
       <KeyboardAvoidingView
         behavior="height"
-        style={styles.container}
-        contentContainerStyle={styles.container}>
+        style={quizStyles.container}
+        contentContainerStyle={quizStyles.container}>
         <CreateQuizNavBar onNextPress={this.handleNextPress} />
         <ScrollView
-          style={styles.scrollContainer}
-          contentContainerStyle={styles.scrollContent}>
+          style={quizStyles.scrollContainer}
+          contentContainerStyle={quizStyles.scrollContent}>
           <Text style={forms.label}>Question</Text>
           <View style={[forms.formGroup, { marginTop: 8 }]}>
             <TextInput

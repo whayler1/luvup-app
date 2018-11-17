@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import { vars } from '../../styles';
+import vars from './vars';
 
 export default StyleSheet.create({
   container: {
