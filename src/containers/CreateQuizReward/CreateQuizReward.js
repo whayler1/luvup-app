@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-// import { Actions } from 'react-native-router-flux';
+import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { KeyboardAvoidingView, ScrollView, Text, View } from 'react-native';
 import _ from 'lodash';
@@ -29,7 +29,12 @@ class CreateQuizReward extends PureComponent {
   };
 
   handleNextPress = () => {
-    // Actions.createQuizReview({ quizItem: this.props.quizItem });
+    Actions.createQuizReview({
+      quizItem: {
+        ...this.props.quizItem,
+        reward: this.state.reward,
+      },
+    });
   };
 
   render() {
