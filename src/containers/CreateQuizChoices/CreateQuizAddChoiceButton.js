@@ -4,8 +4,7 @@ import { Surface, Group } from 'ReactNativeART';
 import { TouchableOpacity, Text, View } from 'react-native';
 
 import Circle from '../../components/Circle';
-import { vars } from '../../styles';
-import styles from './CreateQuiz.styles';
+import { vars, quiz as styles } from '../../styles';
 
 const CreateQuizAddChoiceButton = ({ onPress, isDisabled = false }) => (
   <View style={styles.addChoiceButtonWrapper}>
