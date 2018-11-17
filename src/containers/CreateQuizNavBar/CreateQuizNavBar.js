@@ -6,7 +6,10 @@ import { Actions } from 'react-native-router-flux';
 import styles from './CreateQuizNavBar.styles';
 
 class CreateQuizNavBar extends PureComponent {
-  handleBackPress = () => Actions.pop();
+  handleBackPress = () => (this.props.isDisabled ? null : Actions.pop());
+
+  handleNextPress = () =>
+    this.props.isDisabled ? null : this.props.onNextPress();
 
   render() {
     return (
@@ -18,7 +21,7 @@ class CreateQuizNavBar extends PureComponent {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.navBarBack}
-          onPress={this.props.onNextPress}>
+          onPress={this.handleNextPress}>
           <Text style={styles.navBarPressableText}>{this.props.nextText}</Text>
         </TouchableOpacity>
       </View>
@@ -29,10 +32,12 @@ class CreateQuizNavBar extends PureComponent {
 CreateQuizNavBar.propTypes = {
   onNextPress: PropTypes.func,
   nextText: PropTypes.string,
+  isDisabled: PropTypes.bool,
 };
 
 CreateQuizNavBar.defaultProps = {
   nextText: 'Next',
+  isDisabled: false,
 };
 
 export default CreateQuizNavBar;
