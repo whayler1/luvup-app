@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Text } from 'react-native';
 
-import styles from './CreateQuiz.styles';
+import { quiz as styles } from '../../styles';
 
 const CreateQuizRemoveChoiceButton = ({ onPress }) => (
   <TouchableOpacity style={styles.removeChoiceButton} onPress={onPress}>

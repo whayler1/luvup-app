@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
 
-import styles from './CreateQuiz.styles';
+import { quiz as styles } from '../../styles';
 import CreateQuizAddChoiceButton from './CreateQuizAddChoiceButton';
 import CreateQuizRemoveChoiceButton from './CreateQuizRemoveChoiceButton';
 

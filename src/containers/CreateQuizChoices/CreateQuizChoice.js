@@ -2,8 +2,7 @@ import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TextInput } from 'react-native';
 
-import styles from './CreateQuiz.styles';
-import { forms } from '../../styles';
+import { forms, quiz as styles } from '../../styles';
 import CreateQuizChoiceCheckbox from './CreateQuizChoiceCheckbox';
 
 const placeholders = [
