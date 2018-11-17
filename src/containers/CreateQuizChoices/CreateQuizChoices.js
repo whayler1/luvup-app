@@ -51,6 +51,7 @@ class CreateQuizChoices extends PureComponent {
         <ScrollView
           style={styles.scrollContainer}
           contentContainerStyle={styles.scrollContent}>
+          <Text>{this.props.quizItem.question}</Text>
           <Text style={forms.label}>Choices</Text>
         </ScrollView>
       </KeyboardAvoidingView>
