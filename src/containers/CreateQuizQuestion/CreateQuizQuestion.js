@@ -59,8 +59,6 @@ class CreateQuizQuestion extends PureComponent {
         ...this.props.quizItem,
         question: this.state.question,
       };
-      console.log('next success', quizItem);
-      // set quiz obj question
       Actions.createQuizChoices({ quizItem });
     }
   };

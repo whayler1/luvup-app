@@ -34,6 +34,7 @@ import TimelineArt from './src/components/Art/TimelineArt';
 import ViewLoveNote from './src/containers/ViewLoveNote';
 import CreateQuizQuestion from './src/containers/CreateQuizQuestion';
 import CreateQuizChoices from './src/containers/CreateQuizChoices';
+import CreateQuizReward from './src/containers/CreateQuizReward';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -220,6 +221,11 @@ const App = () => (
             key="createQuizChoices"
             hideNavBar
             component={CreateQuizChoices}
+          />
+          <Scene
+            key="createQuizReward"
+            hideNavBar
+            component={CreateQuizReward}
           />
         </Stack>
         <Scene key="notificationLightbox" component={InAppNotifications} />
