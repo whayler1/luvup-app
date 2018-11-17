@@ -62,7 +62,7 @@ class CreateQuizQuestion extends PureComponent {
       };
       console.log('next success', quizItem);
       // set quiz obj question
-      // Actions.createQuizCoices();
+      Actions.createQuizChoices({ quizItem });
     }
   };
 
