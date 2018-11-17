@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import { Actions } from 'react-native-router-flux';
 import { Text, KeyboardAvoidingView, ScrollView } from 'react-native';
 
 import { forms, quiz /*, vars*/ } from '../../styles';
@@ -42,7 +43,7 @@ class CreateQuizChoices extends PureComponent {
     await this.setState({ choicesErrors });
 
     if (isValid) {
-      // go to next thing
+      Actions.createQuizReward({ quizItem: this.props.quizItem });
     }
   };
 
@@ -58,7 +59,13 @@ class CreateQuizChoices extends PureComponent {
         ...state.choices.slice(index + 1, state.choices.length),
       ];
 
-      return { choices, isMaxChoicesLengthError: false };
+      const choicesErrors = [
+        ...state.choicesErrors.slice(0, index),
+        '',
+        ...state.choicesErrors.slice(index + 1, state.choicesErrors.length),
+      ];
+
+      return { choices, choicesErrors, isMaxChoicesLengthError: false };
     });
   };
 
