@@ -2,8 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import CoinArt from '../../components/CoinArt';
-import styles from './CreateQuiz.styles';
-import { vars } from '../../styles';
+import { vars, quiz as styles } from '../../styles';
 import { TouchableOpacity } from 'react-native';
 
 class CreateQuizLuvupButton extends PureComponent {

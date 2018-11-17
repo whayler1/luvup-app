@@ -19,7 +19,7 @@ class CreateQuizNavBar extends PureComponent {
         <TouchableOpacity
           style={styles.navBarBack}
           onPress={this.props.onNextPress}>
-          <Text style={styles.navBarPressableText}>Next</Text>
+          <Text style={styles.navBarPressableText}>{this.props.nextText}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -28,6 +28,11 @@ class CreateQuizNavBar extends PureComponent {
 
 CreateQuizNavBar.propTypes = {
   onNextPress: PropTypes.func,
+  nextText: PropTypes.string,
+};
+
+CreateQuizNavBar.defaultProps = {
+  nextText: 'Next',
 };
 
 export default CreateQuizNavBar;

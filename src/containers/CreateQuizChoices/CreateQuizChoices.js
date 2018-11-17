@@ -43,7 +43,13 @@ class CreateQuizChoices extends PureComponent {
     await this.setState({ choicesErrors });
 
     if (isValid) {
-      Actions.createQuizReward({ quizItem: this.props.quizItem });
+      Actions.createQuizReward({
+        quizItem: {
+          ...this.props.quizItem,
+          choices: this.state.choices,
+          senderChoiceIndex: this.state.senderChoiceIndex,
+        },
+      });
     }
   };
 
