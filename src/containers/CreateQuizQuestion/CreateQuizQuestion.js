@@ -89,6 +89,8 @@ class CreateQuizQuestion extends PureComponent {
               placeholder={this.placeholder}
               placeholderTextColor={vars.blueGrey100}
               multiline
+              returnKeyType="next"
+              onSubmitEditing={this.handleNextPress}
             />
             {this.state.questionError && (
               <Text style={forms.error}>Create a question</Text>
