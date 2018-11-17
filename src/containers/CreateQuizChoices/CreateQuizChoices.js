@@ -1,8 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Text, KeyboardAvoidingView, ScrollView } from 'react-native';
 
-import { forms /*, vars*/ } from '../../styles';
-import styles from './CreateQuizChoices.styles';
+import { forms, quiz /*, vars*/ } from '../../styles';
 import { QuizItemType } from '../../types';
 import CreateQuizNavBar from '../CreateQuizNavBar';
 
@@ -45,12 +44,12 @@ class CreateQuizChoices extends PureComponent {
     return (
       <KeyboardAvoidingView
         behavior="height"
-        style={styles.container}
-        contentContainerStyle={styles.container}>
+        style={quiz.container}
+        contentContainerStyle={quiz.container}>
         <CreateQuizNavBar onNextPress={this.handleNextPress} />
         <ScrollView
-          style={styles.scrollContainer}
-          contentContainerStyle={styles.scrollContent}>
+          style={quiz.scrollContainer}
+          contentContainerStyle={quiz.scrollContent}>
           <Text>{this.props.quizItem.question}</Text>
           <Text style={forms.label}>Choices</Text>
         </ScrollView>
