@@ -22,6 +22,7 @@ const secondarySkeletonButton = {
   borderColor: vars.blueGrey100,
   borderWidth: 1,
   borderRadius: vars.radius,
+  height: 46,
 };
 const secondarySkeletonText = {
   ...text,
@@ -40,6 +41,7 @@ export default StyleSheet.create({
     borderRadius: vars.radius,
     borderColor: vars.infoButtonBg,
     borderWidth: 1,
+    height: 46,
   },
   infoSkeletonText: {
     ...text,
@@ -54,6 +56,7 @@ export default StyleSheet.create({
     borderColor: vars.dangerButtonBg,
     borderWidth: 1,
     borderRadius: vars.radius,
+    height: 46,
   },
   dangerSkeletonText,
   secondarySkeletonButton,
