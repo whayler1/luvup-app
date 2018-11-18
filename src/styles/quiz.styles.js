@@ -9,6 +9,15 @@ export default StyleSheet.create({
   scrollContainer: {
     flex: 1,
   },
+  questionButtons: {
+    marginTop: 24,
+    marginHorizontal: -8,
+    flexDirection: 'row',
+  },
+  questionButtonContainer: {
+    flex: 1,
+    marginHorizontal: 8,
+  },
   scrollContent: {
     paddingHorizontal: 16,
     paddingBottom: 32,

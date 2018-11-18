@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Actions } from 'react-native-router-flux';
-// import PropTypes from 'prop-types';
+import { Button } from 'react-native-elements';
 import {
   View,
   ScrollView,
@@ -9,9 +9,10 @@ import {
   TextInput,
 } from 'react-native';
 
-import { forms, vars, quiz as quizStyles } from '../../styles';
+import { forms, vars, buttons, quiz as quizStyles } from '../../styles';
 import CreateQuizNavBar from '../CreateQuizNavBar';
 import { QuizItemType } from '../../types';
+import { getRandomQuestion } from './CreateQuizQuestion.helpers';
 
 const placeholders = [
   'Ask something flirty…',
@@ -19,7 +20,7 @@ const placeholders = [
   'What would you want to be asked?…',
 ];
 
-const getRandomQuestion = () =>
+const getRandomPlaceholder = () =>
   placeholders[Math.floor(Math.random() * placeholders.length)];
 
 class CreateQuizQuestion extends PureComponent {
@@ -36,7 +37,7 @@ class CreateQuizQuestion extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.placeholder = getRandomQuestion();
+    this.placeholder = getRandomPlaceholder();
     this.state = {
       question: props.quizItem.question,
       questionError: '',
@@ -61,6 +62,10 @@ class CreateQuizQuestion extends PureComponent {
       };
       Actions.createQuizChoices({ quizItem });
     }
+  };
+
+  handleRandomQuestionPress = () => {
+    this.setState({ question: getRandomQuestion() });
   };
 
   render() {
@@ -92,6 +97,26 @@ class CreateQuizQuestion extends PureComponent {
             {this.state.questionError && (
               <Text style={forms.error}>Create a question</Text>
             )}
+          </View>
+          <View style={quizStyles.questionButtons}>
+            <View style={quizStyles.questionButtonContainer}>
+              <Button
+                onPress={this.handleRandomQuestionPress}
+                containerViewStyle={buttons.container}
+                buttonStyle={buttons.infoSkeletonButton}
+                textStyle={buttons.infoSkeletonText}
+                title="Random"
+              />
+            </View>
+            <View style={quizStyles.questionButtonContainer}>
+              <Button
+                onPress={this.handleNextPress}
+                containerViewStyle={buttons.container}
+                buttonStyle={buttons.infoButton}
+                textStyle={buttons.infoText}
+                title="Next"
+              />
+            </View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
