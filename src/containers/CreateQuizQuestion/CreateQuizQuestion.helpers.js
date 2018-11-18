@@ -20,6 +20,17 @@ const questions = [
   'What was the name of my first crush?',
   "What's my favorite beverage?",
   'What genre of music do I find completely intolerable?',
+  'What is my opinion of the Lord of the Rings movie franchise?',
+  "What is my favorite vacation I've ever been on?",
+  'How do I react to mice in my bedroom?',
+  'How many times a day do I shower?',
+  'What is my favorite kind of pasta?',
+  'How clean of a person am I?',
+  'How often do I floss?',
+  'What books have I read this year?',
+  "What is my favorite 90's movie?",
+  'Where do I like to be tickled?',
+  'How much walking do I do on an average day?',
 ];
 const mult = questions.length - 1;
 
