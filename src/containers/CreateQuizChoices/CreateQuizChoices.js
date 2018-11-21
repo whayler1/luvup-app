@@ -132,6 +132,7 @@ class CreateQuizChoices extends PureComponent {
               onRemoveChoice: this.handleRemoveChoice,
               isMaxChoicesLengthError,
               maxChoicesLength: this.maxChoicesLength,
+              onSubmit: this.handleNextPress,
             }}
           />
         </ScrollView>
