@@ -65,13 +65,13 @@ class CreateQuizReview extends PureComponent {
         style={quiz.container}
         contentContainerStyle={quiz.container}>
         {this.state.isSuccess ? (
-          <View>
-            <Text>Success!</Text>
+          <View style={quiz.successWrapper}>
+            <Text style={quiz.successText}>Quiz Sent!</Text>
             <Button
               onPress={this.handleDone}
               containerViewStyle={buttons.container}
-              buttonStyle={buttons.infoButton}
-              textStyle={buttons.infoText}
+              buttonStyle={buttons.infoSkeletonButton}
+              textStyle={buttons.infoSkeletonText}
               title="Done"
             />
           </View>
