@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Actions } from 'react-native-router-flux';
-import { Text, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { Text, View, KeyboardAvoidingView, ScrollView } from 'react-native';
 
 import { forms, quiz /*, vars*/ } from '../../styles';
 import { QuizItemType } from '../../types';
@@ -111,20 +111,24 @@ class CreateQuizChoices extends PureComponent {
         <ScrollView
           style={quiz.scrollContainer}
           contentContainerStyle={quiz.scrollContent}>
-          <Text>{this.props.quizItem.question}</Text>
+          <Text style={quiz.questionSmallText}>
+            {this.props.quizItem.question}
+          </Text>
           <Text style={forms.label}>Choices</Text>
-          {choices.map((choice, index) => (
-            <CreateQuizChoice
-              key={index}
-              index={index}
-              value={choice}
-              onChange={this.handleChoiceChange}
-              onSelect={this.handleSelectChoice}
-              isChecked={index === this.state.senderChoiceIndex}
-              error={this.state.choicesErrors[index]}
-              enabled
-            />
-          ))}
+          <View style={quiz.createQuizChoiceContainer}>
+            {choices.map((choice, index) => (
+              <CreateQuizChoice
+                key={index}
+                index={index}
+                value={choice}
+                onChange={this.handleChoiceChange}
+                onSelect={this.handleSelectChoice}
+                isChecked={index === this.state.senderChoiceIndex}
+                error={this.state.choicesErrors[index]}
+                enabled
+              />
+            ))}
+          </View>
           <CreateQuizLengthUI
             {...{
               choices,
