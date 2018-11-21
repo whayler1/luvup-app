@@ -32,10 +32,7 @@ export default StyleSheet.create({
   submitButtonContainer: {
     marginBottom: 80,
   },
-  rewardContainer: {
-    paddingTop: 32,
-    paddingBottom: 16,
-  },
+  rewardContainer: {},
   luvupUiContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -71,6 +68,9 @@ export default StyleSheet.create({
     flex: 0.5,
     marginHorizontal: 8,
   },
+  createQuizChoiceContainer: {
+    paddingTop: 16,
+  },
   addChoiceButton: {
     width: 46,
     height: 46,
@@ -101,5 +101,14 @@ export default StyleSheet.create({
     marginTop: 8,
     color: vars.red500,
     fontFamily: vars.fontRegular,
+  },
+  questionSmallText: {
+    fontFamily: vars.fontBlack,
+    color: vars.blueGrey500,
+    fontSize: 22,
+    paddingBottom: 16,
+  },
+  createRewardSubmitContainer: {
+    paddingTop: 24,
   },
 });

@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { KeyboardAvoidingView, ScrollView, Text, View } from 'react-native';
+import { Button } from 'react-native-elements';
 import _ from 'lodash';
 
 import CreateQuizNavBar from '../CreateQuizNavBar';
 import CreateQuizLuvupButton from './CreateQuizLuvupButton';
 import { QuizItemType } from '../../types';
-import { quiz, forms } from '../../styles';
+import { quiz, forms, buttons } from '../../styles';
 
 class CreateQuizReward extends PureComponent {
   static propTypes = {
@@ -50,7 +51,9 @@ class CreateQuizReward extends PureComponent {
         <ScrollView
           style={quiz.scrollContainer}
           contentContainerStyle={quiz.scrollContent}>
-          <Text>{this.props.quizItem.question}</Text>
+          <Text style={quiz.questionSmallText}>
+            {this.props.quizItem.question}
+          </Text>
           <View style={quiz.rewardContainer}>
             <Text style={forms.label}>Reward</Text>
             <Text style={forms.description}>
@@ -67,6 +70,15 @@ class CreateQuizReward extends PureComponent {
                 />
               ))}
             </View>
+          </View>
+          <View style={quiz.createRewardSubmitContainer}>
+            <Button
+              onPress={this.handleNextPress}
+              containerViewStyle={buttons.container}
+              buttonStyle={buttons.infoButton}
+              textStyle={buttons.infoText}
+              title="Review"
+            />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
