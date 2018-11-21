@@ -4,12 +4,14 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { KeyboardAvoidingView, ScrollView, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
+import _ from 'lodash';
 
 import CreateQuizNavBar from '../CreateQuizNavBar';
+import CoinArt from '../../components/CoinArt';
+import CreateQuizChoice from '../CreateQuizChoices/CreateQuizChoice';
 import { QuizItemType } from '../../types';
 import { quiz, buttons } from '../../styles';
 import { createQuizItem as createQuizItemAction } from '../../redux/quizItem/quizItem.actions';
-import CreateQuizChoice from '../CreateQuizChoices/CreateQuizChoice';
 
 class CreateQuizReview extends PureComponent {
   static propTypes = {
@@ -93,7 +95,18 @@ class CreateQuizReview extends PureComponent {
                   isReadOnly
                 />
               ))}
-              <Text>{reward}</Text>
+              <View style={quiz.reviewRewardWrapper}>
+                {_.times(reward, n => (
+                  <View style={quiz.reviewRewardItem} key={n}>
+                    <CoinArt
+                      scale={0.5}
+                      recentlySentCoinCount={
+                        n + 1 === reward ? reward : undefined
+                      }
+                    />
+                  </View>
+                ))}
+              </View>
               {this.props.createQuizItemErrorMessage && (
                 <Text>{this.props.createQuizItemErrorMessage}</Text>
               )}

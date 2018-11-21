@@ -117,4 +117,13 @@ export default StyleSheet.create({
     fontSize: 22,
     paddingBottom: 8,
   },
+  reviewRewardWrapper: {
+    marginTop: 8,
+    marginBottom: 24,
+    marginHorizontal: -8,
+    flexDirection: 'row',
+  },
+  reviewRewardItem: {
+    marginHorizontal: 8,
+  },
 });
