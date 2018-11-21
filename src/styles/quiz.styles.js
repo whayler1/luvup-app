@@ -102,13 +102,19 @@ export default StyleSheet.create({
     color: vars.red500,
     fontFamily: vars.fontRegular,
   },
+  createRewardSubmitContainer: {
+    paddingTop: 24,
+  },
   questionSmallText: {
     fontFamily: vars.fontBlack,
     color: vars.blueGrey500,
     fontSize: 22,
     paddingBottom: 16,
   },
-  createRewardSubmitContainer: {
-    paddingTop: 24,
+  answerText: {
+    fontFamily: vars.fontRegular,
+    color: vars.blueGrey500,
+    fontSize: 22,
+    paddingBottom: 8,
   },
 });

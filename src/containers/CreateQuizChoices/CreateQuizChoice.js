@@ -16,8 +16,9 @@ class CreateQuizChoice extends PureComponent {
     index: PropTypes.number.isRequired,
     value: PropTypes.string.isRequired,
     enabled: PropTypes.bool,
-    onChange: PropTypes.func.isRequired,
-    onSelect: PropTypes.func.isRequired,
+    isReadOnly: PropTypes.bool,
+    onChange: PropTypes.func,
+    onSelect: PropTypes.func,
     isChecked: PropTypes.bool.isRequired,
     error: PropTypes.string,
   };
@@ -33,7 +34,9 @@ class CreateQuizChoice extends PureComponent {
   };
 
   handleSelectPress = () => {
-    this.props.onSelect(this.props.index);
+    if (!this.props.isReadOnly) {
+      this.props.onSelect(this.props.index);
+    }
   };
 
   render() {
@@ -43,18 +46,22 @@ class CreateQuizChoice extends PureComponent {
           <View style={styles.choiceItemCheckboxWrapper}>
             <CreateQuizChoiceCheckbox
               isChecked={this.props.isChecked}
-              scale={0.5}
+              scale={this.props.isReadOnly ? 0.28 : 0.5}
               onPress={this.handleSelectPress}
             />
           </View>
           <View style={styles.choiceItemInputWrapper}>
-            <TextInput
-              style={forms.input}
-              placeholder={this.placeholder}
-              onChangeText={this.handleChangeText}
-              value={this.props.value}
-              enabled={this.props.enabled}
-            />
+            {this.props.isReadOnly ? (
+              <Text style={styles.answerText}>{this.props.value}</Text>
+            ) : (
+              <TextInput
+                style={forms.input}
+                placeholder={this.placeholder}
+                onChangeText={this.handleChangeText}
+                value={this.props.value}
+                enabled={this.props.enabled}
+              />
+            )}
           </View>
         </View>
         {this.props.error && (

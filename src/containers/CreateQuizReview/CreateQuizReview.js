@@ -9,6 +9,7 @@ import CreateQuizNavBar from '../CreateQuizNavBar';
 import { QuizItemType } from '../../types';
 import { quiz, buttons } from '../../styles';
 import { createQuizItem as createQuizItemAction } from '../../redux/quizItem/quizItem.actions';
+import CreateQuizChoice from '../CreateQuizChoices/CreateQuizChoice';
 
 class CreateQuizReview extends PureComponent {
   static propTypes = {
@@ -82,12 +83,15 @@ class CreateQuizReview extends PureComponent {
             <ScrollView
               style={quiz.scrollContainer}
               contentContainerStyle={quiz.scrollContent}>
-              <Text>{question}</Text>
+              <Text style={quiz.questionSmallText}>{question}</Text>
               {choices.map((choice, i) => (
-                <Text key={i}>
-                  {i === senderChoiceIndex ? '☑️' : ''}
-                  {choice}
-                </Text>
+                <CreateQuizChoice
+                  key={i}
+                  isChecked={i === senderChoiceIndex}
+                  value={choice}
+                  index={i}
+                  isReadOnly
+                />
               ))}
               <Text>{reward}</Text>
               {this.props.createQuizItemErrorMessage && (
