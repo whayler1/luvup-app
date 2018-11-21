@@ -21,6 +21,7 @@ const questions = [
   "What's my favorite beverage?",
   'What genre of music do I find completely intolerable?',
   'What is my opinion of the Lord of the Rings movie franchise?',
+  'What is my opinion of the Harry Potter movie franchise?',
   "What is my favorite vacation I've ever been on?",
   'How do I react to mice in my bedroom?',
   'How many times a day do I shower?',
