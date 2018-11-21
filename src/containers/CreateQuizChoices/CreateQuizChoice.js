@@ -60,6 +60,7 @@ class CreateQuizChoice extends PureComponent {
                 onChangeText={this.handleChangeText}
                 value={this.props.value}
                 enabled={this.props.enabled}
+                maxLength={200}
               />
             )}
           </View>
