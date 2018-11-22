@@ -35,6 +35,10 @@ const getEventDisplayName = (eventName, count) => {
       return `Love note${plur} sent`;
     case 'lovenote-received':
       return `Love note${plur} received`;
+    case 'quiz-item-sent':
+      return 'Quiz Created';
+    case 'quiz-item-received':
+      return 'Quiz Received';
     default:
       return eventName;
   }
@@ -126,6 +130,7 @@ export default ({ item, index, section }) => {
   const isLovenoteItem = /^lovenote/.test(item.name);
   const isLovenoteItemWithNote =
     isLovenoteItem && _.isString(_.get(item, 'loveNote.id'));
+  const isQuizItem = /^quiz/.test(item.name);
   const isNumLuvups = _.get(item, 'loveNote.numLuvups', 0) > 0;
   const isNumJalapenos = _.get(item, 'loveNote.numJalapenos', 0) > 0;
 
@@ -154,7 +159,9 @@ export default ({ item, index, section }) => {
               flex: 1,
             }}>
             <Text style={styles.renderItemContentText}>
-              {item.name !== 'password-changed' && !isLovenoteItem
+              {item.name !== 'password-changed' &&
+              !isLovenoteItem &&
+              !isQuizItem
                 ? item.count + ' '
                 : ''}
               {getEventDisplayName(item.name, item.count)}
@@ -163,6 +170,12 @@ export default ({ item, index, section }) => {
               _.isString(_.get(item, 'loveNote.note')) && (
                 <Text numberOfLines={1} style={styles.renderItemLoveNoteText}>
                   {decodeURI(item.loveNote.note)}
+                </Text>
+              )}
+            {isQuizItem &&
+              _.isString(_.get(item, 'quizItem.question')) && (
+                <Text numberOfLines={1} style={styles.renderItemLoveNoteText}>
+                  {decodeURI(item.quizItem.question)}
                 </Text>
               )}
             {(isNumLuvups || isNumJalapenos) && (

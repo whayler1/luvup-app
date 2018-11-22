@@ -4,6 +4,7 @@ import {
   CREATE_QUIZ_ITEM_FAILURE,
 } from './quizItem.actions';
 import { GET_USER_EVENTS_SUCCESS } from '../userEvents/userEvents.actions';
+import { GET_TIMELINE_DATA_SUCCESS } from '../user/user.actions';
 
 const defaultState = {
   isCreateQuizItemInFlight: false,
@@ -31,7 +32,8 @@ export default function reducer(state = defaultState, action) {
         isCreateQuizItemInFlight: false,
         createQuizItemErrorMessage: action.errorMessage,
       };
-    case GET_USER_EVENTS_SUCCESS: {
+    case GET_USER_EVENTS_SUCCESS:
+    case GET_TIMELINE_DATA_SUCCESS: {
       if (!action.quizItems.length) {
         return state;
       }
@@ -42,7 +44,7 @@ export default function reducer(state = defaultState, action) {
         }),
         {}
       );
-      console.log('\n\n newQuizItemDictionary', newQuizItemDictionary);
+      // console.log('\n\n newQuizItemDictionary', newQuizItemDictionary);
       return {
         ...state,
         quizItemDictionary: {

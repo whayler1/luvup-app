@@ -31,7 +31,11 @@ const getSections = userEvents => {
         data: [],
       });
     }
-    if (event.name !== currentEventName || /^lovenote/.test(event.name)) {
+    if (
+      event.name !== currentEventName ||
+      /^lovenote/.test(event.name) ||
+      /^quiz-item/.test(event.name)
+    ) {
       currentEventName = event.name;
       val[val.length - 1].data.push({
         ...event,

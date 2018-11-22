@@ -354,6 +354,13 @@ export const getTimelineData = limit => async dispatch => {
         loveNotes {
           id note createdAt isRead senderId recipientId numLuvups numJalapenos
         }
+        quizItemEvents {
+          id quizItemId userEventId
+        }
+        quizItems {
+          id question senderChoiceId recipientChoiceId reward createdAt
+          choices { answer }
+        }
       }
       sentCoins(limit: 0) { count }
       sentJalapenos(limit: 0) { count }
@@ -369,6 +376,8 @@ export const getTimelineData = limit => async dispatch => {
           'count',
           'loveNoteEvents',
           'loveNotes',
+          'quizItemEvents',
+          'quizItems',
         ]),
         sentCoinsCount: data.sentCoins.count,
         sentJalapenosCount: data.sentJalapenos.count,
