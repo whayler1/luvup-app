@@ -3,10 +3,12 @@ import {
   CREATE_QUIZ_ITEM_SUCCESS,
   CREATE_QUIZ_ITEM_FAILURE,
 } from './quizItem.actions';
+import { GET_USER_EVENTS_SUCCESS } from '../userEvents/userEvents.actions';
 
 const defaultState = {
   isCreateQuizItemInFlight: false,
   createQuizItemErrorMessage: '',
+  quizItemDictionary: {},
 };
 
 export default function reducer(state = defaultState, action) {
@@ -29,6 +31,26 @@ export default function reducer(state = defaultState, action) {
         isCreateQuizItemInFlight: false,
         createQuizItemErrorMessage: action.errorMessage,
       };
+    case GET_USER_EVENTS_SUCCESS: {
+      if (!action.quizItems.length) {
+        return state;
+      }
+      const newQuizItemDictionary = action.quizItems.reduce(
+        (accumulator, quizItem) => ({
+          ...accumulator,
+          [quizItem.id]: quizItem,
+        }),
+        {}
+      );
+      console.log('\n\n newQuizItemDictionary', newQuizItemDictionary);
+      return {
+        ...state,
+        quizItemDictionary: {
+          ...state.quizItemDictionary,
+          ...newQuizItemDictionary,
+        },
+      };
+    }
     default:
       return state;
   }
