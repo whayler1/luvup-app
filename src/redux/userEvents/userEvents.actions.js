@@ -1,7 +1,7 @@
 import superagent from 'superagent';
 import _ from 'lodash';
 
-import config from '../../config';
+import { graphQlRequest } from '../../helpers';
 
 export const GET_USER_EVENTS_ATTEMPT = 'userEvents/get-user-events-attempt';
 export const GET_USER_EVENTS_SUCCESS = 'userEvents/get-user-events-success';
@@ -17,7 +17,7 @@ export const getUserEvents = (
   dispatch({ type: GET_USER_EVENTS_ATTEMPT });
 
   try {
-    const res = await superagent.post(config.graphQlUrl, {
+    const data = await graphQlRequest({
       query: `{
         userEvents(
           limit: ${limit}
@@ -51,28 +51,26 @@ export const getUserEvents = (
       loveNoteEvents,
       quizItems,
       quizItemEvents,
-    } = res.body.data.userEvents;
-    console.log('\n\n quizItems', quizItems);
+    } = data.userEvents;
 
-    if (res.ok && _.isArray(rows)) {
-      dispatch({
+    if (_.isArray(rows)) {
+      return dispatch({
         type: GET_USER_EVENTS_SUCCESS,
         rows,
         count,
         shouldAppend,
         loveNotes,
         loveNoteEvents,
-      });
-    } else {
-      dispatch({
-        type: GET_USER_EVENTS_FAILURE,
-        error: 'response error',
+        quizItems,
+        quizItemEvents,
       });
     }
-
-    return res;
+    return dispatch({
+      type: GET_USER_EVENTS_FAILURE,
+      error: 'response error',
+    });
   } catch (error) {
-    dispatch({
+    return dispatch({
       type: GET_USER_EVENTS_FAILURE,
       error: error.message,
     });
