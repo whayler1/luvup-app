@@ -12,6 +12,7 @@ import CreateQuizChoice from '../CreateQuizChoices/CreateQuizChoice';
 import { QuizItemType } from '../../types';
 import { quiz, buttons } from '../../styles';
 import { createQuizItem as createQuizItemAction } from '../../redux/quizItem/quizItem.actions';
+import QuizArt from '../../components/Art/QuizArt';
 
 class CreateQuizReview extends PureComponent {
   static propTypes = {
@@ -59,13 +60,11 @@ class CreateQuizReview extends PureComponent {
       isCreateQuizItemInFlight,
     } = this.props;
 
-    return (
-      <KeyboardAvoidingView
-        behavior="height"
-        style={quiz.container}
-        contentContainerStyle={quiz.container}>
-        {this.state.isSuccess ? (
+    if (this.state.isSuccess) {
+      return (
+        <View style={quiz.successContainer}>
           <View style={quiz.successWrapper}>
+            <QuizArt />
             <Text style={quiz.successText}>Quiz Sent!</Text>
             <Button
               onPress={this.handleDone}
@@ -75,56 +74,59 @@ class CreateQuizReview extends PureComponent {
               title="Done"
             />
           </View>
-        ) : (
-          <Fragment>
-            <CreateQuizNavBar
-              onNextPress={this.handleSubmit}
-              nextText={isCreateQuizItemInFlight ? 'Submitting…' : 'submit'}
-              isDisabled={isCreateQuizItemInFlight}
+        </View>
+      );
+    }
+
+    return (
+      <KeyboardAvoidingView
+        behavior="height"
+        style={quiz.container}
+        contentContainerStyle={quiz.container}>
+        <CreateQuizNavBar
+          onNextPress={this.handleSubmit}
+          nextText={isCreateQuizItemInFlight ? 'Submitting…' : 'submit'}
+          isDisabled={isCreateQuizItemInFlight}
+        />
+        <ScrollView
+          style={quiz.scrollContainer}
+          contentContainerStyle={quiz.scrollContent}>
+          <Text style={quiz.questionSmallText}>{question}</Text>
+          {choices.map((choice, i) => (
+            <CreateQuizChoice
+              key={i}
+              isChecked={i === senderChoiceIndex}
+              value={choice}
+              index={i}
+              isReadOnly
             />
-            <ScrollView
-              style={quiz.scrollContainer}
-              contentContainerStyle={quiz.scrollContent}>
-              <Text style={quiz.questionSmallText}>{question}</Text>
-              {choices.map((choice, i) => (
-                <CreateQuizChoice
-                  key={i}
-                  isChecked={i === senderChoiceIndex}
-                  value={choice}
-                  index={i}
-                  isReadOnly
+          ))}
+          <View style={quiz.reviewRewardWrapper}>
+            {_.times(reward, n => (
+              <View style={quiz.reviewRewardItem} key={n}>
+                <CoinArt
+                  scale={0.5}
+                  recentlySentCoinCount={n + 1 === reward ? reward : undefined}
                 />
-              ))}
-              <View style={quiz.reviewRewardWrapper}>
-                {_.times(reward, n => (
-                  <View style={quiz.reviewRewardItem} key={n}>
-                    <CoinArt
-                      scale={0.5}
-                      recentlySentCoinCount={
-                        n + 1 === reward ? reward : undefined
-                      }
-                    />
-                  </View>
-                ))}
               </View>
-              {this.props.createQuizItemErrorMessage && (
-                <Text>{this.props.createQuizItemErrorMessage}</Text>
-              )}
-              <Button
-                onPress={this.handleSubmit}
-                containerViewStyle={buttons.container}
-                buttonStyle={buttons.infoButton}
-                textStyle={buttons.infoText}
-                title={
-                  this.props.isCreateQuizItemInFlight
-                    ? 'Creating Quiz…'
-                    : 'Create Quiz'
-                }
-                disabled={this.props.isCreateQuizItemInFlight}
-              />
-            </ScrollView>
-          </Fragment>
-        )}
+            ))}
+          </View>
+          {this.props.createQuizItemErrorMessage && (
+            <Text>{this.props.createQuizItemErrorMessage}</Text>
+          )}
+          <Button
+            onPress={this.handleSubmit}
+            containerViewStyle={buttons.container}
+            buttonStyle={buttons.infoButton}
+            textStyle={buttons.infoText}
+            title={
+              this.props.isCreateQuizItemInFlight
+                ? 'Creating Quiz…'
+                : 'Create Quiz'
+            }
+            disabled={this.props.isCreateQuizItemInFlight}
+          />
+        </ScrollView>
       </KeyboardAvoidingView>
     );
   }
