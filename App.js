@@ -12,7 +12,6 @@ import {
 } from 'react-native-router-flux';
 import _ from 'lodash';
 
-import './ReactotronConfig';
 import { store } from './src/redux';
 import { navbar, vars } from './src/styles';
 
