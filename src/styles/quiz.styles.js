@@ -126,15 +126,21 @@ export default StyleSheet.create({
   reviewRewardItem: {
     marginHorizontal: 8,
   },
+  successContainer: {
+    flexDirection: 'row',
+    flex: 1,
+    alignItems: 'center',
+  },
   successWrapper: {
-    marginTop: vars.topUiMargin + 24,
     marginHorizontal: 16,
+    flex: 1,
+    alignItems: 'center',
   },
   successText: {
-    marginBottom: 24,
+    marginTop: 16,
+    marginBottom: 32,
     fontSize: 30,
     fontFamily: vars.fontBlack,
     color: vars.blueGrey500,
-    textAlign: 'center',
   },
 });
