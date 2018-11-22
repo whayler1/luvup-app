@@ -1,4 +1,3 @@
-import superagent from 'superagent';
 import _ from 'lodash';
 
 import { graphQlRequest } from '../../helpers';
@@ -17,8 +16,7 @@ export const getUserEvents = (
   dispatch({ type: GET_USER_EVENTS_ATTEMPT });
 
   try {
-    const data = await graphQlRequest({
-      query: `{
+    const data = await graphQlRequest(`{
         userEvents(
           limit: ${limit}
           offset: ${offset}
@@ -41,8 +39,7 @@ export const getUserEvents = (
             choices { answer }
           }
         }
-      }`,
-    });
+      }`);
 
     const {
       rows,

@@ -19,10 +19,19 @@ const defaultState = {
   count: null,
 };
 
-const getDecoratedRows = (rows, loveNoteEvents, loveNotes) =>
+const getDecoratedRows = (
+  rows,
+  loveNoteEvents,
+  loveNotes,
+  quizItemEvents,
+  quizItems
+) =>
   rows.map(row => {
     const loveNoteEvent = loveNoteEvents.find(
       loveNoteEvent => loveNoteEvent.userEventId === row.id
+    );
+    const quizItemEvent = quizItemEvents.find(
+      quizItemEvent => quizItemEvent.userEventId === row.id
     );
 
     if (loveNoteEvent) {
@@ -30,6 +39,11 @@ const getDecoratedRows = (rows, loveNoteEvents, loveNotes) =>
         loveNote => loveNote.id === loveNoteEvent.loveNoteId
       );
       return { ...row, loveNote };
+    } else if (quizItemEvent) {
+      const quizItem = quizItems.find(
+        quizItem => quizItem.id === quizItemEvent.quizItemId
+      );
+      return { ...row, quizItem };
     }
     return row;
   });
@@ -52,7 +66,9 @@ export default function reducer(state = defaultState, action) {
       const rows = getDecoratedRows(
         initialRows,
         action.loveNoteEvents || [],
-        action.loveNotes || []
+        action.loveNotes || [],
+        action.quizItemEvents || [],
+        action.quizItems || []
       );
       return {
         ...state,
