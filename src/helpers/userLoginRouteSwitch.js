@@ -27,15 +27,15 @@ const userLoginRouteSwitch = async () => {
   if (!('body' in res)) {
     Actions.login();
   } else if (relationshipId || loverRequestId) {
-    // Actions.dashboard();
-    Actions.createQuizReview({
-      quizItem: {
-        question: 'Who is a bahd baybee?',
-        choices: ['Me', 'You', 'Anyone'],
-        senderChoiceIndex: 1,
-        reward: 4,
-      },
-    });
+    Actions.dashboard();
+    // Actions.createQuizReview({
+    //   quizItem: {
+    //     question: 'Who is a bahd baybee?',
+    //     choices: ['Me', 'You', 'Anyone'],
+    //     senderChoiceIndex: 1,
+    //     reward: 4,
+    //   },
+    // });
     indentifyUser(user);
   } else if (
     _.isArray(receivedLoverRequests) &&

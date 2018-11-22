@@ -12,8 +12,7 @@ import CreateQuizChoice from '../CreateQuizChoices/CreateQuizChoice';
 import { QuizItemType } from '../../types';
 import { quiz, buttons } from '../../styles';
 import { createQuizItem as createQuizItemAction } from '../../redux/quizItem/quizItem.actions';
-import QuizArt from '../../components/Art/QuizArt';
-import QuizArtReceived from '../../components/Art/QuizArtReceived';
+import QuizArtSent from '../../components/Art/QuizArtSent';
 
 class CreateQuizReview extends PureComponent {
   static propTypes = {
@@ -61,12 +60,11 @@ class CreateQuizReview extends PureComponent {
       isCreateQuizItemInFlight,
     } = this.props;
 
-    if (this.state.isSuccess || true) {
+    if (this.state.isSuccess) {
       return (
         <View style={quiz.successContainer}>
           <View style={quiz.successWrapper}>
-            <QuizArtReceived scale={0.75} />
-            <QuizArt />
+            <QuizArtSent />
             <Text style={quiz.successText}>Quiz Sent!</Text>
             <Button
               onPress={this.handleDone}
