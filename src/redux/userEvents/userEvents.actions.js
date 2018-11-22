@@ -33,11 +33,26 @@ export const getUserEvents = (
           loveNotes {
             id note createdAt isRead senderId recipientId numLuvups numJalapenos
           }
+          quizItemEvents {
+            id quizItemId userEventId
+          }
+          quizItems {
+            id question senderChoiceId recipientChoiceId reward
+            choices { answer }
+          }
         }
       }`,
     });
 
-    const { rows, count, loveNotes, loveNoteEvents } = res.body.data.userEvents;
+    const {
+      rows,
+      count,
+      loveNotes,
+      loveNoteEvents,
+      quizItems,
+      quizItemEvents,
+    } = res.body.data.userEvents;
+    console.log('\n\n quizItems', quizItems);
 
     if (res.ok && _.isArray(rows)) {
       dispatch({
