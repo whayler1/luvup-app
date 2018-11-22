@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -13,6 +13,7 @@ import { QuizItemType } from '../../types';
 import { quiz, buttons } from '../../styles';
 import { createQuizItem as createQuizItemAction } from '../../redux/quizItem/quizItem.actions';
 import QuizArt from '../../components/Art/QuizArt';
+import QuizArtReceived from '../../components/Art/QuizArtReceived';
 
 class CreateQuizReview extends PureComponent {
   static propTypes = {
@@ -60,10 +61,11 @@ class CreateQuizReview extends PureComponent {
       isCreateQuizItemInFlight,
     } = this.props;
 
-    if (this.state.isSuccess) {
+    if (this.state.isSuccess || true) {
       return (
         <View style={quiz.successContainer}>
           <View style={quiz.successWrapper}>
+            <QuizArtReceived scale={0.75} />
             <QuizArt />
             <Text style={quiz.successText}>Quiz Sent!</Text>
             <Button
