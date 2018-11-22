@@ -19,6 +19,11 @@ const defaultState = {
   count: null,
 };
 
+/**
+ * JW: This is super uggo and probably inefficient. I am
+ * thinking a better way might be to store love notes/ quizes
+ * as dictionaries and access them that way.
+ */
 const getDecoratedRows = (
   rows,
   loveNoteEvents,
