@@ -32,6 +32,14 @@ const questions = [
   "What is my favorite 90's movie?",
   'Where do I like to be tickled?',
   'How much walking do I do on an average day?',
+  "What's the strangest animal I've kept as a pet?",
+  "What's the most embarassing thing that happened to me in Elementary School?",
+  'What are my feelings on capitalism?',
+  'Who is my favorite rapper?',
+  'Never have I ever:',
+  'When was the last time I drank a soda?',
+  'What is my favorite t-shirt right now?',
+  'What do I keep dwelling on?',
 ];
 const mult = questions.length - 1;
 
