@@ -48,7 +48,7 @@ export default new StyleSheet.create({
     marginLeft: 8,
     fontFamily: vars.fontBlack,
     fontSize: 20,
-    color: vars.blueGrey500,
+    color: 'white',
   },
   sectionHeaderContainer: {
     paddingTop: 0,
