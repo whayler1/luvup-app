@@ -36,6 +36,7 @@ export default new StyleSheet.create({
   },
   listHeaderContainer: {
     paddingBottom: 24,
+    backgroundColor: vars.razzleDazzleRose,
   },
   listFooterContainer: {
     paddingBottom: 16,
