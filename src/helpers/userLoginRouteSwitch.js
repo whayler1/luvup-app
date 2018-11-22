@@ -28,6 +28,7 @@ const userLoginRouteSwitch = async () => {
     Actions.login();
   } else if (relationshipId || loverRequestId) {
     Actions.dashboard();
+    // Actions.timeline();
     // Actions.createQuizReview({
     //   quizItem: {
     //     question: 'Who is a bahd baybee?',

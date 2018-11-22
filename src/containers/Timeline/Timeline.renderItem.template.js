@@ -14,6 +14,8 @@ import coinSentImg from '../../images/coin-sent.png';
 import coinReceivedImg from '../../images/coin-received.png';
 import LoveNoteArtFlying from '../../components/LoveNoteArtFlying';
 import LoveNoteArtReceived from '../../components/LoveNoteArtReceived';
+import QuizArtSent from '../../components/Art/QuizArtSent';
+import QuizArtReceived from '../../components/Art/QuizArtReceived';
 import CoinArt from '../../components/CoinArt';
 import JalapenoArt from '../../components/JalapenoArt';
 
@@ -30,15 +32,15 @@ const getEventDisplayName = (eventName, count) => {
     case 'jalapeno-received':
       return `Jalapeno${plur} received`;
     case 'password-changed':
-      return 'Password Changed';
+      return 'Password changed';
     case 'lovenote-sent':
       return `Love note${plur} sent`;
     case 'lovenote-received':
       return `Love note${plur} received`;
     case 'quiz-item-sent':
-      return 'Quiz Created';
+      return 'Quiz created';
     case 'quiz-item-received':
-      return 'Quiz Received';
+      return 'Quiz received';
     default:
       return eventName;
   }
@@ -97,6 +99,18 @@ const getEventImage = eventName => {
       return (
         <View style={{ paddingTop: 3 }}>
           <LoveNoteArtReceived scale={0.4} />
+        </View>
+      );
+    case 'quiz-item-sent':
+      return (
+        <View style={{ paddingTop: 3 }}>
+          <QuizArtSent scale={0.36} />
+        </View>
+      );
+    case 'quiz-item-received':
+      return (
+        <View style={{ paddingTop: 3 }}>
+          <QuizArtReceived scale={0.36} />
         </View>
       );
     default:

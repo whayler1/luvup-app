@@ -87,7 +87,7 @@ class CreateQuizQuestion extends PureComponent {
               ]}
               onChangeText={this.handleQuestionChange}
               value={this.state.question}
-              maxLength={1000}
+              maxLength={600}
               placeholder={this.placeholder}
               placeholderTextColor={vars.blueGrey100}
               multiline
