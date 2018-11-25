@@ -36,7 +36,7 @@ export const getUserEvents = (
           }
           quizItems {
             id question senderChoiceId recipientChoiceId reward createdAt
-            choices { answer }
+            choices { id answer }
           }
         }
       }`);

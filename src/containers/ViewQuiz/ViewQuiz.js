@@ -1,7 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text } from 'react-native';
+import { View, ScrollView, Text } from 'react-native';
 import { connect } from 'react-redux';
+
+import QuizDisplay from '../../components/QuizDisplay';
+import { quiz as styles } from '../../styles';
 
 class ViewQuiz extends PureComponent {
   static propTypes = {
@@ -22,12 +25,14 @@ class ViewQuiz extends PureComponent {
   render() {
     const {
       state: { recipientChoiceId },
-      quizItem: { question },
+      quizItem,
     } = this;
     return (
-      <View>
-        <Text>View Quiz Item {question}</Text>
-      </View>
+      <ScrollView
+        style={styles.scrollContainer}
+        contentContainerStyle={styles.scrollContent}>
+        <QuizDisplay quizItem={quizItem} />
+      </ScrollView>
     );
   }
 }
