@@ -8,12 +8,12 @@ import _ from 'lodash';
 
 import CreateQuizNavBar from '../CreateQuizNavBar';
 import CreateQuizLuvupButton from './CreateQuizLuvupButton';
-import { QuizItemType } from '../../types';
+import { QuizItemAttemptType } from '../../types';
 import { quiz, forms, buttons } from '../../styles';
 
 class CreateQuizReward extends PureComponent {
   static propTypes = {
-    quizItem: QuizItemType,
+    quizItem: QuizItemAttemptType,
     loverFirstName: PropTypes.string.isRequired,
   };
 

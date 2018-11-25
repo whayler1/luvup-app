@@ -78,6 +78,14 @@ export default ({
         renderItem={renderItem}
         sections={sections}
         onEndReached={onEndReached}
+        onChangeVisibleRows={(visibleRows, changedRows) => {
+          console.log(
+            '\n\nonChangeVisibleRows\n',
+            visibleRows,
+            '\n---\n',
+            changedRows
+          );
+        }}
       />
     </View>
     <Modal visible={isModalVisible} animationType={'fade'} transparent>

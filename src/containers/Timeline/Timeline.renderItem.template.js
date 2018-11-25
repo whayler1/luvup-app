@@ -118,21 +118,29 @@ const getEventImage = eventName => {
   }
 };
 
-const Wrapper = ({ children, eventName, loveNote = {} }) => {
+const getHandleLoveNoteClick = loveNoteId => () => {
+  Actions.viewLoveNote({ loveNoteId });
+};
+
+const getHandleQuizItemClick = quizItemId => () => {
+  Actions.viewQuizItem({ quizItemId });
+};
+
+const Wrapper = ({ children, eventName, loveNote = {}, quizItem = {} }) => {
   if (_.isString(loveNote.id)) {
     return (
-      <TouchableOpacity
-        onPress={() => Actions.viewLoveNote({ loveNoteId: loveNote.id })}>
+      <TouchableOpacity onPress={getHandleLoveNoteClick(loveNote.id)}>
         {eventName === 'lovenote-received' &&
           !loveNote.isRead && (
-            <NotificationDot
-              style={{
-                position: 'absolute',
-                left: 12,
-                top: 10,
-              }}
-            />
+            <NotificationDot style={styles.renderItemNotificationDot} />
           )}
+        {...children}
+      </TouchableOpacity>
+    );
+  }
+  if (_.isString(quizItem.id)) {
+    return (
+      <TouchableOpacity onPress={getHandleQuizItemClick(quizItem.id)}>
         {...children}
       </TouchableOpacity>
     );
@@ -152,6 +160,7 @@ export default ({ item, index, section }) => {
     <Wrapper
       isLink={isLovenoteItemWithNote}
       loveNote={item.loveNote}
+      quizItem={item.quizItem}
       eventName={item.name}>
       <View
         style={

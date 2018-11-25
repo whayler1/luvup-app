@@ -9,14 +9,14 @@ import _ from 'lodash';
 import CreateQuizNavBar from '../CreateQuizNavBar';
 import CoinArt from '../../components/CoinArt';
 import CreateQuizChoice from '../CreateQuizChoices/CreateQuizChoice';
-import { QuizItemType } from '../../types';
+import { QuizItemAttemptType } from '../../types';
 import { quiz, buttons } from '../../styles';
 import { createQuizItem as createQuizItemAction } from '../../redux/quizItem/quizItem.actions';
 import QuizArtSent from '../../components/Art/QuizArtSent';
 
 class CreateQuizReview extends PureComponent {
   static propTypes = {
-    quizItem: QuizItemType,
+    quizItem: QuizItemAttemptType,
     createQuizItem: PropTypes.func.isRequired,
     isCreateQuizItemInFlight: PropTypes.bool.isRequired,
     createQuizItemErrorMessage: PropTypes.string.isRequired,

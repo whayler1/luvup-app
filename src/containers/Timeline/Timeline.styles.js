@@ -51,7 +51,7 @@ export default new StyleSheet.create({
     color: 'white',
   },
   sectionHeaderContainer: {
-    paddingTop: 0,
+    paddingTop: 16,
     paddingLeft: 16,
     paddingRight: 16,
     paddingBottom: 16,
@@ -102,6 +102,11 @@ export default new StyleSheet.create({
     fontSize: 14,
     color: vars.blueGrey500,
     paddingLeft: 2,
+  },
+  renderItemNotificationDot: {
+    position: 'absolute',
+    left: 12,
+    top: 10,
   },
   heartBtn: {
     flex: 1,
