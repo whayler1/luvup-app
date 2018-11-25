@@ -13,6 +13,7 @@ import { QuizItemAttemptType } from '../../types';
 import { quiz, buttons } from '../../styles';
 import { createQuizItem as createQuizItemAction } from '../../redux/quizItem/quizItem.actions';
 import QuizArtSent from '../../components/Art/QuizArtSent';
+import QuizDisplay from '../../components/QuizDisplay';
 
 class CreateQuizReview extends PureComponent {
   static propTypes = {
@@ -55,10 +56,7 @@ class CreateQuizReview extends PureComponent {
   };
 
   render() {
-    const {
-      quizItem: { question, choices, senderChoiceIndex, reward },
-      isCreateQuizItemInFlight,
-    } = this.props;
+    const { quizItem, isCreateQuizItemInFlight } = this.props;
 
     if (this.state.isSuccess) {
       return (
@@ -91,26 +89,7 @@ class CreateQuizReview extends PureComponent {
         <ScrollView
           style={quiz.scrollContainer}
           contentContainerStyle={quiz.scrollContent}>
-          <Text style={quiz.questionSmallText}>{question}</Text>
-          {choices.map((choice, i) => (
-            <CreateQuizChoice
-              key={i}
-              isChecked={i === senderChoiceIndex}
-              value={choice}
-              index={i}
-              isReadOnly
-            />
-          ))}
-          <View style={quiz.reviewRewardWrapper}>
-            {_.times(reward, n => (
-              <View style={quiz.reviewRewardItem} key={n}>
-                <CoinArt
-                  scale={0.5}
-                  recentlySentCoinCount={n + 1 === reward ? reward : undefined}
-                />
-              </View>
-            ))}
-          </View>
+          <QuizDisplay quizItemAttempt={quizItem} />
           {this.props.createQuizItemErrorMessage && (
             <Text>{this.props.createQuizItemErrorMessage}</Text>
           )}
