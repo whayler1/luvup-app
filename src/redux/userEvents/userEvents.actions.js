@@ -35,7 +35,7 @@ export const getUserEvents = (
             id quizItemId userEventId
           }
           quizItems {
-            id question senderChoiceId recipientChoiceId reward createdAt
+            id senderId recipientId question senderChoiceId recipientChoiceId reward createdAt
             choices { id answer }
           }
         }

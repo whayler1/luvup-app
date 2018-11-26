@@ -18,6 +18,8 @@ export const QuizItemType = PropTypes.shape({
   reward: PropTypes.number.isRequired,
   senderChoiceId: PropTypes.string.isRequired,
   recipientChoiceId: PropTypes.string,
+  senderId: PropTypes.string.isRequired,
+  recipientId: PropTypes.string.isRequired,
 });
 
 export default {
