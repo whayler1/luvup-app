@@ -4,11 +4,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { KeyboardAvoidingView, ScrollView, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
-import _ from 'lodash';
 
 import CreateQuizNavBar from '../CreateQuizNavBar';
-import CoinArt from '../../components/CoinArt';
-import CreateQuizChoice from '../CreateQuizChoices/CreateQuizChoice';
 import { QuizItemAttemptType } from '../../types';
 import { quiz, buttons } from '../../styles';
 import { createQuizItem as createQuizItemAction } from '../../redux/quizItem/quizItem.actions';

@@ -3,9 +3,12 @@ import PropTypes from 'prop-types';
 import { View, ScrollView, Text } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import { Button } from 'react-native-elements';
 
 import QuizDisplay from '../../components/QuizDisplay';
-import { quiz as styles } from '../../styles';
+import { quiz as styles, buttons, forms } from '../../styles';
+
+const NO_CHOICE_SELECTED = 'no-choice-selected';
 
 class ViewQuiz extends PureComponent {
   static propTypes = {
@@ -20,17 +23,32 @@ class ViewQuiz extends PureComponent {
 
     this.quizItem = props.quizItemDictionary[props.quizItemId];
     this.isSender = this.quizItem.senderId === props.userId;
+    this.isAnswerable = !this.quizItem.recipientChoiceId && !this.isSender;
 
     this.state = {
       recipientChoiceId: this.quizItem.recipientChoiceId,
+      error: '',
     };
   }
+
+  handleChoicePress = recipientChoiceId => {
+    this.setState({ recipientChoiceId });
+  };
+
+  handleSubmit = () => {
+    if (!this.state.recipientChoiceId) {
+      this.setState({ error: NO_CHOICE_SELECTED });
+    }
+  };
 
   render() {
     const {
       quizItem,
       isSender,
-      // state: { recipientChoiceId },
+      isAnswerable,
+      handleChoicePress,
+      handleSubmit,
+      state: { recipientChoiceId, error },
     } = this;
     const loverFirstName = _.upperFirst(this.props.loverFirstName);
     return (
@@ -42,7 +60,31 @@ class ViewQuiz extends PureComponent {
         ) : (
           <Text>{loverFirstName} sent you a quiz</Text>
         )}
-        <QuizDisplay quizItem={quizItem} />
+        {isAnswerable && (
+          <Text>Select an answer below to win {quizItem.reward} Luvups!</Text>
+        )}
+        <QuizDisplay
+          onChoicePress={handleChoicePress}
+          isAnswerable={isAnswerable}
+          quizItem={quizItem}
+          recipientChoiceId={recipientChoiceId}
+        />
+        {isAnswerable && (
+          <View style={styles.viewQuizSubmitWrapper}>
+            {error === NO_CHOICE_SELECTED && (
+              <Text style={[forms.error, styles.viewQuizSubmitError]}>
+                Please select a choice
+              </Text>
+            )}
+            <Button
+              onPress={handleSubmit}
+              containerViewStyle={buttons.infoContainer}
+              buttonStyle={buttons.infoButton}
+              textStyle={buttons.infoText}
+              title="Submit"
+            />
+          </View>
+        )}
       </ScrollView>
     );
   }

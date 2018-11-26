@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TextInput } from 'react-native';
+import _ from 'lodash';
 
 import { forms, quiz as styles } from '../../styles';
 import CreateQuizChoiceCheckbox from './CreateQuizChoiceCheckbox';
@@ -34,7 +35,7 @@ class CreateQuizChoice extends PureComponent {
   };
 
   handleSelectPress = () => {
-    if (!this.props.isReadOnly) {
+    if (_.isFunction(this.props.onSelect)) {
       this.props.onSelect(this.props.index);
     }
   };
