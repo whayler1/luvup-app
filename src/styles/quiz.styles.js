@@ -143,4 +143,11 @@ export default StyleSheet.create({
     fontFamily: vars.fontBlack,
     color: vars.blueGrey500,
   },
+  viewQuizSubmitWrapper: {
+    marginTop: 24,
+  },
+  viewQuizSubmitError: {
+    paddingTop: 0,
+    paddingBottom: 8,
+  },
 });
