@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
@@ -69,17 +69,13 @@ class ViewLoveNote extends PureComponent {
             paddingTop: 12,
           }}>
           {isSender ? (
-            <Fragment>
-              <Text style={{ fontFamily: vars.fontBlack }}>
-                You sent {this.props.loverFirstName} a love note
-              </Text>
-            </Fragment>
+            <Text style={{ fontFamily: vars.fontBlack }}>
+              You sent {this.props.loverFirstName} a love note
+            </Text>
           ) : (
-            <Fragment>
-              <Text style={{ fontFamily: vars.fontBlack }}>
-                {this.props.loverFirstName} sent you a love note
-              </Text>
-            </Fragment>
+            <Text style={{ fontFamily: vars.fontBlack }}>
+              {this.props.loverFirstName} sent you a love note
+            </Text>
           )}
           <Text style={{ paddingTop: 10 }}>
             {'\n'}
