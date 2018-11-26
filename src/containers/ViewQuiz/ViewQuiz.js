@@ -4,6 +4,7 @@ import { View, ScrollView, Text } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { Button } from 'react-native-elements';
+import { format } from 'date-fns';
 
 import QuizDisplay from '../../components/QuizDisplay';
 import { quiz as styles, buttons, forms } from '../../styles';
@@ -24,6 +25,11 @@ class ViewQuiz extends PureComponent {
     this.quizItem = props.quizItemDictionary[props.quizItemId];
     this.isSender = this.quizItem.senderId === props.userId;
     this.isAnswerable = !this.quizItem.recipientChoiceId && !this.isSender;
+    const createdAtDate = new Date(this.quizItem.createdAt);
+    this.formattedCreatedAt =
+      format(createdAtDate, 'MMM Do YYYY') +
+      ' at ' +
+      format(createdAtDate, 'h:mma');
 
     this.state = {
       recipientChoiceId: this.quizItem.recipientChoiceId,
@@ -48,6 +54,7 @@ class ViewQuiz extends PureComponent {
       isAnswerable,
       handleChoicePress,
       handleSubmit,
+      formattedCreatedAt,
       state: { recipientChoiceId, error },
     } = this;
     const loverFirstName = _.upperFirst(this.props.loverFirstName);
@@ -55,14 +62,29 @@ class ViewQuiz extends PureComponent {
       <ScrollView
         style={styles.scrollContainer}
         contentContainerStyle={styles.scrollContent}>
-        {isSender ? (
-          <Text>You sent {loverFirstName} a quiz</Text>
-        ) : (
-          <Text>{loverFirstName} sent you a quiz</Text>
-        )}
+        <Text style={styles.viewQuizDetails}>
+          {isSender ? (
+            <Text style={styles.viewQuizDetailsBold}>
+              You sent {loverFirstName} a quiz
+            </Text>
+          ) : (
+            <Text style={styles.viewQuizDetailsBold}>
+              {loverFirstName} sent you a quiz
+            </Text>
+          )}
+          <Text style={styles.viewQuizDetailsNewLine}>
+            {'\n'}
+            {formattedCreatedAt}.
+          </Text>
+        </Text>
         {isAnswerable && (
-          <Text>Select an answer below to win {quizItem.reward} Luvups!</Text>
+          <Text style={styles.viewQuizDetailsDirections}>
+            Select an answer below to win {quizItem.reward} Luvups!
+          </Text>
         )}
+        <View style={styles.viewQuizHorizontalRuleWrapper}>
+          <View style={styles.viewQuizHorizontalRule} />
+        </View>
         <QuizDisplay
           onChoicePress={handleChoicePress}
           isAnswerable={isAnswerable}
