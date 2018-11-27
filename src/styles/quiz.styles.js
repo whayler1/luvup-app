@@ -123,6 +123,7 @@ export default StyleSheet.create({
     marginBottom: 24,
     marginHorizontal: -8,
     flexDirection: 'row',
+    justifyContent: 'center',
   },
   reviewRewardItem: {
     marginHorizontal: 8,

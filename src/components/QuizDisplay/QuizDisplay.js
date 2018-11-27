@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text } from 'react-native';
+import { Text } from 'react-native';
 import _ from 'lodash';
 
 import { QuizItemType, QuizItemAttemptType } from '../../types';
 import { quiz } from '../../styles';
 import CreateQuizChoice from '../../containers/CreateQuizChoices/CreateQuizChoice';
-import CoinArt from '../CoinArt';
+import CoinRow from '../CoinRow';
 
 const getHandleChoicePress = (choiceId, onChoicePress) => () => {
   if (_.isFunction(onChoicePress)) {
@@ -52,18 +52,7 @@ const QuizDisplay = ({
           />
         );
       })}
-      {!isAnswerable && (
-        <View style={quiz.reviewRewardWrapper}>
-          {_.times(reward, n => (
-            <View style={quiz.reviewRewardItem} key={n}>
-              <CoinArt
-                scale={0.5}
-                recentlySentCoinCount={n + 1 === reward ? reward : undefined}
-              />
-            </View>
-          ))}
-        </View>
-      )}
+      {!isAnswerable && <CoinRow reward={reward} />}
     </Fragment>
   );
 };

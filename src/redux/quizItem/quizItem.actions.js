@@ -89,7 +89,6 @@ export const answerQuizItem = (
       }
     }`;
     const data = await graphQlRequest(query);
-    console.log('\n\n -- data', data);
     const quizItem = _.get(data, 'answerQuizItem.quizItem', {});
 
     if (quizItem.id) {

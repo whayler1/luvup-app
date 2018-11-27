@@ -38,12 +38,31 @@ class ViewQuiz extends PureComponent {
     this.state = {
       recipientChoiceId: this.quizItem.recipientChoiceId,
       error: '',
+      isCorrectAnswerSelected: false,
+      isWrongAnswerSelected: false,
     };
   }
 
   handleChoicePress = recipientChoiceId => {
     this.setState({ recipientChoiceId });
   };
+
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.isAnswerQuizItemInFlight &&
+      !this.props.isAnswerQuizItemInFlight &&
+      this.props.answerQuizItemErrorMessage.length < 1
+    ) {
+      const { quizItemId, quizItemDictionary } = this.props;
+      const quizItem = quizItemDictionary[quizItemId];
+      const { recipientChoiceId, senderChoiceId } = quizItem;
+      if (recipientChoiceId === senderChoiceId) {
+        this.setState({ isCorrectAnswerSelected: true }); /* eslint-disable-line */
+      } else {
+        this.setState({ isWrongAnswerSelected: true }); /* eslint-disable-line */
+      }
+    }
+  }
 
   handleSubmit = () => {
     const {
@@ -92,6 +111,11 @@ class ViewQuiz extends PureComponent {
         {isAnswerable && (
           <Text style={styles.viewQuizDetailsDirections}>
             Select an answer below to win {quizItem.reward} Luvups!
+          </Text>
+        )}
+        {isSender && (
+          <Text style={styles.viewQuizDetailsDirections}>
+            {loverFirstName} hasn’t answered yet
           </Text>
         )}
         <View style={styles.viewQuizHorizontalRuleWrapper}>
