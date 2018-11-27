@@ -7,6 +7,7 @@ import { Button } from 'react-native-elements';
 import { format } from 'date-fns';
 
 import QuizDisplay from '../../components/QuizDisplay';
+import ViewQuizSuccess from './ViewQuizSuccess';
 import { quiz as styles, buttons, forms } from '../../styles';
 import { answerQuizItem as answerQuizItemAction } from '../../redux/quizItem/quizItem.actions';
 
@@ -85,10 +86,15 @@ class ViewQuiz extends PureComponent {
       handleChoicePress,
       handleSubmit,
       formattedCreatedAt,
-      state: { recipientChoiceId, error },
+      state: { recipientChoiceId, error, isCorrectAnswerSelected },
       props: { isAnswerQuizItemInFlight, answerQuizItemErrorMessage },
     } = this;
     const loverFirstName = _.upperFirst(this.props.loverFirstName);
+
+    if (isCorrectAnswerSelected) {
+      return <ViewQuizSuccess reward={quizItem.reward} />;
+    }
+
     return (
       <ScrollView
         style={styles.scrollContainer}
@@ -113,11 +119,20 @@ class ViewQuiz extends PureComponent {
             Select an answer below to win {quizItem.reward} Luvups!
           </Text>
         )}
-        {isSender && (
-          <Text style={styles.viewQuizDetailsDirections}>
-            {loverFirstName} hasn’t answered yet
-          </Text>
-        )}
+        {isSender &&
+          !quizItem.recipientChoiceId && (
+            <Text style={styles.viewQuizDetailsDirections}>
+              {loverFirstName} hasn’t answered yet
+            </Text>
+          )}
+        {isSender &&
+          quizItem.recipientChoiceId && (
+            <Text style={styles.viewQuizDetailsDirections}>
+              {quizItem.recipientChoiceId === quizItem.senderChoiceId
+                ? `${loverFirstName} answered correctly!`
+                : `${loverFirstName} got it wrong`}
+            </Text>
+          )}
         <View style={styles.viewQuizHorizontalRuleWrapper}>
           <View style={styles.viewQuizHorizontalRule} />
         </View>
