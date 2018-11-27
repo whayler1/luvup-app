@@ -119,7 +119,7 @@ export default StyleSheet.create({
     paddingBottom: 8,
   },
   reviewRewardWrapper: {
-    marginTop: 8,
+    marginTop: 16,
     marginBottom: 24,
     marginHorizontal: -8,
     flexDirection: 'row',
