@@ -133,6 +133,14 @@ class ViewQuiz extends PureComponent {
                 : `${loverFirstName} got it wrong`}
             </Text>
           )}
+        {!isSender &&
+          quizItem.recipientChoiceId && (
+            <Text style={styles.viewQuizDetailsDirections}>
+              {quizItem.recipientChoiceId === quizItem.senderChoiceId
+                ? `You got it right and won ${quizItem.reward} Luvups!`
+                : `You answered wrong`}
+            </Text>
+          )}
         <View style={styles.viewQuizHorizontalRuleWrapper}>
           <View style={styles.viewQuizHorizontalRule} />
         </View>
