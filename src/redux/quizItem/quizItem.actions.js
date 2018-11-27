@@ -81,15 +81,16 @@ export const answerQuizItem = (
         quizItemId: "${quizItemId}"
         recipientChoiceId: "${recipientChoiceId}"
       ) {
-        quizItem: {
+        quizItem {
           id question createdAt reward senderId recipientId senderChoiceId recipientChoiceId
-          choices: { id answer }
+          choices { id answer }
         }
-        coins: { id createdAt }
+        coins { id createdAt }
       }
     }`;
     const data = await graphQlRequest(query);
-    const quizItem = _.get(data, 'createQuizItem.quizItem', {});
+    console.log('\n\n -- data', data);
+    const quizItem = _.get(data, 'answerQuizItem.quizItem', {});
 
     if (quizItem.id) {
       return dispatch({

@@ -8,6 +8,7 @@ import { format } from 'date-fns';
 
 import QuizDisplay from '../../components/QuizDisplay';
 import { quiz as styles, buttons, forms } from '../../styles';
+import { answerQuizItem as answerQuizItemAction } from '../../redux/quizItem/quizItem.actions';
 
 const NO_CHOICE_SELECTED = 'no-choice-selected';
 
@@ -17,6 +18,9 @@ class ViewQuiz extends PureComponent {
     quizItemDictionary: PropTypes.object.isRequired,
     userId: PropTypes.string.isRequired,
     loverFirstName: PropTypes.string.isRequired,
+    answerQuizItem: PropTypes.func.isRequired,
+    isAnswerQuizItemInFlight: PropTypes.bool.isRequired,
+    answerQuizItemErrorMessage: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -42,8 +46,15 @@ class ViewQuiz extends PureComponent {
   };
 
   handleSubmit = () => {
-    if (!this.state.recipientChoiceId) {
+    const {
+      state: { recipientChoiceId },
+      props: { quizItemId, answerQuizItem },
+    } = this;
+    if (!recipientChoiceId) {
       this.setState({ error: NO_CHOICE_SELECTED });
+    } else {
+      this.setState({ error: '' });
+      answerQuizItem(quizItemId, recipientChoiceId);
     }
   };
 
@@ -56,6 +67,7 @@ class ViewQuiz extends PureComponent {
       handleSubmit,
       formattedCreatedAt,
       state: { recipientChoiceId, error },
+      props: { isAnswerQuizItemInFlight, answerQuizItemErrorMessage },
     } = this;
     const loverFirstName = _.upperFirst(this.props.loverFirstName);
     return (
@@ -98,12 +110,18 @@ class ViewQuiz extends PureComponent {
                 Please select a choice
               </Text>
             )}
+            {answerQuizItemErrorMessage && (
+              <Text style={[forms.error, styles.viewQuizSubmitError]}>
+                {answerQuizItemErrorMessage}
+              </Text>
+            )}
             <Button
               onPress={handleSubmit}
               containerViewStyle={buttons.infoContainer}
               buttonStyle={buttons.infoButton}
               textStyle={buttons.infoText}
-              title="Submit"
+              disabled={isAnswerQuizItemInFlight}
+              title={isAnswerQuizItemInFlight ? 'Submitting…' : 'Submit'}
             />
           </View>
         )}
@@ -112,8 +130,15 @@ class ViewQuiz extends PureComponent {
   }
 }
 
-export default connect(state => ({
-  quizItemDictionary: state.quizItem.quizItemDictionary,
-  userId: state.user.id,
-  loverFirstName: state.lover.firstName,
-}))(ViewQuiz);
+export default connect(
+  state => ({
+    quizItemDictionary: state.quizItem.quizItemDictionary,
+    userId: state.user.id,
+    loverFirstName: state.lover.firstName,
+    isAnswerQuizItemInFlight: state.quizItem.isAnswerQuizItemInFlight,
+    answerQuizItemErrorMessage: state.quizItem.answerQuizItemErrorMessage,
+  }),
+  {
+    answerQuizItem: answerQuizItemAction,
+  }
+)(ViewQuiz);

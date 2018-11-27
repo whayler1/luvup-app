@@ -13,6 +13,8 @@ const defaultState = {
   isCreateQuizItemInFlight: false,
   createQuizItemErrorMessage: '',
   quizItemDictionary: {},
+  isAnswerQuizItemInFlight: false,
+  answerQuizItemErrorMessage: '',
 };
 
 export default function reducer(state = defaultState, action) {
