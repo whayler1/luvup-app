@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Text } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import _ from 'lodash';
 
 import { QuizItemType, QuizItemAttemptType } from '../../types';
@@ -29,23 +29,41 @@ const QuizDisplay = ({
     <Fragment>
       <Text style={quiz.questionSmallText}>{question}</Text>
       {choices.map((choice, i) => {
-        const isChecked = isAttempt
+        const isQuizItemRecipientChoiceId =
+          _.isString(quizItem.recipientChoiceId) &&
+          quizItem.recipientChoiceId.length > 0;
+        let isChecked = isAttempt
           ? i === quizItemAttempt.senderChoiceIndex
-          : choice.id === quizItem.recipientChoiceId;
+          : isQuizItemRecipientChoiceId
+            ? choice.id === quizItem.senderChoiceId
+            : choice.id === recipientChoiceId;
+        let isWrong = false;
+
+        if (
+          choice.id === quizItem.recipientChoiceId &&
+          choice.id !== quizItem.senderChoiceId
+        ) {
+          isWrong = true;
+          isChecked = false;
+        }
+
         const value = isAttempt ? choice : choice.answer;
         return isAnswerable ? (
-          <CreateQuizChoice
+          <TouchableOpacity
             key={choice.id}
-            isChecked={choice.id === recipientChoiceId}
-            value={value}
-            index={i}
-            isReadOnly
-            onSelect={getHandleChoicePress(choice.id, onChoicePress)}
-          />
+            onPress={getHandleChoicePress(choice.id, onChoicePress)}>
+            <CreateQuizChoice
+              isChecked={isChecked}
+              value={value}
+              index={i}
+              isReadOnly
+            />
+          </TouchableOpacity>
         ) : (
           <CreateQuizChoice
             key={i}
             isChecked={isChecked}
+            isWrong={isWrong}
             value={value}
             index={i}
             isReadOnly

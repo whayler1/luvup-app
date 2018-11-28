@@ -21,7 +21,12 @@ class CreateQuizChoice extends PureComponent {
     onChange: PropTypes.func,
     onSelect: PropTypes.func,
     isChecked: PropTypes.bool.isRequired,
+    isWrong: PropTypes.bool,
     error: PropTypes.string,
+  };
+
+  static defaultProps = {
+    isWrong: false,
   };
 
   constructor(props) {
@@ -47,6 +52,7 @@ class CreateQuizChoice extends PureComponent {
           <View style={styles.choiceItemCheckboxWrapper}>
             <CreateQuizChoiceCheckbox
               isChecked={this.props.isChecked}
+              isWrong={this.props.isWrong}
               scale={this.props.isReadOnly ? 0.28 : 0.5}
               onPress={this.handleSelectPress}
             />

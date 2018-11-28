@@ -27,21 +27,22 @@ class ViewQuiz extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.quizItem = props.quizItemDictionary[props.quizItemId];
-    this.isSender = this.quizItem.senderId === props.userId;
-    this.isAnswerable = !this.quizItem.recipientChoiceId && !this.isSender;
-    const createdAtDate = new Date(this.quizItem.createdAt);
+    const quizItem = props.quizItemDictionary[props.quizItemId];
+
+    this.state = {
+      quizItem,
+      isAnswerable: !quizItem.recipientChoiceId && !this.isSender,
+      recipientChoiceId: quizItem.recipientChoiceId,
+      error: '',
+      isCorrectAnswerSelected: false,
+    };
+
+    this.isSender = quizItem.senderId === props.userId;
+    const createdAtDate = new Date(quizItem.createdAt);
     this.formattedCreatedAt =
       format(createdAtDate, 'MMM Do YYYY') +
       ' at ' +
       format(createdAtDate, 'h:mma');
-
-    this.state = {
-      recipientChoiceId: this.quizItem.recipientChoiceId,
-      error: '',
-      isCorrectAnswerSelected: false,
-      isWrongAnswerSelected: false,
-    };
   }
 
   handleChoicePress = recipientChoiceId => {
@@ -56,11 +57,16 @@ class ViewQuiz extends PureComponent {
     ) {
       const { quizItemId, quizItemDictionary } = this.props;
       const quizItem = quizItemDictionary[quizItemId];
-      const { recipientChoiceId, senderChoiceId } = quizItem;
-      if (recipientChoiceId === senderChoiceId) {
+      const { senderChoiceId } = quizItem;
+      if (this.state.recipientChoiceId === senderChoiceId) {
         this.setState({ isCorrectAnswerSelected: true }); /* eslint-disable-line */
       } else {
-        this.setState({ isWrongAnswerSelected: true }); /* eslint-disable-line */
+        /* eslint-disable react/no-did-update-set-state */
+        this.setState({
+          isAnswerable: false,
+          quizItem: this.props.quizItemDictionary[this.props.quizItemId],
+        });
+        /* eslint-enable react/no-did-update-set-state */
       }
     }
   }
@@ -80,13 +86,17 @@ class ViewQuiz extends PureComponent {
 
   render() {
     const {
-      quizItem,
       isSender,
-      isAnswerable,
       handleChoicePress,
       handleSubmit,
       formattedCreatedAt,
-      state: { recipientChoiceId, error, isCorrectAnswerSelected },
+      state: {
+        isAnswerable,
+        quizItem,
+        recipientChoiceId,
+        error,
+        isCorrectAnswerSelected,
+      },
       props: { isAnswerQuizItemInFlight, answerQuizItemErrorMessage },
     } = this;
     const loverFirstName = _.upperFirst(this.props.loverFirstName);
@@ -148,7 +158,11 @@ class ViewQuiz extends PureComponent {
           onChoicePress={handleChoicePress}
           isAnswerable={isAnswerable}
           quizItem={quizItem}
-          recipientChoiceId={recipientChoiceId}
+          recipientChoiceId={
+            isAnswerable
+              ? this.state.recipientChoiceId
+              : quizItem.recipientChoiceId
+          }
         />
         {isAnswerable && (
           <View style={styles.viewQuizSubmitWrapper}>
