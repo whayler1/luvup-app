@@ -14,6 +14,19 @@ const getHandleChoicePress = (choiceId, onChoicePress) => () => {
   }
 };
 
+const getShouldShowCoinRow = (isAnswerable, quizItem) => {
+  if (isAnswerable) {
+    return false;
+  }
+  if (!quizItem.recipientChoiceId) {
+    return true;
+  }
+  if (quizItem.recipientChoiceId === quizItem.senderChoiceId) {
+    return true;
+  }
+  return false;
+};
+
 const QuizDisplay = ({
   quizItem,
   quizItemAttempt,
@@ -71,7 +84,10 @@ const QuizDisplay = ({
           />
         );
       })}
-      {!isAnswerable && <CoinRow reward={reward} />}
+      {getShouldShowCoinRow(
+        isAnswerable,
+        isAttempt ? quizItemAttempt : quizItem
+      ) && <CoinRow reward={reward} />}
     </Fragment>
   );
 };
