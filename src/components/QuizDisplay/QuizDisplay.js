@@ -30,7 +30,7 @@ const QuizDisplay = ({
       <Text style={quiz.questionSmallText}>{question}</Text>
       {choices.map((choice, i) => {
         const isQuizItemRecipientChoiceId =
-          _.isString(quizItem.recipientChoiceId) &&
+          _.isString(_.get(quizItem, 'recipientChoiceId')) &&
           quizItem.recipientChoiceId.length > 0;
         let isChecked = isAttempt
           ? i === quizItemAttempt.senderChoiceIndex
@@ -40,6 +40,7 @@ const QuizDisplay = ({
         let isWrong = false;
 
         if (
+          !isAttempt &&
           choice.id === quizItem.recipientChoiceId &&
           choice.id !== quizItem.senderChoiceId
         ) {

@@ -28,6 +28,7 @@ class ViewQuiz extends PureComponent {
     super(props);
 
     const quizItem = props.quizItemDictionary[props.quizItemId];
+    this.isSender = quizItem.senderId === props.userId;
 
     this.state = {
       quizItem,
@@ -36,8 +37,6 @@ class ViewQuiz extends PureComponent {
       error: '',
       isCorrectAnswerSelected: false,
     };
-
-    this.isSender = quizItem.senderId === props.userId;
     const createdAtDate = new Date(quizItem.createdAt);
     this.formattedCreatedAt =
       format(createdAtDate, 'MMM Do YYYY') +
@@ -90,13 +89,7 @@ class ViewQuiz extends PureComponent {
       handleChoicePress,
       handleSubmit,
       formattedCreatedAt,
-      state: {
-        isAnswerable,
-        quizItem,
-        recipientChoiceId,
-        error,
-        isCorrectAnswerSelected,
-      },
+      state: { isAnswerable, quizItem, error, isCorrectAnswerSelected },
       props: { isAnswerQuizItemInFlight, answerQuizItemErrorMessage },
     } = this;
     const loverFirstName = _.upperFirst(this.props.loverFirstName);
