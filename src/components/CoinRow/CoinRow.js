@@ -20,7 +20,7 @@ const CoinRow = ({ reward, coinScale = 0.5 }) => (
 );
 
 CoinRow.propTypes = {
-  reward: PropTypes.number,
+  reward: PropTypes.number.isRequired,
   coinScale: PropTypes.number,
 };
 

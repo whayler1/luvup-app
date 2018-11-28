@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity } from 'react-native';
-import { Svg, Path } from 'react-native-svg';
+import { Svg, Path, Polygon } from 'react-native-svg';
 
 import { vars } from '../../styles';
 
 const CreateQuizChoiceCheckbox = ({
   isChecked = true,
+  isWrong = false,
   scale = 1,
   boxFill = vars.blueGrey100,
   checkFill = vars.cyan300,
@@ -16,7 +17,7 @@ const CreateQuizChoiceCheckbox = ({
   <TouchableOpacity onPress={onPress}>
     <Svg width={68 * scale} height={68 * scale}>
       <Path
-        fill={isChecked ? boxFillChecked : boxFill}
+        fill={isChecked ? boxFillChecked : isWrong ? vars.red500 : boxFill}
         scale={scale}
         d="M58.3,67.8 L9.7,67.8 C4.4,67.8 0.1,63.5 0.1,58.2 L0.1,9.7 C0.1,4.4 4.4,0.1 9.7,0.1 L58.2,0.1 C63.5,0.1 67.8,4.4 67.8,9.7 L67.8,58.2 C67.8,63.5 63.5,67.8 58.3,67.8 Z M9.7,8.6 C9.1,8.6 8.6,9.1 8.6,9.7 L8.6,58.2 C8.6,58.8 9.1,59.3 9.7,59.3 L58.2,59.3 C58.8,59.3 59.3,58.8 59.3,58.2 L59.3,9.7 C59.3,9.1 58.8,8.6 58.2,8.6 L9.7,8.6 Z"
       />
@@ -33,6 +34,7 @@ const CreateQuizChoiceCheckbox = ({
 
 CreateQuizChoiceCheckbox.propTypes = {
   isChecked: PropTypes.bool,
+  isWrong: PropTypes.bool,
   scale: PropTypes.number,
   boxFill: PropTypes.string,
   checkFill: PropTypes.string,
