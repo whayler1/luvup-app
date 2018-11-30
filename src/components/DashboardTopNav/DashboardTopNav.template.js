@@ -66,12 +66,14 @@ export default ({
       ) : (
         <View style={styles.coinCountBtn} />
       )}
-      <TouchableOpacity
-        onPress={onRelationshipScoreClick}
-        style={styles.scoreBtn}>
-        <Text style={styles.scoreTitleText}>Relationship Score</Text>
-        <Text style={styles.scoreText}>{relationshipScore}%</Text>
-      </TouchableOpacity>
+      {_.isNumber(relationshipScore) && (
+        <TouchableOpacity
+          onPress={onRelationshipScoreClick}
+          style={styles.scoreBtn}>
+          <Text style={styles.scoreTitleText}>Relationship Score</Text>
+          <Text style={styles.scoreText}>{relationshipScore}%</Text>
+        </TouchableOpacity>
+      )}
       {_.isString(userFirstName) && userFirstName.length > 1 ? (
         <TouchableOpacity onPress={onInitialsClick} style={styles.menuBtn}>
           <Text style={styles.menuText}>
