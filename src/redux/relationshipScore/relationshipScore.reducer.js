@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import moment from 'moment';
 import {
   CREATE_RELATIONSHIP_SCORE,
   GET_RELATIONSHIP_SCORE_ATTEMPT,
@@ -113,7 +112,7 @@ export default function reducer(state = defaultState, action) {
     case GET_ME_SUCCESS:
       return {
         ...state,
-        score: action.data.relationshipScores.rows[0].score,
+        score: _.get(action, 'data.relationshipScores.rows[0].score'),
       };
     default:
       return state;

@@ -24,6 +24,7 @@ export default ({
   error,
   isInFlight,
   focus,
+  getMeErrorMessage,
 }) => {
   /**
    * JW: This is probably not the best way to set input focus on refs,
@@ -76,7 +77,7 @@ export default ({
             onBlur={onBlur}
             onChangeText={onPasswordChange}
             value={password}
-            secureTextEntry={true}
+            secureTextEntry
             maxLength={50}
             placeholder="••••••••"
             placeholderTextColor={vars.blueGrey100}
@@ -90,8 +91,13 @@ export default ({
           )}
         </View>
         {(error === 'credentials' || error === 'server') && (
-          <View style={[wells.error, { marginTop: 32, marginBottom: 0 }]}>
+          <View style={[wells.error, styles.wellError]}>
             <Text style={wells.errorText}>Invalid email or password</Text>
+          </View>
+        )}
+        {getMeErrorMessage.length > 0 && (
+          <View style={[wells.error, styles.wellError]}>
+            <Text style={wells.errorText}>{getMeErrorMessage}</Text>
           </View>
         )}
         <View style={forms.buttonRow}>
