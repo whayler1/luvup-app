@@ -25,18 +25,22 @@ const userLoginRouteSwitch = async () => {
   const user = state.user;
 
   if (!('body' in res)) {
+    console.log('redirect to login');
     Actions.login();
   } else if (relationshipId || loverRequestId) {
+    console.log('dashboard redirect');
     Actions.dashboard();
     indentifyUser(user);
   } else if (
     _.isArray(receivedLoverRequests) &&
     receivedLoverRequests.length > 0
   ) {
+    console.log('request lover redirect');
     //show received lover request
     Actions.confirmLoverRequest();
     indentifyUser(user);
   } else {
+    console.log('default');
     Actions.createloverrequest();
     indentifyUser(user);
   }
