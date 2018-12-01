@@ -115,14 +115,15 @@ const Wrapper = ({ children, eventName, loveNote = {} }) => {
               }}
             />
           )}
-        {...children}
+        {children}
       </TouchableOpacity>
     );
   }
-  return <View>{...children}</View>;
+  return <View>{children}</View>;
 };
 
-export default ({ item, index, section }) => {
+export default ctx => {
+  const { item, index, section } = ctx;
   const isLovenoteItem = /^lovenote/.test(item.name);
   const isLovenoteItemWithNote =
     isLovenoteItem && _.isString(_.get(item, 'loveNote.id'));
