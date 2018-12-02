@@ -1,15 +1,8 @@
 import React, { Fragment } from 'react';
-import {
-  Text,
-  View,
-  FlatList,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-} from 'react-native';
+import { Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
-import _ from 'lodash';
 import Icon from 'react-native-vector-icons/Ionicons';
+import _ from 'lodash';
 
 import { scene, buttons, forms, modal, vars } from '../../styles';
 import styles from './Menu.styles';
@@ -24,7 +17,6 @@ export default ({
   loverLastName,
   loverId,
   goBack,
-  relationshipCreatedAt,
   relationshipCreatedAtFormatted,
   onLogout,
   isModalVisible,
@@ -105,33 +97,36 @@ export default ({
 
         <View style={styles.group}>
           <Text style={styles.title}>Relationship</Text>
-          {loverId && (
-            <Fragment>
-              <Text style={styles.label}>Lover</Text>
-              <Text style={styles.value}>
-                {loverFirstName} {loverLastName}
-              </Text>
-              <Text style={styles.label}>Start Date</Text>
-              <Text style={styles.value}>{relationshipCreatedAtFormatted}</Text>
-              <Text style={styles.label}>Options</Text>
-              <TouchableOpacity
-                onPress={openEndRelationshipModal}
-                style={{
-                  flexDirection: 'row',
-                  marginTop: 8,
-                  justifyContent: 'space-between',
-                }}>
-                <Text
-                  style={{
-                    color: vars.danger,
-                    fontSize: 20,
-                  }}>
-                  End Relationship
+          {_.isString(loverId) &&
+            loverId.length > 0 && (
+              <Fragment>
+                <Text style={styles.label}>Lover</Text>
+                <Text style={styles.value}>
+                  {loverFirstName} {loverLastName}
                 </Text>
-                <Icon name="md-alert" size={22} color={vars.danger} />
-              </TouchableOpacity>
-            </Fragment>
-          )}
+                <Text style={styles.label}>Start Date</Text>
+                <Text style={styles.value}>
+                  {relationshipCreatedAtFormatted}
+                </Text>
+                <Text style={styles.label}>Options</Text>
+                <TouchableOpacity
+                  onPress={openEndRelationshipModal}
+                  style={{
+                    flexDirection: 'row',
+                    marginTop: 8,
+                    justifyContent: 'space-between',
+                  }}>
+                  <Text
+                    style={{
+                      color: vars.danger,
+                      fontSize: 20,
+                    }}>
+                    End Relationship
+                  </Text>
+                  <Icon name="md-alert" size={22} color={vars.danger} />
+                </TouchableOpacity>
+              </Fragment>
+            )}
           {!loverId &&
             !loverRequestId && (
               <Fragment>
