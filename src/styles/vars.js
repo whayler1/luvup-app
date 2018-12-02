@@ -17,6 +17,7 @@ const green500 = '#4CAF50';
 const malibu = '#72e7f9';
 const anakiwa = '#75eaff';
 const heliotrope = '#da60ff';
+const cottonCandy = '#FFB8F2';
 const razzleDazzleRose = '#f94dda';
 
 // fonts
@@ -47,6 +48,7 @@ export default {
   malibu,
   anakiwa,
   heliotrope,
+  cottonCandy,
   razzleDazzleRose,
 
   radius: 2,

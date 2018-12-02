@@ -31,7 +31,7 @@ export default ({
         style={{
           alignItems: 'center',
         }}>
-        <Icon name="ios-send-outline" size={80} color={vars.blue500} />
+        <Icon name="ios-send" size={80} color={vars.blue500} />
       </View>
       <Text style={[scene.copy, { textAlign: 'center' }]}>
         Send Lover Request to

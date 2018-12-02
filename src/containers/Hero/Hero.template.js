@@ -72,7 +72,7 @@ export default ({
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Icon name="ios-send-outline" size={190} color="white" />
+            <Icon name="ios-send" size={190} color={vars.cottonCandy} />
           </View>
         </View>
         <View
