@@ -9,9 +9,8 @@ const graphQlRequest = async query => {
 
     if (res.ok && data) {
       return data;
-    } else {
-      throw new Error('Graph QL response error');
     }
+    throw new Error('Graph QL response error');
   } catch (error) {
     throw new Error(error);
   }
