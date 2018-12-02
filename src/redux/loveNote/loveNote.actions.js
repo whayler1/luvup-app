@@ -2,7 +2,9 @@ import _ from 'lodash';
 
 import { graphQlRequest } from '../../helpers';
 import analytics from '../../services/analytics';
+export const CREATE_LOVE_NOTE_ATTEMPT = 'love-note/create-love-note-attempt';
 export const CREATE_LOVE_NOTE_SUCCESS = 'love-note/create-love-note-success';
+export const CREATE_LOVE_NOTE_FAILURE = 'love-note/create-love-note-failure';
 export const GET_RECEIVED_LOVE_NOTES_ATTEMPT =
   'love-note/get-received-love-notes-attempt';
 export const GET_RECEIVED_LOVE_NOTES_SUCCESS =
@@ -48,6 +50,7 @@ export const createLoveNote = (
   note,
   { numLuvups = 0, numJalapenos = 0 }
 ) => async dispatch => {
+  dispatch({ type: CREATE_LOVE_NOTE_ATTEMPT });
   const query = `mutation {
     createLoveNote(
       note: "${encodeURI(note)}",
@@ -77,10 +80,15 @@ export const createLoveNote = (
         luvups,
         jalapenos,
       });
+      return data;
     }
-
+    dispatch({
+      type: CREATE_LOVE_NOTE_FAILURE,
+      errorMessage: _.get(data, 'error.message', 'Error creating love note'),
+    });
     return data;
   } catch (err) {
+    dispatch({ type: CREATE_LOVE_NOTE_FAILURE, errorMessage: err.message });
     return err;
   }
 };

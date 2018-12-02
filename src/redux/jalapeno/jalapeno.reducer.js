@@ -36,20 +36,22 @@ export default function reducer(state = defaultState, action) {
         recentlySentJalapenoCount:
           getRecentlySentTokenCount(state.sentJalapenos) + 1,
       };
-    case SEND_JALAPENO_SUCCESS:
+    case SEND_JALAPENO_SUCCESS: {
       const sentJalapenos = [action.jalapeno, ...state.sentJalapenos];
       return {
         ...state,
         sentJalapenos,
         recentlySentJalapenoCount: getRecentlySentTokenCount(sentJalapenos),
       };
-    case CREATE_LOVE_NOTE_SUCCESS:
-      sentJalapenos = [...action.jalapenos, ...state.sentJalapenos];
+    }
+    case CREATE_LOVE_NOTE_SUCCESS: {
+      const sentJalapenos = [...action.jalapenos, ...state.sentJalapenos];
       return {
         ...state,
         sentJalapenos,
         recentlySentJalapenoCount: getRecentlySentTokenCount(sentJalapenos),
       };
+    }
     case SET_SENT_JALAPENOS:
       return {
         ...state,
