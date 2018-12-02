@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
+import _ from 'lodash';
 
 import { scene } from '../../styles';
 import Well from '../../components/Well';
@@ -12,9 +13,10 @@ const ListEmptyComponent = ({ isInFlight, error }) => (
       paddingVertical: 32,
       alignSelf: 'stretch',
     }}>
-    {error && (
-      <Well text="There was an error loading the timeline. Make sure you are connected to wifi or data." />
-    )}
+    {_.isString(error) &&
+      error.length > 0 && (
+        <Well text="There was an error loading the timeline. Make sure you are connected to wifi or data." />
+      )}
     {isInFlight && <Preloader />}
     {!error &&
       !isInFlight && (

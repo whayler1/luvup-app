@@ -4,6 +4,8 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { format } from 'date-fns';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
+
 import Quotes from '../../components/Art/Quotes';
 import CoinArt from '../../components/CoinArt';
 import JalapenoArt from '../../components/JalapenoArt';
@@ -110,19 +112,21 @@ class ViewLoveNote extends PureComponent {
               flexDirection: 'row',
               justifyContent: 'center',
             }}>
-            {numLuvups && (
-              <View style={{ paddingHorizontal: 16 }}>
-                <CoinArt recentlySentCoinCount={numLuvups} />
-              </View>
-            )}
-            {numJalapenos && (
-              <View style={{ paddingHorizontal: 16 }}>
-                <JalapenoArt
-                  scale={0.8}
-                  recentlySentJalapenoCount={numJalapenos}
-                />
-              </View>
-            )}
+            {_.isNumber(numLuvups) &&
+              numLuvups > 0 && (
+                <View style={{ paddingHorizontal: 16 }}>
+                  <CoinArt recentlySentCoinCount={numLuvups} />
+                </View>
+              )}
+            {_.isNumber(numJalapenos) &&
+              numJalapenos > 0 && (
+                <View style={{ paddingHorizontal: 16 }}>
+                  <JalapenoArt
+                    scale={0.8}
+                    recentlySentJalapenoCount={numJalapenos}
+                  />
+                </View>
+              )}
           </View>
         )}
         <View style={{ marginTop: 32 }}>
