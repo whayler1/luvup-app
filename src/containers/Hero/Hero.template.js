@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { View, Text, Image, Animated } from 'react-native';
 import { Button } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 
 import styles from './Hero.styles';
 import { buttons, forms, vars } from '../../styles';
@@ -72,7 +72,7 @@ export default ({
               justifyContent: 'center',
               alignItems: 'center',
             }}>
-            <Icon name="ios-send" size={190} color={vars.cottonCandy} />
+            <Ionicons name="ios-send" size={190} color={vars.cottonCandy} />
           </View>
         </View>
         <View
@@ -164,7 +164,7 @@ export default ({
           opacity: directionsOpacity,
           alignItems: 'center',
         }}>
-        <Icon name="md-arrow-round-up" size={30} color={vars.p} />
+        <Ionicons name="md-arrow-round-up" size={30} color={vars.p} />
         <Text style={styles.directionsText}>Swipe up to</Text>
         <Text style={styles.directionsText}>send a Luvup</Text>
       </Animated.View>
@@ -314,7 +314,7 @@ export default ({
         }}>
         <Text style={styles.directionsText}>Swipe down to</Text>
         <Text style={styles.directionsText}>send a Jalapeño</Text>
-        <Icon name="md-arrow-round-down" size={30} color={vars.p} />
+        <Ionicons name="md-arrow-round-down" size={30} color={vars.p} />
       </Animated.View>
     </View>
   );

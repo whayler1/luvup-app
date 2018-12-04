@@ -4,6 +4,7 @@ module.exports = {
     '@babel/plugin-transform-flow-strip-types',
     ['@babel/plugin-proposal-decorators', { legacy: true }],
     ['@babel/plugin-proposal-class-properties', { loose: true }],
+    '@babel/plugin-proposal-optional-chaining',
     '@babel/plugin-syntax-dynamic-import',
     '@babel/plugin-transform-regenerator',
     [
@@ -37,6 +38,7 @@ module.exports = {
         ],
         '@babel/plugin-proposal-function-sent',
         '@babel/plugin-proposal-numeric-separator',
+        '@babel/plugin-proposal-optional-chaining',
         '@babel/plugin-proposal-throw-expressions',
         '@babel/plugin-transform-flow-strip-types',
         // ['@babel/plugin-proposal-decorators', { legacy: true }],

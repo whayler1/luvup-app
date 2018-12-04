@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { Button } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 
 import styles from './CreateLoverRequest.styles';
 import { forms, buttons, modal, scene, vars } from '../../styles';
@@ -31,7 +31,7 @@ export default ({
         style={{
           alignItems: 'center',
         }}>
-        <Icon name="ios-send" size={80} color={vars.blue500} />
+        <Ionicons name="ios-send" size={80} color={vars.blue500} />
       </View>
       <Text style={[scene.copy, { textAlign: 'center' }]}>
         Send Lover Request to

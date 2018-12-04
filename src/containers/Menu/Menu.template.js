@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 import _ from 'lodash';
 
 import { scene, buttons, forms, modal, vars } from '../../styles';
@@ -72,7 +72,7 @@ export default ({
               }}>
               Change Password
             </Text>
-            <Icon name="md-unlock" size={22} color={vars.link} />
+            <Ionicons name="md-unlock" size={22} color={vars.link} />
           </TouchableOpacity>
           {/* <TouchableOpacity
             style={{
@@ -87,7 +87,7 @@ export default ({
             }}>
               Change Email
             </Text>
-            <Icon
+            <Ionicons
               name="md-mail"
               size={22}
               color={vars.link}
@@ -97,80 +97,75 @@ export default ({
 
         <View style={styles.group}>
           <Text style={styles.title}>Relationship</Text>
-          {_.isString(loverId) &&
-            loverId.length > 0 && (
-              <Fragment>
-                <Text style={styles.label}>Lover</Text>
-                <Text style={styles.value}>
-                  {loverFirstName} {loverLastName}
+          {_.isString(loverId) && loverId.length > 0 && (
+            <Fragment>
+              <Text style={styles.label}>Lover</Text>
+              <Text style={styles.value}>
+                {loverFirstName} {loverLastName}
+              </Text>
+              <Text style={styles.label}>Start Date</Text>
+              <Text style={styles.value}>{relationshipCreatedAtFormatted}</Text>
+              <Text style={styles.label}>Options</Text>
+              <TouchableOpacity
+                onPress={openEndRelationshipModal}
+                style={{
+                  flexDirection: 'row',
+                  marginTop: 8,
+                  justifyContent: 'space-between',
+                }}>
+                <Text
+                  style={{
+                    color: vars.danger,
+                    fontSize: 20,
+                  }}>
+                  End Relationship
                 </Text>
-                <Text style={styles.label}>Start Date</Text>
-                <Text style={styles.value}>
-                  {relationshipCreatedAtFormatted}
+                <Ionicons name="md-alert" size={22} color={vars.danger} />
+              </TouchableOpacity>
+            </Fragment>
+          )}
+          {!loverId && !loverRequestId && (
+            <Fragment>
+              <Text style={styles.label}>Options</Text>
+              <TouchableOpacity
+                onPress={goToCreateLoverRequest}
+                style={{
+                  flexDirection: 'row',
+                  marginTop: 8,
+                  justifyContent: 'space-between',
+                }}>
+                <Text
+                  style={{
+                    color: vars.link,
+                    fontSize: 20,
+                  }}>
+                  Send Lover Request
                 </Text>
-                <Text style={styles.label}>Options</Text>
-                <TouchableOpacity
-                  onPress={openEndRelationshipModal}
+                <Ionicons name="md-send" size={22} color={vars.link} />
+              </TouchableOpacity>
+            </Fragment>
+          )}
+          {!loverId && loverRequestId && (
+            <Fragment>
+              <Text style={styles.label}>Options</Text>
+              <TouchableOpacity
+                onPress={goToDashboard}
+                style={{
+                  flexDirection: 'row',
+                  marginTop: 8,
+                  justifyContent: 'space-between',
+                }}>
+                <Text
                   style={{
-                    flexDirection: 'row',
-                    marginTop: 8,
-                    justifyContent: 'space-between',
+                    color: vars.link,
+                    fontSize: 20,
                   }}>
-                  <Text
-                    style={{
-                      color: vars.danger,
-                      fontSize: 20,
-                    }}>
-                    End Relationship
-                  </Text>
-                  <Icon name="md-alert" size={22} color={vars.danger} />
-                </TouchableOpacity>
-              </Fragment>
-            )}
-          {!loverId &&
-            !loverRequestId && (
-              <Fragment>
-                <Text style={styles.label}>Options</Text>
-                <TouchableOpacity
-                  onPress={goToCreateLoverRequest}
-                  style={{
-                    flexDirection: 'row',
-                    marginTop: 8,
-                    justifyContent: 'space-between',
-                  }}>
-                  <Text
-                    style={{
-                      color: vars.link,
-                      fontSize: 20,
-                    }}>
-                    Send Lover Request
-                  </Text>
-                  <Icon name="md-send" size={22} color={vars.link} />
-                </TouchableOpacity>
-              </Fragment>
-            )}
-          {!loverId &&
-            loverRequestId && (
-              <Fragment>
-                <Text style={styles.label}>Options</Text>
-                <TouchableOpacity
-                  onPress={goToDashboard}
-                  style={{
-                    flexDirection: 'row',
-                    marginTop: 8,
-                    justifyContent: 'space-between',
-                  }}>
-                  <Text
-                    style={{
-                      color: vars.link,
-                      fontSize: 20,
-                    }}>
-                    View Pending Lover Request
-                  </Text>
-                  <Icon name="md-send" size={22} color={vars.link} />
-                </TouchableOpacity>
-              </Fragment>
-            )}
+                  View Pending Lover Request
+                </Text>
+                <Ionicons name="md-send" size={22} color={vars.link} />
+              </TouchableOpacity>
+            </Fragment>
+          )}
         </View>
         <View
           style={{
@@ -197,7 +192,7 @@ export default ({
             alignSelf: 'stretch',
             alignItems: 'center',
           }}>
-          <Icon name="md-alert" size={60} color={vars.danger} />
+          <Ionicons name="md-alert" size={60} color={vars.danger} />
           <Text style={modal.title}>End Relationship</Text>
           <Text style={modal.copy}>This can not be undone!</Text>
           <View style={forms.buttonRow}>
