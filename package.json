@@ -1,6 +1,10 @@
 {
   "name": "Luvup",
   "description": "Stay together",
+  "engines": {
+    "node": "^10.14.0",
+    "yarn": "1.x"
+  },
   "version": "0.0.30",
   "private": true,
   "devDependencies": {
