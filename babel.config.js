@@ -54,6 +54,7 @@ module.exports = {
         ],
       ],
       only: ['./**/*.js', 'node_modules/jest-runtime'],
+      ignore: ['art/core/color.js'],
     },
   },
 };

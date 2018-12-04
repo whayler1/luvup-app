@@ -59,7 +59,9 @@
     },
     "verbose": true,
     "rootDir": "./",
-    "setupFiles": ["<rootDir>/src/__MOCKS__/globalMocks.js"]
+    "setupFiles": [
+      "<rootDir>/src/__MOCKS__/globalMocks.js"
+    ]
   },
   "dependencies": {
     "@expo/vector-icons": "^8.0.0",
@@ -70,7 +72,8 @@
     "color": "^3.0.0",
     "date-fns": "^1.29.0",
     "eslint-plugin-babel": "^5.1.0",
-    "expo": "^31.0.0",
+    "expo": "^31.0.6",
+    "expo-font": "^1.1.0",
     "husky": "^0.14.3",
     "lint-staged": "^7.2.0",
     "lodash": "^4.17.10",

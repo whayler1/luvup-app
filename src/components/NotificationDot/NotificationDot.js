@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
-import ReactArt, { Group, Shape, Surface, Transform } from 'ReactNativeART';
+import { Group, Surface } from 'ReactNativeART';
 
 import Circle from '../Circle';
 import { vars } from '../../styles';
