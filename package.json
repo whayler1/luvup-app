@@ -26,11 +26,11 @@
     "eslint-config-react-native-prettier": "^1.0.1",
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-react-native": "^3.5.0",
+    "isomorphic-fetch": "^2.2.1",
     "jest-expo": "^31.0.0",
     "prettier": "^1.15.3",
     "react-native-scripts": "^2.0.1",
-    "react-test-renderer": "^16.6.3",
-    "whatwg-fetch": "^3.0.0"
+    "react-test-renderer": "^16.6.3"
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
@@ -56,7 +56,10 @@
     ],
     "globals": {
       "fetch": true
-    }
+    },
+    "verbose": true,
+    "rootDir": "./",
+    "setupFiles": ["<rootDir>/src/__MOCKS__/globalMocks.js"]
   },
   "dependencies": {
     "@expo/vector-icons": "^8.0.0",
