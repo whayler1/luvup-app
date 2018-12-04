@@ -16,16 +16,31 @@ module.exports = {
   ],
   presets: [
     '@babel/preset-env',
-    'module:metro-react-native-babel-preset',
+    // 'module:metro-react-native-babel-preset',
     '@babel/preset-react',
   ],
   test: {
     presets: ['@babel/preset-env', '@babel/preset-react'],
     plugins: [
-      '@babel/plugin-transform-flow-strip-types',
-      ['@babel/plugin-proposal-decorators', { legacy: true }],
-      ['@babel/plugin-proposal-class-properties', { loose: true }],
+      '@babel/plugin-proposal-export-default-from',
+      '@babel/plugin-proposal-export-namespace-from',
       '@babel/plugin-syntax-dynamic-import',
+      '@babel/plugin-syntax-import-meta',
+      '@babel/plugin-proposal-class-properties',
+      '@babel/plugin-proposal-json-strings',
+      [
+        '@babel/plugin-proposal-decorators',
+        {
+          legacy: true,
+        },
+      ],
+      '@babel/plugin-proposal-function-sent',
+      '@babel/plugin-proposal-numeric-separator',
+      '@babel/plugin-proposal-throw-expressions',
+      '@babel/plugin-transform-flow-strip-types',
+      // ['@babel/plugin-proposal-decorators', { legacy: true }],
+      // ['@babel/plugin-proposal-class-properties', { loose: true }],
+      // '@babel/plugin-syntax-dynamic-import',
       '@babel/plugin-transform-regenerator',
       [
         '@babel/plugin-transform-runtime',
@@ -35,6 +50,50 @@ module.exports = {
         },
       ],
     ],
-    only: ['./**/*.js', 'node_modules/jest-runtime'],
+    // only: ['./**/*.js', 'node_modules/jest-runtime'],
   },
 };
+
+// {
+//   "presets": [
+//     "@babel/preset-env",
+//     "@babel/preset-react"
+//   ],
+//   "plugins": [
+//     "transform-inline-environment-variables"
+//   ],
+//   "env": {
+//     "development": {
+//       "plugins": [
+//         "@babel/plugin-transform-react-jsx-source"
+//       ]
+//     },
+//     "test": {
+//       "presets": [
+//         "@babel/preset-env",
+//         "@babel/preset-react"
+//       ],
+//       "plugins": [
+//         "@babel/plugin-proposal-export-default-from",
+//         "@babel/plugin-proposal-export-namespace-from",
+//         "@babel/plugin-syntax-dynamic-import",
+//         "@babel/plugin-syntax-import-meta",
+//         "@babel/plugin-proposal-class-properties",
+//         "@babel/plugin-proposal-json-strings",
+//         [
+//           "@babel/plugin-proposal-decorators",
+//           {
+//             "legacy": true
+//           }
+//         ],
+//         "@babel/plugin-proposal-function-sent",
+//         "@babel/plugin-proposal-numeric-separator",
+//         "@babel/plugin-proposal-throw-expressions"
+//       ],
+//       "only": [
+//         "./**/*.js",
+//         "node_modules/jest-runtime"
+//       ]
+//     }
+//   }
+// }
