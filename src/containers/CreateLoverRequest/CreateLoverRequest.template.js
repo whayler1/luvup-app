@@ -8,15 +8,11 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
 } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Button } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 import _ from 'lodash';
 
-import DashboardTopNav from '../../components/DashboardTopNav';
-
 import styles from './CreateLoverRequest.styles';
-import { forms, buttons, scene, modal, vars } from '../../styles';
+import { forms, scene, modal, vars } from '../../styles';
 
 const keyExtractor = item => item.id;
 
@@ -89,7 +85,7 @@ export default ({
                     top: 18,
                     right: 0,
                   }}>
-                  <Icon
+                  <Ionicons
                     name="ios-arrow-forward-outline"
                     size={30}
                     color={vars.link}
@@ -100,10 +96,9 @@ export default ({
           )}
         />
       )}
-      {isInFlight &&
-        !users.length && (
-          <Text style={[modal.copy, { color: vars.blue500 }]}>Searching…</Text>
-        )}
+      {isInFlight && !users.length && (
+        <Text style={[modal.copy, { color: vars.blue500 }]}>Searching…</Text>
+      )}
       {!isInFlight &&
         !users.length &&
         (() => {

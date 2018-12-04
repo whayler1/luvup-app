@@ -1,7 +1,7 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 import _ from 'lodash';
 
 import styles from './Timeline.styles';
@@ -82,7 +82,7 @@ const getEventImage = eventName => {
         />
       );
     case 'password-changed':
-      return <Icon name="md-lock" size={36} color={vars.blueGrey500} />;
+      return <Ionicons name="md-lock" size={36} color={vars.blueGrey500} />;
     case 'lovenote-sent':
       return (
         <View style={{ paddingTop: 3 }}>
@@ -105,16 +105,15 @@ const Wrapper = ({ children, eventName, loveNote = {} }) => {
     return (
       <TouchableOpacity
         onPress={() => Actions.viewLoveNote({ loveNoteId: loveNote.id })}>
-        {eventName === 'lovenote-received' &&
-          !loveNote.isRead && (
-            <NotificationDot
-              style={{
-                position: 'absolute',
-                left: 12,
-                top: 10,
-              }}
-            />
-          )}
+        {eventName === 'lovenote-received' && !loveNote.isRead && (
+          <NotificationDot
+            style={{
+              position: 'absolute',
+              left: 12,
+              top: 10,
+            }}
+          />
+        )}
         {children}
       </TouchableOpacity>
     );
@@ -160,12 +159,11 @@ export default ctx => {
                 : ''}
               {getEventDisplayName(item.name, item.count)}
             </Text>
-            {isLovenoteItem &&
-              _.isString(_.get(item, 'loveNote.note')) && (
-                <Text numberOfLines={1} style={styles.renderItemLoveNoteText}>
-                  {decodeURI(item.loveNote.note)}
-                </Text>
-              )}
+            {isLovenoteItem && _.isString(_.get(item, 'loveNote.note')) && (
+              <Text numberOfLines={1} style={styles.renderItemLoveNoteText}>
+                {decodeURI(item.loveNote.note)}
+              </Text>
+            )}
             {(isNumLuvups || isNumJalapenos) && (
               <View style={styles.renderItemLoveNoteTokenRow}>
                 {isNumLuvups && (
