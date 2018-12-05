@@ -9,7 +9,9 @@ import {
   GET_TIMELINE_DATA_ATTEMPT,
   GET_TIMELINE_DATA_FAILURE,
   GET_TIMELINE_DATA_SUCCESS,
+  GET_ME_ATTEMPT,
   GET_ME_SUCCESS,
+  GET_ME_FAILURE,
 } from './user.actions';
 import appStateListener from '../../services/appStateListener';
 
@@ -22,6 +24,8 @@ const defaultState = {
   code: '',
   isGetTimelineDataInFlight: false,
   fetTimelineDataError: '',
+  isGetMeInFlight: false,
+  getMeErrorMessage: '',
 };
 
 const userAttribs = ['id', 'email', 'username', 'firstName', 'lastName'];
@@ -71,10 +75,23 @@ export default function reducer(state = defaultState, action) {
         isGetTimelineDataInFlight: false,
         error: action.error,
       };
+    case GET_ME_ATTEMPT:
+      return {
+        ...state,
+        isGetMeInFlight: true,
+        getMeErrorMessage: '',
+      };
     case GET_ME_SUCCESS:
       return {
         ...state,
+        isGetMeInFlight: false,
         ..._.pick(action.data.me, userAttribs),
+      };
+    case GET_ME_FAILURE:
+      return {
+        ...state,
+        isGetMeInFlight: false,
+        getMeErrorMessage: action.errorMessage,
       };
     default:
       return state;

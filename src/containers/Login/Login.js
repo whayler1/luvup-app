@@ -21,6 +21,7 @@ class Login extends Component {
     userId: PropTypes.string,
     login: PropTypes.func.isRequired,
     getMe: PropTypes.func.isRequired,
+    getMeErrorMessage: PropTypes.string.isRequired,
     relationshipId: PropTypes.string,
     loverRequestId: PropTypes.string,
   };
@@ -89,19 +90,19 @@ class Login extends Component {
         onUsernameChange={this.onUsernameChange}
         onPasswordChange={this.onPasswordChange}
         onBlur={this.onBlur}
+        getMeErrorMessage={this.props.getMeErrorMessage}
       />
     );
   }
 }
 
 export default connect(
-  state => {
-    return {
-      userId: state.user.id,
-      relationshipId: state.relationship.id,
-      loverRequestId: state.loverRequest.id,
-    };
-  },
+  state => ({
+    userId: state.user.id,
+    relationshipId: state.relationship.id,
+    loverRequestId: state.loverRequest.id,
+    getMeErrorMessage: state.user.getMeErrorMessage,
+  }),
   {
     login: loginAction,
     getMe: getMeAction,

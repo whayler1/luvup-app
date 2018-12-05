@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import { View, Text, TouchableOpacity } from 'react-native';
 
 import styles from './Dashboard.styles';
@@ -46,7 +47,7 @@ export default ({
       unreadReceivedLoveNoteCount={unreadReceivedLoveNoteCount}
     />
     <Hero openModal={openModal} />
-    {loverFirstName && (
+    {_.isString(loverFirstName) && loverFirstName.length > 0 && (
       <View style={styles.tabsContainer}>
         <TouchableOpacity
           style={styles.tabsItem}

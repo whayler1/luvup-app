@@ -30,17 +30,14 @@ export default ({
       <Pushdown closeFunc={closePushdown}>
         {unviewedCoinCount > 0 && (
           <Text style={styles.pushdownText}>
-            You received {unviewedCoinCount} luvup{unviewedCoinCount > 1
-              ? 's'
-              : ''}!
+            You received {unviewedCoinCount} luvup
+            {unviewedCoinCount > 1 ? 's' : ''}!
           </Text>
         )}
         {unviewedJalapenoCount > 0 && (
           <Text style={styles.pushdownText}>
-            You received {unviewedJalapenoCount} jalapeno{unviewedJalapenoCount >
-            1
-              ? 's'
-              : ''}
+            You received {unviewedJalapenoCount} jalapeno
+            {unviewedJalapenoCount > 1 ? 's' : ''}
           </Text>
         )}
       </Pushdown>
@@ -66,12 +63,14 @@ export default ({
       ) : (
         <View style={styles.coinCountBtn} />
       )}
-      <TouchableOpacity
-        onPress={onRelationshipScoreClick}
-        style={styles.scoreBtn}>
-        <Text style={styles.scoreTitleText}>Relationship Score</Text>
-        <Text style={styles.scoreText}>{relationshipScore}%</Text>
-      </TouchableOpacity>
+      {_.isNumber(relationshipScore) && (
+        <TouchableOpacity
+          onPress={onRelationshipScoreClick}
+          style={styles.scoreBtn}>
+          <Text style={styles.scoreTitleText}>Relationship Score</Text>
+          <Text style={styles.scoreText}>{relationshipScore}%</Text>
+        </TouchableOpacity>
+      )}
       {_.isString(userFirstName) && userFirstName.length > 1 ? (
         <TouchableOpacity onPress={onInitialsClick} style={styles.menuBtn}>
           <Text style={styles.menuText}>

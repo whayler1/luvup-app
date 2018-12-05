@@ -38,7 +38,9 @@ export const LOGOUT = 'user/logout';
 export const REAUTH = 'user/reauth';
 export const USER_REQUEST = 'user/user-request';
 export const CONFIRM_USER_REQUEST_CODE = 'user/confirm-user-request-code';
+export const GET_ME_ATTEMPT = 'user/get-me-attempt';
 export const GET_ME_SUCCESS = 'user/get-me-success';
+export const GET_ME_FAILURE = 'user/get-me-failure';
 export const GET_TIMELINE_DATA_ATTEMPT = 'user/get-timeline-data-attempt';
 export const GET_TIMELINE_DATA_SUCCESS = 'user/get-timeline-data-success';
 export const GET_TIMELINE_DATA_FAILURE = 'user/get-timeline-data-failure';
@@ -99,6 +101,7 @@ export const reauth = id_token => async dispatch => {
 };
 
 export const getMe = () => async dispatch => {
+  dispatch({ type: GET_ME_ATTEMPT });
   try {
     const res = await superagent.post(config.graphQlUrl, {
       query: `{
@@ -226,6 +229,10 @@ export const getMe = () => async dispatch => {
     }
     return res;
   } catch (err) {
+    dispatch({
+      type: GET_ME_FAILURE,
+      errorMessage: err.message,
+    });
     return err;
   }
 };
