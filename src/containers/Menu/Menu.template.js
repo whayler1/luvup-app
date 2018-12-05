@@ -124,48 +124,54 @@ export default ({
               </TouchableOpacity>
             </Fragment>
           )}
-          {!loverId && !loverRequestId && (
-            <Fragment>
-              <Text style={styles.label}>Options</Text>
-              <TouchableOpacity
-                onPress={goToCreateLoverRequest}
-                style={{
-                  flexDirection: 'row',
-                  marginTop: 8,
-                  justifyContent: 'space-between',
-                }}>
-                <Text
+          {_.isString(loverId) &&
+            loverId.length < 1 &&
+            _.isString(loverRequestId) &&
+            loverRequestId.length < 1 && (
+              <Fragment>
+                <Text style={styles.label}>Options</Text>
+                <TouchableOpacity
+                  onPress={goToCreateLoverRequest}
                   style={{
-                    color: vars.link,
-                    fontSize: 20,
+                    flexDirection: 'row',
+                    marginTop: 8,
+                    justifyContent: 'space-between',
                   }}>
-                  Send Lover Request
-                </Text>
-                <Ionicons name="md-send" size={22} color={vars.link} />
-              </TouchableOpacity>
-            </Fragment>
-          )}
-          {!loverId && loverRequestId && (
-            <Fragment>
-              <Text style={styles.label}>Options</Text>
-              <TouchableOpacity
-                onPress={goToDashboard}
-                style={{
-                  flexDirection: 'row',
-                  marginTop: 8,
-                  justifyContent: 'space-between',
-                }}>
-                <Text
+                  <Text
+                    style={{
+                      color: vars.link,
+                      fontSize: 20,
+                    }}>
+                    Send Lover Request
+                  </Text>
+                  <Ionicons name="md-send" size={22} color={vars.link} />
+                </TouchableOpacity>
+              </Fragment>
+            )}
+          {_.isString(loverId) &&
+            loverId.length < 1 &&
+            _.isString(loverRequestId) &&
+            loverRequestId.length > 0 && (
+              <Fragment>
+                <Text style={styles.label}>Options</Text>
+                <TouchableOpacity
+                  onPress={goToDashboard}
                   style={{
-                    color: vars.link,
-                    fontSize: 20,
+                    flexDirection: 'row',
+                    marginTop: 8,
+                    justifyContent: 'space-between',
                   }}>
-                  View Pending Lover Request
-                </Text>
-                <Ionicons name="md-send" size={22} color={vars.link} />
-              </TouchableOpacity>
-            </Fragment>
-          )}
+                  <Text
+                    style={{
+                      color: vars.link,
+                      fontSize: 20,
+                    }}>
+                    View Pending Lover Request
+                  </Text>
+                  <Ionicons name="md-send" size={22} color={vars.link} />
+                </TouchableOpacity>
+              </Fragment>
+            )}
         </View>
         <View
           style={{

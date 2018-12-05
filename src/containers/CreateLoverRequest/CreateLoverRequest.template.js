@@ -86,7 +86,7 @@ export default ({
                     right: 0,
                   }}>
                   <Ionicons
-                    name="ios-arrow-forward-outline"
+                    name="ios-arrow-forward"
                     size={30}
                     color={vars.link}
                   />
