@@ -3,8 +3,8 @@
     "name": "Luvup",
     "slug": "luvup",
     "description": "Improving romantic relationships with gamification",
-    "version": "0.0.29",
-    "sdkVersion": "27.0.0",
+    "version": "0.0.30",
+    "sdkVersion": "31.0.0",
     "primaryColor": "#FFFFFF",
     "orientation": "portrait",
     "notification": {

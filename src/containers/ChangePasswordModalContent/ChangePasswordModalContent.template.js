@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TextInput } from 'react-native';
 import { Button } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 
 import { modal, buttons, forms, vars } from '../../styles';
 
@@ -46,13 +46,13 @@ export default ({
         alignItems: 'center',
       }}>
       {success && (
-        <Icon
+        <Ionicons
           name="ios-checkmark-circle-outline"
           size={60}
           color={vars.success}
         />
       )}
-      {!success && <Icon name="md-unlock" size={60} color={vars.p} />}
+      {!success && <Ionicons name="md-unlock" size={60} color={vars.p} />}
       <Text style={modal.title}>Change Password</Text>
       {error === 'server-error' && (
         <Text style={forms.error}>
@@ -85,7 +85,7 @@ export default ({
             onFocus={onCurrentPasswordFocus}
             onBlur={onBlur}
             value={currentPassword}
-            secureTextEntry={true}
+            secureTextEntry
             maxLength={50}
             editable={!isInFlight}
             spellCheck={false}
@@ -113,7 +113,7 @@ export default ({
             onFocus={onNewPasswordFocus}
             onBlur={onBlur}
             value={newPassword}
-            secureTextEntry={true}
+            secureTextEntry
             maxLength={50}
             editable={!isInFlight}
             spellCheck={false}
@@ -143,7 +143,7 @@ export default ({
             onFocus={onNewPasswordAgainFocus}
             onBlur={onBlur}
             value={newPasswordAgain}
-            secureTextEntry={true}
+            secureTextEntry
             maxLength={50}
             editable={!isInFlight}
             spellCheck={false}

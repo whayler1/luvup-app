@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
   submitContainer: {
     width: elWidth,
   },
+  wellError: { marginTop: 32, marginBottom: 0 },
 });
 
 export default styles;
