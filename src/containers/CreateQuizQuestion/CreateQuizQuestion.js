@@ -94,7 +94,7 @@ class CreateQuizQuestion extends PureComponent {
               returnKeyType="next"
               onSubmitEditing={this.handleNextPress}
             />
-            {this.state.questionError && (
+            {this.state.questionError.length > 0 && (
               <Text style={forms.error}>Create a question</Text>
             )}
           </View>

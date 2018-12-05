@@ -111,7 +111,7 @@ class CreateQuizReview extends PureComponent {
               </View>
             ))}
           </View>
-          {this.props.createQuizItemErrorMessage && (
+          {this.props.createQuizItemErrorMessage.length > 0 && (
             <Text>{this.props.createQuizItemErrorMessage}</Text>
           )}
           <Button
