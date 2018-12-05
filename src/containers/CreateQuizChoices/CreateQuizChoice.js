@@ -23,6 +23,10 @@ class CreateQuizChoice extends PureComponent {
     error: PropTypes.string,
   };
 
+  static defaultProps = {
+    error: '',
+  };
+
   constructor(props) {
     super(props);
     this.placeholder =
@@ -65,7 +69,7 @@ class CreateQuizChoice extends PureComponent {
             )}
           </View>
         </View>
-        {this.props.error && (
+        {this.props.error.length > 0 && (
           <Text style={[forms.error, styles.choiceError]}>Create a choice</Text>
         )}
       </Fragment>
