@@ -33,21 +33,23 @@ export default function reducer(state = defaultState, action) {
         ...state,
         recentlySentCoinCount: getRecentlySentTokenCount(state.sentCoins) + 1,
       };
-    case SEND_COIN_SUCCESS:
-      let sentCoins = [action.coin, ...state.sentCoins];
+    case SEND_COIN_SUCCESS: {
+      const sentCoins = [action.coin, ...state.sentCoins];
       return {
         ...state,
         sentCoins,
         recentlySentCoinCount: getRecentlySentTokenCount(sentCoins),
         sentCoinsCount: action.count,
       };
-    case CREATE_LOVE_NOTE_SUCCESS:
-      sentCoins = [...action.luvups, ...state.sentCoins];
+    }
+    case CREATE_LOVE_NOTE_SUCCESS: {
+      const sentCoins = [...action.luvups, ...state.sentCoins];
       return {
         ...state,
         sentCoins,
         recentlySentCoinCount: getRecentlySentTokenCount(sentCoins),
       };
+    }
     case GET_COIN_COUNT:
       return {
         ...state,

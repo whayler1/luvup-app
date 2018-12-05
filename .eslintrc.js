@@ -17,7 +17,7 @@ module.exports = {
     },
     "plugins": [
         "react",
-        "babel",
+        "babel"
     ],
     "rules": {
         "linebreak-style": [

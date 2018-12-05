@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 import PropTypes from 'prop-types';
 
 import styles from './Pushdown.styles';
@@ -28,7 +28,7 @@ export default class extends PureComponent {
         <TouchableOpacity
           onPress={this.props.closeFunc}
           style={styles.closeBtn}>
-          <Icon name="md-close" size={30} color="white" />
+          <Ionicons name="md-close" size={30} color="white" />
         </TouchableOpacity>
       </View>
     );

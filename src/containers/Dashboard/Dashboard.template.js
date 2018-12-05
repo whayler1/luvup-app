@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import { View, Text, TouchableOpacity } from 'react-native';
 
 import styles from './Dashboard.styles';
@@ -44,16 +45,17 @@ export default ({
       unreadReceivedLoveNoteCount={unreadReceivedLoveNoteCount}
     />
     <Hero openModal={openModal} />
-    {loverFirstName && (
-      <View style={styles.tabsContainer}>
-        <TouchableOpacity
-          style={styles.tabsItem}
-          onPress={onLoveNoteWritePress}>
-          <LoveNoteArt scale={0.8} />
-          <Text style={styles.tabsText}>Write Love Note</Text>
-        </TouchableOpacity>
-      </View>
-    )}
+    {_.isString(loverFirstName) &&
+      loverFirstName.length > 0 && (
+        <View style={styles.tabsContainer}>
+          <TouchableOpacity
+            style={styles.tabsItem}
+            onPress={onLoveNoteWritePress}>
+            <LoveNoteArt scale={0.8} />
+            <Text style={styles.tabsText}>Write Love Note</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     <LimitExceededModal
       isModalOpen={isModalOpen}
       closeModal={closeModal}
