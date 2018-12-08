@@ -1,7 +1,7 @@
 import { Actions } from 'react-native-router-flux';
 import _ from 'lodash';
 
-import store from '../redux';
+import { default as store } from '../redux';
 import { getMe } from '../redux/user/user.actions';
 import analytics from '../services/analytics';
 
@@ -28,6 +28,15 @@ const userLoginRouteSwitch = async () => {
     Actions.login();
   } else if (relationshipId || loverRequestId) {
     Actions.dashboard();
+    // Actions.timeline();
+    // Actions.createQuizReview({
+    //   quizItem: {
+    //     question: 'Who is a bahd baybee?',
+    //     choices: ['Me', 'You', 'Anyone'],
+    //     senderChoiceIndex: 1,
+    //     reward: 4,
+    //   },
+    // });
     indentifyUser(user);
   } else if (
     _.isArray(receivedLoverRequests) &&

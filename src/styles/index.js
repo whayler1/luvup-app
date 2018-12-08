@@ -5,5 +5,6 @@ import vars from './vars';
 import modal from './modal.styles';
 import wells from './wells.styles';
 import navbar from './navbar.styles';
+import quiz from './quiz.styles';
 
-export { buttons, forms, scene, modal, wells, navbar, vars };
+export { buttons, forms, scene, modal, wells, navbar, quiz, vars };

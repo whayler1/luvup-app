@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Vibration, Animated, Easing } from 'react-native';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import moment from 'moment';
 
 import { createLoveNote as createLoveNoteAction } from '../../redux/loveNote/loveNote.actions';
 import { refreshSentCoinCount as refreshSentCoinCountAction } from '../../redux/coin/coin.actions';

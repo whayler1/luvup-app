@@ -1,37 +1,50 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+/**
+ * JW: TODO: Move Svg & extractBrush impprts to expo imports
+ */
+/* eslint-disable import/no-extraneous-dependencies */
 import Svg, { Path } from 'react-native-svg';
 import extractBrush from 'react-native-svg/lib/extract/extractBrush';
+/* eslint-enable import/no-extraneous-dependencies */
 import { getAnimatedRelationshipScoreFill } from '../../../helpers/getRelationshipScoreFill';
 
 class HeartArt extends PureComponent {
   static propTypes = {
-    animatedFillPct: PropTypes.object.isRequired,
+    animatedFillPct: PropTypes.object,
     scale: PropTypes.number,
+    fill: PropTypes.string,
   };
 
   componentDidMount() {
     const { animatedFillPct } = this.props;
+    if (animatedFillPct) {
+      this.animatedListener = animatedFillPct.addListener(() => {
+        const fill = getAnimatedRelationshipScoreFill(animatedFillPct);
 
-    this.animatedListener = animatedFillPct.addListener(() => {
-      const fill = getAnimatedRelationshipScoreFill(animatedFillPct);
-
-      // Make sure that the ref was acquired.
-      if (this.pathRef) {
-        this.pathRef.setNativeProps({ fill: extractBrush(fill.__getValue()) });
-      }
-    });
+        // Make sure that the ref was acquired.
+        if (this.pathRef) {
+          this.pathRef.setNativeProps({
+            fill: extractBrush(fill.__getValue()),
+          });
+        }
+      });
+    }
   }
 
   componentWillUnmount() {
-    this.props.animatedFillPct.removeListener(this.animatedListener);
+    if (this.props.animatedFillPct) {
+      this.props.animatedFillPct.removeListener(this.animatedListener);
+    }
   }
 
   setPathRef = ref => (this.pathRef = ref);
 
   render() {
     const { animatedFillPct, scale } = this.props;
-    const fill = getAnimatedRelationshipScoreFill(animatedFillPct).__getValue();
+    const fill = animatedFillPct
+      ? getAnimatedRelationshipScoreFill(animatedFillPct).__getValue()
+      : this.props.fill;
 
     return (
       <Svg width={891 * scale} height={807 * scale}>

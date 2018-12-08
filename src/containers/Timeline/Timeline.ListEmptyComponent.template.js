@@ -13,17 +13,15 @@ const ListEmptyComponent = ({ isInFlight, error }) => (
       paddingVertical: 32,
       alignSelf: 'stretch',
     }}>
-    {_.isString(error) &&
-      error.length > 0 && (
-        <Well text="There was an error loading the timeline. Make sure you are connected to wifi or data." />
-      )}
+    {_.isString(error) && error.length > 0 && (
+      <Well text="There was an error loading the timeline. Make sure you are connected to wifi or data." />
+    )}
     {isInFlight && <Preloader />}
-    {!error &&
-      !isInFlight && (
-        <Text style={[scene.copy, { fontSize: 25, textAlign: 'center' }]}>
-          You do not have any history yet. Send a Luvup to get things started!
-        </Text>
-      )}
+    {!error && !isInFlight && (
+      <Text style={[scene.copy, { fontSize: 25, textAlign: 'center' }]}>
+        You do not have any history yet. Send a Luvup to get things started!
+      </Text>
+    )}
   </View>
 );
 

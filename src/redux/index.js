@@ -13,6 +13,7 @@ import relationshipScore from './relationshipScore/relationshipScore.reducer';
 import receivedLoverRequests from './receivedLoverRequests/receivedLoverRequests.reducer';
 import notifications from './notifications/notifications.reducer';
 import loveNote from './loveNote/loveNote.reducer';
+import quizItem from './quizItem/quizItem.reducer';
 
 export const reducer = combineReducers({
   user,
@@ -27,6 +28,7 @@ export const reducer = combineReducers({
   receivedLoverRequests,
   notifications,
   loveNote,
+  quizItem,
 });
 
 const isNotComposeExtension =

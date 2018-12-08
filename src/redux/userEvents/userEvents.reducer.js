@@ -9,7 +9,9 @@ import {
   GET_TIMELINE_DATA_ATTEMPT,
   GET_TIMELINE_DATA_SUCCESS,
   GET_TIMELINE_DATA_FAILURE,
+  LOGOUT,
 } from '../user/user.actions';
+import { ANSWER_QUIZ_ITEM_SUCCESS } from '../quizItem/quizItem.actions';
 import { SET_LOVE_NOTE_READ_ATTEMPT } from '../loveNote/loveNote.actions';
 
 const defaultState = {
@@ -19,10 +21,24 @@ const defaultState = {
   count: null,
 };
 
-const getDecoratedRows = (rows, loveNoteEvents, loveNotes) =>
+/**
+ * JW: This is super uggo and probably inefficient. I am
+ * thinking a better way might be to store love notes/ quizes
+ * as dictionaries and access them that way.
+ */
+const getDecoratedRows = (
+  rows,
+  loveNoteEvents,
+  loveNotes,
+  quizItemEvents,
+  quizItems
+) =>
   rows.map(row => {
     const loveNoteEvent = loveNoteEvents.find(
       loveNoteEvent => loveNoteEvent.userEventId === row.id
+    );
+    const quizItemEvent = quizItemEvents.find(
+      quizItemEvent => quizItemEvent.userEventId === row.id
     );
 
     if (loveNoteEvent) {
@@ -30,6 +46,11 @@ const getDecoratedRows = (rows, loveNoteEvents, loveNotes) =>
         loveNote => loveNote.id === loveNoteEvent.loveNoteId
       );
       return { ...row, loveNote };
+    } else if (quizItemEvent) {
+      const quizItem = quizItems.find(
+        quizItem => quizItem.id === quizItemEvent.quizItemId
+      );
+      return { ...row, quizItem };
     }
     return row;
   });
@@ -52,7 +73,9 @@ export default function reducer(state = defaultState, action) {
       const rows = getDecoratedRows(
         initialRows,
         action.loveNoteEvents || [],
-        action.loveNotes || []
+        action.loveNotes || [],
+        action.quizItemEvents || [],
+        action.quizItems || []
       );
       return {
         ...state,
@@ -91,6 +114,25 @@ export default function reducer(state = defaultState, action) {
         rows,
       };
     }
+    case ANSWER_QUIZ_ITEM_SUCCESS: {
+      const userEventIndex = state.rows.findIndex(
+        row => _.get(row, 'quizItem.id', '') === action.quizItem.id
+      );
+      const rows = [
+        ...state.rows.slice(0, userEventIndex),
+        {
+          ...state.rows[userEventIndex],
+          quizItem: action.quizItem,
+        },
+        ...state.rows.slice(userEventIndex + 1, state.rows.length - 1),
+      ];
+      return {
+        ...state,
+        rows,
+      };
+    }
+    case LOGOUT:
+      return { ...defaultState };
     default:
       return state;
   }

@@ -32,6 +32,11 @@ import LoveNotes from './src/containers/LoveNotes';
 import TimelineRelationshipScoreArt from './src/components/Art/TimelineRelationshipScoreArt';
 import TimelineArt from './src/components/Art/TimelineArt';
 import ViewLoveNote from './src/containers/ViewLoveNote';
+import CreateQuizQuestion from './src/containers/CreateQuizQuestion';
+import CreateQuizChoices from './src/containers/CreateQuizChoices';
+import CreateQuizReward from './src/containers/CreateQuizReward';
+import CreateQuizReview from './src/containers/CreateQuizReview';
+import ViewQuiz from './src/containers/ViewQuiz';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -208,6 +213,36 @@ const App = () => (
             component={LoveNotes}
             backTitle=" "
             {...getDefaultNavBar('Read Love Notes')}
+          />
+          <Scene
+            key="createQuizQuestion"
+            hideNavBar
+            component={CreateQuizQuestion}
+          />
+          <Scene
+            key="createQuizChoices"
+            hideNavBar
+            component={CreateQuizChoices}
+          />
+          <Scene
+            key="createQuizReward"
+            hideNavBar
+            component={CreateQuizReward}
+          />
+          <Scene
+            key="createQuizReview"
+            hideNavBar
+            component={CreateQuizReview}
+          />
+          <Scene
+            key="ViewQuiz"
+            component={ViewQuiz}
+            {...getDefaultNavBar('')}
+            navigationBarStyle={{
+              backgroundColor: vars.razzleDazzleRose,
+              borderBottomWidth: 0,
+            }}
+            navBarButtonColor="rgba(0,0,0,0.5)"
           />
         </Stack>
         <Scene key="notificationLightbox" component={InAppNotifications} />
