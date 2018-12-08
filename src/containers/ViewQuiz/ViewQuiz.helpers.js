@@ -9,5 +9,18 @@ const wrongAnswerReactions = [
   'DOH!',
 ];
 
+const getRandomNumber = max => Math.floor(Math.random() * max);
+
 export const getWrongAnswerReaction = () =>
-  wrongAnswerReactions[Math.floor(Math.random() * wrongAnswerReactions.length)];
+  wrongAnswerReactions[getRandomNumber(wrongAnswerReactions.length)];
+
+const correctAnswerReaction = [
+  'Correct!',
+  'Booyah!',
+  'You nailed it!',
+  'Got it right!',
+  'Good work!',
+];
+
+export const getCorrectAnswerReaction = () =>
+  correctAnswerReaction[getRandomNumber(correctAnswerReaction.length)];
