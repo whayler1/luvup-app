@@ -108,7 +108,7 @@ export default StyleSheet.create({
   questionSmallText: {
     fontFamily: vars.fontBlack,
     color: vars.blueGrey500,
-    fontSize: 24,
+    fontSize: 32,
     paddingBottom: 16,
     textAlign: 'center',
   },
@@ -174,7 +174,7 @@ export default StyleSheet.create({
     fontSize: 24,
   },
   viewQuizDetailsNewLine: {
-    paddingTop: 10,
+    paddingTop: 24,
   },
   viewQuizDetailsDirections: {
     textAlign: 'center',
