@@ -16,6 +16,7 @@ import LoveNoteArtFlying from '../../components/LoveNoteArtFlying';
 import LoveNoteArtReceived from '../../components/LoveNoteArtReceived';
 import QuizArtSent from '../../components/Art/QuizArtSent';
 import QuizArtReceived from '../../components/Art/QuizArtReceived';
+import QuizArtAnswered from '../../components/Art/QuizArtAnswered';
 import CoinArt from '../../components/CoinArt';
 import JalapenoArt from '../../components/JalapenoArt';
 
@@ -41,6 +42,10 @@ const getEventDisplayName = (eventName, count) => {
       return 'Quiz created';
     case 'quiz-item-received':
       return 'Quiz received';
+    case 'quiz-item-sent-answered':
+      return 'Your quiz was answered';
+    case 'quiz-item-received-answered':
+      return 'You answered a quiz';
     default:
       return eventName;
   }
@@ -96,6 +101,13 @@ const getEventImage = eventName => {
       return (
         <View style={styles.renderItemQuizIconWrapper}>
           <QuizArtReceived scale={0.36} />
+        </View>
+      );
+    case 'quiz-item-sent-answered':
+    case 'quiz-item-received-answered':
+      return (
+        <View style={styles.renderItemQuizIconWrapper}>
+          <QuizArtAnswered scale={0.36} />
         </View>
       );
     default:
