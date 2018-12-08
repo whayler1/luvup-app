@@ -1,13 +1,15 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
-import ReactArt, { Group, Shape, Surface, Transform } from 'ReactNativeART';
+import { View, Text } from 'react-native';
+import { Group, Surface } from 'ReactNativeART';
+import Color from 'color';
 
 import Circle from '../../components/Circle';
 import { vars } from '../../styles';
 import styles from './Timeline.styles';
-import jalapenoImg from '../../images/jalapeno.png';
 import CoinArt from '../../components/CoinArt';
 import JalapenoArt from '../../components/JalapenoArt';
+
+const coinStrokeColor = Color(vars.razzleDazzleRose).mix(Color('white'), 0.3);
 
 const circumfrance = 36;
 const radius = circumfrance / 2;
@@ -45,7 +47,11 @@ const leaderboardSlot = ({ initials, coinCount, jalapenoCount, isSecond }) => (
         alignItems: 'center',
         marginLeft: 16,
       }}>
-      <CoinArt fill="rgba(255,255,255,0.6)" stroke="white" scale={0.5} />
+      <CoinArt
+        fill="rgba(255,255,255,0.6)"
+        stroke={coinStrokeColor}
+        scale={0.5}
+      />
       <Text style={styles.leaderboardText}>{coinCount}</Text>
       <View style={{ marginLeft: 16 }}>
         <JalapenoArt fill="rgba(255,255,255,0.6)" scale={0.35} />
