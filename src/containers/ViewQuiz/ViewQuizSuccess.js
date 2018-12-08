@@ -6,6 +6,7 @@ import { Button } from 'react-native-elements';
 
 import { quiz as styles, buttons } from '../../styles';
 import CoinRow from '../../components/CoinRow';
+import { getCorrectAnswerReaction } from './ViewQuiz.helpers';
 
 const handleDone = () => Actions.dashboard();
 
@@ -13,7 +14,10 @@ const ViewQuizSuccess = ({ reward }) => (
   <View style={styles.successContainer}>
     <View style={styles.successWrapper}>
       <CoinRow reward={reward} />
-      <Text style={styles.successText}>Correct! You win {reward} Luvups</Text>
+      <View style={styles.successTextWrapper}>
+        <Text style={styles.successText}>{getCorrectAnswerReaction()}</Text>
+        <Text style={styles.successText}>You win {reward} Luvups</Text>
+      </View>
       <Button
         onPress={handleDone}
         containerViewStyle={buttons.container}

@@ -242,7 +242,7 @@ const App = () => (
               backgroundColor: vars.razzleDazzleRose,
               borderBottomWidth: 0,
             }}
-            navBarButtonColor="white"
+            navBarButtonColor="rgba(0,0,0,0.5)"
           />
         </Stack>
         <Scene key="notificationLightbox" component={InAppNotifications} />

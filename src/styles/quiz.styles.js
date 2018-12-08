@@ -138,9 +138,12 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  successText: {
+  successTextWrapper: {
     marginTop: 16,
     marginBottom: 32,
+    alignItems: 'center',
+  },
+  successText: {
     fontSize: 30,
     fontFamily: vars.fontBlack,
     color: vars.blueGrey500,
