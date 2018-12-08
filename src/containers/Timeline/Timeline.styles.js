@@ -11,20 +11,14 @@ const renderItemContainer = {
   justifyContent: 'space-between',
   alignItems: 'center',
 };
-const renderItemContainerLast = {
-  ...renderItemContainer,
-  paddingBottom: 24,
-};
+const renderItemContainerLast = { ...renderItemContainer, paddingBottom: 24 };
 const leaderboardSlot = {
   paddingLeft: 16,
   paddingRight: 16,
   flexDirection: 'row',
   alignItems: 'center',
 };
-const leaderboardSlotSecond = {
-  ...leaderboardSlot,
-  paddingTop: 16,
-};
+const leaderboardSlotSecond = { ...leaderboardSlot, paddingTop: 16 };
 
 export default new StyleSheet.create({
   wrapper: {

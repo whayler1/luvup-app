@@ -9,6 +9,7 @@ import {
   GET_TIMELINE_DATA_ATTEMPT,
   GET_TIMELINE_DATA_SUCCESS,
   GET_TIMELINE_DATA_FAILURE,
+  LOGOUT,
 } from '../user/user.actions';
 import { SET_LOVE_NOTE_READ_ATTEMPT } from '../loveNote/loveNote.actions';
 
@@ -112,6 +113,8 @@ export default function reducer(state = defaultState, action) {
         rows,
       };
     }
+    case LOGOUT:
+      return { ...defaultState };
     default:
       return state;
   }

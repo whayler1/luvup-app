@@ -76,8 +76,8 @@ export default ({
   <View style={styles.listHeaderContainer}>
     {leaderboardSlot({
       initials: userInitials,
-      coinCount: coinCount,
-      jalapenoCount: jalapenoCount,
+      coinCount,
+      jalapenoCount,
     })}
     {leaderboardSlot({
       initials: loverInitials,
