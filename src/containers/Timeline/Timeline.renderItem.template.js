@@ -156,8 +156,17 @@ export default ctx => {
   const isLovenoteItemWithNote =
     isLovenoteItem && _.isString(_.get(item, 'loveNote.id'));
   const isQuizItem = /^quiz/.test(item.name);
-  const isNumLuvups = _.get(item, 'loveNote.numLuvups', 0) > 0;
+  let isNumLuvups = _.get(item, 'loveNote.numLuvups', 0) > 0;
   const isNumJalapenos = _.get(item, 'loveNote.numJalapenos', 0) > 0;
+
+  if (
+    isQuizItem &&
+    (item.name === 'quiz-item-sent-answered' ||
+      item.name === 'quiz-item-received-answered') &&
+    item.quizItem.recipientChoiceId === item.quizItem.senderChoiceId
+  ) {
+    isNumLuvups = true;
+  }
 
   return (
     <Wrapper
@@ -204,7 +213,10 @@ export default ctx => {
                       scale={0.2}
                     />
                     <Text style={styles.renderItemLoveNoteTokenText}>
-                      +{item.loveNote.numLuvups}
+                      +
+                      {isQuizItem
+                        ? item.quizItem.reward
+                        : item.loveNote.numLuvups}
                     </Text>
                   </View>
                 )}

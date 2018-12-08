@@ -106,6 +106,8 @@ class ViewQuiz extends PureComponent {
     const isRecipientChoiceId =
       _.isString(quizItem.recipientChoiceId) &&
       quizItem.recipientChoiceId.length > 0;
+    const isAnswerRight =
+      quizItem.recipientChoiceId === quizItem.senderChoiceId;
 
     if (isCorrectAnswerSelected) {
       return <ViewQuizSuccess reward={quizItem.reward} />;
@@ -119,17 +121,28 @@ class ViewQuiz extends PureComponent {
           <Text style={styles.viewQuizDetails}>
             {isSender ? (
               <Text style={styles.viewQuizDetailsBold}>
-                You sent {loverFirstName} a quiz
+                {isRecipientChoiceId
+                  ? `${loverFirstName} got your quiz ${
+                      isAnswerRight ? 'right' : 'wrong'
+                    }`
+                  : `You sent ${loverFirstName} a quiz`}
               </Text>
             ) : (
               <Text style={styles.viewQuizDetailsBold}>
-                {loverFirstName} sent you a quiz
+                {isRecipientChoiceId
+                  ? `You answered ${loverFirstName}'s quiz ${
+                      isAnswerRight ? 'right' : 'wrong'
+                    }`
+                  : `${loverFirstName} sent you a quiz`}
               </Text>
             )}
-            <Text style={styles.viewQuizDetailsNewLine}>
-              {'\n'}
-              {formattedCreatedAt}.
-            </Text>
+            {!isRecipientChoiceId && (
+              <Text style={styles.viewQuizDetailsNewLine}>
+                {'\n'}
+                {'\n'}
+                {formattedCreatedAt}.
+              </Text>
+            )}
           </Text>
           {isAnswerable && (
             <Text style={styles.viewQuizDetailsDirections}>
@@ -139,20 +152,6 @@ class ViewQuiz extends PureComponent {
           {isSender && !isRecipientChoiceId && (
             <Text style={styles.viewQuizDetailsDirections}>
               {loverFirstName} hasn’t answered yet
-            </Text>
-          )}
-          {isSender && isRecipientChoiceId && (
-            <Text style={styles.viewQuizDetailsDirections}>
-              {quizItem.recipientChoiceId === quizItem.senderChoiceId
-                ? `${loverFirstName} answered correctly!`
-                : `${loverFirstName} got it wrong`}
-            </Text>
-          )}
-          {!isSender && isRecipientChoiceId && (
-            <Text style={styles.viewQuizDetailsDirections}>
-              {quizItem.recipientChoiceId === quizItem.senderChoiceId
-                ? `You got it right and won ${quizItem.reward} Luvups!`
-                : `You answered wrong`}
             </Text>
           )}
         </View>
