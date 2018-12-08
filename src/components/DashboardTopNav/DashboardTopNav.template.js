@@ -30,17 +30,14 @@ export default ({
       <Pushdown closeFunc={closePushdown}>
         {unviewedCoinCount > 0 && (
           <Text style={styles.pushdownText}>
-            You received {unviewedCoinCount} luvup{unviewedCoinCount > 1
-              ? 's'
-              : ''}!
+            You received {unviewedCoinCount} luvup
+            {unviewedCoinCount > 1 ? 's' : ''}!
           </Text>
         )}
         {unviewedJalapenoCount > 0 && (
           <Text style={styles.pushdownText}>
-            You received {unviewedJalapenoCount} jalapeno{unviewedJalapenoCount >
-            1
-              ? 's'
-              : ''}
+            You received {unviewedJalapenoCount} jalapeno
+            {unviewedJalapenoCount > 1 ? 's' : ''}
           </Text>
         )}
       </Pushdown>

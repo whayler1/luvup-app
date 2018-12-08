@@ -14,6 +14,9 @@ import coinSentImg from '../../images/coin-sent.png';
 import coinReceivedImg from '../../images/coin-received.png';
 import LoveNoteArtFlying from '../../components/LoveNoteArtFlying';
 import LoveNoteArtReceived from '../../components/LoveNoteArtReceived';
+import QuizArtSent from '../../components/Art/QuizArtSent';
+import QuizArtReceived from '../../components/Art/QuizArtReceived';
+import QuizArtAnswered from '../../components/Art/QuizArtAnswered';
 import CoinArt from '../../components/CoinArt';
 import JalapenoArt from '../../components/JalapenoArt';
 
@@ -30,11 +33,19 @@ const getEventDisplayName = (eventName, count) => {
     case 'jalapeno-received':
       return `Jalapeno${plur} received`;
     case 'password-changed':
-      return 'Password Changed';
+      return 'Password changed';
     case 'lovenote-sent':
       return `Love note${plur} sent`;
     case 'lovenote-received':
       return `Love note${plur} received`;
+    case 'quiz-item-sent':
+      return 'Quiz created';
+    case 'quiz-item-received':
+      return 'Quiz received';
+    case 'quiz-item-sent-answered':
+      return 'Your quiz was answered';
+    case 'quiz-item-received-answered':
+      return 'You answered a quiz';
     default:
       return eventName;
   }
@@ -43,41 +54,26 @@ const getEventImage = eventName => {
   switch (eventName) {
     case 'coin-sent':
       return (
-        <Image
-          style={{
-            width: 32,
-            height: 25,
-          }}
-          source={coinSentImg}
-        />
+        <Image style={styles.renderItemCoinSentImage} source={coinSentImg} />
       );
     case 'coin-received':
       return (
         <Image
-          style={{
-            width: 31,
-            height: 25,
-          }}
+          style={styles.renderItemCoinReceivedImage}
           source={coinReceivedImg}
         />
       );
     case 'jalapeno-sent':
       return (
         <Image
-          style={{
-            width: 24,
-            height: 25,
-          }}
+          style={styles.renderItemJalapenoSentImage}
           source={jalapenoSentImg}
         />
       );
     case 'jalapeno-received':
       return (
         <Image
-          style={{
-            width: 26,
-            height: 25,
-          }}
+          style={styles.renderItemJalapenoReceivedImage}
           source={jalapenoReceivedImg}
         />
       );
@@ -85,14 +81,33 @@ const getEventImage = eventName => {
       return <Ionicons name="md-lock" size={36} color={vars.blueGrey500} />;
     case 'lovenote-sent':
       return (
-        <View style={{ paddingTop: 3 }}>
+        <View style={styles.renderItemLoveNoteWrapper}>
           <LoveNoteArtFlying scale={0.4} />
         </View>
       );
     case 'lovenote-received':
       return (
-        <View style={{ paddingTop: 3 }}>
+        <View style={styles.renderItemLoveNoteWrapper}>
           <LoveNoteArtReceived scale={0.4} />
+        </View>
+      );
+    case 'quiz-item-sent':
+      return (
+        <View style={styles.renderItemQuizIconWrapper}>
+          <QuizArtSent scale={0.36} />
+        </View>
+      );
+    case 'quiz-item-received':
+      return (
+        <View style={styles.renderItemQuizIconWrapper}>
+          <QuizArtReceived scale={0.36} />
+        </View>
+      );
+    case 'quiz-item-sent-answered':
+    case 'quiz-item-received-answered':
+      return (
+        <View style={styles.renderItemQuizIconWrapper}>
+          <QuizArtAnswered scale={0.36} />
         </View>
       );
     default:
@@ -100,19 +115,33 @@ const getEventImage = eventName => {
   }
 };
 
-const Wrapper = ({ children, eventName, loveNote = {} }) => {
+const getHandleLoveNoteClick = loveNoteId => () => {
+  Actions.viewLoveNote({ loveNoteId });
+};
+
+const getHandleQuizItemClick = quizItemId => () => {
+  Actions.ViewQuiz({ quizItemId });
+};
+
+const getIsQuizItemNotificationDot = (eventName, quizItem) =>
+  /received/.test(eventName) && !quizItem.recipientChoiceId;
+
+const Wrapper = ({ children, eventName, loveNote = {}, quizItem = {} }) => {
   if (_.isString(loveNote.id)) {
     return (
-      <TouchableOpacity
-        onPress={() => Actions.viewLoveNote({ loveNoteId: loveNote.id })}>
+      <TouchableOpacity onPress={getHandleLoveNoteClick(loveNote.id)}>
         {eventName === 'lovenote-received' && !loveNote.isRead && (
-          <NotificationDot
-            style={{
-              position: 'absolute',
-              left: 12,
-              top: 10,
-            }}
-          />
+          <NotificationDot style={styles.renderItemNotificationDot} />
+        )}
+        {children}
+      </TouchableOpacity>
+    );
+  }
+  if (_.isString(quizItem.id)) {
+    return (
+      <TouchableOpacity onPress={getHandleQuizItemClick(quizItem.id)}>
+        {getIsQuizItemNotificationDot(eventName, quizItem) && (
+          <NotificationDot style={styles.renderItemNotificationDot} />
         )}
         {children}
       </TouchableOpacity>
@@ -126,13 +155,23 @@ export default ctx => {
   const isLovenoteItem = /^lovenote/.test(item.name);
   const isLovenoteItemWithNote =
     isLovenoteItem && _.isString(_.get(item, 'loveNote.id'));
-  const isNumLuvups = _.get(item, 'loveNote.numLuvups', 0) > 0;
+  const isQuizItem = /^quiz/.test(item.name);
+  let isNumLuvups = _.get(item, 'loveNote.numLuvups', 0) > 0;
   const isNumJalapenos = _.get(item, 'loveNote.numJalapenos', 0) > 0;
+
+  if (
+    isQuizItem &&
+    item.name === 'quiz-item-received-answered' &&
+    item.quizItem.recipientChoiceId === item.quizItem.senderChoiceId
+  ) {
+    isNumLuvups = true;
+  }
 
   return (
     <Wrapper
       isLink={isLovenoteItemWithNote}
       loveNote={item.loveNote}
+      quizItem={item.quizItem}
       eventName={item.name}>
       <View
         style={
@@ -141,20 +180,14 @@ export default ctx => {
             : styles.renderItemContainer
         }>
         <View style={styles.renderItemContent}>
-          <View
-            style={{
-              minWidth: 50,
-            }}>
+          <View style={styles.renderItemIconContainer}>
             {getEventImage(item.name)}
           </View>
-          <View
-            style={{
-              paddingLeft: 16,
-              paddingRight: 16,
-              flex: 1,
-            }}>
+          <View style={styles.renderItemCopyContainer}>
             <Text style={styles.renderItemContentText}>
-              {item.name !== 'password-changed' && !isLovenoteItem
+              {item.name !== 'password-changed' &&
+              !isLovenoteItem &&
+              !isQuizItem
                 ? item.count + ' '
                 : ''}
               {getEventDisplayName(item.name, item.count)}
@@ -162,6 +195,11 @@ export default ctx => {
             {isLovenoteItem && _.isString(_.get(item, 'loveNote.note')) && (
               <Text numberOfLines={1} style={styles.renderItemLoveNoteText}>
                 {decodeURI(item.loveNote.note)}
+              </Text>
+            )}
+            {isQuizItem && _.isString(_.get(item, 'quizItem.question')) && (
+              <Text numberOfLines={1} style={styles.renderItemLoveNoteText}>
+                {decodeURI(item.quizItem.question)}
               </Text>
             )}
             {(isNumLuvups || isNumJalapenos) && (
@@ -174,7 +212,10 @@ export default ctx => {
                       scale={0.2}
                     />
                     <Text style={styles.renderItemLoveNoteTokenText}>
-                      +{item.loveNote.numLuvups}
+                      +
+                      {isQuizItem
+                        ? item.quizItem.reward
+                        : item.loveNote.numLuvups}
                     </Text>
                   </View>
                 )}

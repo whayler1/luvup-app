@@ -52,6 +52,7 @@ export default {
   razzleDazzleRose,
 
   radius: 2,
+  topUiMargin: 25,
 
   // named vars
 

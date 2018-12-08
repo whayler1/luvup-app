@@ -18,7 +18,6 @@ export default StyleSheet.create({
     marginTop: 16,
   },
   value: {
-    fontSize: vars.fontRegular,
     fontSize: 20,
     color: vars.blueGrey500,
     marginTop: 4,
