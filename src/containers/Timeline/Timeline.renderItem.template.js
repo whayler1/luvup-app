@@ -161,8 +161,7 @@ export default ctx => {
 
   if (
     isQuizItem &&
-    (item.name === 'quiz-item-sent-answered' ||
-      item.name === 'quiz-item-received-answered') &&
+    item.name === 'quiz-item-received-answered' &&
     item.quizItem.recipientChoiceId === item.quizItem.senderChoiceId
   ) {
     isNumLuvups = true;
