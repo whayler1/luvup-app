@@ -3,7 +3,7 @@ import { Actions } from 'react-native-router-flux';
 import { Text, View, KeyboardAvoidingView, ScrollView } from 'react-native';
 
 import { forms, quiz /*, vars*/ } from '../../styles';
-import { QuizItemType } from '../../types';
+import { QuizItemAttemptType } from '../../types';
 import CreateQuizNavBar from '../CreateQuizNavBar';
 import CreateQuizChoice from './CreateQuizChoice';
 import CreateQuizLengthUI from './CreateQuizLengthUI';
@@ -12,7 +12,7 @@ const choicesDefault = ['', '', ''];
 
 class CreateQuizChoices extends PureComponent {
   static propTypes = {
-    quizItem: QuizItemType,
+    quizItem: QuizItemAttemptType,
   };
 
   constructor(props) {

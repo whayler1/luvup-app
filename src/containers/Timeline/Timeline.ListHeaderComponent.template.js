@@ -5,8 +5,9 @@ import ReactArt, { Group, Shape, Surface, Transform } from 'ReactNativeART';
 import Circle from '../../components/Circle';
 import { vars } from '../../styles';
 import styles from './Timeline.styles';
-import coinImg from '../../images/coin.png';
 import jalapenoImg from '../../images/jalapeno.png';
+import CoinArt from '../../components/CoinArt';
+import JalapenoArt from '../../components/JalapenoArt';
 
 const circumfrance = 36;
 const radius = circumfrance / 2;
@@ -23,14 +24,14 @@ const leaderboardSlot = ({ initials, coinCount, jalapenoCount, isSecond }) => (
       }}>
       <Surface width={44} height={44}>
         <Group x={1} y={1}>
-          <Circle radius={21} stroke={vars.blueGrey500} strokeColor={2} />
+          <Circle radius={21} stroke="rgba(255,255,255,0.7)" strokeColor={2} />
         </Group>
       </Surface>
       <Text
         style={{
           position: 'absolute',
           backgroundColor: 'transparent',
-          color: vars.blueGrey800,
+          color: 'white',
           fontFamily: vars.fontBlack,
           fontSize: 20,
         }}>
@@ -42,24 +43,13 @@ const leaderboardSlot = ({ initials, coinCount, jalapenoCount, isSecond }) => (
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
+        marginLeft: 16,
       }}>
-      <Image
-        source={coinImg}
-        style={{
-          width: 36,
-          height: circumfrance,
-          marginLeft: 16,
-        }}
-      />
+      <CoinArt fill="rgba(255,255,255,0.6)" stroke="white" scale={0.5} />
       <Text style={styles.leaderboardText}>{coinCount}</Text>
-      <Image
-        source={jalapenoImg}
-        style={{
-          width: 27,
-          height: circumfrance,
-          marginLeft: 16,
-        }}
-      />
+      <View style={{ marginLeft: 16 }}>
+        <JalapenoArt fill="rgba(255,255,255,0.6)" scale={0.35} />
+      </View>
       <Text style={styles.leaderboardText}>{jalapenoCount}</Text>
     </View>
   </View>

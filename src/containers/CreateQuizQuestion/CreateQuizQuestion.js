@@ -11,7 +11,7 @@ import {
 
 import { forms, vars, buttons, quiz as quizStyles } from '../../styles';
 import CreateQuizNavBar from '../CreateQuizNavBar';
-import { QuizItemType } from '../../types';
+import { QuizItemAttemptType } from '../../types';
 import { getRandomQuestion } from './CreateQuizQuestion.helpers';
 
 const placeholders = [
@@ -25,7 +25,7 @@ const getRandomPlaceholder = () =>
 
 class CreateQuizQuestion extends PureComponent {
   static propTypes = {
-    quizItem: QuizItemType,
+    quizItem: QuizItemAttemptType,
   };
 
   static defaultProps = {

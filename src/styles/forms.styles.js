@@ -50,6 +50,8 @@ export default StyleSheet.create({
   },
   error: {
     color: 'red',
+    fontFamily: vars.fontRegular,
+    fontSize: 15,
     paddingTop: 8,
   },
   formGroup: {

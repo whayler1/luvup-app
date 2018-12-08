@@ -36,6 +36,7 @@ import CreateQuizQuestion from './src/containers/CreateQuizQuestion';
 import CreateQuizChoices from './src/containers/CreateQuizChoices';
 import CreateQuizReward from './src/containers/CreateQuizReward';
 import CreateQuizReview from './src/containers/CreateQuizReview';
+import ViewQuiz from './src/containers/ViewQuiz';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -232,6 +233,11 @@ const App = () => (
             key="createQuizReview"
             hideNavBar
             component={CreateQuizReview}
+          />
+          <Scene
+            key="ViewQuiz"
+            component={ViewQuiz}
+            {...getDefaultNavBar('')}
           />
         </Stack>
         <Scene key="notificationLightbox" component={InAppNotifications} />
