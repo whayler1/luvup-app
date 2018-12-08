@@ -33,6 +33,7 @@ class CreateQuizChoice extends PureComponent {
     super(props);
     this.placeholder =
       placeholders[Math.floor(Math.random() * placeholders.length)];
+    this.onPress = this.props.onSelect ? this.handleSelectPress : undefined;
   }
 
   handleChangeText = text => {
@@ -54,7 +55,7 @@ class CreateQuizChoice extends PureComponent {
               isChecked={this.props.isChecked}
               isWrong={this.props.isWrong}
               scale={this.props.isReadOnly ? 0.28 : 0.5}
-              onPress={this.handleSelectPress}
+              onPress={this.onPress}
             />
           </View>
           <View style={styles.choiceItemInputWrapper}>

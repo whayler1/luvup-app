@@ -1,11 +1,19 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { Svg } from 'expo';
+import _ from 'lodash';
 
 const { Path, Polygon } = Svg;
 
 import { vars } from '../../styles';
+
+const Wrapper = ({ onPress, children }) =>
+  _.isFunction(onPress) ? (
+    <TouchableOpacity onPress={onPress}>{children}</TouchableOpacity>
+  ) : (
+    <View>{children}</View>
+  );
 
 const CreateQuizChoiceCheckbox = ({
   isChecked = true,
@@ -16,7 +24,7 @@ const CreateQuizChoiceCheckbox = ({
   boxFillChecked = vars.cyan300,
   onPress,
 }) => (
-  <TouchableOpacity onPress={onPress}>
+  <Wrapper onPress={onPress}>
     <Svg width={68 * scale} height={68 * scale}>
       <Path
         fill={isChecked ? boxFillChecked : isWrong ? vars.red500 : boxFill}
@@ -31,7 +39,7 @@ const CreateQuizChoiceCheckbox = ({
         />
       )}
     </Svg>
-  </TouchableOpacity>
+  </Wrapper>
 );
 
 CreateQuizChoiceCheckbox.propTypes = {
