@@ -184,4 +184,11 @@ export default StyleSheet.create({
     marginTop: 24,
     marginBottom: 16,
   },
+  viewQuizWrongAnswerReaction: {
+    marginTop: 24,
+    fontFamily: vars.fontBlack,
+    fontSize: 23,
+    color: vars.red500,
+    textAlign: 'center',
+  },
 });

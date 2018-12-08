@@ -10,6 +10,7 @@ import QuizDisplay from '../../components/QuizDisplay';
 import ViewQuizSuccess from './ViewQuizSuccess';
 import { quiz as styles, buttons, forms } from '../../styles';
 import { answerQuizItem as answerQuizItemAction } from '../../redux/quizItem/quizItem.actions';
+import { getWrongAnswerReaction } from './ViewQuiz.helpers';
 
 const NO_CHOICE_SELECTED = 'no-choice-selected';
 
@@ -29,6 +30,7 @@ class ViewQuiz extends PureComponent {
 
     const quizItem = props.quizItemDictionary[props.quizItemId];
     this.isSender = quizItem.senderId === props.userId;
+    this.wrongAnswerReaction = getWrongAnswerReaction();
 
     this.state = {
       quizItem,
@@ -36,6 +38,7 @@ class ViewQuiz extends PureComponent {
       recipientChoiceId: quizItem.recipientChoiceId,
       error: '',
       isCorrectAnswerSelected: false,
+      isWrongAnswerSelected: false,
     };
     const createdAtDate = new Date(quizItem.createdAt);
     this.formattedCreatedAt =
@@ -62,6 +65,7 @@ class ViewQuiz extends PureComponent {
       } else {
         /* eslint-disable react/no-did-update-set-state */
         this.setState({
+          isWrongAnswerSelected: true,
           isAnswerable: false,
           quizItem: this.props.quizItemDictionary[this.props.quizItemId],
         });
@@ -89,10 +93,19 @@ class ViewQuiz extends PureComponent {
       handleChoicePress,
       handleSubmit,
       formattedCreatedAt,
-      state: { isAnswerable, quizItem, error, isCorrectAnswerSelected },
+      state: {
+        isAnswerable,
+        quizItem,
+        error,
+        isCorrectAnswerSelected,
+        isWrongAnswerSelected,
+      },
       props: { isAnswerQuizItemInFlight, answerQuizItemErrorMessage },
     } = this;
     const loverFirstName = _.upperFirst(this.props.loverFirstName);
+    const isRecipientChoiceId =
+      _.isString(quizItem.recipientChoiceId) &&
+      quizItem.recipientChoiceId.length > 0;
 
     if (isCorrectAnswerSelected) {
       return <ViewQuizSuccess reward={quizItem.reward} />;
@@ -122,19 +135,19 @@ class ViewQuiz extends PureComponent {
             Select an answer below to win {quizItem.reward} Luvups!
           </Text>
         )}
-        {isSender && !quizItem.recipientChoiceId && (
+        {isSender && !isRecipientChoiceId && (
           <Text style={styles.viewQuizDetailsDirections}>
             {loverFirstName} hasn’t answered yet
           </Text>
         )}
-        {isSender && quizItem.recipientChoiceId && (
+        {isSender && isRecipientChoiceId && (
           <Text style={styles.viewQuizDetailsDirections}>
             {quizItem.recipientChoiceId === quizItem.senderChoiceId
               ? `${loverFirstName} answered correctly!`
               : `${loverFirstName} got it wrong`}
           </Text>
         )}
-        {!isSender && quizItem.recipientChoiceId && (
+        {!isSender && isRecipientChoiceId && (
           <Text style={styles.viewQuizDetailsDirections}>
             {quizItem.recipientChoiceId === quizItem.senderChoiceId
               ? `You got it right and won ${quizItem.reward} Luvups!`
@@ -161,11 +174,12 @@ class ViewQuiz extends PureComponent {
                 Please select a choice
               </Text>
             )}
-            {answerQuizItemErrorMessage && (
-              <Text style={[forms.error, styles.viewQuizSubmitError]}>
-                {answerQuizItemErrorMessage}
-              </Text>
-            )}
+            {_.isString(answerQuizItemErrorMessage) &&
+              answerQuizItemErrorMessage.length > 0 && (
+                <Text style={[forms.error, styles.viewQuizSubmitError]}>
+                  {answerQuizItemErrorMessage}
+                </Text>
+              )}
             <Button
               onPress={handleSubmit}
               containerViewStyle={buttons.infoContainer}
@@ -175,6 +189,11 @@ class ViewQuiz extends PureComponent {
               title={isAnswerQuizItemInFlight ? 'Submitting…' : 'Submit'}
             />
           </View>
+        )}
+        {isWrongAnswerSelected && (
+          <Text style={styles.viewQuizWrongAnswerReaction}>
+            {this.wrongAnswerReaction}
+          </Text>
         )}
       </ScrollView>
     );

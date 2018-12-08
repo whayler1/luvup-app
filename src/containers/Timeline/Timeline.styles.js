@@ -40,7 +40,7 @@ export default new StyleSheet.create({
   leaderboardSlotSecond,
   leaderboardText: {
     marginLeft: 8,
-    fontFamily: vars.fontBlack,
+    fontFamily: vars.fontRegular,
     fontSize: 20,
     color: 'white',
   },
