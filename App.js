@@ -238,6 +238,11 @@ const App = () => (
             key="ViewQuiz"
             component={ViewQuiz}
             {...getDefaultNavBar('')}
+            navigationBarStyle={{
+              backgroundColor: vars.razzleDazzleRose,
+              borderBottomWidth: 0,
+            }}
+            navBarButtonColor="white"
           />
         </Stack>
         <Scene key="notificationLightbox" component={InAppNotifications} />

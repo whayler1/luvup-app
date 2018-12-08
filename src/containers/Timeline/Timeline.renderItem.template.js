@@ -123,6 +123,9 @@ const getHandleQuizItemClick = quizItemId => () => {
   Actions.ViewQuiz({ quizItemId });
 };
 
+const getIsQuizItemNotificationDot = (eventName, quizItem) =>
+  /received/.test(eventName) && !quizItem.recipientChoiceId;
+
 const Wrapper = ({ children, eventName, loveNote = {}, quizItem = {} }) => {
   if (_.isString(loveNote.id)) {
     return (
@@ -137,6 +140,9 @@ const Wrapper = ({ children, eventName, loveNote = {}, quizItem = {} }) => {
   if (_.isString(quizItem.id)) {
     return (
       <TouchableOpacity onPress={getHandleQuizItemClick(quizItem.id)}>
+        {getIsQuizItemNotificationDot(eventName, quizItem) && (
+          <NotificationDot style={styles.renderItemNotificationDot} />
+        )}
         {children}
       </TouchableOpacity>
     );

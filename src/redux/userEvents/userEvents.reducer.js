@@ -11,6 +11,7 @@ import {
   GET_TIMELINE_DATA_FAILURE,
   LOGOUT,
 } from '../user/user.actions';
+import { ANSWER_QUIZ_ITEM_SUCCESS } from '../quizItem/quizItem.actions';
 import { SET_LOVE_NOTE_READ_ATTEMPT } from '../loveNote/loveNote.actions';
 
 const defaultState = {
@@ -106,6 +107,23 @@ export default function reducer(state = defaultState, action) {
       const rows = [
         ...state.rows.slice(0, userEventIndex),
         userEvent,
+        ...state.rows.slice(userEventIndex + 1, state.rows.length - 1),
+      ];
+      return {
+        ...state,
+        rows,
+      };
+    }
+    case ANSWER_QUIZ_ITEM_SUCCESS: {
+      const userEventIndex = state.rows.findIndex(
+        row => _.get(row, 'quizItem.id', '') === action.quizItem.id
+      );
+      const rows = [
+        ...state.rows.slice(0, userEventIndex),
+        {
+          ...state.rows[userEventIndex],
+          quizItem: action.quizItem,
+        },
         ...state.rows.slice(userEventIndex + 1, state.rows.length - 1),
       ];
       return {

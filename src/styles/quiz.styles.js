@@ -108,7 +108,7 @@ export default StyleSheet.create({
   questionSmallText: {
     fontFamily: vars.fontBlack,
     color: vars.blueGrey500,
-    fontSize: 22,
+    fontSize: 24,
     paddingBottom: 16,
     textAlign: 'center',
   },
@@ -152,16 +152,23 @@ export default StyleSheet.create({
     paddingTop: 0,
     paddingBottom: 8,
   },
+  viewQuizHead: {
+    backgroundColor: vars.razzleDazzleRose,
+    marginHorizontal: -16,
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+    marginBottom: 16,
+  },
   viewQuizDetails: {
     fontFamily: vars.fontRegular,
     fontSize: 14,
-    color: vars.blueGrey700,
+    color: 'white',
     textAlign: 'center',
     zIndex: 10,
-    paddingTop: 12,
   },
   viewQuizDetailsBold: {
     fontFamily: vars.fontBlack,
+    fontSize: 24,
   },
   viewQuizDetailsNewLine: {
     paddingTop: 10,
@@ -171,18 +178,7 @@ export default StyleSheet.create({
     fontSize: 14,
     fontFamily: vars.fontBlack,
     marginTop: 16,
-    color: vars.blueGrey700,
-  },
-  viewQuizHorizontalRuleWrapper: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-  viewQuizHorizontalRule: {
-    width: 200,
-    borderTopColor: vars.blueGrey100,
-    borderTopWidth: 1,
-    marginTop: 24,
-    marginBottom: 16,
+    color: 'rgba(255,255,255,0.8)',
   },
   viewQuizWrongAnswerReaction: {
     marginTop: 24,
