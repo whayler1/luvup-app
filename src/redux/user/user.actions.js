@@ -365,8 +365,8 @@ export const getTimelineData = limit => async dispatch => {
           id quizItemId userEventId
         }
         quizItems {
-          id question senderChoiceId recipientChoiceId reward createdAt
-          choices { answer }
+          id senderId recipientId question senderChoiceId recipientChoiceId reward createdAt
+          choices { id answer }
         }
       }
       sentCoins(limit: 0) { count }

@@ -10,12 +10,13 @@ import {
 import { Button } from 'react-native-elements';
 
 import styles from './Timeline.styles';
-import { buttons, scene, modal } from '../../styles';
+import { vars, buttons, scene, modal } from '../../styles';
 import renderItem from './Timeline.renderItem.template';
 import renderSectionHeader from './Timeline.renderSectionHeader.template';
 import ListHeaderComponent from './Timeline.ListHeaderComponent.template';
 import ListFooterComponent from './Timeline.ListFooterComponent.template';
 import ListEmptyComponent from './Timeline.ListEmptyComponent.template';
+import HeartArt from '../../components/Art/HeartArt';
 
 export default ({
   coinCount,
@@ -34,12 +35,17 @@ export default ({
   getUserEventsError,
 }) => (
   <View style={styles.wrapper}>
-    <View style={scene.topNav}>
+    <View
+      style={[
+        scene.topNav,
+        {
+          backgroundColor: vars.razzleDazzleRose,
+          marginTop: 0,
+          paddingTop: 45,
+        },
+      ]}>
       <TouchableOpacity onPress={goBack} style={styles.heartBtn}>
-        <Image
-          source={require('../../images/heart.png')}
-          style={styles.heartImg}
-        />
+        <HeartArt scale={0.037} fill="rgba(0,0,0,0.5)" />
       </TouchableOpacity>
     </View>
     <View style={styles.sectionListWrapper}>
@@ -72,6 +78,14 @@ export default ({
         renderItem={renderItem}
         sections={sections}
         onEndReached={onEndReached}
+        onChangeVisibleRows={(visibleRows, changedRows) => {
+          console.log(
+            '\n\nonChangeVisibleRows\n',
+            visibleRows,
+            '\n---\n',
+            changedRows
+          );
+        }}
       />
     </View>
     <Modal visible={isModalVisible} animationType={'fade'} transparent>

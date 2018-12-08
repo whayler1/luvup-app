@@ -49,41 +49,26 @@ const getEventImage = eventName => {
   switch (eventName) {
     case 'coin-sent':
       return (
-        <Image
-          style={{
-            width: 32,
-            height: 25,
-          }}
-          source={coinSentImg}
-        />
+        <Image style={styles.renderItemCoinSentImage} source={coinSentImg} />
       );
     case 'coin-received':
       return (
         <Image
-          style={{
-            width: 31,
-            height: 25,
-          }}
+          style={styles.renderItemCoinReceivedImage}
           source={coinReceivedImg}
         />
       );
     case 'jalapeno-sent':
       return (
         <Image
-          style={{
-            width: 24,
-            height: 25,
-          }}
+          style={styles.renderItemJalapenoSentImage}
           source={jalapenoSentImg}
         />
       );
     case 'jalapeno-received':
       return (
         <Image
-          style={{
-            width: 26,
-            height: 25,
-          }}
+          style={styles.renderItemJalapenoReceivedImage}
           source={jalapenoReceivedImg}
         />
       );
@@ -91,25 +76,25 @@ const getEventImage = eventName => {
       return <Ionicons name="md-lock" size={36} color={vars.blueGrey500} />;
     case 'lovenote-sent':
       return (
-        <View style={{ paddingTop: 3 }}>
+        <View style={styles.renderItemLoveNoteWrapper}>
           <LoveNoteArtFlying scale={0.4} />
         </View>
       );
     case 'lovenote-received':
       return (
-        <View style={{ paddingTop: 3 }}>
+        <View style={styles.renderItemLoveNoteWrapper}>
           <LoveNoteArtReceived scale={0.4} />
         </View>
       );
     case 'quiz-item-sent':
       return (
-        <View style={{ paddingTop: 3 }}>
+        <View style={styles.renderItemQuizIconWrapper}>
           <QuizArtSent scale={0.36} />
         </View>
       );
     case 'quiz-item-received':
       return (
-        <View style={{ paddingTop: 3 }}>
+        <View style={styles.renderItemQuizIconWrapper}>
           <QuizArtReceived scale={0.36} />
         </View>
       );
@@ -118,20 +103,28 @@ const getEventImage = eventName => {
   }
 };
 
-const Wrapper = ({ children, eventName, loveNote = {} }) => {
+const getHandleLoveNoteClick = loveNoteId => () => {
+  Actions.viewLoveNote({ loveNoteId });
+};
+
+const getHandleQuizItemClick = quizItemId => () => {
+  Actions.ViewQuiz({ quizItemId });
+};
+
+const Wrapper = ({ children, eventName, loveNote = {}, quizItem = {} }) => {
   if (_.isString(loveNote.id)) {
     return (
-      <TouchableOpacity
-        onPress={() => Actions.viewLoveNote({ loveNoteId: loveNote.id })}>
+      <TouchableOpacity onPress={getHandleLoveNoteClick(loveNote.id)}>
         {eventName === 'lovenote-received' && !loveNote.isRead && (
-          <NotificationDot
-            style={{
-              position: 'absolute',
-              left: 12,
-              top: 10,
-            }}
-          />
+          <NotificationDot style={styles.renderItemNotificationDot} />
         )}
+        {children}
+      </TouchableOpacity>
+    );
+  }
+  if (_.isString(quizItem.id)) {
+    return (
+      <TouchableOpacity onPress={getHandleQuizItemClick(quizItem.id)}>
         {children}
       </TouchableOpacity>
     );
@@ -152,6 +145,7 @@ export default ctx => {
     <Wrapper
       isLink={isLovenoteItemWithNote}
       loveNote={item.loveNote}
+      quizItem={item.quizItem}
       eventName={item.name}>
       <View
         style={
@@ -160,18 +154,10 @@ export default ctx => {
             : styles.renderItemContainer
         }>
         <View style={styles.renderItemContent}>
-          <View
-            style={{
-              minWidth: 50,
-            }}>
+          <View style={styles.renderItemIconContainer}>
             {getEventImage(item.name)}
           </View>
-          <View
-            style={{
-              paddingLeft: 16,
-              paddingRight: 16,
-              flex: 1,
-            }}>
+          <View style={styles.renderItemCopyContainer}>
             <Text style={styles.renderItemContentText}>
               {item.name !== 'password-changed' &&
               !isLovenoteItem &&

@@ -7,16 +7,15 @@ import { Button } from 'react-native-elements';
 import _ from 'lodash';
 
 import CreateQuizNavBar from '../CreateQuizNavBar';
-import CoinArt from '../../components/CoinArt';
-import CreateQuizChoice from '../CreateQuizChoices/CreateQuizChoice';
-import { QuizItemType } from '../../types';
+import { QuizItemAttemptType } from '../../types';
 import { quiz, buttons } from '../../styles';
 import { createQuizItem as createQuizItemAction } from '../../redux/quizItem/quizItem.actions';
 import QuizArtSent from '../../components/Art/QuizArtSent';
+import QuizDisplay from '../../components/QuizDisplay';
 
 class CreateQuizReview extends PureComponent {
   static propTypes = {
-    quizItem: QuizItemType,
+    quizItem: QuizItemAttemptType,
     createQuizItem: PropTypes.func.isRequired,
     isCreateQuizItemInFlight: PropTypes.bool.isRequired,
     createQuizItemErrorMessage: PropTypes.string.isRequired,
@@ -55,10 +54,7 @@ class CreateQuizReview extends PureComponent {
   };
 
   render() {
-    const {
-      quizItem: { question, choices, senderChoiceIndex, reward },
-      isCreateQuizItemInFlight,
-    } = this.props;
+    const { quizItem, isCreateQuizItemInFlight } = this.props;
 
     if (this.state.isSuccess) {
       return (
@@ -91,29 +87,11 @@ class CreateQuizReview extends PureComponent {
         <ScrollView
           style={quiz.scrollContainer}
           contentContainerStyle={quiz.scrollContent}>
-          <Text style={quiz.questionSmallText}>{question}</Text>
-          {choices.map((choice, i) => (
-            <CreateQuizChoice
-              key={i}
-              isChecked={i === senderChoiceIndex}
-              value={choice}
-              index={i}
-              isReadOnly
-            />
-          ))}
-          <View style={quiz.reviewRewardWrapper}>
-            {_.times(reward, n => (
-              <View style={quiz.reviewRewardItem} key={n}>
-                <CoinArt
-                  scale={0.5}
-                  recentlySentCoinCount={n + 1 === reward ? reward : undefined}
-                />
-              </View>
-            ))}
-          </View>
-          {this.props.createQuizItemErrorMessage.length > 0 && (
-            <Text>{this.props.createQuizItemErrorMessage}</Text>
-          )}
+          <QuizDisplay quizItemAttempt={quizItem} />
+          {_.isString(this.props.createQuizItemErrorMessage) &&
+            this.props.createQuizItemErrorMessage.length > 0 && (
+              <Text>{this.props.createQuizItemErrorMessage}</Text>
+            )}
           <Button
             onPress={this.handleSubmit}
             containerViewStyle={buttons.container}

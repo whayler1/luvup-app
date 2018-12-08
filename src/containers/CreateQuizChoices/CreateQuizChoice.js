@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TextInput } from 'react-native';
+import _ from 'lodash';
 
 import { forms, quiz as styles } from '../../styles';
 import CreateQuizChoiceCheckbox from './CreateQuizChoiceCheckbox';
@@ -20,11 +21,12 @@ class CreateQuizChoice extends PureComponent {
     onChange: PropTypes.func,
     onSelect: PropTypes.func,
     isChecked: PropTypes.bool.isRequired,
+    isWrong: PropTypes.bool,
     error: PropTypes.string,
   };
 
   static defaultProps = {
-    error: '',
+    isWrong: false,
   };
 
   constructor(props) {
@@ -38,7 +40,7 @@ class CreateQuizChoice extends PureComponent {
   };
 
   handleSelectPress = () => {
-    if (!this.props.isReadOnly) {
+    if (_.isFunction(this.props.onSelect)) {
       this.props.onSelect(this.props.index);
     }
   };
@@ -50,6 +52,7 @@ class CreateQuizChoice extends PureComponent {
           <View style={styles.choiceItemCheckboxWrapper}>
             <CreateQuizChoiceCheckbox
               isChecked={this.props.isChecked}
+              isWrong={this.props.isWrong}
               scale={this.props.isReadOnly ? 0.28 : 0.5}
               onPress={this.handleSelectPress}
             />
@@ -69,7 +72,7 @@ class CreateQuizChoice extends PureComponent {
             )}
           </View>
         </View>
-        {this.props.error.length > 0 && (
+        {_.isString(this.props.error) && this.props.error.length > 0 && (
           <Text style={[forms.error, styles.choiceError]}>Create a choice</Text>
         )}
       </Fragment>

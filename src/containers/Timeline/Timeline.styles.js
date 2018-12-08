@@ -30,6 +30,7 @@ export default new StyleSheet.create({
   },
   listHeaderContainer: {
     paddingBottom: 24,
+    backgroundColor: vars.razzleDazzleRose,
   },
   listFooterContainer: {
     paddingBottom: 16,
@@ -41,10 +42,10 @@ export default new StyleSheet.create({
     marginLeft: 8,
     fontFamily: vars.fontBlack,
     fontSize: 20,
-    color: vars.blueGrey500,
+    color: 'white',
   },
   sectionHeaderContainer: {
-    paddingTop: 0,
+    paddingTop: 16,
     paddingLeft: 16,
     paddingRight: 16,
     paddingBottom: 16,
@@ -96,6 +97,37 @@ export default new StyleSheet.create({
     color: vars.blueGrey500,
     paddingLeft: 2,
   },
+  renderItemNotificationDot: {
+    position: 'absolute',
+    left: 12,
+    top: 10,
+  },
+  renderItemIconContainer: {
+    minWidth: 50,
+  },
+  renderItemCopyContainer: {
+    paddingLeft: 16,
+    paddingRight: 16,
+    flex: 1,
+  },
+  renderItemCoinSentImage: {
+    width: 32,
+    height: 25,
+  },
+  renderItemCoinReceivedImage: {
+    width: 31,
+    height: 25,
+  },
+  renderItemJalapenoSentImage: {
+    width: 24,
+    height: 25,
+  },
+  renderItemJalapenoReceivedImage: {
+    width: 26,
+    height: 25,
+  },
+  renderItemLoveNoteWrapper: { paddingTop: 3 },
+  renderItemQuizIconWrapper: { paddingTop: 3 },
   heartBtn: {
     flex: 1,
     alignItems: 'flex-end',

@@ -110,6 +110,7 @@ export default StyleSheet.create({
     color: vars.blueGrey500,
     fontSize: 22,
     paddingBottom: 16,
+    textAlign: 'center',
   },
   answerText: {
     fontFamily: vars.fontRegular,
@@ -118,10 +119,11 @@ export default StyleSheet.create({
     paddingBottom: 8,
   },
   reviewRewardWrapper: {
-    marginTop: 8,
+    marginTop: 16,
     marginBottom: 24,
     marginHorizontal: -8,
     flexDirection: 'row',
+    justifyContent: 'center',
   },
   reviewRewardItem: {
     marginHorizontal: 8,
@@ -142,5 +144,44 @@ export default StyleSheet.create({
     fontSize: 30,
     fontFamily: vars.fontBlack,
     color: vars.blueGrey500,
+  },
+  viewQuizSubmitWrapper: {
+    marginTop: 24,
+  },
+  viewQuizSubmitError: {
+    paddingTop: 0,
+    paddingBottom: 8,
+  },
+  viewQuizDetails: {
+    fontFamily: vars.fontRegular,
+    fontSize: 14,
+    color: vars.blueGrey700,
+    textAlign: 'center',
+    zIndex: 10,
+    paddingTop: 12,
+  },
+  viewQuizDetailsBold: {
+    fontFamily: vars.fontBlack,
+  },
+  viewQuizDetailsNewLine: {
+    paddingTop: 10,
+  },
+  viewQuizDetailsDirections: {
+    textAlign: 'center',
+    fontSize: 14,
+    fontFamily: vars.fontBlack,
+    marginTop: 16,
+    color: vars.blueGrey700,
+  },
+  viewQuizHorizontalRuleWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  viewQuizHorizontalRule: {
+    width: 200,
+    borderTopColor: vars.blueGrey100,
+    borderTopWidth: 1,
+    marginTop: 24,
+    marginBottom: 16,
   },
 });
