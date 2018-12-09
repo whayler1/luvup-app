@@ -40,7 +40,11 @@ module.exports = {
       },
     ],
   ],
-  presets: ['module:metro-react-native-babel-preset'],
+  presets: [
+    '@babel/preset-env',
+    'module:metro-react-native-babel-preset',
+    // '@babel/preset-react',
+  ],
   env: {
     test: {
       presets: ['@babel/preset-env', '@babel/preset-react'],
