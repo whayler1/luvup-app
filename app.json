@@ -19,7 +19,7 @@
     },
     "ios": {
       "bundleIdentifier": "io.terriblesolutions.luvup",
-      "buildNumber": "1",
+      "buildNumber": "2",
       "icon": "./src/images/icon/icon.png"
     }
   }
