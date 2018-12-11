@@ -3,7 +3,7 @@
     "name": "Luvup",
     "slug": "luvup",
     "privacy": "public",
-    "description": "Improving romantic relationships with gamification",
+    "description": "Stay together",
     "version": "0.0.32",
     "sdkVersion": "31.0.0",
     "primaryColor": "#FFFFFF",
@@ -30,7 +30,7 @@
     },
     "ios": {
       "bundleIdentifier": "io.terriblesolutions.luvup",
-      "buildNumber": "5",
+      "buildNumber": "8",
       "icon": "./src/images/icon/icon.png"
     }
   }
