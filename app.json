@@ -2,16 +2,27 @@
   "expo": {
     "name": "Luvup",
     "slug": "luvup",
-    "description": "Improving romantic relationships with gamification",
+    "privacy": "public",
+    "description": "Stay together",
     "version": "0.0.32",
     "sdkVersion": "31.0.0",
     "primaryColor": "#FFFFFF",
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "orientation": "portrait",
     "notification": {
       "icon": "./src/images/icon/icon-notification.png",
       "color": "#FFFFFF"
     },
     "icon": "./src/images/icon/icon.png",
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "splash": {
       "image": "./src/images/splash/splash.png",
       "backgroundColor": "#FFFFFF",
@@ -19,7 +30,7 @@
     },
     "ios": {
       "bundleIdentifier": "io.terriblesolutions.luvup",
-      "buildNumber": "1",
+      "buildNumber": "8",
       "icon": "./src/images/icon/icon.png"
     }
   }
