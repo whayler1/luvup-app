@@ -6,7 +6,7 @@ https://docs.expo.io/versions/latest/distribution/building-standalone-apps
 - make sure config is pointing to correct server
 - make sure to bump the version in package.json
 - bump the version in app.json and update the "buildNumber" if necessary.
-- `exp build:ios`
+- `expo build:ios`
 - this will generate a link when it's done. Download the .ipa file it from it.
 - sign in to apple id https://appleid.apple.com/#!&page=signin
 - click "generate password" under "APP-SPECIFIC PASSWORDS"
@@ -22,7 +22,7 @@ https://docs.expo.io/versions/latest/distribution/building-standalone-apps
 
 - `yarn debug`
 - first time you have to run `yarn postinstall`
-- you might have to run `yarn devtools`, not totally sure 🤷‍♂️ 
+- you might have to run `yarn devtools`, not totally sure 🤷‍♂️
 - enable debug:
   + once app is open `⌘-d`
   + click "start remote debugging"
