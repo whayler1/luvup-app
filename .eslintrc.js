@@ -40,6 +40,6 @@ module.exports = {
     "globals": {
       "element": true,
       "by": true,
-      "element": true,
+      "context": true,
     }
 };
