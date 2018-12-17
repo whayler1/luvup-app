@@ -45,7 +45,7 @@ export default ({
       keyboardVerticalOffset={32}
       behavior="padding">
       <ScrollView style={scene.content}>
-        <Text testID="login_title" style={modal.title}>
+        <Text testID="login-title" style={modal.title}>
           Login
         </Text>
         <View style={forms.formGroup}>

@@ -67,7 +67,9 @@ export default ({
         <TouchableOpacity
           onPress={onRelationshipScoreClick}
           style={styles.scoreBtn}>
-          <Text style={styles.scoreTitleText}>Relationship Score</Text>
+          <Text testID="relatioship-score-label" style={styles.scoreTitleText}>
+            Relationship Score
+          </Text>
           <Text style={styles.scoreText}>{relationshipScore}%</Text>
         </TouchableOpacity>
       )}
