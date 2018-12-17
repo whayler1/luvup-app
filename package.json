@@ -62,7 +62,8 @@
   "jest": {
     "preset": "jest-expo",
     "testPathIgnorePatterns": [
-      "!e2e"
+      "node_modules",
+      "e2e"
     ],
     "transform": {
       "^.+\\.js?$": "babel-jest"
