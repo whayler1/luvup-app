@@ -28,19 +28,24 @@
     "babel-plugin-module-resolver": "^3.1.1",
     "babel-plugin-transform-inline-environment-variables": "^0.2.0",
     "babel-preset-expo": "^5.0.0",
+    "detox": "^9.1.2",
+    "detox-expo-helpers": "^0.6.0",
     "eslint": "^5.9.0",
     "eslint-config-react-native": "^4.0.0",
     "eslint-config-react-native-prettier": "^1.0.1",
     "eslint-plugin-babel": "^5.1.0",
     "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-react-native": "^3.5.0",
+    "expo-detox-hook": "^1.0.10",
     "isomorphic-fetch": "^2.2.1",
     "jest-expo": "^31.0.0",
+    "mocha": "^5.2.0",
     "prettier": "^1.15.3",
     "react-devtools": "^3.2.3",
     "react-native-debugger-open": "^0.3.17",
     "react-native-scripts": "^2.0.1",
-    "react-test-renderer": "^16.6.3"
+    "react-test-renderer": "^16.6.3",
+    "wd": "^1.11.1"
   },
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
@@ -51,7 +56,8 @@
     "ios": "expo start --ios",
     "test": "jest",
     "lint": "eslint .",
-    "prettier": "eslint . --fix"
+    "prettier": "eslint . --fix",
+    "e2e": "detox test --configuration ios.sim"
   },
   "jest": {
     "preset": "jest-expo",
@@ -99,5 +105,15 @@
     "*.{js,jsx}": [
       "eslint"
     ]
+  },
+  "detox": {
+    "configurations": {
+      "ios.sim": {
+        "binaryPath": "bin/Exponent.app",
+        "build": "expo start --ios",
+        "type": "ios.simulator",
+        "name": "iPhone 7"
+      }
+    }
   }
 }
