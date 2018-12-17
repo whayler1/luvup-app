@@ -36,5 +36,10 @@ module.exports = {
         "no-console": [
           "warn"
         ],
+    },
+    "globals": {
+      "element": true,
+      "by": true,
+      "element": true,
     }
 };

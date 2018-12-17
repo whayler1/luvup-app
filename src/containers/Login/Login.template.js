@@ -45,7 +45,9 @@ export default ({
       keyboardVerticalOffset={32}
       behavior="padding">
       <ScrollView style={scene.content}>
-        <Text style={modal.title}>Login</Text>
+        <Text testID="login_title" style={modal.title}>
+          Login
+        </Text>
         <View style={forms.formGroup}>
           <Text style={forms.label}>Email</Text>
           <TextInput
@@ -63,6 +65,7 @@ export default ({
             keyboardType="email-address"
             returnKeyType="next"
             onSubmitEditing={focusPassword}
+            testID="login-email-input"
           />
           {error === 'username' && (
             <Text style={forms.error}>Please provide a valid email</Text>
@@ -85,6 +88,7 @@ export default ({
             spellCheck={false}
             returnKeyType="go"
             onSubmitEditing={onSubmit}
+            testID="login-password-input"
           />
           {error === 'password' && (
             <Text style={styles.error}>Please provide a password</Text>
@@ -112,6 +116,7 @@ export default ({
               textStyle={buttons.infoText}
               title={isInFlight ? 'Submitting…' : 'Submit'}
               disabled={isInFlight}
+              testID="login-submit"
             />
           </View>
         </View>

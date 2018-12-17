@@ -110,7 +110,6 @@
     "configurations": {
       "ios.sim": {
         "binaryPath": "bin/Exponent.app",
-        "build": "expo start --ios",
         "type": "ios.simulator",
         "name": "iPhone 7"
       }

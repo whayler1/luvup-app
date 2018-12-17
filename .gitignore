@@ -7,3 +7,4 @@ echo
 npm-debug.*
 .env
 yarn-error.log
+bin/Exponent.app
