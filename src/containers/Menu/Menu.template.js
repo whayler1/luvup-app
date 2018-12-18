@@ -176,7 +176,8 @@ export default ({
         <View
           style={{
             marginTop: 40,
-          }}>
+          }}
+          testID="menu-logout">
           <Button
             raised
             onPress={onLogout}

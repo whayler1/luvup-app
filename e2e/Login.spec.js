@@ -1,5 +1,6 @@
 /* eslint-disable import/no-commonjs */
 const { reloadApp } = require('detox-expo-helpers');
+const { login } = require('./helpers');
 
 describe('Login', () => {
   beforeEach(async () => {
@@ -9,19 +10,20 @@ describe('Login', () => {
   });
 
   context('When login is correct and user is in a relationship', () => {
-    it('should go to dashboard', async () => {
+    it.only('should go to dashboard', async () => {
       await expect(element(by.id('login-title'))).toBeVisible();
-      await element(by.id('login-email-input')).tap();
-      await element(by.id('login-email-input')).typeText(
-        'whayler1+bar@gmail.com'
-      );
-      await element(by.id('login-password-input')).typeText('Testing1234');
-      await element(by.id('login-submit')).tap();
-      await element(by.id('login-submit')).tap();
+      await login();
 
       await waitFor(element(by.id('relatioship-score-label')))
         .toBeVisible()
-        .withTimeout(10000);
+        .withTimeout(5000);
+
+      await element(by.id('dashboard-menu-button')).tap();
+      await element(by.id('menu-logout')).tap();
+      await element(by.id('menu-logout')).tap();
+      await waitFor(element(by.id('login-title')))
+        .toBeVisible()
+        .withTimeout(3000);
     });
   });
 
