@@ -32,3 +32,9 @@ https://docs.expo.io/versions/latest/distribution/building-standalone-apps
 - in console `ifconfig | grep inet`
 - use the ip after the line beginning `inet`
 - on ios safari `exp://<ip>:19000`
+
+### detox tests
+- run the `./add-detox-exponent.sh` script to add the exponent app binary locally. If you have not run it before you must run `chmod +x ./add-detox-exponent.sh`
+- run `yarn ios` in the terminal
+- press shift+command+K to enable the simulator keyboard
+- run `yarn e2e` in a separate terminal window while `yarn ios` is running.

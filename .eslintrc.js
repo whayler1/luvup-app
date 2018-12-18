@@ -36,5 +36,11 @@ module.exports = {
         "no-console": [
           "warn"
         ],
+    },
+    "globals": {
+      "element": true,
+      "by": true,
+      "context": true,
+      "waitFor": true,
     }
 };

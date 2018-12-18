@@ -67,12 +67,17 @@ export default ({
         <TouchableOpacity
           onPress={onRelationshipScoreClick}
           style={styles.scoreBtn}>
-          <Text style={styles.scoreTitleText}>Relationship Score</Text>
+          <Text testID="relatioship-score-label" style={styles.scoreTitleText}>
+            Relationship Score
+          </Text>
           <Text style={styles.scoreText}>{relationshipScore}%</Text>
         </TouchableOpacity>
       )}
       {_.isString(userFirstName) && userFirstName.length > 1 ? (
-        <TouchableOpacity onPress={onInitialsClick} style={styles.menuBtn}>
+        <TouchableOpacity
+          testID="dashboard-menu-button"
+          onPress={onInitialsClick}
+          style={styles.menuBtn}>
           <Text style={styles.menuText}>
             {userFirstName.substr(0, 1).toUpperCase()}
             {userLastName.substr(0, 1).toUpperCase()}
