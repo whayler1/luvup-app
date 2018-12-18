@@ -8,8 +8,8 @@ describe('Login', () => {
     });
   });
 
-  context('When login is correct', () => {
-    it('should have welcome screen', async () => {
+  context('When login is correct and user is in a relationship', () => {
+    it('should go to dashboard', async () => {
       await expect(element(by.id('login-title'))).toBeVisible();
       await element(by.id('login-email-input')).tap();
       await element(by.id('login-email-input')).typeText(
@@ -39,6 +39,16 @@ describe('Login', () => {
         'whayler1+bar@gmail.com\n\n'
       );
       await waitFor(element(by.text('Please provide a password')))
+        .toBeVisible()
+        .withTimeout(3000);
+    });
+
+    it('should show email/password does not exist error', async () => {
+      await element(by.id('login-email-input')).tap();
+      await element(by.id('login-email-input')).typeText(
+        'fakeyfake.fake@noemail.com\nwrongwrong\n'
+      );
+      await waitFor(element(by.text('Invalid email or password')))
         .toBeVisible()
         .withTimeout(3000);
     });
