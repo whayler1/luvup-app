@@ -41,5 +41,6 @@ module.exports = {
       "element": true,
       "by": true,
       "context": true,
+      "waitFor": true,
     }
 };

@@ -3,7 +3,9 @@ const { reloadApp } = require('detox-expo-helpers');
 
 describe('Login', () => {
   beforeEach(async () => {
-    await reloadApp({ permissions: { location: 'always' } });
+    await reloadApp({
+      permissions: { location: 'always', notifications: 'YES' },
+    });
   });
 
   context('When login is correct', () => {
@@ -18,7 +20,9 @@ describe('Login', () => {
       await element(by.id('login-submit')).tap();
       // await element(by.label('Allow')).tap();
       // await element(by.text('Allow')).tap();
-      await expect(element(by.id('relatioship-score-label'))).toBeVisible();
+      await waitFor(element(by.id('relatioship-score-label')))
+        .toBeVisible()
+        .withTimeout(10000);
     });
   });
 });
