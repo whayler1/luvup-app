@@ -26,9 +26,19 @@ describe('Login', () => {
   });
 
   context('When login is incorrect', () => {
-    it.only('should show email error', async () => {
+    it('should show no email error', async () => {
       await element(by.id('login-submit')).tap();
       await waitFor(element(by.text('Please provide a valid email')))
+        .toBeVisible()
+        .withTimeout(3000);
+    });
+
+    it('should show no password error', async () => {
+      await element(by.id('login-email-input')).tap();
+      await element(by.id('login-email-input')).typeText(
+        'whayler1+bar@gmail.com\n\n'
+      );
+      await waitFor(element(by.text('Please provide a password')))
         .toBeVisible()
         .withTimeout(3000);
     });
