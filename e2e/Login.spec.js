@@ -10,9 +10,33 @@ describe('Login', () => {
   });
 
   context('When login is correct and user is in a relationship', () => {
-    it.only('should go to dashboard', async () => {
+    it('should go to dashboard and be ableto logout', async () => {
       await expect(element(by.id('login-title'))).toBeVisible();
       await login();
+
+      await waitFor(element(by.id('relatioship-score-label')))
+        .toBeVisible()
+        .withTimeout(5000);
+
+      await element(by.id('dashboard-menu-button')).tap();
+      await element(by.id('menu-logout')).tap();
+      await element(by.id('menu-logout')).tap();
+      await waitFor(element(by.id('login-title')))
+        .toBeVisible()
+        .withTimeout(3000);
+    });
+
+    it('should remain logged in on reload', async () => {
+      await expect(element(by.id('login-title'))).toBeVisible();
+      await login();
+
+      await waitFor(element(by.id('relatioship-score-label')))
+        .toBeVisible()
+        .withTimeout(5000);
+
+      await reloadApp({
+        permissions: { location: 'always', notifications: 'YES' },
+      });
 
       await waitFor(element(by.id('relatioship-score-label')))
         .toBeVisible()

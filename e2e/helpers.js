@@ -1,4 +1,5 @@
-/* eslint-disable import/prefer-default-export import/no-commonjs */
+/* eslint-disable import/prefer-default-export */
+/* eslint-disable import/no-commonjs */
 
 const login = async () => {
   await element(by.id('login-email-input')).tap();
