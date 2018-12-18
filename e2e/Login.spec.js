@@ -18,11 +18,19 @@ describe('Login', () => {
       await element(by.id('login-password-input')).typeText('Testing1234');
       await element(by.id('login-submit')).tap();
       await element(by.id('login-submit')).tap();
-      // await element(by.label('Allow')).tap();
-      // await element(by.text('Allow')).tap();
+
       await waitFor(element(by.id('relatioship-score-label')))
         .toBeVisible()
         .withTimeout(10000);
+    });
+  });
+
+  context('When login is incorrect', () => {
+    it.only('should show email error', async () => {
+      await element(by.id('login-submit')).tap();
+      await waitFor(element(by.text('Please provide a valid email')))
+        .toBeVisible()
+        .withTimeout(3000);
     });
   });
 });
