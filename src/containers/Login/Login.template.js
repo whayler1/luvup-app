@@ -146,6 +146,7 @@ export default ({
               paddingLeft: 8,
             }}>
             <Button
+              testID="login-signup"
               onPress={navigateToSignUp}
               containerViewStyle={buttons.container}
               buttonStyle={buttons.infoSkeletonButton}

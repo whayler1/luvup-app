@@ -30,6 +30,7 @@ export default ({
       <View style={forms.formGroup}>
         <Text style={forms.label}>Email</Text>
         <TextInput
+          testID="signup-email-input"
           style={focusInput === 'email' ? forms.inputFocus : forms.input}
           onFocus={onEmailFocus}
           onBlur={onBlur}
@@ -37,7 +38,7 @@ export default ({
           value={email}
           keyboardType={'email-address'}
           autoCapitalize={'none'}
-          maxLength={50}
+          maxLength={100}
           editable={!isInFlight}
           spellCheck={false}
           placeholder="jane.doe@email.com"

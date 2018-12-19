@@ -44,7 +44,8 @@
     "react-devtools": "^3.2.3",
     "react-native-debugger-open": "^0.3.17",
     "react-native-scripts": "^2.0.1",
-    "react-test-renderer": "^16.6.3"
+    "react-test-renderer": "^16.6.3",
+    "uuid": "^3.3.2"
   },
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
