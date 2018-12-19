@@ -36,7 +36,9 @@ export default ({
       keyboardVerticalOffset={32}
       behavior="padding">
       <ScrollView style={scene.content}>
-        <Text style={modal.title}>Confirm Sign Up Code</Text>
+        <Text testID="confirm-usercode-title" style={modal.title}>
+          Confirm Sign Up Code
+        </Text>
         <Text style={[modal.copy, { textAlign: 'center' }]}>
           Enter your email address and the code you received via email below.
         </Text>
@@ -70,6 +72,7 @@ export default ({
         <View style={forms.formGroup}>
           <Text style={forms.label}>Code</Text>
           <TextInput
+            testID="confirm-usercode-code-input"
             ref={el => (codeEl = el)}
             style={focusInput === 'code' ? forms.inputFocus : forms.input}
             onFocus={onCodeFocus}
@@ -113,6 +116,7 @@ export default ({
               flex: 1,
             }}>
             <Button
+              testID="confirm-usercode-submit"
               onPress={onSubmit}
               containerViewStyle={buttons.container}
               buttonStyle={buttons.infoButton}

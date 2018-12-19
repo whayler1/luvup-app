@@ -19,5 +19,12 @@ describe.only('onboarding', () => {
       .withTimeout(3000);
     await element(by.id('signup-email-input')).tap();
     await element(by.id('signup-email-input')).typeText(`${userEmail}\n`);
+    await waitFor(element(by.id('confirm-usercode-code-input')))
+      .toBeVisible()
+      .withTimeout(3000);
+    await element(by.id('confirm-usercode-code-input')).tap();
+    await element(by.id('confirm-usercode-code-input')).typeText('012345');
+    await element(by.id('confirm-usercode-title')).tap();
+    await element(by.id('confirm-usercode-submit')).tap();
   });
 });
