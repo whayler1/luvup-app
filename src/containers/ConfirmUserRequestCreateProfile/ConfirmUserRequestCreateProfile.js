@@ -185,7 +185,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
         style={scene.container}
         keyboardVerticalOffset={32}
         behavior="padding">
-        <ScrollView style={scene.content}>
+        <ScrollView style={scene.contentNoTop}>
           <Text style={modal.title}>Create Your Profile</Text>
           <View style={forms.formGroup}>
             <Text style={forms.label}>Username</Text>
@@ -223,6 +223,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
             <View style={[forms.formGroup, styles.formRowLeft]}>
               <Text style={forms.label}>First Name</Text>
               <TextInput
+                testID="create-profile-firstname-input"
                 ref={setFirstNameEl}
                 style={[
                   focusInput === 'firstName' ? forms.inputFocus : forms.input,
@@ -244,6 +245,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
             <View style={[forms.formGroup, styles.formRowRight]}>
               <Text style={forms.label}>Last Name</Text>
               <TextInput
+                testID="create-profile-lastname-input"
                 ref={setLastNameEl}
                 style={[
                   focusInput === 'lastName' ? forms.inputFocus : forms.input,
@@ -266,6 +268,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
           <View style={forms.formGroup}>
             <Text style={forms.label}>Password</Text>
             <TextInput
+              testID="create-profile-password-input"
               ref={setPasswordEl}
               style={[
                 focusInput === 'password' ? forms.inputFocus : forms.input,
@@ -295,6 +298,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
           <View style={forms.formGroup}>
             <Text style={forms.label}>Re-Enter Password</Text>
             <TextInput
+              testID="create-profile-passwordagain-input"
               ref={setPasswordAgainEl}
               style={[
                 focusInput === 'passwordAgain' ? forms.inputFocus : forms.input,

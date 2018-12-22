@@ -25,6 +25,17 @@ const keyboardAvoidingView = {
   ...container,
   alignSelf: 'stretch',
 };
+const content = {
+  marginTop: 50,
+  alignSelf: 'stretch',
+  paddingVertical: 32,
+  paddingHorizontal: 16,
+  // backgroundColor: 'rgba(0,200,50,0.3)'
+};
+const contentNoTop = {
+  ...content,
+  marginTop: 0,
+};
 
 export default StyleSheet.create({
   container,
@@ -37,13 +48,8 @@ export default StyleSheet.create({
     alignSelf: 'stretch',
     top: 0,
   },
-  content: {
-    marginTop: 50,
-    alignSelf: 'stretch',
-    paddingVertical: 32,
-    paddingHorizontal: 16,
-    // backgroundColor: 'rgba(0,200,50,0.3)'
-  },
+  content,
+  contentNoTop,
   copy: {
     color: vars.p,
     fontFamily: vars.fontRegular,

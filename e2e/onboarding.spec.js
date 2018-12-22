@@ -31,8 +31,14 @@ describe.only('onboarding', () => {
       .toBeVisible()
       .withTimeout(3000);
     await element(by.id('create-profile-username-input')).tap();
-    await element(by.id('create-profile-username-input')).typeText(
-      `${uuid}\nfake\nuser\ntesting123\ntesting123\n`
+    await element(by.id('create-profile-username-input')).typeText(`${uuid}\n`);
+    await element(by.id('create-profile-firstname-input')).typeText('fake\n');
+    await element(by.id('create-profile-lastname-input')).typeText('user\n');
+    await element(by.id('create-profile-password-input')).typeText(
+      'testing123\n'
+    );
+    await element(by.id('create-profile-passwordagain-input')).typeText(
+      'testing123\n'
     );
   });
 });
