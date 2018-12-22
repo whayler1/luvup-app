@@ -11,7 +11,8 @@ describe.only('onboarding', () => {
   });
 
   it('happy path', async () => {
-    const userEmail = `justin+${uuidv1()}@luvup.io`;
+    const uuid = uuidv1();
+    const userEmail = `justin+${uuid}@luvup.io`;
     await expect(element(by.id('login-title'))).toBeVisible();
     await element(by.id('login-signup')).tap();
     await waitFor(element(by.id('signup-email-input')))
@@ -26,5 +27,12 @@ describe.only('onboarding', () => {
     await element(by.id('confirm-usercode-code-input')).typeText('012345');
     await element(by.id('confirm-usercode-title')).tap();
     await element(by.id('confirm-usercode-submit')).tap();
+    await waitFor(element(by.id('create-profile-username-input')))
+      .toBeVisible()
+      .withTimeout(3000);
+    await element(by.id('create-profile-username-input')).tap();
+    await element(by.id('create-profile-username-input')).typeText(
+      `${uuid}\nfake\nuser\ntesting123\ntesting123\n`
+    );
   });
 });
