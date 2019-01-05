@@ -1,6 +1,7 @@
 /* eslint-disable import/no-commonjs */
 const { reloadApp } = require('detox-expo-helpers');
 const uuidv1 = require('uuid/v1');
+const Moniker = require('moniker');
 // const { login } = require('./helpers');
 
 describe.only('onboarding', () => {
@@ -12,7 +13,8 @@ describe.only('onboarding', () => {
 
   it('happy path', async () => {
     const uuid = uuidv1();
-    const userEmail = `justin+${uuid}@luvup.io`;
+    const username = `${Moniker.choose()}${uuid.substr(0, 5)}`;
+    const userEmail = `justin+${username}@luvup.io`;
     await expect(element(by.id('login-title'))).toBeVisible();
     await element(by.id('login-signup')).tap();
     await waitFor(element(by.id('signup-email-input')))
@@ -31,7 +33,10 @@ describe.only('onboarding', () => {
       .toBeVisible()
       .withTimeout(3000);
     await element(by.id('create-profile-username-input')).tap();
-    await element(by.id('create-profile-username-input')).typeText(`${uuid}\n`);
+    // // TODO: make username not uuid
+    await element(by.id('create-profile-username-input')).typeText(
+      `${username}\n`
+    );
     await element(by.id('create-profile-firstname-input')).typeText('fake\n');
     await element(by.id('create-profile-lastname-input')).typeText('user\n');
     await element(by.id('create-profile-password-input')).typeText(

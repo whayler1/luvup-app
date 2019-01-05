@@ -7,8 +7,9 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { Button } from 'react-native-elements';
-import styles from './SignUp.styles';
+
 import { buttons, forms, modal, scene, wells, vars } from '../../styles';
+import styles from './SignUp.styles';
 
 export default ({
   onSubmit,
@@ -50,32 +51,13 @@ export default ({
           <Text style={forms.error}>Please provide a valid email</Text>
         )}
       </View>
-      {error === 'response' && (
-        <View style={[wells.error, { marginTop: 32, marginBottom: 0 }]}>
-          <Text style={wells.errorText}>
-            There was an error submitting your signup request. Please verify you
-            are submitting a valid email. If the problem presists please email
-            justin@luvup.io
-          </Text>
-        </View>
-      )}
-      {error === 'email error' && (
-        <View style={[wells.error, { marginTop: 32, marginBottom: 0 }]}>
-          <Text style={wells.errorText}>Error sending signup email</Text>
-        </View>
-      )}
-      {error === 'used' && (
-        <View style={[wells.error, { marginTop: 32, marginBottom: 0 }]}>
-          <Text style={wells.errorText}>
-            There is already a user with this email
-          </Text>
+      {error.length > 0 && error !== 'email' && (
+        <View style={[wells.error, styles.errorWellWrapper]}>
+          <Text style={wells.errorText}>{error}</Text>
         </View>
       )}
       <View style={forms.buttonRow}>
-        <View
-          style={{
-            flex: 1,
-          }}>
+        <View style={styles.submitWrap}>
           <Button
             onPress={onSubmit}
             containerViewStyle={buttons.container}

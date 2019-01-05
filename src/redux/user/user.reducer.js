@@ -4,7 +4,9 @@ import {
   LOGIN,
   LOGOUT,
   REAUTH,
-  USER_REQUEST,
+  USER_REQUEST_ATTEMPT,
+  USER_REQUEST_SUCCESS,
+  USER_REQUEST_FAILURE,
   CONFIRM_USER_REQUEST_CODE,
   GET_TIMELINE_DATA_ATTEMPT,
   GET_TIMELINE_DATA_FAILURE,
@@ -22,6 +24,8 @@ const defaultState = {
   firstName: '',
   lastName: '',
   code: '',
+  isUserRequestInFlight: false,
+  userRequestError: '',
   isGetTimelineDataInFlight: false,
   fetTimelineDataError: '',
   isGetMeInFlight: false,
@@ -47,10 +51,23 @@ export default function reducer(state = defaultState, action) {
     case LOGOUT:
       appStateListener.stop();
       return { ...defaultState };
-    case USER_REQUEST:
+    case USER_REQUEST_ATTEMPT:
       return {
         ...state,
+        userRequestError: '',
+        isUserRequestInFlight: true,
+      };
+    case USER_REQUEST_SUCCESS:
+      return {
+        ...state,
+        isUserRequestInFlight: false,
         email: action.email,
+      };
+    case USER_REQUEST_FAILURE:
+      return {
+        ...state,
+        isUserRequestInFlight: false,
+        userRequestError: action.errorMessage,
       };
     case CONFIRM_USER_REQUEST_CODE:
       return {
