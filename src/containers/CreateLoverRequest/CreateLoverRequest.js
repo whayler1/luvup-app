@@ -128,15 +128,14 @@ class CreateLoverRequest extends Component {
           {...this.state}
         />
       );
-    } else {
-      return (
-        <TemplateSelectedUser
-          clearSelectedUser={this.clearSelectedUser}
-          requestLover={this.requestLover}
-          {...this.state}
-        />
-      );
     }
+    return (
+      <TemplateSelectedUser
+        clearSelectedUser={this.clearSelectedUser}
+        requestLover={this.requestLover}
+        {...this.state}
+      />
+    );
   }
 }
 

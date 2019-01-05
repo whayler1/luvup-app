@@ -39,6 +39,7 @@ export default ({
           value={email}
           keyboardType={'email-address'}
           autoCapitalize={'none'}
+          autoCorrect={false}
           maxLength={100}
           editable={!isInFlight}
           spellCheck={false}
