@@ -246,7 +246,7 @@ export const userRequest = email => async dispatch => {
     const res = await superagent.post(config.graphQlUrl, {
       query: `mutation {
         userRequest( email: "${email}") {
-          email error
+          email
         }
       }`,
     });
