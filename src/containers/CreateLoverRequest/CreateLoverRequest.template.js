@@ -37,7 +37,10 @@ export default ({
     behavior="padding">
     <View style={scene.topNav}>
       <View style={scene.topNavContent}>
-        <TouchableOpacity onPress={goToMenu} style={styles.menuButton}>
+        <TouchableOpacity
+          testID="create-lover-request-menu-button"
+          onPress={goToMenu}
+          style={styles.menuButton}>
           <Text style={styles.menuButtonText}>
             {_.isString(userFirstName) &&
               userFirstName.substr(0, 1).toUpperCase()}
@@ -51,6 +54,7 @@ export default ({
       <View style={scene.formGroup}>
         <Text style={forms.label}>Search for your lover</Text>
         <TextInput
+          testID="create-lover-request-input"
           style={forms.input}
           onChangeText={onSearchChange}
           value={search}

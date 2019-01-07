@@ -245,14 +245,16 @@ export const userRequest = email => async dispatch => {
   try {
     const res = await superagent.post(config.graphQlUrl, {
       query: `mutation {
-        userRequest( email: "${email}") {
-          email
-        }
+        userRequest( email: "${email}") { email }
       }`,
     });
 
-    if (!res.ok) {
-      const errorMessage = _.get(res, 'error.message', 'Http response not ok');
+    if (res.body.errors) {
+      const errorMessage = _.get(
+        res,
+        'body.errors[0].message',
+        'Http response not ok'
+      );
       dispatch({ type: USER_REQUEST_FAILURE, errorMessage });
       return errorMessage;
     }

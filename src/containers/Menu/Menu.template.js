@@ -179,7 +179,6 @@ export default ({
           }}
           testID="menu-logout">
           <Button
-            raised
             onPress={onLogout}
             containerViewStyle={buttons.infoContainer}
             buttonStyle={buttons.infoButton}

@@ -16,14 +16,16 @@ class CreateLoverRequestRenderItem extends PureComponent {
     onPress: PropTypes.func.isRequired,
   };
 
-  handleItemPress() {
+  handleItemPress = () => {
     this.props.onPress(this.props.item.id);
-  }
+  };
 
   render() {
     const { item } = this.props;
     return (
-      <TouchableOpacity onPress={this.handleItemPress}>
+      <TouchableOpacity
+        testID={`create-lover-request-list-item-${item.username}`}
+        onPress={this.handleItemPress}>
         <View style={styles.renderItem}>
           <Text style={styles.renderItemName}>{`${item.firstName} ${
             item.lastName
