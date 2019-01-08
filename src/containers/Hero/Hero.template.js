@@ -82,7 +82,9 @@ export default ({
           }}>
           {loverRequestFirstName ? (
             <Fragment>
-              <Text style={styles.loverRequestText}>
+              <Text
+                testID="hero-lover-request-copy"
+                style={styles.loverRequestText}>
                 Your lover request was sent to
               </Text>
               <Text style={styles.loverRequestTextLarge}>

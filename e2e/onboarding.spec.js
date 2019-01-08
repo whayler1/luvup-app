@@ -100,5 +100,23 @@ describe.only('onboarding', () => {
       .withTimeout(6000);
     await createLoverRequestListItem.tap();
     await createLoverRequestListItem.tap();
+
+    const createLoverRequestButton = element(
+      by.id('create-lover-request-button')
+    );
+    await waitFor(createLoverRequestButton)
+      .toBeVisible()
+      .withTimeout(3000);
+    await createLoverRequestButton.tap();
+
+    await waitFor(element(by.id('hero-lover-request-copy')))
+      .toBeVisible()
+      .withTimeout(3000);
+    await element(by.id('dashboard-menu-button')).tap();
+
+    await waitFor(element(by.id('menu-logout')))
+      .toBeVisible()
+      .withTimeout(3000);
+    await element(by.id('menu-logout')).tap();
   });
 });
