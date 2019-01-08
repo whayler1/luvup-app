@@ -43,22 +43,24 @@ export default ({
       </Pushdown>
     )}
     <View style={styles.navUiContainer}>
-      {_.isNumber(coinCount) && _.isNumber(jalapenoCount) ? (
-        <TouchableOpacity onPress={onScoreClick} style={styles.coinCountBtn}>
+      {_.isNumber(coinCount) ? (
+        <TouchableOpacity
+          testID="dashboard-top-nav-history-button"
+          onPress={onScoreClick}
+          style={styles.coinCountBtn}>
           {unreadReceivedLoveNoteCount > 0 && (
-            <NotificationDot
-              style={{
-                left: -2,
-                top: -3,
-              }}
-            />
+            <NotificationDot style={styles.notificationDot} />
           )}
           <CoinArt
             scale={0.37}
             fill={vars.blueGrey300}
             stroke={vars.blueGrey500}
           />
-          <Text style={styles.coinCountText}>{coinCount}</Text>
+          <Text
+            testID="dashboard-top-nav-coin-count"
+            style={styles.coinCountText}>
+            {coinCount}
+          </Text>
         </TouchableOpacity>
       ) : (
         <View style={styles.coinCountBtn} />

@@ -61,6 +61,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: vars.blueGrey500,
   },
+  notificationDot: {
+    left: -2,
+    top: -3,
+  },
 });
 
 export default styles;

@@ -2,7 +2,8 @@
 const { reloadApp } = require('detox-expo-helpers');
 const uuidv1 = require('uuid/v1');
 const Moniker = require('moniker');
-// const { login } = require('./helpers');
+
+const { login } = require('./helpers');
 
 // TODO: test sign up page properly handles new signup error shape
 // res.errors[0].message
@@ -39,10 +40,10 @@ const createUser = async (username, userEmail, firstName, lastName) => {
     `${lastName}\n`
   );
   await element(by.id('create-profile-password-input')).typeText(
-    'testing123\n'
+    'Testing123\n'
   );
   await element(by.id('create-profile-passwordagain-input')).typeText(
-    'testing123\n'
+    'Testing123\n'
   );
 };
 
@@ -114,9 +115,33 @@ describe.only('onboarding', () => {
       .withTimeout(3000);
     await element(by.id('dashboard-menu-button')).tap();
 
-    await waitFor(element(by.id('menu-logout')))
+    await waitFor(menuLogout)
       .toBeVisible()
       .withTimeout(3000);
-    await element(by.id('menu-logout')).tap();
+    await menuLogout.tap();
+    await waitFor(element(by.text('Login')))
+      .toBeVisible()
+      .withTimeout(3000);
+
+    await reloadApp({
+      permissions: { location: 'always', notifications: 'YES' },
+    });
+
+    await login(userEmail, 'Testing123');
+
+    const acceptLoverRequestButton = element(
+      by.id('confirm-user-accept-button')
+    );
+    await waitFor(acceptLoverRequestButton)
+      .toBeVisible()
+      .withTimeout(3000);
+    await acceptLoverRequestButton.tap();
+
+    // const coinCount = element(by.id('dashboard-top-nav-coin-count'));
+    // await waitFor(coinCount)
+    //   .toBeVisible()
+    //   .withTimeout(3000);
+    // await expect(coinCount).toHaveText('0');
+    // await element(by.id('dashboard-top-nav-history-button')).tap();
   });
 });
