@@ -137,11 +137,8 @@ describe.only('onboarding', () => {
       .withTimeout(3000);
     await acceptLoverRequestButton.tap();
 
-    // const coinCount = element(by.id('dashboard-top-nav-coin-count'));
-    // await waitFor(coinCount)
-    //   .toBeVisible()
-    //   .withTimeout(3000);
-    // await expect(coinCount).toHaveText('0');
-    // await element(by.id('dashboard-top-nav-history-button')).tap();
+    await waitFor(element(by.id('hero-heart-view')))
+      .toBeVisible()
+      .withTimeout(6000);
   });
 });

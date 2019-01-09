@@ -159,7 +159,10 @@ export default ({
     );
   }
   return (
-    <View style={styles.heartView} {...panResponder.panHandlers}>
+    <View
+      testID="hero-heart-view"
+      style={styles.heartView}
+      {...panResponder.panHandlers}>
       <Animated.View
         style={{
           marginBottom: 32,
