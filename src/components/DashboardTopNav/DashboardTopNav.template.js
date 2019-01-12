@@ -67,6 +67,7 @@ export default ({
       )}
       {_.isNumber(relationshipScore) && (
         <TouchableOpacity
+          testID="dashboard-top-nav-relationship-score"
           onPress={onRelationshipScoreClick}
           style={styles.scoreBtn}>
           <Text testID="relatioship-score-label" style={styles.scoreTitleText}>
@@ -77,7 +78,7 @@ export default ({
       )}
       {_.isString(userFirstName) && userFirstName.length > 1 ? (
         <TouchableOpacity
-          testID="dashboard-menu-button"
+          testID="dashboard-top-nav-menu-button"
           onPress={onInitialsClick}
           style={styles.menuBtn}>
           <Text style={styles.menuText}>
