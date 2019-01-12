@@ -82,7 +82,9 @@ export default ({
           }}>
           {loverRequestFirstName ? (
             <Fragment>
-              <Text style={styles.loverRequestText}>
+              <Text
+                testID="hero-lover-request-copy"
+                style={styles.loverRequestText}>
                 Your lover request was sent to
               </Text>
               <Text style={styles.loverRequestTextLarge}>
@@ -157,7 +159,10 @@ export default ({
     );
   }
   return (
-    <View style={styles.heartView} {...panResponder.panHandlers}>
+    <View
+      testID="hero-heart-view"
+      style={styles.heartView}
+      {...panResponder.panHandlers}>
       <Animated.View
         style={{
           marginBottom: 32,

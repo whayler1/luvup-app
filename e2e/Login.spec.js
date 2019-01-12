@@ -18,7 +18,7 @@ describe('Login', () => {
         .toBeVisible()
         .withTimeout(5000);
 
-      await element(by.id('dashboard-menu-button')).tap();
+      await element(by.id('dashboard-top-nav-menu-button')).tap();
       await element(by.id('menu-logout')).tap();
       await element(by.id('menu-logout')).tap();
       await waitFor(element(by.id('login-title')))
@@ -42,7 +42,7 @@ describe('Login', () => {
         .toBeVisible()
         .withTimeout(5000);
 
-      await element(by.id('dashboard-menu-button')).tap();
+      await element(by.id('dashboard-top-nav-menu-button')).tap();
       await element(by.id('menu-logout')).tap();
       await element(by.id('menu-logout')).tap();
       await waitFor(element(by.id('login-title')))

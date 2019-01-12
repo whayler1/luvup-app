@@ -1,17 +1,10 @@
 import React from 'react';
-import {
-  Text,
-  TextInput,
-  FlatList,
-  View,
-  KeyboardAvoidingView,
-  TouchableOpacity,
-} from 'react-native';
+import { Text, View, KeyboardAvoidingView } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 
 import styles from './CreateLoverRequest.styles';
-import { forms, buttons, modal, scene, vars } from '../../styles';
+import { forms, buttons, scene, vars } from '../../styles';
 import Well from '../../components/Well';
 
 export default ({
@@ -55,6 +48,7 @@ export default ({
         </View>
         <View style={forms.buttonCell2ColRight}>
           <Button
+            testID="create-lover-request-button"
             onPress={requestLover}
             containerViewStyle={buttons.infoContainer}
             buttonStyle={buttons.infoButton}

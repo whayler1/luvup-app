@@ -8,13 +8,17 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
 import _ from 'lodash';
 
 import styles from './CreateLoverRequest.styles';
 import { forms, scene, modal, vars } from '../../styles';
+import CreateLoverRequestRenderItem from './CreateLoverRequestRenderItem';
 
 const keyExtractor = item => item.id;
+
+const getRenderItem = onPress => ({ item }) => (
+  <CreateLoverRequestRenderItem item={item} onPress={onPress} />
+);
 
 export default ({
   onSearchChange,
@@ -34,19 +38,14 @@ export default ({
     <View style={scene.topNav}>
       <View style={scene.topNavContent}>
         <TouchableOpacity
+          testID="create-lover-request-menu-button"
           onPress={goToMenu}
-          style={{
-            flex: 1,
-            alignItems: 'flex-end',
-          }}>
-          <Text
-            style={{
-              fontFamily: vars.fontBlack,
-              fontSize: 16,
-              color: vars.blueGrey500,
-            }}>
-            {_.isString(userFirstName) && userFirstName.substr(0, 1)}
-            {_.isString(userLastName) && userLastName.substr(0, 1)}
+          style={styles.menuButton}>
+          <Text style={styles.menuButtonText}>
+            {_.isString(userFirstName) &&
+              userFirstName.substr(0, 1).toUpperCase()}
+            {_.isString(userLastName) &&
+              userLastName.substr(0, 1).toUpperCase()}
           </Text>
         </TouchableOpacity>
       </View>
@@ -55,6 +54,7 @@ export default ({
       <View style={scene.formGroup}>
         <Text style={forms.label}>Search for your lover</Text>
         <TextInput
+          testID="create-lover-request-input"
           style={forms.input}
           onChangeText={onSearchChange}
           value={search}
@@ -67,33 +67,10 @@ export default ({
       </View>
       {users.length > 0 && (
         <FlatList
-          style={{
-            paddingTop: 16,
-          }}
+          style={styles.flatList}
           data={users}
           keyExtractor={keyExtractor}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => onListItemClick(item.id)}>
-              <View style={styles.renderItem}>
-                <Text style={styles.renderItemName}>{`${item.firstName} ${
-                  item.lastName
-                }`}</Text>
-                <Text style={styles.renderItemUsername}>{item.username}</Text>
-                <View
-                  style={{
-                    position: 'absolute',
-                    top: 18,
-                    right: 0,
-                  }}>
-                  <Ionicons
-                    name="ios-arrow-forward"
-                    size={30}
-                    color={vars.link}
-                  />
-                </View>
-              </View>
-            </TouchableOpacity>
-          )}
+          renderItem={getRenderItem(onListItemClick)}
         />
       )}
       {isInFlight && !users.length && (

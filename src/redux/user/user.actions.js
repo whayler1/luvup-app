@@ -36,7 +36,9 @@ export const SET_USER = 'user/set-user';
 export const LOGIN = 'user/login';
 export const LOGOUT = 'user/logout';
 export const REAUTH = 'user/reauth';
-export const USER_REQUEST = 'user/user-request';
+export const USER_REQUEST_ATTEMPT = 'user/user-attempt';
+export const USER_REQUEST_SUCCESS = 'user/user-success';
+export const USER_REQUEST_FAILURE = 'user/user-failure';
 export const CONFIRM_USER_REQUEST_CODE = 'user/confirm-user-request-code';
 export const GET_ME_ATTEMPT = 'user/get-me-attempt';
 export const GET_ME_SUCCESS = 'user/get-me-success';
@@ -238,22 +240,32 @@ export const getMe = () => async dispatch => {
 };
 
 export const userRequest = email => async dispatch => {
+  dispatch({ type: USER_REQUEST_ATTEMPT });
+
   try {
     const res = await superagent.post(config.graphQlUrl, {
       query: `mutation {
-        userRequest( email: "${email}") {
-          email error
-        }
+        userRequest( email: "${email}") { email }
       }`,
     });
 
+    if (res.body.errors) {
+      const errorMessage = _.get(
+        res,
+        'body.errors[0].message',
+        'Http response not ok'
+      );
+      dispatch({ type: USER_REQUEST_FAILURE, errorMessage });
+      return errorMessage;
+    }
+
     dispatch({
-      type: USER_REQUEST,
+      type: USER_REQUEST_SUCCESS,
       email,
     });
-
     return res;
   } catch (err) {
+    dispatch({ type: USER_REQUEST_FAILURE, errorMessage: err.message });
     return err;
   }
 };

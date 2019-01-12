@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  container: {
+  errorWellWrapper: {
+    marginTop: 32,
+    marginBottom: 0,
+  },
+  submitWrap: {
     flex: 1,
-    backgroundColor: 'transparent',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });
 

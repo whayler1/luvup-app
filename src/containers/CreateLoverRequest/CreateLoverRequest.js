@@ -34,7 +34,7 @@ class CreateLoverRequest extends Component {
 
   clearSelectedUser = () => this.setState({ selectedUser: null });
 
-  onListItemClick = selectedUserId =>
+  handleListItemClick = selectedUserId =>
     this.setState({
       selectedUser: this.state.users.find(user => user.id === selectedUserId),
     });
@@ -70,7 +70,6 @@ class CreateLoverRequest extends Component {
 
   getUsers = async () => {
     const { search } = this.state;
-    const { onListItemClick } = this;
     try {
       const res = await superagent.post(config.graphQlUrl, {
         query: `{
@@ -104,7 +103,7 @@ class CreateLoverRequest extends Component {
     }
   }, 500);
 
-  onSearchChange = search =>
+  handleSearchChange = search =>
     this.setState({ search, isInFlight: true }, this.searchDebounce);
 
   goToMenu = () => Actions.menu();
@@ -120,23 +119,22 @@ class CreateLoverRequest extends Component {
     if (!this.state.selectedUser) {
       return (
         <Template
-          onSearchChange={this.onSearchChange}
-          onListItemClick={this.onListItemClick}
+          onSearchChange={this.handleSearchChange}
+          onListItemClick={this.handleListItemClick}
           userFirstName={this.props.userFirstName}
           userLastName={this.props.userLastName}
           goToMenu={this.goToMenu}
           {...this.state}
         />
       );
-    } else {
-      return (
-        <TemplateSelectedUser
-          clearSelectedUser={this.clearSelectedUser}
-          requestLover={this.requestLover}
-          {...this.state}
-        />
-      );
     }
+    return (
+      <TemplateSelectedUser
+        clearSelectedUser={this.clearSelectedUser}
+        requestLover={this.requestLover}
+        {...this.state}
+      />
+    );
   }
 }
 

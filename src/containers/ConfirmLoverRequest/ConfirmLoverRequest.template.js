@@ -57,6 +57,7 @@ export default ({
         </View>
         <View style={forms.buttonCell2ColRight}>
           <Button
+            testID="confirm-user-accept-button"
             onPress={acceptLoverRequest}
             containerViewStyle={buttons.infoContainer}
             buttonStyle={buttons.infoButton}

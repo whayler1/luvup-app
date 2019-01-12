@@ -1,11 +1,9 @@
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable import/no-commonjs */
 
-const login = async () => {
+const login = async (email = 'whayler1@bar.com', password = 'Testing1234') => {
   await element(by.id('login-email-input')).tap();
-  await element(by.id('login-email-input')).typeText(
-    'whayler1+bar@gmail.com\nTesting1234\n'
-  );
+  await element(by.id('login-email-input')).typeText(`${email}\n${password}\n`);
 };
 
 module.exports = { login };

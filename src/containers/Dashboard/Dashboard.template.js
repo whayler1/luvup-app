@@ -50,12 +50,16 @@ export default ({
     {_.isString(loverFirstName) && loverFirstName.length > 0 && (
       <View style={styles.tabsContainer}>
         <TouchableOpacity
+          testID="dashboard-write-love-note-button"
           style={styles.tabsItem}
           onPress={onLoveNoteWritePress}>
           <LoveNoteArt scale={0.8} />
           <Text style={styles.tabsText}>Write Love Note</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.tabsItem} onPress={onCreateQuizPress}>
+        <TouchableOpacity
+          testID="dashboard-create-a-quiz-button"
+          style={styles.tabsItem}
+          onPress={onCreateQuizPress}>
           <QuizArt scale={0.85} />
           <Text style={styles.tabsText}>Create a Quiz</Text>
         </TouchableOpacity>
