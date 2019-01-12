@@ -31,6 +31,7 @@ import {
   clearReceivedLoverRequests,
 } from '../receivedLoverRequests/receivedLoverRequests.actions';
 import graphQlRequest from '../../helpers/graphQlRequest';
+import userApi from './user.api';
 
 export const SET_USER = 'user/set-user';
 export const LOGIN = 'user/login';
@@ -49,10 +50,7 @@ export const GET_TIMELINE_DATA_FAILURE = 'user/get-timeline-data-failure';
 
 export const login = (usernameOrEmail, password) => async dispatch => {
   try {
-    const res = await superagent.post(`${config.baseUrl}/login`, {
-      username: usernameOrEmail,
-      password,
-    });
+    const res = await userApi.login(usernameOrEmail, password);
 
     await AsyncStorage.setItem('id_token', res.body.id_token);
 
@@ -84,7 +82,7 @@ export const logout = () => async dispatch => {
 
 export const reauth = id_token => async dispatch => {
   try {
-    const res = await superagent.post(`${config.baseUrl}/reauth`, { id_token });
+    const res = await userApi.reauth(id_token);
 
     await AsyncStorage.setItem('id_token', res.body.id_token);
 
@@ -105,64 +103,7 @@ export const reauth = id_token => async dispatch => {
 export const getMe = () => async dispatch => {
   dispatch({ type: GET_ME_ATTEMPT });
   try {
-    const res = await superagent.post(config.graphQlUrl, {
-      query: `{
-        me {
-          id username email firstName lastName
-          relationship {
-            id createdAt
-            lovers {
-              id username firstName lastName
-            }
-          }
-        }
-        activeLoverRequest {
-          loverRequest {
-            id isAccepted isSenderCanceled isRecipientCanceled createdAt
-            recipient {
-              username firstName lastName
-            }
-          }
-        }
-        receivedLoverRequests {
-          rows {
-            id
-            sender {
-              id email firstName lastName
-            }
-          }
-          count
-        }
-        sentCoins(limit: ${config.maxItemsPerHour}) {
-          rows {
-            id createdAt isUsed
-          }
-          count
-        }
-        sentJalapenos(limit: ${config.maxItemsPerHour}) {
-          rows {
-            id createdAt isExpired
-          }
-          count
-        }
-        unviewedEventCounts {
-          coinsReceived jalapenosReceived
-        }
-        receivedLoveNotes(
-          limit: 2,
-          offset: 0,
-          isRead: false,
-        ) {
-          rows { id, createdAt, isRead, note }
-          count
-        }
-        relationshipScores(limit: 1) {
-          rows {
-            score
-          }
-        }
-      }`,
-    });
+    const res = await userApi.getMe();
 
     const { relationship } = res.body.data.me;
 
@@ -243,11 +184,7 @@ export const userRequest = email => async dispatch => {
   dispatch({ type: USER_REQUEST_ATTEMPT });
 
   try {
-    const res = await superagent.post(config.graphQlUrl, {
-      query: `mutation {
-        userRequest( email: "${email}") { email }
-      }`,
-    });
+    const res = userApi.userRequest(email);
 
     if (res.body.errors) {
       const errorMessage = _.get(
@@ -279,27 +216,14 @@ export const confirmUser = (
   password
 ) => async () => {
   try {
-    const res = await superagent.post(config.graphQlUrl, {
-      query: `mutation {
-        confirmUser(
-          email: "${email}"
-          username: "${username}"
-          firstName: "${firstName}"
-          lastName: "${lastName}"
-          password: "${password}"
-          code: "${code}"
-        ) {
-          user {
-            id
-            email
-            username
-            firstName
-            lastName
-          }
-          error
-        }
-      }`,
-    });
+    const res = await userApi.confirmUser(
+      email,
+      username,
+      firstName,
+      lastName,
+      code,
+      password
+    );
 
     return res;
   } catch (err) {
@@ -324,16 +248,7 @@ export const setUser = (
 
 export const confirmUserRequestCode = (email, code) => async dispatch => {
   try {
-    const res = await superagent.post(config.graphQlUrl, {
-      query: `mutation {
-        confirmUserRequestCode (
-          email: "${email}"
-          code: "${code}"
-        ) {
-          success error
-        }
-      }`,
-    });
+    const res = await userApi.confirmUserRequestCode(email, code);
 
     const confirmUserRequestCode = _.at(
       res,
@@ -358,32 +273,7 @@ export const getTimelineData = limit => async dispatch => {
   dispatch({ type: GET_TIMELINE_DATA_ATTEMPT });
 
   try {
-    const data = await graphQlRequest(`{
-      userEvents(
-        limit: ${limit}
-        offset: 0
-      ) {
-        rows {
-          id isViewed createdAt name
-        }
-        count
-        loveNoteEvents {
-          id loveNoteId userEventId
-        }
-        loveNotes {
-          id note createdAt isRead senderId recipientId numLuvups numJalapenos
-        }
-        quizItemEvents {
-          id quizItemId userEventId
-        }
-        quizItems {
-          id senderId recipientId question senderChoiceId recipientChoiceId reward createdAt
-          choices { id answer }
-        }
-      }
-      sentCoins(limit: 0) { count }
-      sentJalapenos(limit: 0) { count }
-    }`);
+    const data = await userApi.getTimelineData(limit);
 
     const rows = _.get(data, 'userEvents.rows');
 
