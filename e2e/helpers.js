@@ -11,6 +11,7 @@ const generateUser = async () => {
   const [firstName, lastName] = moniker.split('-');
   const username = `${moniker}${uuid.substr(0, 5)}`;
   const email = `justin+${username}@luvup.io`;
+  const password = uuid.substr(0, 8);
 
   const userReq = await userApi.userRequest(email);
   console.log('\n\n ---userReq---\n', userReq.body.data);
@@ -20,18 +21,16 @@ const generateUser = async () => {
     firstName,
     lastName,
     '012345',
-    'Testing123'
+    password
   );
-  console.log(
-    '\n\nconfirmUserReq',
-    confirmUserReq.body.data.confirmUserRequestCode
-  );
+  console.log('\n\nconfirmUserReq', confirmUserReq.body.data);
 
   return {
     firstName,
     lastName,
     username,
     email,
+    password,
   };
 };
 
