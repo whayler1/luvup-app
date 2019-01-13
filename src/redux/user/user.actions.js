@@ -1,4 +1,3 @@
-import superagent from 'superagent';
 import { AsyncStorage } from 'react-native';
 import _ from 'lodash';
 import {
@@ -6,7 +5,6 @@ import {
   remove as removeNotificationsListener,
 } from '../../services/notifications';
 
-import config from '../../config';
 import { setLover, clearLover } from '../lover/lover.actions';
 import {
   SET_LOVER_REQUEST,
@@ -30,7 +28,6 @@ import {
   setReceivedLoverRequests,
   clearReceivedLoverRequests,
 } from '../receivedLoverRequests/receivedLoverRequests.actions';
-import graphQlRequest from '../../helpers/graphQlRequest';
 import userApi from './user.api';
 
 export const SET_USER = 'user/set-user';
@@ -184,7 +181,7 @@ export const userRequest = email => async dispatch => {
   dispatch({ type: USER_REQUEST_ATTEMPT });
 
   try {
-    const res = userApi.userRequest(email);
+    const res = await userApi.userRequest(email);
 
     if (res.body.errors) {
       const errorMessage = _.get(
