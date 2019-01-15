@@ -1,6 +1,6 @@
 /* eslint-disable import/no-commonjs */
-const { reloadApp } = require('detox-expo-helpers');
-const { generateUser, login } = require('./helpers');
+import { reloadApp } from 'detox-expo-helpers';
+import { generateUser, generateRelationship, login } from './helpers';
 
 describe('Login', () => {
   beforeEach(async () => {
@@ -14,14 +14,15 @@ describe('Login', () => {
     let password;
 
     beforeEach(async () => {
-      const user = await generateUser();
-      email = user.email;
-      password = user.password;
+      await generateRelationship();
+      // const user = await generateUser();
+      // email = user.email;
+      // password = user.password;
     });
 
     it.only('should go to dashboard and be ableto logout', async () => {
       await expect(element(by.id('login-title'))).toBeVisible();
-      await login(email, password);
+      // await login(email, password);
 
       // await waitFor(element(by.id('relatioship-score-label')))
       //   .toBeVisible()

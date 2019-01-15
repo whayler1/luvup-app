@@ -2,6 +2,7 @@ import superagent from 'superagent';
 import _ from 'lodash';
 
 import config from '../../config';
+import loverRequestApi from './loverRequest.api';
 
 export const REQUEST_LOVER = 'lover-request/request-lover';
 export const SET_LOVER_REQUEST = 'lover-request/set-lover-request';
@@ -12,16 +13,7 @@ export const CLEAR_LOVER_REQUEST = 'lover-request/clear-lover-request';
 
 export const requestLover = recipientId => async dispatch => {
   try {
-    const res = await superagent.post(config.graphQlUrl, {
-      query: `mutation {
-        requestLover(recipientId: "${recipientId}") {
-          id isAccepted isSenderCanceled isRecipientCanceled createdAt
-          recipient {
-            username firstName lastName
-          }
-        }
-      }`,
-    });
+    const res = await loverRequestApi.requestLover(recipientId);
 
     dispatch({
       type: REQUEST_LOVER,
@@ -47,18 +39,7 @@ export const requestLover = recipientId => async dispatch => {
 
 export const cancelLoverRequest = loverRequestId => async dispatch => {
   try {
-    const res = await superagent.post(config.graphQlUrl, {
-      query: `mutation {
-        cancelLoverRequest(
-          loverRequestId: "${loverRequestId}"
-        ) {
-          loverRequest {
-            id isAccepted isSenderCanceled isRecipientCanceled
-          }
-          error
-        }
-      }`,
-    });
+    const res = await loverRequestApi.cancelLoverRequest(loverRequestId);
 
     const loverRequest = _.get(
       res,
@@ -86,15 +67,7 @@ export const cancelLoverRequest = loverRequestId => async dispatch => {
 
 export const resendLoverRequestEmail = loverRequestId => async () => {
   try {
-    const res = await superagent.post(config.graphQlUrl, {
-      query: `mutation {
-        resendLoverRequestEmail (
-          loverRequestId: "${loverRequestId}"
-        ) {
-          success error
-        }
-      }`,
-    });
+    const res = await loverRequestApi.resendLoverRequestEmail(loverRequestId);
 
     return res;
   } catch (err) {
