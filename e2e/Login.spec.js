@@ -2,7 +2,7 @@
 import { reloadApp } from 'detox-expo-helpers';
 import { generateUser, generateRelationship, login } from './helpers';
 
-describe('Login', () => {
+describe.only('login', () => {
   beforeEach(async () => {
     await reloadApp({
       permissions: { location: 'always', notifications: 'YES' },
@@ -14,13 +14,18 @@ describe('Login', () => {
     let password;
 
     beforeEach(async () => {
-      await generateRelationship();
+      // console.log('');
+      // await generateRelationship();
       // const user = await generateUser();
       // email = user.email;
       // password = user.password;
     });
 
     it.only('should go to dashboard and be ableto logout', async () => {
+      const { user, lover, requestLoverRes } = await generateRelationship();
+      // console.log('user', user);
+      // console.log('lover', lover);
+      // console.log('requestLoverRes', requestLoverRes);
       await expect(element(by.id('login-title'))).toBeVisible();
       // await login(email, password);
 

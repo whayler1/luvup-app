@@ -1,7 +1,5 @@
-import superagent from 'superagent';
 import _ from 'lodash';
 
-import config from '../../config';
 import loverRequestApi from './loverRequest.api';
 
 export const REQUEST_LOVER = 'lover-request/request-lover';

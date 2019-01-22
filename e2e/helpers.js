@@ -5,8 +5,9 @@ import Moniker from 'moniker';
 import times from 'lodash/times';
 
 import userApi from '../src/redux/user/user.api';
+import loverRequestApi from '../src/redux/loverRequest/loverRequest.api';
 
-const generateUser = async () => {
+export const generateUser = async () => {
   const uuid = uuidv1();
   const moniker = Moniker.choose();
   const [firstName, lastName] = moniker.split('-');
@@ -15,7 +16,15 @@ const generateUser = async () => {
   const password = uuid.substr(0, 8);
 
   await userApi.userRequest(email);
-  await userApi.confirmUser(
+  const {
+    body: {
+      data: {
+        confirmUser: {
+          user: { id },
+        },
+      },
+    },
+  } = await userApi.confirmUser(
     email,
     username,
     firstName,
@@ -23,8 +32,10 @@ const generateUser = async () => {
     '012345',
     password
   );
+  // console.log('confirmUserRes', confirmUserRes.body.data.confirmUser.user);
 
   return {
+    id,
     firstName,
     lastName,
     username,
@@ -33,18 +44,33 @@ const generateUser = async () => {
   };
 };
 
-const generateRelationship = async () => {
+export const generateRelationship = async () => {
   const promises = times(2, () => generateUser());
   const [user, lover] = await Promise.all(promises);
-  console.log('\n\n -- user', user);
 
-  const loginRes = await userApi.login(user.email, user.password);
-  console.log('\n\n --- loginRes', loginRes.body.id_token);
+  const {
+    body: { id_token },
+  } = await userApi.login(user.email, user.password);
+  console.log('id_token', id_token);
+
+  const requestLoverRes = await loverRequestApi.requestLover(
+    lover.id,
+    id_token
+  );
+  console.log('\n\n requestLoverRes', requestLoverRes.body);
+  return {
+    user,
+    lover,
+    requestLoverRes,
+  };
 };
 
-const login = async (email = 'whayler1@bar.com', password = 'Testing1234') => {
+export const login = async (
+  email = 'whayler1@bar.com',
+  password = 'Testing1234'
+) => {
   await element(by.id('login-email-input')).tap();
   await element(by.id('login-email-input')).typeText(`${email}\n${password}\n`);
 };
 
-module.exports = { generateUser, generateRelationship, login };
+// export default { generateUser, generateRelationship, login };

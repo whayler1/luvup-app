@@ -2,6 +2,8 @@ import superagent from 'superagent';
 import config from '../../config';
 import graphQlRequest from '../../helpers/graphQlRequest';
 
+// const superagent = superagentDefault.agent();
+
 const userApi = {
   login: (usernameOrEmail, password) =>
     superagent.post(`${config.baseUrl}/login`, {
