@@ -6,6 +6,7 @@ import times from 'lodash/times';
 
 import userApi from '../src/redux/user/user.api';
 import loverRequestApi from '../src/redux/loverRequest/loverRequest.api';
+import receivedLoverRequestsApi from '../src/redux/receivedLoverRequests/receivedLoverRequests.api';
 
 export const generateUser = async () => {
   const uuid = uuidv1();
@@ -51,17 +52,23 @@ export const generateRelationship = async () => {
   const {
     body: { id_token },
   } = await userApi.login(user.email, user.password);
-  console.log('id_token', id_token);
+  const loverLoginRes = await userApi.login(lover.email, lover.password);
+  const loverIdToken = loverLoginRes.body.id_token;
 
-  const requestLoverRes = await loverRequestApi.requestLover(
-    lover.id,
-    id_token
+  const {
+    body: {
+      data: { requestLover },
+    },
+  } = await loverRequestApi.requestLover(lover.id, id_token);
+
+  await receivedLoverRequestsApi.acceptLoverRequest(
+    requestLover.id,
+    loverIdToken
   );
-  console.log('\n\n requestLoverRes', requestLoverRes.body);
+
   return {
     user,
     lover,
-    requestLoverRes,
   };
 };
 
