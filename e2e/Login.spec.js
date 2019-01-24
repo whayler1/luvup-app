@@ -2,7 +2,7 @@
 import { reloadApp } from 'detox-expo-helpers';
 import { generateRelationship, login } from './helpers';
 
-describe.only('login', () => {
+describe('login', () => {
   beforeEach(async () => {
     await reloadApp({
       permissions: { location: 'always', notifications: 'YES' },

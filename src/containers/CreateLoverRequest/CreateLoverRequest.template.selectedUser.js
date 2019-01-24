@@ -24,7 +24,7 @@ export default ({
         style={{
           alignItems: 'center',
         }}>
-        <Ionicons name="ios-send" size={80} color={vars.blue500} />
+        <Ionicons name="ios-send" size={80} color={vars.blueGrey100} />
       </View>
       <Text style={[scene.copy, { textAlign: 'center' }]}>
         Send Lover Request to

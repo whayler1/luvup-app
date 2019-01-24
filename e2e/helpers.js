@@ -79,5 +79,3 @@ export const login = async (
   await element(by.id('login-email-input')).tap();
   await element(by.id('login-email-input')).typeText(`${email}\n${password}\n`);
 };
-
-// export default { generateUser, generateRelationship, login };
