@@ -70,6 +70,7 @@ class Timeline extends Component {
     clearUserEvents: PropTypes.func.isRequired,
     getTimelineData: PropTypes.func.isRequired,
     isGetUserEventsInFlight: PropTypes.bool.isRequired,
+    isGetTimelineDataInFlight: PropTypes.bool.isRequired,
     getUserEventsError: PropTypes.string.isRequired,
   };
 
@@ -83,7 +84,6 @@ class Timeline extends Component {
       page: 0,
       isModalVisible: false,
       isAtEndOfList: false,
-      isRefreshing: false,
     };
 
     props.getTimelineData(userEventsLimit);
@@ -100,10 +100,12 @@ class Timeline extends Component {
   };
 
   handleRefresh = () => {
-    console.log('on refresh!');
+    if (!this.props.isGetTimelineDataInFlight) {
+      this.props.getTimelineData(userEventsLimit);
+    }
   };
 
-  onEndReached = _.throttle(() => {
+  ohandleEndReached = _.throttle(() => {
     /**
      * - do not do anything if sections havent loaded yet.
      * - do not do anything if # items loaded is equal to or more then count
@@ -183,7 +185,7 @@ class Timeline extends Component {
         {...this.state}
         goBack={this.goBack}
         onRefresh={this.handleRefresh}
-        onEndReached={this.onEndReached}
+        onEndReached={this.handleEndReached}
         closeModal={this.closeModal}
       />
     );
@@ -204,6 +206,7 @@ export default connect(
     userEvents: state.userEvents.rows,
     userEventsCount: state.userEvents.count,
     isGetUserEventsInFlight: state.userEvents.isGetUserEventsInFlight,
+    isGetTimelineDataInFlight: state.user.isGetTimelineDataInFlight,
     getUserEventsError: state.userEvents.getUserEventsError,
   }),
   {

@@ -26,7 +26,6 @@ export default ({
   goBack,
   sections,
   isSectionsLoaded,
-  isRefreshing,
   userInitials,
   loverInitials,
   onRefresh,
@@ -34,6 +33,7 @@ export default ({
   isModalVisible,
   closeModal,
   isGetUserEventsInFlight,
+  isGetTimelineDataInFlight,
   getUserEventsError,
 }) => (
   <View style={styles.wrapper}>
@@ -47,7 +47,8 @@ export default ({
         style={styles.sectionList}
         refreshControl={
           <RefreshControl
-            refreshing={isRefreshing}
+            enabled={!isGetUserEventsInFlight && !isGetTimelineDataInFlight}
+            refreshing={isGetUserEventsInFlight || isGetTimelineDataInFlight}
             onRefresh={onRefresh}
             tintColor="white"
           />
