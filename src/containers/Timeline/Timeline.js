@@ -83,6 +83,7 @@ class Timeline extends Component {
       page: 0,
       isModalVisible: false,
       isAtEndOfList: false,
+      isRefreshing: false,
     };
 
     props.getTimelineData(userEventsLimit);
@@ -96,6 +97,10 @@ class Timeline extends Component {
       this.state.page * userEventsLimit,
       true
     );
+  };
+
+  handleRefresh = () => {
+    console.log('on refresh!');
   };
 
   onEndReached = _.throttle(() => {
@@ -177,6 +182,7 @@ class Timeline extends Component {
         {...this.props}
         {...this.state}
         goBack={this.goBack}
+        onRefresh={this.handleRefresh}
         onEndReached={this.onEndReached}
         closeModal={this.closeModal}
       />

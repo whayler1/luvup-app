@@ -5,20 +5,16 @@ import _ from 'lodash';
 import { scene } from '../../styles';
 import Well from '../../components/Well';
 import Preloader from '../../components/Preloader';
+import styles from './Timeline.styles';
 
 const ListEmptyComponent = ({ isInFlight, error }) => (
-  <View
-    style={{
-      paddingHorizontal: 16,
-      paddingVertical: 32,
-      alignSelf: 'stretch',
-    }}>
+  <View style={styles.listItemEmptyWrapper}>
     {_.isString(error) && error.length > 0 && (
       <Well text="There was an error loading the timeline. Make sure you are connected to wifi or data." />
     )}
     {isInFlight && <Preloader />}
     {!error && !isInFlight && (
-      <Text style={[scene.copy, { fontSize: 25, textAlign: 'center' }]}>
+      <Text style={[scene.copy, styles.listItemEmptyText]}>
         You do not have any history yet. Send a Luvup to get things started!
       </Text>
     )}

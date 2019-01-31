@@ -10,6 +10,7 @@ const renderItemContainer = {
   flexDirection: 'row',
   justifyContent: 'space-between',
   alignItems: 'center',
+  backgroundColor: 'white',
 };
 const renderItemContainerLast = { ...renderItemContainer, paddingBottom: 24 };
 const leaderboardSlot = {
@@ -24,6 +25,7 @@ export default new StyleSheet.create({
   wrapper: {
     flex: 1,
     alignItems: 'center',
+    backgroundColor: vars.razzleDazzleRose,
   },
   sectionList: {
     alignSelf: 'stretch',
@@ -35,6 +37,7 @@ export default new StyleSheet.create({
   listFooterContainer: {
     paddingBottom: 16,
     paddingTop: 16,
+    backgroundColor: 'white',
   },
   leaderboardSlot,
   leaderboardSlotSecond,
@@ -58,6 +61,9 @@ export default new StyleSheet.create({
     color: vars.blueGrey800,
     fontSize: 20,
     fontFamily: vars.fontBlack,
+  },
+  renderItemWrapper: {
+    backgroundColor: 'white',
   },
   renderItemContainer,
   renderItemContainerLast,
@@ -140,4 +146,16 @@ export default new StyleSheet.create({
     paddingTop: 83,
     alignSelf: 'stretch',
   },
+  topNav: {
+    backgroundColor: vars.razzleDazzleRose,
+    marginTop: 0,
+    paddingTop: 45,
+  },
+  listItemEmptyWrapper: {
+    paddingHorizontal: 16,
+    paddingVertical: 32,
+    alignSelf: 'stretch',
+    backgroundColor: 'white',
+  },
+  listItemEmptyText: { fontSize: 25, textAlign: 'center' },
 });

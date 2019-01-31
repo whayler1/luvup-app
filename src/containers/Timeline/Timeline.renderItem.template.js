@@ -168,79 +168,81 @@ export default ctx => {
   }
 
   return (
-    <Wrapper
-      isLink={isLovenoteItemWithNote}
-      loveNote={item.loveNote}
-      quizItem={item.quizItem}
-      eventName={item.name}>
-      <View
-        style={
-          index + 1 === section.data.length
-            ? styles.renderItemContainerLast
-            : styles.renderItemContainer
-        }>
-        <View style={styles.renderItemContent}>
-          <View style={styles.renderItemIconContainer}>
-            {getEventImage(item.name)}
-          </View>
-          <View style={styles.renderItemCopyContainer}>
-            <Text style={styles.renderItemContentText}>
-              {item.name !== 'password-changed' &&
-              !isLovenoteItem &&
-              !isQuizItem
-                ? item.count + ' '
-                : ''}
-              {getEventDisplayName(item.name, item.count)}
-            </Text>
-            {isLovenoteItem && _.isString(_.get(item, 'loveNote.note')) && (
-              <Text numberOfLines={1} style={styles.renderItemLoveNoteText}>
-                {decodeURI(item.loveNote.note)}
+    <View style={styles.renderItemWrapper}>
+      <Wrapper
+        isLink={isLovenoteItemWithNote}
+        loveNote={item.loveNote}
+        quizItem={item.quizItem}
+        eventName={item.name}>
+        <View
+          style={
+            index + 1 === section.data.length
+              ? styles.renderItemContainerLast
+              : styles.renderItemContainer
+          }>
+          <View style={styles.renderItemContent}>
+            <View style={styles.renderItemIconContainer}>
+              {getEventImage(item.name)}
+            </View>
+            <View style={styles.renderItemCopyContainer}>
+              <Text style={styles.renderItemContentText}>
+                {item.name !== 'password-changed' &&
+                !isLovenoteItem &&
+                !isQuizItem
+                  ? item.count + ' '
+                  : ''}
+                {getEventDisplayName(item.name, item.count)}
               </Text>
-            )}
-            {isQuizItem && _.isString(_.get(item, 'quizItem.question')) && (
-              <Text numberOfLines={1} style={styles.renderItemLoveNoteText}>
-                {decodeURI(item.quizItem.question)}
-              </Text>
-            )}
-            {(isNumLuvups || isNumJalapenos) && (
-              <View style={styles.renderItemLoveNoteTokenRow}>
-                {isNumLuvups && (
-                  <View style={styles.renderItemLoveNoteTokenItem}>
-                    <CoinArt
-                      fill={vars.blueGrey300}
-                      stroke={vars.blueGrey500}
-                      scale={0.2}
-                    />
-                    <Text style={styles.renderItemLoveNoteTokenText}>
-                      +
-                      {isQuizItem
-                        ? item.quizItem.reward
-                        : item.loveNote.numLuvups}
-                    </Text>
-                  </View>
-                )}
-                {isNumJalapenos && (
-                  <View
-                    style={[
-                      styles.renderItemLoveNoteTokenItem,
-                      {
-                        paddingLeft: isNumLuvups && isNumJalapenos ? 8 : 0,
-                      },
-                    ]}>
-                    <JalapenoArt fill={vars.blueGrey300} scale={0.17} />
-                    <Text style={styles.renderItemLoveNoteTokenText}>
-                      +{item.loveNote.numJalapenos}
-                    </Text>
-                  </View>
-                )}
-              </View>
-            )}
-          </View>
-          <View>
-            <Text style={styles.renderItemContentSmall}>{item.time}</Text>
+              {isLovenoteItem && _.isString(_.get(item, 'loveNote.note')) && (
+                <Text numberOfLines={1} style={styles.renderItemLoveNoteText}>
+                  {decodeURI(item.loveNote.note)}
+                </Text>
+              )}
+              {isQuizItem && _.isString(_.get(item, 'quizItem.question')) && (
+                <Text numberOfLines={1} style={styles.renderItemLoveNoteText}>
+                  {decodeURI(item.quizItem.question)}
+                </Text>
+              )}
+              {(isNumLuvups || isNumJalapenos) && (
+                <View style={styles.renderItemLoveNoteTokenRow}>
+                  {isNumLuvups && (
+                    <View style={styles.renderItemLoveNoteTokenItem}>
+                      <CoinArt
+                        fill={vars.blueGrey300}
+                        stroke={vars.blueGrey500}
+                        scale={0.2}
+                      />
+                      <Text style={styles.renderItemLoveNoteTokenText}>
+                        +
+                        {isQuizItem
+                          ? item.quizItem.reward
+                          : item.loveNote.numLuvups}
+                      </Text>
+                    </View>
+                  )}
+                  {isNumJalapenos && (
+                    <View
+                      style={[
+                        styles.renderItemLoveNoteTokenItem,
+                        {
+                          paddingLeft: isNumLuvups && isNumJalapenos ? 8 : 0,
+                        },
+                      ]}>
+                      <JalapenoArt fill={vars.blueGrey300} scale={0.17} />
+                      <Text style={styles.renderItemLoveNoteTokenText}>
+                        +{item.loveNote.numJalapenos}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+              )}
+            </View>
+            <View>
+              <Text style={styles.renderItemContentSmall}>{item.time}</Text>
+            </View>
           </View>
         </View>
-      </View>
-    </Wrapper>
+      </Wrapper>
+    </View>
   );
 };
