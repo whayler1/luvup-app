@@ -12,7 +12,6 @@ import JalapenoArt from '../../components/JalapenoArt';
 const coinStrokeColor = Color(vars.razzleDazzleRose).mix(Color('white'), 0.3);
 
 const circumfrance = 36;
-const radius = circumfrance / 2;
 
 const leaderboardSlot = ({ initials, coinCount, jalapenoCount, isSecond }) => (
   <View

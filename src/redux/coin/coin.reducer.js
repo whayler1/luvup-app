@@ -71,6 +71,7 @@ export default function reducer(state = defaultState, action) {
     case GET_TIMELINE_DATA_SUCCESS:
       return {
         ...state,
+        count: action.coinCount,
         sentCoinsCount: action.sentCoinsCount,
       };
     case SET_UNVIEWED_COIN_COUNT:

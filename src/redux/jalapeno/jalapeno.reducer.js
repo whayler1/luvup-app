@@ -65,6 +65,7 @@ export default function reducer(state = defaultState, action) {
     case GET_TIMELINE_DATA_SUCCESS:
       return {
         ...state,
+        count: action.jalapenosCount,
         sentJalapenosCount: action.sentJalapenosCount,
       };
     case GET_JALAPENO_COUNT:

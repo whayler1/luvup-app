@@ -133,6 +133,8 @@ const userApi = {
         choices { id answer }
       }
     }
+    coinCount { count }
+    jalapenos(limit: 0) { count }
     sentCoins(limit: 0) { count }
     sentJalapenos(limit: 0) { count }
   }`),
