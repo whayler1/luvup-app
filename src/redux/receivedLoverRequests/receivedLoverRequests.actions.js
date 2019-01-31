@@ -1,6 +1,8 @@
 import superagent from 'superagent';
 import _ from 'lodash';
 import config from '../../config';
+import receivedLoverRequestsApi from './receivedLoverRequests.api';
+
 export const SET_RECEIVED_LOVER_REQUESTS =
   'received-lover-requests/set-received-lover-requests';
 export const ACCEPT_LOVER_REQUEST =
@@ -16,19 +18,7 @@ export const setReceivedLoverRequests = (rows, count) => ({
 
 export const getReceivedLoverRequests = () => async dispatch => {
   try {
-    const res = await superagent.post(config.graphQlUrl, {
-      query: `{
-        receivedLoverRequests {
-          rows {
-            id
-            sender {
-              id email firstName lastName
-            }
-          }
-          count
-        }
-      }`,
-    });
+    const res = await receivedLoverRequestsApi.getReceivedLoverRequests();
 
     const receivedLoverRequests = _.get(res, 'body.data.receivedLoverRequests');
 
@@ -49,18 +39,9 @@ export const getReceivedLoverRequests = () => async dispatch => {
 
 export const acceptLoverRequest = loverRequestId => async dispatch => {
   try {
-    const res = await superagent.post(config.graphQlUrl, {
-      query: `mutation {
-        acceptLoverRequest(
-          loverRequestId: "${loverRequestId}"
-        ) {
-          loverRequest {
-            id isAccepted isSenderCanceled isRecipientCanceled createdAt
-          }
-          error
-        }
-      }`,
-    });
+    const res = await receivedLoverRequestsApi.acceptLoverRequest(
+      loverRequestId
+    );
 
     const loverRequest = _.get(
       res,

@@ -50,15 +50,15 @@
   },
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "precommit": "lint-staged",
-    "start": "expo start",
-    "eject": "expo eject",
     "android": "expo start --android",
+    "eject": "expo eject",
     "ios": "expo start --ios",
-    "test": "jest",
     "lint": "eslint .",
+    "precommit": "lint-staged",
     "prettier": "eslint . --fix",
-    "e2e": "detox test --configuration ios.sim"
+    "start": "expo start",
+    "test": "jest",
+    "test:e2e": "detox test --configuration ios.sim"
   },
   "jest": {
     "preset": "jest-expo",
@@ -118,6 +118,8 @@
         "type": "ios.simulator",
         "name": "iPhone 7"
       }
-    }
+    },
+    "specs": "e2e",
+    "test-runner": "jest"
   }
 }

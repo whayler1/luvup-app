@@ -40,7 +40,7 @@ export default StyleSheet.create({
   flatList: {
     paddingTop: 16,
   },
-  rnderItemIcon: {
+  renderItemIcon: {
     position: 'absolute',
     top: 18,
     right: 0,

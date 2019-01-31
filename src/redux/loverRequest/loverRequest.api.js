@@ -1,0 +1,49 @@
+import superagent from 'superagent';
+import config from '../../config';
+
+const loverRequestApi = {
+  requestLover: (recipientId, id_token) => {
+    const params = {
+      query: `mutation {
+      requestLover(recipientId: "${recipientId}") {
+        id isAccepted isSenderCanceled isRecipientCanceled createdAt
+        recipient {
+          username firstName lastName
+        }
+      }
+    }`,
+    };
+    if (id_token) {
+      return superagent
+        .post(config.graphQlUrl, params)
+        .set('Cookie', `id_token=${id_token}`);
+    }
+
+    return superagent.post(config.graphQlUrl, params);
+  },
+  cancelLoverRequest: loverRequestId =>
+    superagent.post(config.graphQlUrl, {
+      query: `mutation {
+      cancelLoverRequest(
+        loverRequestId: "${loverRequestId}"
+      ) {
+        loverRequest {
+          id isAccepted isSenderCanceled isRecipientCanceled
+        }
+        error
+      }
+    }`,
+    }),
+  resendLoverRequestEmail: loverRequestId =>
+    superagent.post(config.graphQlUrl, {
+      query: `mutation {
+      resendLoverRequestEmail (
+        loverRequestId: "${loverRequestId}"
+      ) {
+        success error
+      }
+    }`,
+    }),
+};
+
+export default loverRequestApi;

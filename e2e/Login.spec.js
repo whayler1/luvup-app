@@ -1,18 +1,19 @@
 /* eslint-disable import/no-commonjs */
-const { reloadApp } = require('detox-expo-helpers');
-const { login } = require('./helpers');
+import { reloadApp } from 'detox-expo-helpers';
+import { generateRelationship, login } from './helpers';
 
-describe('Login', () => {
+describe('login', () => {
   beforeEach(async () => {
     await reloadApp({
       permissions: { location: 'always', notifications: 'YES' },
     });
   });
 
-  context('When login is correct and user is in a relationship', () => {
+  describe('When login is correct and user is in a relationship', () => {
     it('should go to dashboard and be ableto logout', async () => {
+      const { user } = await generateRelationship();
       await expect(element(by.id('login-title'))).toBeVisible();
-      await login();
+      await login(user.email, user.password);
 
       await waitFor(element(by.id('relatioship-score-label')))
         .toBeVisible()
@@ -27,8 +28,9 @@ describe('Login', () => {
     });
 
     it('should remain logged in on reload', async () => {
+      const { user } = await generateRelationship();
       await expect(element(by.id('login-title'))).toBeVisible();
-      await login();
+      await login(user.email, user.password);
 
       await waitFor(element(by.id('relatioship-score-label')))
         .toBeVisible()
@@ -51,7 +53,7 @@ describe('Login', () => {
     });
   });
 
-  context('When login is incorrect', () => {
+  describe('When login is incorrect', () => {
     it('should show no email error', async () => {
       await element(by.id('login-submit')).tap();
       await waitFor(element(by.text('Please provide a valid email')))
