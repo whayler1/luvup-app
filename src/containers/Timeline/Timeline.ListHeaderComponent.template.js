@@ -13,7 +13,13 @@ const coinStrokeColor = Color(vars.razzleDazzleRose).mix(Color('white'), 0.3);
 
 const circumfrance = 36;
 
-const leaderboardSlot = ({ initials, coinCount, jalapenoCount, isSecond }) => (
+const leaderboardSlot = ({
+  relationshipScore,
+  initials,
+  coinCount,
+  jalapenoCount,
+  isSecond,
+}) => (
   <View
     style={isSecond ? styles.leaderboardSlotSecond : styles.leaderboardSlot}>
     <View
@@ -46,14 +52,29 @@ const leaderboardSlot = ({ initials, coinCount, jalapenoCount, isSecond }) => (
         alignItems: 'center',
         marginLeft: 16,
       }}>
+      <View
+        style={{
+          marginRight: 4,
+          width: 50,
+          // backgroundColor: 'rgba(100,200,50,0.5)',
+        }}>
+        <Text
+          style={{
+            color: 'white',
+            fontFamily: vars.fontBlack,
+            fontSize: 20,
+          }}>
+          {`${relationshipScore}%`}
+        </Text>
+      </View>
       <CoinArt
         fill="rgba(255,255,255,0.6)"
         stroke={coinStrokeColor}
-        scale={0.5}
+        scale={0.3}
       />
       <Text style={styles.leaderboardText}>{coinCount}</Text>
       <View style={{ marginLeft: 16 }}>
-        <JalapenoArt fill="rgba(255,255,255,0.6)" scale={0.35} />
+        <JalapenoArt fill="rgba(255,255,255,0.6)" scale={0.25} />
       </View>
       <Text style={styles.leaderboardText}>{jalapenoCount}</Text>
     </View>
@@ -61,6 +82,8 @@ const leaderboardSlot = ({ initials, coinCount, jalapenoCount, isSecond }) => (
 );
 
 export default ({
+  userRelationshipScore,
+  loverRelationshipScore,
   userInitials,
   loverInitials,
   coinCount,
@@ -70,11 +93,13 @@ export default ({
 }) => (
   <View style={styles.listHeaderContainer}>
     {leaderboardSlot({
+      relationshipScore: userRelationshipScore,
       initials: userInitials,
       coinCount,
       jalapenoCount,
     })}
     {leaderboardSlot({
+      relationshipScore: loverRelationshipScore,
       initials: loverInitials,
       coinCount: sentCoinsCount,
       jalapenoCount: sentJalapenosCount,

@@ -19,6 +19,8 @@ import ListEmptyComponent from './Timeline.ListEmptyComponent.template';
 import HeartArt from '../../components/Art/HeartArt';
 
 export default ({
+  userRelationshipScore,
+  loverRelationshipScore,
   coinCount,
   jalapenoCount,
   sentCoinsCount,
@@ -62,6 +64,8 @@ export default ({
         ListHeaderComponent={
           <ListHeaderComponent
             {...{
+              userRelationshipScore,
+              loverRelationshipScore,
               coinCount,
               jalapenoCount,
               userInitials,

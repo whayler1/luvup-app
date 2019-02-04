@@ -42,9 +42,9 @@ export default new StyleSheet.create({
   leaderboardSlot,
   leaderboardSlotSecond,
   leaderboardText: {
-    marginLeft: 8,
-    fontFamily: vars.fontRegular,
-    fontSize: 20,
+    marginLeft: 4,
+    fontFamily: vars.fontBlack,
+    fontSize: 13,
     color: 'white',
   },
   sectionHeaderContainer: {
