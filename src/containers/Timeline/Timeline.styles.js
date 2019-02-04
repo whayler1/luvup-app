@@ -158,4 +158,34 @@ export default new StyleSheet.create({
     backgroundColor: 'white',
   },
   listItemEmptyText: { fontSize: 25, textAlign: 'center' },
+  leaderboardSlotUserWrapper: {
+    width: 44,
+    height: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  leaderboardSlotInitials: {
+    position: 'absolute',
+    backgroundColor: 'transparent',
+    color: 'white',
+    fontFamily: vars.fontBlack,
+    fontSize: 20,
+  },
+  leaderboardSlotStatsWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 16,
+  },
+  leaderboardSlotScoreWrapper: {
+    marginRight: 4,
+    width: 50,
+    // backgroundColor: 'rgba(100,200,50,0.5)',
+  },
+  leaderboardSlotScore: {
+    color: 'white',
+    fontFamily: vars.fontBlack,
+    fontSize: 20,
+  },
+  leaderboardSlotJalapenoArtWrapper: { marginLeft: 8 },
 });
