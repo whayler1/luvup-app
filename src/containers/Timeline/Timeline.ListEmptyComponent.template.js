@@ -10,7 +10,9 @@ import styles from './Timeline.styles';
 const ListEmptyComponent = ({ isInFlight, error }) => (
   <View style={styles.listItemEmptyWrapper}>
     {_.isString(error) && error.length > 0 && (
-      <Well text="There was an error loading the timeline. Make sure you are connected to wifi or data." />
+      <Well
+        text={`There was an error loading the timeline. Make sure you are connected to wifi or data.\n\n${error}`}
+      />
     )}
     {isInFlight && <Preloader />}
     {!error && !isInFlight && (

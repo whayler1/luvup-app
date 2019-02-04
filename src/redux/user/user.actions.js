@@ -289,6 +289,7 @@ export const getTimelineData = limit => async dispatch => {
         jalapenosCount: data.jalapenos.count,
         sentCoinsCount: data.sentCoins.count,
         sentJalapenosCount: data.sentJalapenos.count,
+        loverRelationshipScore: data.lover.relationshipScore.score,
       });
       return data;
     }

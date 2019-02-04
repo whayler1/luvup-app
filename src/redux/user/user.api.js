@@ -137,6 +137,9 @@ const userApi = {
     jalapenos(limit: 0) { count }
     sentCoins(limit: 0) { count }
     sentJalapenos(limit: 0) { count }
+    lover {
+      relationshipScore { score }
+    }
   }`),
 };
 
