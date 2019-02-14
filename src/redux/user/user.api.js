@@ -140,6 +140,7 @@ const userApi = {
     lover {
       relationshipScore { score }
     }
+    relationshipScores(limit: 1) { rows { score } }
   }`),
 };
 

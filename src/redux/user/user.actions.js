@@ -274,6 +274,8 @@ export const getTimelineData = limit => async dispatch => {
 
     const rows = _.get(data, 'userEvents.rows');
 
+    console.log('\n\n data.relationshipScores', data.relationshipScores);
+
     if (_.isArray(rows)) {
       dispatch({
         type: GET_TIMELINE_DATA_SUCCESS,
@@ -290,6 +292,7 @@ export const getTimelineData = limit => async dispatch => {
         sentCoinsCount: data.sentCoins.count,
         sentJalapenosCount: data.sentJalapenos.count,
         loverRelationshipScore: data.lover.relationshipScore.score,
+        relationshipScores: data.relationshipScores,
       });
       return data;
     }

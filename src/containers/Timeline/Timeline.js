@@ -82,13 +82,16 @@ class Timeline extends Component {
     this.state = {
       prevMostRecentUserEvent: undefined,
       sections: [],
+      isAfterFirstLoad: false,
       isSectionsLoaded: false,
       page: 0,
       isModalVisible: false,
       isAtEndOfList: false,
     };
 
-    props.getTimelineData(userEventsLimit);
+    props.getTimelineData(userEventsLimit).then(() => {
+      this.setState({ isAfterFirstLoad: true });
+    });
   }
 
   closeModal = () => this.setState({ isModalVisible: false });

@@ -11,7 +11,10 @@ import {
   GET_RELATIONSHIP_SCORES_BY_DAY_SUCCESS,
   GET_RELATIONSHIP_SCORES_BY_DAY_FAILURE,
 } from './relationshipScore.actions';
-import { GET_ME_SUCCESS } from '../user/user.actions';
+import {
+  GET_ME_SUCCESS,
+  GET_TIMELINE_DATA_SUCCESS,
+} from '../user/user.actions';
 
 const defaultState = {
   id: '',
@@ -109,10 +112,17 @@ export default function reducer(state = defaultState, action) {
         isGettingRelationshipScoresByDay: false,
         getRelationshipScoresByDay: action.error,
       };
-    case GET_ME_SUCCESS:
+    case GET_ME_SUCCESS: {
+      const score = _.get(action, 'data.relationshipScores.rows[0].score');
       return {
         ...state,
-        score: _.get(action, 'data.relationshipScores.rows[0].score'),
+        score,
+      };
+    }
+    case GET_TIMELINE_DATA_SUCCESS:
+      return {
+        ...state,
+        score: _.get(action, 'relationshipScores.rows[0].score'),
       };
     default:
       return state;

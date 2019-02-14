@@ -27,6 +27,7 @@ export default ({
   sentJalapenosCount,
   goBack,
   sections,
+  isAfterFirstLoad,
   isSectionsLoaded,
   userInitials,
   loverInitials,
@@ -52,7 +53,10 @@ export default ({
           <RefreshControl
             style={styles.refreshControl}
             enabled={!isGetUserEventsInFlight && !isGetTimelineDataInFlight}
-            refreshing={isGetUserEventsInFlight || isGetTimelineDataInFlight}
+            refreshing={
+              isAfterFirstLoad &&
+              (isGetUserEventsInFlight || isGetTimelineDataInFlight)
+            }
             onRefresh={onRefresh}
             tintColor="white"
           />
