@@ -7,15 +7,19 @@ import _ from 'lodash';
 
 import analytics from '../../services/analytics';
 import {
+  addOnActiveListener,
+  removeOnActiveListener,
+} from '../../services/appStateListener';
+import {
   getUserEvents as getUserEventsAction,
   clearUserEvents as clearUserEventsAction,
 } from '../../redux/userEvents/userEvents.actions';
 import { getTimelineData as getTimelineDataAction } from '../../redux/user/user.actions';
-
 import Template from './Timeline.template';
 
 const userEventsLimit = 100;
 const format = 'ddd, MMM DD, YYYY';
+const APP_STATE_LISTENER_ID = 'timeline';
 
 const getSections = userEvents => {
   let currentCreatedDate;
@@ -92,6 +96,8 @@ class Timeline extends Component {
     props.getTimelineData(userEventsLimit).then(() => {
       this.setState({ isAfterFirstLoad: true });
     });
+
+    addOnActiveListener(APP_STATE_LISTENER_ID, this.handleAppFocusActive);
   }
 
   closeModal = () => this.setState({ isModalVisible: false });
@@ -104,13 +110,23 @@ class Timeline extends Component {
     );
   };
 
+  handleAppFocusActive = () => {
+    if (!this.props.isGetTimelineDataInFlight) {
+      this.setState({ isAfterFirstLoad: false }, () => {
+        this.props.getTimelineData(userEventsLimit).then(() => {
+          this.setState({ isAfterFirstLoad: true });
+        });
+      });
+    }
+  };
+
   handleRefresh = () => {
     if (!this.props.isGetTimelineDataInFlight) {
       this.props.getTimelineData(userEventsLimit);
     }
   };
 
-  ohandleEndReached = _.throttle(() => {
+  handleEndReached = _.throttle(() => {
     /**
      * - do not do anything if sections havent loaded yet.
      * - do not do anything if # items loaded is equal to or more then count
@@ -182,6 +198,12 @@ class Timeline extends Component {
       this.setSections(nextProps.userEvents);
     }
   }
+
+  /* eslint-disable class-methods-use-this */
+  componentWillUnmount() {
+    removeOnActiveListener(APP_STATE_LISTENER_ID);
+  }
+  /* eslint-enable class-methods-use-this */
 
   render() {
     return (

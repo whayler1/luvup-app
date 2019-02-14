@@ -52,7 +52,11 @@ export default ({
         refreshControl={
           <RefreshControl
             style={styles.refreshControl}
-            enabled={!isGetUserEventsInFlight && !isGetTimelineDataInFlight}
+            enabled={
+              isAfterFirstLoad &&
+              !isGetUserEventsInFlight &&
+              !isGetTimelineDataInFlight
+            }
             refreshing={
               isAfterFirstLoad &&
               (isGetUserEventsInFlight || isGetTimelineDataInFlight)
