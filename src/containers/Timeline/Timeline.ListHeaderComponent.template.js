@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Group, Surface } from 'ReactNativeART';
 import Color from 'color';
+import _ from 'lodash';
 
 import Circle from '../../components/Circle';
 import { vars } from '../../styles';
@@ -57,20 +58,31 @@ export default ({
   jalapenoCount,
   sentCoinsCount,
   sentJalapenosCount,
-}) => (
-  <View style={styles.listHeaderContainer}>
-    {leaderboardSlot({
-      relationshipScore: userRelationshipScore,
-      initials: userInitials,
-      coinCount,
-      jalapenoCount,
-    })}
-    {leaderboardSlot({
-      relationshipScore: loverRelationshipScore,
-      initials: loverInitials,
-      coinCount: sentCoinsCount,
-      jalapenoCount: sentJalapenosCount,
-      isSecond: true,
-    })}
-  </View>
-);
+}) => {
+  if (
+    !_.isNumber(coinCount) ||
+    !_.isNumber(jalapenoCount) ||
+    !_.isNumber(sentCoinsCount) ||
+    !_.isNumber(sentJalapenosCount)
+  ) {
+    return false;
+  }
+
+  return (
+    <View style={styles.listHeaderContainer}>
+      {leaderboardSlot({
+        relationshipScore: userRelationshipScore,
+        initials: userInitials,
+        coinCount,
+        jalapenoCount,
+      })}
+      {leaderboardSlot({
+        relationshipScore: loverRelationshipScore,
+        initials: loverInitials,
+        coinCount: sentCoinsCount,
+        jalapenoCount: sentJalapenosCount,
+        isSecond: true,
+      })}
+    </View>
+  );
+};

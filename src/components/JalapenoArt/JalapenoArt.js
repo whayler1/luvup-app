@@ -1,9 +1,11 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { Svg, Path } from 'react-native-svg';
+import { Svg } from 'expo';
 import _ from 'lodash';
 
 import { vars } from '../../styles';
+
+const { Path } = Svg;
 
 export default ({ recentlySentJalapenoCount, fill, scale = 1 }) => (
   <View>
@@ -18,10 +20,10 @@ export default ({ recentlySentJalapenoCount, fill, scale = 1 }) => (
       <Text
         style={{
           position: 'absolute',
-          top: 6,
+          top: 6 * scale,
           right: 0,
           fontFamily: vars.fontBlack,
-          fontSize: 26,
+          fontSize: 26 * scale,
           color: fill || vars.jalapeno,
         }}>
         +{recentlySentJalapenoCount}

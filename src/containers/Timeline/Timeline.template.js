@@ -46,9 +46,11 @@ export default ({
     </View>
     <View style={styles.sectionListWrapper}>
       <SectionList
+        endFillColor="white"
         style={styles.sectionList}
         refreshControl={
           <RefreshControl
+            style={styles.refreshControl}
             enabled={!isGetUserEventsInFlight && !isGetTimelineDataInFlight}
             refreshing={isGetUserEventsInFlight || isGetTimelineDataInFlight}
             onRefresh={onRefresh}
@@ -77,6 +79,7 @@ export default ({
         }
         ListFooterComponent={
           <ListFooterComponent
+            isPresent={sections.length > 0}
             isPreloaderVisible={isGetUserEventsInFlight && isSectionsLoaded}
           />
         }

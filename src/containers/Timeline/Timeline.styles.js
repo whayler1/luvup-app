@@ -10,7 +10,6 @@ const renderItemContainer = {
   flexDirection: 'row',
   justifyContent: 'space-between',
   alignItems: 'center',
-  backgroundColor: 'white',
 };
 const renderItemContainerLast = { ...renderItemContainer, paddingBottom: 24 };
 const leaderboardSlot = {
@@ -25,19 +24,17 @@ export default new StyleSheet.create({
   wrapper: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: vars.razzleDazzleRose,
   },
-  sectionList: {
-    alignSelf: 'stretch',
-  },
+  sectionList: {},
   listHeaderContainer: {
     paddingBottom: 24,
     backgroundColor: vars.razzleDazzleRose,
   },
   listFooterContainer: {
+    flex: 1,
+    alignSelf: 'stretch',
     paddingBottom: 16,
     paddingTop: 16,
-    backgroundColor: 'white',
   },
   leaderboardSlot,
   leaderboardSlotSecond,
@@ -55,16 +52,13 @@ export default new StyleSheet.create({
     borderBottomColor: vars.blueGrey100,
     borderBottomWidth: 1,
     alignSelf: 'stretch',
-    backgroundColor: 'white',
   },
   sectionHeaderText: {
     color: vars.blueGrey800,
     fontSize: 20,
     fontFamily: vars.fontBlack,
   },
-  renderItemWrapper: {
-    backgroundColor: 'white',
-  },
+  renderItemWrapper: {},
   renderItemContainer,
   renderItemContainerLast,
   renderItemContent: {
@@ -143,6 +137,7 @@ export default new StyleSheet.create({
     height: 30,
   },
   sectionListWrapper: {
+    flex: 1,
     paddingTop: 83,
     alignSelf: 'stretch',
   },
@@ -155,9 +150,12 @@ export default new StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 32,
     alignSelf: 'stretch',
-    backgroundColor: 'white',
   },
-  listItemEmptyText: { fontSize: 25, textAlign: 'center' },
+  listItemEmptyText: {
+    fontSize: 25,
+    textAlign: 'center',
+    color: vars.blueGrey300,
+  },
   leaderboardSlotUserWrapper: {
     width: 44,
     height: 44,
@@ -180,7 +178,6 @@ export default new StyleSheet.create({
   leaderboardSlotScoreWrapper: {
     marginRight: 4,
     width: 50,
-    // backgroundColor: 'rgba(100,200,50,0.5)',
   },
   leaderboardSlotScore: {
     color: 'white',
@@ -188,4 +185,7 @@ export default new StyleSheet.create({
     fontSize: 20,
   },
   leaderboardSlotJalapenoArtWrapper: { marginLeft: 8 },
+  refreshControl: {
+    backgroundColor: vars.razzleDazzleRose,
+  },
 });
