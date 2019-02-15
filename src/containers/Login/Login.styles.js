@@ -31,6 +31,9 @@ const styles = StyleSheet.create({
     flex: 0.5,
     paddingLeft: 8,
   },
+  forgotPasswordButton: {
+    marginTop: 12,
+  },
   forgotPasswordText: {
     textAlign: 'right',
     fontFamily: vars.fontRegular,

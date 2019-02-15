@@ -10,6 +10,12 @@ const userApi = {
       username: usernameOrEmail,
       password,
     }),
+  sendNewPassword: email =>
+    superagent.post(config.graphQlUrl, {
+      query: `mutation {
+        sendNewPassword(email: "${email}") { success }
+      }`,
+    }),
   reauth: id_token => superagent.post(`${config.baseUrl}/reauth`, { id_token }),
   getMe: () =>
     superagent.post(config.graphQlUrl, {

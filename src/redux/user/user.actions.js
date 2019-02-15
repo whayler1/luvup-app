@@ -34,6 +34,9 @@ export const SET_USER = 'user/set-user';
 export const LOGIN = 'user/login';
 export const LOGOUT = 'user/logout';
 export const REAUTH = 'user/reauth';
+export const SEND_NEW_PASSWORD_ATTEMPT = 'user/send-new-password-attempt';
+export const SEND_NEW_PASSWORD_SUCCESS = 'user/send-new-password-success';
+export const SEND_NEW_PASSWORD_FAILURE = 'user/send-new-password-failure';
 export const USER_REQUEST_ATTEMPT = 'user/user-attempt';
 export const USER_REQUEST_SUCCESS = 'user/user-success';
 export const USER_REQUEST_FAILURE = 'user/user-failure';
@@ -94,6 +97,28 @@ export const reauth = id_token => async dispatch => {
     return res.body;
   } catch (err) {
     return err;
+  }
+};
+
+export const sendNewPassword = email => async dispatch => {
+  dispatch({ type: SEND_NEW_PASSWORD_ATTEMPT });
+  const defaultError = 'Error sending new password';
+  try {
+    const { body } = await userApi.sendNewPassword(email);
+
+    if (body.errors) {
+      return dispatch({
+        type: SEND_NEW_PASSWORD_FAILURE,
+        errorMessage: _.get(body, 'errors[0].message', defaultError),
+      });
+    }
+
+    return dispatch({ type: SEND_NEW_PASSWORD_SUCCESS });
+  } catch (error) {
+    return dispatch({
+      type: SEND_NEW_PASSWORD_FAILURE,
+      errorMessage: _.get(error, 'message', defaultError),
+    });
   }
 };
 

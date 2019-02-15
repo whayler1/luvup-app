@@ -4,6 +4,9 @@ import {
   LOGIN,
   LOGOUT,
   REAUTH,
+  SEND_NEW_PASSWORD_ATTEMPT,
+  SEND_NEW_PASSWORD_SUCCESS,
+  SEND_NEW_PASSWORD_FAILURE,
   USER_REQUEST_ATTEMPT,
   USER_REQUEST_SUCCESS,
   USER_REQUEST_FAILURE,
@@ -24,6 +27,8 @@ const defaultState = {
   firstName: '',
   lastName: '',
   code: '',
+  isSendNewPasswordInFlight: false,
+  sendNewPasswordError: '',
   isUserRequestInFlight: false,
   userRequestError: '',
   isGetTimelineDataInFlight: false,
@@ -51,6 +56,23 @@ export default function reducer(state = defaultState, action) {
     case LOGOUT:
       appStateListener.stop();
       return { ...defaultState };
+    case SEND_NEW_PASSWORD_ATTEMPT:
+      return {
+        ...state,
+        isSendNewPasswordInFlight: true,
+        sendNewPasswordError: '',
+      };
+    case SEND_NEW_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        isSendNewPasswordInFlight: false,
+      };
+    case SEND_NEW_PASSWORD_FAILURE:
+      return {
+        ...state,
+        isSendNewPasswordInFlight: false,
+        sendNewPasswordError: action.errorMessage,
+      };
     case USER_REQUEST_ATTEMPT:
       return {
         ...state,

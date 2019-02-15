@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
-import superagent from 'superagent';
 import { Actions } from 'react-native-router-flux';
 
-import config from '../../config.js';
 import {
   userLoginRouteSwitch,
   registerForPushNotifications,
@@ -34,11 +31,11 @@ class Login extends Component {
     focus: '',
   };
 
-  onUsernameFocus = () => this.setState({ focus: 'username' });
-  onPasswordFocus = () => this.setState({ focus: 'password' });
-  onUsernameChange = username => this.setState({ username });
-  onPasswordChange = password => this.setState({ password });
-  onBlur = () => this.setState({ focus: '' });
+  handleUsernameFocus = () => this.setState({ focus: 'username' });
+  handlePasswordFocus = () => this.setState({ focus: 'password' });
+  handleUsernameChange = username => this.setState({ username });
+  handlePasswordChange = password => this.setState({ password });
+  handleBlur = () => this.setState({ focus: '' });
 
   getValidationError = () => {
     const { username, password } = this.state;
@@ -53,6 +50,7 @@ class Login extends Component {
 
   navigateToSignUp = () => Actions.signup();
   navigateToSignUpConfirm = () => Actions.confirmUserRequestCode();
+  navigateToForgotPassword = () => Actions.forgotPassword();
 
   submit = async () => {
     const { username, password } = this.state;
@@ -69,7 +67,7 @@ class Login extends Component {
     }
   };
 
-  onSubmit = () => {
+  handleSubmit = () => {
     const errorStr = this.getValidationError();
     this.setState({ error: errorStr });
     if (errorStr) {
@@ -84,12 +82,13 @@ class Login extends Component {
         {...this.state}
         navigateToSignUpConfirm={this.navigateToSignUpConfirm}
         navigateToSignUp={this.navigateToSignUp}
-        onSubmit={this.onSubmit}
-        onUsernameFocus={this.onUsernameFocus}
-        onPasswordFocus={this.onPasswordFocus}
-        onUsernameChange={this.onUsernameChange}
-        onPasswordChange={this.onPasswordChange}
-        onBlur={this.onBlur}
+        navigateToForgotPassword={this.navigateToForgotPassword}
+        onSubmit={this.handleSubmit}
+        onUsernameFocus={this.handleUsernameFocus}
+        onPasswordFocus={this.handlePasswordFocus}
+        onUsernameChange={this.handleUsernameChange}
+        onPasswordChange={this.handlePasswordChange}
+        onBlur={this.handleBlur}
         getMeErrorMessage={this.props.getMeErrorMessage}
       />
     );

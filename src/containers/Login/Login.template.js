@@ -14,6 +14,7 @@ import { scene, forms, buttons, modal, wells, vars } from '../../styles';
 export default ({
   navigateToSignUpConfirm,
   navigateToSignUp,
+  navigateToForgotPassword,
   onSubmit,
   onUsernameFocus,
   onPasswordFocus,
@@ -114,7 +115,9 @@ export default ({
           </View>
         </View>
         <View>
-          <TouchableOpacity style={{ marginTop: 12 }}>
+          <TouchableOpacity
+            onPress={navigateToForgotPassword}
+            style={styles.forgotPasswordButton}>
             <Text style={styles.forgotPasswordText}>Forgot your password?</Text>
           </TouchableOpacity>
         </View>
