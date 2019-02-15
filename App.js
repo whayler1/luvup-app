@@ -38,6 +38,7 @@ import CreateQuizReward from './src/containers/CreateQuizReward';
 import CreateQuizReview from './src/containers/CreateQuizReview';
 import ViewQuiz from './src/containers/ViewQuiz';
 import ForgotPassword from './src/containers/ForgotPassword';
+import ResetPasswordWithGeneratedPassword from './src/containers/ResetPasswordWithGeneratedPassword';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -91,6 +92,12 @@ const App = () => (
             component={ForgotPassword}
             title="Forgot Password"
             {...getDefaultNavBar()}
+          />
+          <Scene
+            key="resetPasswordWithGeneratedPassword"
+            component={ResetPasswordWithGeneratedPassword}
+            title="Reset Password"
+            hideNavBar
           />
           <Scene
             key="signup"

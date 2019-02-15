@@ -16,6 +16,15 @@ const userApi = {
         sendNewPassword(email: "${email}") { success }
       }`,
     }),
+  resetPasswordWithGeneratedPassword: (generatedPassword, newPassword) =>
+    superagent.post(config.graphQlUrl, {
+      query: `mutation {
+        resetPasswordWithGeneratedPassword(
+          generatedPassword: "${generatedPassword}"
+          newPassword: "${newPassword}"
+        ) { success }
+      }`,
+    }),
   reauth: id_token => superagent.post(`${config.baseUrl}/reauth`, { id_token }),
   getMe: () =>
     superagent.post(config.graphQlUrl, {

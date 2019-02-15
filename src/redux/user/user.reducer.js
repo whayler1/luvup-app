@@ -7,6 +7,9 @@ import {
   SEND_NEW_PASSWORD_ATTEMPT,
   SEND_NEW_PASSWORD_SUCCESS,
   SEND_NEW_PASSWORD_FAILURE,
+  RESET_PASSWORD_WITH_GENERATED_PASSWORD_ATTEMPT,
+  RESET_PASSWORD_WITH_GENERATED_PASSWORD_SUCCESS,
+  RESET_PASSWORD_WITH_GENERATED_PASSWORD_FAILURE,
   USER_REQUEST_ATTEMPT,
   USER_REQUEST_SUCCESS,
   USER_REQUEST_FAILURE,
@@ -29,12 +32,15 @@ const defaultState = {
   code: '',
   isSendNewPasswordInFlight: false,
   sendNewPasswordError: '',
+  isResetPasswordWithGeneratedPasswordInFlight: false,
+  resetPasswordWithGeneratedPasswordError: '',
   isUserRequestInFlight: false,
   userRequestError: '',
   isGetTimelineDataInFlight: false,
   fetTimelineDataError: '',
   isGetMeInFlight: false,
   getMeErrorMessage: '',
+  isReset: false,
 };
 
 const userAttribs = ['id', 'email', 'username', 'firstName', 'lastName'];
@@ -47,6 +53,7 @@ export default function reducer(state = defaultState, action) {
       return {
         ...state,
         ..._.pick(action, userAttribs),
+        isReset: action.isReset || false,
       };
     case SET_USER:
       return {
@@ -72,6 +79,23 @@ export default function reducer(state = defaultState, action) {
         ...state,
         isSendNewPasswordInFlight: false,
         sendNewPasswordError: action.errorMessage,
+      };
+    case RESET_PASSWORD_WITH_GENERATED_PASSWORD_ATTEMPT:
+      return {
+        ...state,
+        isResetPasswordWithGeneratedPasswordInFlight: true,
+        resetPasswordWithGeneratedPasswordError: '',
+      };
+    case RESET_PASSWORD_WITH_GENERATED_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        isResetPasswordWithGeneratedPasswordInFlight: false,
+      };
+    case RESET_PASSWORD_WITH_GENERATED_PASSWORD_FAILURE:
+      return {
+        ...state,
+        isResetPasswordWithGeneratedPasswordInFlight: false,
+        resetPasswordWithGeneratedPasswordError: action.errorMessage,
       };
     case USER_REQUEST_ATTEMPT:
       return {
