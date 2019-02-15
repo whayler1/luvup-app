@@ -9,6 +9,7 @@ class ForgotPasswordForm extends PureComponent {
   static propTypes = {
     isSendNewPasswordInFlight: PropTypes.bool.isRequired,
     sendNewPasswordError: PropTypes.string.isRequired,
+    validationError: PropTypes.string.isRequired,
     onSubmit: PropTypes.func.isRequired,
     onEmailChange: PropTypes.func.isRequired,
     email: PropTypes.string.isRequired,
@@ -35,6 +36,7 @@ class ForgotPasswordForm extends PureComponent {
       props: {
         isSendNewPasswordInFlight,
         sendNewPasswordError,
+        validationError,
         onSubmit,
         onEmailChange,
         email,
@@ -62,8 +64,13 @@ class ForgotPasswordForm extends PureComponent {
             returnKeyType="go"
             onSubmitEditing={onSubmit}
           />
-          {sendNewPasswordError.length > 0 && (
-            <Text style={forms.error}>{sendNewPasswordError}</Text>
+          {[sendNewPasswordError, validationError].map(
+            (error, i) =>
+              error.length > 0 && (
+                <Text key={i} style={forms.error}>
+                  {error}
+                </Text>
+              )
           )}
         </View>
         <View style={forms.formGroup}>

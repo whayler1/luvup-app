@@ -8,6 +8,7 @@ import { Button } from 'react-native-elements';
 import styles from './ForgotPassword.styles';
 import { modal, scene, buttons, forms } from '../../styles';
 import { sendNewPassword as sendNewPasswordAction } from '../../redux/user/user.actions';
+import { emailRegex } from '../../helpers';
 import ForgotPasswordForm from './ForgotPasswordForm';
 
 class ForgotPassword extends PureComponent {
@@ -23,6 +24,7 @@ class ForgotPassword extends PureComponent {
     this.state = {
       email: '',
       isSuccess: false,
+      validationError: '',
     };
   }
 
@@ -43,11 +45,24 @@ class ForgotPassword extends PureComponent {
   };
 
   handleSubmit = () => {
+    if (!this.validate()) {
+      return;
+    }
     this.props.sendNewPassword(this.state.email);
   };
 
   handleGoToLogin = () => {
     Actions.login();
+  };
+
+  validate = () => {
+    const { email } = this.state;
+    if (!emailRegex.test(email)) {
+      this.setState({ validationError: 'Please provide a valid email' });
+      return false;
+    }
+    this.setState({ validationError: '' });
+    return true;
   };
 
   render() {
@@ -58,8 +73,9 @@ class ForgotPassword extends PureComponent {
             <Text style={modal.title}>Password Reset Email Sent</Text>
             <Text style={[modal.copy, styles.copy]}>
               An email with a temporary password has been sent to{' '}
-              {this.state.email}. After you log in with your new password you
-              will be prompted to change it to a password of your liking.
+              <Text style={styles.copyBold}>{this.state.email}</Text>. After you
+              log in with your new password you will be prompted to change it to
+              a password of your liking.
             </Text>
             <View style={forms.formGroup}>
               <Button
@@ -80,7 +96,7 @@ class ForgotPassword extends PureComponent {
         sendNewPasswordError,
         sendNewPassword,
       },
-      state: { email },
+      state: { email, validationError },
       handleEmailChange,
       handleSubmit,
     } = this;
@@ -95,6 +111,7 @@ class ForgotPassword extends PureComponent {
           <ForgotPasswordForm
             isSendNewPasswordInFlight={isSendNewPasswordInFlight}
             sendNewPasswordError={sendNewPasswordError}
+            validationError={validationError}
             sendNewPassword={sendNewPassword}
             email={email}
             onEmailChange={handleEmailChange}
