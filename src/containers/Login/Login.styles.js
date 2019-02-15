@@ -1,14 +1,8 @@
 import { StyleSheet } from 'react-native';
 
-const elWidth = 200;
+import { vars } from '../../styles';
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'transparent',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   title: {
     fontSize: 30,
   },
@@ -18,25 +12,31 @@ const styles = StyleSheet.create({
   error: {
     color: 'red',
   },
-  input: {
-    height: 40,
-    width: elWidth,
-    borderColor: 'gray',
-    borderWidth: 1,
-    marginTop: 10,
-  },
-  submitButton: {
-    backgroundColor: 'lightblue',
-    borderRadius: 2,
-    marginTop: 30,
-  },
   submitText: {
     textAlign: 'center',
   },
   submitContainer: {
-    width: elWidth,
+    flex: 1,
   },
   wellError: { marginTop: 32, marginBottom: 0 },
+  noAccountTextContainer: {
+    marginTop: 32,
+  },
+  noAccountButtonRow: { marginTop: 16 },
+  confirmCodeWrapper: {
+    flex: 0.5,
+    paddingRight: 8,
+  },
+  signUpWrapper: {
+    flex: 0.5,
+    paddingLeft: 8,
+  },
+  forgotPasswordText: {
+    textAlign: 'right',
+    fontFamily: vars.fontRegular,
+    fontSize: 18,
+    color: vars.blueGrey500,
+  },
 });
 
 export default styles;

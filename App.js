@@ -84,13 +84,7 @@ const App = () => (
       <Lightbox>
         <Stack key="root">
           <Scene key="init" component={Root} title="Root" hideNavBar init />
-          <Scene
-            key="login"
-            component={Login}
-            title="Login"
-            renderLeftButton={() => <View />}
-            {...sceneDefaults}
-          />
+          <Scene key="login" component={Login} title="Login" hideNavBar />
           <Scene
             key="signup"
             component={SignUp}
