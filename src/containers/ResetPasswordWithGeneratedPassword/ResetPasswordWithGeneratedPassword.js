@@ -2,10 +2,11 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { View, ScrollView, Text, TextInput } from 'react-native';
 import { connect } from 'react-redux';
+import { Button } from 'react-native-elements';
 
 import { resetPasswordWithGeneratedPassword as resetPasswordWithGeneratedPasswordAction } from '../../redux/user/user.actions';
 // import styles from './ResetPasswordWithGeneratedPassword.styles';
-import { vars, forms, scene, modal } from '../../styles';
+import { vars, forms, scene, modal, buttons } from '../../styles';
 import { passwordRegex } from '../../helpers';
 
 class ResetPasswordWithGeneratedPassword extends PureComponent {
@@ -48,12 +49,13 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
     };
     let isValid = true;
 
-    if (!passwordRegex.test(newPassword)) {
-      nextState.newPasswordError = 'Please provide a valid password';
+    if (newPassword.length < 8) {
+      nextState.newPasswordError = 'Password must be at least 8 characters';
       isValid = false;
-    }
-
-    if (newPassword !== newPasswordAgain) {
+    } else if (!passwordRegex.test(newPassword)) {
+      nextState.newPasswordError = 'Please can not contain white space';
+      isValid = false;
+    } else if (newPassword !== newPasswordAgain) {
       nextState.newPasswordAgainError = 'Passwords do not match';
       isValid = false;
     }
@@ -99,7 +101,13 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
         isResetPasswordWithGeneratedPasswordInFlight,
         resetPasswordWithGeneratedPasswordError,
       },
-      state: { focusInput, newPassword, newPasswordAgain },
+      state: {
+        focusInput,
+        newPassword,
+        newPasswordAgain,
+        newPasswordError,
+        newPasswordAgainError,
+      },
       handleNewPasswordFocus,
       handleNewPasswordBlur,
       handleNewPasswordChange,
@@ -111,7 +119,7 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
       setNewPasswordAgainEl,
     } = this;
     return (
-      <ScrollView style={scene.contentNoTop}>
+      <ScrollView style={scene.content}>
         <Text style={modal.title}>Create a New Password</Text>
         <View style={forms.formGroup}>
           <Text style={forms.label}>New Password</Text>
@@ -132,6 +140,9 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
             returnKeyType="next"
             onSubmitEditing={focusNewPasswordAgain}
           />
+          {newPasswordError.length > 0 && (
+            <Text style={forms.error}>{newPasswordError}</Text>
+          )}
         </View>
         <View style={forms.formGroup}>
           <Text style={forms.label}>Re-Enter New Password</Text>
@@ -155,6 +166,28 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
             returnKeyType="go"
             onSubmitEditing={handleSubmit}
           />
+          {newPasswordAgainError.length > 0 && (
+            <Text style={forms.error}>{newPasswordAgainError}</Text>
+          )}
+        </View>
+        <View style={forms.formGroup}>
+          <Button
+            onPress={handleSubmit}
+            containerViewStyle={buttons.container}
+            buttonStyle={buttons.infoButton}
+            textStyle={buttons.infoText}
+            title={
+              isResetPasswordWithGeneratedPasswordInFlight
+                ? 'Submitting…'
+                : 'Submit'
+            }
+            disabled={isResetPasswordWithGeneratedPasswordInFlight}
+          />
+          {resetPasswordWithGeneratedPasswordError.length > 0 && (
+            <Text style={forms.error}>
+              {resetPasswordWithGeneratedPasswordError}
+            </Text>
+          )}
         </View>
       </ScrollView>
     );
