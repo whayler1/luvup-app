@@ -16,6 +16,7 @@ import {
 class Login extends Component {
   static propTypes = {
     userId: PropTypes.string,
+    isReset: PropTypes.bool.isRequired,
     login: PropTypes.func.isRequired,
     getMe: PropTypes.func.isRequired,
     getMeErrorMessage: PropTypes.string.isRequired,
@@ -54,9 +55,11 @@ class Login extends Component {
 
   submit = async () => {
     const { username, password } = this.state;
-    const loginres = await this.props.login(username, password);
+    await this.props.login(username, password);
 
-    if (this.props.userId) {
+    if (this.props.isReset) {
+      Actions.resetPasswordWithGeneratedPassword(password);
+    } else if (this.props.userId) {
       registerForPushNotifications();
       userLoginRouteSwitch();
     } else {
@@ -98,6 +101,7 @@ class Login extends Component {
 export default connect(
   state => ({
     userId: state.user.id,
+    isReset: state.user.isReset,
     relationshipId: state.relationship.id,
     loverRequestId: state.loverRequest.id,
     getMeErrorMessage: state.user.getMeErrorMessage,

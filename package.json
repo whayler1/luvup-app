@@ -39,7 +39,6 @@
     "expo-detox-hook": "^1.0.10",
     "isomorphic-fetch": "^2.2.1",
     "jest-expo": "^31.0.0",
-    "mocha": "^5.2.0",
     "moniker": "^0.1.2",
     "prettier": "^1.15.3",
     "react-devtools": "^3.2.3",
@@ -85,6 +84,7 @@
     "@expo/vector-icons": "^8.0.0",
     "analytics-react-native": "^1.2.0",
     "art": "^0.10.3",
+    "babel-polyfill": "^6.26.0",
     "bezier-easing": "^2.1.0",
     "color": "^3.0.0",
     "date-fns": "^1.29.0",
@@ -119,7 +119,7 @@
         "name": "iPhone 7"
       }
     },
-    "specs": "e2e",
-    "test-runner": "jest"
+    "test-runner": "jest",
+    "runner-config": "e2e/config.json"
   }
 }

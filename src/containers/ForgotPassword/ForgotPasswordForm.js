@@ -49,6 +49,7 @@ class ForgotPasswordForm extends PureComponent {
         <View style={forms.formGroup}>
           <Text style={forms.label}>Email</Text>
           <TextInput
+            testID="forgot-password-email-input"
             style={[forms.input, isFocus && forms.inputFocus]}
             onFocus={this.handleFocus}
             onBlur={this.handleBlur}
@@ -75,6 +76,7 @@ class ForgotPasswordForm extends PureComponent {
         </View>
         <View style={forms.formGroup}>
           <Button
+            testID="forgot-password-submit"
             onPress={onSubmit}
             containerViewStyle={buttons.container}
             buttonStyle={buttons.infoButton}

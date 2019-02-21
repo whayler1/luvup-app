@@ -3,8 +3,6 @@ const { reloadApp } = require('detox-expo-helpers');
 const uuidv1 = require('uuid/v1');
 const Moniker = require('moniker');
 
-const { login } = require('./helpers');
-
 // TODO: test sign up page properly handles new signup error shape
 // res.errors[0].message
 

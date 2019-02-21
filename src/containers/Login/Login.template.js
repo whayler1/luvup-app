@@ -116,6 +116,7 @@ export default ({
         </View>
         <View>
           <TouchableOpacity
+            accessibilityLabel="Forgot your password"
             onPress={navigateToForgotPassword}
             style={styles.forgotPasswordButton}>
             <Text style={styles.forgotPasswordText}>Forgot your password?</Text>

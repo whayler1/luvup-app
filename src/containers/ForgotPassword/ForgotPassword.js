@@ -79,6 +79,7 @@ class ForgotPassword extends PureComponent {
             </Text>
             <View style={forms.formGroup}>
               <Button
+                testID="forgot-password-login-button"
                 onPress={this.handleGoToLogin}
                 containerViewStyle={buttons.container}
                 buttonStyle={buttons.infoSkeletonButton}
