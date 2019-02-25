@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { PanResponder, Animated, Easing } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -14,9 +13,7 @@ import {
   getJalapenoCount as getJalapenoCountAction,
   setUnviewedJalapenoCount as setUnviewedJalapenoCountAction,
 } from '../../redux/jalapeno/jalapeno.actions';
-import { onNotificationReceived } from '../../services/notifications';
 
-import config from '../../config.js';
 import Template from './Dashboard.template';
 
 class Dashboard extends Component {

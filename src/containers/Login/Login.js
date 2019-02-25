@@ -58,7 +58,9 @@ class Login extends Component {
     await this.props.login(username, password);
 
     if (this.props.isReset) {
-      Actions.resetPasswordWithGeneratedPassword(password);
+      Actions.resetPasswordWithGeneratedPassword({
+        generatedPassword: password,
+      });
     } else if (this.props.userId) {
       registerForPushNotifications();
       userLoginRouteSwitch();
