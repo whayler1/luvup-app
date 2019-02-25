@@ -1,6 +1,8 @@
 import { Permissions, Notifications } from 'expo';
 import superagent from 'superagent';
+/* eslint-disable react-native/split-platform-components */
 import { AsyncStorage, AlertIOS } from 'react-native';
+/* eslint-enable react-native/split-platform-components */
 
 import config from '../config';
 

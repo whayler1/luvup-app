@@ -33,7 +33,6 @@ export const generateUser = async () => {
     '012345',
     password
   );
-  // console.log('confirmUserRes', confirmUserRes.body.data.confirmUser.user);
 
   return {
     id,
@@ -45,15 +44,19 @@ export const generateUser = async () => {
   };
 };
 
+const authId = async user => {
+  const {
+    body: { id_token },
+  } = await userApi.login(user.email, user.password);
+  return id_token;
+};
+
 export const generateRelationship = async () => {
   const promises = times(2, () => generateUser());
   const [user, lover] = await Promise.all(promises);
 
-  const {
-    body: { id_token },
-  } = await userApi.login(user.email, user.password);
-  const loverLoginRes = await userApi.login(lover.email, lover.password);
-  const loverIdToken = loverLoginRes.body.id_token;
+  const id_token = await authId(user);
+  const loverIdToken = authId(lover);
 
   const {
     body: {
