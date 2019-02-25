@@ -3,7 +3,7 @@ import { generateUser } from './helpers';
 
 // const LONG_TIMEOUT = 6000;
 
-describe.only('password reset', () => {
+describe.only('forgotten password', () => {
   let user;
 
   beforeEach(async () => {
@@ -16,7 +16,7 @@ describe.only('password reset', () => {
     user = await generateUser();
   });
 
-  it('happy path', async () => {
+  it('should be able to log in through forgotten password ux', async () => {
     const forgotPasswordEl = element(by.label('Forgot your password'));
     const forgotPasswordEmailEl = element(by.id('forgot-password-email-input'));
     const forgotPasswordSubmit = element(by.id('forgot-password-submit'));
