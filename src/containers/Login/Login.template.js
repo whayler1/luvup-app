@@ -5,6 +5,7 @@ import {
   TextInput,
   KeyboardAvoidingView,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import styles from './Login.styles';
@@ -13,6 +14,7 @@ import { scene, forms, buttons, modal, wells, vars } from '../../styles';
 export default ({
   navigateToSignUpConfirm,
   navigateToSignUp,
+  navigateToForgotPassword,
   onSubmit,
   onUsernameFocus,
   onPasswordFocus,
@@ -35,12 +37,7 @@ export default ({
 
   return (
     <KeyboardAvoidingView
-      contentContainerStyle={[
-        scene.container,
-        {
-          alignSelf: 'stretch',
-        },
-      ]}
+      contentContainerStyle={scene.container}
       style={scene.container}
       keyboardVerticalOffset={32}
       behavior="padding">
@@ -105,10 +102,7 @@ export default ({
           </View>
         )}
         <View style={forms.buttonRow}>
-          <View
-            style={{
-              flex: 1,
-            }}>
+          <View style={styles.submitContainer}>
             <Button
               onPress={onSubmit}
               containerViewStyle={buttons.container}
@@ -120,18 +114,19 @@ export default ({
             />
           </View>
         </View>
-        <View
-          style={{
-            marginTop: 40,
-          }}>
+        <View>
+          <TouchableOpacity
+            accessibilityLabel="Forgot your password"
+            onPress={navigateToForgotPassword}
+            style={styles.forgotPasswordButton}>
+            <Text style={styles.forgotPasswordText}>Forgot your password?</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.noAccountTextContainer}>
           <Text style={scene.copy}>{"Don't have an account?"}</Text>
         </View>
-        <View style={[forms.buttonRow, { marginTop: 16 }]}>
-          <View
-            style={{
-              flex: 0.5,
-              paddingRight: 8,
-            }}>
+        <View style={[forms.buttonRow, styles.noAccountButtonRow]}>
+          <View style={styles.confirmCodeWrapper}>
             <Button
               onPress={navigateToSignUpConfirm}
               containerViewStyle={buttons.container}
@@ -140,11 +135,7 @@ export default ({
               title={'Confirm Code'}
             />
           </View>
-          <View
-            style={{
-              flex: 0.5,
-              paddingLeft: 8,
-            }}>
+          <View style={styles.signUpWrapper}>
             <Button
               testID="login-signup"
               onPress={navigateToSignUp}

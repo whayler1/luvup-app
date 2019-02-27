@@ -1,16 +1,18 @@
-require('babel-polyfill');
-const detox = require('detox');
+import 'babel-polyfill';
+import detox from 'detox';
 const config = require('../package.json').detox;
-const adapter = require('detox/runners/jest/adapter');
+import adapter from 'detox/runners/jest/adapter';
 
 jest.setTimeout(120000);
+/* eslint-disable no-undef */
 jasmine.getEnv().addReporter(adapter);
+/* eslint-enable no-undef */
 
 beforeAll(async () => {
   await detox.init(config);
 });
 
-beforeEach(async function() {
+beforeEach(async () => {
   await adapter.beforeEach();
 });
 

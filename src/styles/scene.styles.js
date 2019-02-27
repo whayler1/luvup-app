@@ -30,7 +30,6 @@ const content = {
   alignSelf: 'stretch',
   paddingVertical: 32,
   paddingHorizontal: 16,
-  // backgroundColor: 'rgba(0,200,50,0.3)'
 };
 const contentNoTop = {
   ...content,

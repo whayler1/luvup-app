@@ -37,6 +37,8 @@ import CreateQuizChoices from './src/containers/CreateQuizChoices';
 import CreateQuizReward from './src/containers/CreateQuizReward';
 import CreateQuizReview from './src/containers/CreateQuizReview';
 import ViewQuiz from './src/containers/ViewQuiz';
+import ForgotPassword from './src/containers/ForgotPassword';
+import ResetPasswordWithGeneratedPassword from './src/containers/ResetPasswordWithGeneratedPassword';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -84,12 +86,18 @@ const App = () => (
       <Lightbox>
         <Stack key="root">
           <Scene key="init" component={Root} title="Root" hideNavBar init />
+          <Scene key="login" component={Login} title="Login" hideNavBar />
           <Scene
-            key="login"
-            component={Login}
-            title="Login"
-            renderLeftButton={() => <View />}
-            {...sceneDefaults}
+            key="forgotPassword"
+            component={ForgotPassword}
+            title="Forgot Password"
+            {...getDefaultNavBar()}
+          />
+          <Scene
+            key="resetPasswordWithGeneratedPassword"
+            component={ResetPasswordWithGeneratedPassword}
+            title="Reset Password"
+            hideNavBar
           />
           <Scene
             key="signup"

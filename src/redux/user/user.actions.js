@@ -34,6 +34,15 @@ export const SET_USER = 'user/set-user';
 export const LOGIN = 'user/login';
 export const LOGOUT = 'user/logout';
 export const REAUTH = 'user/reauth';
+export const SEND_NEW_PASSWORD_ATTEMPT = 'user/send-new-password-attempt';
+export const SEND_NEW_PASSWORD_SUCCESS = 'user/send-new-password-success';
+export const SEND_NEW_PASSWORD_FAILURE = 'user/send-new-password-failure';
+export const RESET_PASSWORD_WITH_GENERATED_PASSWORD_ATTEMPT =
+  'user/reset-password-with-generated-password-attempt';
+export const RESET_PASSWORD_WITH_GENERATED_PASSWORD_SUCCESS =
+  'user/reset-password-with-generated-password-success';
+export const RESET_PASSWORD_WITH_GENERATED_PASSWORD_FAILURE =
+  'user/reset-password-with-generated-password-failure';
 export const USER_REQUEST_ATTEMPT = 'user/user-attempt';
 export const USER_REQUEST_SUCCESS = 'user/user-success';
 export const USER_REQUEST_FAILURE = 'user/user-failure';
@@ -56,6 +65,7 @@ export const login = (usernameOrEmail, password) => async dispatch => {
       id: res.body.user.id,
       email: res.body.user.email,
       username: res.body.user.username,
+      isReset: res.body.user.isReset,
     });
     listenToNotifications();
     return res;
@@ -94,6 +104,55 @@ export const reauth = id_token => async dispatch => {
     return res.body;
   } catch (err) {
     return err;
+  }
+};
+
+export const sendNewPassword = email => async dispatch => {
+  dispatch({ type: SEND_NEW_PASSWORD_ATTEMPT });
+  const defaultError = 'Error sending new password';
+  try {
+    const { body } = await userApi.sendNewPassword(email);
+
+    if (body.errors) {
+      return dispatch({
+        type: SEND_NEW_PASSWORD_FAILURE,
+        errorMessage: _.get(body, 'errors[0].message', defaultError),
+      });
+    }
+
+    return dispatch({ type: SEND_NEW_PASSWORD_SUCCESS });
+  } catch (error) {
+    return dispatch({
+      type: SEND_NEW_PASSWORD_FAILURE,
+      errorMessage: _.get(error, 'message', defaultError),
+    });
+  }
+};
+
+export const resetPasswordWithGeneratedPassword = (
+  generatedPassword,
+  newPassword
+) => async dispatch => {
+  dispatch({ type: RESET_PASSWORD_WITH_GENERATED_PASSWORD_ATTEMPT });
+  const defaultError = 'Error resetting password';
+  try {
+    const { body } = await userApi.resetPasswordWithGeneratedPassword(
+      generatedPassword,
+      newPassword
+    );
+
+    if (body.errors) {
+      return dispatch({
+        type: RESET_PASSWORD_WITH_GENERATED_PASSWORD_FAILURE,
+        errorMessage: _.get(body, 'errors[0].message', defaultError),
+      });
+    }
+    return dispatch({ type: RESET_PASSWORD_WITH_GENERATED_PASSWORD_SUCCESS });
+  } catch (error) {
+    return dispatch({
+      type: RESET_PASSWORD_WITH_GENERATED_PASSWORD_FAILURE,
+      errorMessage: _.get(error, 'message', defaultError),
+    });
   }
 };
 
