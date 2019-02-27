@@ -3,13 +3,15 @@ import {
   View,
   Text,
   TextInput,
-  KeyboardAvoidingView,
+  // KeyboardAvoidingView,
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
 import { Button } from 'react-native-elements';
+
 import styles from './Login.styles';
 import { scene, forms, buttons, modal, wells, vars } from '../../styles';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default ({
   navigateToSignUpConfirm,
@@ -36,11 +38,7 @@ export default ({
   const focusPassword = () => passwordInput.focus();
 
   return (
-    <KeyboardAvoidingView
-      contentContainerStyle={scene.container}
-      style={scene.container}
-      keyboardVerticalOffset={32}
-      behavior="padding">
+    <KeyboardAwareScrollView>
       <ScrollView testID="login-scroll-view" style={scene.content}>
         <Text testID="login-title" style={modal.title}>
           Login
@@ -147,6 +145,6 @@ export default ({
           </View>
         </View>
       </ScrollView>
-    </KeyboardAvoidingView>
+    </KeyboardAwareScrollView>
   );
 };
