@@ -68,7 +68,7 @@ class Input extends PureComponent {
           placeholderTextColor={vars.blueGrey100}
           {...inputProps}
         />
-        {error.length > 0 && <Text style={forms.error}>error</Text>}
+        {error.length > 0 && <Text style={forms.error}>{error}</Text>}
       </View>
     );
   }
