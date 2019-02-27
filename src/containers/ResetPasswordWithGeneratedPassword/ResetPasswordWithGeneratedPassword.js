@@ -135,9 +135,9 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
             onSubmitEditing: focusNewPasswordAgain,
             autoCapitalize: 'none',
             editable: !isResetPasswordWithGeneratedPasswordInFlight,
+            secureTextEntry: true,
             spellCheck: false,
             placeholder: '••••••••',
-            secureTextEntry: true,
           }}
         />
         <Input
@@ -153,9 +153,9 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
             onSubmitEditing: handleSubmit,
             autoCapitalize: 'none',
             editable: !isResetPasswordWithGeneratedPasswordInFlight,
+            secureTextEntry: true,
             spellCheck: false,
             placeholder: '••••••••',
-            secureTextEntry: true,
           }}
         />
         <View style={forms.formGroup}>

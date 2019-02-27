@@ -52,6 +52,7 @@ export default new StyleSheet.create({
     borderBottomColor: vars.blueGrey100,
     borderBottomWidth: 1,
     alignSelf: 'stretch',
+    backgroundColor: 'white',
   },
   sectionHeaderText: {
     color: vars.blueGrey800,
