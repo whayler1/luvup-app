@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, KeyboardAvoidingView, Text } from 'react-native';
+import { View, ScrollView, Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { Button } from 'react-native-elements';
 
@@ -68,7 +68,7 @@ class ForgotPassword extends PureComponent {
   render() {
     if (this.state.isSuccess) {
       return (
-        <KeyboardAvoidingView>
+        <ScrollView>
           <View style={scene.contentNoTop}>
             <Text style={modal.title}>Password Reset Email Sent</Text>
             <Text style={[modal.copy, styles.copy]}>
@@ -88,7 +88,7 @@ class ForgotPassword extends PureComponent {
               />
             </View>
           </View>
-        </KeyboardAvoidingView>
+        </ScrollView>
       );
     }
     const {
@@ -102,7 +102,7 @@ class ForgotPassword extends PureComponent {
       handleSubmit,
     } = this;
     return (
-      <KeyboardAvoidingView>
+      <ScrollView>
         <View style={scene.contentNoTop}>
           <Text style={modal.title}>Request Password Reset</Text>
           <Text style={[modal.copy, styles.copy]}>
@@ -119,7 +119,7 @@ class ForgotPassword extends PureComponent {
             onSubmit={handleSubmit}
           />
         </View>
-      </KeyboardAvoidingView>
+      </ScrollView>
     );
   }
 }
