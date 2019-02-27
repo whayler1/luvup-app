@@ -65,7 +65,7 @@ describe('onboarding', () => {
 
     it('should display request received', async () => {
       await login(user1.email, user1.password);
-      await device.sendUserNotification({
+      const idk = await device.sendUserNotification({
         trigger: {
           type: 'push',
         },
