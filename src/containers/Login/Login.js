@@ -16,6 +16,7 @@ import {
 class Login extends Component {
   static propTypes = {
     userId: PropTypes.string,
+    username: PropTypes.string,
     isReset: PropTypes.bool.isRequired,
     login: PropTypes.func.isRequired,
     getMe: PropTypes.func.isRequired,
@@ -24,13 +25,21 @@ class Login extends Component {
     loverRequestId: PropTypes.string,
   };
 
-  state = {
+  static defaultProps = {
     username: '',
-    password: '',
-    error: '',
-    isInFlight: false,
-    focus: '',
   };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      username: props.username,
+      password: '',
+      error: '',
+      isInFlight: false,
+      focus: '',
+    };
+  }
 
   handleUsernameFocus = () => this.setState({ focus: 'username' });
   handlePasswordFocus = () => this.setState({ focus: 'password' });

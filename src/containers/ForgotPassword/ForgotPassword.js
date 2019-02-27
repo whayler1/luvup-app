@@ -52,7 +52,7 @@ class ForgotPassword extends PureComponent {
   };
 
   handleGoToLogin = () => {
-    Actions.login();
+    Actions.login({ username: this.state.email });
   };
 
   validate = () => {
