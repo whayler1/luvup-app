@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  // KeyboardAvoidingView,
-  ScrollView,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-elements';
 
 import styles from './Login.styles';
@@ -39,7 +32,7 @@ export default ({
 
   return (
     <KeyboardAwareScrollView>
-      <ScrollView testID="login-scroll-view" style={scene.content}>
+      <View testID="login-scroll-view" style={scene.content}>
         <Text testID="login-title" style={modal.title}>
           Login
         </Text>
@@ -144,7 +137,7 @@ export default ({
             />
           </View>
         </View>
-      </ScrollView>
+      </View>
     </KeyboardAwareScrollView>
   );
 };
