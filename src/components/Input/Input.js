@@ -11,7 +11,7 @@ class Input extends PureComponent {
     value: PropTypes.string,
     maxLength: PropTypes.number,
     inputProps: PropTypes.object,
-    onChange: PropTypes.func,
+    onChangeText: PropTypes.func,
     error: PropTypes.string,
   };
 
@@ -46,7 +46,7 @@ class Input extends PureComponent {
         label,
         value,
         maxLength,
-        onChange,
+        onChangeText,
         error,
         inputProps,
       },
@@ -61,7 +61,7 @@ class Input extends PureComponent {
           style={[forms.input, isFocus && forms.inputFocus]}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          onChangeText={onChange}
+          onChangeText={onChangeText}
           value={value}
           maxLength={maxLength}
           placeholder={placeholder}
