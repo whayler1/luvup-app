@@ -7,8 +7,9 @@ import { Button } from 'react-native-elements';
 import { resetPasswordWithGeneratedPassword as resetPasswordWithGeneratedPasswordAction } from '../../redux/user/user.actions';
 // import styles from './ResetPasswordWithGeneratedPassword.styles';
 import { forms, scene, modal, buttons } from '../../styles';
-import { passwordRegex } from '../../helpers';
+import { passwordRegex, userLoginRouteSwitch } from '../../helpers';
 import Input from '../../components/Input';
+import ResetPasswordWithGeneratedPasswordSuccess from './ResetPasswordWithGeneratedPasswordSuccess';
 
 class ResetPasswordWithGeneratedPassword extends PureComponent {
   static propTypes = {
@@ -26,7 +27,20 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
       newPasswordError: '',
       newPasswordAgain: '',
       newPasswordAgainError: '',
+      isSuccess: false,
     };
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.isResetPasswordWithGeneratedPasswordInFlight &&
+      !this.props.isResetPasswordWithGeneratedPasswordInFlight &&
+      this.props.resetPasswordWithGeneratedPasswordError.length < 1
+    ) {
+      /* eslint-disable react/no-did-update-set-state */
+      this.setState({ isSuccess: true });
+      /* eslint-enable react/no-did-update-set-state */
+    }
   }
 
   handleSubmit = () => {
@@ -79,6 +93,10 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
     this.setState({ newPasswordAgain });
   };
 
+  handleDone = () => {
+    userLoginRouteSwitch();
+  };
+
   render() {
     const {
       props: {
@@ -90,13 +108,18 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
         newPasswordAgain,
         newPasswordError,
         newPasswordAgainError,
+        isSuccess,
       },
       handleNewPasswordChange,
       focusNewPasswordAgain,
       handleNewPasswordAgainChange,
       handleSubmit,
       setNewPasswordAgainEl,
+      handleDone,
     } = this;
+    if (isSuccess) {
+      return <ResetPasswordWithGeneratedPasswordSuccess onDone={handleDone} />;
+    }
     return (
       <ScrollView style={scene.content}>
         <Text style={modal.title}>Create a New Password</Text>
@@ -107,12 +130,14 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
           value={newPassword}
           error={newPasswordError}
           inputProps={{
+            testID: 'reset-password-with-generated-password-new-password',
             returnKeyType: 'next',
             onSubmitEditing: focusNewPasswordAgain,
             autoCapitalize: 'none',
             editable: !isResetPasswordWithGeneratedPasswordInFlight,
             secureTextEntry: true,
             spellCheck: false,
+            placeholder: '••••••••',
           }}
         />
         <Input
@@ -122,6 +147,7 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
           value={newPasswordAgain}
           error={newPasswordAgainError}
           inputProps={{
+            testID: 'reset-password-with-generated-password-new-password-again',
             ref: setNewPasswordAgainEl,
             returnKeyType: 'go',
             onSubmitEditing: handleSubmit,
@@ -129,6 +155,7 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
             editable: !isResetPasswordWithGeneratedPasswordInFlight,
             secureTextEntry: true,
             spellCheck: false,
+            placeholder: '••••••••',
           }}
         />
         <View style={forms.formGroup}>
