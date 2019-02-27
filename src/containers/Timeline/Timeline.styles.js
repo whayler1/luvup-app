@@ -25,23 +25,23 @@ export default new StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  sectionList: {
-    alignSelf: 'stretch',
-  },
+  sectionList: {},
   listHeaderContainer: {
     paddingBottom: 24,
     backgroundColor: vars.razzleDazzleRose,
   },
   listFooterContainer: {
+    flex: 1,
+    alignSelf: 'stretch',
     paddingBottom: 16,
     paddingTop: 16,
   },
   leaderboardSlot,
   leaderboardSlotSecond,
   leaderboardText: {
-    marginLeft: 8,
-    fontFamily: vars.fontRegular,
-    fontSize: 20,
+    marginLeft: 4,
+    fontFamily: vars.fontBlack,
+    fontSize: 13,
     color: 'white',
   },
   sectionHeaderContainer: {
@@ -52,13 +52,13 @@ export default new StyleSheet.create({
     borderBottomColor: vars.blueGrey100,
     borderBottomWidth: 1,
     alignSelf: 'stretch',
-    backgroundColor: 'white',
   },
   sectionHeaderText: {
     color: vars.blueGrey800,
     fontSize: 20,
     fontFamily: vars.fontBlack,
   },
+  renderItemWrapper: {},
   renderItemContainer,
   renderItemContainerLast,
   renderItemContent: {
@@ -137,7 +137,55 @@ export default new StyleSheet.create({
     height: 30,
   },
   sectionListWrapper: {
+    flex: 1,
     paddingTop: 83,
     alignSelf: 'stretch',
+  },
+  topNav: {
+    backgroundColor: vars.razzleDazzleRose,
+    marginTop: 0,
+    paddingTop: 45,
+  },
+  listItemEmptyWrapper: {
+    paddingHorizontal: 16,
+    paddingVertical: 32,
+    alignSelf: 'stretch',
+  },
+  listItemEmptyText: {
+    fontSize: 25,
+    textAlign: 'center',
+    color: vars.blueGrey300,
+  },
+  leaderboardSlotUserWrapper: {
+    width: 44,
+    height: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  leaderboardSlotInitials: {
+    position: 'absolute',
+    backgroundColor: 'transparent',
+    color: 'white',
+    fontFamily: vars.fontBlack,
+    fontSize: 20,
+  },
+  leaderboardSlotStatsWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 16,
+  },
+  leaderboardSlotScoreWrapper: {
+    marginRight: 4,
+    width: 50,
+  },
+  leaderboardSlotScore: {
+    color: 'white',
+    fontFamily: vars.fontBlack,
+    fontSize: 20,
+  },
+  leaderboardSlotJalapenoArtWrapper: { marginLeft: 8 },
+  refreshControl: {
+    backgroundColor: vars.razzleDazzleRose,
   },
 });

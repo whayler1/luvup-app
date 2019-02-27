@@ -1,7 +1,6 @@
 import { Permissions, Notifications } from 'expo';
 import superagent from 'superagent';
 import { AsyncStorage, AlertIOS } from 'react-native';
-import _ from 'lodash';
 
 import config from '../config';
 
@@ -13,7 +12,6 @@ const registerForPushNotifications = async () => {
 
   // only ask if permissions have not already been determined, because
   // iOS won't necessarily prompt the user a second time.
-  const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
   if (existingStatus !== 'granted') {
     // Android remote notification permissions are granted during the app
     // install, so this will only ask on iOS
@@ -32,7 +30,7 @@ const registerForPushNotifications = async () => {
 
   // POST the token to your backend server from where you can retrieve it to send push notifications.
   try {
-    const res = await superagent.post(config.graphQlUrl, {
+    await superagent.post(config.graphQlUrl, {
       query: `mutation {
         setExpoPushToken(expoPushToken: "${expoPushToken}") {
           expoPushToken {

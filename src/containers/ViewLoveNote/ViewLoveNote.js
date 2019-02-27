@@ -92,6 +92,8 @@ class ViewLoveNote extends PureComponent {
           <Quotes scale={0.8} fill={vars.blueGrey50} />
         </View>
         <Text
+          adjustsFontSizeToFit
+          numberOfLines={8}
           style={{
             paddingTop: 8,
             textAlign: 'center',
@@ -110,13 +112,13 @@ class ViewLoveNote extends PureComponent {
             }}>
             {_.isNumber(numLuvups) && numLuvups > 0 && (
               <View style={{ paddingHorizontal: 16 }}>
-                <CoinArt recentlySentCoinCount={numLuvups} />
+                <CoinArt scale={0.55} recentlySentCoinCount={numLuvups} />
               </View>
             )}
             {_.isNumber(numJalapenos) && numJalapenos > 0 && (
               <View style={{ paddingHorizontal: 16 }}>
                 <JalapenoArt
-                  scale={0.8}
+                  scale={0.42}
                   recentlySentJalapenoCount={numJalapenos}
                 />
               </View>

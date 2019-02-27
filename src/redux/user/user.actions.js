@@ -285,8 +285,12 @@ export const getTimelineData = limit => async dispatch => {
           'quizItemEvents',
           'quizItems',
         ]),
+        coinCount: data.coinCount.count,
+        jalapenosCount: data.jalapenos.count,
         sentCoinsCount: data.sentCoins.count,
         sentJalapenosCount: data.sentJalapenos.count,
+        loverRelationshipScore: data.lover.relationshipScore.score,
+        relationshipScores: data.relationshipScores,
       });
       return data;
     }

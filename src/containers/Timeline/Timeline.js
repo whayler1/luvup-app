@@ -7,15 +7,19 @@ import _ from 'lodash';
 
 import analytics from '../../services/analytics';
 import {
+  addOnActiveListener,
+  removeOnActiveListener,
+} from '../../services/appStateListener';
+import {
   getUserEvents as getUserEventsAction,
   clearUserEvents as clearUserEventsAction,
 } from '../../redux/userEvents/userEvents.actions';
 import { getTimelineData as getTimelineDataAction } from '../../redux/user/user.actions';
-
 import Template from './Timeline.template';
 
 const userEventsLimit = 100;
 const format = 'ddd, MMM DD, YYYY';
+const APP_STATE_LISTENER_ID = 'timeline';
 
 const getSections = userEvents => {
   let currentCreatedDate;
@@ -58,8 +62,10 @@ class Timeline extends Component {
     userFirstName: PropTypes.string,
     userLastName: PropTypes.string,
     userId: PropTypes.string,
+    userRelationshipScore: PropTypes.number,
     loverFirstName: PropTypes.string,
     loverLastName: PropTypes.string,
+    loverRelationshipScore: PropTypes.number,
     coinCount: PropTypes.number,
     jalapenoCount: PropTypes.number,
     sentCoinsCount: PropTypes.number,
@@ -70,6 +76,7 @@ class Timeline extends Component {
     clearUserEvents: PropTypes.func.isRequired,
     getTimelineData: PropTypes.func.isRequired,
     isGetUserEventsInFlight: PropTypes.bool.isRequired,
+    isGetTimelineDataInFlight: PropTypes.bool.isRequired,
     getUserEventsError: PropTypes.string.isRequired,
   };
 
@@ -79,13 +86,18 @@ class Timeline extends Component {
     this.state = {
       prevMostRecentUserEvent: undefined,
       sections: [],
+      isAfterFirstLoad: false,
       isSectionsLoaded: false,
       page: 0,
       isModalVisible: false,
       isAtEndOfList: false,
     };
 
-    props.getTimelineData(userEventsLimit);
+    props.getTimelineData(userEventsLimit).then(() => {
+      this.setState({ isAfterFirstLoad: true });
+    });
+
+    addOnActiveListener(APP_STATE_LISTENER_ID, this.handleAppFocusActive);
   }
 
   closeModal = () => this.setState({ isModalVisible: false });
@@ -98,7 +110,23 @@ class Timeline extends Component {
     );
   };
 
-  onEndReached = _.throttle(() => {
+  handleAppFocusActive = () => {
+    if (!this.props.isGetTimelineDataInFlight) {
+      this.setState({ isAfterFirstLoad: false }, () => {
+        this.props.getTimelineData(userEventsLimit).then(() => {
+          this.setState({ isAfterFirstLoad: true });
+        });
+      });
+    }
+  };
+
+  handleRefresh = () => {
+    if (!this.props.isGetTimelineDataInFlight) {
+      this.props.getTimelineData(userEventsLimit);
+    }
+  };
+
+  handleEndReached = _.throttle(() => {
     /**
      * - do not do anything if sections havent loaded yet.
      * - do not do anything if # items loaded is equal to or more then count
@@ -171,13 +199,20 @@ class Timeline extends Component {
     }
   }
 
+  /* eslint-disable class-methods-use-this */
+  componentWillUnmount() {
+    removeOnActiveListener(APP_STATE_LISTENER_ID);
+  }
+  /* eslint-enable class-methods-use-this */
+
   render() {
     return (
       <Template
         {...this.props}
         {...this.state}
         goBack={this.goBack}
-        onEndReached={this.onEndReached}
+        onRefresh={this.handleRefresh}
+        onEndReached={this.handleEndReached}
         closeModal={this.closeModal}
       />
     );
@@ -189,8 +224,10 @@ export default connect(
     userFirstName: state.user.firstName,
     userLastName: state.user.lastName,
     userId: state.user.id,
+    userRelationshipScore: state.relationshipScore.score,
     loverFirstName: state.lover.firstName,
     loverLastName: state.lover.lastName,
+    loverRelationshipScore: state.lover.relationshipScore,
     coinCount: state.coin.count,
     jalapenoCount: state.jalapeno.count,
     sentCoinsCount: state.coin.sentCoinsCount,
@@ -198,6 +235,7 @@ export default connect(
     userEvents: state.userEvents.rows,
     userEventsCount: state.userEvents.count,
     isGetUserEventsInFlight: state.userEvents.isGetUserEventsInFlight,
+    isGetTimelineDataInFlight: state.user.isGetTimelineDataInFlight,
     getUserEventsError: state.userEvents.getUserEventsError,
   }),
   {

@@ -169,6 +169,7 @@ exports[`renders without crashing 1`] = `
     style={
       Object {
         "alignSelf": "stretch",
+        "flex": 1,
         "paddingTop": 83,
       }
     }

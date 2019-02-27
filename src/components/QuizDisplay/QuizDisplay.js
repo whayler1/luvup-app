@@ -40,7 +40,12 @@ const QuizDisplay = ({
   const reward = isAttempt ? quizItemAttempt.reward : quizItem.reward;
   return (
     <Fragment>
-      <Text style={quiz.questionSmallText}>{question}</Text>
+      <Text
+        adjustsFontSizeToFit
+        numberOfLines={8}
+        style={quiz.questionSmallText}>
+        {question}
+      </Text>
       {choices.map((choice, i) => {
         const isQuizItemRecipientChoiceId =
           _.isString(_.get(quizItem, 'recipientChoiceId')) &&
