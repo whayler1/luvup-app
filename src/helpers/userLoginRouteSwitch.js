@@ -26,7 +26,7 @@ const userLoginRouteSwitch = async () => {
 
   if (!('body' in res)) {
     Actions.login();
-  } else if (relationshipId || loverRequestId) {
+  } else {
     Actions.dashboard();
     // Actions.timeline();
     // Actions.createQuizReview({
@@ -38,17 +38,18 @@ const userLoginRouteSwitch = async () => {
     //   },
     // });
     indentifyUser(user);
-  } else if (
-    _.isArray(receivedLoverRequests) &&
-    receivedLoverRequests.length > 0
-  ) {
-    //show received lover request
-    Actions.confirmLoverRequest();
-    indentifyUser(user);
-  } else {
-    Actions.createloverrequest();
-    indentifyUser(user);
   }
+  // else if (
+  //   _.isArray(receivedLoverRequests) &&
+  //   receivedLoverRequests.length > 0
+  // ) {
+  //   //show received lover request
+  //   Actions.confirmLoverRequest();
+  //   indentifyUser(user);
+  // } else {
+  //   Actions.createloverrequest();
+  //   indentifyUser(user);
+  // }
 };
 
 export default userLoginRouteSwitch;

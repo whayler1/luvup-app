@@ -3,7 +3,15 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import _ from 'lodash';
+import { View, Text, TouchableOpacity } from 'react-native';
 
+import styles from './Dashboard.styles';
+import DashboardTopNav from '../../components/DashboardTopNav';
+import QuizArt from '../../components/Art/QuizArt';
+import LoveNoteArt from '../../components/LoveNoteArt';
+import LimitExceededModal from '../../components/LimitExceededModal';
+import Hero from '../Hero';
 import analytics from '../../services/analytics';
 import {
   getCoinCount as getCoinCountAction,
@@ -14,19 +22,13 @@ import {
   setUnviewedJalapenoCount as setUnviewedJalapenoCountAction,
 } from '../../redux/jalapeno/jalapeno.actions';
 
-import Template from './Dashboard.template';
-
 class Dashboard extends Component {
   static propTypes = {
     userFirstName: PropTypes.string,
     userLastName: PropTypes.string,
-    username: PropTypes.string,
     userId: PropTypes.string,
     loverFirstName: PropTypes.string,
     loverLastName: PropTypes.string,
-    loverUsername: PropTypes.string,
-    loverRequestUsername: PropTypes.string,
-    loverRequestCreatedAt: PropTypes.string,
     coinCount: PropTypes.number,
     getCoinCount: PropTypes.func.isRequired,
     getJalapenoCount: PropTypes.func.isRequired,
@@ -108,29 +110,76 @@ class Dashboard extends Component {
   handleCreateQuizPress = () => Actions.createQuizQuestion();
 
   render() {
+    const {
+      props: {
+        userFirstName,
+        userLastName,
+        loverFirstName,
+        loverLastName,
+        coinCount,
+        jalapenoCount,
+        relationshipScore,
+        unviewedCoinCount,
+        unviewedJalapenoCount,
+        unreadReceivedLoveNoteCount,
+      },
+      state: {
+        isPushdownVisible,
+        isModalOpen,
+        modalContent,
+        coinsAvailableTime,
+        jalapenosAvailableTime,
+      },
+      openModal,
+      closeModal,
+      closePushdown,
+      handleLoveNoteWritePress,
+      handleCreateQuizPress,
+    } = this;
     return (
-      <Template
-        userFirstName={this.props.userFirstName}
-        userLastName={this.props.userLastName}
-        username={this.props.username}
-        loverFirstName={this.props.loverFirstName}
-        loverLastName={this.props.loverLastName}
-        loverUsername={this.props.loverUsername}
-        loverRequestUsername={this.props.loverRequestUsername}
-        loverRequestCreatedAt={this.props.loverRequestCreatedAt}
-        coinCount={this.props.coinCount}
-        jalapenoCount={this.props.jalapenoCount}
-        relationshipScore={this.props.relationshipScore}
-        openModal={this.openModal}
-        closeModal={this.closeModal}
-        closePushdown={this.closePushdown}
-        unviewedCoinCount={this.props.unviewedCoinCount}
-        unviewedJalapenoCount={this.props.unviewedJalapenoCount}
-        unreadReceivedLoveNoteCount={this.props.unreadReceivedLoveNoteCount}
-        onLoveNoteWritePress={this.handleLoveNoteWritePress}
-        onCreateQuizPress={this.handleCreateQuizPress}
-        {...this.state}
-      />
+      <View style={styles.wrapper}>
+        <DashboardTopNav
+          coinCount={coinCount}
+          jalapenoCount={jalapenoCount}
+          userFirstName={userFirstName}
+          userLastName={userLastName}
+          loverFirstName={loverFirstName}
+          loverLastName={loverLastName}
+          closePushdown={closePushdown}
+          isPushdownVisible={isPushdownVisible}
+          unviewedCoinCount={unviewedCoinCount}
+          unviewedJalapenoCount={unviewedJalapenoCount}
+          relationshipScore={relationshipScore}
+          unreadReceivedLoveNoteCount={unreadReceivedLoveNoteCount}
+        />
+        <Hero openModal={openModal} />
+        {_.isString(loverFirstName) && loverFirstName.length > 0 && (
+          <View style={styles.tabsContainer}>
+            <TouchableOpacity
+              testID="dashboard-write-love-note-button"
+              style={styles.tabsItem}
+              onPress={handleLoveNoteWritePress}>
+              <LoveNoteArt scale={0.8} />
+              <Text style={styles.tabsText}>Write Love Note</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              testID="dashboard-create-a-quiz-button"
+              style={styles.tabsItem}
+              onPress={handleCreateQuizPress}>
+              <QuizArt scale={0.85} />
+              <Text style={styles.tabsText}>Create a Quiz</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+        <LimitExceededModal
+          isModalOpen={isModalOpen}
+          closeModal={closeModal}
+          modalContent={modalContent}
+          loverFirstName={loverFirstName}
+          coinsAvailableTime={coinsAvailableTime}
+          jalapenosAvailableTime={jalapenosAvailableTime}
+        />
+      </View>
     );
   }
 }
@@ -139,13 +188,9 @@ export default connect(
   state => ({
     userFirstName: state.user.firstName,
     userLastName: state.user.lastName,
-    username: state.user.username,
     userId: state.user.id,
     loverFirstName: state.lover.firstName,
     loverLastName: state.lover.lastName,
-    loverUsername: state.lover.username,
-    loverRequestUsername: state.loverRequest.username,
-    loverRequestCreatedAt: state.loverRequest.createdAt,
     coinCount: state.coin.count,
     jalapenoCount: state.jalapeno.count,
     sentCoins: state.coin.sentCoins,
