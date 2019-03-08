@@ -3,10 +3,8 @@ import { AsyncStorage } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import { Font } from 'expo';
 
-import config from '../../config.js';
 import Template from './Root.template';
 import {
   userLoginRouteSwitch,
@@ -18,21 +16,25 @@ import { setIsFontLoaded as setIsFontLoadedAction } from '../../redux/font/font.
 class Root extends Component {
   static propTypes = {
     id: PropTypes.string,
-    loverRequestId: PropTypes.string,
-    relationshipId: PropTypes.string,
     isFontLoaded: PropTypes.bool,
     reauth: PropTypes.func.isRequired,
     setIsFontLoaded: PropTypes.func.isRequired,
-    receivedLoverRequests: PropTypes.array,
   };
 
   reauth = async id_token => {
-    const res = await this.props.reauth(id_token);
+    console.log('\n\n reauth', id_token);
+    try {
+      const res = await this.props.reauth(id_token);
+      console.log('res', res);
 
-    if (this.props.id) {
-      registerForPushNotifications();
-      userLoginRouteSwitch();
-    } else {
+      if (this.props.id) {
+        registerForPushNotifications();
+        userLoginRouteSwitch();
+      } else {
+        Actions.login();
+      }
+    } catch (error) {
+      console.log('error', error);
       Actions.login();
     }
   };

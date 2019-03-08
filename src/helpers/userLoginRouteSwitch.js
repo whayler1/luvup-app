@@ -16,12 +16,13 @@ const indentifyUser = user =>
   });
 
 const userLoginRouteSwitch = async () => {
+  console.log('userLoginRouteSwitch');
   const res = await store.dispatch(getMe());
 
   const state = store.getState();
-  const relationshipId = state.relationship.id;
-  const loverRequestId = state.loverRequest.id;
-  const receivedLoverRequests = state.receivedLoverRequests.rows;
+  // const relationshipId = state.relationship.id;
+  // const loverRequestId = state.loverRequest.id;
+  // const receivedLoverRequests = state.receivedLoverRequests.rows;
   const user = state.user;
 
   if (!('body' in res)) {
