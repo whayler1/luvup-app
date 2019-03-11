@@ -17,13 +17,6 @@ const loverRequestTextLarge = {
 };
 
 export default StyleSheet.create({
-  heartView: {
-    alignSelf: 'stretch',
-    flex: 1,
-    marginTop: 80,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   heartImg: {
     width: 260,
     height: 240,

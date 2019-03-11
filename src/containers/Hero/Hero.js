@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -8,26 +8,21 @@ import {
   PanResponder,
   Alert,
   View,
-  Image,
   Text,
 } from 'react-native';
 import moment from 'moment';
 import { Actions } from 'react-native-router-flux';
 import BezierEasing from 'bezier-easing';
-import { Button } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 
 import styles from './Hero.styles';
-import { buttons, forms, vars } from '../../styles';
+import { vars } from '../../styles';
 import HeroEye from '../../components/HeroEye';
 import HeroMouth from '../../components/HeroMouth';
 import CoinArt from '../../components/CoinArt';
 import JalapenoArt from '../../components/JalapenoArt';
 import HeartArt from '../../components/Art/HeartArt';
 import TearDropArt from '../../components/Art/TearDropArt';
-
-import Well from '../../components/Well';
-import heartImg from '../../images/hero/heart-sadest.png';
 
 import { createRelationshipScore as createRelationshipScoreAction } from '../../redux/relationshipScore/relationshipScore.actions';
 import {
@@ -226,15 +221,10 @@ class Hero extends Component {
       ));
 
   resendLoverRequestEmail = async () => {
-    await new Promise(resolve =>
-      this.setState(
-        {
-          resendIsInFlight: true,
-          error: '',
-        },
-        () => resolve()
-      )
-    );
+    await this.setState({
+      resendIsInFlight: true,
+      error: '',
+    });
     const res = await this.props.resendLoverRequestEmail(
       this.props.loverRequestId
     );
@@ -563,139 +553,13 @@ class Hero extends Component {
       // closeModal,
       jalapenoOpacity,
       directionsOpacity,
-      cancelLoverRequest,
-      resendLoverRequestEmail,
       props: {
         relationshipScoreQuartile,
-        loverRequestFirstName,
-        loverRequestLastName,
         recentlySentCoinCount,
         recentlySentJalapenoCount,
       },
-      state: {
-        dragDirection,
-        isInRelationship,
-        loverRequestCreatedAtTimeAgo,
-        error,
-        isCancelInFlight,
-        resendIsInFlight,
-        isResendSuccess,
-        // isHeartShake,
-        // isHeartCry,
-      },
+      state: { dragDirection },
     } = this;
-    if (!isInRelationship) {
-      return (
-        <View style={styles.heartView}>
-          <View
-            style={{
-              width: 300,
-              height: 275,
-              zIndex: 10,
-            }}>
-            <Image
-              source={heartImg}
-              style={{
-                width: 300,
-                height: 275,
-              }}
-            />
-            <View
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Ionicons name="ios-send" size={190} color={vars.cottonCandy} />
-            </View>
-          </View>
-          <View
-            style={{
-              marginTop: 32,
-              alignItems: 'center',
-            }}>
-            {loverRequestFirstName ? (
-              <Fragment>
-                <Text
-                  testID="hero-lover-request-copy"
-                  style={styles.loverRequestText}>
-                  Your lover request was sent to
-                </Text>
-                <Text style={styles.loverRequestTextLarge}>
-                  {loverRequestFirstName + ' ' + loverRequestLastName}
-                </Text>
-                <Text style={styles.loverRequestText}>
-                  {loverRequestCreatedAtTimeAgo}
-                </Text>
-              </Fragment>
-            ) : (
-              <Fragment>
-                <Text style={styles.loverRequestText}>
-                  Your lover request has been
-                </Text>
-                <Text style={styles.loverRequestTextLarge}>Canceled</Text>
-              </Fragment>
-            )}
-          </View>
-          {error === 'cancel-error' && (
-            <View
-              style={{
-                alignSelf: 'stretch',
-                paddingHorizontal: 16,
-                paddingTop: 8,
-              }}>
-              <Well text="There was an error cancelling your lover request. If the problem persists please contact justin@luvup.io" />
-            </View>
-          )}
-          {error === 'resend-error' && (
-            <View
-              style={{
-                alignSelf: 'stretch',
-                paddingHorizontal: 16,
-                paddingTop: 8,
-              }}>
-              <Well text="There was an error resending your lover request. If the problem persists please contact justin@luvup.io" />
-            </View>
-          )}
-          {isResendSuccess && (
-            <View
-              style={{
-                alignSelf: 'stretch',
-                paddingHorizontal: 16,
-                paddingTop: 8,
-              }}>
-              <Well type="success" text="Your lover request was resent!" />
-            </View>
-          )}
-          <View style={forms.buttonRow}>
-            <View style={[forms.buttonCell2ColLeft, { paddingLeft: 16 }]}>
-              <Button
-                onPress={cancelLoverRequest}
-                containerViewStyle={buttons.container}
-                buttonStyle={buttons.secondarySkeletonButton}
-                textStyle={buttons.secondarySkeletonText}
-                disabled={isCancelInFlight || resendIsInFlight}
-                title={isCancelInFlight ? 'Cancelling…' : 'Cancel'}
-              />
-            </View>
-            <View style={[forms.buttonCell2ColRight, { paddingRight: 16 }]}>
-              <Button
-                onPress={resendLoverRequestEmail}
-                containerViewStyle={buttons.infoContainer}
-                buttonStyle={buttons.infoSkeletonButton}
-                textStyle={buttons.infoSkeletonText}
-                disabled={isCancelInFlight || resendIsInFlight}
-                title={resendIsInFlight ? 'Resending…' : 'Resend'}
-              />
-            </View>
-          </View>
-        </View>
-      );
-    }
     return (
       <View
         testID="hero-heart-view"

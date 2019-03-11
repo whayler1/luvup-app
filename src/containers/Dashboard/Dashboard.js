@@ -7,6 +7,7 @@ import _ from 'lodash';
 import { View, Text, TouchableOpacity } from 'react-native';
 
 import styles from './Dashboard.styles';
+import DashboardLoverRequestSent from './DashboardLoverRequestSent';
 import DashboardTopNav from '../../components/DashboardTopNav';
 import QuizArt from '../../components/Art/QuizArt';
 import LoveNoteArt from '../../components/LoveNoteArt';
@@ -21,6 +22,10 @@ import {
   getJalapenoCount as getJalapenoCountAction,
   setUnviewedJalapenoCount as setUnviewedJalapenoCountAction,
 } from '../../redux/jalapeno/jalapeno.actions';
+import {
+  cancelLoverRequest as cancelLoverRequestAction,
+  resendLoverRequestEmail as resendLoverRequestEmailAction,
+} from '../../redux/loverRequest/loverRequest.actions';
 
 class Dashboard extends PureComponent {
   static propTypes = {
@@ -41,6 +46,12 @@ class Dashboard extends PureComponent {
     setUnviewedJalapenoCount: PropTypes.func.isRequired,
     unreadReceivedLoveNoteCount: PropTypes.number.isRequired,
     relationshipScore: PropTypes.number,
+    relationshipId: PropTypes.string,
+    loverRequestFirstName: PropTypes.string,
+    loverRequestLastName: PropTypes.string,
+    loverRequestCreatedAt: PropTypes.string,
+    cancelLoverRequest: PropTypes.func.isRequired,
+    resendLoverRequestEmail: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -122,6 +133,12 @@ class Dashboard extends PureComponent {
         unviewedCoinCount,
         unviewedJalapenoCount,
         unreadReceivedLoveNoteCount,
+        relationshipId,
+        loverRequestFirstName,
+        loverRequestLastName,
+        loverRequestCreatedAt,
+        cancelLoverRequest,
+        resendLoverRequestEmail,
       },
       state: {
         isPushdownVisible,
@@ -153,7 +170,11 @@ class Dashboard extends PureComponent {
           relationshipScore={relationshipScore}
           unreadReceivedLoveNoteCount={unreadReceivedLoveNoteCount}
         />
-        <Hero openModal={openModal} />
+        {_.isString(relationshipId) && relationshipId.length > 0 ? (
+          <Hero openModal={openModal} />
+        ) : (
+          <DashboardLoverRequestSent />
+        )}
         {_.isString(loverFirstName) && loverFirstName.length > 0 && (
           <View style={styles.tabsContainer}>
             <TouchableOpacity
@@ -200,11 +221,17 @@ export default connect(
     unviewedJalapenoCount: state.jalapeno.unviewedJalapenoCount,
     unreadReceivedLoveNoteCount: state.loveNote.unreadReceivedLoveNoteCount,
     relationshipScore: state.relationshipScore.score,
+    relationshipId: state.relationship.id,
+    loverRequestFirstName: state.loverRequest.firstName,
+    loverRequestLastName: state.loverRequest.lastName,
+    loverRequestCreatedAt: state.loverRequest.createdAt,
   }),
   {
     getCoinCount: getCoinCountAction,
     getJalapenoCount: getJalapenoCountAction,
     setUnviewedCoinCount: setUnviewedCoinCountAction,
     setUnviewedJalapenoCount: setUnviewedJalapenoCountAction,
+    cancelLoverRequest: cancelLoverRequestAction,
+    resendLoverRequestEmail: resendLoverRequestEmailAction,
   }
 )(Dashboard);
