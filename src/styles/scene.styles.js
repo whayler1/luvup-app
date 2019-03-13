@@ -79,4 +79,7 @@ export default StyleSheet.create({
   gutterTop: {
     marginTop: vars.gutter,
   },
+  gutterDoubleTop: {
+    marginTop: vars.gutterDouble,
+  },
 });

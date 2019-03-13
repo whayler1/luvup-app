@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import {
   Text,
-  TextInput,
   FlatList,
   View,
   ScrollView,
@@ -15,7 +14,7 @@ import {
 } from 'react-native';
 
 import styles from './CreateLoverRequest.styles';
-import { forms, scene, modal, vars } from '../../styles';
+import { scene, modal, vars } from '../../styles';
 import CreateLoverRequestRenderItem from './CreateLoverRequestRenderItem';
 
 import analytics from '../../services/analytics';
@@ -23,6 +22,7 @@ import config from '../../config.js';
 // import Template from './CreateLoverRequest.template';
 import TemplateSelectedUser from './CreateLoverRequest.template.selectedUser';
 import HeartArt from '../../components/Art/HeartArt';
+import SearchArt from '../../components/Art/SearchArt';
 import Input from '../../components/Input';
 import { requestLover as requestLoverAction } from '../../redux/loverRequest/loverRequest.actions';
 import { getReceivedLoverRequests as getReceivedLoverRequestsAction } from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
@@ -180,7 +180,7 @@ class CreateLoverRequest extends Component {
           <ScrollView
             style={scene.content}
             contentContainerStyle={styles.content}>
-            <View style={[scene.formGroup, styles.loverSearchContainer]}>
+            <View>
               <Input
                 label="Search for your lover"
                 placeholder="name or email address"
@@ -213,7 +213,13 @@ class CreateLoverRequest extends Component {
                 if (search.length < 2) {
                   return (
                     <View style={styles.directionsContainer}>
-                      <Text style={[scene.largeCopy, scene.textCenter]}>
+                      <SearchArt fill={vars.blueGrey50} scale={3} />
+                      <Text
+                        style={[
+                          scene.largeCopy,
+                          scene.textCenter,
+                          scene.gutterDoubleTop,
+                        ]}>
                         Use the search box above to find your lover.
                       </Text>
                     </View>
