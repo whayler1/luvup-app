@@ -12,6 +12,9 @@ const container = {
 
 export default StyleSheet.create({
   container,
+  loverSearchContainer: {
+    marginTop: 16,
+  },
   renderItem: {
     paddingTop: 8,
     paddingBottom: 16,

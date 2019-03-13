@@ -16,7 +16,10 @@ const DashboardNoRelationship = () => (
     <View style={styles.topContent}>
       <HeartArt fill={vars.blueGrey50} scale={0.1} />
       <Text style={[scene.titleCopy, scene.textCenter, styles.titleCopy]}>
-        You{"'"}re not currently in a relationship on Luvup.
+        Welcome to Luvup!
+      </Text>
+      <Text style={[scene.largeCopy, scene.textCenter, styles.promptCopy]}>
+        The first step is to connect with your lover.
       </Text>
       <Text style={[scene.bodyCopy, scene.textCenter, styles.promptCopy]}>
         Choose an option below to get things started.

@@ -4,13 +4,33 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import {
+  Text,
+  TextInput,
+  FlatList,
+  View,
+  ScrollView,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+} from 'react-native';
+
+import styles from './CreateLoverRequest.styles';
+import { forms, scene, modal, vars } from '../../styles';
+import CreateLoverRequestRenderItem from './CreateLoverRequestRenderItem';
 
 import analytics from '../../services/analytics';
 import config from '../../config.js';
-import Template from './CreateLoverRequest.template';
+// import Template from './CreateLoverRequest.template';
 import TemplateSelectedUser from './CreateLoverRequest.template.selectedUser';
+import HeartArt from '../../components/Art/HeartArt';
 import { requestLover as requestLoverAction } from '../../redux/loverRequest/loverRequest.actions';
 import { getReceivedLoverRequests as getReceivedLoverRequestsAction } from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
+
+const keyExtractor = item => item.id;
+
+const getRenderItem = onPress => ({ item }) => (
+  <CreateLoverRequestRenderItem item={item} onPress={onPress} />
+);
 
 class CreateLoverRequest extends Component {
   static propTypes = {
@@ -23,14 +43,18 @@ class CreateLoverRequest extends Component {
     receivedLoverRequests: PropTypes.array,
   };
 
-  state = {
-    search: '',
-    error: '',
-    users: [],
-    selectedUser: null,
-    isInFlight: false,
-    requestLoverIsInFlight: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      search: '',
+      error: '',
+      users: [],
+      selectedUser: null,
+      isInFlight: false,
+      requestLoverIsInFlight: false,
+    };
+  }
 
   clearSelectedUser = () => this.setState({ selectedUser: null });
 
@@ -103,10 +127,17 @@ class CreateLoverRequest extends Component {
     }
   }, 500);
 
-  handleSearchChange = search =>
+  handleSearchChange = search => {
     this.setState({ search, isInFlight: true }, this.searchDebounce);
+  };
 
-  goToMenu = () => Actions.menu();
+  handleMenuNavPress = () => {
+    Actions.menu();
+  };
+
+  handleGoBack = () => {
+    Actions.dashboard();
+  };
 
   componentDidMount() {
     analytics.screen({
@@ -116,16 +147,83 @@ class CreateLoverRequest extends Component {
   }
 
   render() {
-    if (!this.state.selectedUser) {
+    const {
+      handleSearchChange,
+      handleListItemClick,
+      handleMenuNavPress,
+      handleGoBack,
+      props: { userFirstName, userLastName },
+      state: { search, users, selectedUser, isInFlight },
+    } = this;
+    if (!selectedUser) {
       return (
-        <Template
-          onSearchChange={this.handleSearchChange}
-          onListItemClick={this.handleListItemClick}
-          userFirstName={this.props.userFirstName}
-          userLastName={this.props.userLastName}
-          goToMenu={this.goToMenu}
-          {...this.state}
-        />
+        <KeyboardAvoidingView>
+          <View style={scene.topNav}>
+            <View style={scene.topNavContent}>
+              <TouchableOpacity onPress={handleGoBack}>
+                <HeartArt scale={0.037} fill={vars.blueGrey500} />
+              </TouchableOpacity>
+              <TouchableOpacity
+                testID="create-lover-request-menu-button"
+                onPress={handleMenuNavPress}
+                style={styles.menuButton}>
+                <Text style={styles.menuButtonText}>
+                  {_.isString(userFirstName) &&
+                    userFirstName.substr(0, 1).toUpperCase()}
+                  {_.isString(userLastName) &&
+                    userLastName.substr(0, 1).toUpperCase()}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <ScrollView style={scene.content}>
+            <View style={[scene.formGroup, styles.loverSearchContainer]}>
+              <Text style={forms.label}>Search for your lover</Text>
+              <TextInput
+                testID="create-lover-request-input"
+                style={forms.input}
+                onChangeText={handleSearchChange}
+                value={search}
+                maxLength={100}
+                autoCapitalize={'none'}
+                spellCheck={false}
+                placeholder={'email, name or username'}
+                placeholderTextColor={vars.placeholder}
+              />
+            </View>
+            {users.length > 0 && (
+              <FlatList
+                style={styles.flatList}
+                data={users}
+                keyExtractor={keyExtractor}
+                renderItem={getRenderItem(handleListItemClick)}
+              />
+            )}
+            {isInFlight && !users.length && (
+              <Text style={[modal.copy, { color: vars.blue500 }]}>
+                Searching…
+              </Text>
+            )}
+            {!isInFlight &&
+              !users.length &&
+              (() => {
+                if (search.length < 2) {
+                  return (
+                    <Text style={modal.copy}>
+                      Use the search box above to find your lover. Once you and
+                      your lover are linked you can begin to use Luvup!
+                    </Text>
+                  );
+                }
+                return (
+                  <Text style={[modal.copy, { color: vars.red500 }]}>
+                    There are no users who match that username, email or full
+                    name. Please double check your spelling.
+                  </Text>
+                );
+              })()}
+          </ScrollView>
+        </KeyboardAvoidingView>
       );
     }
     return (
