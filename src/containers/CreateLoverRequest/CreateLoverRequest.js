@@ -23,6 +23,7 @@ import config from '../../config.js';
 // import Template from './CreateLoverRequest.template';
 import TemplateSelectedUser from './CreateLoverRequest.template.selectedUser';
 import HeartArt from '../../components/Art/HeartArt';
+import Input from '../../components/Input';
 import { requestLover as requestLoverAction } from '../../redux/loverRequest/loverRequest.actions';
 import { getReceivedLoverRequests as getReceivedLoverRequestsAction } from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
 
@@ -180,17 +181,17 @@ class CreateLoverRequest extends Component {
             style={scene.content}
             contentContainerStyle={styles.content}>
             <View style={[scene.formGroup, styles.loverSearchContainer]}>
-              <Text style={forms.label}>Search for your lover</Text>
-              <TextInput
-                testID="create-lover-request-input"
-                style={forms.input}
+              <Input
+                label="Search for your lover"
+                placeholder="name or email address"
                 onChangeText={handleSearchChange}
                 value={search}
-                maxLength={100}
-                autoCapitalize={'none'}
-                spellCheck={false}
-                placeholder={'name or email address'}
-                placeholderTextColor={vars.placeholder}
+                inputProps={{
+                  testID: 'create-lover-request-input',
+                  autoCapitalize: 'none',
+                  maxLength: 100,
+                  spellCheck: false,
+                }}
               />
             </View>
             {users.length > 0 && (
