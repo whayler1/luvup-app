@@ -26,6 +26,12 @@ const fontBlack = 'quicksandbold';
 const fontRegular = 'quicksandregular';
 const fontVanity = 'yesteryear';
 
+// spacing
+
+const gutterHalf = 8;
+const gutter = gutterHalf * 2;
+const gutterDouble = gutter * 2;
+
 export default {
   // colors
   blueGrey50,
@@ -71,4 +77,8 @@ export default {
   //buttons
   infoButtonBg: cyan300,
   dangerButtonBg: red500,
+  // spacing
+  gutterHalf,
+  gutter,
+  gutterDouble,
 };

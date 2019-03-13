@@ -35,8 +35,30 @@ const contentNoTop = {
   ...content,
   marginTop: 0,
 };
+const titleCopy = {
+  fontSize: 32,
+  fontFamily: vars.fontRegular,
+  color: vars.blueGrey700,
+};
+const largeCopy = {
+  fontSize: 24,
+  fontFamily: vars.fontRegular,
+  color: vars.blueGrey500,
+};
+const bodyCopy = {
+  fontSize: 16,
+  fontFamily: vars.fontRegular,
+  color: vars.blueGrey500,
+};
+const textCenter = {
+  textAlign: 'center',
+};
 
 export default StyleSheet.create({
+  textCenter,
+  titleCopy,
+  largeCopy,
+  bodyCopy,
   container,
   keyboardAvoidingView,
   topNav,

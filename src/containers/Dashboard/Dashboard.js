@@ -7,11 +7,12 @@ import _ from 'lodash';
 import { View, Text, TouchableOpacity } from 'react-native';
 
 import styles from './Dashboard.styles';
-import DashboardLoverRequestSent from './DashboardLoverRequestSent';
+// import DashboardLoverRequestSent from './DashboardLoverRequestSent';
 import DashboardTopNav from '../../components/DashboardTopNav';
 import QuizArt from '../../components/Art/QuizArt';
 import LoveNoteArt from '../../components/LoveNoteArt';
 import LimitExceededModal from '../../components/LimitExceededModal';
+import DashboardNoRelationship from './DashboardNoRelationship';
 import Hero from '../Hero';
 import analytics from '../../services/analytics';
 import {
@@ -47,11 +48,11 @@ class Dashboard extends PureComponent {
     unreadReceivedLoveNoteCount: PropTypes.number.isRequired,
     relationshipScore: PropTypes.number,
     relationshipId: PropTypes.string,
-    loverRequestFirstName: PropTypes.string,
-    loverRequestLastName: PropTypes.string,
-    loverRequestCreatedAt: PropTypes.string,
-    cancelLoverRequest: PropTypes.func.isRequired,
-    resendLoverRequestEmail: PropTypes.func.isRequired,
+    // loverRequestFirstName: PropTypes.string,
+    // loverRequestLastName: PropTypes.string,
+    // loverRequestCreatedAt: PropTypes.string,
+    // cancelLoverRequest: PropTypes.func.isRequired,
+    // resendLoverRequestEmail: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -134,11 +135,11 @@ class Dashboard extends PureComponent {
         unviewedJalapenoCount,
         unreadReceivedLoveNoteCount,
         relationshipId,
-        loverRequestFirstName,
-        loverRequestLastName,
-        loverRequestCreatedAt,
-        cancelLoverRequest,
-        resendLoverRequestEmail,
+        // loverRequestFirstName,
+        // loverRequestLastName,
+        // loverRequestCreatedAt,
+        // cancelLoverRequest,
+        // resendLoverRequestEmail,
       },
       state: {
         isPushdownVisible,
@@ -173,7 +174,7 @@ class Dashboard extends PureComponent {
         {_.isString(relationshipId) && relationshipId.length > 0 ? (
           <Hero openModal={openModal} />
         ) : (
-          <DashboardLoverRequestSent />
+          <DashboardNoRelationship />
         )}
         {_.isString(loverFirstName) && loverFirstName.length > 0 && (
           <View style={styles.tabsContainer}>
