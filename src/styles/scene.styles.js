@@ -76,4 +76,7 @@ export default StyleSheet.create({
     fontFamily: vars.fontRegular,
     fontSize: 20,
   },
+  gutterTop: {
+    marginTop: vars.gutter,
+  },
 });

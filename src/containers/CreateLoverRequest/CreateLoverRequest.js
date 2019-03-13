@@ -157,7 +157,7 @@ class CreateLoverRequest extends Component {
     } = this;
     if (!selectedUser) {
       return (
-        <KeyboardAvoidingView>
+        <KeyboardAvoidingView style={styles.container}>
           <View style={scene.topNav}>
             <View style={scene.topNavContent}>
               <TouchableOpacity onPress={handleGoBack}>
@@ -176,7 +176,9 @@ class CreateLoverRequest extends Component {
               </TouchableOpacity>
             </View>
           </View>
-          <ScrollView style={scene.content}>
+          <ScrollView
+            style={scene.content}
+            contentContainerStyle={styles.content}>
             <View style={[scene.formGroup, styles.loverSearchContainer]}>
               <Text style={forms.label}>Search for your lover</Text>
               <TextInput
@@ -187,7 +189,7 @@ class CreateLoverRequest extends Component {
                 maxLength={100}
                 autoCapitalize={'none'}
                 spellCheck={false}
-                placeholder={'email, name or username'}
+                placeholder={'name or email address'}
                 placeholderTextColor={vars.placeholder}
               />
             </View>
@@ -209,10 +211,11 @@ class CreateLoverRequest extends Component {
               (() => {
                 if (search.length < 2) {
                   return (
-                    <Text style={modal.copy}>
-                      Use the search box above to find your lover. Once you and
-                      your lover are linked you can begin to use Luvup!
-                    </Text>
+                    <View style={styles.directionsContainer}>
+                      <Text style={[scene.largeCopy, scene.textCenter]}>
+                        Use the search box above to find your lover.
+                      </Text>
+                    </View>
                   );
                 }
                 return (

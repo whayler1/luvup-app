@@ -19,7 +19,7 @@ const DashboardNoRelationship = () => (
         Welcome to Luvup!
       </Text>
       <Text style={[scene.largeCopy, scene.textCenter, styles.promptCopy]}>
-        The first step is to connect with your lover.
+        The first step is to connect with your lover (digitally).
       </Text>
       <Text style={[scene.bodyCopy, scene.textCenter, styles.promptCopy]}>
         Choose an option below to get things started.
