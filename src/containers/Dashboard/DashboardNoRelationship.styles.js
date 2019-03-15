@@ -1,26 +1,26 @@
 import { StyleSheet } from 'react-native';
 
+import { vars } from '../../styles';
+
 export default StyleSheet.create({
-  wrapper: {
-    flex: 1,
-  },
-  topContent: {
-    flex: 1,
+  contentTop: {
     flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'center',
   },
   titleCopy: {
-    marginTop: 32,
+    marginTop: vars.gutterDouble,
+  },
+  sloganCopy: {
+    marginTop: vars.gutterHalf,
+    color: vars.blueGrey700,
   },
   promptCopy: {
-    marginTop: 24,
+    marginTop: vars.gutterTriple,
   },
-  bottomContent: {
-    flex: 0,
-    marginBottom: 32,
+  subPromptCopy: {
+    marginTop: vars.gutterAndHalf,
   },
   button: {
-    marginTop: 32,
+    marginTop: vars.gutterDouble,
   },
 });

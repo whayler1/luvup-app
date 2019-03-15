@@ -12,23 +12,23 @@ const handleLoverRequestPress = () => {
 };
 
 const DashboardNoRelationship = () => (
-  <View style={[scene.content, styles.wrapper]}>
-    <View style={styles.topContent}>
+  <View style={scene.content}>
+    <View style={[scene.contentTop, styles.contentTop]}>
       <HeartArt fill={vars.blueGrey100} scale={0.1} />
       <Text style={[scene.titleCopy, scene.textCenter, styles.titleCopy]}>
         Welcome to Luvup!
       </Text>
-      <Text style={[scene.largeCopy, scene.textCenter, styles.promptCopy]}>
-        An App For Reinvesting in Your Relationship
+      <Text style={[scene.largeCopy, scene.textCenter, styles.sloganCopy]}>
+        Reinvest in Your Relationship
       </Text>
       <Text style={[scene.largeCopy, scene.textCenter, styles.promptCopy]}>
-        The first step is to connect with your lover (digitally).
+        The first step is to connect with your lover (digitally)
       </Text>
-      <Text style={[scene.bodyCopy, scene.textCenter, styles.promptCopy]}>
-        Choose an option below to get things started.
+      <Text style={[scene.bodyCopy, scene.textCenter, styles.subPromptCopy]}>
+        Choose an option below to get things started
       </Text>
     </View>
-    <View style={styles.bottomContent}>
+    <View style={scene.contentBottom}>
       <Button
         onPress={handleLoverRequestPress}
         containerViewStyle={[buttons.infoContainer, styles.button]}

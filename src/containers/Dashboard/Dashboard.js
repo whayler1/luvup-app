@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import _ from 'lodash';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, Text, TouchableOpacity } from 'react-native';
 
 import styles from './Dashboard.styles';
+import { scene } from '../../styles';
 // import DashboardLoverRequestSent from './DashboardLoverRequestSent';
 import DashboardTopNav from '../../components/DashboardTopNav';
 import QuizArt from '../../components/Art/QuizArt';
@@ -156,7 +157,7 @@ class Dashboard extends PureComponent {
     } = this;
 
     return (
-      <View style={styles.wrapper}>
+      <SafeAreaView style={scene.container}>
         <DashboardTopNav
           coinCount={coinCount}
           jalapenoCount={jalapenoCount}
@@ -202,7 +203,7 @@ class Dashboard extends PureComponent {
           coinsAvailableTime={coinsAvailableTime}
           jalapenosAvailableTime={jalapenosAvailableTime}
         />
-      </View>
+      </SafeAreaView>
     );
   }
 }

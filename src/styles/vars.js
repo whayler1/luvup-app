@@ -32,6 +32,7 @@ const gutterHalf = 8;
 const gutter = gutterHalf * 2;
 const gutterAndHalf = gutterHalf * 3;
 const gutterDouble = gutter * 2;
+const gutterTriple = gutter * 3;
 
 export default {
   // colors
@@ -83,4 +84,5 @@ export default {
   gutter,
   gutterAndHalf,
   gutterDouble,
+  gutterTriple,
 };

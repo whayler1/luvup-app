@@ -26,10 +26,10 @@ const keyboardAvoidingView = {
   alignSelf: 'stretch',
 };
 const content = {
-  marginTop: 50,
   alignSelf: 'stretch',
-  paddingVertical: 32,
-  paddingHorizontal: 16,
+  paddingTop: vars.gutterHalf,
+  paddingBottom: vars.gutterAndHalf,
+  paddingHorizontal: vars.gutter,
   flex: 1,
 };
 const contentNoTop = {
@@ -61,14 +61,6 @@ export default StyleSheet.create({
   largeCopy,
   bodyCopy,
   container,
-  contentTop: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  contentBottom: {
-    flex: 0,
-    marginBottom: vars.gutterAndHalf,
-  },
   keyboardAvoidingView,
   topNav,
   topNavContent: {
@@ -80,6 +72,13 @@ export default StyleSheet.create({
   },
   content,
   contentNoTop,
+  contentTop: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  contentBottom: {
+    flex: 0,
+  },
   copy: {
     color: vars.p,
     fontFamily: vars.fontRegular,

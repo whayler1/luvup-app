@@ -10,7 +10,6 @@ import styles from './DashboardTopNav.styles';
 
 export default ({
   coinCount,
-  jalapenoCount,
   userFirstName,
   userLastName,
   loverFirstName,
