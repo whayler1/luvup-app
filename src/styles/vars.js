@@ -30,6 +30,7 @@ const fontVanity = 'yesteryear';
 
 const gutterHalf = 8;
 const gutter = gutterHalf * 2;
+const gutterAndHalf = gutterHalf * 3;
 const gutterDouble = gutter * 2;
 
 export default {
@@ -80,5 +81,6 @@ export default {
   // spacing
   gutterHalf,
   gutter,
+  gutterAndHalf,
   gutterDouble,
 };

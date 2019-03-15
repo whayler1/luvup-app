@@ -30,6 +30,7 @@ const content = {
   alignSelf: 'stretch',
   paddingVertical: 32,
   paddingHorizontal: 16,
+  flex: 1,
 };
 const contentNoTop = {
   ...content,
@@ -60,6 +61,14 @@ export default StyleSheet.create({
   largeCopy,
   bodyCopy,
   container,
+  contentTop: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  contentBottom: {
+    flex: 0,
+    marginBottom: vars.gutterAndHalf,
+  },
   keyboardAvoidingView,
   topNav,
   topNavContent: {

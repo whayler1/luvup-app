@@ -14,9 +14,12 @@ const handleLoverRequestPress = () => {
 const DashboardNoRelationship = () => (
   <View style={[scene.content, styles.wrapper]}>
     <View style={styles.topContent}>
-      <HeartArt fill={vars.blueGrey50} scale={0.1} />
+      <HeartArt fill={vars.blueGrey100} scale={0.1} />
       <Text style={[scene.titleCopy, scene.textCenter, styles.titleCopy]}>
         Welcome to Luvup!
+      </Text>
+      <Text style={[scene.largeCopy, scene.textCenter, styles.promptCopy]}>
+        An App For Reinvesting in Your Relationship
       </Text>
       <Text style={[scene.largeCopy, scene.textCenter, styles.promptCopy]}>
         The first step is to connect with your lover (digitally).

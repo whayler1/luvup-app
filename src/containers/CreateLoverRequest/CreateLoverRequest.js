@@ -20,7 +20,7 @@ import CreateLoverRequestRenderItem from './CreateLoverRequestRenderItem';
 import analytics from '../../services/analytics';
 import config from '../../config.js';
 // import Template from './CreateLoverRequest.template';
-import TemplateSelectedUser from './CreateLoverRequest.template.selectedUser';
+import CreateLoverRequestSelectedUser from './CreateLoverRequestSelectedUser';
 import HeartArt from '../../components/Art/HeartArt';
 import SearchArt from '../../components/Art/SearchArt';
 import Input from '../../components/Input';
@@ -213,7 +213,7 @@ class CreateLoverRequest extends Component {
                 if (search.length < 2) {
                   return (
                     <View style={styles.directionsContainer}>
-                      <SearchArt fill={vars.blueGrey50} scale={3} />
+                      <SearchArt fill={vars.blueGrey100} scale={3} />
                       <Text
                         style={[
                           scene.largeCopy,
@@ -237,7 +237,7 @@ class CreateLoverRequest extends Component {
       );
     }
     return (
-      <TemplateSelectedUser
+      <CreateLoverRequestSelectedUser
         clearSelectedUser={this.clearSelectedUser}
         requestLover={this.requestLover}
         {...this.state}
