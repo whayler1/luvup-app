@@ -12,7 +12,7 @@ export default StyleSheet.create({
     flex: 1,
   },
   loverSearchContainer: {
-    marginTop: 16,
+    marginTop: 0,
   },
   renderItem: {
     paddingTop: 8,

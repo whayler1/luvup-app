@@ -13,6 +13,7 @@ class Input extends PureComponent {
     inputProps: PropTypes.object,
     onChangeText: PropTypes.func,
     error: PropTypes.string,
+    formGroupStyles: PropTypes.array,
   };
 
   static defaultProps = {
@@ -21,6 +22,7 @@ class Input extends PureComponent {
     maxLength: 50,
     inputProps: {},
     error: '',
+    formGroupStyles: [],
   };
 
   constructor(props) {
@@ -49,13 +51,14 @@ class Input extends PureComponent {
         onChangeText,
         error,
         inputProps,
+        formGroupStyles,
       },
       state: { isFocus },
       handleFocus,
       handleBlur,
     } = this;
     return (
-      <View style={forms.formGroup}>
+      <View style={[forms.formGroup, ...formGroupStyles]}>
         <Text style={forms.label}>{label}</Text>
         <TextInput
           style={[forms.input, isFocus && forms.inputFocus]}

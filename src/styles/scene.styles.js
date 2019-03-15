@@ -3,17 +3,15 @@ import { StyleSheet } from 'react-native';
 import vars from './vars';
 
 const topNav = {
-  position: 'absolute',
   backgroundColor: 'white',
-  top: 0,
-  left: 0,
-  right: 0,
-  paddingTop: 16,
-  paddingLeft: 8,
-  paddingRight: 8,
-  paddingBottom: 8,
-  marginTop: 28,
+  paddingTop: vars.gutter,
+  paddingLeft: vars.gutterHalf,
+  paddingRight: vars.gutterHalf,
+  paddingBottom: vars.gutterHalf,
   zIndex: 10,
+};
+const safeAreaView = {
+  flex: 1,
 };
 const container = {
   flex: 1,
@@ -60,6 +58,7 @@ export default StyleSheet.create({
   titleCopy,
   largeCopy,
   bodyCopy,
+  safeAreaView,
   container,
   keyboardAvoidingView,
   topNav,

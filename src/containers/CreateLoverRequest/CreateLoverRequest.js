@@ -7,6 +7,7 @@ import _ from 'lodash';
 import {
   Text,
   FlatList,
+  SafeAreaView,
   View,
   ScrollView,
   KeyboardAvoidingView,
@@ -158,82 +159,85 @@ class CreateLoverRequest extends Component {
     } = this;
     if (!selectedUser) {
       return (
-        <KeyboardAvoidingView style={styles.container}>
-          <View style={scene.topNav}>
-            <View style={scene.topNavContent}>
-              <TouchableOpacity onPress={handleGoBack}>
-                <HeartArt scale={0.037} fill={vars.blueGrey500} />
-              </TouchableOpacity>
-              <TouchableOpacity
-                testID="create-lover-request-menu-button"
-                onPress={handleMenuNavPress}
-                style={styles.menuButton}>
-                <Text style={styles.menuButtonText}>
-                  {_.isString(userFirstName) &&
-                    userFirstName.substr(0, 1).toUpperCase()}
-                  {_.isString(userLastName) &&
-                    userLastName.substr(0, 1).toUpperCase()}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-          <ScrollView
-            style={scene.content}
-            contentContainerStyle={styles.content}>
-            <View>
-              <Input
-                label="Search for your lover"
-                placeholder="name or email address"
-                onChangeText={handleSearchChange}
-                value={search}
-                inputProps={{
-                  testID: 'create-lover-request-input',
-                  autoCapitalize: 'none',
-                  maxLength: 100,
-                  spellCheck: false,
-                }}
-              />
-            </View>
-            {users.length > 0 && (
-              <FlatList
-                style={styles.flatList}
-                data={users}
-                keyExtractor={keyExtractor}
-                renderItem={getRenderItem(handleListItemClick)}
-              />
-            )}
-            {isInFlight && !users.length && (
-              <Text style={[modal.copy, { color: vars.blue500 }]}>
-                Searching…
-              </Text>
-            )}
-            {!isInFlight &&
-              !users.length &&
-              (() => {
-                if (search.length < 2) {
-                  return (
-                    <View style={styles.directionsContainer}>
-                      <SearchArt fill={vars.blueGrey100} scale={3} />
-                      <Text
-                        style={[
-                          scene.largeCopy,
-                          scene.textCenter,
-                          scene.gutterDoubleTop,
-                        ]}>
-                        Use the search box above to find your lover.
-                      </Text>
-                    </View>
-                  );
-                }
-                return (
-                  <Text style={[modal.copy, { color: vars.red500 }]}>
-                    There are no users who match that username, email or full
-                    name. Please double check your spelling.
+        <SafeAreaView style={scene.safeAreaView}>
+          <KeyboardAvoidingView style={scene.container}>
+            <View style={scene.topNav}>
+              <View style={scene.topNavContent}>
+                <TouchableOpacity onPress={handleGoBack}>
+                  <HeartArt scale={0.037} fill={vars.blueGrey500} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  testID="create-lover-request-menu-button"
+                  onPress={handleMenuNavPress}
+                  style={styles.menuButton}>
+                  <Text style={styles.menuButtonText}>
+                    {_.isString(userFirstName) &&
+                      userFirstName.substr(0, 1).toUpperCase()}
+                    {_.isString(userLastName) &&
+                      userLastName.substr(0, 1).toUpperCase()}
                   </Text>
-                );
-              })()}
-          </ScrollView>
-        </KeyboardAvoidingView>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <ScrollView
+              style={scene.content}
+              contentContainerStyle={styles.content}>
+              <View>
+                <Input
+                  label="Search for your lover"
+                  placeholder="name or email address"
+                  onChangeText={handleSearchChange}
+                  value={search}
+                  formGroupStyles={[styles.loverSearchContainer]}
+                  inputProps={{
+                    testID: 'create-lover-request-input',
+                    autoCapitalize: 'none',
+                    maxLength: 100,
+                    spellCheck: false,
+                  }}
+                />
+              </View>
+              {users.length > 0 && (
+                <FlatList
+                  style={styles.flatList}
+                  data={users}
+                  keyExtractor={keyExtractor}
+                  renderItem={getRenderItem(handleListItemClick)}
+                />
+              )}
+              {isInFlight && !users.length && (
+                <Text style={[modal.copy, { color: vars.blue500 }]}>
+                  Searching…
+                </Text>
+              )}
+              {!isInFlight &&
+                !users.length &&
+                (() => {
+                  if (search.length < 2) {
+                    return (
+                      <View style={styles.directionsContainer}>
+                        <SearchArt fill={vars.blueGrey100} scale={3} />
+                        <Text
+                          style={[
+                            scene.largeCopy,
+                            scene.textCenter,
+                            scene.gutterDoubleTop,
+                          ]}>
+                          Use the search box above to find your lover.
+                        </Text>
+                      </View>
+                    );
+                  }
+                  return (
+                    <Text style={[modal.copy, { color: vars.red500 }]}>
+                      There are no users who match that username, email or full
+                      name. Please double check your spelling.
+                    </Text>
+                  );
+                })()}
+            </ScrollView>
+          </KeyboardAvoidingView>
+        </SafeAreaView>
       );
     }
     return (
