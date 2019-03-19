@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import superagent from 'superagent';
 import _ from 'lodash';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Text, View, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { Button } from 'react-native-elements';
 
-import config from '../../config.js';
-import Template from './ConfirmUserRequestCode.template';
+import { forms, buttons, scene } from '../../styles';
+import Well from '../../components/Well';
+import Input from '../../components/Input';
 import { emailRegex } from '../../helpers';
 import { confirmUserRequestCode as confirmUserRequestCodeAction } from '../../redux/user/user.actions';
+import styles from './ConfirmUserRequestCode.styles';
 
 class ConfirmUserRequestCode extends Component {
   static propTypes = {
@@ -23,11 +26,15 @@ class ConfirmUserRequestCode extends Component {
     focusInput: '',
   };
 
-  onEmailFocus = () => this.setState({ focusInput: 'email' });
-  onCodeFocus = () => this.setState({ focusInput: 'code' });
-  onEmailChange = email => this.setState({ email });
-  onCodeChange = code => this.setState({ code });
-  onBlur = () => this.setState({ focusInput: '' });
+  handleEmailChange = email => {
+    this.setState({ email });
+  };
+  handleCodeChange = code => {
+    this.setState({ code });
+  };
+  handleFocusCode = () => {
+    this.codeEl.focus();
+  };
 
   getValidationError = () => {
     const { email, code } = this.state;
@@ -43,8 +50,40 @@ class ConfirmUserRequestCode extends Component {
     return '';
   };
 
-  onSubmitSuccess = () => {
+  handleSubmitSuccess = () => {
     Actions.confirmUserRequestCreateProfile();
+  };
+
+  setCodeRef = el => {
+    this.codeEl = el;
+  };
+
+  getEmailError = () => {
+    const { error } = this.state;
+    if (error === 'email') {
+      return 'Please provide a valid email';
+    }
+    if (error === 'no user request') {
+      return 'There is no sign up request for that email';
+    }
+    return '';
+  };
+
+  getCodeError = () => {
+    const { error } = this.state;
+    if (error === 'code') {
+      return 'Please provide the code that was emailed to you';
+    }
+    if (error === 'code-length') {
+      return 'Codes are 6 characters long';
+    }
+    if (error === 'invalid code') {
+      return 'Invalid Code';
+    }
+    if (error === 'expired code') {
+      return 'Expired code';
+    }
+    return '';
   };
 
   submit = async () => {
@@ -79,7 +118,7 @@ class ConfirmUserRequestCode extends Component {
     }
   };
 
-  onSubmit = () => {
+  handleSubmit = () => {
     const errorStr = this.getValidationError();
 
     if (errorStr.length) {
@@ -90,19 +129,88 @@ class ConfirmUserRequestCode extends Component {
   };
 
   render() {
+    const {
+      handleEmailChange,
+      handleCodeChange,
+      handleSubmit,
+      handleFocusCode,
+      setCodeRef,
+      getEmailError,
+      getCodeError,
+      state: { email, code, error, isInFlight },
+    } = this;
     return (
-      <Template
-        {..._.pick(
-          this,
-          'onEmailFocus',
-          'onCodeFocus',
-          'onEmailChange',
-          'onCodeChange',
-          'onBlur',
-          'onSubmit'
-        )}
-        {...this.state}
-      />
+      <KeyboardAvoidingView
+        style={scene.container}
+        contentContainerStyle={scene.contentNoTop}
+        behavior="padding">
+        <ScrollView style={[scene.contentTop, styles.scrollView]}>
+          <Text
+            testID="confirm-usercode-title"
+            style={[scene.titleCopy, scene.textCenter]}>
+            Confirm Sign Up Code
+          </Text>
+          <Text style={[scene.bodyCopy, scene.gutterTop, scene.textCenter]}>
+            Enter your email address and the code you received via email below.
+          </Text>
+          <Input
+            {...{
+              label: 'Email',
+              onChangeText: handleEmailChange,
+              value: email,
+              placeholder: 'jane.doe@email.com',
+              error: getEmailError(),
+              inputProps: {
+                keyboardType: 'email-address',
+                autoCapitalize: 'none',
+                editable: !isInFlight,
+                spellCheck: false,
+                returnKeyType: 'next',
+                onSubmitEditing: handleFocusCode,
+              },
+            }}
+          />
+          <Input
+            {...{
+              label: 'Code',
+              onChangeText: handleCodeChange,
+              value: code,
+              placeholder: 'This was emailed to you',
+              error: getCodeError(),
+              inputProps: {
+                testID: 'confirm-usercode-code-input',
+                ref: setCodeRef,
+                maxLength: 6,
+                keyboardType: 'numeric',
+                autoCapitalize: 'none',
+                editable: !isInFlight,
+                spellCheck: false,
+                returnKeyType: 'go',
+                onSubmitEditing: handleSubmit,
+              },
+            }}
+          />
+          {error === 'response' && (
+            <Well text="There was an error confirming your signup code" />
+          )}
+          {error === 'user request used' && (
+            <Well text="This user already exists" />
+          )}
+          <View style={forms.buttonRow}>
+            <View style={styles.submitWrapper}>
+              <Button
+                testID="confirm-usercode-submit"
+                onPress={handleSubmit}
+                containerViewStyle={buttons.container}
+                buttonStyle={buttons.infoButton}
+                textStyle={buttons.infoText}
+                title={isInFlight ? 'Submitting…' : 'Submit'}
+                disabled={isInFlight}
+              />
+            </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     );
   }
 }
