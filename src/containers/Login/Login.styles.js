@@ -36,9 +36,9 @@ const styles = StyleSheet.create({
   },
   forgotPasswordText: {
     textAlign: 'right',
-    fontFamily: vars.fontRegular,
-    fontSize: 18,
-    color: vars.blueGrey500,
+    // fontFamily: vars.fontRegular,
+    // fontSize: 18,
+    // color: vars.blueGrey500,
   },
 });
 

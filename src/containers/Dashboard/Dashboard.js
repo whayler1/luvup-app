@@ -49,9 +49,9 @@ class Dashboard extends PureComponent {
     unreadReceivedLoveNoteCount: PropTypes.number.isRequired,
     relationshipScore: PropTypes.number,
     relationshipId: PropTypes.string,
-    // loverRequestFirstName: PropTypes.string,
-    // loverRequestLastName: PropTypes.string,
-    // loverRequestCreatedAt: PropTypes.string,
+    loverRequestFirstName: PropTypes.string,
+    loverRequestLastName: PropTypes.string,
+    loverRequestCreatedAt: PropTypes.string,
     // cancelLoverRequest: PropTypes.func.isRequired,
     // resendLoverRequestEmail: PropTypes.func.isRequired,
   };
@@ -136,9 +136,9 @@ class Dashboard extends PureComponent {
         unviewedJalapenoCount,
         unreadReceivedLoveNoteCount,
         relationshipId,
-        // loverRequestFirstName,
-        // loverRequestLastName,
-        // loverRequestCreatedAt,
+        loverRequestFirstName,
+        loverRequestLastName,
+        loverRequestCreatedAt,
         // cancelLoverRequest,
         // resendLoverRequestEmail,
       },
@@ -175,7 +175,13 @@ class Dashboard extends PureComponent {
         {_.isString(relationshipId) && relationshipId.length > 0 ? (
           <Hero openModal={openModal} />
         ) : (
-          <DashboardNoRelationship />
+          <DashboardNoRelationship
+            {...{
+              loverRequestFirstName,
+              loverRequestLastName,
+              loverRequestCreatedAt,
+            }}
+          />
         )}
         {_.isString(loverFirstName) && loverFirstName.length > 0 && (
           <View style={styles.tabsContainer}>

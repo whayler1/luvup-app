@@ -9,6 +9,7 @@ const topNav = {
   paddingRight: vars.gutterHalf,
   paddingBottom: vars.gutterHalf,
   zIndex: 10,
+  alignSelf: 'stretch',
 };
 const safeAreaView = {
   flex: 1,
