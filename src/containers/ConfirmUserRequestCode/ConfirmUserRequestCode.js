@@ -16,7 +16,9 @@ import styles from './ConfirmUserRequestCode.styles';
 class ConfirmUserRequestCode extends Component {
   static propTypes = {
     email: PropTypes.string,
-    confirmUserRequestCode: PropTypes.func,
+    confirmUserRequestCode: PropTypes.func.isRequired,
+    isConfirmUserRequestCodeInFlight: PropTypes.bool.isRequired,
+    confirmUserRequestCodeError: PropTypes.string.isRequired,
   };
 
   state = {
@@ -90,29 +92,26 @@ class ConfirmUserRequestCode extends Component {
     const { email, code } = this.state;
     const res = await this.props.confirmUserRequestCode(email, code);
 
-    const confirmUserRequestCode = _.at(
+    const confirmUserRequestCode = _.get(
       res,
       'body.data.confirmUserRequestCode'
-    )[0];
+    );
 
     if (confirmUserRequestCode) {
       if (confirmUserRequestCode.error && confirmUserRequestCode.error.length) {
         this.setState({
-          isInFlight: false,
           error: confirmUserRequestCode.error,
         });
       } else {
         this.setState(
           {
-            isInFlight: false,
             error: '',
           },
-          this.onSubmitSuccess
+          this.handleSubmitSuccess
         );
       }
     } else {
       this.setState({
-        isInFlight: false,
         error: 'server',
       });
     }
@@ -125,7 +124,7 @@ class ConfirmUserRequestCode extends Component {
       this.setState({ error: errorStr });
       return;
     }
-    this.setState({ error: '', isInFlight: true }, this.submit);
+    this.setState({ error: '' }, this.submit);
   };
 
   render() {
@@ -137,7 +136,11 @@ class ConfirmUserRequestCode extends Component {
       setCodeRef,
       getEmailError,
       getCodeError,
-      state: { email, code, error, isInFlight },
+      state: { email, code },
+      props: {
+        isConfirmUserRequestCodeInFlight: isInFlight,
+        confirmUserRequestCodeError,
+      },
     } = this;
     return (
       <KeyboardAvoidingView
@@ -190,11 +193,8 @@ class ConfirmUserRequestCode extends Component {
               },
             }}
           />
-          {error === 'response' && (
-            <Well text="There was an error confirming your signup code" />
-          )}
-          {error === 'user request used' && (
-            <Well text="This user already exists" />
+          {confirmUserRequestCodeError.length > 0 && (
+            <Well text={confirmUserRequestCodeError} />
           )}
           <View style={forms.buttonRow}>
             <View style={styles.submitWrapper}>
@@ -218,6 +218,9 @@ class ConfirmUserRequestCode extends Component {
 export default connect(
   state => ({
     email: state.user.email,
+    isConfirmUserRequestCodeInFlight:
+      state.user.isConfirmUserRequestCodeInFlight,
+    confirmUserRequestCodeError: state.user.confirmUserRequestCodeError,
   }),
   {
     confirmUserRequestCode: confirmUserRequestCodeAction,

@@ -46,7 +46,12 @@ export const RESET_PASSWORD_WITH_GENERATED_PASSWORD_FAILURE =
 export const USER_REQUEST_ATTEMPT = 'user/user-attempt';
 export const USER_REQUEST_SUCCESS = 'user/user-success';
 export const USER_REQUEST_FAILURE = 'user/user-failure';
-export const CONFIRM_USER_REQUEST_CODE = 'user/confirm-user-request-code';
+export const CONFIRM_USER_REQUEST_CODE_ATTEMPT =
+  'user/confirm-user-request-code-attempt';
+export const CONFIRM_USER_REQUEST_CODE_SUCCESS =
+  'user/confirm-user-request-code-success';
+export const CONFIRM_USER_REQUEST_CODE_FAILURE =
+  'user/confirm-user-request-code-failure';
 export const GET_ME_ATTEMPT = 'user/get-me-attempt';
 export const GET_ME_SUCCESS = 'user/get-me-success';
 export const GET_ME_FAILURE = 'user/get-me-failure';
@@ -302,24 +307,37 @@ export const setUser = (
 });
 
 export const confirmUserRequestCode = (email, code) => async dispatch => {
+  dispatch({ type: CONFIRM_USER_REQUEST_CODE_ATTEMPT });
   try {
     const res = await userApi.confirmUserRequestCode(email, code);
-
-    const confirmUserRequestCode = _.at(
+    const confirmUserRequestCode = _.get(
       res,
       'body.data.confirmUserRequestCode'
-    )[0];
+    );
 
     if (confirmUserRequestCode && confirmUserRequestCode.success) {
       dispatch({
-        type: CONFIRM_USER_REQUEST_CODE,
+        type: CONFIRM_USER_REQUEST_CODE_SUCCESS,
         email,
         code,
       });
+      return res;
     }
 
+    dispatch({
+      type: CONFIRM_USER_REQUEST_CODE_FAILURE,
+      errorMessage: _.get(
+        res,
+        'body.errors[0].message',
+        'Error submitting request code'
+      ),
+    });
     return res;
   } catch (err) {
+    dispatch({
+      type: CONFIRM_USER_REQUEST_CODE_FAILURE,
+      errorMessage: _.get(err, 'message', 'Error submitting request code'),
+    });
     return err;
   }
 };
