@@ -52,18 +52,7 @@ const getSceneStyle = () => ({
 const sceneDefaults = {
   ..._.pick(navbar, ['navigationBarStyle']),
   navBarButtonColor: vars.cyan500,
-  renderTitle: (
-    <View>
-      <Text
-        style={{
-          fontFamily: vars.fontVanity,
-          color: vars.blueGrey700,
-          fontSize: 30,
-        }}>
-        luvup
-      </Text>
-    </View>
-  ),
+  renderTitle: <View />,
 };
 
 const getDefaultNavBar = title => ({

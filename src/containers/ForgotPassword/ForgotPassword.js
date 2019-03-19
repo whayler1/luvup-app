@@ -71,12 +71,17 @@ class ForgotPassword extends PureComponent {
         <View style={scene.container}>
           <View style={scene.contentNoTop}>
             <View style={scene.contentTop}>
-              <Text style={scene.titleCopy}>Password Reset Email Sent</Text>
-              <Text style={[scene.bodyCopy, styles.copy, scene.gutterTop]}>
+              <Text style={[scene.titleCopy, scene.textCenter]}>
+                Email Sent
+              </Text>
+              <Text
+                style={[scene.largeCopy, scene.textCenter, scene.gutterTop]}>
                 An email with a temporary password has been sent to{' '}
-                <Text style={styles.copyBold}>{this.state.email}</Text>. After
-                you log in with your new password you will be prompted to change
-                it to a password of your liking.
+                <Text style={styles.copyBold}>{this.state.email}</Text>.
+              </Text>
+              <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
+                After you log in with your new password you will be prompted to
+                change it to a password of your liking.
               </Text>
               <View style={forms.formGroup}>
                 <Button

@@ -2,9 +2,13 @@ import React, { PureComponent } from 'react';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { Text, View, KeyboardAvoidingView } from 'react-native';
+import { Button } from 'react-native-elements';
+import Input from '../../components/Input';
 
+import { buttons, forms, scene, wells } from '../../styles';
+import styles from './SignUp.styles';
 import { emailRegex } from '../../helpers';
-import Template from './SignUp.template';
 import { userRequest as userRequestAction } from '../../redux/user/user.actions';
 
 class SignUp extends PureComponent {
@@ -34,9 +38,7 @@ class SignUp extends PureComponent {
     }
   }
 
-  handleEmailFocus = () => this.setState({ focusInput: 'email' });
   handleEmailChange = email => this.setState({ email });
-  handleBlur = () => this.setState({ focusInput: '' });
 
   getValidationError = () => {
     if (!emailRegex.test(this.state.email)) {
@@ -59,17 +61,56 @@ class SignUp extends PureComponent {
   };
 
   render() {
+    const {
+      handleSubmit,
+      handleEmailChange,
+      state: { email, error },
+      props: { isUserRequestInFlight: isInFlight, userRequestError },
+    } = this;
     return (
-      <Template
-        onEmailFocus={this.handleEmailFocus}
-        onEmailChange={this.handleEmailChange}
-        onBlur={this.handleBlur}
-        onSubmit={this.handleSubmit}
-        error={this.props.userRequestError || this.state.error}
-        isInFlight={this.props.isUserRequestInFlight}
-        email={this.state.email}
-        focusInput={this.state.focusInput}
-      />
+      <KeyboardAvoidingView style={scene.container} behavior="padding">
+        <View style={scene.contentNoTop}>
+          <View style={scene.contentTop}>
+            <Text style={[scene.titleCopy, scene.textCenter]}>Sign Up</Text>
+            <Input
+              onChangeText={handleEmailChange}
+              value={email}
+              placeholder="jane.doe@email.com"
+              label="Email"
+              error={
+                error === 'email' ? 'Please enter a valid email address' : ''
+              }
+              inputProps={{
+                testID: 'signup-email-input',
+                returnKeyType: 'go',
+                keyboardType: 'email-address',
+                autoCapitalize: 'none',
+                autoCorrect: false,
+                editable: !isInFlight,
+                spellCheck: false,
+                onSubmitEditing: handleSubmit,
+              }}
+            />
+            {userRequestError.length > 0 && (
+              <View style={[wells.error, styles.errorWellWrapper]}>
+                <Text style={wells.errorText}>{userRequestError}</Text>
+              </View>
+            )}
+            <View style={forms.buttonRow}>
+              <View style={styles.submitWrap}>
+                <Button
+                  onPress={handleSubmit}
+                  containerViewStyle={buttons.container}
+                  buttonStyle={buttons.infoButton}
+                  textStyle={buttons.infoText}
+                  title={isInFlight ? 'Submitting…' : 'Submit'}
+                  disabled={isInFlight}
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+      </KeyboardAvoidingView>
     );
   }
 }

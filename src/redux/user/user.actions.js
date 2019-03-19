@@ -249,7 +249,6 @@ export const userRequest = email => async dispatch => {
         'Http response not ok'
       );
       dispatch({ type: USER_REQUEST_FAILURE, errorMessage });
-      return errorMessage;
     }
 
     dispatch({
