@@ -13,6 +13,8 @@ import { emailRegex } from '../../helpers';
 import { confirmUserRequestCode as confirmUserRequestCodeAction } from '../../redux/user/user.actions';
 import styles from './ConfirmUserRequestCode.styles';
 
+const CODE_LENGTH = 6;
+
 class ConfirmUserRequestCode extends Component {
   static propTypes = {
     email: PropTypes.string,
@@ -29,10 +31,10 @@ class ConfirmUserRequestCode extends Component {
   };
 
   handleEmailChange = email => {
-    this.setState({ email });
+    this.setState({ email, error: '' });
   };
   handleCodeChange = code => {
-    this.setState({ code });
+    this.setState({ code, error: '' });
   };
   handleFocusCode = () => {
     this.codeEl.focus();
@@ -127,6 +129,15 @@ class ConfirmUserRequestCode extends Component {
     this.setState({ error: '' }, this.submit);
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.code.length !== CODE_LENGTH &&
+      this.state.code.length === CODE_LENGTH
+    ) {
+      this.handleSubmit();
+    }
+  }
+
   render() {
     const {
       handleEmailChange,
@@ -136,7 +147,7 @@ class ConfirmUserRequestCode extends Component {
       setCodeRef,
       getEmailError,
       getCodeError,
-      state: { email, code },
+      state: { email, code, error: stateError },
       props: {
         isConfirmUserRequestCodeInFlight: isInFlight,
         confirmUserRequestCodeError,
@@ -193,7 +204,7 @@ class ConfirmUserRequestCode extends Component {
               },
             }}
           />
-          {confirmUserRequestCodeError.length > 0 && (
+          {confirmUserRequestCodeError.length > 0 && stateError.length < 1 && (
             <Well text={confirmUserRequestCodeError} />
           )}
           <View style={forms.buttonRow}>
