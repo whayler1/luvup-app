@@ -23,12 +23,18 @@ class ConfirmUserRequestCode extends Component {
     confirmUserRequestCodeError: PropTypes.string.isRequired,
   };
 
-  state = {
-    email: this.props.email || '',
-    code: '',
-    error: '',
-    focusInput: '',
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      email: props.email || '',
+      code: '',
+      error: '',
+      focusInput: '',
+    };
+
+    this.isEmailSetonInit = _.isString(props.email) && props.email.length > 0;
+  }
 
   handleEmailChange = email => {
     this.setState({ email, error: '' });
@@ -147,6 +153,7 @@ class ConfirmUserRequestCode extends Component {
       setCodeRef,
       getEmailError,
       getCodeError,
+      isEmailSetonInit,
       state: { email, code, error: stateError },
       props: {
         isConfirmUserRequestCodeInFlight: isInFlight,
@@ -154,73 +161,77 @@ class ConfirmUserRequestCode extends Component {
       },
     } = this;
     return (
-      <KeyboardAvoidingView
-        style={scene.container}
-        contentContainerStyle={scene.contentNoTop}
-        behavior="padding">
-        <ScrollView style={[scene.contentTop, styles.scrollView]}>
-          <Text
-            testID="confirm-usercode-title"
-            style={[scene.titleCopy, scene.textCenter]}>
-            Confirm Sign Up Code
-          </Text>
-          <Text style={[scene.bodyCopy, scene.gutterTop, scene.textCenter]}>
-            Enter your email address and the code you received via email below.
-          </Text>
-          <Input
-            {...{
-              label: 'Email',
-              onChangeText: handleEmailChange,
-              value: email,
-              placeholder: 'jane.doe@email.com',
-              error: getEmailError(),
-              inputProps: {
-                keyboardType: 'email-address',
-                autoCapitalize: 'none',
-                editable: !isInFlight,
-                spellCheck: false,
-                returnKeyType: 'next',
-                onSubmitEditing: handleFocusCode,
-              },
-            }}
-          />
-          <Input
-            {...{
-              label: 'Code',
-              onChangeText: handleCodeChange,
-              value: code,
-              placeholder: 'This was emailed to you',
-              error: getCodeError(),
-              inputProps: {
-                testID: 'confirm-usercode-code-input',
-                ref: setCodeRef,
-                maxLength: 6,
-                keyboardType: 'numeric',
-                autoCapitalize: 'none',
-                editable: !isInFlight,
-                spellCheck: false,
-                returnKeyType: 'go',
-                onSubmitEditing: handleSubmit,
-              },
-            }}
-          />
-          {confirmUserRequestCodeError.length > 0 && stateError.length < 1 && (
-            <Well text={confirmUserRequestCodeError} />
-          )}
-          <View style={forms.buttonRow}>
-            <View style={styles.submitWrapper}>
-              <Button
-                testID="confirm-usercode-submit"
-                onPress={handleSubmit}
-                containerViewStyle={buttons.container}
-                buttonStyle={buttons.infoButton}
-                textStyle={buttons.infoText}
-                title={isInFlight ? 'Submitting…' : 'Submit'}
-                disabled={isInFlight}
+      <KeyboardAvoidingView style={scene.container} behavior="padding">
+        <View style={scene.contentNoTop}>
+          <ScrollView style={[scene.contentTop, styles.scrollView]}>
+            <Text
+              testID="confirm-usercode-title"
+              style={[scene.titleCopy, scene.textCenter]}>
+              Confirm Sign Up Code
+            </Text>
+            <Text style={[scene.bodyCopy, scene.gutterTop, scene.textCenter]}>
+              {`Enter ${
+                isEmailSetonInit ? '' : 'your email address and'
+              }the code you received via email below.`}
+            </Text>
+            {!isEmailSetonInit && (
+              <Input
+                {...{
+                  label: 'Email',
+                  onChangeText: handleEmailChange,
+                  value: email,
+                  placeholder: 'jane.doe@email.com',
+                  error: getEmailError(),
+                  inputProps: {
+                    keyboardType: 'email-address',
+                    autoCapitalize: 'none',
+                    editable: !isInFlight,
+                    spellCheck: false,
+                    returnKeyType: 'next',
+                    onSubmitEditing: handleFocusCode,
+                  },
+                }}
               />
+            )}
+            <Input
+              {...{
+                label: 'Code',
+                onChangeText: handleCodeChange,
+                value: code,
+                placeholder: 'This was emailed to you',
+                error: getCodeError(),
+                inputProps: {
+                  testID: 'confirm-usercode-code-input',
+                  ref: setCodeRef,
+                  maxLength: 6,
+                  keyboardType: 'numeric',
+                  autoCapitalize: 'none',
+                  editable: !isInFlight,
+                  spellCheck: false,
+                  returnKeyType: 'go',
+                  onSubmitEditing: handleSubmit,
+                },
+              }}
+            />
+            {confirmUserRequestCodeError.length > 0 &&
+              stateError.length < 1 && (
+                <Well text={confirmUserRequestCodeError} />
+              )}
+            <View style={forms.buttonRow}>
+              <View style={styles.submitWrapper}>
+                <Button
+                  testID="confirm-usercode-submit"
+                  onPress={handleSubmit}
+                  containerViewStyle={buttons.container}
+                  buttonStyle={buttons.infoButton}
+                  textStyle={buttons.infoText}
+                  title={isInFlight ? 'Submitting…' : 'Submit'}
+                  disabled={isInFlight}
+                />
+              </View>
             </View>
-          </View>
-        </ScrollView>
+          </ScrollView>
+        </View>
       </KeyboardAvoidingView>
     );
   }

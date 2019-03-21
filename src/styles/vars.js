@@ -32,6 +32,7 @@ const gutterHalf = 8;
 const gutter = gutterHalf * 2;
 const gutterAndHalf = gutterHalf * 3;
 const gutterDouble = gutter * 2;
+const gutterDoubleAndHalf = gutter * 2.5;
 const gutterTriple = gutter * 3;
 
 export default {
@@ -84,5 +85,6 @@ export default {
   gutter,
   gutterAndHalf,
   gutterDouble,
+  gutterDoubleAndHalf,
   gutterTriple,
 };

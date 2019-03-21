@@ -3,7 +3,8 @@ import _ from 'lodash';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Text, View, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { Text, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Button } from 'react-native-elements';
 
 import { forms, buttons, scene } from '../../styles';
@@ -36,14 +37,17 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
     focusInput: '',
   };
 
-  _onChangeFunc = key => val => this.setState({ [key]: val });
+  _onChangeFunc = key => val => this.setState({ [key]: val, error: '' });
 
-  onUsernameChange = this._onChangeFunc('username');
-  onFirstNameChange = this._onChangeFunc('firstName');
-  onLastNameChange = this._onChangeFunc('lastName');
-  onPasswordChange = this._onChangeFunc('password');
-  onPasswordAgainChange = this._onChangeFunc('passwordAgain');
+  handleUsernameChange = this._onChangeFunc('username');
+  handleFirstNameChange = this._onChangeFunc('firstName');
+  handleLastNameChange = this._onChangeFunc('lastName');
+  handlePasswordChange = this._onChangeFunc('password');
+  handlePasswordAgainChange = this._onChangeFunc('passwordAgain');
 
+  setUsernameRef(el) {
+    this.usernameRef = el;
+  }
   setFirstNameEl(el) {
     this.firstNameEl = el;
   }
@@ -71,12 +75,24 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
   }
 
   getValidationError = () => {
-    const { username, password, passwordAgain } = this.state;
+    const {
+      username,
+      firstName,
+      lastName,
+      password,
+      passwordAgain,
+    } = this.state;
     if (!username) {
       return 'username';
     }
     if (username.length < 3) {
       return 'username-length';
+    }
+    if (firstName.length < 3) {
+      return 'firstname-length';
+    }
+    if (lastName.length < 3) {
+      return 'lastname-length';
     }
     if (!password) {
       return 'password';
@@ -144,7 +160,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
       password
     );
 
-    if (!_.at(res, 'body.data.confirmUser')[0]) {
+    if (!_.get(res, 'body.data.confirmUser')) {
       this.setState({ error: 'response', isInFlight: false });
     } else {
       const { error } = res.body.data.confirmUser;
@@ -156,7 +172,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
     }
   };
 
-  onSubmit = () => {
+  handleSumbit = () => {
     const errorStr = this.getValidationError();
 
     if (errorStr.length) {
@@ -166,14 +182,24 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
     this.setState({ error: '', isInFlight: true }, this.submit);
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.passwordAgain.length !== this.state.passwordAgain.length &&
+      this.getValidationError === ''
+    ) {
+      this.handleSumbit();
+    }
+  }
+
   render() {
     const {
-      onUsernameChange,
-      onFirstNameChange,
-      onLastNameChange,
-      onPasswordChange,
-      onPasswordAgainChange,
-      onSubmit,
+      handleUsernameChange,
+      handleFirstNameChange,
+      handleLastNameChange,
+      handlePasswordChange,
+      handlePasswordAgainChange,
+      handleSumbit,
+      setUsernameRef,
       setFirstNameEl,
       setLastNameEl,
       setPasswordEl,
@@ -197,16 +223,18 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
     } = this;
 
     return (
-      <KeyboardAvoidingView
+      <KeyboardAwareScrollView
         style={scene.container}
-        contentContainerStyle={scene.contentNoTop}
-        behavior="padding">
-        <ScrollView style={scene.contentTop}>
-          <Text style={scene.titleCopy}>Create Your Profile</Text>
+        contentContainerStyle={scene.contentNoTop}>
+        <View style={[scene.contentTop, styles.contentNoTop]}>
+          <Text style={[scene.titleCopy, scene.textCenter]}>
+            Create Your Profile
+          </Text>
           <Input
             {...{
+              ref: setUsernameRef,
               label: 'Username',
-              onChangeText: onUsernameChange,
+              onChangeText: handleUsernameChange,
               value: username,
               placeholder: 'Min 8 chars. No spaces.',
               error: getUsernameError(),
@@ -223,7 +251,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
             <Input
               {...{
                 label: 'First Name',
-                onChangeText: onFirstNameChange,
+                onChangeText: handleFirstNameChange,
                 value: firstName,
                 placeholder: 'Jane',
                 inputProps: {
@@ -240,7 +268,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
             <Input
               {...{
                 label: 'Last Name',
-                onChangeText: onLastNameChange,
+                onChangeText: handleLastNameChange,
                 value: lastName,
                 placeholder: 'Doe',
                 inputProps: {
@@ -259,7 +287,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
             {...{
               label: 'Password',
               testID: 'create-profile-password-input',
-              onChangeText: onPasswordChange,
+              onChangeText: handlePasswordChange,
               value: password,
               placeholder: 'Min 8 Chars. No spaces',
               error: getPasswordError(),
@@ -276,7 +304,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
           <Input
             {...{
               label: 'Re-Enter Password',
-              onChangeText: onPasswordAgainChange,
+              onChangeText: handlePasswordAgainChange,
               value: passwordAgain,
               placeholder: 'Must match password',
               error: getReEnterPasswordError(),
@@ -287,7 +315,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
                 editable: !isInFlight,
                 spellCheck: false,
                 returnKeyType: 'go',
-                onSubmitEditing: onSubmit,
+                onSubmitEditing: handleSumbit,
               },
             }}
           />
@@ -300,7 +328,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
           <View style={forms.buttonRow}>
             <View style={styles.submitWrap}>
               <Button
-                onPress={onSubmit}
+                onPress={handleSumbit}
                 containerViewStyle={buttons.infoContainer}
                 buttonStyle={buttons.infoButton}
                 textStyle={buttons.infoText}
@@ -309,8 +337,8 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
               />
             </View>
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        </View>
+      </KeyboardAwareScrollView>
     );
   }
 }

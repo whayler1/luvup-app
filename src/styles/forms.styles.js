@@ -43,6 +43,9 @@ export default StyleSheet.create({
     fontSize: 15,
     color: vars.blueGrey500,
   },
+  labelFocus: {
+    color: vars.link,
+  },
   description: {
     fontFamily: vars.fontBlack,
     fontSize: 12,

@@ -59,7 +59,7 @@ class Input extends PureComponent {
     } = this;
     return (
       <View style={[forms.formGroup, ...formGroupStyles]}>
-        <Text style={forms.label}>{label}</Text>
+        <Text style={(forms.label, isFocus && forms.labelFocus)}>{label}</Text>
         <TextInput
           style={[forms.input, isFocus && forms.inputFocus]}
           onFocus={handleFocus}
