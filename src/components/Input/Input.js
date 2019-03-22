@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, TextInput } from 'react-native';
+import { TextInput } from 'react-native';
 
 import { vars, forms } from '../../styles';
+import InputWrapper from './InputWrapper';
 
 class Input extends PureComponent {
   static propTypes = {
@@ -58,8 +59,7 @@ class Input extends PureComponent {
       handleBlur,
     } = this;
     return (
-      <View style={[forms.formGroup, ...formGroupStyles]}>
-        <Text style={(forms.label, isFocus && forms.labelFocus)}>{label}</Text>
+      <InputWrapper {...{ label, error, formGroupStyles, isFocus }}>
         <TextInput
           style={[forms.input, isFocus && forms.inputFocus]}
           onFocus={handleFocus}
@@ -71,8 +71,7 @@ class Input extends PureComponent {
           placeholderTextColor={vars.blueGrey100}
           {...inputProps}
         />
-        {error.length > 0 && <Text style={forms.error}>{error}</Text>}
-      </View>
+      </InputWrapper>
     );
   }
 }
