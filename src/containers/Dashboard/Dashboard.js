@@ -49,11 +49,16 @@ class Dashboard extends PureComponent {
     unreadReceivedLoveNoteCount: PropTypes.number.isRequired,
     relationshipScore: PropTypes.number,
     relationshipId: PropTypes.string,
+    loverRequestId: PropTypes.string,
     loverRequestFirstName: PropTypes.string,
     loverRequestLastName: PropTypes.string,
     loverRequestCreatedAt: PropTypes.string,
-    // cancelLoverRequest: PropTypes.func.isRequired,
-    // resendLoverRequestEmail: PropTypes.func.isRequired,
+    cancelLoverRequest: PropTypes.func.isRequired,
+    resendLoverRequestEmail: PropTypes.func.isRequired,
+    isCancelLoverRequestInFlight: PropTypes.bool.isRequired,
+    cancelLoverRequestError: PropTypes.string.isRequired,
+    isResendRequestEmailInFlight: PropTypes.bool.isRequired,
+    resendLoverRequestEmailError: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -136,11 +141,16 @@ class Dashboard extends PureComponent {
         unviewedJalapenoCount,
         unreadReceivedLoveNoteCount,
         relationshipId,
+        loverRequestId,
         loverRequestFirstName,
         loverRequestLastName,
         loverRequestCreatedAt,
-        // cancelLoverRequest,
-        // resendLoverRequestEmail,
+        cancelLoverRequest,
+        resendLoverRequestEmail,
+        isCancelLoverRequestInFlight,
+        cancelLoverRequestError,
+        isResendRequestEmailInFlight,
+        resendLoverRequestEmailError,
       },
       state: {
         isPushdownVisible,
@@ -177,9 +187,16 @@ class Dashboard extends PureComponent {
         ) : (
           <DashboardNoRelationship
             {...{
+              loverRequestId,
               loverRequestFirstName,
               loverRequestLastName,
               loverRequestCreatedAt,
+              cancelLoverRequest,
+              resendLoverRequestEmail,
+              isCancelLoverRequestInFlight,
+              cancelLoverRequestError,
+              isResendRequestEmailInFlight,
+              resendLoverRequestEmailError,
             }}
           />
         )}
@@ -230,9 +247,17 @@ export default connect(
     unreadReceivedLoveNoteCount: state.loveNote.unreadReceivedLoveNoteCount,
     relationshipScore: state.relationshipScore.score,
     relationshipId: state.relationship.id,
+    loverRequestId: state.loverRequest.id,
     loverRequestFirstName: state.loverRequest.firstName,
     loverRequestLastName: state.loverRequest.lastName,
     loverRequestCreatedAt: state.loverRequest.createdAt,
+    isCancelLoverRequestInFlight:
+      state.loverRequest.isCancelLoverRequestInFlight,
+    cancelLoverRequestError: state.loverRequest.cancelLoverRequestError,
+    isResendRequestEmailInFlight:
+      state.loverRequest.isResendRequestEmailInFlight,
+    resendLoverRequestEmailError:
+      state.loverRequest.resendLoverRequestEmailError,
   }),
   {
     getCoinCount: getCoinCountAction,

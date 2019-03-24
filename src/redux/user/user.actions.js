@@ -31,7 +31,9 @@ import {
 import userApi from './user.api';
 
 export const SET_USER = 'user/set-user';
-export const LOGIN = 'user/login';
+export const LOGIN_ATTEMPT = 'user/login-attempt';
+export const LOGIN_SUCCESS = 'user/login-success';
+export const LOGIN_FAILURE = 'user/login-failure';
 export const LOGOUT = 'user/logout';
 export const REAUTH = 'user/reauth';
 export const SEND_NEW_PASSWORD_ATTEMPT = 'user/send-new-password-attempt';
@@ -60,13 +62,14 @@ export const GET_TIMELINE_DATA_SUCCESS = 'user/get-timeline-data-success';
 export const GET_TIMELINE_DATA_FAILURE = 'user/get-timeline-data-failure';
 
 export const login = (usernameOrEmail, password) => async dispatch => {
+  dispatch({ type: LOGIN_ATTEMPT });
   try {
     const res = await userApi.login(usernameOrEmail, password);
 
     await AsyncStorage.setItem('id_token', res.body.id_token);
 
     dispatch({
-      type: LOGIN,
+      type: LOGIN_SUCCESS,
       id: res.body.user.id,
       email: res.body.user.email,
       username: res.body.user.username,
@@ -75,6 +78,7 @@ export const login = (usernameOrEmail, password) => async dispatch => {
     listenToNotifications();
     return res;
   } catch (err) {
+    dispatch({ type: LOGIN_FAILURE, errorMessage: err.message });
     return err;
   }
 };
@@ -341,6 +345,11 @@ export const confirmUserRequestCode = (email, code) => async dispatch => {
     return err;
   }
 };
+
+export const clearUserRequestCodeError = () => ({
+  type: CONFIRM_USER_REQUEST_CODE_FAILURE,
+  errorMessage: '',
+});
 
 export const getTimelineData = limit => async dispatch => {
   dispatch({ type: GET_TIMELINE_DATA_ATTEMPT });

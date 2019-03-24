@@ -26,16 +26,19 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
     getMe: PropTypes.func.isRequired,
   };
 
-  state = {
-    username: '',
-    firstName: '',
-    lastName: '',
-    password: '',
-    passwordAgain: '',
-    error: '',
-    isInFlight: false,
-    focusInput: '',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      firstName: '',
+      lastName: '',
+      password: '',
+      passwordAgain: '',
+      error: '',
+      isInFlight: false,
+      focusInput: '',
+    };
+  }
 
   _onChangeFunc = key => val => this.setState({ [key]: val, error: '' });
 
@@ -145,7 +148,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
     await this.props.login(username, password);
     await this.props.getMe();
 
-    Actions.createloverrequest();
+    Actions.dashboard();
   };
 
   submit = async () => {

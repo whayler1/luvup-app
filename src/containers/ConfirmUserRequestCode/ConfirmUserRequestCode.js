@@ -11,15 +11,19 @@ import Well from '../../components/Well';
 import Input from '../../components/Input';
 import InputNumber from '../../components/Input/InputNumber';
 import { emailRegex } from '../../helpers';
-import { confirmUserRequestCode as confirmUserRequestCodeAction } from '../../redux/user/user.actions';
+import {
+  confirmUserRequestCode as confirmUserRequestCodeAction,
+  clearUserRequestCodeError as clearUserRequestCodeErrorAction,
+} from '../../redux/user/user.actions';
 import styles from './ConfirmUserRequestCode.styles';
 
-const CODE_LENGTH = 6;
+const IS_VALID_CODE_REGEX = /^[0-9]{6}$/;
 
 class ConfirmUserRequestCode extends Component {
   static propTypes = {
     email: PropTypes.string,
     confirmUserRequestCode: PropTypes.func.isRequired,
+    clearUserRequestCodeError: PropTypes.func.isRequired,
     isConfirmUserRequestCodeInFlight: PropTypes.bool.isRequired,
     confirmUserRequestCodeError: PropTypes.string.isRequired,
   };
@@ -27,11 +31,14 @@ class ConfirmUserRequestCode extends Component {
   constructor(props) {
     super(props);
 
+    props.clearUserRequestCodeError();
+
     this.state = {
       email: props.email || '',
       code: '',
       error: '',
       focusInput: '',
+      isFirstSubmitDone: false,
     };
 
     this.isEmailSetonInit = _.isString(props.email) && props.email.length > 0;
@@ -44,15 +51,19 @@ class ConfirmUserRequestCode extends Component {
     this.setState(state => {
       const code = _.times(6, n => {
         if (n === index) {
+          if (value === '') {
+            return ' ';
+          }
           return value;
         }
         if (state.code[n]) {
           return state.code[n];
         }
-        return '';
+        return ' ';
       }).join('');
       return { code, error: '' };
     });
+    this.props.clearUserRequestCodeError();
   };
   handleFocusCode = () => {
     this.codeEl.focus();
@@ -144,13 +155,15 @@ class ConfirmUserRequestCode extends Component {
       this.setState({ error: errorStr });
       return;
     }
-    this.setState({ error: '' }, this.submit);
+    this.setState({ error: '', isFirstSubmitDone: true }, this.submit);
   };
 
   componentDidUpdate(prevProps, prevState) {
     if (
-      prevState.code.length !== CODE_LENGTH &&
-      this.state.code.length === CODE_LENGTH
+      !this.state.isFirstSubmitDone &&
+      this.state.email.length > 4 &&
+      prevState.code !== this.state.code &&
+      IS_VALID_CODE_REGEX.test(this.state.code)
     ) {
       this.handleSubmit();
     }
@@ -248,5 +261,6 @@ export default connect(
   }),
   {
     confirmUserRequestCode: confirmUserRequestCodeAction,
+    clearUserRequestCodeError: clearUserRequestCodeErrorAction,
   }
 )(ConfirmUserRequestCode);

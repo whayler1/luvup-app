@@ -1,7 +1,9 @@
 import _ from 'lodash';
 import {
   SET_USER,
-  LOGIN,
+  LOGIN_ATTEMPT,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
   LOGOUT,
   REAUTH,
   SEND_NEW_PASSWORD_ATTEMPT,
@@ -32,6 +34,8 @@ const defaultState = {
   firstName: '',
   lastName: '',
   code: '',
+  isLoginInFlight: false,
+  loginError: '',
   isSendNewPasswordInFlight: false,
   sendNewPasswordError: '',
   isResetPasswordWithGeneratedPasswordInFlight: false,
@@ -51,13 +55,26 @@ const userAttribs = ['id', 'email', 'username', 'firstName', 'lastName'];
 
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
-    case LOGIN:
+    case LOGIN_ATTEMPT:
+      return {
+        ...state,
+        isLoginInFlight: true,
+        loginError: '',
+      };
+    case LOGIN_SUCCESS:
     case REAUTH:
       appStateListener.start();
       return {
         ...state,
         ..._.pick(action, userAttribs),
+        isLoginInFlight: false,
         isReset: action.isReset || false,
+      };
+    case LOGIN_FAILURE:
+      return {
+        ...state,
+        isLoginInFlight: false,
+        loginError: action.errorMessage,
       };
     case SET_USER:
       return {

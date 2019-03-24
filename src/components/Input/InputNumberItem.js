@@ -37,6 +37,10 @@ class InputNumberItem extends PureComponent {
   setRef = el => {
     this.props.setRef(el, this.props.index);
   };
+  getValue = () => {
+    const { value: originalValue } = this.props;
+    return originalValue === ' ' ? '' : originalValue;
+  };
 
   render() {
     return (
@@ -44,7 +48,7 @@ class InputNumberItem extends PureComponent {
         style={[styles.input, this.state.isFocus && styles.inputFocus]}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
-        value={this.props.value}
+        value={this.getValue()}
         onChangeText={this.handleChangeText}
         maxLength={1}
         keyboardType="numeric"

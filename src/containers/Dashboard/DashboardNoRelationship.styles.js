@@ -23,4 +23,11 @@ export default StyleSheet.create({
   button: {
     marginTop: vars.gutterDouble,
   },
+  resentText: {
+    fontSize: 20,
+    fontFamily: vars.fontRegular,
+    color: vars.green500,
+    height: 37,
+    textAlign: 'center',
+  },
 });
