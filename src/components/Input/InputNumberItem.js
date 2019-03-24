@@ -10,6 +10,11 @@ class InputNumberItem extends PureComponent {
     value: PropTypes.string,
     onChangeText: PropTypes.func,
     setRef: PropTypes.func,
+    editable: PropTypes.bool,
+  };
+
+  static defdaultProps = {
+    editable: true,
   };
 
   constructor(props) {
@@ -45,7 +50,7 @@ class InputNumberItem extends PureComponent {
         keyboardType="numeric"
         autoCapitalize="none"
         spellCheck={false}
-        editable
+        editable={this.props.editable}
         ref={this.setRef}
       />
     );

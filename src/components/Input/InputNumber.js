@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import _ from 'lodash';
@@ -20,6 +20,8 @@ class InputNumber extends PureComponent {
     onChangeText: PropTypes.func,
     error: PropTypes.string,
     formGroupStyles: PropTypes.array,
+    editable: PropTypes.bool,
+    setFirstRef: PropTypes.func,
   };
 
   static defaultProps = {
@@ -28,6 +30,7 @@ class InputNumber extends PureComponent {
     value: '',
     inputProps: {},
     error: '',
+    editable: true,
   };
 
   constructor(props) {
@@ -49,13 +52,16 @@ class InputNumber extends PureComponent {
 
   setRef = (el, n) => {
     this.refEls[n] = el;
+    if (n === 0) {
+      this.props.setFirstRef(el);
+    }
   };
 
   render() {
     const {
       handleChangeText,
       setRef,
-      props: { label, value, error },
+      props: { label, value, error, editable },
     } = this;
     return (
       <InputWrapper {...{ label, error }}>
@@ -67,6 +73,7 @@ class InputNumber extends PureComponent {
               onChangeText={handleChangeText}
               value={value[n] || ''}
               setRef={setRef}
+              editable={editable}
             />
           ))}
         </View>

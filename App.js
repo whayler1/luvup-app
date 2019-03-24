@@ -104,7 +104,7 @@ const App = () => (
             key="confirmUserRequestCreateProfile"
             component={ConfirmUserRequestCreateProfile}
             title="Create Profile"
-            {...sceneDefaults}
+            hideNavBar
           />
           <Scene
             key="dashboard"

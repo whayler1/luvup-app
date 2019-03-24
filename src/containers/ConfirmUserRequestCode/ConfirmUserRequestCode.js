@@ -55,7 +55,7 @@ class ConfirmUserRequestCode extends Component {
     });
   };
   handleFocusCode = () => {
-    // this.codeEl.focus();
+    this.codeEl.focus();
   };
 
   getValidationError = () => {
@@ -162,7 +162,7 @@ class ConfirmUserRequestCode extends Component {
       handleCodeChange,
       handleSubmit,
       handleFocusCode,
-      // setCodeRef,
+      setCodeRef,
       getEmailError,
       getCodeError,
       isEmailSetonInit,
@@ -211,6 +211,8 @@ class ConfirmUserRequestCode extends Component {
                 onChangeText: handleCodeChange,
                 value: code,
                 error: getCodeError(),
+                editable: !isInFlight,
+                setFirstRef: setCodeRef,
               }}
             />
             {confirmUserRequestCodeError.length > 0 &&
