@@ -9,6 +9,7 @@ import { Button } from 'react-native-elements';
 import { forms, buttons, scene } from '../../styles';
 import Well from '../../components/Well';
 import Input from '../../components/Input';
+import InputNumber from '../../components/Input/InputNumber';
 import { emailRegex } from '../../helpers';
 import { confirmUserRequestCode as confirmUserRequestCodeAction } from '../../redux/user/user.actions';
 import styles from './ConfirmUserRequestCode.styles';
@@ -39,11 +40,22 @@ class ConfirmUserRequestCode extends Component {
   handleEmailChange = email => {
     this.setState({ email, error: '' });
   };
-  handleCodeChange = code => {
-    this.setState({ code, error: '' });
+  handleCodeChange = (value, index) => {
+    this.setState(state => {
+      const code = _.times(6, n => {
+        if (n === index) {
+          return value;
+        }
+        if (state.code[n]) {
+          return state.code[n];
+        }
+        return '';
+      }).join('');
+      return { code, error: '' };
+    });
   };
   handleFocusCode = () => {
-    this.codeEl.focus();
+    // this.codeEl.focus();
   };
 
   getValidationError = () => {
@@ -150,7 +162,7 @@ class ConfirmUserRequestCode extends Component {
       handleCodeChange,
       handleSubmit,
       handleFocusCode,
-      setCodeRef,
+      // setCodeRef,
       getEmailError,
       getCodeError,
       isEmailSetonInit,
@@ -193,24 +205,12 @@ class ConfirmUserRequestCode extends Component {
                 }}
               />
             )}
-            <Input
+            <InputNumber
               {...{
                 label: 'Code',
                 onChangeText: handleCodeChange,
                 value: code,
-                placeholder: 'This was emailed to you',
                 error: getCodeError(),
-                inputProps: {
-                  testID: 'confirm-usercode-code-input',
-                  ref: setCodeRef,
-                  maxLength: 6,
-                  keyboardType: 'numeric',
-                  autoCapitalize: 'none',
-                  editable: !isInFlight,
-                  spellCheck: false,
-                  returnKeyType: 'go',
-                  onSubmitEditing: handleSubmit,
-                },
               }}
             />
             {confirmUserRequestCodeError.length > 0 &&

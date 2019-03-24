@@ -22,6 +22,7 @@ InputWrapper.propTypes = {
 
 InputWrapper.defaultProps = {
   error: '',
+  formGroupStyles: [],
 };
 
 export default InputWrapper;
