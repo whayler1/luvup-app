@@ -36,15 +36,25 @@ class InputNumber extends PureComponent {
     this.state = {
       isFocus: false,
     };
+    this.refEls = [];
   }
 
   handleChangeText = (value, index) => {
     this.props.onChangeText(value, index);
+    const indexPlusOne = index + 1;
+    if (value.length > 0 && indexPlusOne < CODE_LENGTH) {
+      this.refEls[indexPlusOne].focus();
+    }
+  };
+
+  setRef = (el, n) => {
+    this.refEls[n] = el;
   };
 
   render() {
     const {
       handleChangeText,
+      setRef,
       props: { label, value, error },
     } = this;
     return (
@@ -56,6 +66,7 @@ class InputNumber extends PureComponent {
               index={n}
               onChangeText={handleChangeText}
               value={value[n] || ''}
+              setRef={setRef}
             />
           ))}
         </View>

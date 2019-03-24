@@ -9,6 +9,7 @@ class InputNumberItem extends PureComponent {
     index: PropTypes.number,
     value: PropTypes.string,
     onChangeText: PropTypes.func,
+    setRef: PropTypes.func,
   };
 
   constructor(props) {
@@ -28,6 +29,9 @@ class InputNumberItem extends PureComponent {
   handleChangeText = value => {
     this.props.onChangeText(value, this.props.index);
   };
+  setRef = el => {
+    this.props.setRef(el, this.props.index);
+  };
 
   render() {
     return (
@@ -42,6 +46,7 @@ class InputNumberItem extends PureComponent {
         autoCapitalize="none"
         spellCheck={false}
         editable
+        ref={this.setRef}
       />
     );
   }
