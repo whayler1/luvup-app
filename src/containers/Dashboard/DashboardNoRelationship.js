@@ -9,6 +9,7 @@ import moment from 'moment';
 import { buttons, scene, vars } from '../../styles';
 import styles from './DashboardNoRelationship.styles';
 import HeartArt from '../../components/Art/HeartArt';
+import DashboardNotification from './DashboardNotification';
 
 const handleLoverRequestPress = () => {
   Actions.createloverrequest();
@@ -85,6 +86,14 @@ class DashboardNoRelationship extends PureComponent {
         <View style={[scene.contentTop, styles.contentTop]}>
           {isLoverRequestSent ? (
             <Fragment>
+              <DashboardNotification>
+                <Text style={[scene.bodyCopy, scene.textCenter]}>
+                  You sent a lover request to
+                </Text>
+                <Text style={[scene.largeCopy, scene.textCenter]}>
+                  {`${loverRequestFirstName} ${loverRequestLastName}`}
+                </Text>
+              </DashboardNotification>
               <Text style={[scene.largeCopy, scene.textCenter]}>
                 You sent a lover request to
               </Text>
