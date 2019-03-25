@@ -31,6 +31,10 @@ export default StyleSheet.create({
     borderColor: vars.blueGrey100,
     borderWidth: 1,
   },
+  buttonFocus: {
+    zIndex: 10,
+    borderColor: vars.link,
+  },
   buttonFirst: {
     borderBottomLeftRadius: 3,
   },

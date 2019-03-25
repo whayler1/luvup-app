@@ -10,7 +10,7 @@ class DashboardNotificationButton extends PureComponent {
   static propTypes = {
     text: PropTypes.text,
     type: PropTypes.text,
-    onPress: PropTypes.func,
+    // onPress: PropTypes.func,
     index: PropTypes.number,
     aryLength: PropTypes.number,
   };
@@ -23,17 +23,31 @@ class DashboardNotificationButton extends PureComponent {
     };
   }
 
+  handleFocus = () => {
+    this.setState({ isFocus: true });
+  };
+  handleBlur = () => {
+    this.setState({ isFocus: false });
+  };
+
   render() {
     const {
       props: { type, text, index, aryLength },
+      state: { isFocus },
+      handleFocus,
+      handleBlur,
     } = this;
     return (
       <TouchableHighlight
+        underlayColor="white"
+        onPressIn={handleFocus}
+        onPressOut={handleBlur}
         style={[
           styles.button,
           index === aryLength - 1 && styles.buttonLast,
           index === 0 && styles.buttonFirst,
           index > 0 && styles.buttonAdditional,
+          isFocus && styles.buttonFocus,
         ]}>
         <Text
           style={[
