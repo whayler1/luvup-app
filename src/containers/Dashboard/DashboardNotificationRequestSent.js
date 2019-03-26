@@ -2,8 +2,10 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Text } from 'react-native';
+import moment from 'moment';
 
 import DashboardNotification, { BUTTON_STYLES } from './DashboardNotification';
+import LoveRequestArt from '../../components/LoveRequestArt';
 import { scene } from '../../styles';
 import {
   cancelLoverRequest as cancelLoverRequestAction,
@@ -15,7 +17,7 @@ class DashboardNotificationRequestSent extends PureComponent {
     loverRequestId: PropTypes.string,
     loverRequestFirstName: PropTypes.string,
     loverRequestLastName: PropTypes.string,
-    // loverRequestCreatedAt: PropTypes.string,
+    loverRequestCreatedAt: PropTypes.string,
     cancelLoverRequest: PropTypes.func.isRequired,
     resendLoverRequestEmail: PropTypes.func.isRequired,
     isCancelLoverRequestInFlight: PropTypes.bool.isRequired,
@@ -33,7 +35,6 @@ class DashboardNotificationRequestSent extends PureComponent {
   }
 
   handleCancelLoverRequest = () => {
-    console.log('\n\n handleResendLoverRequest');
     this.props.cancelLoverRequest(this.props.loverRequestId);
   };
   handleResendLoverRequest = () => {
@@ -79,17 +80,25 @@ class DashboardNotificationRequestSent extends PureComponent {
 
   render() {
     const {
-      props: { loverRequestFirstName, loverRequestLastName },
+      props: {
+        loverRequestFirstName,
+        loverRequestLastName,
+        loverRequestCreatedAt,
+      },
       getButtons,
     } = this;
 
     return (
       <DashboardNotification buttons={getButtons()}>
-        <Text style={[scene.bodyCopy, scene.textCenter]}>
+        <LoveRequestArt scale={0.1} />
+        <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
           You sent a lover request to
         </Text>
         <Text style={[scene.largeCopy, scene.textCenter]}>
           {`${loverRequestFirstName} ${loverRequestLastName}`}
+        </Text>
+        <Text style={[scene.bodyCopy, scene.textCenter]}>
+          {moment(loverRequestCreatedAt).fromNow()}
         </Text>
       </DashboardNotification>
     );

@@ -20,6 +20,7 @@ export default StyleSheet.create({
   },
   content: {
     padding: vars.gutterAndHalf,
+    alignItems: 'center',
   },
   buttonWrapper: {
     flexDirection: 'row',
