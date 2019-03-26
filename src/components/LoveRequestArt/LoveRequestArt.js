@@ -1,25 +1,11 @@
 import React from 'react';
-import Svg, {
-  Circle,
-  Ellipse,
-  G,
-  LinearGradient,
-  RadialGradient,
-  Line,
-  Path,
-  Polygon,
-  Polyline,
-  Rect,
-  Symbol,
-  Use,
-  Defs,
-  Stop,
-} from 'react-native-svg';
-import _ from 'lodash';
+/* eslint-disable import/no-extraneous-dependencies */
+import { Svg, Path } from 'react-native-svg';
+/* eslint-enable import/no-extraneous-dependencies */
 
 import { vars } from '../../styles';
 
-const defaultColor = vars.blueGrey500;
+const defaultColor = vars.blueGrey100;
 
 export default ({ fill = defaultColor, scale = 1 }) => (
   <Svg width={548 * scale} height={513 * scale}>

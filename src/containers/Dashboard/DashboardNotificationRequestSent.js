@@ -2,8 +2,11 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Text } from 'react-native';
+import moment from 'moment';
 
 import DashboardNotification, { BUTTON_STYLES } from './DashboardNotification';
+import LoveRequestArt from '../../components/LoveRequestArt';
+import Well from '../../components/Well';
 import { scene } from '../../styles';
 import {
   cancelLoverRequest as cancelLoverRequestAction,
@@ -15,11 +18,11 @@ class DashboardNotificationRequestSent extends PureComponent {
     loverRequestId: PropTypes.string,
     loverRequestFirstName: PropTypes.string,
     loverRequestLastName: PropTypes.string,
-    // loverRequestCreatedAt: PropTypes.string,
+    loverRequestCreatedAt: PropTypes.string,
     cancelLoverRequest: PropTypes.func.isRequired,
     resendLoverRequestEmail: PropTypes.func.isRequired,
     isCancelLoverRequestInFlight: PropTypes.bool.isRequired,
-    // cancelLoverRequestError: PropTypes.string.isRequired,
+    cancelLoverRequestError: PropTypes.string.isRequired,
     isResendRequestEmailInFlight: PropTypes.bool.isRequired,
     resendLoverRequestEmailError: PropTypes.string.isRequired,
   };
@@ -33,7 +36,6 @@ class DashboardNotificationRequestSent extends PureComponent {
   }
 
   handleCancelLoverRequest = () => {
-    console.log('\n\n handleResendLoverRequest');
     this.props.cancelLoverRequest(this.props.loverRequestId);
   };
   handleResendLoverRequest = () => {
@@ -65,6 +67,18 @@ class DashboardNotificationRequestSent extends PureComponent {
     return buttons;
   };
 
+  getError = () => {
+    const {
+      props: { resendLoverRequestEmailError, cancelLoverRequestError },
+    } = this;
+
+    if (resendLoverRequestEmailError.length > 0) {
+      return resendLoverRequestEmailError;
+    }
+
+    return cancelLoverRequestError;
+  };
+
   componentDidUpdate(prevProps) {
     if (
       prevProps.isResendRequestEmailInFlight &&
@@ -79,18 +93,29 @@ class DashboardNotificationRequestSent extends PureComponent {
 
   render() {
     const {
-      props: { loverRequestFirstName, loverRequestLastName },
+      props: {
+        loverRequestFirstName,
+        loverRequestLastName,
+        loverRequestCreatedAt,
+      },
       getButtons,
+      getError,
     } = this;
+    const error = getError();
 
     return (
       <DashboardNotification buttons={getButtons()}>
-        <Text style={[scene.bodyCopy, scene.textCenter]}>
+        <LoveRequestArt scale={0.1} />
+        <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
           You sent a lover request to
         </Text>
         <Text style={[scene.largeCopy, scene.textCenter]}>
           {`${loverRequestFirstName} ${loverRequestLastName}`}
         </Text>
+        <Text style={[scene.bodyCopy, scene.textCenter]}>
+          {moment(loverRequestCreatedAt).fromNow()}
+        </Text>
+        {error.length > 0 && <Well text={error} />}
       </DashboardNotification>
     );
   }
@@ -101,10 +126,10 @@ export default connect(
     loverRequestId: state.loverRequest.id,
     loverRequestFirstName: state.loverRequest.firstName,
     loverRequestLastName: state.loverRequest.lastName,
-    // loverRequestCreatedAt: state.loverRequest.createdAt,
+    loverRequestCreatedAt: state.loverRequest.createdAt,
     isCancelLoverRequestInFlight:
       state.loverRequest.isCancelLoverRequestInFlight,
-    // cancelLoverRequestError: state.loverRequest.cancelLoverRequestError,
+    cancelLoverRequestError: state.loverRequest.cancelLoverRequestError,
     isResendRequestEmailInFlight:
       state.loverRequest.isResendRequestEmailInFlight,
     resendLoverRequestEmailError:
