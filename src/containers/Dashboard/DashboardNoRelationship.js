@@ -4,12 +4,12 @@ import { View, Text } from 'react-native';
 import { Button } from 'react-native-elements';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import moment from 'moment';
+// import moment from 'moment';
 
 import { buttons, scene, vars } from '../../styles';
 import styles from './DashboardNoRelationship.styles';
 import HeartArt from '../../components/Art/HeartArt';
-import DashboardNotification from './DashboardNotification';
+import DashboardNotificationRequestSent from './DashboardNotificationRequestSent';
 
 const handleLoverRequestPress = () => {
   Actions.createloverrequest();
@@ -85,35 +85,7 @@ class DashboardNoRelationship extends PureComponent {
       <View style={scene.content}>
         <View style={[scene.contentTop, styles.contentTop]}>
           {isLoverRequestSent ? (
-            <Fragment>
-              <DashboardNotification>
-                <Text style={[scene.bodyCopy, scene.textCenter]}>
-                  You sent a lover request to
-                </Text>
-                <Text style={[scene.largeCopy, scene.textCenter]}>
-                  {`${loverRequestFirstName} ${loverRequestLastName}`}
-                </Text>
-              </DashboardNotification>
-              <Text style={[scene.largeCopy, scene.textCenter]}>
-                You sent a lover request to
-              </Text>
-              <Text
-                style={[
-                  scene.titleCopy,
-                  scene.textCenter,
-                  scene.gutterHalfTop,
-                ]}>
-                {`${loverRequestFirstName} ${loverRequestLastName}`}
-              </Text>
-              <Text
-                style={[
-                  scene.largeCopy,
-                  scene.textCenter,
-                  scene.gutterHalfTop,
-                ]}>
-                {moment(loverRequestCreatedAt).fromNow()}
-              </Text>
-            </Fragment>
+            <DashboardNotificationRequestSent />
           ) : (
             <Fragment>
               <HeartArt fill={vars.blueGrey100} scale={0.1} />
@@ -140,29 +112,8 @@ class DashboardNoRelationship extends PureComponent {
             </Fragment>
           )}
         </View>
-        <View style={scene.contentBottom}>
-          {isLoverRequestSent ? (
-            <Fragment>
-              {isLoverRequestResent ? (
-                <Text style={styles.resentText}>Resent</Text>
-              ) : (
-                <Button
-                  onPress={handleResendLoverRequest}
-                  containerViewStyle={[buttons.infoContainer, styles.button]}
-                  buttonStyle={buttons.infoSkeletonButton}
-                  textStyle={buttons.infoSkeletonText}
-                  title={isResendRequestEmailInFlight ? 'Resending…' : 'Resend'}
-                />
-              )}
-              <Button
-                onPress={handleCancelLoverRequest}
-                containerViewStyle={[buttons.infoContainer, scene.gutterTop]}
-                buttonStyle={buttons.secondarySkeletonButton}
-                textStyle={buttons.secondarySkeletonText}
-                title={isCancelLoverRequestInFlight ? 'Canceling…' : 'Cancel'}
-              />
-            </Fragment>
-          ) : (
+        {!isLoverRequestSent && (
+          <View style={scene.contentBottom}>
             <Button
               onPress={handleLoverRequestPress}
               containerViewStyle={[buttons.infoContainer, styles.button]}
@@ -170,8 +121,8 @@ class DashboardNoRelationship extends PureComponent {
               textStyle={buttons.infoText}
               title="Search for Your Lover"
             />
-          )}
-        </View>
+          </View>
+        )}
       </View>
     );
   }

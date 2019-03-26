@@ -16,6 +16,7 @@ export default StyleSheet.create({
     shadowRadius: 2,
     shadowOpacity: 1,
     backgroundColor: 'white',
+    // maxHeight: 5000,
   },
   content: {
     padding: vars.gutterAndHalf,

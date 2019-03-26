@@ -37,17 +37,7 @@ DashboardNotification.propTypes = {
 };
 
 DashboardNotification.defaultProps = {
-  buttons: [
-    {
-      key: 'cancel',
-      text: 'Cancel',
-    },
-    {
-      key: 'resend',
-      type: BUTTON_STYLES.PRIMARY,
-      text: 'Resend',
-    },
-  ],
+  buttons: [],
 };
 
 export default DashboardNotification;
