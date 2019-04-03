@@ -9,14 +9,19 @@ import { buttons, scene, vars } from '../../styles';
 import styles from './DashboardNoRelationship.styles';
 import HeartArt from '../../components/Art/HeartArt';
 import DashboardNotificationRequestSent from './DashboardNotificationRequestSent';
+import { LoverRequestType } from '../../types';
 
 const handleLoverRequestPress = () => {
   Actions.createloverrequest();
 };
 
-const DashboardNoRelationship = ({ loverRequestCreatedAt }) => {
+const DashboardNoRelationship = ({
+  loverRequestCreatedAt,
+  receivedLoverRequests,
+}) => {
   const isLoverRequestSent =
     _.isString(loverRequestCreatedAt) && loverRequestCreatedAt.length > 0;
+  console.log('receivedLoverRequests', receivedLoverRequests);
   return (
     <View style={scene.content}>
       <View style={[scene.contentTop, styles.contentTop]}>
@@ -42,6 +47,12 @@ const DashboardNoRelationship = ({ loverRequestCreatedAt }) => {
             </Text>
           </Fragment>
         )}
+        {_.isArray(receivedLoverRequests) &&
+          receivedLoverRequests.map(loverRequest => (
+            <Text key={loverRequest.id}>{`${loverRequest.sender.firstName} ${
+              loverRequest.sender.lastName
+            }`}</Text>
+          ))}
       </View>
       {!isLoverRequestSent && (
         <View style={scene.contentBottom}>
@@ -60,6 +71,7 @@ const DashboardNoRelationship = ({ loverRequestCreatedAt }) => {
 
 DashboardNoRelationship.propTypes = {
   loverRequestCreatedAt: PropTypes.string,
+  receivedLoverRequests: PropTypes.arrayOf(LoverRequestType),
 };
 
 export default DashboardNoRelationship;

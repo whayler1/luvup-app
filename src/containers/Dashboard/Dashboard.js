@@ -8,7 +8,7 @@ import { SafeAreaView, View, Text, TouchableOpacity } from 'react-native';
 
 import styles from './Dashboard.styles';
 import { scene } from '../../styles';
-// import DashboardLoverRequestSent from './DashboardLoverRequestSent';
+import { LoverRequestType } from '../../types';
 import DashboardTopNav from '../../components/DashboardTopNav';
 import QuizArt from '../../components/Art/QuizArt';
 import LoveNoteArt from '../../components/LoveNoteArt';
@@ -24,10 +24,6 @@ import {
   getJalapenoCount as getJalapenoCountAction,
   setUnviewedJalapenoCount as setUnviewedJalapenoCountAction,
 } from '../../redux/jalapeno/jalapeno.actions';
-import {
-  cancelLoverRequest as cancelLoverRequestAction,
-  resendLoverRequestEmail as resendLoverRequestEmailAction,
-} from '../../redux/loverRequest/loverRequest.actions';
 
 class Dashboard extends PureComponent {
   static propTypes = {
@@ -49,16 +45,8 @@ class Dashboard extends PureComponent {
     unreadReceivedLoveNoteCount: PropTypes.number.isRequired,
     relationshipScore: PropTypes.number,
     relationshipId: PropTypes.string,
-    loverRequestId: PropTypes.string,
-    loverRequestFirstName: PropTypes.string,
-    loverRequestLastName: PropTypes.string,
     loverRequestCreatedAt: PropTypes.string,
-    cancelLoverRequest: PropTypes.func.isRequired,
-    resendLoverRequestEmail: PropTypes.func.isRequired,
-    isCancelLoverRequestInFlight: PropTypes.bool.isRequired,
-    cancelLoverRequestError: PropTypes.string.isRequired,
-    isResendRequestEmailInFlight: PropTypes.bool.isRequired,
-    resendLoverRequestEmailError: PropTypes.string.isRequired,
+    receivedLoverRequests: PropTypes.arrayOf(LoverRequestType),
   };
 
   constructor(props) {
@@ -141,16 +129,8 @@ class Dashboard extends PureComponent {
         unviewedJalapenoCount,
         unreadReceivedLoveNoteCount,
         relationshipId,
-        loverRequestId,
-        loverRequestFirstName,
-        loverRequestLastName,
         loverRequestCreatedAt,
-        cancelLoverRequest,
-        resendLoverRequestEmail,
-        isCancelLoverRequestInFlight,
-        cancelLoverRequestError,
-        isResendRequestEmailInFlight,
-        resendLoverRequestEmailError,
+        receivedLoverRequests,
       },
       state: {
         isPushdownVisible,
@@ -188,6 +168,7 @@ class Dashboard extends PureComponent {
           <DashboardNoRelationship
             {...{
               loverRequestCreatedAt,
+              receivedLoverRequests,
             }}
           />
         )}
@@ -238,24 +219,13 @@ export default connect(
     unreadReceivedLoveNoteCount: state.loveNote.unreadReceivedLoveNoteCount,
     relationshipScore: state.relationshipScore.score,
     relationshipId: state.relationship.id,
-    loverRequestId: state.loverRequest.id,
-    loverRequestFirstName: state.loverRequest.firstName,
-    loverRequestLastName: state.loverRequest.lastName,
     loverRequestCreatedAt: state.loverRequest.createdAt,
-    isCancelLoverRequestInFlight:
-      state.loverRequest.isCancelLoverRequestInFlight,
-    cancelLoverRequestError: state.loverRequest.cancelLoverRequestError,
-    isResendRequestEmailInFlight:
-      state.loverRequest.isResendRequestEmailInFlight,
-    resendLoverRequestEmailError:
-      state.loverRequest.resendLoverRequestEmailError,
+    receivedLoverRequests: state.receivedLoverRequests.rows,
   }),
   {
     getCoinCount: getCoinCountAction,
     getJalapenoCount: getJalapenoCountAction,
     setUnviewedCoinCount: setUnviewedCoinCountAction,
     setUnviewedJalapenoCount: setUnviewedJalapenoCountAction,
-    cancelLoverRequest: cancelLoverRequestAction,
-    resendLoverRequestEmail: resendLoverRequestEmailAction,
   }
 )(Dashboard);

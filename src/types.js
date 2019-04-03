@@ -22,6 +22,22 @@ export const QuizItemType = PropTypes.shape({
   recipientId: PropTypes.string.isRequired,
 });
 
+export const UserType = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  firstName: PropTypes.string.isRequired,
+  lastName: PropTypes.string.isRequired,
+});
+
+export const LoverRequestType = PropTypes.shape({
+  id: PropTypes.string.isRequired,
+  isAccepted: PropTypes.bool.isRequired,
+  isSenderCanceled: PropTypes.bool.isRequired,
+  isRecipientCanceled: PropTypes.bool.isRequired,
+  sender: UserType,
+  recipient: UserType,
+  createdAt: PropTypes.string.isRequired,
+});
+
 export default {
   QuizItemAttemptType,
 };

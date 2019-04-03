@@ -2,12 +2,12 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Text } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import moment from 'moment';
 
 import DashboardNotification, { BUTTON_STYLES } from './DashboardNotification';
-import LoveRequestArt from '../../components/LoveRequestArt';
 import Well from '../../components/Well';
-import { scene } from '../../styles';
+import { scene, vars } from '../../styles';
 import {
   cancelLoverRequest as cancelLoverRequestAction,
   resendLoverRequestEmail as resendLoverRequestEmailAction,
@@ -105,8 +105,8 @@ class DashboardNotificationRequestSent extends PureComponent {
 
     return (
       <DashboardNotification buttons={getButtons()}>
-        <LoveRequestArt scale={0.1} />
-        <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
+        <Ionicons name="ios-send" size={40} color={vars.blueGrey100} />
+        <Text style={[scene.bodyCopy, scene.textCenter]}>
           You sent a lover request to
         </Text>
         <Text style={[scene.largeCopy, scene.textCenter]}>

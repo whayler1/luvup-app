@@ -18,7 +18,7 @@ export default function reducer(state = defaultState, action) {
         rows: action.rows,
         count: action.count,
       };
-    case ACCEPT_LOVER_REQUEST:
+    case ACCEPT_LOVER_REQUEST: {
       const rows = [...state.rows];
       const loverRequestIndex = state.rows.findIndex(
         loverReq => loverReq.id === action.id
@@ -37,6 +37,7 @@ export default function reducer(state = defaultState, action) {
         ...state,
         rows,
       };
+    }
     case CLEAR_RECEIVED_LOVER_REQUESTS:
       return { ...defaultState };
     default:
