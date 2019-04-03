@@ -187,16 +187,7 @@ class Dashboard extends PureComponent {
         ) : (
           <DashboardNoRelationship
             {...{
-              loverRequestId,
-              loverRequestFirstName,
-              loverRequestLastName,
               loverRequestCreatedAt,
-              cancelLoverRequest,
-              resendLoverRequestEmail,
-              isCancelLoverRequestInFlight,
-              cancelLoverRequestError,
-              isResendRequestEmailInFlight,
-              resendLoverRequestEmailError,
             }}
           />
         )}
