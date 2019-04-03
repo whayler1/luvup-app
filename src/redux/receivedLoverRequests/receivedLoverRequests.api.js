@@ -8,6 +8,7 @@ const receivedLoverRequestsApi = {
       receivedLoverRequests {
         rows {
           id
+          createdAt
           sender {
             id email firstName lastName
           }

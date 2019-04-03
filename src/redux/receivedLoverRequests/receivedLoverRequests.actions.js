@@ -1,6 +1,4 @@
-import superagent from 'superagent';
 import _ from 'lodash';
-import config from '../../config';
 import receivedLoverRequestsApi from './receivedLoverRequests.api';
 
 export const SET_RECEIVED_LOVER_REQUESTS =

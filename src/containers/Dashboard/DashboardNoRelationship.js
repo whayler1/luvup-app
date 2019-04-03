@@ -22,7 +22,6 @@ const DashboardNoRelationship = ({
 }) => {
   const isLoverRequestSent =
     _.isString(loverRequestCreatedAt) && loverRequestCreatedAt.length > 0;
-  console.log('receivedLoverRequests', receivedLoverRequests);
   return (
     <View style={scene.content}>
       <View style={[scene.contentTop, styles.contentTop]}>
