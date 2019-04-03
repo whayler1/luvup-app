@@ -9,8 +9,8 @@ export const BUTTON_STYLES = {
   PRIMARY: 'primary',
 };
 
-const DashboardNotification = ({ children, buttons }) => (
-  <View style={styles.wrapper}>
+const DashboardNotification = ({ children, buttons, wrapperStyles }) => (
+  <View style={[styles.wrapper, wrapperStyles]}>
     <View style={styles.content}>{children}</View>
     <View style={styles.buttonWrapper}>
       {buttons.map((button, i, ary) => (
@@ -34,10 +34,12 @@ DashboardNotification.propTypes = {
       onPress: PropTypes.func,
     })
   ),
+  wrapperStyles: PropTypes.object,
 };
 
 DashboardNotification.defaultProps = {
   buttons: [],
+  wrapperStyles: {},
 };
 
 export default DashboardNotification;

@@ -9,6 +9,7 @@ import { buttons, scene, vars } from '../../styles';
 import styles from './DashboardNoRelationship.styles';
 import HeartArt from '../../components/Art/HeartArt';
 import DashboardNotificationRequestSent from './DashboardNotificationRequestSent';
+import DashboardNotificationReceivedLoverRequests from './DashboardNotificationReceivedLoverRequests';
 import { LoverRequestType } from '../../types';
 
 const handleLoverRequestPress = () => {
@@ -47,12 +48,11 @@ const DashboardNoRelationship = ({
             </Text>
           </Fragment>
         )}
-        {_.isArray(receivedLoverRequests) &&
-          receivedLoverRequests.map(loverRequest => (
-            <Text key={loverRequest.id}>{`${loverRequest.sender.firstName} ${
-              loverRequest.sender.lastName
-            }`}</Text>
-          ))}
+        {_.isArray(receivedLoverRequests) && (
+          <DashboardNotificationReceivedLoverRequests
+            receivedLoverRequests={receivedLoverRequests}
+          />
+        )}
       </View>
       {!isLoverRequestSent && (
         <View style={scene.contentBottom}>
