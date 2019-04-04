@@ -2,34 +2,32 @@ import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View } from 'react-native';
-// import { Ionicons } from '@expo/vector-icons';
-// import moment from 'moment';
 
-// import DashboardNotification, { BUTTON_STYLES } from './DashboardNotification';
 import DashboardNotificationReceivedLoverRequest from './DashboardNotificationReceivedLoverRequest';
-// import Well from '../../components/Well';
-import { vars } from '../../styles';
+import Well from '../../components/Well';
+import { vars, scene } from '../../styles';
 import { LoverRequestType } from '../../types';
-// import {
-//   cancelLoverRequest as cancelLoverRequestAction,
-//   resendLoverRequestEmail as resendLoverRequestEmailAction,
-// } from '../../redux/loverRequest/loverRequest.actions';
+import { acceptLoverRequest as acceptLoverRequestAction } from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
+import { cancelLoverRequest as cancelLoverRequestAction } from '../../redux/loverRequest/loverRequest.actions';
 
 class DashboardNotificationReceivedLoverRequests extends PureComponent {
   static propTypes = {
     receivedLoverRequests: PropTypes.arrayOf(LoverRequestType),
+    isAcceptLoverRequestInFlight: PropTypes.bool.isRequired,
+    acceptLoverRequestError: PropTypes.string.isRequired,
+    isCancelLoverRequestInFlight: PropTypes.bool.isRequired,
+    cancelLoverRequestError: PropTypes.string.isRequired,
+    cancelLoverRequest: PropTypes.func.isRequired,
+    acceptLoverRequest: PropTypes.func.isRequired,
   };
 
-  getError = () => {
-    // const {
-    //   props: { resendLoverRequestEmailError, cancelLoverRequestError },
-    // } = this;
-    //
-    // if (resendLoverRequestEmailError.length > 0) {
-    //   return resendLoverRequestEmailError;
-    // }
-    // return cancelLoverRequestError;
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      currentLoverRequestId: '',
+    };
+  }
 
   // componentDidUpdate(prevProps) {
   // if (
@@ -43,10 +41,29 @@ class DashboardNotificationReceivedLoverRequests extends PureComponent {
   // }
   // }
 
+  handleRejectPress = loverRequestId => {
+    this.setState({ currentLoverRequestId: loverRequestId });
+    this.props.cancelLoverRequest(loverRequestId);
+  };
+  handleAcceptPress = loverRequestId => {
+    this.setState({ currentLoverRequestId: loverRequestId });
+    this.props.acceptLoverRequest(loverRequestId);
+  };
+
   render() {
     const {
-      props: { receivedLoverRequests },
+      props: {
+        receivedLoverRequests,
+        isAcceptLoverRequestInFlight,
+        acceptLoverRequestError,
+        isCancelLoverRequestInFlight,
+        cancelLoverRequestError,
+      },
+      state: { currentLoverRequestId },
+      handleRejectPress,
+      handleAcceptPress,
     } = this;
+    const error = acceptLoverRequestError || cancelLoverRequestError;
 
     return (
       <Fragment>
@@ -58,10 +75,18 @@ class DashboardNotificationReceivedLoverRequests extends PureComponent {
             marginTop: vars.gutterDouble,
           }}
         />
+        {error.length > 0 && (
+          <Well text={error} styles={scene.gutterDoubleTop} />
+        )}
         {receivedLoverRequests.map(loverRequest => (
           <DashboardNotificationReceivedLoverRequest
             key={loverRequest.id}
             loverRequest={loverRequest}
+            onRejectPress={handleRejectPress}
+            onAcceptPress={handleAcceptPress}
+            currentLoverRequestId={currentLoverRequestId}
+            isAcceptLoverRequestInFlight={isAcceptLoverRequestInFlight}
+            isCancelLoverRequestInFlight={isCancelLoverRequestInFlight}
           />
         ))}
       </Fragment>
@@ -69,4 +94,18 @@ class DashboardNotificationReceivedLoverRequests extends PureComponent {
   }
 }
 
-export default connect(null)(DashboardNotificationReceivedLoverRequests);
+export default connect(
+  state => ({
+    isAcceptLoverRequestInFlight:
+      state.receivedLoverRequests.isAcceptLoverRequestInFlight,
+    acceptLoverRequestError:
+      state.receivedLoverRequests.acceptLoverRequestError,
+    isCancelLoverRequestInFlight:
+      state.loverRequest.isCancelLoverRequestInFlight,
+    cancelLoverRequestError: state.loverRequest.cancelLoverRequestError,
+  }),
+  {
+    cancelLoverRequest: cancelLoverRequestAction,
+    acceptLoverRequest: acceptLoverRequestAction,
+  }
+)(DashboardNotificationReceivedLoverRequests);

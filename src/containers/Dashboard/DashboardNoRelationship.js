@@ -47,11 +47,12 @@ const DashboardNoRelationship = ({
             </Text>
           </Fragment>
         )}
-        {_.isArray(receivedLoverRequests) && (
-          <DashboardNotificationReceivedLoverRequests
-            receivedLoverRequests={receivedLoverRequests}
-          />
-        )}
+        {_.isArray(receivedLoverRequests) &&
+          receivedLoverRequests.length > 0 && (
+            <DashboardNotificationReceivedLoverRequests
+              receivedLoverRequests={receivedLoverRequests}
+            />
+          )}
       </View>
       {!isLoverRequestSent && (
         <View style={scene.contentBottom}>

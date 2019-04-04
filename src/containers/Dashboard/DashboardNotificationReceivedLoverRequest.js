@@ -14,29 +14,55 @@ class DashboardNotificationReceivedLoverRequest extends PureComponent {
     loverRequest: LoverRequestType,
     onRejectPress: PropTypes.func,
     onAcceptPress: PropTypes.func,
+    currentLoverRequestId: PropTypes.string,
+    isAcceptLoverRequestInFlight: PropTypes.bool,
+    isCancelLoverRequestInFlight: PropTypes.bool,
   };
 
-  handleRejectLoverRequest = () => {
-    // this.props.onRejectPress(this.props.loverRequest.id);
+  handleRejectPress = () => {
+    this.props.onRejectPress(this.props.loverRequest.id);
   };
 
   handleAcceptPress = () => {
-    // this.props.onAcceptPress(this.props.loverRequest.id);
+    this.props.onAcceptPress(this.props.loverRequest.id);
   };
 
-  getButtons = () => [
-    {
-      key: 'reject',
-      text: 'Reject',
-      onPress: this.handleRejectPress,
-    },
-    {
-      key: 'accept',
-      type: BUTTON_STYLES.PRIMARY,
-      text: 'Accept',
-      onPress: this.handleAcceptPress,
-    },
-  ];
+  getButtons = () => {
+    const {
+      props: {
+        currentLoverRequestId,
+        isAcceptLoverRequestInFlight,
+        isCancelLoverRequestInFlight,
+        loverRequest: { id: loverRequestId },
+      },
+      handleRejectPress,
+      handleAcceptPress,
+    } = this;
+    const isInFlight =
+      isAcceptLoverRequestInFlight || isCancelLoverRequestInFlight;
+    const isSelectedLoverRequest = loverRequestId === currentLoverRequestId;
+    return [
+      {
+        key: 'reject',
+        text:
+          isSelectedLoverRequest && isCancelLoverRequestInFlight
+            ? 'Rejecting…'
+            : 'Reject',
+        onPress: handleRejectPress,
+        disabled: isInFlight,
+      },
+      {
+        key: 'accept',
+        type: BUTTON_STYLES.PRIMARY,
+        text:
+          isSelectedLoverRequest && isAcceptLoverRequestInFlight
+            ? 'Accepting…'
+            : 'Accept',
+        onPress: handleAcceptPress,
+        disabled: isInFlight,
+      },
+    ];
+  };
 
   getError = () => ({});
 

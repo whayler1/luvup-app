@@ -68,7 +68,7 @@ export default function reducer(state = defaultState, action) {
       };
     case CANCEL_LOVER_REQUEST_SUCCESS:
       return {
-        ...defaultState,
+        ...state,
         isCancelLoverRequestInFlight: false,
       };
     case CANCEL_LOVER_REQUEST_FAILURE:

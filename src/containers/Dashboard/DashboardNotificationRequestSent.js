@@ -109,7 +109,12 @@ class DashboardNotificationRequestSent extends PureComponent {
         <Text style={[scene.bodyCopy, scene.textCenter]}>
           You sent a lover request to
         </Text>
-        <Text style={[scene.largeCopy, scene.textCenter]}>
+        <Text
+          style={[
+            scene.largeCopy,
+            scene.textCenter,
+            { color: vars.blueGrey900 },
+          ]}>
           {`${loverRequestFirstName} ${loverRequestLastName}`}
         </Text>
         <Text style={[scene.bodyCopy, scene.textCenter]}>
