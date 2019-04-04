@@ -20,15 +20,6 @@ class DashboardNotificationReceivedLoverRequests extends PureComponent {
     receivedLoverRequests: PropTypes.arrayOf(LoverRequestType),
   };
 
-  getButtons = () => [
-    // {
-    //   key: 'resend',
-    //   type: BUTTON_STYLES.PRIMARY,
-    //   text: this.props.isResendRequestEmailInFlight ? 'Resending…' : 'Resend',
-    //   onPress: this.handleResendLoverRequest,
-    // },
-  ];
-
   getError = () => {
     // const {
     //   props: { resendLoverRequestEmailError, cancelLoverRequestError },
