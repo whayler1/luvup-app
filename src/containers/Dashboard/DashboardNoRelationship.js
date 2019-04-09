@@ -22,12 +22,33 @@ const DashboardNoRelationship = ({
 }) => {
   const isLoverRequestSent =
     _.isString(loverRequestCreatedAt) && loverRequestCreatedAt.length > 0;
+  const isLoverRequestReceived =
+    _.isArray(receivedLoverRequests) && receivedLoverRequests.length > 0;
+  const isLoverRequestSentOrReceived =
+    isLoverRequestSent || isLoverRequestReceived;
   return (
     <View style={scene.content}>
       <View style={[scene.contentTop, styles.contentTop]}>
-        {isLoverRequestSent ? (
-          <DashboardNotificationRequestSent />
-        ) : (
+        {isLoverRequestSent && <DashboardNotificationRequestSent />}
+        {!isLoverRequestSent && isLoverRequestReceived && (
+          <Fragment>
+            <Text style={[scene.largeCopy, scene.textCenter]}>
+              You received {receivedLoverRequests.length > 1 ? '' : 'a'} lover
+              request{receivedLoverRequests.length > 1 ? 's' : ''}!
+            </Text>
+            <Text
+              style={[scene.bodyCopy, scene.textCenter, styles.subPromptCopy]}>
+              Accept {receivedLoverRequests.length > 1 ? 'a ' : 'your '}lover
+              request or search for another lover
+            </Text>
+          </Fragment>
+        )}
+        {isLoverRequestReceived && (
+          <DashboardNotificationReceivedLoverRequests
+            receivedLoverRequests={receivedLoverRequests}
+          />
+        )}
+        {!isLoverRequestSentOrReceived && (
           <Fragment>
             <HeartArt fill={vars.blueGrey100} scale={0.1} />
             <Text style={[scene.titleCopy, scene.textCenter, styles.titleCopy]}>
@@ -47,12 +68,6 @@ const DashboardNoRelationship = ({
             </Text>
           </Fragment>
         )}
-        {_.isArray(receivedLoverRequests) &&
-          receivedLoverRequests.length > 0 && (
-            <DashboardNotificationReceivedLoverRequests
-              receivedLoverRequests={receivedLoverRequests}
-            />
-          )}
       </View>
       {!isLoverRequestSent && (
         <View style={scene.contentBottom}>

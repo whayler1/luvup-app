@@ -38,7 +38,12 @@ const contentNoTop = {
 const titleCopy = {
   fontSize: 32,
   fontFamily: vars.fontRegular,
-  color: vars.blueGrey700,
+  color: vars.blueGrey900,
+};
+const labelCopy = {
+  fontSize: 24,
+  fontFamily: vars.fontRegular,
+  color: vars.blueGrey900,
 };
 const largeCopy = {
   fontSize: 24,
@@ -57,6 +62,7 @@ const textCenter = {
 export default StyleSheet.create({
   textCenter,
   titleCopy,
+  labelCopy,
   largeCopy,
   bodyCopy,
   safeAreaView,
