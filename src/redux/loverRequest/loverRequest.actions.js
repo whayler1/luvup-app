@@ -55,15 +55,11 @@ export const cancelLoverRequest = loverRequestId => async dispatch => {
     );
 
     if (loverRequest && loverRequest.id) {
+      dispatch({ type: CANCEL_LOVER_REQUEST_SUCCESS });
+    } else {
       dispatch({
-        type: CANCEL_LOVER_REQUEST_SUCCESS,
-        ..._.pick(loverRequest, [
-          'id',
-          'isAccepted',
-          'isSenderCanceled',
-          'isRecipientCanceled',
-          'createdAt',
-        ]),
+        type: CANCEL_LOVER_REQUEST_FAILURE,
+        errorMessage: 'Error canceling lover request',
       });
     }
 

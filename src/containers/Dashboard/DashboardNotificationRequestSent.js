@@ -43,11 +43,15 @@ class DashboardNotificationRequestSent extends PureComponent {
   };
 
   getButtons = () => {
+    const isDisabled =
+      this.props.isCancelLoverRequestInFlight ||
+      this.props.isResendRequestEmailInFlight;
     const buttons = [
       {
         key: 'cancel',
         text: this.props.isCancelLoverRequestInFlight ? 'Canceling…' : 'Cancel',
         onPress: this.handleCancelLoverRequest,
+        disabled: isDisabled,
       },
     ];
     if (!this.state.isLoverRequestResent) {
@@ -56,6 +60,7 @@ class DashboardNotificationRequestSent extends PureComponent {
         type: BUTTON_STYLES.PRIMARY,
         text: this.props.isResendRequestEmailInFlight ? 'Resending…' : 'Resend',
         onPress: this.handleResendLoverRequest,
+        disabled: isDisabled,
       });
     } else {
       buttons.push({

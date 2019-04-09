@@ -11,7 +11,7 @@ import {
   CLEAR_LOVER_REQUEST,
 } from './loverRequest.actions';
 
-const defaultState = {
+const defaultLoverRequest = {
   id: '',
   isAccepted: '',
   isSenderCanceled: '',
@@ -20,6 +20,10 @@ const defaultState = {
   username: '',
   firstName: '',
   lastName: '',
+};
+
+const defaultState = {
+  ...defaultLoverRequest,
   isCancelLoverRequestInFlight: false,
   cancelLoverRequestError: '',
   isResendRequestEmailInFlight: false,
@@ -69,6 +73,7 @@ export default function reducer(state = defaultState, action) {
     case CANCEL_LOVER_REQUEST_SUCCESS:
       return {
         ...state,
+        ...defaultLoverRequest,
         isCancelLoverRequestInFlight: false,
       };
     case CANCEL_LOVER_REQUEST_FAILURE:
