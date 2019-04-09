@@ -36,7 +36,7 @@ class DashboardNotificationRequestSent extends PureComponent {
   }
 
   handleCancelLoverRequest = () => {
-    this.props.cancelLoverRequest(this.props.loverRequestId);
+    this.props.cancelLoverRequest();
   };
   handleResendLoverRequest = () => {
     this.props.resendLoverRequestEmail(this.props.loverRequestId);

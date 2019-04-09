@@ -5,6 +5,9 @@ import {
   ACCEPT_LOVER_REQUEST_SUCCESS,
   ACCEPT_LOVER_REQUEST_FAILURE,
   CLEAR_RECEIVED_LOVER_REQUESTS,
+  CANCEL_RECEIVED_LOVER_REQUEST_ATTEMPT,
+  CANCEL_RECEIVED_LOVER_REQUEST_SUCCESS,
+  CANCEL_RECEIVED_LOVER_REQUEST_FAILURE,
 } from './receivedLoverRequests.actions';
 
 const defaultState = {
@@ -12,6 +15,8 @@ const defaultState = {
   count: null,
   isAcceptLoverRequestInFlight: false,
   acceptLoverRequestError: '',
+  isCancelReceivedLoverRequestInFlight: false,
+  cancelReceivedLoverRequestError: '',
 };
 
 export default function reducer(state = defaultState, action) {
@@ -57,6 +62,26 @@ export default function reducer(state = defaultState, action) {
       };
     case CLEAR_RECEIVED_LOVER_REQUESTS:
       return { ...defaultState };
+    case CANCEL_RECEIVED_LOVER_REQUEST_ATTEMPT:
+      return {
+        ...state,
+        isCancelReceivedLoverRequestInFlight: true,
+        cancelReceivedLoverRequestError: '',
+      };
+    case CANCEL_RECEIVED_LOVER_REQUEST_SUCCESS: {
+      return {
+        ...state,
+        isCancelReceivedLoverRequestInFlight: false,
+        rows: action.rows,
+        count: action.count,
+      };
+    }
+    case CANCEL_RECEIVED_LOVER_REQUEST_FAILURE:
+      return {
+        ...state,
+        isCancelReceivedLoverRequestInFlight: false,
+        cancelReceivedLoverRequestError: action.errorMessage,
+      };
     default:
       return state;
   }

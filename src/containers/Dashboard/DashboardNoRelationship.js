@@ -24,6 +24,8 @@ const DashboardNoRelationship = ({
     _.isString(loverRequestCreatedAt) && loverRequestCreatedAt.length > 0;
   const isLoverRequestReceived =
     _.isArray(receivedLoverRequests) && receivedLoverRequests.length > 0;
+  const isPluralReceivedLoverRequests =
+    _.isArray(receivedLoverRequests) && receivedLoverRequests.length > 1;
   const isLoverRequestSentOrReceived =
     isLoverRequestSent || isLoverRequestReceived;
   return (
@@ -33,12 +35,12 @@ const DashboardNoRelationship = ({
         {!isLoverRequestSent && isLoverRequestReceived && (
           <Fragment>
             <Text style={[scene.largeCopy, scene.textCenter]}>
-              You received {receivedLoverRequests.length > 1 ? '' : 'a'} lover
-              request{receivedLoverRequests.length > 1 ? 's' : ''}!
+              You received {isPluralReceivedLoverRequests ? '' : 'a'} lover
+              request{isPluralReceivedLoverRequests ? 's' : ''}!
             </Text>
             <Text
               style={[scene.bodyCopy, scene.textCenter, styles.subPromptCopy]}>
-              Accept {receivedLoverRequests.length > 1 ? 'a ' : 'your '}lover
+              Accept {isPluralReceivedLoverRequests ? 'a ' : 'your '}lover
               request or search for another lover
             </Text>
           </Fragment>

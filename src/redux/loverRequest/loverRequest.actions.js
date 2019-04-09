@@ -44,8 +44,11 @@ export const requestLover = recipientId => async dispatch => {
   }
 };
 
-export const cancelLoverRequest = loverRequestId => async dispatch => {
+export const cancelLoverRequest = () => async (dispatch, getState) => {
   dispatch({ type: CANCEL_LOVER_REQUEST_ATTEMPT });
+  const {
+    loverRequest: { id: loverRequestId },
+  } = getState();
   try {
     const res = await loverRequestApi.cancelLoverRequest(loverRequestId);
 
