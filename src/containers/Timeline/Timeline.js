@@ -16,7 +16,7 @@ import {
 import { Button } from 'react-native-elements';
 
 import styles from './Timeline.styles';
-import { buttons, scene, modal } from '../../styles';
+import { buttons, scene, modal, vars } from '../../styles';
 import renderItem from './Timeline.renderItem.template';
 import renderSectionHeader from './Timeline.renderSectionHeader.template';
 import ListHeaderComponent from './Timeline.ListHeaderComponent.template';
@@ -250,6 +250,16 @@ class Timeline extends Component {
     } = this;
     return (
       <SafeAreaView style={scene.safeAreaView}>
+        <View
+          style={{
+            backgroundColor: vars.razzleDazzleRose,
+            position: 'absolute',
+            height: 50,
+            left: 0,
+            right: 0,
+            bottom: '100%',
+          }}
+        />
         <View style={styles.wrapper}>
           <View style={[scene.topNav, styles.topNav]}>
             <TouchableOpacity onPress={goBack} style={styles.heartBtn}>
