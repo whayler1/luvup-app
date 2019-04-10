@@ -5,6 +5,7 @@ import { Actions } from 'react-native-router-flux';
 import moment from 'moment';
 import _ from 'lodash';
 import {
+  SafeAreaView,
   Text,
   View,
   TouchableOpacity,
@@ -248,86 +249,90 @@ class Timeline extends Component {
       closeModal,
     } = this;
     return (
-      <View style={styles.wrapper}>
-        <View style={[scene.topNav, styles.topNav]}>
-          <TouchableOpacity onPress={goBack} style={styles.heartBtn}>
-            <HeartArt scale={0.037} fill="rgba(0,0,0,0.5)" />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.sectionListWrapper}>
-          <SectionList
-            endFillColor="white"
-            style={styles.sectionList}
-            refreshControl={
-              <RefreshControl
-                style={styles.refreshControl}
-                enabled={
-                  isAfterFirstLoad &&
-                  !isGetUserEventsInFlight &&
-                  !isGetTimelineDataInFlight
-                }
-                refreshing={
-                  isAfterFirstLoad &&
-                  (isGetUserEventsInFlight || isGetTimelineDataInFlight)
-                }
-                onRefresh={handleRefresh}
-                tintColor="white"
-              />
-            }
-            ListEmptyComponent={
-              <ListEmptyComponent
-                isInFlight={isGetUserEventsInFlight}
-                error={getUserEventsError}
-              />
-            }
-            ListHeaderComponent={
-              <ListHeaderComponent
-                {...{
-                  userRelationshipScore,
-                  loverRelationshipScore,
-                  coinCount,
-                  jalapenoCount,
-                  userInitials,
-                  loverInitials,
-                  sentCoinsCount,
-                  sentJalapenosCount,
-                }}
-              />
-            }
-            ListFooterComponent={
-              <ListFooterComponent
-                isPresent={sections.length > 0}
-                isPreloaderVisible={isGetUserEventsInFlight && isSectionsLoaded}
-              />
-            }
-            renderSectionHeader={renderSectionHeader}
-            renderItem={renderItem}
-            sections={sections}
-            onEndReached={handleEndReached}
-          />
-        </View>
-        <Modal visible={isModalVisible} animationType={'fade'} transparent>
-          <View style={modal.outerContainer}>
-            <View style={modal.innerContainer}>
-              <Text style={modal.title}>Error</Text>
-              <Text style={modal.copy}>
-                There was an error loading your timeline. Most likely this is
-                due to network conectivity.
-              </Text>
-              <View style={modal.buttonContainer}>
-                <Button
-                  raised
-                  onPress={closeModal}
-                  containerViewStyle={buttons.infoContainer}
-                  buttonStyle={buttons.infoButton}
-                  textStyle={buttons.infoText}
-                  title="Dismiss"
+      <SafeAreaView style={scene.safeAreaView}>
+        <View style={styles.wrapper}>
+          <View style={[scene.topNav, styles.topNav]}>
+            <TouchableOpacity onPress={goBack} style={styles.heartBtn}>
+              <HeartArt scale={0.037} fill="rgba(0,0,0,0.5)" />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.sectionListWrapper}>
+            <SectionList
+              endFillColor="white"
+              style={styles.sectionList}
+              refreshControl={
+                <RefreshControl
+                  style={styles.refreshControl}
+                  enabled={
+                    isAfterFirstLoad &&
+                    !isGetUserEventsInFlight &&
+                    !isGetTimelineDataInFlight
+                  }
+                  refreshing={
+                    isAfterFirstLoad &&
+                    (isGetUserEventsInFlight || isGetTimelineDataInFlight)
+                  }
+                  onRefresh={handleRefresh}
+                  tintColor="white"
                 />
+              }
+              ListEmptyComponent={
+                <ListEmptyComponent
+                  isInFlight={isGetUserEventsInFlight}
+                  error={getUserEventsError}
+                />
+              }
+              ListHeaderComponent={
+                <ListHeaderComponent
+                  {...{
+                    userRelationshipScore,
+                    loverRelationshipScore,
+                    coinCount,
+                    jalapenoCount,
+                    userInitials,
+                    loverInitials,
+                    sentCoinsCount,
+                    sentJalapenosCount,
+                  }}
+                />
+              }
+              ListFooterComponent={
+                <ListFooterComponent
+                  isPresent={sections.length > 0}
+                  isPreloaderVisible={
+                    isGetUserEventsInFlight && isSectionsLoaded
+                  }
+                />
+              }
+              renderSectionHeader={renderSectionHeader}
+              renderItem={renderItem}
+              sections={sections}
+              onEndReached={handleEndReached}
+            />
+          </View>
+          <Modal visible={isModalVisible} animationType={'fade'} transparent>
+            <View style={modal.outerContainer}>
+              <View style={modal.innerContainer}>
+                <Text style={modal.title}>Error</Text>
+                <Text style={modal.copy}>
+                  There was an error loading your timeline. Most likely this is
+                  due to network conectivity.
+                </Text>
+                <View style={modal.buttonContainer}>
+                  <Button
+                    raised
+                    onPress={closeModal}
+                    containerViewStyle={buttons.infoContainer}
+                    buttonStyle={buttons.infoButton}
+                    textStyle={buttons.infoText}
+                    title="Dismiss"
+                  />
+                </View>
               </View>
             </View>
-          </View>
-        </Modal>
-      </View>
+          </Modal>
+        </View>
+      </SafeAreaView>
     );
   }
 }

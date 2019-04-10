@@ -130,8 +130,7 @@ export default new StyleSheet.create({
   renderItemLoveNoteWrapper: { paddingTop: 3 },
   renderItemQuizIconWrapper: { paddingTop: 3 },
   heartBtn: {
-    flex: 1,
-    alignItems: 'flex-end',
+    flexDirection: 'row-reverse',
   },
   heartImg: {
     width: 32,
@@ -139,13 +138,12 @@ export default new StyleSheet.create({
   },
   sectionListWrapper: {
     flex: 1,
-    paddingTop: 83,
+    // paddingTop: 83,
     alignSelf: 'stretch',
   },
   topNav: {
     backgroundColor: vars.razzleDazzleRose,
     marginTop: 0,
-    paddingTop: 45,
   },
   listItemEmptyWrapper: {
     paddingHorizontal: 16,
