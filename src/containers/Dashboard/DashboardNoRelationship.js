@@ -41,7 +41,8 @@ const DashboardNoRelationship = ({
             <Text
               style={[scene.bodyCopy, scene.textCenter, styles.subPromptCopy]}>
               Accept {isPluralReceivedLoverRequests ? 'a ' : 'your '}lover
-              request or search for another lover
+              request to start a new relationship. If {"it's"} someone else
+              {" you're"} looking for click below to search for your lover.
             </Text>
           </Fragment>
         )}

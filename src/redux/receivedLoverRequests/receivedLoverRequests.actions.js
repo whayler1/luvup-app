@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import receivedLoverRequestsApi from './receivedLoverRequests.api';
 import loverRequestApi from '../loverRequest/loverRequest.api';
+import { getMe } from '../user/user.actions';
 
 export const SET_RECEIVED_LOVER_REQUESTS =
   'received-lover-requests/set-received-lover-requests';
@@ -49,16 +50,27 @@ export const getReceivedLoverRequests = () => async dispatch => {
 export const acceptLoverRequest = loverRequestId => async dispatch => {
   dispatch({ type: ACCEPT_LOVER_REQUEST_ATTEMPT });
   try {
-    const res = await receivedLoverRequestsApi.acceptLoverRequest(
+    const acceptLoverRequestRes = await receivedLoverRequestsApi.acceptLoverRequest(
       loverRequestId
     );
 
     const loverRequest = _.get(
-      res,
+      acceptLoverRequestRes,
       'body.data.acceptLoverRequest.loverRequest'
     );
+    const relationship = _.get(
+      acceptLoverRequestRes,
+      'body.data.acceptLoverRequest.relationship'
+    );
 
-    if (_.isObject(loverRequest) && loverRequest.id) {
+    if (
+      _.isObject(loverRequest) &&
+      loverRequest.id &&
+      _.isObject(relationship) &&
+      relationship.id
+    ) {
+      await dispatch(getMe());
+
       dispatch({
         type: ACCEPT_LOVER_REQUEST_SUCCESS,
         id: loverRequest.id,
@@ -66,6 +78,7 @@ export const acceptLoverRequest = loverRequestId => async dispatch => {
         isSenderCanceled: loverRequest.isSenderCanceled,
         isRecipientCanceled: loverRequest.isRecipientCanceled,
         createdAt: loverRequest.createdAt,
+        relationship,
       });
     } else {
       dispatch({
@@ -74,7 +87,7 @@ export const acceptLoverRequest = loverRequestId => async dispatch => {
       });
     }
 
-    return res;
+    return acceptLoverRequestRes;
   } catch (err) {
     dispatch({ type: ACCEPT_LOVER_REQUEST_FAILURE, errorMessage: err.message });
     return err;

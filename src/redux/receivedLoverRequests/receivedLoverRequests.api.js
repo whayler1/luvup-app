@@ -26,6 +26,10 @@ const receivedLoverRequestsApi = {
         loverRequest {
           id isAccepted isSenderCanceled isRecipientCanceled createdAt
         }
+        relationship {
+          id createdAt updatedAt
+          lovers { id email firstName lastName }
+        }
         error
       }
     }`,

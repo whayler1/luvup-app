@@ -2,7 +2,7 @@ import React from 'react';
 import { SafeAreaView, View, Text } from 'react-native';
 import { Button } from 'react-native-elements';
 
-import { buttons, forms, scene, modal, vars } from '../../styles';
+import { buttons, forms, scene, vars } from '../../styles';
 import Well from '../../components/Well';
 import LoveRequestArt from '../../components/LoveRequestArt';
 

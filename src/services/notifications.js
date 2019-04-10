@@ -28,7 +28,6 @@ export const onNotificationReceived = notification => {
     store.dispatch(getRelationshipScore());
   }
   if (relationshipRequestTypes.includes(type)) {
-    console.log('\n\n --relationship type update!');
     store.dispatch(getMe());
   }
 };

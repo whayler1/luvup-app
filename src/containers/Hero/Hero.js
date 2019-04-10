@@ -313,7 +313,7 @@ class Hero extends Component {
     }
   };
 
-  heartFill = new Animated.Value(this.props.relationshipScore);
+  heartFill = new Animated.Value(this.props.relationshipScore || 0);
   heartTranslateY = new Animated.Value(0);
   tearDropATranslateY = new Animated.Value(0);
   tearDropAOpacity = new Animated.Value(0);
@@ -560,6 +560,7 @@ class Hero extends Component {
       },
       state: { dragDirection },
     } = this;
+
     return (
       <View
         testID="hero-heart-view"

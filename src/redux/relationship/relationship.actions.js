@@ -1,6 +1,4 @@
-import superagent from 'superagent';
-
-import config from '../../config';
+import relationshipApi from './relationship.api';
 import { clearLover } from '../lover/lover.actions';
 
 export const SET_RELATIONSHIP = 'relationship/set-relationship';
@@ -13,15 +11,7 @@ export const setRelationship = (id, createdAt) => dispatch => {
 
 export const endRelationship = () => async dispatch => {
   try {
-    const res = await superagent.post(config.graphQlUrl, {
-      query: `mutation {
-        endRelationship {
-          relationship {
-            id endDate
-          }
-        }
-      }`,
-    });
+    const res = await relationshipApi.endRelationship();
 
     dispatch({ type: END_RELATIONSHIP });
     dispatch(clearLover());
