@@ -9,7 +9,6 @@ export default StyleSheet.create({
     alignItems: 'flex-end',
     alignSelf: 'stretch',
     justifyContent: 'space-evenly',
-    paddingBottom: 42,
     paddingTop: 8,
   },
   tabsItem: {

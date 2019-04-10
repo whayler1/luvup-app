@@ -147,7 +147,7 @@ class Dashboard extends PureComponent {
     } = this;
 
     return (
-      <SafeAreaView style={scene.container}>
+      <SafeAreaView style={scene.safeAreaView}>
         <DashboardTopNav
           coinCount={coinCount}
           jalapenoCount={jalapenoCount}

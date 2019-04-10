@@ -6,7 +6,6 @@ const styles = StyleSheet.create({
   container: {
     alignSelf: 'stretch',
     alignItems: 'center',
-    paddingTop: vars.gutterHalf,
     zIndex: 10,
   },
   pushdownText: {
