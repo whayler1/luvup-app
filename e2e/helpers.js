@@ -76,6 +76,10 @@ export const login = async (
   email = 'whayler1@bar.com',
   password = 'Testing1234'
 ) => {
-  await element(by.id('login-email-input')).tap();
-  await element(by.id('login-email-input')).typeText(`${email}\n${password}\n`);
+  await element(by.id('login-email-input'))
+    .atIndex(0)
+    .tap();
+  await element(by.id('login-email-input'))
+    .atIndex(0)
+    .typeText(`${email}\n${password}\n`);
 };

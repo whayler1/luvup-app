@@ -289,12 +289,12 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
           <Input
             {...{
               label: 'Password',
-              testID: 'create-profile-password-input',
               onChangeText: handlePasswordChange,
               value: password,
               placeholder: 'Min 8 Chars. No spaces',
               error: getPasswordError(),
               inputProps: {
+                testID: 'create-profile-password-input',
                 secureTextEntry: true,
                 editable: !isInFlight,
                 spellCheck: false,

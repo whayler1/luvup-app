@@ -32,6 +32,7 @@ DashboardNotification.propTypes = {
       key: PropTypes.string,
       text: PropTypes.string,
       onPress: PropTypes.func,
+      testID: PropTypes.string,
     })
   ),
   wrapperStyles: PropTypes.object,

@@ -3,49 +3,57 @@ const { reloadApp } = require('detox-expo-helpers');
 const uuidv1 = require('uuid/v1');
 const Moniker = require('moniker');
 
+import { login } from './helpers';
+
+const TIMEOUT = 3000;
+
 // TODO: test sign up page properly handles new signup error shape
 // res.errors[0].message
 
 const createUser = async (username, userEmail, firstName, lastName) => {
   await waitFor(element(by.text('Login')))
     .toBeVisible()
-    .withTimeout(3000);
-  await element(by.id('login-signup')).tap();
-  await waitFor(element(by.id('signup-email-input')))
+    .withTimeout(TIMEOUT);
+  const loginSignup = await element(by.id('login-signup')).atIndex(0);
+  await loginSignup.tap();
+  const signupEmailInput = await element(by.id('signup-email-input')).atIndex(
+    0
+  );
+  await waitFor(signupEmailInput)
     .toBeVisible()
-    .withTimeout(3000);
-  await element(by.id('signup-email-input')).tap();
-  await element(by.id('signup-email-input')).typeText(`${userEmail}\n`);
-  await waitFor(element(by.id('confirm-usercode-code-input')))
+    .withTimeout(TIMEOUT);
+  await signupEmailInput.tap();
+  await signupEmailInput.typeText(`${userEmail}\n`);
+  const inputNumber0 = await element(by.id('input-number-0')).atIndex(0);
+  await waitFor(inputNumber0)
     .toBeVisible()
-    .withTimeout(3000);
-  await element(by.id('confirm-usercode-code-input')).tap();
-  await element(by.id('confirm-usercode-code-input')).typeText('012345');
-  await element(by.id('confirm-usercode-title')).tap();
-  await element(by.id('confirm-usercode-submit')).tap();
-  await waitFor(element(by.id('create-profile-username-input')))
+    .withTimeout(TIMEOUT);
+  await inputNumber0.tap();
+  await inputNumber0.typeText('012345');
+  const createProfileUsernameInput = await element(
+    by.id('create-profile-username-input')
+  ).atIndex(0);
+  await waitFor(createProfileUsernameInput)
     .toBeVisible()
-    .withTimeout(3000);
-  await element(by.id('create-profile-username-input')).tap();
+    .withTimeout(TIMEOUT);
+  await createProfileUsernameInput.tap();
   // // TODO: make username not uuid
-  await element(by.id('create-profile-username-input')).typeText(
-    `${username}\n`
-  );
-  await element(by.id('create-profile-firstname-input')).typeText(
-    `${firstName}\n`
-  );
-  await element(by.id('create-profile-lastname-input')).typeText(
-    `${lastName}\n`
-  );
-  await element(by.id('create-profile-password-input')).typeText(
-    'Testing123\n'
-  );
-  await element(by.id('create-profile-passwordagain-input')).typeText(
-    'Testing123\n'
-  );
+  await createProfileUsernameInput.typeText(`${username}\n`);
+  await element(by.id('create-profile-firstname-input'))
+    .atIndex(0)
+    .typeText(`${firstName}\n`);
+  await element(by.id('create-profile-lastname-input'))
+    .atIndex(0)
+    .typeText(`${lastName}\n`);
+  await element(by.id('create-profile-password-input'))
+    .atIndex(0)
+    .typeText('Testing123\n');
+  await element(by.id('create-profile-passwordagain-input'))
+    .atIndex(0)
+    .typeText('Testing123\n');
 };
 
-describe('onboarding', () => {
+describe.only('onboarding', () => {
   beforeEach(async () => {
     await reloadApp({
       permissions: { location: 'always', notifications: 'YES' },
@@ -60,33 +68,36 @@ describe('onboarding', () => {
     const userEmail = `justin+${username}@luvup.io`;
     await createUser(username, userEmail, firstName, lastName);
 
-    const menuButton = element(by.id('create-lover-request-menu-button'));
+    const menuButton = element(by.id('dashboard-top-nav-menu-button'));
     await waitFor(menuButton)
       .toBeVisible()
-      .withTimeout(3000);
+      .withTimeout(TIMEOUT);
     await menuButton.tap();
 
-    const menuLogout = element(by.id('menu-logout'));
+    let menuLogout = element(by.id('menu-logout'));
     await waitFor(menuLogout)
       .toBeVisible()
-      .withTimeout(3000);
+      .withTimeout(TIMEOUT);
     await menuLogout.tap();
     await waitFor(element(by.text('Login')))
       .toBeVisible()
-      .withTimeout(3000);
-
-    await reloadApp({
-      permissions: { location: 'always', notifications: 'YES' },
-    });
+      .withTimeout(TIMEOUT);
 
     const moniker2 = Moniker.choose();
     const [firstName2, lastName2] = moniker2.split('-');
     const username2 = `${moniker2}${uuid.substr(0, 5)}`;
     const userEmail2 = `justin+${username2}@luvup.io`;
     await createUser(username2, userEmail2, firstName2, lastName2);
+    const loverRequestButton = await element(
+      by.id('dashboard-create-lover-request-button')
+    ).atIndex(0);
+    await waitFor(loverRequestButton)
+      .toBeVisible()
+      .withTimeout(TIMEOUT);
+    await loverRequestButton.tap();
     const createLoverRequestInput = element(
       by.id('create-lover-request-input')
-    );
+    ).atIndex(0);
     await waitFor(createLoverRequestInput)
       .toBeVisible()
       .withTimeout(3000);
@@ -94,7 +105,7 @@ describe('onboarding', () => {
     await createLoverRequestInput.typeText(username);
     const createLoverRequestListItem = element(
       by.id(`create-lover-request-list-item-${username}`)
-    );
+    ).atIndex(0);
     await waitFor(createLoverRequestListItem)
       .toBeVisible()
       .withTimeout(6000);
@@ -103,7 +114,7 @@ describe('onboarding', () => {
 
     const createLoverRequestButton = element(
       by.id('create-lover-request-button')
-    );
+    ).atIndex(0);
     await waitFor(createLoverRequestButton)
       .toBeVisible()
       .withTimeout(3000);
@@ -112,8 +123,11 @@ describe('onboarding', () => {
     await waitFor(element(by.id('hero-lover-request-copy')))
       .toBeVisible()
       .withTimeout(3000);
-    await element(by.id('dashboard-top-nav-menu-button')).tap();
+    await element(by.id('dashboard-top-nav-menu-button'))
+      .atIndex(0)
+      .tap();
 
+    menuLogout = element(by.id('menu-logout')).atIndex(0);
     await waitFor(menuLogout)
       .toBeVisible()
       .withTimeout(3000);
@@ -122,36 +136,36 @@ describe('onboarding', () => {
       .toBeVisible()
       .withTimeout(3000);
 
-    // await reloadApp({
-    //   permissions: { location: 'always', notifications: 'YES' },
-    // });
-    // JW: this is the line that throws an error
-    // await login(userEmail, 'Testing123');
-    //
-    // const acceptLoverRequestButton = element(
-    //   by.id('confirm-user-accept-button')
-    // );
-    // await waitFor(acceptLoverRequestButton)
-    //   .toBeVisible()
-    //   .withTimeout(3000);
-    // await acceptLoverRequestButton.tap();
-    //
-    // await waitFor(element(by.id('hero-heart-view')))
-    //   .toBeVisible()
-    //   .withTimeout(6000);
-    // await expect(element(by.id('dashboard-top-nav-coin-count'))).toBeVisible();
-    // await expect(
-    //   element(by.id('dashboard-top-nav-history-button'))
-    // ).toBeVisible();
-    // await expect(
-    //   element(by.id('dashboard-top-nav-relationship-score'))
-    // ).toBeVisible();
-    // await expect(element(by.id('dashboard-top-nav-menu-button'))).toBeVisible();
-    // await expect(
-    //   element(by.id('dashboard-write-love-note-button'))
-    // ).toBeVisible();
-    // await expect(
-    //   element(by.id('dashboard-create-a-quiz-button'))
-    // ).toBeVisible();
+    await login(userEmail, 'Testing123');
+
+    const acceptLoverRequestButton = element(
+      by.id('accept-lover-request-button')
+    ).atIndex(0);
+    await waitFor(acceptLoverRequestButton)
+      .toBeVisible()
+      .withTimeout(3000);
+    await acceptLoverRequestButton.tap();
+
+    await waitFor(element(by.id('hero-heart-view')).atIndex(0))
+      .toBeVisible()
+      .withTimeout(6000);
+    await expect(
+      element(by.id('dashboard-top-nav-coin-count')).atIndex(0)
+    ).toBeVisible();
+    await expect(
+      element(by.id('dashboard-top-nav-history-button')).atIndex(0)
+    ).toBeVisible();
+    await expect(
+      element(by.id('dashboard-top-nav-relationship-score')).atIndex(0)
+    ).toBeVisible();
+    await expect(
+      element(by.id('dashboard-top-nav-menu-button')).atIndex(0)
+    ).toBeVisible();
+    await expect(
+      element(by.id('dashboard-write-love-note-button')).atIndex(0)
+    ).toBeVisible();
+    await expect(
+      element(by.id('dashboard-create-a-quiz-button')).atIndex(0)
+    ).toBeVisible();
   });
 });

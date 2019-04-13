@@ -80,6 +80,7 @@ const DashboardNoRelationship = ({
             buttonStyle={buttons.infoButton}
             textStyle={buttons.infoText}
             title="Search for Your Lover"
+            testID="dashboard-create-lover-request-button"
           />
         </View>
       )}

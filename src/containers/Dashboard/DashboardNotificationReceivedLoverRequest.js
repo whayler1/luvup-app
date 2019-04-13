@@ -50,6 +50,7 @@ class DashboardNotificationReceivedLoverRequest extends PureComponent {
             : 'Reject',
         onPress: handleRejectPress,
         disabled: isInFlight,
+        testID: 'reject-lover-request-button',
       },
       {
         key: 'accept',
@@ -60,6 +61,7 @@ class DashboardNotificationReceivedLoverRequest extends PureComponent {
             : 'Accept',
         onPress: handleAcceptPress,
         disabled: isInFlight,
+        testID: 'accept-lover-request-button',
       },
     ];
   };

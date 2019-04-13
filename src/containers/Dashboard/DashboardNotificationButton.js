@@ -14,6 +14,7 @@ class DashboardNotificationButton extends PureComponent {
     disabled: PropTypes.bool,
     index: PropTypes.number,
     aryLength: PropTypes.number,
+    testID: PropTypes.string,
   };
 
   static defaultProps = {
@@ -37,13 +38,14 @@ class DashboardNotificationButton extends PureComponent {
 
   render() {
     const {
-      props: { type, text, index, aryLength, onPress, disabled },
+      props: { type, text, index, aryLength, onPress, disabled, testID },
       state: { isFocus },
       handleFocus,
       handleBlur,
     } = this;
     return (
       <TouchableHighlight
+        testID={testID}
         underlayColor="white"
         onPress={onPress}
         onPressIn={handleFocus}

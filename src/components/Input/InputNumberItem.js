@@ -45,6 +45,7 @@ class InputNumberItem extends PureComponent {
   render() {
     return (
       <TextInput
+        testID={`input-number-${this.props.index}`}
         style={[styles.input, this.state.isFocus && styles.inputFocus]}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
