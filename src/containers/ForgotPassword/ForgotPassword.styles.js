@@ -6,7 +6,4 @@ export default StyleSheet.create({
   copy: {
     textAlign: 'center',
   },
-  copyBold: {
-    fontFamily: vars.fontBlack,
-  },
 });

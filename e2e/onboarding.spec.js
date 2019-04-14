@@ -47,7 +47,7 @@ const createUser = async (username, userEmail, firstName, lastName) => {
   );
 };
 
-describe.only('onboarding', () => {
+describe('onboarding', () => {
   beforeEach(async () => {
     await reloadApp({
       permissions: { location: 'always', notifications: 'YES' },

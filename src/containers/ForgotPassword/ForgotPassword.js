@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, KeyboardAvoidingView, Text } from 'react-native';
+import { SafeAreaView, View, KeyboardAvoidingView, Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { Button } from 'react-native-elements';
 
 import styles from './ForgotPassword.styles';
-import { scene, buttons, forms } from '../../styles';
+import { scene, buttons } from '../../styles';
 import { sendNewPassword as sendNewPasswordAction } from '../../redux/user/user.actions';
 import { emailRegex } from '../../helpers';
 import ForgotPasswordForm from './ForgotPasswordForm';
@@ -68,7 +68,7 @@ class ForgotPassword extends PureComponent {
   render() {
     if (this.state.isSuccess) {
       return (
-        <View style={scene.container}>
+        <SafeAreaView style={scene.container}>
           <View style={scene.contentNoTop}>
             <View style={scene.contentTop}>
               <Text style={[scene.titleCopy, scene.textCenter]}>
@@ -77,25 +77,25 @@ class ForgotPassword extends PureComponent {
               <Text
                 style={[scene.largeCopy, scene.textCenter, scene.gutterTop]}>
                 An email with a temporary password has been sent to{' '}
-                <Text style={styles.copyBold}>{this.state.email}</Text>.
+                {this.state.email}.
               </Text>
               <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
                 After you log in with your new password you will be prompted to
                 change it to a password of your liking.
               </Text>
-              <View style={forms.formGroup}>
-                <Button
-                  testID="forgot-password-login-button"
-                  onPress={this.handleGoToLogin}
-                  containerViewStyle={buttons.container}
-                  buttonStyle={buttons.infoSkeletonButton}
-                  textStyle={buttons.infoSkeletonText}
-                  title="Login"
-                />
-              </View>
+            </View>
+            <View style={scene.contentBottom}>
+              <Button
+                testID="forgot-password-login-button"
+                onPress={this.handleGoToLogin}
+                containerViewStyle={buttons.container}
+                buttonStyle={buttons.infoSkeletonButton}
+                textStyle={buttons.infoSkeletonText}
+                title="Login"
+              />
             </View>
           </View>
-        </View>
+        </SafeAreaView>
       );
     }
     const {

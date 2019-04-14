@@ -1,9 +1,7 @@
 import { reloadApp } from 'detox-expo-helpers';
-import { generateUser } from './helpers';
+import { elementById, elementByText, generateUser } from './helpers';
 
-// const LONG_TIMEOUT = 6000;
-
-describe.only('forgotten password', () => {
+describe('forgotten password', () => {
   let user;
 
   beforeEach(async () => {
@@ -23,7 +21,7 @@ describe.only('forgotten password', () => {
     const forgotPasswordLoginButton = element(
       by.id('forgot-password-login-button')
     );
-    const loginEmailInput = element(by.id('login-email-input'));
+
     const loginPasswordInput = element(by.id('login-password-input'));
     const resetPasswordInput = element(
       by.id('reset-password-with-generated-password-new-password')
@@ -31,11 +29,7 @@ describe.only('forgotten password', () => {
     const resetPasswordDoneButton = element(
       by.id('reset-password-success-done-button')
     );
-    const createLoverRequestMenuButton = element(
-      by.id('create-lover-request-menu-button')
-    );
-    const menuLogout = element(by.id('menu-logout'));
-    const searchLoverText = element(by.text('Search for your lover'));
+    const menuLogout = elementById('menu-logout');
 
     await forgotPasswordEl.tap();
     await forgotPasswordEmailEl.tap();
@@ -43,22 +37,30 @@ describe.only('forgotten password', () => {
     await forgotPasswordSubmit.tap();
     await forgotPasswordLoginButton.tap();
 
-    await loginEmailInput.atIndex(0).tap();
-    await loginEmailInput.atIndex(0).typeText(user.email);
     await loginPasswordInput.atIndex(0).tap();
     await loginPasswordInput.atIndex(0).typeText('abc123abc\n');
     await resetPasswordInput.tap();
     await resetPasswordInput.typeText('NewPassword123\nNewPassword123\n');
     await resetPasswordDoneButton.tap();
 
-    await waitFor(searchLoverText).toBeVisible();
-    await createLoverRequestMenuButton.tap();
+    await waitFor(elementByText('Search for your lover'))
+      .toBeVisible()
+      .withTimeout(3000);
+    await waitFor(element(by.id('dashboard-top-nav-menu-button')).atIndex(0))
+      .toBeVisible()
+      .withTimeout(3000);
+    await element(by.id('dashboard-top-nav-menu-button'))
+      .atIndex(0)
+      .tap();
     await menuLogout.tap();
 
-    await loginEmailInput.atIndex(0).tap();
-    await loginEmailInput.atIndex(0).typeText(user.email);
+    const loginEmailInput = elementById('login-email-input');
+    await waitFor(loginEmailInput).toBeVisible();
+    await loginEmailInput.tap();
+    await loginEmailInput.typeText(user.email);
+    await waitFor(loginPasswordInput.atIndex(0)).toBeVisible();
     await loginPasswordInput.atIndex(0).tap();
     await loginPasswordInput.atIndex(0).typeText('NewPassword123\n');
-    await waitFor(searchLoverText.atIndex(0)).toBeVisible();
+    await waitFor(elementByText('Search for your lover')).toBeVisible();
   });
 });

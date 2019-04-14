@@ -9,7 +9,8 @@ export default StyleSheet.create({
     alignItems: 'flex-end',
     alignSelf: 'stretch',
     justifyContent: 'space-evenly',
-    paddingTop: 8,
+    paddingTop: vars.gutterHalf,
+    paddingBottom: vars.gutter,
   },
   tabsItem: {
     alignItems: 'center',
