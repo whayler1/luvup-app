@@ -3,7 +3,7 @@ const { reloadApp } = require('detox-expo-helpers');
 const uuidv1 = require('uuid/v1');
 const Moniker = require('moniker');
 
-import { login } from './helpers';
+import { login, elementById, elementByText } from './helpers';
 
 const TIMEOUT = 3000;
 
@@ -14,43 +14,37 @@ const createUser = async (username, userEmail, firstName, lastName) => {
   await waitFor(element(by.text('Login')))
     .toBeVisible()
     .withTimeout(TIMEOUT);
-  const loginSignup = await element(by.id('login-signup')).atIndex(0);
+  const loginSignup = await elementById('login-signup');
   await loginSignup.tap();
-  const signupEmailInput = await element(by.id('signup-email-input')).atIndex(
-    0
-  );
+  const signupEmailInput = await elementById('signup-email-input');
   await waitFor(signupEmailInput)
     .toBeVisible()
     .withTimeout(TIMEOUT);
   await signupEmailInput.tap();
   await signupEmailInput.typeText(`${userEmail}\n`);
-  const inputNumber0 = await element(by.id('input-number-0')).atIndex(0);
+  const inputNumber0 = await elementById('input-number-0');
   await waitFor(inputNumber0)
     .toBeVisible()
     .withTimeout(TIMEOUT);
   await inputNumber0.tap();
   await inputNumber0.typeText('012345');
-  const createProfileUsernameInput = await element(
-    by.id('create-profile-username-input')
-  ).atIndex(0);
+  const createProfileUsernameInput = await elementById(
+    'create-profile-username-input'
+  );
   await waitFor(createProfileUsernameInput)
     .toBeVisible()
     .withTimeout(TIMEOUT);
   await createProfileUsernameInput.tap();
   // // TODO: make username not uuid
   await createProfileUsernameInput.typeText(`${username}\n`);
-  await element(by.id('create-profile-firstname-input'))
-    .atIndex(0)
-    .typeText(`${firstName}\n`);
-  await element(by.id('create-profile-lastname-input'))
-    .atIndex(0)
-    .typeText(`${lastName}\n`);
-  await element(by.id('create-profile-password-input'))
-    .atIndex(0)
-    .typeText('Testing123\n');
-  await element(by.id('create-profile-passwordagain-input'))
-    .atIndex(0)
-    .typeText('Testing123\n');
+  await elementById('create-profile-firstname-input').typeText(
+    `${firstName}\n`
+  );
+  await elementById('create-profile-lastname-input').typeText(`${lastName}\n`);
+  await elementById('create-profile-password-input').typeText('Testing123\n');
+  await elementById('create-profile-passwordagain-input').typeText(
+    'Testing123\n'
+  );
 };
 
 describe.only('onboarding', () => {
@@ -68,18 +62,18 @@ describe.only('onboarding', () => {
     const userEmail = `justin+${username}@luvup.io`;
     await createUser(username, userEmail, firstName, lastName);
 
-    const menuButton = element(by.id('dashboard-top-nav-menu-button'));
+    const menuButton = elementById('dashboard-top-nav-menu-button');
     await waitFor(menuButton)
       .toBeVisible()
       .withTimeout(TIMEOUT);
     await menuButton.tap();
 
-    let menuLogout = element(by.id('menu-logout'));
+    let menuLogout = elementById('menu-logout');
     await waitFor(menuLogout)
       .toBeVisible()
       .withTimeout(TIMEOUT);
     await menuLogout.tap();
-    await waitFor(element(by.text('Login')))
+    await waitFor(elementByText('Login'))
       .toBeVisible()
       .withTimeout(TIMEOUT);
 
@@ -88,33 +82,29 @@ describe.only('onboarding', () => {
     const username2 = `${moniker2}${uuid.substr(0, 5)}`;
     const userEmail2 = `justin+${username2}@luvup.io`;
     await createUser(username2, userEmail2, firstName2, lastName2);
-    const loverRequestButton = await element(
-      by.id('dashboard-create-lover-request-button')
-    ).atIndex(0);
+    const loverRequestButton = await elementById(
+      'dashboard-create-lover-request-button'
+    );
     await waitFor(loverRequestButton)
       .toBeVisible()
       .withTimeout(TIMEOUT);
     await loverRequestButton.tap();
-    const createLoverRequestInput = element(
-      by.id('create-lover-request-input')
-    ).atIndex(0);
+    const createLoverRequestInput = elementById('create-lover-request-input');
     await waitFor(createLoverRequestInput)
       .toBeVisible()
       .withTimeout(3000);
     await createLoverRequestInput.tap();
     await createLoverRequestInput.typeText(username);
-    const createLoverRequestListItem = element(
-      by.id(`create-lover-request-list-item-${username}`)
-    ).atIndex(0);
+    const createLoverRequestListItem = elementById(
+      `create-lover-request-list-item-${username}`
+    );
     await waitFor(createLoverRequestListItem)
       .toBeVisible()
       .withTimeout(6000);
     await createLoverRequestListItem.tap();
     await createLoverRequestListItem.tap();
 
-    const createLoverRequestButton = element(
-      by.id('create-lover-request-button')
-    ).atIndex(0);
+    const createLoverRequestButton = elementById('create-lover-request-button');
     await waitFor(createLoverRequestButton)
       .toBeVisible()
       .withTimeout(3000);
@@ -123,49 +113,35 @@ describe.only('onboarding', () => {
     await waitFor(element(by.id('hero-lover-request-copy')))
       .toBeVisible()
       .withTimeout(3000);
-    await element(by.id('dashboard-top-nav-menu-button'))
-      .atIndex(0)
-      .tap();
+    await elementById('dashboard-top-nav-menu-button').tap();
 
-    menuLogout = element(by.id('menu-logout')).atIndex(0);
+    menuLogout = elementById('menu-logout');
     await waitFor(menuLogout)
       .toBeVisible()
       .withTimeout(3000);
     await menuLogout.tap();
-    await waitFor(element(by.text('Login')))
+    await waitFor(elementByText('Login'))
       .toBeVisible()
       .withTimeout(3000);
 
     await login(userEmail, 'Testing123');
 
-    const acceptLoverRequestButton = element(
-      by.id('accept-lover-request-button')
-    ).atIndex(0);
+    const acceptLoverRequestButton = elementById('accept-lover-request-button');
     await waitFor(acceptLoverRequestButton)
       .toBeVisible()
       .withTimeout(3000);
     await acceptLoverRequestButton.tap();
 
-    await waitFor(element(by.id('hero-heart-view')).atIndex(0))
+    await waitFor(elementById('hero-heart-view'))
       .toBeVisible()
       .withTimeout(6000);
+    await expect(elementById('dashboard-top-nav-coin-count')).toBeVisible();
+    await expect(elementById('dashboard-top-nav-history-button')).toBeVisible();
     await expect(
-      element(by.id('dashboard-top-nav-coin-count')).atIndex(0)
+      elementById('dashboard-top-nav-relationship-score')
     ).toBeVisible();
-    await expect(
-      element(by.id('dashboard-top-nav-history-button')).atIndex(0)
-    ).toBeVisible();
-    await expect(
-      element(by.id('dashboard-top-nav-relationship-score')).atIndex(0)
-    ).toBeVisible();
-    await expect(
-      element(by.id('dashboard-top-nav-menu-button')).atIndex(0)
-    ).toBeVisible();
-    await expect(
-      element(by.id('dashboard-write-love-note-button')).atIndex(0)
-    ).toBeVisible();
-    await expect(
-      element(by.id('dashboard-create-a-quiz-button')).atIndex(0)
-    ).toBeVisible();
+    await expect(elementById('dashboard-top-nav-menu-button')).toBeVisible();
+    await expect(elementById('dashboard-write-love-note-button')).toBeVisible();
+    await expect(elementById('dashboard-create-a-quiz-button')).toBeVisible();
   });
 });

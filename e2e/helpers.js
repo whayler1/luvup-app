@@ -83,3 +83,6 @@ export const login = async (
     .atIndex(0)
     .typeText(`${email}\n${password}\n`);
 };
+
+export const elementById = id => element(by.id(id)).atIndex(0);
+export const elementByText = text => element(by.text(text)).atIndex(0);
