@@ -116,6 +116,7 @@ export default ({
                   alignSelf: 'stretch',
                 }}>
                 <Button
+                  testID="create-love-note-success-close-button"
                   onPress={back}
                   containerViewStyle={buttons.container}
                   buttonStyle={buttons.infoSkeletonButton}
@@ -139,6 +140,7 @@ export default ({
         }}>
         <View style={[forms.formGroup, { marginTop: 8 }]}>
           <TextInput
+            testID="create-love-note-input"
             style={[
               forms.multilineInput,
               focusInput === 'currentPassword' && forms.inputFocus,
@@ -185,7 +187,9 @@ export default ({
               -
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={addLuvup}>
+          <TouchableOpacity
+            testID="create-love-note-add-luvup"
+            onPress={addLuvup}>
             <Image
               source={require('../../images/coin.png')}
               style={{
@@ -250,6 +254,7 @@ export default ({
       )}
       <View style={{ marginTop: 32 }}>
         <Button
+          testID="create-love-note-submit"
           onPress={onSendClick}
           containerViewStyle={buttons.container}
           buttonStyle={buttons.infoButton}

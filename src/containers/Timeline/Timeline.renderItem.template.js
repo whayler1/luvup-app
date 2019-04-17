@@ -168,7 +168,7 @@ export default ctx => {
   }
 
   return (
-    <View style={styles.renderItemWrapper}>
+    <View testID={`timeline-item-${index}`} style={styles.renderItemWrapper}>
       <Wrapper
         isLink={isLovenoteItemWithNote}
         loveNote={item.loveNote}
