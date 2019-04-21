@@ -5,11 +5,13 @@ import {
   generateRelationship,
   login,
 } from './helpers';
+import _ from 'lodash';
 
 const TIMEOUT = 3000;
 
 describe('loveNote', () => {
   let user;
+  let lover;
 
   beforeEach(async () => {
     await reloadApp({
@@ -20,6 +22,7 @@ describe('loveNote', () => {
   beforeAll(async () => {
     const relationship = await generateRelationship();
     user = relationship.user;
+    lover = relationship.lover;
   });
 
   it('should be able send a love note', async () => {
@@ -51,6 +54,11 @@ describe('loveNote', () => {
     await waitFor(elementById('timeline-item-0'))
       .toBeVisible()
       .withTimeout(TIMEOUT);
-    await waitFor(elementById('timeline-item-0')).tap();
+    await elementById('timeline-item-0').tap();
+    await waitFor(
+      elementByText(`You sent ${_.upperFirst(lover.firstName)} a love note`)
+    )
+      .toBeVisible()
+      .withTimeout(TIMEOUT);
   });
 });

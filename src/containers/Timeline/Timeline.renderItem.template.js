@@ -126,10 +126,18 @@ const getHandleQuizItemClick = quizItemId => () => {
 const getIsQuizItemNotificationDot = (eventName, quizItem) =>
   /received/.test(eventName) && !quizItem.recipientChoiceId;
 
-const Wrapper = ({ children, eventName, loveNote = {}, quizItem = {} }) => {
+const Wrapper = ({
+  testID,
+  children,
+  eventName,
+  loveNote = {},
+  quizItem = {},
+}) => {
   if (_.isString(loveNote.id)) {
     return (
-      <TouchableOpacity onPress={getHandleLoveNoteClick(loveNote.id)}>
+      <TouchableOpacity
+        testID={testID}
+        onPress={getHandleLoveNoteClick(loveNote.id)}>
         {eventName === 'lovenote-received' && !loveNote.isRead && (
           <NotificationDot style={styles.renderItemNotificationDot} />
         )}
@@ -139,7 +147,9 @@ const Wrapper = ({ children, eventName, loveNote = {}, quizItem = {} }) => {
   }
   if (_.isString(quizItem.id)) {
     return (
-      <TouchableOpacity onPress={getHandleQuizItemClick(quizItem.id)}>
+      <TouchableOpacity
+        testID={testID}
+        onPress={getHandleQuizItemClick(quizItem.id)}>
         {getIsQuizItemNotificationDot(eventName, quizItem) && (
           <NotificationDot style={styles.renderItemNotificationDot} />
         )}
@@ -168,8 +178,9 @@ export default ctx => {
   }
 
   return (
-    <View testID={`timeline-item-${index}`} style={styles.renderItemWrapper}>
+    <View style={styles.renderItemWrapper}>
       <Wrapper
+        testID={`timeline-item-${index}`}
         isLink={isLovenoteItemWithNote}
         loveNote={item.loveNote}
         quizItem={item.quizItem}
