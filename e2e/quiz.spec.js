@@ -1,10 +1,5 @@
 import { reloadApp } from 'detox-expo-helpers';
-import {
-  elementById,
-  // elementByText,
-  generateRelationship,
-  login,
-} from './helpers';
+import { elementById, generateRelationship, login } from './helpers';
 
 const TIMEOUT = 3000;
 
@@ -16,10 +11,18 @@ const quizChoiceInput = index =>
 const quizChoiceCheckbox = index =>
   elementById(`create-quiz-choice-checkbox-${index}`);
 const quizChoiceNextButton = () => elementById('create-quiz-choice-next');
+const rewardButton = index => elementById(`create-quiz-reward-button-${index}`);
+const reviewButton = () => elementById('create-quiz-review-button');
+const createQuizSubmitButton = () => elementById('create-quiz-submit-button');
+const doneButton = () => elementById('create-quiz-done-button');
+const historyNavButton = () => elementById('dashboard-top-nav-history-button');
+const menuButton = () => elementById('dashboard-top-nav-menu-button');
+const logoutButton = () => elementById('menu-logout');
+const loginTitle = () => elementById('login-title');
 
 describe('quiz', () => {
   let user;
-  // let lover;
+  let lover;
 
   beforeEach(async () => {
     await reloadApp({
@@ -30,7 +33,7 @@ describe('quiz', () => {
   beforeAll(async () => {
     const relationship = await generateRelationship();
     user = relationship.user;
-    // lover = relationship.lover;
+    lover = relationship.lover;
   });
 
   it('should be able send a quiz', async () => {
@@ -60,5 +63,42 @@ describe('quiz', () => {
     await quizChoiceCheckbox(1).tap();
     await quizChoiceCheckbox(1).tap();
     await quizChoiceNextButton().tap();
+
+    await waitFor(rewardButton(1))
+      .toBeVisible()
+      .withTimeout(TIMEOUT);
+    await rewardButton(1).tap();
+    await reviewButton().tap();
+
+    await waitFor(createQuizSubmitButton())
+      .toBeVisible()
+      .withTimeout(TIMEOUT);
+    await createQuizSubmitButton().tap();
+
+    await waitFor(doneButton())
+      .toBeVisible()
+      .withTimeout(TIMEOUT);
+    await doneButton().tap();
+
+    await waitFor(menuButton())
+      .toBeVisible()
+      .withTimeout(TIMEOUT);
+    await menuButton().tap();
+
+    await waitFor(logoutButton())
+      .toBeVisible()
+      .withTimeout(TIMEOUT);
+    await logoutButton().tap();
+
+    await waitFor(loginTitle())
+      .toBeVisible()
+      .withTimeout(TIMEOUT);
+
+    await login(lover.email, lover.password);
+
+    await waitFor(historyNavButton())
+      .toBeVisible()
+      .withTimeout(TIMEOUT);
+    await historyNavButton().tap();
   });
 });
