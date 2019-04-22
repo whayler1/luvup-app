@@ -34,6 +34,7 @@ const CreateQuizLengthUI = ({
     </View>
     <View style={styles.choicesUiItem}>
       <Button
+        testID="create-quiz-choice-next"
         onPress={onSubmit}
         containerViewStyle={buttons.container}
         buttonStyle={buttons.infoButton}

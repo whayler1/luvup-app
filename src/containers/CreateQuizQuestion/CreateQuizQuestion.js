@@ -81,10 +81,8 @@ class CreateQuizQuestion extends PureComponent {
           <Text style={forms.label}>Question</Text>
           <View style={[forms.formGroup, { marginTop: 8 }]}>
             <TextInput
-              style={[
-                forms.multilineInput,
-                // focusInput === 'currentPassword' && forms.inputFocus,
-              ]}
+              testID="create-quiz-question-input"
+              style={forms.multilineInput}
               onChangeText={this.handleQuestionChange}
               value={this.state.question}
               maxLength={600}

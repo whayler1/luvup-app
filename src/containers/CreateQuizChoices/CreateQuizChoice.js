@@ -52,6 +52,7 @@ class CreateQuizChoice extends PureComponent {
         <View style={styles.choiceItem}>
           <View style={styles.choiceItemCheckboxWrapper}>
             <CreateQuizChoiceCheckbox
+              testID={`create-quiz-choice-checkbox-${this.props.index}`}
               isChecked={this.props.isChecked}
               isWrong={this.props.isWrong}
               scale={this.props.isReadOnly ? 0.28 : 0.5}
@@ -63,6 +64,7 @@ class CreateQuizChoice extends PureComponent {
               <Text style={styles.answerText}>{this.props.value}</Text>
             ) : (
               <TextInput
+                testID={`create-quiz-choice-input-${this.props.index}`}
                 style={forms.input}
                 placeholder={this.placeholder}
                 onChangeText={this.handleChangeText}
