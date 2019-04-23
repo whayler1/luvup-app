@@ -179,6 +179,7 @@ class ViewQuiz extends PureComponent {
                 </Text>
               )}
             <Button
+              testID="view-quiz-submit"
               onPress={handleSubmit}
               containerViewStyle={buttons.infoContainer}
               buttonStyle={buttons.infoButton}

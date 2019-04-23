@@ -19,6 +19,11 @@ const historyNavButton = () => elementById('dashboard-top-nav-history-button');
 const menuButton = () => elementById('dashboard-top-nav-menu-button');
 const logoutButton = () => elementById('menu-logout');
 const loginTitle = () => elementById('login-title');
+const timelineItem0 = () => elementById('timeline-item-0');
+const quizAnswer1 = () => elementById('quiz-display-answer-1');
+const quizAnswerSubmit = () => elementById('view-quiz-submit');
+const quizSuccessDone = () => elementById('view-quiz-success-done');
+const coinCount = () => elementById('dashboard-top-nav-coin-count');
 
 describe('quiz', () => {
   let user;
@@ -100,5 +105,25 @@ describe('quiz', () => {
       .toBeVisible()
       .withTimeout(TIMEOUT);
     await historyNavButton().tap();
+
+    await waitFor(timelineItem0())
+      .toBeVisible()
+      .withTimeout(TIMEOUT);
+    await timelineItem0().tap();
+
+    await waitFor(quizAnswer1())
+      .toBeVisible()
+      .withTimeout(TIMEOUT);
+    await quizAnswer1().tap();
+    await quizAnswerSubmit().tap();
+
+    await waitFor(quizSuccessDone())
+      .toBeVisible()
+      .withTimeout(TIMEOUT);
+    await quizSuccessDone().tap();
+
+    await waitFor(coinCount())
+      .toBeVisible()
+      .withTimeout(TIMEOUT);
   });
 });
