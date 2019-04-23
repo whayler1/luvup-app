@@ -64,7 +64,10 @@ export const GET_TIMELINE_DATA_FAILURE = 'user/get-timeline-data-failure';
 export const login = (usernameOrEmail, password) => async dispatch => {
   dispatch({ type: LOGIN_ATTEMPT });
   try {
-    const res = await userApi.login(usernameOrEmail, password);
+    const res = await userApi.login(
+      usernameOrEmail.toLowerCase().trim(),
+      password.trim()
+    );
 
     await AsyncStorage.setItem('id_token', res.body.id_token);
 
