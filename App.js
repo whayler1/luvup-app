@@ -60,7 +60,7 @@ const getDefaultNavBar = title => ({
   renderTitle: (
     <Text
       style={{
-        fontFamily: vars.fontBlack,
+        fontFamily: vars.fontRegular,
         color: vars.blueGrey500,
         fontSize: 25,
       }}>
