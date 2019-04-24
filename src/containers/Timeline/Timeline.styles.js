@@ -144,7 +144,7 @@ export default new StyleSheet.create({
   topNav: {
     backgroundColor: vars.razzleDazzleRose,
     marginTop: 0,
-    paddingTop: 0,
+    paddingTop: vars.gutterHalf,
   },
   listItemEmptyWrapper: {
     paddingHorizontal: 16,

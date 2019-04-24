@@ -126,14 +126,14 @@ const App = () => (
           <Tabs
             key="timelineTabs"
             showLabel={false}
-            style={{ backgroundColor: 'white' }}>
+            tabBarStyle={{ backgroundColor: 'white' }}>
             <Scene
               key="timeline"
               title="History"
               icon={({ focused, title }) => (
                 <View
                   style={{
-                    paddingTop: 5,
+                    paddingBottom: 30,
                     width: 80,
                     height: 30,
                     alignItems: 'center',
@@ -153,6 +153,7 @@ const App = () => (
               icon={({ focused, title }) => (
                 <View
                   style={{
+                    paddingBottom: 40,
                     width: 80,
                     height: 30,
                     alignItems: 'center',
