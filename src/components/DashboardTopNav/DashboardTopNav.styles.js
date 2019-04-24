@@ -3,6 +3,13 @@ import { StyleSheet } from 'react-native';
 import { vars } from '../../styles';
 
 const styles = StyleSheet.create({
+  containerTopArea: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: '100%',
+    height: 50,
+  },
   container: {
     alignSelf: 'stretch',
     alignItems: 'center',
