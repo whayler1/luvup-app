@@ -31,7 +31,9 @@ import {
 import userApi from './user.api';
 
 export const SET_USER = 'user/set-user';
-export const LOGIN = 'user/login';
+export const LOGIN_ATTEMPT = 'user/login-attempt';
+export const LOGIN_SUCCESS = 'user/login-success';
+export const LOGIN_FAILURE = 'user/login-failure';
 export const LOGOUT = 'user/logout';
 export const REAUTH = 'user/reauth';
 export const SEND_NEW_PASSWORD_ATTEMPT = 'user/send-new-password-attempt';
@@ -46,7 +48,12 @@ export const RESET_PASSWORD_WITH_GENERATED_PASSWORD_FAILURE =
 export const USER_REQUEST_ATTEMPT = 'user/user-attempt';
 export const USER_REQUEST_SUCCESS = 'user/user-success';
 export const USER_REQUEST_FAILURE = 'user/user-failure';
-export const CONFIRM_USER_REQUEST_CODE = 'user/confirm-user-request-code';
+export const CONFIRM_USER_REQUEST_CODE_ATTEMPT =
+  'user/confirm-user-request-code-attempt';
+export const CONFIRM_USER_REQUEST_CODE_SUCCESS =
+  'user/confirm-user-request-code-success';
+export const CONFIRM_USER_REQUEST_CODE_FAILURE =
+  'user/confirm-user-request-code-failure';
 export const GET_ME_ATTEMPT = 'user/get-me-attempt';
 export const GET_ME_SUCCESS = 'user/get-me-success';
 export const GET_ME_FAILURE = 'user/get-me-failure';
@@ -55,13 +62,17 @@ export const GET_TIMELINE_DATA_SUCCESS = 'user/get-timeline-data-success';
 export const GET_TIMELINE_DATA_FAILURE = 'user/get-timeline-data-failure';
 
 export const login = (usernameOrEmail, password) => async dispatch => {
+  dispatch({ type: LOGIN_ATTEMPT });
   try {
-    const res = await userApi.login(usernameOrEmail, password);
+    const res = await userApi.login(
+      usernameOrEmail.toLowerCase().trim(),
+      password.trim()
+    );
 
     await AsyncStorage.setItem('id_token', res.body.id_token);
 
     dispatch({
-      type: LOGIN,
+      type: LOGIN_SUCCESS,
       id: res.body.user.id,
       email: res.body.user.email,
       username: res.body.user.username,
@@ -70,6 +81,7 @@ export const login = (usernameOrEmail, password) => async dispatch => {
     listenToNotifications();
     return res;
   } catch (err) {
+    dispatch({ type: LOGIN_FAILURE, errorMessage: err.message });
     return err;
   }
 };
@@ -249,7 +261,6 @@ export const userRequest = email => async dispatch => {
         'Http response not ok'
       );
       dispatch({ type: USER_REQUEST_FAILURE, errorMessage });
-      return errorMessage;
     }
 
     dispatch({
@@ -303,27 +314,45 @@ export const setUser = (
 });
 
 export const confirmUserRequestCode = (email, code) => async dispatch => {
+  dispatch({ type: CONFIRM_USER_REQUEST_CODE_ATTEMPT });
   try {
     const res = await userApi.confirmUserRequestCode(email, code);
-
-    const confirmUserRequestCode = _.at(
+    const confirmUserRequestCode = _.get(
       res,
       'body.data.confirmUserRequestCode'
-    )[0];
+    );
 
     if (confirmUserRequestCode && confirmUserRequestCode.success) {
       dispatch({
-        type: CONFIRM_USER_REQUEST_CODE,
+        type: CONFIRM_USER_REQUEST_CODE_SUCCESS,
         email,
         code,
       });
+      return res;
     }
 
+    dispatch({
+      type: CONFIRM_USER_REQUEST_CODE_FAILURE,
+      errorMessage: _.get(
+        res,
+        'body.errors[0].message',
+        'Error submitting request code'
+      ),
+    });
     return res;
   } catch (err) {
+    dispatch({
+      type: CONFIRM_USER_REQUEST_CODE_FAILURE,
+      errorMessage: _.get(err, 'message', 'Error submitting request code'),
+    });
     return err;
   }
 };
+
+export const clearUserRequestCodeError = () => ({
+  type: CONFIRM_USER_REQUEST_CODE_FAILURE,
+  errorMessage: '',
+});
 
 export const getTimelineData = limit => async dispatch => {
   dispatch({ type: GET_TIMELINE_DATA_ATTEMPT });

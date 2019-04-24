@@ -1,8 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, TextInput } from 'react-native';
+import { TextInput } from 'react-native';
 
 import { vars, forms } from '../../styles';
+import InputWrapper from './InputWrapper';
 
 class Input extends PureComponent {
   static propTypes = {
@@ -13,6 +14,7 @@ class Input extends PureComponent {
     inputProps: PropTypes.object,
     onChangeText: PropTypes.func,
     error: PropTypes.string,
+    formGroupStyles: PropTypes.array,
   };
 
   static defaultProps = {
@@ -21,6 +23,7 @@ class Input extends PureComponent {
     maxLength: 50,
     inputProps: {},
     error: '',
+    formGroupStyles: [],
   };
 
   constructor(props) {
@@ -49,14 +52,14 @@ class Input extends PureComponent {
         onChangeText,
         error,
         inputProps,
+        formGroupStyles,
       },
       state: { isFocus },
       handleFocus,
       handleBlur,
     } = this;
     return (
-      <View style={forms.formGroup}>
-        <Text style={forms.label}>{label}</Text>
+      <InputWrapper {...{ label, error, formGroupStyles, isFocus }}>
         <TextInput
           style={[forms.input, isFocus && forms.inputFocus]}
           onFocus={handleFocus}
@@ -68,8 +71,7 @@ class Input extends PureComponent {
           placeholderTextColor={vars.blueGrey100}
           {...inputProps}
         />
-        {error.length > 0 && <Text style={forms.error}>{error}</Text>}
-      </View>
+      </InputWrapper>
     );
   }
 }

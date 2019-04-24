@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { View, ScrollView, Text } from 'react-native';
+import { SafeAreaView, KeyboardAvoidingView, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { Button } from 'react-native-elements';
 
 import { resetPasswordWithGeneratedPassword as resetPasswordWithGeneratedPasswordAction } from '../../redux/user/user.actions';
 // import styles from './ResetPasswordWithGeneratedPassword.styles';
-import { forms, scene, modal, buttons } from '../../styles';
+import { forms, scene, buttons } from '../../styles';
 import { passwordRegex, userLoginRouteSwitch } from '../../helpers';
 import Input from '../../components/Input';
 import ResetPasswordWithGeneratedPasswordSuccess from './ResetPasswordWithGeneratedPasswordSuccess';
@@ -121,63 +121,72 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
       return <ResetPasswordWithGeneratedPasswordSuccess onDone={handleDone} />;
     }
     return (
-      <ScrollView style={scene.content}>
-        <Text style={modal.title}>Create a New Password</Text>
-        <Input
-          label="New Password"
-          placeholder="Min 8 chars. No spaces."
-          onChangeText={handleNewPasswordChange}
-          value={newPassword}
-          error={newPasswordError}
-          inputProps={{
-            testID: 'reset-password-with-generated-password-new-password',
-            returnKeyType: 'next',
-            onSubmitEditing: focusNewPasswordAgain,
-            autoCapitalize: 'none',
-            editable: !isResetPasswordWithGeneratedPasswordInFlight,
-            secureTextEntry: true,
-            spellCheck: false,
-            placeholder: '••••••••',
-          }}
-        />
-        <Input
-          label="Re-Enter New Password"
-          placeholder="Must match new password"
-          onChangeText={handleNewPasswordAgainChange}
-          value={newPasswordAgain}
-          error={newPasswordAgainError}
-          inputProps={{
-            testID: 'reset-password-with-generated-password-new-password-again',
-            ref: setNewPasswordAgainEl,
-            returnKeyType: 'go',
-            onSubmitEditing: handleSubmit,
-            autoCapitalize: 'none',
-            editable: !isResetPasswordWithGeneratedPasswordInFlight,
-            secureTextEntry: true,
-            spellCheck: false,
-            placeholder: '••••••••',
-          }}
-        />
-        <View style={forms.formGroup}>
-          <Button
-            onPress={handleSubmit}
-            containerViewStyle={buttons.container}
-            buttonStyle={buttons.infoButton}
-            textStyle={buttons.infoText}
-            title={
-              isResetPasswordWithGeneratedPasswordInFlight
-                ? 'Submitting…'
-                : 'Submit'
-            }
-            disabled={isResetPasswordWithGeneratedPasswordInFlight}
-          />
-          {resetPasswordWithGeneratedPasswordError.length > 0 && (
-            <Text style={forms.error}>
-              {resetPasswordWithGeneratedPasswordError}
-            </Text>
-          )}
-        </View>
-      </ScrollView>
+      <SafeAreaView style={scene.safeAreaView}>
+        <KeyboardAvoidingView style={scene.container} behavior="height">
+          <View style={scene.content}>
+            <View style={scene.contentTop}>
+              <Text style={[scene.titleCopy, scene.textCenter]}>
+                Create New Password
+              </Text>
+              <Input
+                label="New Password"
+                placeholder="Min 8 chars. No spaces."
+                onChangeText={handleNewPasswordChange}
+                value={newPassword}
+                error={newPasswordError}
+                inputProps={{
+                  testID: 'reset-password-with-generated-password-new-password',
+                  returnKeyType: 'next',
+                  onSubmitEditing: focusNewPasswordAgain,
+                  autoCapitalize: 'none',
+                  editable: !isResetPasswordWithGeneratedPasswordInFlight,
+                  secureTextEntry: true,
+                  spellCheck: false,
+                  placeholder: '••••••••',
+                }}
+              />
+              <Input
+                label="Re-Enter New Password"
+                placeholder="Must match new password"
+                onChangeText={handleNewPasswordAgainChange}
+                value={newPasswordAgain}
+                error={newPasswordAgainError}
+                inputProps={{
+                  testID:
+                    'reset-password-with-generated-password-new-password-again',
+                  ref: setNewPasswordAgainEl,
+                  returnKeyType: 'go',
+                  onSubmitEditing: handleSubmit,
+                  autoCapitalize: 'none',
+                  editable: !isResetPasswordWithGeneratedPasswordInFlight,
+                  secureTextEntry: true,
+                  spellCheck: false,
+                  placeholder: '••••••••',
+                }}
+              />
+              <View style={forms.formGroup}>
+                <Button
+                  onPress={handleSubmit}
+                  containerViewStyle={buttons.container}
+                  buttonStyle={buttons.infoButton}
+                  textStyle={buttons.infoText}
+                  title={
+                    isResetPasswordWithGeneratedPasswordInFlight
+                      ? 'Submitting…'
+                      : 'Submit'
+                  }
+                  disabled={isResetPasswordWithGeneratedPasswordInFlight}
+                />
+                {resetPasswordWithGeneratedPasswordError.length > 0 && (
+                  <Text style={forms.error}>
+                    {resetPasswordWithGeneratedPasswordError}
+                  </Text>
+                )}
+              </View>
+            </View>
+          </View>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
     );
   }
 }

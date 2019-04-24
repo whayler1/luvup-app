@@ -8,6 +8,7 @@ const receivedLoverRequestsApi = {
       receivedLoverRequests {
         rows {
           id
+          createdAt
           sender {
             id email firstName lastName
           }
@@ -24,6 +25,10 @@ const receivedLoverRequestsApi = {
       ) {
         loverRequest {
           id isAccepted isSenderCanceled isRecipientCanceled createdAt
+        }
+        relationship {
+          id createdAt updatedAt
+          lovers { id email firstName lastName }
         }
         error
       }

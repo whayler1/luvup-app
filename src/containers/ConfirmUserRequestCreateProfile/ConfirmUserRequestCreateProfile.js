@@ -3,17 +3,13 @@ import _ from 'lodash';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {
-  Text,
-  TextInput,
-  View,
-  ScrollView,
-  KeyboardAvoidingView,
-} from 'react-native';
+import { Text, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { Button } from 'react-native-elements';
 
-import { forms, buttons, modal, scene, vars } from '../../styles';
+import { forms, buttons, scene } from '../../styles';
 import Well from '../../components/Well';
+import Input from '../../components/Input';
 import {
   confirmUser as confirmUserAction,
   login as loginAction,
@@ -30,32 +26,31 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
     getMe: PropTypes.func.isRequired,
   };
 
-  state = {
-    username: '',
-    firstName: '',
-    lastName: '',
-    password: '',
-    passwordAgain: '',
-    error: '',
-    isInFlight: false,
-    focusInput: '',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      firstName: '',
+      lastName: '',
+      password: '',
+      passwordAgain: '',
+      error: '',
+      isInFlight: false,
+      focusInput: '',
+    };
+  }
 
-  _onFocusFunc = title => () => this.setState({ focusInput: title });
-  _onChangeFunc = key => val => this.setState({ [key]: val });
+  _onChangeFunc = key => val => this.setState({ [key]: val, error: '' });
 
-  onUsernameFocus = this._onFocusFunc('username');
-  onFirstNameFocus = this._onFocusFunc('firstName');
-  onLastNameFocus = this._onFocusFunc('lastName');
-  onPasswordFocus = this._onFocusFunc('password');
-  onPasswordAgainFocus = this._onFocusFunc('passwordAgain');
-  onBlur = this._onFocusFunc('');
-  onUsernameChange = this._onChangeFunc('username');
-  onFirstNameChange = this._onChangeFunc('firstName');
-  onLastNameChange = this._onChangeFunc('lastName');
-  onPasswordChange = this._onChangeFunc('password');
-  onPasswordAgainChange = this._onChangeFunc('passwordAgain');
+  handleUsernameChange = this._onChangeFunc('username');
+  handleFirstNameChange = this._onChangeFunc('firstName');
+  handleLastNameChange = this._onChangeFunc('lastName');
+  handlePasswordChange = this._onChangeFunc('password');
+  handlePasswordAgainChange = this._onChangeFunc('passwordAgain');
 
+  setUsernameRef(el) {
+    this.usernameRef = el;
+  }
   setFirstNameEl(el) {
     this.firstNameEl = el;
   }
@@ -83,12 +78,24 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
   }
 
   getValidationError = () => {
-    const { username, password, passwordAgain } = this.state;
+    const {
+      username,
+      firstName,
+      lastName,
+      password,
+      passwordAgain,
+    } = this.state;
     if (!username) {
       return 'username';
     }
     if (username.length < 3) {
       return 'username-length';
+    }
+    if (firstName.length < 3) {
+      return 'firstname-length';
+    }
+    if (lastName.length < 3) {
+      return 'lastname-length';
     }
     if (!password) {
       return 'password';
@@ -102,13 +109,46 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
     return '';
   };
 
+  getUsernameError = () => {
+    const { error } = this.state;
+    if (error === 'username') {
+      return 'Please provide a username';
+    }
+    if (error === 'username-length') {
+      return 'Usernames must be at least 3 characters';
+    }
+    if (error === 'username taken') {
+      return 'Username taken';
+    }
+    return '';
+  };
+
+  getPasswordError = () => {
+    const { error } = this.state;
+    if (error === 'password') {
+      return 'Please provide a password';
+    }
+    if (error === 'password-length') {
+      return 'Passwords must be at least 8 characters';
+    }
+    return '';
+  };
+
+  getReEnterPasswordError = () => {
+    const { error } = this.state;
+    if (error === 'password-mismatch') {
+      return 'Passwords do not match';
+    }
+    return '';
+  };
+
   login = async () => {
     const { username, password } = this.state;
 
     await this.props.login(username, password);
     await this.props.getMe();
 
-    Actions.createloverrequest();
+    Actions.dashboard();
   };
 
   submit = async () => {
@@ -123,7 +163,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
       password
     );
 
-    if (!_.at(res, 'body.data.confirmUser')[0]) {
+    if (!_.get(res, 'body.data.confirmUser')) {
       this.setState({ error: 'response', isInFlight: false });
     } else {
       const { error } = res.body.data.confirmUser;
@@ -135,7 +175,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
     }
   };
 
-  onSubmit = () => {
+  handleSumbit = () => {
     const errorStr = this.getValidationError();
 
     if (errorStr.length) {
@@ -145,20 +185,24 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
     this.setState({ error: '', isInFlight: true }, this.submit);
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      prevState.passwordAgain.length !== this.state.passwordAgain.length &&
+      this.getValidationError === ''
+    ) {
+      this.handleSumbit();
+    }
+  }
+
   render() {
     const {
-      onUsernameFocus,
-      onFirstNameFocus,
-      onLastNameFocus,
-      onPasswordFocus,
-      onPasswordAgainFocus,
-      onBlur,
-      onUsernameChange,
-      onFirstNameChange,
-      onLastNameChange,
-      onPasswordChange,
-      onPasswordAgainChange,
-      onSubmit,
+      handleUsernameChange,
+      handleFirstNameChange,
+      handleLastNameChange,
+      handlePasswordChange,
+      handlePasswordAgainChange,
+      handleSumbit,
+      setUsernameRef,
       setFirstNameEl,
       setLastNameEl,
       setPasswordEl,
@@ -167,159 +211,117 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
       focusLastNameEl,
       focusPasswordEl,
       focusPasswordAgainEl,
+      getUsernameError,
+      getPasswordError,
+      getReEnterPasswordError,
+      state: {
+        username,
+        firstName,
+        lastName,
+        password,
+        passwordAgain,
+        error,
+        isInFlight,
+      },
     } = this;
-    const {
-      username,
-      firstName,
-      lastName,
-      password,
-      passwordAgain,
-      error,
-      isInFlight,
-      focusInput,
-    } = this.state;
 
     return (
-      <KeyboardAvoidingView
-        contentContainerStyle={scene.keyboardAvoidingView}
+      <KeyboardAwareScrollView
         style={scene.container}
-        keyboardVerticalOffset={32}
-        behavior="padding">
-        <ScrollView style={scene.contentNoTop}>
-          <Text style={modal.title}>Create Your Profile</Text>
-          <View style={forms.formGroup}>
-            <Text style={forms.label}>Username</Text>
-            <TextInput
-              testID="create-profile-username-input"
-              style={[
-                focusInput === 'username' ? forms.inputFocus : forms.input,
-              ]}
-              onFocus={onUsernameFocus}
-              onBlur={onBlur}
-              onChangeText={onUsernameChange}
-              value={username}
-              maxLength={50}
-              autoCapitalize={'none'}
-              editable={!isInFlight}
-              spellCheck={false}
-              placeholder="Min 8 chars. No spaces."
-              placeholderTextColor={vars.placeholder}
-              returnKeyType="next"
-              onSubmitEditing={focusFirstName}
-            />
-            {error === 'username' && (
-              <Text style={forms.error}>Please provide a username</Text>
-            )}
-            {error === 'username-length' && (
-              <Text style={forms.error}>
-                Usernames must be at least 3 characters
-              </Text>
-            )}
-            {error === 'username taken' && (
-              <Text style={forms.error}>Username taken</Text>
-            )}
-          </View>
+        contentContainerStyle={scene.contentNoTop}>
+        <View style={[scene.contentTop, styles.contentNoTop]}>
+          <Text style={[scene.titleCopy, scene.textCenter]}>
+            Create Your Profile
+          </Text>
+          <Input
+            {...{
+              ref: setUsernameRef,
+              label: 'Username',
+              onChangeText: handleUsernameChange,
+              value: username,
+              placeholder: 'Min 8 chars. No spaces.',
+              error: getUsernameError(),
+              inputProps: {
+                testID: 'create-profile-username-input',
+                editable: !isInFlight,
+                spellCheck: false,
+                returnKeyType: 'next',
+                onSubmitEditing: focusFirstName,
+              },
+            }}
+          />
           <View style={styles.formRowWrap}>
-            <View style={[forms.formGroup, styles.formRowLeft]}>
-              <Text style={forms.label}>First Name</Text>
-              <TextInput
-                testID="create-profile-firstname-input"
-                ref={setFirstNameEl}
-                style={[
-                  focusInput === 'firstName' ? forms.inputFocus : forms.input,
-                ]}
-                onFocus={onFirstNameFocus}
-                onBlur={onBlur}
-                onChangeText={onFirstNameChange}
-                value={firstName}
-                maxLength={50}
-                autoCapitalize={'none'}
-                editable={!isInFlight}
-                spellCheck={false}
-                placeholder="Jane"
-                placeholderTextColor={vars.placeholder}
-                returnKeyType="next"
-                onSubmitEditing={focusLastNameEl}
-              />
-            </View>
-            <View style={[forms.formGroup, styles.formRowRight]}>
-              <Text style={forms.label}>Last Name</Text>
-              <TextInput
-                testID="create-profile-lastname-input"
-                ref={setLastNameEl}
-                style={[
-                  focusInput === 'lastName' ? forms.inputFocus : forms.input,
-                ]}
-                onFocus={onLastNameFocus}
-                onBlur={onBlur}
-                onChangeText={onLastNameChange}
-                value={lastName}
-                maxLength={50}
-                autoCapitalize={'none'}
-                editable={!isInFlight}
-                spellCheck={false}
-                placeholder="Doe"
-                placeholderTextColor={vars.placeholder}
-                returnKeyType="next"
-                onSubmitEditing={focusPasswordEl}
-              />
-            </View>
-          </View>
-          <View style={forms.formGroup}>
-            <Text style={forms.label}>Password</Text>
-            <TextInput
-              testID="create-profile-password-input"
-              ref={setPasswordEl}
-              style={[
-                focusInput === 'password' ? forms.inputFocus : forms.input,
-              ]}
-              onFocus={onPasswordFocus}
-              onBlur={onBlur}
-              onChangeText={onPasswordChange}
-              value={password}
-              secureTextEntry
-              maxLength={50}
-              editable={!isInFlight}
-              spellCheck={false}
-              placeholder="Min 8 Chars. No spaces"
-              placeholderTextColor={vars.placeholder}
-              returnKeyType="next"
-              onSubmitEditing={focusPasswordAgainEl}
+            <Input
+              {...{
+                label: 'First Name',
+                onChangeText: handleFirstNameChange,
+                value: firstName,
+                placeholder: 'Jane',
+                inputProps: {
+                  ref: setFirstNameEl,
+                  testID: 'create-profile-firstname-input',
+                  editable: !isInFlight,
+                  spellCheck: false,
+                  returnKeyType: 'next',
+                  onSubmitEditing: focusLastNameEl,
+                },
+                formGroupStyles: [styles.formRowLeft],
+              }}
             />
-            {error === 'password' && (
-              <Text style={forms.error}>Please provide a password</Text>
-            )}
-            {error === 'password-length' && (
-              <Text style={forms.error}>
-                Passwords must be at least 8 characters
-              </Text>
-            )}
-          </View>
-          <View style={forms.formGroup}>
-            <Text style={forms.label}>Re-Enter Password</Text>
-            <TextInput
-              testID="create-profile-passwordagain-input"
-              ref={setPasswordAgainEl}
-              style={[
-                focusInput === 'passwordAgain' ? forms.inputFocus : forms.input,
-              ]}
-              onFocus={onPasswordAgainFocus}
-              onBlur={onBlur}
-              onChangeText={onPasswordAgainChange}
-              value={passwordAgain}
-              secureTextEntry
-              maxLength={50}
-              editable={!isInFlight}
-              spellCheck={false}
-              placeholder="Must match password"
-              placeholderTextColor={vars.placeholder}
-              returnKeyType="go"
-              onSubmitEditing={onSubmit}
+            <Input
+              {...{
+                label: 'Last Name',
+                onChangeText: handleLastNameChange,
+                value: lastName,
+                placeholder: 'Doe',
+                inputProps: {
+                  ref: setLastNameEl,
+                  testID: 'create-profile-lastname-input',
+                  editable: !isInFlight,
+                  spellCheck: false,
+                  returnKeyType: 'next',
+                  onSubmitEditing: focusPasswordEl,
+                },
+                formGroupStyles: [styles.formRowRight],
+              }}
             />
-            {error === 'password-mismatch' && (
-              <Text style={forms.error}>Passwords do not match</Text>
-            )}
           </View>
+          <Input
+            {...{
+              label: 'Password',
+              onChangeText: handlePasswordChange,
+              value: password,
+              placeholder: 'Min 8 Chars. No spaces',
+              error: getPasswordError(),
+              inputProps: {
+                testID: 'create-profile-password-input',
+                secureTextEntry: true,
+                editable: !isInFlight,
+                spellCheck: false,
+                returnKeyType: 'next',
+                onSubmitEditing: focusPasswordAgainEl,
+                ref: setPasswordEl,
+              },
+            }}
+          />
+          <Input
+            {...{
+              label: 'Re-Enter Password',
+              onChangeText: handlePasswordAgainChange,
+              value: passwordAgain,
+              placeholder: 'Must match password',
+              error: getReEnterPasswordError(),
+              inputProps: {
+                testID: 'create-profile-passwordagain-input',
+                ref: setPasswordAgainEl,
+                secureTextEntry: true,
+                editable: !isInFlight,
+                spellCheck: false,
+                returnKeyType: 'go',
+                onSubmitEditing: handleSumbit,
+              },
+            }}
+          />
           {error === 'response' && (
             <Well text="There was an error confirming signup" />
           )}
@@ -329,7 +331,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
           <View style={forms.buttonRow}>
             <View style={styles.submitWrap}>
               <Button
-                onPress={onSubmit}
+                onPress={handleSumbit}
                 containerViewStyle={buttons.infoContainer}
                 buttonStyle={buttons.infoButton}
                 textStyle={buttons.infoText}
@@ -338,8 +340,8 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
               />
             </View>
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        </View>
+      </KeyboardAwareScrollView>
     );
   }
 }

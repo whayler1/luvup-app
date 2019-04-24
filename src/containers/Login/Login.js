@@ -2,16 +2,26 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import {
+  View,
+  Text,
+  KeyboardAvoidingView,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import { Button } from 'react-native-elements';
 
+import styles from './Login.styles';
+import { scene, forms, buttons, wells } from '../../styles';
 import {
   userLoginRouteSwitch,
   registerForPushNotifications,
 } from '../../helpers';
-import Template from './Login.template';
-import {
-  login as loginAction,
-  getMe as getMeAction,
-} from '../../redux/user/user.actions';
+import { login as loginAction } from '../../redux/user/user.actions';
+import Input from '../../components/Input';
+
+let passwordInput;
+const focusPassword = () => passwordInput.focus();
 
 class Login extends Component {
   static propTypes = {
@@ -19,10 +29,7 @@ class Login extends Component {
     username: PropTypes.string,
     isReset: PropTypes.bool.isRequired,
     login: PropTypes.func.isRequired,
-    getMe: PropTypes.func.isRequired,
     getMeErrorMessage: PropTypes.string.isRequired,
-    relationshipId: PropTypes.string,
-    loverRequestId: PropTypes.string,
   };
 
   static defaultProps = {
@@ -37,15 +44,15 @@ class Login extends Component {
       password: '',
       error: '',
       isInFlight: false,
-      focus: '',
     };
   }
 
-  handleUsernameFocus = () => this.setState({ focus: 'username' });
-  handlePasswordFocus = () => this.setState({ focus: 'password' });
-  handleUsernameChange = username => this.setState({ username });
-  handlePasswordChange = password => this.setState({ password });
-  handleBlur = () => this.setState({ focus: '' });
+  handleUsernameChange = username => {
+    this.setState({ username });
+  };
+  handlePasswordChange = password => {
+    this.setState({ password });
+  };
 
   getValidationError = () => {
     const { username, password } = this.state;
@@ -90,21 +97,125 @@ class Login extends Component {
     this.setState({ isInFlight: true }, this.submit);
   };
 
+  setPasswordInputRef = el => {
+    passwordInput = el;
+  };
+
   render() {
+    const {
+      navigateToSignUpConfirm,
+      navigateToSignUp,
+      navigateToForgotPassword,
+      handleSubmit,
+      handleUsernameChange,
+      handlePasswordChange,
+      setPasswordInputRef,
+      state: { username, password, error, isInFlight },
+      props: { getMeErrorMessage },
+    } = this;
+
     return (
-      <Template
-        {...this.state}
-        navigateToSignUpConfirm={this.navigateToSignUpConfirm}
-        navigateToSignUp={this.navigateToSignUp}
-        navigateToForgotPassword={this.navigateToForgotPassword}
-        onSubmit={this.handleSubmit}
-        onUsernameFocus={this.handleUsernameFocus}
-        onPasswordFocus={this.handlePasswordFocus}
-        onUsernameChange={this.handleUsernameChange}
-        onPasswordChange={this.handlePasswordChange}
-        onBlur={this.handleBlur}
-        getMeErrorMessage={this.props.getMeErrorMessage}
-      />
+      <KeyboardAvoidingView style={scene.container} behavior="padding">
+        <ScrollView
+          testID="login-scroll-view"
+          style={scene.content}
+          contentContainerStyle={scene.contentTop}>
+          <Text
+            testID="login-title"
+            style={[scene.titleCopy, scene.textCenter]}>
+            Login
+          </Text>
+          <Input
+            label="Email"
+            onChangeText={handleUsernameChange}
+            value={username}
+            placeholder="jane.doe@email.com"
+            error={error === 'username' ? 'Please provide a valid email' : ''}
+            inputProps={{
+              autoCapitalize: 'none',
+              editable: !isInFlight,
+              spellCheck: false,
+              keyboardType: 'email-address',
+              returnKeyType: 'next',
+              onSubmitEditing: focusPassword,
+              testID: 'login-email-input',
+            }}
+          />
+          <Input
+            label="Password"
+            onChangeText={handlePasswordChange}
+            value={password}
+            placeholder="••••••••"
+            error={error === 'password' ? 'Please provide a password' : ''}
+            inputProps={{
+              ref: setPasswordInputRef,
+              secureTextEntry: true,
+              editable: !isInFlight,
+              spellCheck: false,
+              returnKeyType: 'go',
+              onSubmitEditing: handleSubmit,
+              testID: 'login-password-input',
+            }}
+          />
+          {(error === 'credentials' || error === 'server') && (
+            <View style={[wells.error, styles.wellError]}>
+              <Text style={wells.errorText}>Invalid email or password</Text>
+            </View>
+          )}
+          {getMeErrorMessage.length > 0 && (
+            <View style={[wells.error, styles.wellError]}>
+              <Text style={wells.errorText}>{getMeErrorMessage}</Text>
+            </View>
+          )}
+          <View style={forms.buttonRow}>
+            <View style={styles.submitContainer}>
+              <Button
+                onPress={handleSubmit}
+                containerViewStyle={buttons.container}
+                buttonStyle={buttons.infoButton}
+                textStyle={buttons.infoText}
+                title={isInFlight ? 'Submitting…' : 'Submit'}
+                disabled={isInFlight}
+                testID="login-submit"
+              />
+            </View>
+          </View>
+          <View>
+            <TouchableOpacity
+              accessibilityLabel="Forgot your password"
+              onPress={navigateToForgotPassword}
+              style={styles.forgotPasswordButton}>
+              <Text style={[scene.bodyCopy, styles.forgotPasswordText]}>
+                Forgot your password?
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.noAccountTextContainer}>
+            <Text style={scene.bodyCopy}>{"Don't have an account?"}</Text>
+          </View>
+          <View style={[forms.buttonRow, styles.noAccountButtonRow]}>
+            <View style={styles.confirmCodeWrapper}>
+              <Button
+                onPress={navigateToSignUpConfirm}
+                containerViewStyle={buttons.container}
+                buttonStyle={buttons.secondarySkeletonButton}
+                textStyle={buttons.secondarySkeletonText}
+                title={'Confirm Code'}
+              />
+            </View>
+            <View style={styles.signUpWrapper}>
+              <Button
+                testID="login-signup"
+                onPress={navigateToSignUp}
+                containerViewStyle={buttons.container}
+                buttonStyle={buttons.infoSkeletonButton}
+                textStyle={buttons.infoSkeletonText}
+                title={'Sign Up'}
+              />
+            </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -119,6 +230,5 @@ export default connect(
   }),
   {
     login: loginAction,
-    getMe: getMeAction,
   }
 )(Login);

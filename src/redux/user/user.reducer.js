@@ -1,7 +1,9 @@
 import _ from 'lodash';
 import {
   SET_USER,
-  LOGIN,
+  LOGIN_ATTEMPT,
+  LOGIN_SUCCESS,
+  LOGIN_FAILURE,
   LOGOUT,
   REAUTH,
   SEND_NEW_PASSWORD_ATTEMPT,
@@ -13,7 +15,9 @@ import {
   USER_REQUEST_ATTEMPT,
   USER_REQUEST_SUCCESS,
   USER_REQUEST_FAILURE,
-  CONFIRM_USER_REQUEST_CODE,
+  CONFIRM_USER_REQUEST_CODE_ATTEMPT,
+  CONFIRM_USER_REQUEST_CODE_SUCCESS,
+  CONFIRM_USER_REQUEST_CODE_FAILURE,
   GET_TIMELINE_DATA_ATTEMPT,
   GET_TIMELINE_DATA_FAILURE,
   GET_TIMELINE_DATA_SUCCESS,
@@ -30,6 +34,8 @@ const defaultState = {
   firstName: '',
   lastName: '',
   code: '',
+  isLoginInFlight: false,
+  loginError: '',
   isSendNewPasswordInFlight: false,
   sendNewPasswordError: '',
   isResetPasswordWithGeneratedPasswordInFlight: false,
@@ -41,19 +47,34 @@ const defaultState = {
   isGetMeInFlight: false,
   getMeErrorMessage: '',
   isReset: false,
+  isConfirmUserRequestCodeInFlight: false,
+  confirmUserRequestCodeError: '',
 };
 
 const userAttribs = ['id', 'email', 'username', 'firstName', 'lastName'];
 
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
-    case LOGIN:
+    case LOGIN_ATTEMPT:
+      return {
+        ...state,
+        isLoginInFlight: true,
+        loginError: '',
+      };
+    case LOGIN_SUCCESS:
     case REAUTH:
       appStateListener.start();
       return {
         ...state,
         ..._.pick(action, userAttribs),
+        isLoginInFlight: false,
         isReset: action.isReset || false,
+      };
+    case LOGIN_FAILURE:
+      return {
+        ...state,
+        isLoginInFlight: false,
+        loginError: action.errorMessage,
       };
     case SET_USER:
       return {
@@ -115,11 +136,24 @@ export default function reducer(state = defaultState, action) {
         isUserRequestInFlight: false,
         userRequestError: action.errorMessage,
       };
-    case CONFIRM_USER_REQUEST_CODE:
+    case CONFIRM_USER_REQUEST_CODE_ATTEMPT:
       return {
         ...state,
+        isConfirmUserRequestCodeInFlight: true,
+        confirmUserRequestCodeError: '',
+      };
+    case CONFIRM_USER_REQUEST_CODE_SUCCESS:
+      return {
+        ...state,
+        isConfirmUserRequestCodeInFlight: false,
         email: action.email,
         code: action.code,
+      };
+    case CONFIRM_USER_REQUEST_CODE_FAILURE:
+      return {
+        ...state,
+        isConfirmUserRequestCodeInFlight: false,
+        confirmUserRequestCodeError: action.errorMessage,
       };
     case GET_TIMELINE_DATA_ATTEMPT:
       return {

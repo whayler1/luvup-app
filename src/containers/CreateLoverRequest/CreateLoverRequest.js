@@ -4,13 +4,35 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import {
+  Text,
+  FlatList,
+  SafeAreaView,
+  View,
+  ScrollView,
+  KeyboardAvoidingView,
+  TouchableOpacity,
+} from 'react-native';
+
+import styles from './CreateLoverRequest.styles';
+import { scene, modal, vars } from '../../styles';
+import CreateLoverRequestRenderItem from './CreateLoverRequestRenderItem';
 
 import analytics from '../../services/analytics';
 import config from '../../config.js';
-import Template from './CreateLoverRequest.template';
-import TemplateSelectedUser from './CreateLoverRequest.template.selectedUser';
+// import Template from './CreateLoverRequest.template';
+import CreateLoverRequestSelectedUser from './CreateLoverRequestSelectedUser';
+import HeartArt from '../../components/Art/HeartArt';
+import SearchArt from '../../components/Art/SearchArt';
+import Input from '../../components/Input';
 import { requestLover as requestLoverAction } from '../../redux/loverRequest/loverRequest.actions';
 import { getReceivedLoverRequests as getReceivedLoverRequestsAction } from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
+
+const keyExtractor = item => item.id;
+
+const getRenderItem = onPress => ({ item }) => (
+  <CreateLoverRequestRenderItem item={item} onPress={onPress} />
+);
 
 class CreateLoverRequest extends Component {
   static propTypes = {
@@ -23,14 +45,18 @@ class CreateLoverRequest extends Component {
     receivedLoverRequests: PropTypes.array,
   };
 
-  state = {
-    search: '',
-    error: '',
-    users: [],
-    selectedUser: null,
-    isInFlight: false,
-    requestLoverIsInFlight: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      search: '',
+      error: '',
+      users: [],
+      selectedUser: null,
+      isInFlight: false,
+      requestLoverIsInFlight: false,
+    };
+  }
 
   clearSelectedUser = () => this.setState({ selectedUser: null });
 
@@ -103,10 +129,17 @@ class CreateLoverRequest extends Component {
     }
   }, 500);
 
-  handleSearchChange = search =>
+  handleSearchChange = search => {
     this.setState({ search, isInFlight: true }, this.searchDebounce);
+  };
 
-  goToMenu = () => Actions.menu();
+  handleMenuNavPress = () => {
+    Actions.menu();
+  };
+
+  handleGoBack = () => {
+    Actions.dashboard();
+  };
 
   componentDidMount() {
     analytics.screen({
@@ -116,20 +149,99 @@ class CreateLoverRequest extends Component {
   }
 
   render() {
-    if (!this.state.selectedUser) {
+    const {
+      handleSearchChange,
+      handleListItemClick,
+      handleMenuNavPress,
+      handleGoBack,
+      props: { userFirstName, userLastName },
+      state: { search, users, selectedUser, isInFlight },
+    } = this;
+    if (!selectedUser) {
       return (
-        <Template
-          onSearchChange={this.handleSearchChange}
-          onListItemClick={this.handleListItemClick}
-          userFirstName={this.props.userFirstName}
-          userLastName={this.props.userLastName}
-          goToMenu={this.goToMenu}
-          {...this.state}
-        />
+        <SafeAreaView style={scene.safeAreaView}>
+          <KeyboardAvoidingView style={scene.container}>
+            <View style={scene.topNav}>
+              <View style={scene.topNavContent}>
+                <TouchableOpacity onPress={handleGoBack}>
+                  <HeartArt scale={0.037} fill={vars.blueGrey500} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  testID="create-lover-request-menu-button"
+                  onPress={handleMenuNavPress}
+                  style={styles.menuButton}>
+                  <Text style={styles.menuButtonText}>
+                    {_.isString(userFirstName) &&
+                      userFirstName.substr(0, 1).toUpperCase()}
+                    {_.isString(userLastName) &&
+                      userLastName.substr(0, 1).toUpperCase()}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+            <ScrollView
+              style={scene.content}
+              contentContainerStyle={styles.content}>
+              <View>
+                <Input
+                  label="Search for your lover"
+                  placeholder="name or email address"
+                  onChangeText={handleSearchChange}
+                  value={search}
+                  formGroupStyles={[styles.loverSearchContainer]}
+                  inputProps={{
+                    testID: 'create-lover-request-input',
+                    autoCapitalize: 'none',
+                    maxLength: 100,
+                    spellCheck: false,
+                  }}
+                />
+              </View>
+              {users.length > 0 && (
+                <FlatList
+                  style={styles.flatList}
+                  data={users}
+                  keyExtractor={keyExtractor}
+                  renderItem={getRenderItem(handleListItemClick)}
+                />
+              )}
+              {isInFlight && !users.length && (
+                <Text style={[modal.copy, { color: vars.blue500 }]}>
+                  Searching…
+                </Text>
+              )}
+              {!isInFlight &&
+                !users.length &&
+                (() => {
+                  if (search.length < 2) {
+                    return (
+                      <View style={styles.directionsContainer}>
+                        <SearchArt fill={vars.blueGrey100} scale={3} />
+                        <Text
+                          style={[
+                            scene.largeCopy,
+                            scene.textCenter,
+                            scene.gutterDoubleTop,
+                          ]}>
+                          Use the search box above to find your lover.
+                        </Text>
+                      </View>
+                    );
+                  }
+                  return (
+                    <Text style={[modal.copy, { color: vars.red500 }]}>
+                      There are no users who match that username, email or full
+                      name. Please double check your spelling.
+                    </Text>
+                  );
+                })()}
+            </ScrollView>
+          </KeyboardAvoidingView>
+        </SafeAreaView>
       );
     }
     return (
-      <TemplateSelectedUser
+      <CreateLoverRequestSelectedUser
         clearSelectedUser={this.clearSelectedUser}
         requestLover={this.requestLover}
         {...this.state}

@@ -2,16 +2,18 @@ import { StyleSheet } from 'react-native';
 
 import { vars } from '../../styles';
 
-const container = {
-  flex: 1,
-  backgroundColor: 'transparent',
-  justifyContent: 'center',
-  alignItems: 'center',
-  // alignItems: 'flex-start',
-};
-
 export default StyleSheet.create({
-  container,
+  container: {
+    flexDirection: 'column',
+    flex: 1,
+  },
+  content: {
+    flexDirection: 'column',
+    flex: 1,
+  },
+  loverSearchContainer: {
+    marginTop: 0,
+  },
   renderItem: {
     paddingTop: 8,
     paddingBottom: 16,
@@ -44,5 +46,11 @@ export default StyleSheet.create({
     position: 'absolute',
     top: 18,
     right: 0,
+  },
+  directionsContainer: {
+    flexDirection: 'column',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

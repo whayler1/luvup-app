@@ -52,18 +52,7 @@ const getSceneStyle = () => ({
 const sceneDefaults = {
   ..._.pick(navbar, ['navigationBarStyle']),
   navBarButtonColor: vars.cyan500,
-  renderTitle: (
-    <View>
-      <Text
-        style={{
-          fontFamily: vars.fontVanity,
-          color: vars.blueGrey700,
-          fontSize: 30,
-        }}>
-        luvup
-      </Text>
-    </View>
-  ),
+  renderTitle: <View />,
 };
 
 const getDefaultNavBar = title => ({
@@ -71,7 +60,7 @@ const getDefaultNavBar = title => ({
   renderTitle: (
     <Text
       style={{
-        fontFamily: vars.fontBlack,
+        fontFamily: vars.fontRegular,
         color: vars.blueGrey500,
         fontSize: 25,
       }}>
@@ -115,7 +104,7 @@ const App = () => (
             key="confirmUserRequestCreateProfile"
             component={ConfirmUserRequestCreateProfile}
             title="Create Profile"
-            {...sceneDefaults}
+            hideNavBar
           />
           <Scene
             key="dashboard"
@@ -137,14 +126,14 @@ const App = () => (
           <Tabs
             key="timelineTabs"
             showLabel={false}
-            style={{ backgroundColor: 'white' }}>
+            tabBarStyle={{ backgroundColor: 'white' }}>
             <Scene
               key="timeline"
               title="History"
               icon={({ focused, title }) => (
                 <View
                   style={{
-                    paddingTop: 5,
+                    paddingBottom: 30,
                     width: 80,
                     height: 30,
                     alignItems: 'center',
@@ -164,6 +153,7 @@ const App = () => (
               icon={({ focused, title }) => (
                 <View
                   style={{
+                    paddingBottom: 40,
                     width: 80,
                     height: 30,
                     alignItems: 'center',

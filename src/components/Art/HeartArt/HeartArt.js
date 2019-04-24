@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
  * JW: TODO: Move Svg & extractBrush impprts to expo imports
  */
 /* eslint-disable import/no-extraneous-dependencies */
-import Svg, { Path } from 'react-native-svg';
+import { Svg, Path } from 'react-native-svg';
 import extractBrush from 'react-native-svg/lib/extract/extractBrush';
 /* eslint-enable import/no-extraneous-dependencies */
 import { getAnimatedRelationshipScoreFill } from '../../../helpers/getRelationshipScoreFill';

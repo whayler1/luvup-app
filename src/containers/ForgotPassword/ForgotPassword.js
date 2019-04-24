@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, ScrollView, Text } from 'react-native';
+import { SafeAreaView, View, KeyboardAvoidingView, Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { Button } from 'react-native-elements';
 
 import styles from './ForgotPassword.styles';
-import { modal, scene, buttons, forms } from '../../styles';
+import { scene, buttons } from '../../styles';
 import { sendNewPassword as sendNewPasswordAction } from '../../redux/user/user.actions';
 import { emailRegex } from '../../helpers';
 import ForgotPasswordForm from './ForgotPasswordForm';
@@ -68,16 +68,23 @@ class ForgotPassword extends PureComponent {
   render() {
     if (this.state.isSuccess) {
       return (
-        <ScrollView>
+        <SafeAreaView style={scene.container}>
           <View style={scene.contentNoTop}>
-            <Text style={modal.title}>Password Reset Email Sent</Text>
-            <Text style={[modal.copy, styles.copy]}>
-              An email with a temporary password has been sent to{' '}
-              <Text style={styles.copyBold}>{this.state.email}</Text>. After you
-              log in with your new password you will be prompted to change it to
-              a password of your liking.
-            </Text>
-            <View style={forms.formGroup}>
+            <View style={scene.contentTop}>
+              <Text style={[scene.titleCopy, scene.textCenter]}>
+                Email Sent
+              </Text>
+              <Text
+                style={[scene.largeCopy, scene.textCenter, scene.gutterTop]}>
+                An email with a temporary password has been sent to{' '}
+                {this.state.email}.
+              </Text>
+              <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
+                After you log in with your new password you will be prompted to
+                change it to a password of your liking.
+              </Text>
+            </View>
+            <View style={scene.contentBottom}>
               <Button
                 testID="forgot-password-login-button"
                 onPress={this.handleGoToLogin}
@@ -88,7 +95,7 @@ class ForgotPassword extends PureComponent {
               />
             </View>
           </View>
-        </ScrollView>
+        </SafeAreaView>
       );
     }
     const {
@@ -102,24 +109,28 @@ class ForgotPassword extends PureComponent {
       handleSubmit,
     } = this;
     return (
-      <ScrollView>
+      <KeyboardAvoidingView style={scene.container} behavior="height">
         <View style={scene.contentNoTop}>
-          <Text style={modal.title}>Request Password Reset</Text>
-          <Text style={[modal.copy, styles.copy]}>
-            Enter your email address below and you will be emailed a temporary
-            password.
-          </Text>
-          <ForgotPasswordForm
-            isSendNewPasswordInFlight={isSendNewPasswordInFlight}
-            sendNewPasswordError={sendNewPasswordError}
-            validationError={validationError}
-            sendNewPassword={sendNewPassword}
-            email={email}
-            onEmailChange={handleEmailChange}
-            onSubmit={handleSubmit}
-          />
+          <View style={scene.contentTop}>
+            <Text style={[scene.titleCopy, scene.textCenter]}>
+              Password Reset
+            </Text>
+            <Text style={[scene.bodyCopy, styles.copy, scene.gutterTop]}>
+              Enter your email address below and you will be emailed a temporary
+              password.
+            </Text>
+            <ForgotPasswordForm
+              isSendNewPasswordInFlight={isSendNewPasswordInFlight}
+              sendNewPasswordError={sendNewPasswordError}
+              validationError={validationError}
+              sendNewPassword={sendNewPassword}
+              email={email}
+              onEmailChange={handleEmailChange}
+              onSubmit={handleSubmit}
+            />
+          </View>
         </View>
-      </ScrollView>
+      </KeyboardAvoidingView>
     );
   }
 }

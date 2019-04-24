@@ -3,14 +3,16 @@ import { StyleSheet } from 'react-native';
 import { vars } from '../../styles';
 
 const styles = StyleSheet.create({
-  container: {
+  containerTopArea: {
     position: 'absolute',
-    alignItems: 'center',
-    top: 0,
     left: 0,
     right: 0,
-    paddingTop: 16,
-    marginTop: 28,
+    bottom: '100%',
+    height: 50,
+  },
+  container: {
+    alignSelf: 'stretch',
+    alignItems: 'center',
     zIndex: 10,
   },
   pushdownText: {

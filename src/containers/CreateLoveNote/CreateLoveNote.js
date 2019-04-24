@@ -9,9 +9,6 @@ import { createLoveNote as createLoveNoteAction } from '../../redux/loveNote/lov
 import { refreshSentCoinCount as refreshSentCoinCountAction } from '../../redux/coin/coin.actions';
 import { refreshSentJalapenoCount as refreshSentJalapenoCountAction } from '../../redux/jalapeno/jalapeno.actions';
 import Template from './CreateLoveNote.template';
-import config from '../../config';
-
-const { maxItemsPerHour } = config;
 
 const getLoveNotePlaceholder = loverFirstName => {
   const placeholders = [

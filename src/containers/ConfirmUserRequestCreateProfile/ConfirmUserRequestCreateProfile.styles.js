@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
 
+import { vars } from '../../styles';
+
 export default StyleSheet.create({
   formRowWrap: {
     flexDirection: 'row',
@@ -14,5 +16,8 @@ export default StyleSheet.create({
   },
   submitWrap: {
     flex: 1,
+  },
+  contentNoTop: {
+    marginBottom: vars.gutterTriple,
   },
 });

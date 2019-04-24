@@ -19,6 +19,7 @@ const ViewQuizSuccess = ({ reward }) => (
         <Text style={styles.successText}>You win {reward} Luvups</Text>
       </View>
       <Button
+        testID="view-quiz-success-done"
         onPress={handleDone}
         containerViewStyle={buttons.container}
         buttonStyle={buttons.infoSkeletonButton}

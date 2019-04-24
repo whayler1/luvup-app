@@ -7,6 +7,7 @@ import { TouchableOpacity } from 'react-native';
 
 class CreateQuizLuvupButton extends PureComponent {
   static propTypes = {
+    index: PropTypes.number.isRequired,
     currentReward: PropTypes.number.isRequired,
     reward: PropTypes.number.isRequired,
     onPress: PropTypes.func.isRequired,
@@ -17,7 +18,7 @@ class CreateQuizLuvupButton extends PureComponent {
   };
 
   render() {
-    const { reward, currentReward } = this.props;
+    const { index, reward, currentReward } = this.props;
     const isActive = reward <= currentReward;
     const fill = isActive ? undefined : vars.blueGrey50;
     const stroke = isActive ? undefined : vars.blueGrey100;
@@ -29,7 +30,10 @@ class CreateQuizLuvupButton extends PureComponent {
       scale: 0.7,
     };
     return (
-      <TouchableOpacity style={styles.luvupUiItem} onPress={this.handlePress}>
+      <TouchableOpacity
+        testID={`create-quiz-reward-button-${index}`}
+        style={styles.luvupUiItem}
+        onPress={this.handlePress}>
         <CoinArt {...coinProps} />
       </TouchableOpacity>
     );

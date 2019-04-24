@@ -64,6 +64,7 @@ class CreateQuizReward extends PureComponent {
               {_.times(5, i => (
                 <CreateQuizLuvupButton
                   key={i}
+                  index={i}
                   currentReward={this.state.reward}
                   reward={i + 1}
                   onPress={this.handleRewardPress}
@@ -73,6 +74,7 @@ class CreateQuizReward extends PureComponent {
           </View>
           <View style={quiz.createRewardSubmitContainer}>
             <Button
+              testID="create-quiz-review-button"
               onPress={this.handleNextPress}
               containerViewStyle={buttons.container}
               buttonStyle={buttons.infoButton}

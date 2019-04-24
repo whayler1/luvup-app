@@ -2,12 +2,28 @@ import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Animated, Easing, PanResponder, Alert } from 'react-native';
+import {
+  Animated,
+  Easing,
+  PanResponder,
+  Alert,
+  View,
+  Text,
+} from 'react-native';
 import moment from 'moment';
 import { Actions } from 'react-native-router-flux';
 import BezierEasing from 'bezier-easing';
+import { Ionicons } from '@expo/vector-icons';
 
-import Template from './Hero.template';
+import styles from './Hero.styles';
+import { vars } from '../../styles';
+import HeroEye from '../../components/HeroEye';
+import HeroMouth from '../../components/HeroMouth';
+import CoinArt from '../../components/CoinArt';
+import JalapenoArt from '../../components/JalapenoArt';
+import HeartArt from '../../components/Art/HeartArt';
+import TearDropArt from '../../components/Art/TearDropArt';
+
 import { createRelationshipScore as createRelationshipScoreAction } from '../../redux/relationshipScore/relationshipScore.actions';
 import {
   refreshSentCoinCount as refreshSentCoinCountAction,
@@ -205,15 +221,10 @@ class Hero extends Component {
       ));
 
   resendLoverRequestEmail = async () => {
-    await new Promise(resolve =>
-      this.setState(
-        {
-          resendIsInFlight: true,
-          error: '',
-        },
-        () => resolve()
-      )
-    );
+    await this.setState({
+      resendIsInFlight: true,
+      error: '',
+    });
     const res = await this.props.resendLoverRequestEmail(
       this.props.loverRequestId
     );
@@ -302,7 +313,7 @@ class Hero extends Component {
     }
   };
 
-  heartFill = new Animated.Value(this.props.relationshipScore);
+  heartFill = new Animated.Value(this.props.relationshipScore || 0);
   heartTranslateY = new Animated.Value(0);
   tearDropATranslateY = new Animated.Value(0);
   tearDropAOpacity = new Animated.Value(0);
@@ -525,34 +536,195 @@ class Hero extends Component {
   }
 
   render() {
+    const {
+      panResponder,
+      heartFill,
+      tearDropAOpacity,
+      tearDropATranslateY,
+      tearDropBOpacity,
+      tearDropBTranslateY,
+      translateY,
+      heartTranslateY,
+      scale,
+      scaleBGHeart,
+      coinTranslateY,
+      coinOpacity,
+      jalapenoTranslateY,
+      // closeModal,
+      jalapenoOpacity,
+      directionsOpacity,
+      props: {
+        relationshipScoreQuartile,
+        recentlySentCoinCount,
+        recentlySentJalapenoCount,
+      },
+      state: { dragDirection },
+    } = this;
+
     return (
-      <Template
-        panResponder={this.panResponder}
-        heartFill={this.heartFill}
-        tearDropAOpacity={this.tearDropAOpacity}
-        tearDropATranslateY={this.tearDropATranslateY}
-        tearDropBOpacity={this.tearDropBOpacity}
-        tearDropBTranslateY={this.tearDropBTranslateY}
-        translateY={this.translateY}
-        heartTranslateY={this.heartTranslateY}
-        scale={this.scale}
-        scaleBGHeart={this.scaleBGHeart}
-        coinTranslateY={this.coinTranslateY}
-        coinOpacity={this.coinOpacity}
-        jalapenoTranslateY={this.jalapenoTranslateY}
-        closeModal={this.closeModal}
-        jalapenoOpacity={this.jalapenoOpacity}
-        relationshipScoreQuartile={this.props.relationshipScoreQuartile}
-        dragDirection={this.dragDirection}
-        directionsOpacity={this.directionsOpacity}
-        loverRequestFirstName={this.props.loverRequestFirstName}
-        loverRequestLastName={this.props.loverRequestLastName}
-        cancelLoverRequest={this.cancelLoverRequest}
-        resendLoverRequestEmail={this.resendLoverRequestEmail}
-        recentlySentCoinCount={this.props.recentlySentCoinCount}
-        recentlySentJalapenoCount={this.props.recentlySentJalapenoCount}
-        {...this.state}
-      />
+      <View
+        testID="hero-heart-view"
+        style={styles.heartView}
+        {...panResponder.panHandlers}>
+        <Animated.View
+          style={{
+            marginBottom: 32,
+            opacity: directionsOpacity,
+            alignItems: 'center',
+          }}>
+          <Ionicons name="md-arrow-round-up" size={30} color={vars.p} />
+          <Text style={styles.directionsText}>Swipe up to</Text>
+          <Text style={styles.directionsText}>send a Luvup</Text>
+        </Animated.View>
+        <Animated.View
+          style={{
+            width: 300,
+            height: 275,
+            zIndex: 10,
+            transform: [
+              {
+                translateY,
+              },
+              {
+                scaleX: scale,
+              },
+              {
+                scaleY: scale,
+              },
+            ],
+          }}>
+          <Animated.View
+            style={{
+              width: 300,
+              height: 275,
+              transform: [
+                {
+                  translateY: heartTranslateY,
+                },
+              ],
+            }}>
+            <Animated.View
+              style={{
+                width: 300,
+                height: 275,
+                transform: [
+                  {
+                    scaleX: scaleBGHeart,
+                  },
+                  {
+                    scaleY: scaleBGHeart,
+                  },
+                ],
+              }}>
+              <HeartArt animatedFillPct={heartFill} scale={0.3367} />
+            </Animated.View>
+            <View
+              style={{
+                position: 'absolute',
+                left: 38,
+                top: 60,
+              }}>
+              <HeroEye />
+            </View>
+            <Animated.View
+              style={{
+                position: 'absolute',
+                left: 105,
+                top: 90,
+                opacity: tearDropAOpacity,
+                transform: [
+                  {
+                    translateY: tearDropATranslateY,
+                  },
+                ],
+              }}>
+              <TearDropArt fill="white" scale={0.2} />
+            </Animated.View>
+            <View
+              style={{
+                position: 'absolute',
+                right: 42,
+                top: 60,
+                transform: [
+                  {
+                    scaleX: -1,
+                  },
+                ],
+              }}>
+              <HeroEye />
+            </View>
+            <Animated.View
+              style={{
+                position: 'absolute',
+                left: 181,
+                top: 90,
+                opacity: tearDropBOpacity,
+                transform: [
+                  {
+                    translateY: tearDropBTranslateY,
+                  },
+                ],
+              }}>
+              <TearDropArt fill="white" scale={0.2} />
+            </Animated.View>
+            <View
+              style={{
+                position: 'absolute',
+                left: 110,
+                top: 170,
+              }}>
+              <HeroMouth
+                relationshipScoreQuartile={relationshipScoreQuartile}
+                dragDirection={dragDirection}
+              />
+            </View>
+          </Animated.View>
+        </Animated.View>
+        <Animated.View
+          style={{
+            position: 'absolute',
+            width: 60,
+            height: 60,
+            left: '50%',
+            top: '50%',
+            marginLeft: -40,
+            marginTop: -100,
+            opacity: coinOpacity,
+            transform: [
+              {
+                translateY: coinTranslateY,
+              },
+            ],
+          }}>
+          <CoinArt recentlySentCoinCount={recentlySentCoinCount} />
+        </Animated.View>
+        <Animated.View
+          style={{
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            marginLeft: -38,
+            marginBottom: -150,
+            opacity: jalapenoOpacity,
+            transform: [
+              {
+                translateY: jalapenoTranslateY,
+              },
+            ],
+          }}>
+          <JalapenoArt recentlySentJalapenoCount={recentlySentJalapenoCount} />
+        </Animated.View>
+        <Animated.View
+          style={{
+            marginTop: 32,
+            opacity: directionsOpacity,
+            alignItems: 'center',
+          }}>
+          <Text style={styles.directionsText}>Swipe down to</Text>
+          <Text style={styles.directionsText}>send a Jalapeño</Text>
+          <Ionicons name="md-arrow-round-down" size={30} color={vars.p} />
+        </Animated.View>
+      </View>
     );
   }
 }

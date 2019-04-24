@@ -1,5 +1,4 @@
 import { Actions } from 'react-native-router-flux';
-import _ from 'lodash';
 
 import { default as store } from '../redux';
 import { getMe } from '../redux/user/user.actions';
@@ -19,14 +18,11 @@ const userLoginRouteSwitch = async () => {
   const res = await store.dispatch(getMe());
 
   const state = store.getState();
-  const relationshipId = state.relationship.id;
-  const loverRequestId = state.loverRequest.id;
-  const receivedLoverRequests = state.receivedLoverRequests.rows;
   const user = state.user;
 
   if (!('body' in res)) {
     Actions.login();
-  } else if (relationshipId || loverRequestId) {
+  } else {
     Actions.dashboard();
     // Actions.timeline();
     // Actions.createQuizReview({
@@ -38,17 +34,18 @@ const userLoginRouteSwitch = async () => {
     //   },
     // });
     indentifyUser(user);
-  } else if (
-    _.isArray(receivedLoverRequests) &&
-    receivedLoverRequests.length > 0
-  ) {
-    //show received lover request
-    Actions.confirmLoverRequest();
-    indentifyUser(user);
-  } else {
-    Actions.createloverrequest();
-    indentifyUser(user);
   }
+  // else if (
+  //   _.isArray(receivedLoverRequests) &&
+  //   receivedLoverRequests.length > 0
+  // ) {
+  //   //show received lover request
+  //   Actions.confirmLoverRequest();
+  //   indentifyUser(user);
+  // } else {
+  //   Actions.createloverrequest();
+  //   indentifyUser(user);
+  // }
 };
 
 export default userLoginRouteSwitch;

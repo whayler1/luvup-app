@@ -48,7 +48,7 @@ const userApi = {
       }
       receivedLoverRequests {
         rows {
-          id
+          id createdAt
           sender {
             id email firstName lastName
           }

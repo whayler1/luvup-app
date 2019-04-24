@@ -3,17 +3,16 @@ import { StyleSheet } from 'react-native';
 import vars from './vars';
 
 const topNav = {
-  position: 'absolute',
   backgroundColor: 'white',
-  top: 0,
-  left: 0,
-  right: 0,
-  paddingTop: 16,
-  paddingLeft: 8,
-  paddingRight: 8,
-  paddingBottom: 8,
-  marginTop: 28,
+  paddingTop: vars.gutter,
+  paddingLeft: vars.gutterHalf,
+  paddingRight: vars.gutterHalf,
+  paddingBottom: vars.gutterHalf,
   zIndex: 10,
+  alignSelf: 'stretch',
+};
+const safeAreaView = {
+  flex: 1,
 };
 const container = {
   flex: 1,
@@ -26,17 +25,47 @@ const keyboardAvoidingView = {
   alignSelf: 'stretch',
 };
 const content = {
-  marginTop: 50,
   alignSelf: 'stretch',
-  paddingVertical: 32,
-  paddingHorizontal: 16,
+  paddingTop: vars.gutterHalf,
+  paddingBottom: vars.gutterAndHalf,
+  paddingHorizontal: vars.gutter,
+  flex: 1,
 };
 const contentNoTop = {
   ...content,
   marginTop: 0,
 };
+const titleCopy = {
+  fontSize: 32,
+  fontFamily: vars.fontRegular,
+  color: vars.blueGrey900,
+};
+const labelCopy = {
+  fontSize: 24,
+  fontFamily: vars.fontRegular,
+  color: vars.blueGrey900,
+};
+const largeCopy = {
+  fontSize: 24,
+  fontFamily: vars.fontRegular,
+  color: vars.blueGrey500,
+};
+const bodyCopy = {
+  fontSize: 16,
+  fontFamily: vars.fontRegular,
+  color: vars.blueGrey500,
+};
+const textCenter = {
+  textAlign: 'center',
+};
 
 export default StyleSheet.create({
+  textCenter,
+  titleCopy,
+  labelCopy,
+  largeCopy,
+  bodyCopy,
+  safeAreaView,
   container,
   keyboardAvoidingView,
   topNav,
@@ -49,9 +78,25 @@ export default StyleSheet.create({
   },
   content,
   contentNoTop,
+  contentTop: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  contentBottom: {
+    flex: 0,
+  },
   copy: {
     color: vars.p,
     fontFamily: vars.fontRegular,
     fontSize: 20,
+  },
+  gutterHalfTop: {
+    marginTop: vars.gutterHalf,
+  },
+  gutterTop: {
+    marginTop: vars.gutter,
+  },
+  gutterDoubleTop: {
+    marginTop: vars.gutterDouble,
   },
 });

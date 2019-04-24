@@ -69,6 +69,7 @@ const QuizDisplay = ({
         const value = isAttempt ? choice : choice.answer;
         return isAnswerable ? (
           <TouchableOpacity
+            testID={`quiz-display-answer-${i}`}
             key={choice.id}
             onPress={getHandleChoicePress(choice.id, onChoicePress)}>
             <CreateQuizChoice

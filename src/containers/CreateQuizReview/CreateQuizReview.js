@@ -65,6 +65,7 @@ class CreateQuizReview extends PureComponent {
               <Text style={quiz.successText}>Quiz sent!</Text>
             </View>
             <Button
+              testID="create-quiz-done-button"
               onPress={this.handleDone}
               containerViewStyle={buttons.container}
               buttonStyle={buttons.infoSkeletonButton}
@@ -95,6 +96,7 @@ class CreateQuizReview extends PureComponent {
               <Text>{this.props.createQuizItemErrorMessage}</Text>
             )}
           <Button
+            testID="create-quiz-submit-button"
             onPress={this.handleSubmit}
             containerViewStyle={buttons.container}
             buttonStyle={buttons.infoButton}
