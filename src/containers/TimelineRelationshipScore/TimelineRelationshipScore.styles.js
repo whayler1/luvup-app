@@ -44,9 +44,8 @@ export default StyleSheet.create({
   },
   headerContainer: {
     flex: 0,
-    paddingTop: 16,
-    paddingBottom: 16,
-    paddingRight: 8,
-    marginTop: 28,
+    paddingTop: vars.gutterHalf,
+    paddingBottom: vars.gutter,
+    paddingRight: vars.gutterHalf,
   },
 });

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { FlatList, View, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView, FlatList, View, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { Actions } from 'react-native-router-flux';
@@ -12,6 +12,7 @@ import styles from './TimelineRelationshipScore.styles';
 import timelineStyles from '../Timeline/Timeline.styles';
 import ListEmptyComponent from '../Timeline/Timeline.ListEmptyComponent.template';
 import TimelineRelationshipScoreRenderItem from './TimelineRelationshipScoreRenderItem';
+import HeartArt from '../../components/Art/HeartArt';
 
 const ItemSeparatorComponent = () => <View style={styles.separator} />;
 
@@ -92,15 +93,12 @@ class TimelineRelationshipScore extends PureComponent {
       style.alignSelf = 'stretch';
     }
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={scene.safeAreaView}>
         <View style={styles.headerContainer}>
           <TouchableOpacity
             onPress={this.handleBack}
             style={timelineStyles.heartBtn}>
-            <Image
-              source={require('../../images/heart.png')}
-              style={timelineStyles.heartImg}
-            />
+            <HeartArt scale={0.037} fill={vars.blueGrey500} />
           </TouchableOpacity>
         </View>
         <FlatList
@@ -121,7 +119,7 @@ class TimelineRelationshipScore extends PureComponent {
             />
           }
         />
-      </View>
+      </SafeAreaView>
     );
   }
 }
