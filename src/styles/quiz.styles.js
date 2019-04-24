@@ -106,7 +106,7 @@ export default StyleSheet.create({
     paddingTop: 24,
   },
   questionSmallText: {
-    fontFamily: vars.fontBlack,
+    fontFamily: vars.fontRegular,
     color: vars.blueGrey500,
     fontSize: 32,
     paddingBottom: 16,
@@ -145,7 +145,7 @@ export default StyleSheet.create({
   },
   successText: {
     fontSize: 30,
-    fontFamily: vars.fontBlack,
+    fontFamily: vars.fontRegular,
     color: vars.blueGrey500,
   },
   viewQuizSubmitWrapper: {
@@ -180,7 +180,7 @@ export default StyleSheet.create({
     textAlign: 'center',
     fontSize: 14,
     fontFamily: vars.fontBlack,
-    marginTop: 16,
+    // marginTop: 16,
     color: 'rgba(255,255,255,0.8)',
   },
   viewQuizWrongAnswerReaction: {

@@ -88,7 +88,7 @@ class TimelineRelationshipScore extends PureComponent {
       isGettingRelationshipScoresByDay,
       relationshipScoresByDay,
     } = this.props;
-    const style = { marginTop: 24 };
+    const style = { paddingTop: vars.gutterHalf };
     if (isGettingRelationshipScoresByDay) {
       style.alignSelf = 'stretch';
     }

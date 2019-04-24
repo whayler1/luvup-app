@@ -45,7 +45,7 @@ export default StyleSheet.create({
   headerContainer: {
     flex: 0,
     paddingTop: vars.gutterHalf,
-    paddingBottom: vars.gutter,
+    paddingBottom: vars.gutterHalf,
     paddingRight: vars.gutterHalf,
   },
 });
