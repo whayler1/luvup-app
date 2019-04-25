@@ -7,7 +7,7 @@ import { forms, vars } from '../../styles';
 
 const LABEL_INACTIVE_Y = 20;
 const LABEL_ACTIVE_Y = 0;
-const LABEL_INACTIVE_SIZE = 23;
+const LABEL_INACTIVE_SIZE = 20;
 const LABEL_ACTIVE_SIZE = 15;
 const ANIMATED_DURATION = 150;
 const EASING_ACTIVE = Easing.in(Easing.linear);

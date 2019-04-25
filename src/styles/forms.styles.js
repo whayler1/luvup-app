@@ -4,13 +4,14 @@ import vars from './vars';
 
 const input = {
   alignSelf: 'stretch',
-  height: 40,
+  height: 35,
   borderBottomColor: vars.blueGrey500,
   borderBottomWidth: 2,
   fontFamily: vars.fontRegular,
   fontSize: 20,
   color: vars.blueGrey500,
   marginTop: 4,
+  // backgroundColor: 'pink',
 };
 const multilineInput = {
   ...input,
@@ -59,7 +60,7 @@ export default StyleSheet.create({
   },
   formGroup: {
     alignSelf: 'stretch',
-    marginTop: 32,
+    marginTop: vars.gutterAndHalf,
   },
   buttonRow: {
     alignSelf: 'stretch',

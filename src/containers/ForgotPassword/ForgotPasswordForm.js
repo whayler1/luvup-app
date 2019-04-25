@@ -1,93 +1,57 @@
-import React, { PureComponent } from 'react';
-import { View, Text, TextInput } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import { Button } from 'react-native-elements';
 
-import { vars, forms, buttons } from '../../styles';
+import { forms, buttons } from '../../styles';
+import Input from '../../components/Input';
 
-class ForgotPasswordForm extends PureComponent {
-  static propTypes = {
-    isSendNewPasswordInFlight: PropTypes.bool.isRequired,
-    sendNewPasswordError: PropTypes.string.isRequired,
-    validationError: PropTypes.string.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    onEmailChange: PropTypes.func.isRequired,
-    email: PropTypes.string.isRequired,
-  };
+const ForgotPasswordForm = ({
+  isSendNewPasswordInFlight,
+  sendNewPasswordError,
+  validationError,
+  onSubmit,
+  onEmailChange,
+  email,
+}) => (
+  <View>
+    <Input
+      label="Email"
+      value={email}
+      placeholder="jane.doe@email.com"
+      onChangeText={onEmailChange}
+      error={sendNewPasswordError || validationError}
+      inputProps={{
+        autoCapitalize: 'none',
+        testID: 'forgot-password-email-input',
+        editable: !isSendNewPasswordInFlight,
+        spellCheck: false,
+        keyboardType: 'email-address',
+        returnKeyType: 'go',
+        onSubmitEditing: onSubmit,
+      }}
+    />
+    <View style={forms.formGroup}>
+      <Button
+        testID="forgot-password-submit"
+        onPress={onSubmit}
+        containerViewStyle={buttons.container}
+        buttonStyle={buttons.infoButton}
+        textStyle={buttons.infoText}
+        title={isSendNewPasswordInFlight ? 'Submitting…' : 'Submit'}
+        disabled={isSendNewPasswordInFlight}
+      />
+    </View>
+  </View>
+);
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      isFocus: false,
-    };
-  }
-
-  handleBlur = () => {
-    this.setState({ isFocus: false });
-  };
-
-  handleFocus = () => {
-    this.setState({ isFocus: true });
-  };
-
-  render() {
-    const {
-      props: {
-        isSendNewPasswordInFlight,
-        sendNewPasswordError,
-        validationError,
-        onSubmit,
-        onEmailChange,
-        email,
-      },
-      state: { isFocus },
-    } = this;
-
-    return (
-      <View>
-        <View style={forms.formGroup}>
-          <Text style={forms.label}>Email</Text>
-          <TextInput
-            testID="forgot-password-email-input"
-            style={[forms.input, isFocus && forms.inputFocus]}
-            onFocus={this.handleFocus}
-            onBlur={this.handleBlur}
-            onChangeText={onEmailChange}
-            value={email}
-            maxLength={50}
-            placeholder="jane.doe@email.com"
-            placeholderTextColor={vars.blueGrey100}
-            autoCapitalize={'none'}
-            editable={!isSendNewPasswordInFlight}
-            spellCheck={false}
-            keyboardType="email-address"
-            returnKeyType="go"
-            onSubmitEditing={onSubmit}
-          />
-          {[sendNewPasswordError, validationError].map(
-            (error, i) =>
-              error.length > 0 && (
-                <Text key={i} style={forms.error}>
-                  {error}
-                </Text>
-              )
-          )}
-        </View>
-        <View style={forms.formGroup}>
-          <Button
-            testID="forgot-password-submit"
-            onPress={onSubmit}
-            containerViewStyle={buttons.container}
-            buttonStyle={buttons.infoButton}
-            textStyle={buttons.infoText}
-            title={isSendNewPasswordInFlight ? 'Submitting…' : 'Submit'}
-            disabled={isSendNewPasswordInFlight}
-          />
-        </View>
-      </View>
-    );
-  }
-}
+ForgotPasswordForm.propTypes = {
+  isSendNewPasswordInFlight: PropTypes.bool.isRequired,
+  sendNewPasswordError: PropTypes.string.isRequired,
+  validationError: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+  onEmailChange: PropTypes.func.isRequired,
+  email: PropTypes.string.isRequired,
+};
 
 export default ForgotPasswordForm;
