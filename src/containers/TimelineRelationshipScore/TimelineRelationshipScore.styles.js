@@ -8,8 +8,8 @@ export default StyleSheet.create({
     alignSelf: 'stretch',
   },
   renderItemContainer: {
-    paddingLeft: 16,
-    paddingRight: 16,
+    paddingHorizontal: vars.gutter,
+    paddingBottom: vars.gutter,
     alignItems: 'center',
   },
   renderItemText: {
@@ -22,6 +22,7 @@ export default StyleSheet.create({
     width: 70,
     paddingTop: 43,
     paddingBottom: 43,
+    marginTop: vars.gutter,
   },
   renderItemScore: {
     position: 'absolute',
