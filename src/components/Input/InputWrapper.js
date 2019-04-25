@@ -100,11 +100,24 @@ class InputWrapper extends PureComponent {
     }
   }
 
+  labelColor = () => {
+    const { error, value, isFocus } = this.props;
+
+    if (_.isString(error) && error.length > 0) {
+      return vars.danger;
+    }
+    if (!this.isValueLength(value) && !isFocus) {
+      return vars.blueGrey500;
+    }
+    return vars.blueGrey700;
+  };
+
   render() {
     const {
       props: { label, error, formGroupStyles, children },
       labelY,
       labelSize,
+      labelColor,
     } = this;
     return (
       <View style={[forms.formGroup, ...formGroupStyles]}>
@@ -117,6 +130,7 @@ class InputWrapper extends PureComponent {
               forms.label,
               {
                 fontFamily: vars.fontRegular,
+                color: labelColor(),
                 position: 'absolute',
                 top: 0,
                 left: 0,
