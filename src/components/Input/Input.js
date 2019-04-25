@@ -59,7 +59,7 @@ class Input extends PureComponent {
       handleBlur,
     } = this;
     return (
-      <InputWrapper {...{ label, error, formGroupStyles, isFocus }}>
+      <InputWrapper {...{ label, error, formGroupStyles, isFocus, value }}>
         <TextInput
           style={[forms.input, isFocus && forms.inputFocus]}
           onFocus={handleFocus}
@@ -67,7 +67,7 @@ class Input extends PureComponent {
           onChangeText={onChangeText}
           value={value}
           maxLength={maxLength}
-          placeholder={placeholder}
+          placeholder={isFocus ? placeholder : ''}
           placeholderTextColor={vars.blueGrey100}
           {...inputProps}
         />
