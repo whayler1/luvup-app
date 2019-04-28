@@ -10,7 +10,7 @@ describe('login', () => {
   });
 
   describe('When login is correct and user is in a relationship', () => {
-    it('should go to dashboard and be ableto logout', async () => {
+    it('should go to dashboard and be able to logout', async () => {
       const { user } = await generateRelationship();
       await expect(element(by.id('login-title'))).toBeVisible();
       await login(user.email, user.password);

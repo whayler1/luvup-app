@@ -196,7 +196,7 @@ class ConfirmUserRequestCode extends Component {
             </Text>
             <Text style={[scene.bodyCopy, scene.gutterTop, scene.textCenter]}>
               {`Enter ${
-                isEmailSetonInit ? '' : 'your email address and'
+                isEmailSetonInit ? '' : 'your email address and '
               }the code you received via email below.`}
             </Text>
             {!isEmailSetonInit && (
