@@ -12,6 +12,8 @@ const LABEL_ACTIVE_SIZE = 15;
 const ANIMATED_DURATION = 150;
 const EASING_ACTIVE = Easing.in(Easing.linear);
 const EASING_INACTIVE = Easing.out(Easing.linear);
+const UNDERLINE_BLUR_WIDTH = 0;
+const UNDERLINE_FOCUS_WIDTH = 100;
 
 class InputWrapper extends PureComponent {
   static propTypes = {
@@ -39,11 +41,15 @@ class InputWrapper extends PureComponent {
     this.labelSize = new Animated.Value(
       isValueLength ? LABEL_ACTIVE_SIZE : LABEL_INACTIVE_SIZE
     );
+    this.underlineWidth = new Animated.Value(UNDERLINE_BLUR_WIDTH);
   }
 
   stopAnimations = () => {
     this.labelY.stopAnimation();
     this.labelSize.stopAnimation();
+  };
+  stopUnderlineAnimation = () => {
+    this.underlineWidth.stopAnimation();
   };
 
   animateActive = () => {
@@ -80,6 +86,26 @@ class InputWrapper extends PureComponent {
     ]).start();
   };
 
+  animateFocus = () => {
+    this.stopUnderlineAnimation();
+
+    Animated.timing(this.underlineWidth, {
+      toValue: UNDERLINE_FOCUS_WIDTH,
+      duration: ANIMATED_DURATION,
+      easing: EASING_INACTIVE,
+    }).start();
+  };
+
+  animateBlur = () => {
+    this.stopUnderlineAnimation();
+
+    Animated.timing(this.underlineWidth, {
+      toValue: UNDERLINE_BLUR_WIDTH,
+      duration: ANIMATED_DURATION,
+      easing: EASING_INACTIVE,
+    }).start();
+  };
+
   isValueLength = value => _.isString(value) && value.length > 0;
 
   shouldTransitionToActive = prevProps =>
@@ -97,6 +123,11 @@ class InputWrapper extends PureComponent {
       this.animateActive();
     } else if (this.shouldTransitionToInactive(prevProps)) {
       this.animateInactive();
+    }
+    if (!prevProps.isFocus && this.props.isFocus) {
+      this.animateFocus();
+    } else if (prevProps.isFocus && !this.props.isFocus) {
+      this.animateBlur();
     }
   }
 
@@ -118,6 +149,7 @@ class InputWrapper extends PureComponent {
       labelY,
       labelSize,
       labelColor,
+      underlineWidth,
     } = this;
     return (
       <View style={[forms.formGroup, ...formGroupStyles]}>
@@ -142,6 +174,17 @@ class InputWrapper extends PureComponent {
           </Animated.Text>
         </View>
         {children}
+        <Animated.View
+          style={[
+            forms.inputUnderline,
+            {
+              width: underlineWidth.interpolate({
+                inputRange: [0, 100],
+                outputRange: ['0%', '100%'],
+              }),
+            },
+          ]}
+        />
         {error.length > 0 && <Text style={forms.error}>{error}</Text>}
       </View>
     );

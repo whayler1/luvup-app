@@ -13,6 +13,14 @@ const input = {
   marginTop: 4,
   // backgroundColor: 'pink',
 };
+const inputUnderline = {
+  borderBottomColor: vars.link,
+  borderBottomWidth: 2,
+  height: 2,
+  transform: [{ translateY: -2 }],
+  width: 0,
+  zIndex: 10,
+};
 const multilineInput = {
   ...input,
   height: 40 * 4,
@@ -33,6 +41,7 @@ const inputFocus = {
 
 export default StyleSheet.create({
   input,
+  inputUnderline,
   multilineInput,
   inputDanger,
   inputFocus,
