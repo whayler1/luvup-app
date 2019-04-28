@@ -10,14 +10,21 @@ const infoContainer = { ...container };
 const text = {
   textAlign: 'center',
   fontFamily: vars.fontBlack,
+  fontSize: 16,
 };
-const infoText = { ...text };
+const infoText = { ...text, color: 'white' };
 const dangerSkeletonText = {
   ...text,
   color: vars.dangerButtonBg,
 };
 
+const buttonContainer = {
+  paddingVertical: 10,
+  paddingHorizontal: vars.gutter,
+};
+
 const secondarySkeletonButton = {
+  ...buttonContainer,
   backgroundColor: 'transparent',
   borderColor: vars.blueGrey100,
   borderWidth: 1,
@@ -33,10 +40,12 @@ export default StyleSheet.create({
   container,
   infoContainer,
   infoButton: {
+    ...buttonContainer,
     backgroundColor: vars.infoButtonBg,
     borderRadius: vars.radius,
   },
   infoSkeletonButton: {
+    ...buttonContainer,
     backgroundColor: 'transparent',
     borderRadius: vars.radius,
     borderColor: vars.infoButtonBg,
@@ -48,10 +57,16 @@ export default StyleSheet.create({
     color: vars.cyan500,
   },
   dangerButton: {
+    ...buttonContainer,
     backgroundColor: vars.dangerButtonBg,
     borderRadius: vars.radius,
   },
+  dangerText: {
+    ...text,
+    color: 'white',
+  },
   dangerSkeletonButton: {
+    ...buttonContainer,
     backgroundColor: 'white',
     borderColor: vars.dangerButtonBg,
     borderWidth: 1,

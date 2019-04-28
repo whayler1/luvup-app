@@ -9,7 +9,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { Button } from 'react-native-elements';
+// import { Button } from 'react-native-elements';
 
 import styles from './Login.styles';
 import { scene, forms, buttons, wells } from '../../styles';
@@ -19,6 +19,7 @@ import {
 } from '../../helpers';
 import { login as loginAction } from '../../redux/user/user.actions';
 import Input from '../../components/Input';
+import Button from '../../components/Button';
 
 let passwordInput;
 const focusPassword = () => passwordInput.focus();
