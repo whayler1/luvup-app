@@ -21,6 +21,10 @@ const inputUnderline = {
   width: 0,
   zIndex: 10,
 };
+const inputUnderlineError = {
+  width: '100%',
+  borderBottomColor: vars.danger,
+};
 const multilineInput = {
   ...input,
   height: 40 * 4,
@@ -42,6 +46,7 @@ const inputFocus = {
 export default StyleSheet.create({
   input,
   inputUnderline,
+  inputUnderlineError,
   multilineInput,
   inputDanger,
   inputFocus,

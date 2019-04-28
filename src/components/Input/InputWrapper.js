@@ -177,12 +177,14 @@ class InputWrapper extends PureComponent {
         <Animated.View
           style={[
             forms.inputUnderline,
-            {
-              width: underlineWidth.interpolate({
-                inputRange: [0, 100],
-                outputRange: ['0%', '100%'],
-              }),
-            },
+            this.props.error
+              ? forms.inputUnderlineError
+              : {
+                  width: underlineWidth.interpolate({
+                    inputRange: [0, 100],
+                    outputRange: ['0%', '100%'],
+                  }),
+                },
           ]}
         />
         {error.length > 0 && <Text style={forms.error}>{error}</Text>}
