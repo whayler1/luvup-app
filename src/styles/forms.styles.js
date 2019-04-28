@@ -4,13 +4,26 @@ import vars from './vars';
 
 const input = {
   alignSelf: 'stretch',
-  height: 40,
+  height: 35,
   borderBottomColor: vars.blueGrey500,
   borderBottomWidth: 2,
   fontFamily: vars.fontRegular,
   fontSize: 20,
   color: vars.blueGrey500,
   marginTop: 4,
+  // backgroundColor: 'pink',
+};
+const inputUnderline = {
+  borderBottomColor: vars.link,
+  borderBottomWidth: 2,
+  height: 2,
+  transform: [{ translateY: -2 }],
+  width: 0,
+  zIndex: 10,
+};
+const inputUnderlineError = {
+  width: '100%',
+  borderBottomColor: vars.danger,
 };
 const multilineInput = {
   ...input,
@@ -32,6 +45,8 @@ const inputFocus = {
 
 export default StyleSheet.create({
   input,
+  inputUnderline,
+  inputUnderlineError,
   multilineInput,
   inputDanger,
   inputFocus,
@@ -59,7 +74,7 @@ export default StyleSheet.create({
   },
   formGroup: {
     alignSelf: 'stretch',
-    marginTop: 32,
+    marginTop: vars.gutterAndHalf,
   },
   buttonRow: {
     alignSelf: 'stretch',

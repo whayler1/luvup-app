@@ -1,138 +1,109 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders without crashing 1`] = `
-<View
+<RCTSafeAreaView
   style={
     Object {
-      "alignItems": "center",
       "flex": 1,
     }
   }
 >
   <View
     style={
-      Array [
-        Object {
-          "backgroundColor": "white",
-          "left": 0,
-          "marginTop": 28,
-          "paddingBottom": 8,
-          "paddingLeft": 8,
-          "paddingRight": 8,
-          "paddingTop": 16,
-          "position": "absolute",
-          "right": 0,
-          "top": 0,
-          "zIndex": 10,
-        },
-        Object {
-          "backgroundColor": "#f94dda",
-          "marginTop": 0,
-          "paddingTop": 45,
-        },
-      ]
+      Object {
+        "backgroundColor": "#f94dda",
+        "bottom": "100%",
+        "height": 50,
+        "left": 0,
+        "position": "absolute",
+        "right": 0,
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 1,
+      }
     }
   >
     <View
-      accessible={true}
-      isTVSelectable={true}
-      onResponderGrant={[Function]}
-      onResponderMove={[Function]}
-      onResponderRelease={[Function]}
-      onResponderTerminate={[Function]}
-      onResponderTerminationRequest={[Function]}
-      onStartShouldSetResponder={[Function]}
       style={
-        Object {
-          "alignItems": "flex-end",
-          "flex": 1,
-          "opacity": 1,
-        }
+        Array [
+          Object {
+            "alignSelf": "stretch",
+            "backgroundColor": "white",
+            "paddingBottom": 8,
+            "paddingLeft": 8,
+            "paddingRight": 8,
+            "paddingTop": 16,
+            "zIndex": 10,
+          },
+          Object {
+            "backgroundColor": "#f94dda",
+            "marginTop": 0,
+            "paddingTop": 8,
+          },
+        ]
       }
     >
-      <RNSVGSvgView
-        bbHeight="29.858999999999998"
-        bbWidth="32.967"
-        height={29.858999999999998}
+      <View
+        accessible={true}
+        isTVSelectable={true}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
         style={
-          Array [
-            Object {
-              "backgroundColor": "transparent",
-              "borderWidth": 0,
-            },
-            undefined,
-            false,
-            Object {
-              "flex": 0,
-              "height": 29.858999999999998,
-              "width": 32.967,
-            },
-          ]
+          Object {
+            "flexDirection": "row-reverse",
+            "opacity": 1,
+          }
         }
-        width={32.967}
       >
-        <RNSVGGroup
-          fill={
+        <RNSVGSvgView
+          bbHeight="29.858999999999998"
+          bbWidth="32.967"
+          height={29.858999999999998}
+          style={
             Array [
-              0,
-              0,
-              0,
-              0,
-              1,
+              Object {
+                "backgroundColor": "transparent",
+                "borderWidth": 0,
+              },
+              undefined,
+              false,
+              Object {
+                "flex": 0,
+                "height": 29.858999999999998,
+                "width": 32.967,
+              },
             ]
           }
-          fillOpacity={1}
-          fillRule={1}
-          font={Object {}}
-          matrix={
-            Array [
-              1,
-              0,
-              0,
-              1,
-              0,
-              0,
-            ]
-          }
-          opacity={1}
-          originX={0}
-          originY={0}
-          propList={Array []}
-          rotation={0}
-          scaleX={1}
-          scaleY={1}
-          skewX={0}
-          skewY={0}
-          stroke={null}
-          strokeDasharray={null}
-          strokeDashoffset={null}
-          strokeLinecap={0}
-          strokeLinejoin={0}
-          strokeMiterlimit={4}
-          strokeOpacity={1}
-          strokeWidth="1"
-          x={0}
-          y={0}
+          width={32.967}
         >
-          <RNSVGPath
-            d="M445.386719,806.233245 L445,806.617188 L445,805.849302 L68.109375,431.664062 C22.703125,386.033854 -1.0236633e-13,321.8125 -1.42108547e-14,239 C1.27495206e-13,114.78125 124.789062,2.50949378e-14 253,-3.55271368e-15 C338.218345,-1.94921149e-14 402.34725,25.9638009 445.386715,77.8914026 C488.426184,25.9638023 552.55509,-1.94921153e-14 637.773438,-3.55271368e-15 C765.984375,2.50949378e-14 890.773438,114.78125 890.773438,239 C890.773438,321.8125 868.070313,386.033854 822.664063,431.664062 L445.773438,805.849302 L445.773438,806.617188 L445.386719,806.233245 Z"
+          <RNSVGGroup
             fill={
               Array [
                 0,
                 0,
                 0,
                 0,
-                0.5,
+                1,
               ]
             }
             fillOpacity={1}
             fillRule={1}
+            font={Object {}}
             matrix={
               Array [
-                0.037,
+                1,
                 0,
                 0,
-                0.037,
+                1,
                 0,
                 0,
               ]
@@ -140,14 +111,10 @@ exports[`renders without crashing 1`] = `
             opacity={1}
             originX={0}
             originY={0}
-            propList={
-              Array [
-                "fill",
-              ]
-            }
+            propList={Array []}
             rotation={0}
-            scaleX={0.037}
-            scaleY={0.037}
+            scaleX={1}
+            scaleY={1}
             skewX={0}
             skewY={0}
             stroke={null}
@@ -160,163 +127,183 @@ exports[`renders without crashing 1`] = `
             strokeWidth="1"
             x={0}
             y={0}
-          />
-        </RNSVGGroup>
-      </RNSVGSvgView>
+          >
+            <RNSVGPath
+              d="M445.386719,806.233245 L445,806.617188 L445,805.849302 L68.109375,431.664062 C22.703125,386.033854 -1.0236633e-13,321.8125 -1.42108547e-14,239 C1.27495206e-13,114.78125 124.789062,2.50949378e-14 253,-3.55271368e-15 C338.218345,-1.94921149e-14 402.34725,25.9638009 445.386715,77.8914026 C488.426184,25.9638023 552.55509,-1.94921153e-14 637.773438,-3.55271368e-15 C765.984375,2.50949378e-14 890.773438,114.78125 890.773438,239 C890.773438,321.8125 868.070313,386.033854 822.664063,431.664062 L445.773438,805.849302 L445.773438,806.617188 L445.386719,806.233245 Z"
+              fill={
+                Array [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0.5,
+                ]
+              }
+              fillOpacity={1}
+              fillRule={1}
+              matrix={
+                Array [
+                  0.037,
+                  0,
+                  0,
+                  0.037,
+                  0,
+                  0,
+                ]
+              }
+              opacity={1}
+              originX={0}
+              originY={0}
+              propList={
+                Array [
+                  "fill",
+                ]
+              }
+              rotation={0}
+              scaleX={0.037}
+              scaleY={0.037}
+              skewX={0}
+              skewY={0}
+              stroke={null}
+              strokeDasharray={null}
+              strokeDashoffset={null}
+              strokeLinecap={0}
+              strokeLinejoin={0}
+              strokeMiterlimit={4}
+              strokeOpacity={1}
+              strokeWidth="1"
+              x={0}
+              y={0}
+            />
+          </RNSVGGroup>
+        </RNSVGSvgView>
+      </View>
     </View>
-  </View>
-  <View
-    style={
-      Object {
-        "alignSelf": "stretch",
-        "flex": 1,
-        "paddingTop": 83,
-      }
-    }
-  />
-  <Modal
-    animationType="fade"
-    hardwareAccelerated={false}
-    transparent={true}
-    visible={false}
-  >
     <View
       style={
         Object {
-          "backgroundColor": "rgba(255,255,255,0.7)",
+          "alignSelf": "stretch",
           "flex": 1,
-          "justifyContent": "center",
-          "padding": 16,
         }
       }
+    />
+    <Modal
+      animationType="fade"
+      hardwareAccelerated={false}
+      transparent={true}
+      visible={false}
     >
       <View
         style={
           Object {
-            "alignItems": "center",
-            "backgroundColor": "white",
-            "borderColor": "#CFD8DC",
-            "borderRadius": 2,
-            "borderWidth": 1,
-            "paddingBottom": 32,
-            "paddingLeft": 16,
-            "paddingRight": 16,
-            "paddingTop": 32,
-            "shadowColor": "#607D8B",
-            "shadowOffset": Object {
-              "height": 2,
-              "width": 0,
-            },
-            "shadowOpacity": 0.3,
-            "shadowRadius": 2,
+            "backgroundColor": "rgba(255,255,255,0.7)",
+            "flex": 1,
+            "justifyContent": "center",
+            "padding": 16,
           }
         }
       >
-        <Text
-          style={
-            Object {
-              "color": "#607D8B",
-              "fontFamily": "quicksandbold",
-              "fontSize": 30,
-              "textAlign": "center",
-            }
-          }
-        >
-          Error
-        </Text>
-        <Text
-          style={
-            Object {
-              "color": "#607D8B",
-              "fontFamily": "quicksandregular",
-              "fontSize": 20,
-              "marginTop": 16,
-            }
-          }
-        >
-          There was an error loading your timeline. Most likely this is due to network conectivity.
-        </Text>
         <View
           style={
             Object {
-              "alignSelf": "stretch",
-              "marginTop": 32,
+              "alignItems": "center",
+              "backgroundColor": "white",
+              "borderColor": "#CFD8DC",
+              "borderRadius": 2,
+              "borderWidth": 1,
+              "paddingBottom": 32,
+              "paddingLeft": 16,
+              "paddingRight": 16,
+              "paddingTop": 32,
+              "shadowColor": "#607D8B",
+              "shadowOffset": Object {
+                "height": 2,
+                "width": 0,
+              },
+              "shadowOpacity": 0.3,
+              "shadowRadius": 2,
             }
           }
         >
+          <Text
+            style={
+              Object {
+                "color": "#607D8B",
+                "fontFamily": "quicksandbold",
+                "fontSize": 30,
+                "textAlign": "center",
+              }
+            }
+          >
+            Error
+          </Text>
+          <Text
+            style={
+              Object {
+                "color": "#607D8B",
+                "fontFamily": "quicksandregular",
+                "fontSize": 20,
+                "marginTop": 16,
+              }
+            }
+          >
+            There was an error loading your timeline. Most likely this is due to network conectivity.
+          </Text>
           <View
             style={
-              Array [
-                Object {
-                  "marginLeft": 15,
-                  "marginRight": 15,
-                },
-                Object {
-                  "shadowColor": "rgba(0,0,0, .4)",
-                  "shadowOffset": Object {
-                    "height": 1,
-                    "width": 1,
-                  },
-                  "shadowOpacity": 1,
-                  "shadowRadius": 1,
-                },
-                Object {
-                  "alignSelf": "stretch",
-                  "marginLeft": 0,
-                  "marginRight": 0,
-                },
-                undefined,
-              ]
+              Object {
+                "alignSelf": "stretch",
+                "marginTop": 32,
+              }
             }
           >
             <View
-              accessible={true}
-              isTVSelectable={true}
-              onResponderGrant={[Function]}
-              onResponderMove={[Function]}
-              onResponderRelease={[Function]}
-              onResponderTerminate={[Function]}
-              onResponderTerminationRequest={[Function]}
-              onStartShouldSetResponder={[Function]}
-              style={null}
+              style={
+                Array [
+                  Object {
+                    "marginLeft": 15,
+                    "marginRight": 15,
+                  },
+                  Object {
+                    "shadowColor": "rgba(0,0,0, .4)",
+                    "shadowOffset": Object {
+                      "height": 1,
+                      "width": 1,
+                    },
+                    "shadowOpacity": 1,
+                    "shadowRadius": 1,
+                  },
+                  Object {
+                    "alignSelf": "stretch",
+                    "marginLeft": 0,
+                    "marginRight": 0,
+                  },
+                  undefined,
+                ]
+              }
             >
               <View
-                pointerEvents="box-only"
-                style={
-                  Array [
-                    Object {
-                      "alignItems": "center",
-                      "backgroundColor": "#9E9E9E",
-                      "flexDirection": "row",
-                      "justifyContent": "center",
-                      "padding": 19,
-                    },
-                    undefined,
-                    undefined,
-                    undefined,
-                    undefined,
-                    undefined,
-                    undefined,
-                    undefined,
-                    Object {
-                      "padding": 12,
-                    },
-                    undefined,
-                    undefined,
-                    undefined,
-                    Object {
-                      "backgroundColor": "#4DD0E1",
-                      "borderRadius": 2,
-                    },
-                    undefined,
-                    undefined,
-                  ]
-                }
+                accessible={true}
+                isTVSelectable={true}
+                onResponderGrant={[Function]}
+                onResponderMove={[Function]}
+                onResponderRelease={[Function]}
+                onResponderTerminate={[Function]}
+                onResponderTerminationRequest={[Function]}
+                onStartShouldSetResponder={[Function]}
+                style={null}
               >
-                <Text
+                <View
+                  pointerEvents="box-only"
                   style={
                     Array [
-                      Object {},
+                      Object {
+                        "alignItems": "center",
+                        "backgroundColor": "#9E9E9E",
+                        "flexDirection": "row",
+                        "justifyContent": "center",
+                        "padding": 19,
+                      },
                       undefined,
                       undefined,
                       undefined,
@@ -324,36 +311,63 @@ exports[`renders without crashing 1`] = `
                       undefined,
                       undefined,
                       undefined,
+                      Object {
+                        "padding": 12,
+                      },
                       undefined,
                       undefined,
-                      Array [
-                        Object {
-                          "color": "white",
-                          "fontSize": 20,
-                        },
-                        undefined,
-                        Object {
-                          "fontSize": 17.5,
-                        },
-                        undefined,
-                        Object {
-                          "fontFamily": "quicksandbold",
-                          "textAlign": "center",
-                        },
-                        undefined,
-                        undefined,
-                      ],
+                      undefined,
+                      Object {
+                        "backgroundColor": "#4DD0E1",
+                        "borderRadius": 2,
+                      },
+                      undefined,
+                      undefined,
                     ]
                   }
                 >
-                  Dismiss
-                </Text>
+                  <Text
+                    style={
+                      Array [
+                        Object {},
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        undefined,
+                        Array [
+                          Object {
+                            "color": "white",
+                            "fontSize": 20,
+                          },
+                          undefined,
+                          Object {
+                            "fontSize": 17.5,
+                          },
+                          undefined,
+                          Object {
+                            "fontFamily": "quicksandbold",
+                            "textAlign": "center",
+                          },
+                          undefined,
+                          undefined,
+                        ],
+                      ]
+                    }
+                  >
+                    Dismiss
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
         </View>
       </View>
-    </View>
-  </Modal>
-</View>
+    </Modal>
+  </View>
+</RCTSafeAreaView>
 `;

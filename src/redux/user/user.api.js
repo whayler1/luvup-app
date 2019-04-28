@@ -2,26 +2,27 @@ import superagent from 'superagent';
 import config from '../../config';
 import graphQlRequest from '../../helpers/graphQlRequest';
 
-// const superagent = superagentDefault.agent();
+const sanitizeEmail = email => email.toLowerCase().trim();
+const sanitizePassword = password => password.trim();
 
 const userApi = {
   login: (usernameOrEmail, password) =>
     superagent.post(`${config.baseUrl}/login`, {
-      username: usernameOrEmail,
-      password,
+      username: sanitizeEmail(usernameOrEmail),
+      password: sanitizePassword(password),
     }),
   sendNewPassword: email =>
     superagent.post(config.graphQlUrl, {
       query: `mutation {
-        sendNewPassword(email: "${email}") { success }
+        sendNewPassword(email: "${sanitizeEmail(email)}") { success }
       }`,
     }),
   resetPasswordWithGeneratedPassword: (generatedPassword, newPassword) =>
     superagent.post(config.graphQlUrl, {
       query: `mutation {
         resetPasswordWithGeneratedPassword(
-          generatedPassword: "${generatedPassword}"
-          newPassword: "${newPassword}"
+          generatedPassword: "${sanitizePassword(generatedPassword)}"
+          newPassword: "${sanitizePassword(newPassword)}"
         ) { success }
       }`,
     }),
@@ -88,18 +89,18 @@ const userApi = {
   userRequest: email =>
     superagent.post(config.graphQlUrl, {
       query: `mutation {
-      userRequest( email: "${email}") { email }
+      userRequest( email: "${sanitizeEmail(email)}") { email }
     }`,
     }),
   confirmUser: (email, username, firstName, lastName, code, password) =>
     superagent.post(config.graphQlUrl, {
       query: `mutation {
       confirmUser(
-        email: "${email}"
+        email: "${sanitizeEmail(email)}"
         username: "${username}"
         firstName: "${firstName}"
         lastName: "${lastName}"
-        password: "${password}"
+        password: "${sanitizePassword(password)}"
         code: "${code}"
       ) {
         user {
@@ -117,7 +118,7 @@ const userApi = {
     superagent.post(config.graphQlUrl, {
       query: `mutation {
       confirmUserRequestCode (
-        email: "${email}"
+        email: "${sanitizeEmail(email)}"
         code: "${code}"
       ) {
         success error
