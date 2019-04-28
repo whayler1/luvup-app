@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
+import _ from 'lodash';
 
 import { buttons } from '../../styles';
+import ButtonInFlightBubble from './ButtonInFlightBubble';
 
 export const STYLES = {
   INFO: {
@@ -52,6 +54,9 @@ class Button extends PureComponent {
     } = this;
     return (
       <View style={buttonStyle}>
+        {_.times(3, () => (
+          <ButtonInFlightBubble />
+        ))}
         <Text style={buttonText}>{title}</Text>
       </View>
     );
