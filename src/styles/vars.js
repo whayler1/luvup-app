@@ -73,9 +73,11 @@ export default {
   happiest: pink500,
   danger: red500,
   dangerPress: Color(red500).darken(0.05),
+  dangerDisabled: Color(red500).desaturate(0.05),
   success: green500,
   link: cyan500,
   linkPress: Color(cyan500).darken(0.05),
+  linkDisabled: Color(cyan500).desaturate(0.05),
   placeholder: blueGrey100,
   // fonts
   fontBlack,

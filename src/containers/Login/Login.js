@@ -172,11 +172,8 @@ class Login extends Component {
             <View style={styles.submitContainer}>
               <Button
                 onPress={handleSubmit}
-                containerViewStyle={buttons.container}
-                buttonStyle={buttons.infoButton}
-                textStyle={buttons.infoText}
-                title={isInFlight ? 'Submitting…' : 'Submit'}
-                disabled={isInFlight}
+                title="Submit"
+                isInFlight={isInFlight}
                 testID="login-submit"
               />
             </View>

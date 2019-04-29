@@ -10,30 +10,35 @@ export const BUTTON_STYLES = {
   INFO: {
     buttonStyle: buttons.infoButton,
     buttonStylePress: buttons.infoButtonPress,
+    buttonStyleDisabled: buttons.infoButtonDisabled,
     buttonText: buttons.infoText,
     inFlightFill: 'white',
   },
   INFO_SKELETON: {
     buttonStyle: buttons.infoSkeletonButton,
     buttonStylePress: buttons.infoSkeletonButtonPress,
+    buttonStyleDisabled: buttons.infoSkeletonButtonDisabled,
     buttonText: buttons.infoSkeletonText,
     inFlightFill: vars.link,
   },
   SECONDARY_SKELETON: {
     buttonStyle: buttons.secondarySkeletonButton,
     buttonStylePress: buttons.secondarySkeletonButtonPress,
+    buttonStyleDisabled: buttons.secondarySkeletonButtonDisabled,
     buttonText: buttons.secondarySkeletonText,
     inFlightFill: vars.link,
   },
   DANGER: {
     buttonStyle: buttons.dangerButton,
     buttonStylePress: buttons.dangerButtonPress,
+    buttonStyleDisabled: buttons.dangerButtonDisabled,
     buttonText: buttons.dangerText,
     inFlightFill: 'white',
   },
   DANGER_SKELETON: {
     buttonStyle: buttons.dangerSkeletonButton,
     buttonStylePress: buttons.dangerSkeletonButtonPress,
+    buttonStyleDisabled: buttons.dangerSkeletonButtonDisabled,
     buttonText: buttons.dangerSkeletonText,
     inFlightFill: vars.danger,
   },
@@ -43,12 +48,15 @@ class Button extends PureComponent {
   static propTypes = {
     buttonStyles: PropTypes.object,
     title: PropTypes.string,
-    isInFlight: PropTypes.boolean,
+    isInFlight: PropTypes.bool,
+    onPress: PropTypes.func,
+    disabled: PropTypes.bool,
   };
 
   static defaultProps = {
     buttonStyles: BUTTON_STYLES.INFO,
     isInFlight: false,
+    disabled: false,
   };
 
   constructor(props) {
@@ -59,6 +67,15 @@ class Button extends PureComponent {
     };
     this.styles = props.buttonStyles;
   }
+
+  handlePress = () => {
+    const {
+      props: { disabled, isInFlight, onPress },
+    } = this;
+    if (!disabled && !isInFlight && _.isFunction(onPress)) {
+      onPress();
+    }
+  };
 
   handlePressIn = () => {
     this.setState({ isPress: true });
@@ -73,9 +90,12 @@ class Button extends PureComponent {
       props: {
         title,
         isInFlight,
+        onPress,
+        disabled,
         buttonStyles: {
           buttonStyle,
           buttonStylePress,
+          buttonStyleDisabled,
           buttonText,
           inFlightFill,
         },
@@ -86,9 +106,16 @@ class Button extends PureComponent {
     } = this;
     return (
       <TouchableWithoutFeedback
+        onPress={onPress}
         onPressIn={handlePressIn}
-        onPressOut={handlePressOut}>
-        <View style={[buttonStyle, isPress && buttonStylePress]}>
+        onPressOut={handlePressOut}
+        disabled={disabled}>
+        <View
+          style={[
+            buttonStyle,
+            isPress && buttonStylePress,
+            disabled || (isInFlight && buttonStyleDisabled),
+          ]}>
           {isInFlight && (
             <View style={buttons.inFlightContainer}>
               {_.times(3, n => (
@@ -99,7 +126,9 @@ class Button extends PureComponent {
               ))}
             </View>
           )}
-          <Text style={buttonText}>{title}</Text>
+          <Text style={[buttonText, isInFlight && { opacity: 0 }]}>
+            {title}
+          </Text>
         </View>
       </TouchableWithoutFeedback>
     );
