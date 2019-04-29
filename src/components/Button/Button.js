@@ -54,8 +54,8 @@ class Button extends PureComponent {
     } = this;
     return (
       <View style={buttonStyle}>
-        {_.times(3, () => (
-          <ButtonInFlightBubble />
+        {_.times(3, n => (
+          <ButtonInFlightBubble delayAnimationStart={n * 250} />
         ))}
         <Text style={buttonText}>{title}</Text>
       </View>
