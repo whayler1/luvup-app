@@ -19,7 +19,7 @@ import {
 } from '../../helpers';
 import { login as loginAction } from '../../redux/user/user.actions';
 import Input from '../../components/Input';
-import Button from '../../components/Button';
+import Button, { BUTTON_STYLES } from '../../components/Button';
 
 let passwordInput;
 const focusPassword = () => passwordInput.focus();
@@ -198,9 +198,7 @@ class Login extends Component {
             <View style={styles.confirmCodeWrapper}>
               <Button
                 onPress={navigateToSignUpConfirm}
-                containerViewStyle={buttons.container}
-                buttonStyle={buttons.secondarySkeletonButton}
-                textStyle={buttons.secondarySkeletonText}
+                buttonStyles={BUTTON_STYLES.SECONDARY_SKELETON}
                 title={'Confirm Code'}
               />
             </View>
@@ -208,9 +206,7 @@ class Login extends Component {
               <Button
                 testID="login-signup"
                 onPress={navigateToSignUp}
-                containerViewStyle={buttons.container}
-                buttonStyle={buttons.infoSkeletonButton}
-                textStyle={buttons.infoSkeletonText}
+                buttonStyles={BUTTON_STYLES.INFO_SKELETON}
                 title={'Sign Up'}
               />
             </View>

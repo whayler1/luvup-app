@@ -4,7 +4,7 @@ import { Surface } from 'ReactNativeART';
 import { Animated, Easing } from 'react-native';
 
 import Circle from '../Circle';
-import { vars } from '../../styles';
+// import { vars } from '../../styles';
 
 const DURATION = 250;
 const EASING = Easing.inOut(Easing.linear);
@@ -15,6 +15,7 @@ class ButtonInFlightBubble extends PureComponent {
     opacityMin: PropTypes.number,
     opacityMax: PropTypes.number,
     delayAnimationStart: PropTypes.number,
+    fill: PropTypes.string,
   };
 
   static defaultProps = {
@@ -22,6 +23,7 @@ class ButtonInFlightBubble extends PureComponent {
     opacityMin: 0.5,
     opacityMax: 1,
     delayAnimationStart: 0,
+    fill: 'white',
   };
 
   constructor(props) {
@@ -77,13 +79,13 @@ class ButtonInFlightBubble extends PureComponent {
 
   render() {
     const {
-      props: { circumfrance },
+      props: { circumfrance, fill },
       opacity,
     } = this;
     return (
       <Animated.View style={{ opacity, paddingHorizontal: 2 }}>
         <Surface width={circumfrance} height={circumfrance}>
-          <Circle radius={circumfrance / 2} fill="white" />
+          <Circle radius={circumfrance / 2} fill={fill} />
         </Surface>
       </Animated.View>
     );

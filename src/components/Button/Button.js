@@ -1,31 +1,36 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text } from 'react-native';
+import { TouchableWithoutFeedback, View, Text } from 'react-native';
 import _ from 'lodash';
 
-import { buttons } from '../../styles';
+import { vars, buttons } from '../../styles';
 import ButtonInFlightBubble from './ButtonInFlightBubble';
 
-export const STYLES = {
+export const BUTTON_STYLES = {
   INFO: {
     buttonStyle: buttons.infoButton,
     buttonText: buttons.infoText,
+    inFlightFill: 'white',
   },
   INFO_SKELETON: {
     buttonStyle: buttons.infoSkeletonButton,
     buttonText: buttons.infoSkeletonText,
+    inFlightFill: vars.link,
   },
   SECONDARY_SKELETON: {
     buttonStyle: buttons.secondarySkeletonButton,
     buttonText: buttons.secondarySkeletonText,
+    inFlightFill: vars.link,
   },
   DANGER: {
     buttonStyle: buttons.dangerButton,
     buttonText: buttons.dangerText,
+    inFlightFill: 'white',
   },
   DANGER_SKELETON: {
     buttonStyle: buttons.dangerSkeletonButton,
     buttonText: buttons.dangerSkeletonText,
+    inFlightFill: vars.danger,
   },
 };
 
@@ -33,10 +38,12 @@ class Button extends PureComponent {
   static propTypes = {
     buttonStyles: PropTypes.object,
     title: PropTypes.string,
+    isInFlight: PropTypes.boolean,
   };
 
   static defaultProps = {
-    buttonStyles: STYLES.INFO,
+    buttonStyles: BUTTON_STYLES.INFO,
+    isInFlight: false,
   };
 
   constructor(props) {
@@ -49,18 +56,26 @@ class Button extends PureComponent {
     const {
       props: {
         title,
-        buttonStyles: { buttonStyle, buttonText },
+        isInFlight,
+        buttonStyles: { buttonStyle, buttonText, inFlightFill },
       },
     } = this;
     return (
-      <View style={buttonStyle}>
-        <View style={buttons.inFlightContainer}>
-          {_.times(3, n => (
-            <ButtonInFlightBubble delayAnimationStart={n * 250} />
-          ))}
+      <TouchableWithoutFeedback>
+        <View style={buttonStyle}>
+          {isInFlight && (
+            <View style={buttons.inFlightContainer}>
+              {_.times(3, n => (
+                <ButtonInFlightBubble
+                  fill={inFlightFill}
+                  delayAnimationStart={n * 250}
+                />
+              ))}
+            </View>
+          )}
+          <Text style={buttonText}>{title}</Text>
         </View>
-        <Text style={buttonText}>{title}</Text>
-      </View>
+      </TouchableWithoutFeedback>
     );
   }
 }

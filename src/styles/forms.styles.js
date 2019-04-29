@@ -5,7 +5,7 @@ import vars from './vars';
 const input = {
   alignSelf: 'stretch',
   height: 35,
-  borderBottomColor: vars.blueGrey500,
+  borderBottomColor: vars.blueGrey100,
   borderBottomWidth: 2,
   fontFamily: vars.fontRegular,
   fontSize: 20,
