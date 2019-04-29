@@ -81,7 +81,7 @@ class ButtonInFlightBubble extends PureComponent {
       opacity,
     } = this;
     return (
-      <Animated.View style={{ opacity }}>
+      <Animated.View style={{ opacity, paddingHorizontal: 2 }}>
         <Surface width={circumfrance} height={circumfrance}>
           <Circle radius={circumfrance / 2} fill="white" />
         </Surface>
