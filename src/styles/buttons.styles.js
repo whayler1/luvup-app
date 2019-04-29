@@ -44,6 +44,9 @@ export default StyleSheet.create({
     backgroundColor: vars.infoButtonBg,
     borderRadius: vars.radius,
   },
+  infoButtonPress: {
+    backgroundColor: vars.linkPress,
+  },
   infoSkeletonButton: {
     ...buttonContainer,
     backgroundColor: 'transparent',
@@ -51,6 +54,9 @@ export default StyleSheet.create({
     borderColor: vars.infoButtonBg,
     borderWidth: 1,
     height: 46,
+  },
+  infoSkeletonButtonPress: {
+    borderColor: vars.linkPress,
   },
   infoSkeletonText: {
     ...text,
@@ -60,6 +66,9 @@ export default StyleSheet.create({
     ...buttonContainer,
     backgroundColor: vars.dangerButtonBg,
     borderRadius: vars.radius,
+  },
+  dangerButtonPress: {
+    backgroundColor: vars.dangerPress,
   },
   dangerText: {
     ...text,
@@ -73,8 +82,14 @@ export default StyleSheet.create({
     borderRadius: vars.radius,
     height: 46,
   },
+  dangerSkeletonButtonPress: {
+    borderColor: vars.dangerPress,
+  },
   dangerSkeletonText,
   secondarySkeletonButton,
+  secondarySkeletonButtonPress: {
+    borderColor: vars.blueGrey300,
+  },
   secondarySkeletonText,
   text,
   infoText,
