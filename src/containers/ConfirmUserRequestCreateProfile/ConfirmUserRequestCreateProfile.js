@@ -5,11 +5,11 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Text, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Button } from 'react-native-elements';
 
-import { forms, buttons, scene } from '../../styles';
+import { forms, scene } from '../../styles';
 import Well from '../../components/Well';
 import Input from '../../components/Input';
+import Button from '../../components/Button';
 import {
   confirmUser as confirmUserAction,
   login as loginAction,
@@ -332,11 +332,8 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
             <View style={styles.submitWrap}>
               <Button
                 onPress={handleSumbit}
-                containerViewStyle={buttons.infoContainer}
-                buttonStyle={buttons.infoButton}
-                textStyle={buttons.infoText}
-                disabled={isInFlight}
-                title={isInFlight ? 'Submitting…' : 'Submit'}
+                isInFlight={isInFlight}
+                title="Submit"
               />
             </View>
           </View>

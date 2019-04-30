@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react';
 import { Actions } from 'react-native-router-flux';
 import { View, Text } from 'react-native';
-import { Button } from 'react-native-elements';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import { buttons, scene, vars } from '../../styles';
+import { scene, vars } from '../../styles';
 import styles from './DashboardNoRelationship.styles';
 import HeartArt from '../../components/Art/HeartArt';
+import Button from '../../components/Button';
 import DashboardNotificationRequestSent from './DashboardNotificationRequestSent';
 import DashboardNotificationReceivedLoverRequests from './DashboardNotificationReceivedLoverRequests';
 import { LoverRequestType } from '../../types';
@@ -76,9 +76,6 @@ const DashboardNoRelationship = ({
         <View style={scene.contentBottom}>
           <Button
             onPress={handleLoverRequestPress}
-            containerViewStyle={[buttons.infoContainer, styles.button]}
-            buttonStyle={buttons.infoButton}
-            textStyle={buttons.infoText}
             title="Search for Your Lover"
             testID="dashboard-create-lover-request-button"
           />

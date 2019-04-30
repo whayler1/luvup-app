@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { Actions } from 'react-native-router-flux';
-import { Button } from 'react-native-elements';
 import {
   View,
   ScrollView,
@@ -9,10 +8,11 @@ import {
   TextInput,
 } from 'react-native';
 
-import { forms, vars, buttons, quiz as quizStyles } from '../../styles';
+import { forms, vars, quiz as quizStyles } from '../../styles';
 import CreateQuizNavBar from '../CreateQuizNavBar';
 import { QuizItemAttemptType } from '../../types';
 import { getRandomQuestion } from './CreateQuizQuestion.helpers';
+import Button, { BUTTON_STYLES } from '../../components/Button';
 
 const placeholders = [
   'Ask something flirty…',
@@ -100,20 +100,12 @@ class CreateQuizQuestion extends PureComponent {
             <View style={quizStyles.questionButtonContainer}>
               <Button
                 onPress={this.handleRandomQuestionPress}
-                containerViewStyle={buttons.container}
-                buttonStyle={buttons.infoSkeletonButton}
-                textStyle={buttons.infoSkeletonText}
+                buttonStyles={BUTTON_STYLES.INFO_SKELETON}
                 title="Random"
               />
             </View>
             <View style={quizStyles.questionButtonContainer}>
-              <Button
-                onPress={this.handleNextPress}
-                containerViewStyle={buttons.container}
-                buttonStyle={buttons.infoButton}
-                textStyle={buttons.infoText}
-                title="Next"
-              />
+              <Button onPress={this.handleNextPress} title="Next" />
             </View>
           </View>
         </ScrollView>

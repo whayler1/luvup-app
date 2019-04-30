@@ -1,11 +1,12 @@
 import React from 'react';
 import { SafeAreaView, Text, View } from 'react-native';
-import { Button } from 'react-native-elements';
+
 import { Ionicons } from '@expo/vector-icons';
 
 import styles from './CreateLoverRequestSelectedUser.styles';
-import { forms, buttons, scene, vars } from '../../styles';
+import { forms, scene, vars } from '../../styles';
 import Well from '../../components/Well';
+import Button, { BUTTON_STYLES } from '../../components/Button';
 
 export default ({
   clearSelectedUser,
@@ -36,10 +37,8 @@ export default ({
             <View style={forms.buttonCell2ColLeft}>
               <Button
                 onPress={clearSelectedUser}
-                containerViewStyle={buttons.container}
-                buttonStyle={buttons.secondarySkeletonButton}
-                textStyle={buttons.secondarySkeletonText}
-                disabled={requestLoverIsInFlight}
+                buttonStyles={BUTTON_STYLES.SECONDARY_SKELETON}
+                isInFlight={requestLoverIsInFlight}
                 title="Back"
               />
             </View>
@@ -47,11 +46,8 @@ export default ({
               <Button
                 testID="create-lover-request-button"
                 onPress={requestLover}
-                containerViewStyle={buttons.infoContainer}
-                buttonStyle={buttons.infoButton}
-                textStyle={buttons.infoText}
-                disabled={requestLoverIsInFlight}
-                title={requestLoverIsInFlight ? 'Requesting…' : 'Request Lover'}
+                isInFlight={requestLoverIsInFlight}
+                title="Request Lover"
               />
             </View>
           </View>

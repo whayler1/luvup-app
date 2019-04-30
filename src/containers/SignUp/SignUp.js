@@ -3,13 +3,13 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Text, View, KeyboardAvoidingView } from 'react-native';
-import { Button } from 'react-native-elements';
 import Input from '../../components/Input';
 
-import { buttons, forms, scene, wells } from '../../styles';
+import { forms, scene, wells } from '../../styles';
 import styles from './SignUp.styles';
 import { emailRegex } from '../../helpers';
 import { userRequest as userRequestAction } from '../../redux/user/user.actions';
+import Button from '../../components/Button';
 
 class SignUp extends PureComponent {
   static propTypes = {
@@ -100,11 +100,8 @@ class SignUp extends PureComponent {
               <View style={styles.submitWrap}>
                 <Button
                   onPress={handleSubmit}
-                  containerViewStyle={buttons.container}
-                  buttonStyle={buttons.infoButton}
-                  textStyle={buttons.infoText}
-                  title={isInFlight ? 'Submitting…' : 'Submit'}
-                  disabled={isInFlight}
+                  title="Submit"
+                  isInFlight={isInFlight}
                 />
               </View>
             </View>

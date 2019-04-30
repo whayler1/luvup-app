@@ -196,7 +196,7 @@ class Login extends Component {
               <Button
                 onPress={navigateToSignUpConfirm}
                 buttonStyles={BUTTON_STYLES.SECONDARY_SKELETON}
-                title={'Confirm Code'}
+                title="Confirm Code"
               />
             </View>
             <View style={styles.signUpWrapper}>
@@ -204,7 +204,7 @@ class Login extends Component {
                 testID="login-signup"
                 onPress={navigateToSignUp}
                 buttonStyles={BUTTON_STYLES.INFO_SKELETON}
-                title={'Sign Up'}
+                title="Sign Up"
               />
             </View>
           </View>

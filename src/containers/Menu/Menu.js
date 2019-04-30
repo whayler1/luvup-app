@@ -11,14 +11,14 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
-import { Button } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import _ from 'lodash';
 
 import analytics from '../../services/analytics';
-import { scene, buttons, forms, modal, vars } from '../../styles';
+import { scene, forms, modal, vars } from '../../styles';
 import styles from './Menu.styles';
 import ModalContentWrap from '../../components/ModalContentWrap';
+import Button, { BUTTON_STYLES } from '../../components/Button';
 import ChangePasswordModalContent from '../ChangePasswordModalContent';
 import { logout as logoutAction } from '../../redux/user/user.actions';
 import { endRelationship as endRelationshipAction } from '../../redux/relationship/relationship.actions';
@@ -281,13 +281,7 @@ class Menu extends PureComponent {
                   marginTop: 40,
                 }}
                 testID="menu-logout">
-                <Button
-                  onPress={onLogout}
-                  containerViewStyle={buttons.infoContainer}
-                  buttonStyle={buttons.infoButton}
-                  textStyle={buttons.infoText}
-                  title={'Log Out'}
-                />
+                <Button onPress={onLogout} title="Log Out" />
               </View>
             </ScrollView>
           </View>
@@ -308,9 +302,7 @@ class Menu extends PureComponent {
                   <View style={forms.buttonCell2ColLeft}>
                     <Button
                       onPress={closeModal}
-                      containerViewStyle={buttons.container}
-                      buttonStyle={buttons.secondarySkeletonButton}
-                      textStyle={buttons.secondarySkeletonText}
+                      buttonStyles={BUTTON_STYLES.SECONDARY_SKELETON}
                       title="Close"
                       disabled={isInFlight}
                     />
@@ -318,11 +310,9 @@ class Menu extends PureComponent {
                   <View style={forms.buttonCell2ColRight}>
                     <Button
                       onPress={endRelationship}
-                      containerViewStyle={buttons.container}
-                      buttonStyle={buttons.dangerButton}
-                      textStyle={buttons.text}
-                      title={isInFlight ? 'Ending…' : 'End'}
-                      disabled={isInFlight}
+                      buttonStyles={BUTTON_STYLES.DANGER}
+                      title="End"
+                      isInFlight={isInFlight}
                     />
                   </View>
                 </View>

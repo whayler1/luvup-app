@@ -1,10 +1,10 @@
 import React from 'react';
 import { View } from 'react-native';
 import PropTypes from 'prop-types';
-import { Button } from 'react-native-elements';
 
-import { forms, buttons } from '../../styles';
+import { forms } from '../../styles';
 import Input from '../../components/Input';
+import Button from '../../components/Button';
 
 const ForgotPasswordForm = ({
   isSendNewPasswordInFlight,
@@ -35,11 +35,8 @@ const ForgotPasswordForm = ({
       <Button
         testID="forgot-password-submit"
         onPress={onSubmit}
-        containerViewStyle={buttons.container}
-        buttonStyle={buttons.infoButton}
-        textStyle={buttons.infoText}
-        title={isSendNewPasswordInFlight ? 'Submitting…' : 'Submit'}
-        disabled={isSendNewPasswordInFlight}
+        title="Submit"
+        isInFlight={isSendNewPasswordInFlight}
       />
     </View>
   </View>

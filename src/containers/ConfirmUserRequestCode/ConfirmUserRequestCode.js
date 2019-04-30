@@ -4,11 +4,11 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Text, View, ScrollView, KeyboardAvoidingView } from 'react-native';
-import { Button } from 'react-native-elements';
 
-import { forms, buttons, scene } from '../../styles';
+import { forms, scene } from '../../styles';
 import Well from '../../components/Well';
 import Input from '../../components/Input';
+import Button from '../../components/Button';
 import InputNumber from '../../components/Input/InputNumber';
 import { emailRegex } from '../../helpers';
 import {
@@ -237,11 +237,8 @@ class ConfirmUserRequestCode extends Component {
                 <Button
                   testID="confirm-usercode-submit"
                   onPress={handleSubmit}
-                  containerViewStyle={buttons.container}
-                  buttonStyle={buttons.infoButton}
-                  textStyle={buttons.infoText}
-                  title={isInFlight ? 'Submitting…' : 'Submit'}
-                  disabled={isInFlight}
+                  title="Submit"
+                  isInFlight={isInFlight}
                 />
               </View>
             </View>
