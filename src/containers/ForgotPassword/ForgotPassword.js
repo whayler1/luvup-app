@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { SafeAreaView, View, KeyboardAvoidingView, Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { Button } from 'react-native-elements';
 
 import styles from './ForgotPassword.styles';
-import { scene, buttons } from '../../styles';
+import { scene } from '../../styles';
 import { sendNewPassword as sendNewPasswordAction } from '../../redux/user/user.actions';
 import { emailRegex } from '../../helpers';
 import ForgotPasswordForm from './ForgotPasswordForm';
+import Button, { BUTTON_STYLES } from '../../components/Button';
 
 class ForgotPassword extends PureComponent {
   static propTypes = {
@@ -88,9 +88,7 @@ class ForgotPassword extends PureComponent {
               <Button
                 testID="forgot-password-login-button"
                 onPress={this.handleGoToLogin}
-                containerViewStyle={buttons.container}
-                buttonStyle={buttons.infoSkeletonButton}
-                textStyle={buttons.infoSkeletonText}
+                buttonStyles={BUTTON_STYLES.INFO_SKELETON}
                 title="Login"
               />
             </View>

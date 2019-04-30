@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
-import { Button } from 'react-native-elements';
 
-import { quiz as styles, buttons } from '../../styles';
+import { quiz as styles } from '../../styles';
 import CreateQuizAddChoiceButton from './CreateQuizAddChoiceButton';
 import CreateQuizRemoveChoiceButton from './CreateQuizRemoveChoiceButton';
+import Button from '../../components/Button';
 
 const CreateQuizLengthUI = ({
   choices,
@@ -36,9 +36,6 @@ const CreateQuizLengthUI = ({
       <Button
         testID="create-quiz-choice-next"
         onPress={onSubmit}
-        containerViewStyle={buttons.container}
-        buttonStyle={buttons.infoButton}
-        textStyle={buttons.infoText}
         title="Next"
       />
     </View>

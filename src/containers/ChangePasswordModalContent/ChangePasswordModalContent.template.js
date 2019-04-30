@@ -1,18 +1,16 @@
 import React from 'react';
 import { View, Text, TextInput } from 'react-native';
-import { Button } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 
 import { modal, buttons, forms, vars } from '../../styles';
+import Button, { BUTTON_STYLES } from '../../components/Button';
 
 const getCloseButton = ({ isInFlight, closeModal }) => (
   <Button
     onPress={closeModal}
-    containerViewStyle={buttons.infoContainer}
-    buttonStyle={buttons.secondarySkeletonButton}
-    textStyle={buttons.secondarySkeletonText}
-    title={'Close'}
-    disabled={isInFlight}
+    buttonStyles={BUTTON_STYLES.SECONDARY_SKELETON}
+    title="Close"
+    isInFlight={isInFlight}
   />
 );
 
@@ -169,14 +167,7 @@ export default ({
               width: '50%',
               paddingLeft: 8,
             }}>
-            <Button
-              onPress={onSubmit}
-              containerViewStyle={buttons.container}
-              buttonStyle={buttons.infoButton}
-              textStyle={buttons.infoText}
-              title={isInFlight ? 'Changing…' : 'Change'}
-              disabled={isInFlight}
-            />
+            <Button onPress={onSubmit} title="Change" isInFlight={isInFlight} />
           </View>
         </View>,
       ]}

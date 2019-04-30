@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'react-native-elements';
 import { SafeAreaView, View, Text } from 'react-native';
 
-import { scene, buttons, forms } from '../../styles';
+import { scene, forms } from '../../styles';
+import Button, { BUTTON_STYLES } from '../../components/Button';
 
 const ResetPasswordWithGeneratedPasswordSuccess = ({ onDone }) => (
   <SafeAreaView style={scene.safeAreaView}>
@@ -22,9 +22,7 @@ const ResetPasswordWithGeneratedPasswordSuccess = ({ onDone }) => (
             <Button
               testID="reset-password-success-done-button"
               onPress={onDone}
-              containerViewStyle={buttons.container}
-              buttonStyle={buttons.infoSkeletonButton}
-              textStyle={buttons.infoSkeletonText}
+              buttonStyles={BUTTON_STYLES.INFO_SKELETON}
               title="Done"
             />
           </View>

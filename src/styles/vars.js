@@ -1,3 +1,5 @@
+import Color from 'color';
+
 // colors
 
 const blueGrey50 = '#ECEFF1';
@@ -70,8 +72,12 @@ export default {
   jalapeno: green500,
   happiest: pink500,
   danger: red500,
+  dangerPress: Color(red500).saturate(0.05),
+  dangerDisabled: Color(red500).desaturate(0.05),
   success: green500,
   link: cyan500,
+  linkPress: Color(cyan500).saturate(0.05),
+  linkDisabled: Color(cyan500).desaturate(0.05),
   placeholder: blueGrey100,
   // fonts
   fontBlack,

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { TextInput, View } from 'react-native';
+import { TextInput } from 'react-native';
 
 import { vars, forms } from '../../styles';
 import InputWrapper from './InputWrapper';
@@ -61,6 +61,7 @@ class Input extends PureComponent {
     return (
       <InputWrapper {...{ label, error, formGroupStyles, isFocus, value }}>
         <TextInput
+          selectionColor={vars.blueGrey300}
           style={forms.input}
           onFocus={handleFocus}
           onBlur={handleBlur}

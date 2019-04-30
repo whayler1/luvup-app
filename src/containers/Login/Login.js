@@ -9,7 +9,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import { Button } from 'react-native-elements';
+// import { Button } from 'react-native-elements';
 
 import styles from './Login.styles';
 import { scene, forms, buttons, wells } from '../../styles';
@@ -19,6 +19,7 @@ import {
 } from '../../helpers';
 import { login as loginAction } from '../../redux/user/user.actions';
 import Input from '../../components/Input';
+import Button, { BUTTON_STYLES } from '../../components/Button';
 
 let passwordInput;
 const focusPassword = () => passwordInput.focus();
@@ -171,11 +172,8 @@ class Login extends Component {
             <View style={styles.submitContainer}>
               <Button
                 onPress={handleSubmit}
-                containerViewStyle={buttons.container}
-                buttonStyle={buttons.infoButton}
-                textStyle={buttons.infoText}
-                title={isInFlight ? 'Submitting…' : 'Submit'}
-                disabled={isInFlight}
+                title="Submit"
+                isInFlight={isInFlight}
                 testID="login-submit"
               />
             </View>
@@ -197,20 +195,16 @@ class Login extends Component {
             <View style={styles.confirmCodeWrapper}>
               <Button
                 onPress={navigateToSignUpConfirm}
-                containerViewStyle={buttons.container}
-                buttonStyle={buttons.secondarySkeletonButton}
-                textStyle={buttons.secondarySkeletonText}
-                title={'Confirm Code'}
+                buttonStyles={BUTTON_STYLES.SECONDARY_SKELETON}
+                title="Confirm Code"
               />
             </View>
             <View style={styles.signUpWrapper}>
               <Button
                 testID="login-signup"
                 onPress={navigateToSignUp}
-                containerViewStyle={buttons.container}
-                buttonStyle={buttons.infoSkeletonButton}
-                textStyle={buttons.infoSkeletonText}
-                title={'Sign Up'}
+                buttonStyles={BUTTON_STYLES.INFO_SKELETON}
+                title="Sign Up"
               />
             </View>
           </View>

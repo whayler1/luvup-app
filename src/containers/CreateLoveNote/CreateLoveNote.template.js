@@ -7,12 +7,12 @@ import {
   Animated,
   Image,
 } from 'react-native';
-import { Button } from 'react-native-elements';
 
 import { forms, buttons, scene, vars } from '../../styles';
 import Well from '../../components/Well';
 import LoveNoteArtFlying from '../../components/LoveNoteArtFlying';
 import LimitExceededModal from '../../components/LimitExceededModal';
+import Button, { BUTTON_STYLES } from '../../components/Button';
 import config from '../../config';
 
 const CountText = ({ n, verb }) => (
@@ -118,9 +118,7 @@ export default ({
                 <Button
                   testID="create-love-note-success-close-button"
                   onPress={back}
-                  containerViewStyle={buttons.container}
-                  buttonStyle={buttons.infoSkeletonButton}
-                  textStyle={buttons.infoSkeletonText}
+                  buttonStyles={BUTTON_STYLES.INFO_SKELETON}
                   title="Close"
                 />
               </View>
@@ -256,11 +254,8 @@ export default ({
         <Button
           testID="create-love-note-submit"
           onPress={onSendClick}
-          containerViewStyle={buttons.container}
-          buttonStyle={buttons.infoButton}
-          textStyle={buttons.infoText}
-          title={isSending ? 'Sending…' : 'Send'}
-          disabled={isSending}
+          title="Send"
+          isInFlight={isSending}
         />
       </View>
       <View style={{ marginTop: 32 }}>

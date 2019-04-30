@@ -181,11 +181,8 @@ class ViewQuiz extends PureComponent {
             <Button
               testID="view-quiz-submit"
               onPress={handleSubmit}
-              containerViewStyle={buttons.infoContainer}
-              buttonStyle={buttons.infoButton}
-              textStyle={buttons.infoText}
-              disabled={isAnswerQuizItemInFlight}
-              title={isAnswerQuizItemInFlight ? 'Submitting…' : 'Submit'}
+              isInFlight={isAnswerQuizItemInFlight}
+              title="Submit"
             />
           </View>
         )}

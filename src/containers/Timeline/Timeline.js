@@ -13,16 +13,16 @@ import {
   Modal,
   RefreshControl,
 } from 'react-native';
-import { Button } from 'react-native-elements';
 
 import styles from './Timeline.styles';
-import { buttons, scene, modal, vars } from '../../styles';
+import { scene, modal, vars } from '../../styles';
 import renderItem from './Timeline.renderItem.template';
 import renderSectionHeader from './Timeline.renderSectionHeader.template';
 import ListHeaderComponent from './Timeline.ListHeaderComponent.template';
 import ListFooterComponent from './Timeline.ListFooterComponent.template';
 import ListEmptyComponent from './Timeline.ListEmptyComponent.template';
 import HeartArt from '../../components/Art/HeartArt';
+import Button from '../../components/Button';
 import analytics from '../../services/analytics';
 import {
   addOnActiveListener,
@@ -329,14 +329,7 @@ class Timeline extends Component {
                   due to network conectivity.
                 </Text>
                 <View style={modal.buttonContainer}>
-                  <Button
-                    raised
-                    onPress={closeModal}
-                    containerViewStyle={buttons.infoContainer}
-                    buttonStyle={buttons.infoButton}
-                    textStyle={buttons.infoText}
-                    title="Dismiss"
-                  />
+                  <Button onPress={closeModal} title="Dismiss" />
                 </View>
               </View>
             </View>

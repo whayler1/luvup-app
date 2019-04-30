@@ -3,15 +3,15 @@ import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { KeyboardAvoidingView, ScrollView, Text, View } from 'react-native';
-import { Button } from 'react-native-elements';
 import _ from 'lodash';
 
 import CreateQuizNavBar from '../CreateQuizNavBar';
 import { QuizItemAttemptType } from '../../types';
-import { quiz, buttons } from '../../styles';
+import { quiz } from '../../styles';
 import { createQuizItem as createQuizItemAction } from '../../redux/quizItem/quizItem.actions';
 import QuizArtSent from '../../components/Art/QuizArtSent';
 import QuizDisplay from '../../components/QuizDisplay';
+import Button, { BUTTON_STYLES } from '../../components/Button';
 
 class CreateQuizReview extends PureComponent {
   static propTypes = {
@@ -67,9 +67,7 @@ class CreateQuizReview extends PureComponent {
             <Button
               testID="create-quiz-done-button"
               onPress={this.handleDone}
-              containerViewStyle={buttons.container}
-              buttonStyle={buttons.infoSkeletonButton}
-              textStyle={buttons.infoSkeletonText}
+              buttonStyles={BUTTON_STYLES.INFO_SKELETON}
               title="Done"
             />
           </View>
@@ -98,15 +96,8 @@ class CreateQuizReview extends PureComponent {
           <Button
             testID="create-quiz-submit-button"
             onPress={this.handleSubmit}
-            containerViewStyle={buttons.container}
-            buttonStyle={buttons.infoButton}
-            textStyle={buttons.infoText}
-            title={
-              this.props.isCreateQuizItemInFlight
-                ? 'Creating Quiz…'
-                : 'Create Quiz'
-            }
-            disabled={this.props.isCreateQuizItemInFlight}
+            title="Create Quiz"
+            isInFlight={this.props.isCreateQuizItemInFlight}
           />
         </ScrollView>
       </KeyboardAvoidingView>

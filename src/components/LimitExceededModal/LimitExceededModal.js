@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text, Modal, Image } from 'react-native';
-import { Button } from 'react-native-elements';
+import { View, Text, Modal } from 'react-native';
 
-import { buttons, forms, scene, modal, vars } from '../../styles';
+import { modal } from '../../styles';
 import CoinArt from '../../components/CoinArt';
 import JalapenoArt from '../../components/JalapenoArt';
+import Button from '../../components/Button';
 import config from '../../config';
 
 const LimitExceededModal = ({
@@ -21,7 +21,7 @@ const LimitExceededModal = ({
     visible={isModalOpen}
     animationType={'fade'}
     onRequestClose={closeModal}
-    transparent={true}>
+    transparent>
     <View style={modal.outerContainer}>
       <View style={modal.innerContainer}>
         <View>
@@ -55,14 +55,7 @@ const LimitExceededModal = ({
           </Text>
         </View>
         <View style={modal.buttonContainer}>
-          <Button
-            raised
-            onPress={closeModal}
-            containerViewStyle={buttons.infoContainer}
-            buttonStyle={buttons.infoButton}
-            textStyle={buttons.infoText}
-            title="Dismiss"
-          />
+          <Button onPress={closeModal} title="Dismiss" />
         </View>
       </View>
     </View>

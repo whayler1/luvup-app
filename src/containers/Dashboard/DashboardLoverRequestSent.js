@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react';
 import { View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Button } from 'react-native-elements';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import styles from './DashboardLoverRequestSent.styles';
 import Well from '../../components/Well';
-import { forms, buttons } from '../../styles';
+import Button, { BUTTON_STYLES } from '../../components/Button';
+import { forms } from '../../styles';
 
 const DashboardLoverRequestSent = ({
   loverRequestFirstName,
@@ -69,21 +69,19 @@ const DashboardLoverRequestSent = ({
       <View style={[forms.buttonCell2ColLeft, styles.buttonCell2ColLeft]}>
         <Button
           onPress={cancelLoverRequest}
-          containerViewStyle={buttons.container}
-          buttonStyle={buttons.secondarySkeletonButton}
-          textStyle={buttons.secondarySkeletonText}
+          buttonStyles={BUTTON_STYLES.SECONDARY_SKELETON}
           disabled={isCancelInFlight || resendIsInFlight}
-          title={isCancelInFlight ? 'Cancelling…' : 'Cancel'}
+          isInFlight={isCancelInFlight}
+          title="Cancel"
         />
       </View>
       <View style={[forms.buttonCell2ColRight, styles.buttonCell2ColRight]}>
         <Button
           onPress={resendLoverRequestEmail}
-          containerViewStyle={buttons.infoContainer}
-          buttonStyle={buttons.infoSkeletonButton}
-          textStyle={buttons.infoSkeletonText}
+          buttonStyles={BUTTON_STYLES.INFO_SKELETON}
           disabled={isCancelInFlight || resendIsInFlight}
-          title={resendIsInFlight ? 'Resending…' : 'Resend'}
+          isInFlight={resendIsInFlight}
+          title="Resend"
         />
       </View>
     </View>

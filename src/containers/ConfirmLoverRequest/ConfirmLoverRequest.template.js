@@ -1,10 +1,10 @@
 import React from 'react';
 import { SafeAreaView, View, Text } from 'react-native';
-import { Button } from 'react-native-elements';
 
-import { buttons, forms, scene, vars } from '../../styles';
+import { forms, scene, vars } from '../../styles';
 import Well from '../../components/Well';
 import LoveRequestArt from '../../components/LoveRequestArt';
+import Button, { BUTTON_STYLES } from '../../components/Button';
 
 export default ({
   currentLoverRequestId,
@@ -58,22 +58,19 @@ export default ({
             <View style={forms.buttonCell2ColLeft}>
               <Button
                 onPress={cancelLoverRequest}
-                containerViewStyle={buttons.container}
-                buttonStyle={buttons.secondarySkeletonButton}
-                textStyle={buttons.secondarySkeletonText}
+                buttonStyles={BUTTON_STYLES.SECONDARY_SKELETON}
                 disabled={isInFlight}
-                title={inFlightType === 'cancel' ? 'Rejecting…' : 'Reject'}
+                isInFlight={inFlightType === 'cancel'}
+                title="Reject"
               />
             </View>
             <View style={forms.buttonCell2ColRight}>
               <Button
                 testID="confirm-user-accept-button"
                 onPress={acceptLoverRequest}
-                containerViewStyle={buttons.infoContainer}
-                buttonStyle={buttons.infoButton}
-                textStyle={buttons.infoText}
                 disabled={isInFlight}
-                title={inFlightType === 'accept' ? 'Accepting…' : 'Accept'}
+                isInFlight={inFlightType === 'accept'}
+                title="Accept"
               />
             </View>
           </View>

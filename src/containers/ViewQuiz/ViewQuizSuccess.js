@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { Button } from 'react-native-elements';
 
-import { quiz as styles, buttons } from '../../styles';
+import { quiz as styles } from '../../styles';
 import CoinRow from '../../components/CoinRow';
+import Button, { BUTTON_STYLES } from '../../components/Button';
 import { getCorrectAnswerReaction } from './ViewQuiz.helpers';
 
 const handleDone = () => Actions.dashboard();
@@ -21,9 +21,7 @@ const ViewQuizSuccess = ({ reward }) => (
       <Button
         testID="view-quiz-success-done"
         onPress={handleDone}
-        containerViewStyle={buttons.container}
-        buttonStyle={buttons.infoSkeletonButton}
-        textStyle={buttons.infoSkeletonText}
+        buttonStyles={BUTTON_STYLES.INFO_SKELETON}
         title="Done"
       />
     </View>

@@ -2,13 +2,12 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { SafeAreaView, KeyboardAvoidingView, View, Text } from 'react-native';
 import { connect } from 'react-redux';
-import { Button } from 'react-native-elements';
 
 import { resetPasswordWithGeneratedPassword as resetPasswordWithGeneratedPasswordAction } from '../../redux/user/user.actions';
-// import styles from './ResetPasswordWithGeneratedPassword.styles';
-import { forms, scene, buttons } from '../../styles';
+import { forms, scene } from '../../styles';
 import { passwordRegex, userLoginRouteSwitch } from '../../helpers';
 import Input from '../../components/Input';
+import Button from '../../components/Button';
 import ResetPasswordWithGeneratedPasswordSuccess from './ResetPasswordWithGeneratedPasswordSuccess';
 
 class ResetPasswordWithGeneratedPassword extends PureComponent {
@@ -167,15 +166,8 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
               <View style={forms.formGroup}>
                 <Button
                   onPress={handleSubmit}
-                  containerViewStyle={buttons.container}
-                  buttonStyle={buttons.infoButton}
-                  textStyle={buttons.infoText}
-                  title={
-                    isResetPasswordWithGeneratedPasswordInFlight
-                      ? 'Submitting…'
-                      : 'Submit'
-                  }
-                  disabled={isResetPasswordWithGeneratedPasswordInFlight}
+                  title="Submit"
+                  isInFlight={isResetPasswordWithGeneratedPasswordInFlight}
                 />
                 {resetPasswordWithGeneratedPasswordError.length > 0 && (
                   <Text style={forms.error}>
