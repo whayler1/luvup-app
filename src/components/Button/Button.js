@@ -51,6 +51,7 @@ class Button extends PureComponent {
     isInFlight: PropTypes.bool,
     onPress: PropTypes.func,
     disabled: PropTypes.bool,
+    testID: PropTypes.string,
   };
 
   static defaultProps = {
@@ -92,6 +93,7 @@ class Button extends PureComponent {
         isInFlight,
         onPress,
         disabled,
+        testID,
         buttonStyles: {
           buttonStyle,
           buttonStylePress,
@@ -109,7 +111,8 @@ class Button extends PureComponent {
         onPress={onPress}
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
-        disabled={disabled}>
+        disabled={disabled}
+        testID={testID}>
         <View
           style={[
             buttonStyle,

@@ -61,6 +61,7 @@ class Input extends PureComponent {
     return (
       <InputWrapper {...{ label, error, formGroupStyles, isFocus, value }}>
         <TextInput
+          selectionColor={vars.blueGrey300}
           style={forms.input}
           onFocus={handleFocus}
           onBlur={handleBlur}
