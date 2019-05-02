@@ -145,37 +145,36 @@ class Menu extends PureComponent {
               </TouchableOpacity>
             </View>
           </View>
-          <View style={scene.content}>
-            <ScrollView
-              contentContainerStyle={{
-                alignSelf: 'stretch',
-              }}>
-              <View>
-                <Text style={styles.title}>Profile</Text>
-                <Text style={styles.label}>Name</Text>
-                <Text style={styles.value}>
-                  {userFirstName} {userLastName}
-                </Text>
-                <Text style={styles.label}>Email</Text>
-                <Text style={styles.value}>{userEmail}</Text>
-                <Text style={styles.label}>Options</Text>
-                <TouchableOpacity
-                  onPress={onChangePasswordClick}
+          <ScrollView
+            contentContainerStyle={{
+              alignSelf: 'stretch',
+            }}>
+            <View>
+              <Text style={styles.title}>Profile</Text>
+              <Text style={styles.label}>Name</Text>
+              <Text style={styles.value}>
+                {userFirstName} {userLastName}
+              </Text>
+              <Text style={styles.label}>Email</Text>
+              <Text style={styles.value}>{userEmail}</Text>
+              <Text style={styles.label}>Options</Text>
+              <TouchableOpacity
+                onPress={onChangePasswordClick}
+                style={{
+                  flexDirection: 'row',
+                  marginTop: 8,
+                  justifyContent: 'space-between',
+                }}>
+                <Text
                   style={{
-                    flexDirection: 'row',
-                    marginTop: 8,
-                    justifyContent: 'space-between',
+                    color: vars.link,
+                    fontSize: 20,
                   }}>
-                  <Text
-                    style={{
-                      color: vars.link,
-                      fontSize: 20,
-                    }}>
-                    Change Password
-                  </Text>
-                  <Ionicons name="md-unlock" size={22} color={vars.link} />
-                </TouchableOpacity>
-                {/* <TouchableOpacity
+                  Change Password
+                </Text>
+                <Ionicons name="md-unlock" size={22} color={vars.link} />
+              </TouchableOpacity>
+              {/* <TouchableOpacity
                 style={{
                   flexDirection: 'row',
                   marginTop: 16,
@@ -194,23 +193,47 @@ class Menu extends PureComponent {
                   color={vars.link}
                 />
               </TouchableOpacity> */}
-              </View>
+            </View>
 
-              <View style={styles.group}>
-                <Text style={styles.title}>Relationship</Text>
-                {_.isString(loverId) && loverId.length > 0 && (
+            <View style={styles.group}>
+              <Text style={styles.title}>Relationship</Text>
+              {_.isString(loverId) && loverId.length > 0 && (
+                <Fragment>
+                  <Text style={styles.label}>Lover</Text>
+                  <Text style={styles.value}>
+                    {loverFirstName} {loverLastName}
+                  </Text>
+                  <Text style={styles.label}>Start Date</Text>
+                  <Text style={styles.value}>
+                    {relationshipCreatedAtFormatted}
+                  </Text>
+                  <Text style={styles.label}>Options</Text>
+                  <TouchableOpacity
+                    onPress={openEndRelationshipModal}
+                    style={{
+                      flexDirection: 'row',
+                      marginTop: 8,
+                      justifyContent: 'space-between',
+                    }}>
+                    <Text
+                      style={{
+                        color: vars.danger,
+                        fontSize: 20,
+                      }}>
+                      End Relationship
+                    </Text>
+                    <Ionicons name="md-alert" size={22} color={vars.danger} />
+                  </TouchableOpacity>
+                </Fragment>
+              )}
+              {_.isString(loverId) &&
+                loverId.length < 1 &&
+                _.isString(loverRequestId) &&
+                loverRequestId.length < 1 && (
                   <Fragment>
-                    <Text style={styles.label}>Lover</Text>
-                    <Text style={styles.value}>
-                      {loverFirstName} {loverLastName}
-                    </Text>
-                    <Text style={styles.label}>Start Date</Text>
-                    <Text style={styles.value}>
-                      {relationshipCreatedAtFormatted}
-                    </Text>
                     <Text style={styles.label}>Options</Text>
                     <TouchableOpacity
-                      onPress={openEndRelationshipModal}
+                      onPress={goToCreateLoverRequest}
                       style={{
                         flexDirection: 'row',
                         marginTop: 8,
@@ -218,73 +241,48 @@ class Menu extends PureComponent {
                       }}>
                       <Text
                         style={{
-                          color: vars.danger,
+                          color: vars.link,
                           fontSize: 20,
                         }}>
-                        End Relationship
+                        Send Lover Request
                       </Text>
-                      <Ionicons name="md-alert" size={22} color={vars.danger} />
+                      <Ionicons name="md-send" size={22} color={vars.link} />
                     </TouchableOpacity>
                   </Fragment>
                 )}
-                {_.isString(loverId) &&
-                  loverId.length < 1 &&
-                  _.isString(loverRequestId) &&
-                  loverRequestId.length < 1 && (
-                    <Fragment>
-                      <Text style={styles.label}>Options</Text>
-                      <TouchableOpacity
-                        onPress={goToCreateLoverRequest}
+              {_.isString(loverId) &&
+                loverId.length < 1 &&
+                _.isString(loverRequestId) &&
+                loverRequestId.length > 0 && (
+                  <Fragment>
+                    <Text style={styles.label}>Options</Text>
+                    <TouchableOpacity
+                      onPress={goToDashboard}
+                      style={{
+                        flexDirection: 'row',
+                        marginTop: 8,
+                        justifyContent: 'space-between',
+                      }}>
+                      <Text
                         style={{
-                          flexDirection: 'row',
-                          marginTop: 8,
-                          justifyContent: 'space-between',
+                          color: vars.link,
+                          fontSize: 20,
                         }}>
-                        <Text
-                          style={{
-                            color: vars.link,
-                            fontSize: 20,
-                          }}>
-                          Send Lover Request
-                        </Text>
-                        <Ionicons name="md-send" size={22} color={vars.link} />
-                      </TouchableOpacity>
-                    </Fragment>
-                  )}
-                {_.isString(loverId) &&
-                  loverId.length < 1 &&
-                  _.isString(loverRequestId) &&
-                  loverRequestId.length > 0 && (
-                    <Fragment>
-                      <Text style={styles.label}>Options</Text>
-                      <TouchableOpacity
-                        onPress={goToDashboard}
-                        style={{
-                          flexDirection: 'row',
-                          marginTop: 8,
-                          justifyContent: 'space-between',
-                        }}>
-                        <Text
-                          style={{
-                            color: vars.link,
-                            fontSize: 20,
-                          }}>
-                          View Pending Lover Request
-                        </Text>
-                        <Ionicons name="md-send" size={22} color={vars.link} />
-                      </TouchableOpacity>
-                    </Fragment>
-                  )}
-              </View>
-              <View
-                style={{
-                  marginTop: 40,
-                }}
-                testID="menu-logout">
-                <Button onPress={onLogout} title="Log Out" />
-              </View>
-            </ScrollView>
-          </View>
+                        View Pending Lover Request
+                      </Text>
+                      <Ionicons name="md-send" size={22} color={vars.link} />
+                    </TouchableOpacity>
+                  </Fragment>
+                )}
+            </View>
+            <View
+              style={{
+                marginTop: 40,
+              }}
+              testID="menu-logout">
+              <Button onPress={onLogout} title="Log Out" />
+            </View>
+          </ScrollView>
           <ModalContentWrap visible={isModalVisible}>
             {modalType === 'changePassword' && (
               <ChangePasswordModalContent closeModal={closeModal} />
