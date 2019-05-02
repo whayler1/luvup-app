@@ -1,6 +1,9 @@
 import { StyleSheet } from 'react-native';
 import vars from './vars';
 
+const BUTTON_PADDING_VERTICAL = 12;
+const BUTTON_PADDING_VERTICAL_OUTLINE = BUTTON_PADDING_VERTICAL - 1;
+
 const container = {
   alignSelf: 'stretch',
   marginLeft: 0,
@@ -19,7 +22,7 @@ const dangerSkeletonText = {
 };
 
 const buttonContainer = {
-  paddingVertical: 10,
+  paddingVertical: BUTTON_PADDING_VERTICAL,
   paddingHorizontal: vars.gutter,
 };
 
@@ -29,7 +32,7 @@ const secondarySkeletonButton = {
   borderColor: vars.blueGrey100,
   borderWidth: 1,
   borderRadius: vars.radius,
-  height: 46,
+  paddingVertical: BUTTON_PADDING_VERTICAL_OUTLINE,
 };
 const secondarySkeletonText = {
   ...text,
@@ -56,7 +59,7 @@ export default StyleSheet.create({
     borderRadius: vars.radius,
     borderColor: vars.infoButtonBg,
     borderWidth: 1,
-    height: 46,
+    paddingVertical: BUTTON_PADDING_VERTICAL_OUTLINE,
   },
   infoSkeletonButtonPress: {
     borderColor: vars.linkPress,
@@ -90,7 +93,7 @@ export default StyleSheet.create({
     borderColor: vars.dangerButtonBg,
     borderWidth: 1,
     borderRadius: vars.radius,
-    height: 46,
+    paddingVertical: BUTTON_PADDING_VERTICAL_OUTLINE,
   },
   dangerSkeletonButtonPress: {
     borderColor: vars.dangerPress,

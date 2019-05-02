@@ -31,6 +31,7 @@ const multilineInput = {
   borderWidth: 1,
   borderBottomWidth: 1,
   borderColor: vars.blueGrey500,
+  borderBottomColor: vars.blueGrey500,
   borderRadius: 4,
   padding: 16,
 };
