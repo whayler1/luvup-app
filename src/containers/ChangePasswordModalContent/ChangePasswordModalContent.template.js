@@ -1,9 +1,10 @@
-import React from 'react';
-import { View, Text, TextInput } from 'react-native';
+import React, { Fragment } from 'react';
+import { View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-import { modal, buttons, forms, vars } from '../../styles';
+import { modal, forms, vars } from '../../styles';
 import Button, { BUTTON_STYLES } from '../../components/Button';
+import Input from '../../components/Input';
 
 const getCloseButton = ({ isInFlight, closeModal }) => (
   <Button
@@ -14,6 +15,30 @@ const getCloseButton = ({ isInFlight, closeModal }) => (
   />
 );
 
+const gerCurrentPasswordError = error => {
+  if (error === 'no-current-password' || error === 'invalid-password') {
+    return 'Please provide your current password';
+  }
+  return '';
+};
+
+const getNewPasswordError = error => {
+  if (error === 'no-new-password') {
+    return 'Please provide a new password';
+  }
+  if (error === 'new-password-short') {
+    return 'Passwords must be at least 8 characters';
+  }
+  return '';
+};
+
+const getPasswordAgainError = error => {
+  if (error === 'password-mismatch') {
+    return 'Does not match';
+  }
+  return '';
+};
+
 export default ({
   currentPassword,
   newPassword,
@@ -21,13 +46,8 @@ export default ({
   onCurrentPasswordChange,
   onNewPasswordChange,
   onNewPasswordAgainChange,
-  onCurrentPasswordFocus,
-  onNewPasswordFocus,
-  onNewPasswordAgainFocus,
-  onBlur,
   onSubmit,
   closeModal,
-  focusInput,
   isInFlight,
   success,
   error,
@@ -58,119 +78,93 @@ export default ({
             '\nIf the problem persists please contact justin@luvup.io'}
         </Text>
       )}
-      {success && [
-        <Text key={1} style={modal.copy}>
-          Your Password has been changed successully!
-        </Text>,
-        <View key={2} style={forms.buttonRow}>
-          <View
-            style={{
-              flex: 1,
-            }}>
-            {getCloseButton({ isInFlight, closeModal })}
+      {success && (
+        <Fragment>
+          <Text key={1} style={modal.copy}>
+            Your Password has been changed successully!
+          </Text>
+          <View key={2} style={forms.buttonRow}>
+            <View
+              style={{
+                flex: 1,
+              }}>
+              {getCloseButton({ isInFlight, closeModal })}
+            </View>
           </View>
-        </View>,
-      ]}
-      {!success && [
-        <View key={3} style={forms.formGroup}>
-          <Text style={forms.label}>Current Password</Text>
-          <TextInput
-            style={[
-              forms.input,
-              focusInput === 'currentPassword' && forms.inputFocus,
-            ]}
+        </Fragment>
+      )}
+      {!success && (
+        <Fragment>
+          <Input
             onChangeText={onCurrentPasswordChange}
-            onFocus={onCurrentPasswordFocus}
-            onBlur={onBlur}
             value={currentPassword}
-            secureTextEntry
-            maxLength={50}
-            editable={!isInFlight}
-            spellCheck={false}
             placeholder="Min 8 chars. No spaces"
-            placeholderTextColor={vars.blueGrey100}
-            returnKeyType="next"
-            onSubmitEditing={focusNewPassword}
+            label="Current Password"
+            error={gerCurrentPasswordError(error)}
+            inputProps={{
+              secureTextEntry: true,
+              editable: !isInFlight,
+              spellCheck: false,
+              returnKeyType: 'next',
+              onSubmitEditing: focusNewPassword,
+            }}
           />
-          {(error === 'no-current-password' ||
-            error === 'invalid-password') && (
-            <Text style={forms.error}>
-              Please provide your current password
-            </Text>
-          )}
-        </View>,
-        <View key={4} style={forms.formGroup}>
-          <Text style={forms.label}>New Password</Text>
-          <TextInput
-            ref={el => (newPasswordInput = el)}
-            style={[
-              forms.input,
-              focusInput === 'newPassword' && forms.inputFocus,
-            ]}
+          <Input
+            label="New Password"
             onChangeText={onNewPasswordChange}
-            onFocus={onNewPasswordFocus}
-            onBlur={onBlur}
             value={newPassword}
-            secureTextEntry
-            maxLength={50}
-            editable={!isInFlight}
-            spellCheck={false}
             placeholder="Min 8 chars. No spaces."
-            placeholderTextColor={vars.blueGrey100}
-            returnKeyType="next"
-            onSubmitEditing={focusNewPasswordAgain}
+            error={getNewPasswordError(error)}
+            inputProps={{
+              ref: el => {
+                newPasswordInput = el;
+              },
+              secureTextEntry: true,
+              editable: !isInFlight,
+              spellCheck: false,
+              returnKeyType: 'next',
+              onSubmitEditing: focusNewPasswordAgain,
+            }}
           />
-          {error === 'no-new-password' && (
-            <Text style={forms.error}>Please provide a new password</Text>
-          )}
-          {error === 'new-password-short' && (
-            <Text style={forms.error}>
-              Passwords must be at least 8 characters
-            </Text>
-          )}
-        </View>,
-        <View key={5} style={forms.formGroup}>
-          <Text style={forms.label}>Repeat New Password</Text>
-          <TextInput
-            ref={el => (newPasswordAgainInput = el)}
-            style={[
-              forms.input,
-              focusInput === 'newPasswordAgain' && forms.inputFocus,
-            ]}
+          <Input
+            label="Repeat New Password"
             onChangeText={onNewPasswordAgainChange}
-            onFocus={onNewPasswordAgainFocus}
-            onBlur={onBlur}
             value={newPasswordAgain}
-            secureTextEntry
-            maxLength={50}
-            editable={!isInFlight}
-            spellCheck={false}
             placeholder="Must match new password"
-            placeholderTextColor={vars.blueGrey100}
-            returnKeyType="go"
-            onSubmitEditing={onSubmit}
+            error={getPasswordAgainError(error)}
+            inputProps={{
+              ref: el => {
+                newPasswordAgainInput = el;
+              },
+              secureTextEntry: true,
+              editable: !isInFlight,
+              spellCheck: false,
+              returnKeyType: 'go',
+              onSubmitEditing: onSubmit,
+            }}
           />
-          {error === 'password-mismatch' && (
-            <Text style={forms.error}>Does not match</Text>
-          )}
-        </View>,
-        <View key={6} style={forms.buttonRow}>
-          <View
-            style={{
-              width: '50%',
-              paddingRight: 8,
-            }}>
-            {getCloseButton({ isInFlight, closeModal })}
+          <View key={6} style={forms.buttonRow}>
+            <View
+              style={{
+                width: '50%',
+                paddingRight: 8,
+              }}>
+              {getCloseButton({ isInFlight, closeModal })}
+            </View>
+            <View
+              style={{
+                width: '50%',
+                paddingLeft: 8,
+              }}>
+              <Button
+                onPress={onSubmit}
+                title="Change"
+                isInFlight={isInFlight}
+              />
+            </View>
           </View>
-          <View
-            style={{
-              width: '50%',
-              paddingLeft: 8,
-            }}>
-            <Button onPress={onSubmit} title="Change" isInFlight={isInFlight} />
-          </View>
-        </View>,
-      ]}
+        </Fragment>
+      )}
     </View>
   );
 };
