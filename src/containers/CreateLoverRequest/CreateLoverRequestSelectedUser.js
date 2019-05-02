@@ -38,7 +38,7 @@ export default ({
               <Button
                 onPress={clearSelectedUser}
                 buttonStyles={BUTTON_STYLES.SECONDARY_SKELETON}
-                isInFlight={requestLoverIsInFlight}
+                disabled={requestLoverIsInFlight}
                 title="Back"
               />
             </View>

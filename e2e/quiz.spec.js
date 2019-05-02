@@ -108,7 +108,7 @@ describe('quiz', () => {
 
     await waitFor(timelineItem0())
       .toBeVisible()
-      .withTimeout(TIMEOUT);
+      .withTimeout(TIMEOUT * 2);
     await timelineItem0().tap();
 
     await waitFor(quizAnswer1())

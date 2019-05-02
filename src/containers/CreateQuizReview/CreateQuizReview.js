@@ -64,12 +64,14 @@ class CreateQuizReview extends PureComponent {
             <View style={quiz.successTextWrapper}>
               <Text style={quiz.successText}>Quiz sent!</Text>
             </View>
-            <Button
-              testID="create-quiz-done-button"
-              onPress={this.handleDone}
-              buttonStyles={BUTTON_STYLES.INFO_SKELETON}
-              title="Done"
-            />
+            <View style={{ alignSelf: 'stretch' }}>
+              <Button
+                testID="create-quiz-done-button"
+                onPress={this.handleDone}
+                buttonStyles={BUTTON_STYLES.INFO_SKELETON}
+                title="Done"
+              />
+            </View>
           </View>
         </View>
       );
