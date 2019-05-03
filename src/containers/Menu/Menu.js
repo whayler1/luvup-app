@@ -3,14 +3,8 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import {
-  SafeAreaView,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-} from 'react-native';
+import { Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
 import _ from 'lodash';
 
@@ -130,7 +124,7 @@ class Menu extends PureComponent {
       goToDashboard,
     } = this;
     return (
-      <SafeAreaView style={scene.safeAreaView}>
+      <SafeAreaView forceInset={{ bottom: 'never' }} style={scene.safeAreaView}>
         <View style={scene.container}>
           <View style={scene.topNav}>
             <View style={scene.topNavContent}>
@@ -146,8 +140,11 @@ class Menu extends PureComponent {
             </View>
           </View>
           <ScrollView
-            contentContainerStyle={{
+            style={{
               alignSelf: 'stretch',
+              paddingVertical: vars.gutter,
+              paddingHorizontal: vars.gutter,
+              flex: 1,
             }}>
             <View>
               <Text style={styles.title}>Profile</Text>
