@@ -93,4 +93,7 @@ export default {
   gutterDouble,
   gutterDoubleAndHalf,
   gutterTriple,
+
+  blurViewTint: 'light',
+  blurViewIntensity: 50,
 };

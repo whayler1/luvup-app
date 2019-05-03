@@ -126,7 +126,7 @@ class Menu extends PureComponent {
     return (
       <SafeAreaView forceInset={{ bottom: 'never' }} style={scene.safeAreaView}>
         <View style={scene.container}>
-          <View style={scene.topNav}>
+          <View style={[scene.topNav, { paddingTop: vars.gutterHalf }]}>
             <View style={scene.topNavContent}>
               <TouchableOpacity onPress={goBack}>
                 <Image
@@ -142,6 +142,7 @@ class Menu extends PureComponent {
           <ScrollView
             style={{
               alignSelf: 'stretch',
+              justifyContent: 'center',
               paddingVertical: vars.gutter,
               paddingHorizontal: vars.gutter,
               flex: 1,

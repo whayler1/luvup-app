@@ -11,9 +11,6 @@ import CoinArt from '../../components/CoinArt';
 import { vars } from '../../styles';
 import styles from './DashboardTopNav.styles';
 
-const BLUR_VIEW_TINT = 'light';
-const BLUR_VIEW_INTENSITY = 50;
-
 export default class DashboardTopNav extends Component {
   static props = {
     coinCount: PropTypes.number,
@@ -61,15 +58,15 @@ export default class DashboardTopNav extends Component {
       (_.isNumber(unviewedCoinCount) && unviewedCoinCount > 0) ||
       (_.isNumber(unviewedJalapenoCount) && unviewedJalapenoCount > 0);
     return (
-      <Fragment>
+      <View>
         <BlurView
-          tint={BLUR_VIEW_TINT}
-          intensity={BLUR_VIEW_INTENSITY}
+          tint={vars.blurViewTint}
+          intensity={vars.blurViewIntensity}
           style={styles.containerTopArea}
         />
         <BlurView
-          tint={BLUR_VIEW_TINT}
-          intensity={BLUR_VIEW_INTENSITY}
+          tint={vars.blurViewTint}
+          intensity={vars.blurViewIntensity}
           style={styles.container}>
           {isPushdownVisible && (
             <Pushdown closeFunc={closePushdown}>
@@ -143,7 +140,7 @@ export default class DashboardTopNav extends Component {
             )}
           </View>
         </BlurView>
-      </Fragment>
+      </View>
     );
   }
 }
