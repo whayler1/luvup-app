@@ -1,10 +1,11 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { BlurView } from 'expo';
 import _ from 'lodash';
 
+import DashboardTopNavScoreUpAnimation from './DashboardTopNavScoreUpAnimation';
 import Pushdown from '../../components/Pushdown';
 import NotificationDot from '../../components/NotificationDot';
 import CoinArt from '../../components/CoinArt';
@@ -59,6 +60,7 @@ export default class DashboardTopNav extends Component {
       (_.isNumber(unviewedJalapenoCount) && unviewedJalapenoCount > 0);
     return (
       <View>
+        <DashboardTopNavScoreUpAnimation />
         <BlurView
           tint={vars.blurViewTint}
           intensity={vars.blurViewIntensity}

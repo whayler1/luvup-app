@@ -4,7 +4,6 @@ import { Surface } from 'ReactNativeART';
 import { Animated, Easing } from 'react-native';
 
 import Circle from '../Circle';
-// import { vars } from '../../styles';
 
 const DURATION = 250;
 const EASING = Easing.inOut(Easing.linear);
