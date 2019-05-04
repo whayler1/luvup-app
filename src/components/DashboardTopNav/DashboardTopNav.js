@@ -39,14 +39,16 @@ export default class DashboardTopNav extends Component {
   };
   handleRelationshipScoreAnimationStart = () => {
     console.log('\n\n -- start');
+    this.setState({ isDuringScoreAnimation: true });
   };
   handleRelationshipScoreAnimationEnd = () => {
     console.log('\n\n -- end');
+    this.setState({ isDuringScoreAnimation: false });
   };
 
   constructor(props) {
     super(props);
-    this.state = { fakeScore: 6 };
+    this.state = { fakeScore: 6, isDuringScoreAnimation: false };
   }
 
   componentDidMount() {
@@ -80,7 +82,9 @@ export default class DashboardTopNav extends Component {
       (_.isNumber(unviewedJalapenoCount) && unviewedJalapenoCount > 0);
     return (
       <View>
-        <DashboardTopNavScoreUpAnimation />
+        <DashboardTopNavScoreUpAnimation
+          isDuringAnimation={this.state.isDuringScoreAnimation}
+        />
         <BlurView
           tint={vars.blurViewTint}
           intensity={vars.blurViewIntensity}

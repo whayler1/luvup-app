@@ -13,7 +13,13 @@ const CIRCUMFRANCE = 90;
 const { Value } = Animated;
 
 class DashboardTopNavScoreUpAnimation extends PureComponent {
-  static propTypes = {};
+  static propTypes = {
+    isDuringAnimation: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    isDuringAnimation: false,
+  };
 
   constructor(props) {
     super(props);
@@ -108,6 +114,16 @@ class DashboardTopNavScoreUpAnimation extends PureComponent {
       }
     });
   };
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.isDuringAnimation !== this.props.isDuringAnimation) {
+      if (this.props.isDuringAnimation) {
+        this.startAnimation();
+      } else {
+        this.outAnimation();
+      }
+    }
+  }
 
   // componentDidMount() {
   // setTimeout(() => this.startAnimation(), 2000);
