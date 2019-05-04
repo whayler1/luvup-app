@@ -7,7 +7,6 @@ import Circle from '../Circle';
 import { vars } from '../../styles';
 import styles from './DashboardTopNav.styles';
 
-const DURATION = 250;
 const EASING = Easing.inOut(Easing.linear);
 const CIRCUMFRANCE = 90;
 

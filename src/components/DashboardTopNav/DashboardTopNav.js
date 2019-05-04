@@ -6,6 +6,7 @@ import { BlurView } from 'expo';
 import _ from 'lodash';
 
 import DashboardTopNavScoreUpAnimation from './DashboardTopNavScoreUpAnimation';
+import DashboardTopNavScoreText from './DashboardTopNavScoreText';
 import Pushdown from '../../components/Pushdown';
 import NotificationDot from '../../components/NotificationDot';
 import CoinArt from '../../components/CoinArt';
@@ -36,6 +37,23 @@ export default class DashboardTopNav extends Component {
   handleRelationshipScoreClick = () => {
     Actions.timelineRelationshipScore();
   };
+  handleRelationshipScoreAnimationStart = () => {
+    console.log('\n\n -- start');
+  };
+  handleRelationshipScoreAnimationEnd = () => {
+    console.log('\n\n -- end');
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = { fakeScore: 6 };
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({ fakeScore: 30 });
+    }, 2000);
+  }
 
   render() {
     const {
@@ -54,6 +72,8 @@ export default class DashboardTopNav extends Component {
       handleScoreClick,
       handleInitialsClick,
       handleRelationshipScoreClick,
+      handleRelationshipScoreAnimationStart,
+      handleRelationshipScoreAnimationEnd,
     } = this;
     const isPushdownVisible =
       (_.isNumber(unviewedCoinCount) && unviewedCoinCount > 0) ||
@@ -119,7 +139,11 @@ export default class DashboardTopNav extends Component {
                   style={styles.scoreTitleText}>
                   Relationship Score
                 </Text>
-                <Text style={styles.scoreText}>{relationshipScore}%</Text>
+                <DashboardTopNavScoreText
+                  relationshipScore={this.state.fakeScore}
+                  onScoreAnimationStart={handleRelationshipScoreAnimationStart}
+                  onScoreAnimationEnd={handleRelationshipScoreAnimationEnd}
+                />
               </TouchableOpacity>
             )}
             {_.isString(userFirstName) && userFirstName.length > 1 ? (
