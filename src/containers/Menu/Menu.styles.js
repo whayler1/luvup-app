@@ -3,6 +3,10 @@ import { StyleSheet } from 'react-native';
 import { vars } from '../../styles';
 
 export default StyleSheet.create({
+  topNav: {
+    paddingTop: vars.gutterHalf,
+    zIndex: 20,
+  },
   group: {
     marginTop: 32,
   },
@@ -21,5 +25,15 @@ export default StyleSheet.create({
     fontSize: 20,
     color: vars.blueGrey500,
     marginTop: 4,
+  },
+  scrollView: {
+    alignSelf: 'stretch',
+    paddingVertical: vars.gutter,
+    paddingHorizontal: vars.gutter,
+    flex: 1,
+  },
+  scrollViewContentContainer: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });

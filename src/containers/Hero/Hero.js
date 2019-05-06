@@ -169,15 +169,10 @@ class Hero extends Component {
         if (dy < -swipeThreshold) {
           this.sendCoin();
         } else if (dy > swipeThreshold) {
-          // this.setState({
-          //   recentlySentJalapenoCount: this.state.recentlySentJalapenoCount + 1
-          // }, this.sendJalapeno);
           this.sendJalapeno();
         }
 
         this.setDragDirection(0);
-        // The user has released all touches while this view is the
-        // responder. This typically means a gesture has succeeded
       },
       onPanResponderTerminate: () => {
         // Another component has become the responder, so this gesture

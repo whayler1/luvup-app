@@ -22,19 +22,21 @@ export const sendCoin = () => async dispatch => {
     const res = await superagent.post(config.graphQlUrl, {
       query: `mutation {
         sendCoin {
-          coin {
-            id createdAt
-          }
+          coin { id createdAt }
+          relationshipScore { score }
         }
       }`,
     });
 
     const sendCoin = _.get(res, 'body.data.sendCoin');
+    // const relationshipScore = _.get(res, 'body.data.relationshipScore');
+    // console.log('relationshipScore', relationshipScore);
 
-    if (_.isObject(sendCoin)) {
+    if (_.isObject(sendCoin) && _.isObject(sendCoin.relationshipScore)) {
       dispatch({
         type: SEND_COIN_SUCCESS,
         coin: sendCoin.coin,
+        relationshipScore: sendCoin.relationshipScore,
       });
     }
 
@@ -89,11 +91,11 @@ export const getSentCoins = (limit, offset) => async dispatch => {
 
     const sentCoins = _.at(res, 'body.data.sentCoins')[0];
 
-    if (_.isObject(coinCount)) {
+    if (_.isObject(sentCoins)) {
       dispatch({
         type: GET_SENT_COINS,
-        rows: coinCount.rows,
-        count: coinCount.count,
+        rows: sentCoins.rows,
+        count: sentCoins.count,
       });
     }
 

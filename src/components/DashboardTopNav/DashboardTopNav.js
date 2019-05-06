@@ -38,23 +38,15 @@ export default class DashboardTopNav extends Component {
     Actions.timelineRelationshipScore();
   };
   handleRelationshipScoreAnimationStart = () => {
-    console.log('\n\n -- start');
     this.setState({ isDuringScoreAnimation: true });
   };
   handleRelationshipScoreAnimationEnd = () => {
-    console.log('\n\n -- end');
     this.setState({ isDuringScoreAnimation: false });
   };
 
   constructor(props) {
     super(props);
-    this.state = { fakeScore: 6, isDuringScoreAnimation: false };
-  }
-
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({ fakeScore: 30 });
-    }, 2000);
+    this.state = { isDuringScoreAnimation: false };
   }
 
   render() {
@@ -144,7 +136,7 @@ export default class DashboardTopNav extends Component {
                   Relationship Score
                 </Text>
                 <DashboardTopNavScoreText
-                  relationshipScore={this.state.fakeScore}
+                  relationshipScore={relationshipScore}
                   onScoreAnimationStart={handleRelationshipScoreAnimationStart}
                   onScoreAnimationEnd={handleRelationshipScoreAnimationEnd}
                 />

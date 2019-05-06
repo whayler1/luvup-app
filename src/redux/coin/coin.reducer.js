@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import {
   REFRESH_SENT_COIN_COUNT,
   SEND_COIN_ATTEMPT,

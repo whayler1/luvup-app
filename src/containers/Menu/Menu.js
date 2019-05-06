@@ -3,7 +3,7 @@ import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
 import _ from 'lodash';
@@ -12,6 +12,7 @@ import analytics from '../../services/analytics';
 import { scene, forms, modal, vars } from '../../styles';
 import styles from './Menu.styles';
 import ModalContentWrap from '../../components/ModalContentWrap';
+import HeartArt from '../../components/Art/HeartArt';
 import Button, { BUTTON_STYLES } from '../../components/Button';
 import ChangePasswordModalContent from '../ChangePasswordModalContent';
 import { logout as logoutAction } from '../../redux/user/user.actions';
@@ -126,27 +127,16 @@ class Menu extends PureComponent {
     return (
       <SafeAreaView forceInset={{ bottom: 'never' }} style={scene.safeAreaView}>
         <View style={scene.container}>
-          <View style={[scene.topNav, { paddingTop: vars.gutterHalf }]}>
+          <View style={[scene.topNav, styles.topNav]}>
             <View style={scene.topNavContent}>
               <TouchableOpacity onPress={goBack}>
-                <Image
-                  source={require('../../images/heart.png')}
-                  style={{
-                    width: 32,
-                    height: 30,
-                  }}
-                />
+                <HeartArt scale={0.037} fill={vars.blueGrey500} />
               </TouchableOpacity>
             </View>
           </View>
           <ScrollView
-            style={{
-              alignSelf: 'stretch',
-              justifyContent: 'center',
-              paddingVertical: vars.gutter,
-              paddingHorizontal: vars.gutter,
-              flex: 1,
-            }}>
+            style={styles.scrollView}
+            contentContainerStyle={styles.scrollViewContentContainer}>
             <View>
               <Text style={styles.title}>Profile</Text>
               <Text style={styles.label}>Name</Text>

@@ -15,6 +15,7 @@ import {
   GET_ME_SUCCESS,
   GET_TIMELINE_DATA_SUCCESS,
 } from '../user/user.actions';
+import { SEND_COIN_SUCCESS } from '../coin/coin.actions';
 
 const defaultState = {
   id: '',
@@ -38,13 +39,15 @@ const defaultState = {
   count: undefined,
 };
 
+const getScoreQuartile = score => Math.min(Math.floor(score * 0.04), 3);
+
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
     case CREATE_RELATIONSHIP_SCORE:
       return {
         ...state,
         ..._.pick(action, ['id', 'createdAt', 'score']),
-        scoreQuartile: Math.min(Math.floor(action.score * 0.04), 3),
+        scoreQuartile: getScoreQuartile(action.score),
       };
     case GET_RELATIONSHIP_SCORE_ATTEMPT:
       return {
@@ -124,6 +127,14 @@ export default function reducer(state = defaultState, action) {
         ...state,
         score: _.get(action, 'relationshipScores.rows[0].score'),
       };
+    case SEND_COIN_SUCCESS: {
+      const { score } = action.relationshipScore;
+      return {
+        ...state,
+        score,
+        scoreQuartile: getScoreQuartile(score),
+      };
+    }
     default:
       return state;
   }
