@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import {
   REFRESH_SENT_JALAPENO_COUNT,
   SEND_JALAPENO_ATTEMPT,

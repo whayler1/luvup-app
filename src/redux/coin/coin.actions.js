@@ -29,8 +29,6 @@ export const sendCoin = () => async dispatch => {
     });
 
     const sendCoin = _.get(res, 'body.data.sendCoin');
-    // const relationshipScore = _.get(res, 'body.data.relationshipScore');
-    // console.log('relationshipScore', relationshipScore);
 
     if (_.isObject(sendCoin) && _.isObject(sendCoin.relationshipScore)) {
       dispatch({

@@ -16,6 +16,7 @@ import {
   GET_TIMELINE_DATA_SUCCESS,
 } from '../user/user.actions';
 import { SEND_COIN_SUCCESS } from '../coin/coin.actions';
+import { SEND_JALAPENO_SUCCESS } from '../jalapeno/jalapeno.actions';
 
 const defaultState = {
   id: '',
@@ -127,7 +128,8 @@ export default function reducer(state = defaultState, action) {
         ...state,
         score: _.get(action, 'relationshipScores.rows[0].score'),
       };
-    case SEND_COIN_SUCCESS: {
+    case SEND_COIN_SUCCESS:
+    case SEND_JALAPENO_SUCCESS: {
       const { score } = action.relationshipScore;
       return {
         ...state,

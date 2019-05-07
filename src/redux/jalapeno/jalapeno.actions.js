@@ -27,16 +27,22 @@ export const sendJalapeno = () => async dispatch => {
           jalapeno {
             id isExpired createdAt
           }
+          relationshipScore { score }
         }
       }`,
     });
 
-    const sendJalapeno = _.at(res, 'body.data.sendJalapeno')[0];
+    const { jalapeno, relationshipScore } = _.get(
+      res,
+      'body.data.sendJalapeno',
+      {}
+    );
 
-    if (_.isObject(sendJalapeno)) {
+    if (_.isObject(jalapeno) && _.isObject(relationshipScore)) {
       dispatch({
         type: SEND_JALAPENO_SUCCESS,
-        jalapeno: sendJalapeno.jalapeno,
+        jalapeno,
+        relationshipScore,
       });
     }
 
