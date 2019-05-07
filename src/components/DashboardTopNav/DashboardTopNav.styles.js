@@ -67,6 +67,17 @@ const styles = StyleSheet.create({
     left: -2,
     top: -3,
   },
+  scoreUpContainer: {
+    position: 'absolute',
+    top: -50,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
+    overflow: 'hidden',
+  },
+  scoreUpBubble: {},
 });
 
 export default styles;

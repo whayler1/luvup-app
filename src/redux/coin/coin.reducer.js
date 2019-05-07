@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import {
   REFRESH_SENT_COIN_COUNT,
   SEND_COIN_ATTEMPT,
@@ -21,6 +20,12 @@ const defaultState = {
   unviewedCoinCount: 0,
 };
 
+const generateFakeCoinWithId = id => ({
+  id,
+  createdAt: new Date().toString(),
+  isUsed: false,
+});
+
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
     case REFRESH_SENT_COIN_COUNT:
@@ -31,10 +36,17 @@ export default function reducer(state = defaultState, action) {
     case SEND_COIN_ATTEMPT:
       return {
         ...state,
+        sentCoins: [
+          generateFakeCoinWithId(action.placeholderCoinId),
+          ...state.sentCoins,
+        ],
         recentlySentCoinCount: getRecentlySentTokenCount(state.sentCoins) + 1,
       };
     case SEND_COIN_SUCCESS: {
-      const sentCoins = [action.coin, ...state.sentCoins];
+      const sentCoins = [
+        action.coin,
+        ...state.sentCoins.filter(coin => coin.id !== action.placeholderCoinId),
+      ];
       return {
         ...state,
         sentCoins,

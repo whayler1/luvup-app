@@ -1,10 +1,12 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { BlurView } from 'expo';
 import _ from 'lodash';
 
+import DashboardTopNavScoreUpAnimation from './DashboardTopNavScoreUpAnimation';
+import DashboardTopNavScoreText from './DashboardTopNavScoreText';
 import Pushdown from '../../components/Pushdown';
 import NotificationDot from '../../components/NotificationDot';
 import CoinArt from '../../components/CoinArt';
@@ -35,6 +37,19 @@ export default class DashboardTopNav extends Component {
   handleRelationshipScoreClick = () => {
     Actions.timelineRelationshipScore();
   };
+  handleRelationshipScoreAnimationStart = ({ isScoreRising }) => {
+    if (isScoreRising) {
+      this.setState({ isDuringScoreAnimation: true });
+    }
+  };
+  handleRelationshipScoreAnimationEnd = () => {
+    this.setState({ isDuringScoreAnimation: false });
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = { isDuringScoreAnimation: false };
+  }
 
   render() {
     const {
@@ -53,12 +68,17 @@ export default class DashboardTopNav extends Component {
       handleScoreClick,
       handleInitialsClick,
       handleRelationshipScoreClick,
+      handleRelationshipScoreAnimationStart,
+      handleRelationshipScoreAnimationEnd,
     } = this;
     const isPushdownVisible =
       (_.isNumber(unviewedCoinCount) && unviewedCoinCount > 0) ||
       (_.isNumber(unviewedJalapenoCount) && unviewedJalapenoCount > 0);
     return (
       <View>
+        <DashboardTopNavScoreUpAnimation
+          isDuringAnimation={this.state.isDuringScoreAnimation}
+        />
         <BlurView
           tint={vars.blurViewTint}
           intensity={vars.blurViewIntensity}
@@ -117,7 +137,11 @@ export default class DashboardTopNav extends Component {
                   style={styles.scoreTitleText}>
                   Relationship Score
                 </Text>
-                <Text style={styles.scoreText}>{relationshipScore}%</Text>
+                <DashboardTopNavScoreText
+                  relationshipScore={relationshipScore}
+                  onScoreAnimationStart={handleRelationshipScoreAnimationStart}
+                  onScoreAnimationEnd={handleRelationshipScoreAnimationEnd}
+                />
               </TouchableOpacity>
             )}
             {_.isString(userFirstName) && userFirstName.length > 1 ? (

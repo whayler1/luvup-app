@@ -80,7 +80,6 @@ class Hero extends Component {
     };
 
     this.panResponder = PanResponder.create({
-      // Ask to be the responder:
       onStartShouldSetPanResponder: () => true,
       onStartShouldSetPanResponderCapture: () => true,
       onMoveShouldSetPanResponder: () => true,
@@ -90,10 +89,6 @@ class Hero extends Component {
         this.scaleBGHeart.setValue(1);
         this.springScaleTouch();
         this.showDirections();
-        // The gesture has started. Show visual feedback so the user knows
-        // what is happening!
-
-        // gestureState.d{x,y} will be set to zero now
       },
       onPanResponderMove: (evt, gestureState) => {
         const max = 80;
@@ -137,11 +132,6 @@ class Hero extends Component {
         } else {
           this.setDragDirection(0);
         }
-
-        // The most recent move distance is gestureState.move{X,Y}
-
-        // The accumulated gesture distance since becoming responder is
-        // gestureState.d{x,y}
       },
       onPanResponderTerminationRequest: () => true,
       onPanResponderRelease: (evt, gestureState) => {
@@ -169,19 +159,10 @@ class Hero extends Component {
         if (dy < -swipeThreshold) {
           this.sendCoin();
         } else if (dy > swipeThreshold) {
-          // this.setState({
-          //   recentlySentJalapenoCount: this.state.recentlySentJalapenoCount + 1
-          // }, this.sendJalapeno);
           this.sendJalapeno();
         }
 
         this.setDragDirection(0);
-        // The user has released all touches while this view is the
-        // responder. This typically means a gesture has succeeded
-      },
-      onPanResponderTerminate: () => {
-        // Another component has become the responder, so this gesture
-        // should be cancelled
       },
     });
   }
@@ -507,20 +488,6 @@ class Hero extends Component {
   setDragDirection = dragDirection =>
     this.state.dragDirection !== dragDirection &&
     this.setState({ dragDirection });
-
-  setRecentlySentCount = (collection, keyStr) => {
-    const anHrAgo = moment().subtract(1, 'hour');
-    let count = 0;
-
-    for (let i = 0; i < collection.length; i++) {
-      if (moment(new Date(collection[i].createdAt)).isAfter(anHrAgo)) {
-        count++;
-      } else {
-        break;
-      }
-    }
-    this.setState({ [keyStr]: count });
-  };
 
   componentDidMount() {
     this.props.createRelationshipScore();

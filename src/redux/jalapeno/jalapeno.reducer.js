@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import {
   REFRESH_SENT_JALAPENO_COUNT,
   SEND_JALAPENO_ATTEMPT,
@@ -12,6 +11,12 @@ import {
 import { CREATE_LOVE_NOTE_SUCCESS } from '../loveNote/loveNote.actions';
 import { GET_TIMELINE_DATA_SUCCESS } from '../user/user.actions';
 import getRecentlySentTokenCount from '../../helpers/getRecentlySentTokenCount';
+
+const generateFakeJalapenoWithId = id => ({
+  id,
+  createdAt: new Date().toString(),
+  isExpired: false,
+});
 
 const defaultState = {
   recentlySentJalapenoCount: 0,
@@ -33,11 +38,20 @@ export default function reducer(state = defaultState, action) {
     case SEND_JALAPENO_ATTEMPT:
       return {
         ...state,
+        sentJalapenos: [
+          generateFakeJalapenoWithId(action.placeholderJalapenoId),
+          ...state.sentJalapenos,
+        ],
         recentlySentJalapenoCount:
           getRecentlySentTokenCount(state.sentJalapenos) + 1,
       };
     case SEND_JALAPENO_SUCCESS: {
-      const sentJalapenos = [action.jalapeno, ...state.sentJalapenos];
+      const sentJalapenos = [
+        action.jalapeno,
+        ...state.sentJalapenos.filter(
+          jalapeno => jalapeno.id !== action.generateFakeJalapenoWithId
+        ),
+      ];
       return {
         ...state,
         sentJalapenos,
