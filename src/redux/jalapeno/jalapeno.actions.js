@@ -1,5 +1,6 @@
 import superagent from 'superagent';
 import _ from 'lodash';
+import uuid from 'uuid/v1';
 
 import config from '../../config';
 
@@ -19,7 +20,9 @@ export const refreshSentJalapenoCount = () => ({
 });
 
 export const sendJalapeno = () => async dispatch => {
-  dispatch({ type: SEND_JALAPENO_ATTEMPT });
+  const placeholderJalapenoId = uuid();
+  dispatch({ type: SEND_JALAPENO_ATTEMPT, placeholderJalapenoId });
+
   try {
     const res = await superagent.post(config.graphQlUrl, {
       query: `mutation {
@@ -43,6 +46,7 @@ export const sendJalapeno = () => async dispatch => {
         type: SEND_JALAPENO_SUCCESS,
         jalapeno,
         relationshipScore,
+        placeholderJalapenoId,
       });
     }
 

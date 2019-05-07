@@ -1,5 +1,6 @@
 import superagent from 'superagent';
 import _ from 'lodash';
+import uuid from 'uuid/v1';
 
 import config from '../../config';
 
@@ -16,7 +17,11 @@ export const SET_UNVIEWED_COIN_COUNT = 'coin/set-unviewed-coin-count';
 export const refreshSentCoinCount = () => ({ type: REFRESH_SENT_COIN_COUNT });
 
 export const sendCoin = () => async dispatch => {
-  dispatch({ type: SEND_COIN_ATTEMPT });
+  const placeholderCoinId = uuid();
+  dispatch({
+    type: SEND_COIN_ATTEMPT,
+    placeholderCoinId,
+  });
 
   try {
     const res = await superagent.post(config.graphQlUrl, {
@@ -35,6 +40,7 @@ export const sendCoin = () => async dispatch => {
         type: SEND_COIN_SUCCESS,
         coin: sendCoin.coin,
         relationshipScore: sendCoin.relationshipScore,
+        placeholderCoinId,
       });
     }
 
