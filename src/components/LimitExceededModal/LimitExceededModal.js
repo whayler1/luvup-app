@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Modal } from 'react-native';
 
-import { modal } from '../../styles';
+import { modal, scene } from '../../styles';
 import CoinArt from '../../components/CoinArt';
 import JalapenoArt from '../../components/JalapenoArt';
 import Button from '../../components/Button';
@@ -26,10 +26,16 @@ const LimitExceededModal = ({
       <View style={modal.innerContainer}>
         <View>
           {modalContent === 'coin' && (
-            <CoinArt recentlySentCoinCount={config.maxItemsPerHour} />
+            <CoinArt
+              scale={0.8}
+              recentlySentCoinCount={config.maxItemsPerHour}
+            />
           )}
           {modalContent === 'jalapeno' && (
-            <JalapenoArt recentlySentJalapenoCount={config.maxItemsPerHour} />
+            <JalapenoArt
+              scale={0.7}
+              recentlySentJalapenoCount={config.maxItemsPerHour}
+            />
           )}
         </View>
         <View
@@ -37,19 +43,26 @@ const LimitExceededModal = ({
             marginTop: 16,
             alignItems: 'center',
           }}>
-          <Text style={modal.title}>
+          <Text style={[scene.titleCopy, scene.textCenter]}>
             {modalContent === 'coin' && 'Hourly Luvup\nLimit Exceeded'}
             {modalContent === 'jalapeno' && 'Hourly Jalapeño\nLimit Exceeded'}
           </Text>
-          <Text style={modal.copy}>
+          <Text style={[scene.largeCopy, scene.textCenter, scene.gutterTop]}>
+            {modalContent === 'coin' &&
+              (coinCopy || `Wow! ${loverFirstName} must be on fire right now.`)}
+            {modalContent === 'jalapeno' &&
+              (jalapenoCopy ||
+                `Looks like things are getting spicy with ${loverFirstName} right now.`)}
+          </Text>
+          <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
             {modalContent === 'coin' &&
               (coinCopy ||
-                `Wow! ${loverFirstName} must be on fire right now. You've sent the max hourly limit of ${
+                `You've sent the max hourly limit of ${
                   config.maxItemsPerHour
                 } luvups. You'll have the opportunity to send another luvup ${coinsAvailableTime}.`)}
             {modalContent === 'jalapeno' &&
               (jalapenoCopy ||
-                `Looks like things are getting spicy with ${loverFirstName} right now. You've sent the max hourly limit of ${
+                `You've sent the max hourly limit of ${
                   config.maxItemsPerHour
                 } jalapeños. You'll have the oportunity to send another jalapeño ${jalapenosAvailableTime}.`)}
           </Text>
