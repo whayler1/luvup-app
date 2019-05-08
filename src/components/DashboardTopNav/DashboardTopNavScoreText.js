@@ -38,7 +38,8 @@ class DashboardTopNavScoreText extends PureComponent {
         props: { onScoreAnimationStart, onScoreAnimationEnd },
       } = this;
       const isScoreRising =
-        prevProps.relationshipScore < this.props.relationshipScore;
+        prevState.relationshipScoreDisplay <
+        this.state.relationshipScoreDisplay;
       if (this.state.isAnimating) {
         onScoreAnimationStart({ isScoreRising });
       } else {

@@ -38,9 +38,9 @@ export default class DashboardTopNav extends Component {
     Actions.timelineRelationshipScore();
   };
   handleRelationshipScoreAnimationStart = ({ isScoreRising }) => {
-    // if (isScoreRising) {
-    this.setState({ isDuringScoreAnimation: true });
-    // }
+    if (isScoreRising) {
+      this.setState({ isDuringScoreAnimation: true });
+    }
   };
   handleRelationshipScoreAnimationEnd = () => {
     this.setState({ isDuringScoreAnimation: false });
