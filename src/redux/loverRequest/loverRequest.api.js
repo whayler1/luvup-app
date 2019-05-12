@@ -6,9 +6,17 @@ const loverRequestApi = {
     const params = {
       query: `mutation {
       requestLover(recipientId: "${recipientId}") {
-        id isAccepted isSenderCanceled isRecipientCanceled createdAt
-        recipient {
-          username firstName lastName
+        loverRequest {
+          id isAccepted isSenderCanceled isRecipientCanceled createdAt
+          recipient {
+            username firstName lastName
+          }
+        }
+        relationship {
+          id createdAt updatedAt
+          lovers {
+            id username email firstName lastName
+          }
         }
       }
     }`,

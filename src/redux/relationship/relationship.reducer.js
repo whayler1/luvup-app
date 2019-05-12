@@ -4,6 +4,7 @@ import {
   END_RELATIONSHIP,
   CLEAR_RELATIONSHIP,
 } from './relationship.actions';
+import { REQUEST_LOVER_SUCCESS } from '../loverRequest/loverRequest.actions';
 import { ACCEPT_LOVER_REQUEST_SUCCESS } from '../receivedLoverRequests/receivedLoverRequests.actions';
 
 const defaultState = {
@@ -26,6 +27,7 @@ export default function reducer(state = defaultState, action) {
     case CLEAR_RELATIONSHIP:
       return { ...defaultState };
     case ACCEPT_LOVER_REQUEST_SUCCESS:
+    case REQUEST_LOVER_SUCCESS:
       return {
         ...state,
         id: action.relationship.id,

@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import {
-  REQUEST_LOVER,
+  REQUEST_LOVER_SUCCESS,
   SET_LOVER_REQUEST,
   RESEND_LOVER_REQUEST_EMAIL_ATTEMPT,
   RESEND_LOVER_REQUEST_EMAIL_SUCCESS,
@@ -32,7 +32,20 @@ const defaultState = {
 
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
-    case REQUEST_LOVER:
+    case REQUEST_LOVER_SUCCESS:
+      return {
+        ...state,
+        ..._.pick(action.loverRequest, [
+          'id',
+          'isAccepted',
+          'isSenderCanceled',
+          'isRecipientCanceled',
+          'createdAt',
+          'username',
+          'firstName',
+          'lastName',
+        ]),
+      };
     case SET_LOVER_REQUEST:
       return {
         ...state,

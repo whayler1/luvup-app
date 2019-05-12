@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import loverRequestApi from './loverRequest.api';
 
-export const REQUEST_LOVER = 'lover-request/request-lover';
+export const REQUEST_LOVER_SUCCESS = 'lover-request/request-lover-success';
 export const SET_LOVER_REQUEST = 'lover-request/set-lover-request';
 export const CANCEL_LOVER_REQUEST_ATTEMPT =
   'lover-request/cancel-lover-request-attempt';
@@ -23,19 +23,8 @@ export const requestLover = recipientId => async dispatch => {
     const res = await loverRequestApi.requestLover(recipientId);
 
     dispatch({
-      type: REQUEST_LOVER,
-      ..._.pick(res.body.data.requestLover, [
-        'id',
-        'isAccepted',
-        'isSenderCanceled',
-        'isRecipientCanceled',
-        'createdAt',
-      ]),
-      ..._.pick(res.body.data.requestLover.recipient, [
-        'username',
-        'firstName',
-        'lastName',
-      ]),
+      type: REQUEST_LOVER_SUCCESS,
+      ...res.body.data.requestLover,
     });
 
     return res;

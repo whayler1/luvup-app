@@ -123,6 +123,7 @@ class Button extends PureComponent {
             <View style={buttons.inFlightContainer}>
               {_.times(3, n => (
                 <ButtonInFlightBubble
+                  key={n}
                   fill={inFlightFill}
                   delayAnimationStart={n * 250}
                 />
