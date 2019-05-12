@@ -15,6 +15,7 @@ import ModalContentWrap from '../../components/ModalContentWrap';
 import HeartArt from '../../components/Art/HeartArt';
 import Well, { WELL_TYPES } from '../../components/Well';
 import Button, { BUTTON_STYLES } from '../../components/Button';
+import MenuLink, { LINK_TYPE } from './MenuLink';
 import ChangePasswordModalContent from '../ChangePasswordModalContent';
 import { logout as logoutAction } from '../../redux/user/user.actions';
 import { endRelationship as endRelationshipAction } from '../../redux/relationship/relationship.actions';
@@ -149,22 +150,11 @@ class Menu extends PureComponent {
               <Text style={styles.label}>Email</Text>
               <Text style={styles.value}>{userEmail}</Text>
               <Text style={styles.label}>Options</Text>
-              <TouchableOpacity
+              <MenuLink
                 onPress={onChangePasswordClick}
-                style={{
-                  flexDirection: 'row',
-                  marginTop: 8,
-                  justifyContent: 'space-between',
-                }}>
-                <Text
-                  style={{
-                    color: vars.link,
-                    fontSize: 20,
-                  }}>
-                  Change Password
-                </Text>
-                <Ionicons name="md-unlock" size={22} color={vars.link} />
-              </TouchableOpacity>
+                iconName="md-unlock"
+                text="Change Password"
+              />
               {/* <TouchableOpacity
                 style={{
                   flexDirection: 'row',
@@ -200,38 +190,13 @@ class Menu extends PureComponent {
                   </Text>
                   <Text style={styles.label}>Options</Text>
                   {loverIsPlaceholder && (
-                    <TouchableOpacity
-                      style={{
-                        flexDirection: 'row',
-                        marginTop: 8,
-                        justifyContent: 'space-between',
-                      }}>
-                      <Text
-                        style={{
-                          color: vars.link,
-                          fontSize: 20,
-                        }}>
-                        Resend Lover Request
-                      </Text>
-                      <Ionicons name="md-send" size={22} color={vars.link} />
-                    </TouchableOpacity>
+                    <MenuLink iconName="md-send" text="Resend Lover Request" />
                   )}
-                  <TouchableOpacity
-                    onPress={openEndRelationshipModal}
-                    style={{
-                      flexDirection: 'row',
-                      marginTop: 8,
-                      justifyContent: 'space-between',
-                    }}>
-                    <Text
-                      style={{
-                        color: vars.danger,
-                        fontSize: 20,
-                      }}>
-                      End Relationship
-                    </Text>
-                    <Ionicons name="md-alert" size={22} color={vars.danger} />
-                  </TouchableOpacity>
+                  <MenuLink
+                    linkType={LINK_TYPE.DANGER}
+                    iconName="md-alert"
+                    text="End Relationship"
+                  />
                 </Fragment>
               )}
               {_.isString(loverId) &&
