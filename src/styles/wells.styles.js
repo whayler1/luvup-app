@@ -9,6 +9,11 @@ const container = {
   borderLeftWidth: 3,
   marginVertical: 8,
 };
+const info = {
+  ...container,
+  backgroundColor: Color(vars.info).lighten(0.99),
+  borderLeftColor: vars.info,
+};
 const error = {
   ...container,
   backgroundColor: Color(vars.danger).lighten(0.65),
@@ -26,12 +31,18 @@ const errorText = {
   ...text,
   color: vars.danger,
 };
+const infoText = {
+  ...text,
+  color: vars.info,
+};
 const successText = {
   ...text,
   color: vars.success,
 };
 
 export default StyleSheet.create({
+  info,
+  infoText,
   error,
   errorText,
   success,

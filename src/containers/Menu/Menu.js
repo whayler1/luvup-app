@@ -13,6 +13,7 @@ import { scene, forms, modal, vars } from '../../styles';
 import styles from './Menu.styles';
 import ModalContentWrap from '../../components/ModalContentWrap';
 import HeartArt from '../../components/Art/HeartArt';
+import Well, { WELL_TYPES } from '../../components/Well';
 import Button, { BUTTON_STYLES } from '../../components/Button';
 import ChangePasswordModalContent from '../ChangePasswordModalContent';
 import { logout as logoutAction } from '../../redux/user/user.actions';
@@ -189,7 +190,6 @@ class Menu extends PureComponent {
               <Text style={scene.titleCopy}>Relationship</Text>
               {_.isString(loverId) && loverId.length > 0 && (
                 <Fragment>
-                  {loverIsPlaceholder && <Text>placeholder lover</Text>}
                   <Text style={styles.label}>Lover</Text>
                   <Text style={styles.value}>
                     {loverFirstName} {loverLastName}
@@ -199,6 +199,23 @@ class Menu extends PureComponent {
                     {relationshipCreatedAtFormatted}
                   </Text>
                   <Text style={styles.label}>Options</Text>
+                  {loverIsPlaceholder && (
+                    <TouchableOpacity
+                      style={{
+                        flexDirection: 'row',
+                        marginTop: 8,
+                        justifyContent: 'space-between',
+                      }}>
+                      <Text
+                        style={{
+                          color: vars.link,
+                          fontSize: 20,
+                        }}>
+                        Resend Lover Request
+                      </Text>
+                      <Ionicons name="md-send" size={22} color={vars.link} />
+                    </TouchableOpacity>
+                  )}
                   <TouchableOpacity
                     onPress={openEndRelationshipModal}
                     style={{
@@ -265,6 +282,13 @@ class Menu extends PureComponent {
                     </TouchableOpacity>
                   </Fragment>
                 )}
+              {loverIsPlaceholder && (
+                <Well
+                  type={WELL_TYPES.INFO}
+                  styles={{ marginTop: vars.gutterAndHalf }}
+                  text={`${loverFirstName} has not accepted your lover request yet. We'll let you know when ${loverFirstName} accepts! Until then you can continue to use Luvup as normal.`}
+                />
+              )}
             </View>
             <View
               style={{
