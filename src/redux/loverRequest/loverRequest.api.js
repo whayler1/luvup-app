@@ -15,7 +15,7 @@ const loverRequestApi = {
         relationship {
           id createdAt updatedAt
           lovers {
-            id username email firstName lastName
+            id username email firstName lastName isPlaceholder
           }
         }
       }

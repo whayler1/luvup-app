@@ -182,7 +182,13 @@ export const getMe = () => async dispatch => {
 
       if (lover) {
         dispatch(
-          setLover(lover.id, lover.username, lover.firstName, lover.lastName)
+          setLover(
+            lover.id,
+            lover.username,
+            lover.firstName,
+            lover.lastName,
+            lover.isPlaceholder
+          )
         );
       }
     }

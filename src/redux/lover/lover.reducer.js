@@ -8,10 +8,17 @@ const defaultState = {
   username: '',
   firstName: '',
   lastName: '',
+  isPlaceholder: false,
   relationshipScore: 0,
 };
 
-const loverProperties = ['id', 'username', 'firstName', 'lastName'];
+const loverProperties = [
+  'id',
+  'username',
+  'firstName',
+  'lastName',
+  'isPlaceholder',
+];
 
 const getRequestLoverSuccessLoverData = action => {
   const [lover] = _.get(action, 'relationship.lovers');
@@ -31,13 +38,7 @@ export default function reducer(state = defaultState, action) {
         ...getRequestLoverSuccessLoverData(action),
       };
     case CLEAR_LOVER:
-      return {
-        ...state,
-        id: '',
-        username: '',
-        firstName: '',
-        lastName: '',
-      };
+      return { ...defaultState };
     case GET_TIMELINE_DATA_SUCCESS:
       return {
         ...state,

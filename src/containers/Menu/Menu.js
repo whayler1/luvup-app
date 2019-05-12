@@ -41,6 +41,7 @@ class Menu extends PureComponent {
     loverFirstName: PropTypes.string,
     loverLastName: PropTypes.string,
     loverId: PropTypes.string,
+    loverIsPlaceholder: PropTypes.bool,
     relationshipCreatedAt: PropTypes.string,
     logout: PropTypes.func.isRequired,
     endRelationship: PropTypes.func.isRequired,
@@ -108,6 +109,7 @@ class Menu extends PureComponent {
         loverLastName,
         loverId,
         loverRequestId,
+        loverIsPlaceholder,
       },
       state: {
         relationshipCreatedAtFormatted,
@@ -138,7 +140,7 @@ class Menu extends PureComponent {
             style={styles.scrollView}
             contentContainerStyle={styles.scrollViewContentContainer}>
             <View>
-              <Text style={styles.title}>Profile</Text>
+              <Text style={scene.titleCopy}>Profile</Text>
               <Text style={styles.label}>Name</Text>
               <Text style={styles.value}>
                 {userFirstName} {userLastName}
@@ -184,9 +186,10 @@ class Menu extends PureComponent {
             </View>
 
             <View style={styles.group}>
-              <Text style={styles.title}>Relationship</Text>
+              <Text style={scene.titleCopy}>Relationship</Text>
               {_.isString(loverId) && loverId.length > 0 && (
                 <Fragment>
+                  {loverIsPlaceholder && <Text>placeholder lover</Text>}
                   <Text style={styles.label}>Lover</Text>
                   <Text style={styles.value}>
                     {loverFirstName} {loverLastName}
@@ -320,6 +323,7 @@ export default connect(
     loverFirstName: state.lover.firstName,
     loverLastName: state.lover.lastName,
     loverId: state.lover.id,
+    loverIsPlaceholder: state.lover.isPlaceholder,
     relationshipCreatedAt: state.relationship.createdAt,
     loverRequestId: state.loverRequest.id,
   }),
