@@ -184,6 +184,7 @@ export const getMe = () => async dispatch => {
         dispatch(
           setLover(
             lover.id,
+            lover.email,
             lover.username,
             lover.firstName,
             lover.lastName,

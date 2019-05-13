@@ -72,8 +72,15 @@ class Menu extends PureComponent {
     Actions.login();
   };
 
-  goToCreateLoverRequest = () => Actions.createloverrequest();
-  goToDashboard = () => Actions.dashboard();
+  goToCreateLoverRequest = () => {
+    Actions.createloverrequest();
+  };
+  goToDashboard = () => {
+    Actions.dashboard();
+  };
+  goToResendLoverRequest = () => {
+    Actions.resendLoverRequest();
+  };
 
   endRelationship = async () => {
     this.setState({ isInFlight: true });
@@ -127,6 +134,7 @@ class Menu extends PureComponent {
       endRelationship,
       goToCreateLoverRequest,
       goToDashboard,
+      goToResendLoverRequest,
     } = this;
     return (
       <SafeAreaView forceInset={{ bottom: 'never' }} style={scene.safeAreaView}>
@@ -190,9 +198,14 @@ class Menu extends PureComponent {
                   </Text>
                   <Text style={styles.label}>Options</Text>
                   {loverIsPlaceholder && (
-                    <MenuLink iconName="md-send" text="Resend Lover Request" />
+                    <MenuLink
+                      onPress={goToResendLoverRequest}
+                      iconName="md-send"
+                      text="Resend Lover Request"
+                    />
                   )}
                   <MenuLink
+                    onPress={openEndRelationshipModal}
                     linkType={LINK_TYPE.DANGER}
                     iconName="md-alert"
                     text="End Relationship"

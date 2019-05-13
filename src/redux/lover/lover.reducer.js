@@ -6,6 +6,7 @@ import { REQUEST_LOVER_SUCCESS } from '../loverRequest/loverRequest.actions';
 const defaultState = {
   id: '',
   username: '',
+  email: '',
   firstName: '',
   lastName: '',
   isPlaceholder: false,
@@ -15,6 +16,7 @@ const defaultState = {
 const loverProperties = [
   'id',
   'username',
+  'email',
   'firstName',
   'lastName',
   'isPlaceholder',
