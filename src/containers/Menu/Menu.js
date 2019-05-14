@@ -19,6 +19,7 @@ import MenuLink, { LINK_TYPE } from './MenuLink';
 import ChangePasswordModalContent from '../ChangePasswordModalContent';
 import { logout as logoutAction } from '../../redux/user/user.actions';
 import { endRelationship as endRelationshipAction } from '../../redux/relationship/relationship.actions';
+import { cancelLoverRequest as cancelLoverRequestAction } from '../../redux/loverRequest/loverRequest.actions';
 
 class Menu extends PureComponent {
   constructor(props) {
@@ -48,6 +49,9 @@ class Menu extends PureComponent {
     logout: PropTypes.func.isRequired,
     endRelationship: PropTypes.func.isRequired,
     loverRequestId: PropTypes.string,
+    cancelLoverRequest: PropTypes.func.isRequired,
+    isCancelLoverRequestInFlight: PropTypes.bool.isRequired,
+    cancelLoverRequestError: PropTypes.string.isRequired,
   };
 
   goBack = () => {
@@ -80,6 +84,9 @@ class Menu extends PureComponent {
   };
   goToResendLoverRequest = () => {
     Actions.resendLoverRequest();
+  };
+  handleCancelLoverRequest = () => {
+    this.props.cancelLoverRequest(this.props.loverRequestId);
   };
 
   endRelationship = async () => {
@@ -119,6 +126,8 @@ class Menu extends PureComponent {
         loverId,
         loverRequestId,
         loverIsPlaceholder,
+        isCancelLoverRequestInFlight,
+        cancelLoverRequestError,
       },
       state: {
         relationshipCreatedAtFormatted,
@@ -135,6 +144,7 @@ class Menu extends PureComponent {
       goToCreateLoverRequest,
       goToDashboard,
       goToResendLoverRequest,
+      handleCancelLoverRequest,
     } = this;
     return (
       <SafeAreaView forceInset={{ bottom: 'never' }} style={scene.safeAreaView}>
@@ -203,12 +213,23 @@ class Menu extends PureComponent {
                         onPress={goToResendLoverRequest}
                         iconName="md-send"
                         text="Resend Lover Request"
+                        disabled={isCancelLoverRequestInFlight}
                       />
                       <MenuLink
+                        onPress={handleCancelLoverRequest}
                         linkType={LINK_TYPE.DANGER}
                         iconName="md-alert"
-                        text="Cancel Lover Request"
+                        text={
+                          isCancelLoverRequestInFlight
+                            ? 'Canceling…'
+                            : 'Cancel Lover Request'
+                        }
+                        disabled={isCancelLoverRequestInFlight}
                       />
+                      {_.isString(cancelLoverRequestError) &&
+                        cancelLoverRequestError.length > 0 && (
+                          <Well text={cancelLoverRequestError} />
+                        )}
                       <Well
                         type={WELL_TYPES.INFO}
                         styles={{ marginTop: vars.gutterAndHalf }}
@@ -334,9 +355,13 @@ export default connect(
     loverIsPlaceholder: state.lover.isPlaceholder,
     relationshipCreatedAt: state.relationship.createdAt,
     loverRequestId: state.loverRequest.id,
+    isCancelLoverRequestInFlight:
+      state.loverRequest.isCancelLoverRequestInFlight,
+    cancelLoverRequestError: state.loverRequest.cancelLoverRequestError,
   }),
   {
     logout: logoutAction,
     endRelationship: endRelationshipAction,
+    cancelLoverRequest: cancelLoverRequestAction,
   }
 )(Menu);

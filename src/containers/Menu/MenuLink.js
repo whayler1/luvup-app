@@ -21,8 +21,12 @@ const getTextStyles = linkType => [
   linkType === LINK_TYPE.DANGER && styles.menuLinkTextDanger,
 ];
 
-const MenuLink = ({ linkType, onPress, iconName, text }) => (
-  <TouchableOpacity style={styles.menuLinkContainer} onPress={onPress}>
+const getOnPress = (onPress, disabled) => (disabled ? false : onPress);
+
+const MenuLink = ({ linkType, onPress, iconName, text, disabled }) => (
+  <TouchableOpacity
+    style={styles.menuLinkContainer}
+    onPress={getOnPress(onPress, disabled)}>
     <Text style={getTextStyles(linkType)}>{text}</Text>
     {iconName && (
       <Ionicons name={iconName} size={22} color={LINK_COLORS[linkType]} />
@@ -35,6 +39,7 @@ MenuLink.propTypes = {
   onPress: PropTypes.func,
   iconName: PropTypes.string,
   text: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 MenuLink.defaultProps = {
