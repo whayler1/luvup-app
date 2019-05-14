@@ -2,10 +2,12 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { SafeAreaView, View, Text } from 'react-native';
+import pick from 'lodash/pick';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { scene } from '../../styles';
+import { emailRegex } from '../../helpers';
 import { resendLoverRequestEmail as resendLoverRequestEmailAction } from '../../redux/loverRequest/loverRequest.actions';
 
 class ResendLoverRequest extends PureComponent {
@@ -22,6 +24,8 @@ class ResendLoverRequest extends PureComponent {
     this.state = {
       isSent: false,
       email: props.loverEmail || '',
+      emailError: '',
+      requestError: '',
     };
   }
 
@@ -29,17 +33,42 @@ class ResendLoverRequest extends PureComponent {
     this.setState({ email });
   };
 
-  handleSubmit = () => {
+  validate = async () => {
+    const { email } = this.props;
+    const stateObj = {
+      emailError: '',
+      requestError: '',
+    };
+
+    if (!emailRegex.test(email)) {
+      stateObj.emailError = 'Please provide a valid email';
+    }
+
+    await this.setState(stateObj);
+  };
+
+  isValid = () =>
+    Object.values(pick(this.props, ['emailError', 'requestError'])).every(
+      value => value === ''
+    );
+
+  handleSubmit = async () => {
     const {
       props: { resendLoverRequestEmail, loverRequestId },
+      validate,
+      isValid,
     } = this;
-    resendLoverRequestEmail(loverRequestId);
+    await validate();
+    if (isValid()) {
+      console.log('isValid');
+      resendLoverRequestEmail(loverRequestId);
+    }
   };
 
   render() {
     const {
       props: { loverFirstName },
-      state: { email },
+      state: { email, emailError },
       handleEmailChange,
       handleSubmit,
     } = this;
@@ -58,7 +87,7 @@ class ResendLoverRequest extends PureComponent {
               onChangeText={handleEmailChange}
               value={email}
               placeholder="jane.doe@email.com"
-              error=""
+              error={emailError}
               inputProps={{
                 autoCapitalize: 'none',
                 editable: true,
@@ -80,14 +109,12 @@ class ResendLoverRequest extends PureComponent {
 }
 
 export default connect(
-  state => (
-    {
-      loverEmail: state.lover.email,
-      loverFirstName: state.lover.firstName,
-      loverRequestId: state.loverRequest.id,
-    },
-    {
-      resendLoverRequestEmail: resendLoverRequestEmailAction,
-    }
-  )
+  state => ({
+    loverEmail: state.lover.email,
+    loverFirstName: state.lover.firstName,
+    loverRequestId: state.loverRequest.id,
+  }),
+  {
+    resendLoverRequestEmail: resendLoverRequestEmailAction,
+  }
 )(ResendLoverRequest);

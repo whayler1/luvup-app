@@ -197,19 +197,32 @@ class Menu extends PureComponent {
                     {relationshipCreatedAtFormatted}
                   </Text>
                   <Text style={styles.label}>Options</Text>
-                  {loverIsPlaceholder && (
+                  {loverIsPlaceholder ? (
+                    <Fragment>
+                      <MenuLink
+                        onPress={goToResendLoverRequest}
+                        iconName="md-send"
+                        text="Resend Lover Request"
+                      />
+                      <MenuLink
+                        linkType={LINK_TYPE.DANGER}
+                        iconName="md-alert"
+                        text="Cancel Lover Request"
+                      />
+                      <Well
+                        type={WELL_TYPES.INFO}
+                        styles={{ marginTop: vars.gutterAndHalf }}
+                        text={`${loverFirstName} has not accepted your lover request yet. We'll let you know when ${loverFirstName} accepts!`}
+                      />
+                    </Fragment>
+                  ) : (
                     <MenuLink
-                      onPress={goToResendLoverRequest}
-                      iconName="md-send"
-                      text="Resend Lover Request"
+                      onPress={openEndRelationshipModal}
+                      linkType={LINK_TYPE.DANGER}
+                      iconName="md-alert"
+                      text="End Relationship"
                     />
                   )}
-                  <MenuLink
-                    onPress={openEndRelationshipModal}
-                    linkType={LINK_TYPE.DANGER}
-                    iconName="md-alert"
-                    text="End Relationship"
-                  />
                 </Fragment>
               )}
               {_.isString(loverId) &&
@@ -260,13 +273,6 @@ class Menu extends PureComponent {
                     </TouchableOpacity>
                   </Fragment>
                 )}
-              {loverIsPlaceholder && (
-                <Well
-                  type={WELL_TYPES.INFO}
-                  styles={{ marginTop: vars.gutterAndHalf }}
-                  text={`${loverFirstName} has not accepted your lover request yet. We'll let you know when ${loverFirstName} accepts! Until then you can continue to use Luvup as normal.`}
-                />
-              )}
             </View>
             <View
               style={{
