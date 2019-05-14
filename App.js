@@ -170,7 +170,11 @@ const App = () => (
             />
           </Tabs>
           <Scene key="menu" component={Menu} hideNavBar />
-          <Scene key="resendLoverRequest" component={ResendLoverRequest} />
+          <Scene
+            key="resendLoverRequest"
+            component={ResendLoverRequest}
+            {...sceneDefaults}
+          />
           <Scene
             key="confirmLoverRequest"
             component={ConfirmLoverRequest}
