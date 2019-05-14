@@ -42,11 +42,12 @@ const loverRequestApi = {
       }
     }`,
     }),
-  resendLoverRequestEmail: loverRequestId =>
+  resendLoverRequestEmail: (loverRequestId, email) =>
     superagent.post(config.graphQlUrl, {
       query: `mutation {
       resendLoverRequestEmail (
         loverRequestId: "${loverRequestId}"
+        email: "${email}"
       ) {
         success error
       }

@@ -70,12 +70,13 @@ class ResendLoverRequest extends PureComponent {
   handleSubmit = async () => {
     const {
       props: { resendLoverRequestEmail, loverRequestId },
+      state: { email },
       validate,
       isValid,
     } = this;
     await validate();
     if (isValid()) {
-      resendLoverRequestEmail(loverRequestId);
+      resendLoverRequestEmail(loverRequestId, email);
     }
   };
 

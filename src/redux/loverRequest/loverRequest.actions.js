@@ -62,10 +62,16 @@ export const cancelLoverRequest = () => async (dispatch, getState) => {
   }
 };
 
-export const resendLoverRequestEmail = loverRequestId => async dispatch => {
+export const resendLoverRequestEmail = (
+  loverRequestId,
+  email = ''
+) => async dispatch => {
   dispatch({ type: RESEND_LOVER_REQUEST_EMAIL_ATTEMPT });
   try {
-    const res = await loverRequestApi.resendLoverRequestEmail(loverRequestId);
+    const res = await loverRequestApi.resendLoverRequestEmail(
+      loverRequestId,
+      email
+    );
 
     dispatch({ type: RESEND_LOVER_REQUEST_EMAIL_SUCCESS });
     return res;
