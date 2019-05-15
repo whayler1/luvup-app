@@ -21,7 +21,8 @@ const getTextStyles = linkType => [
   linkType === LINK_TYPE.DANGER && styles.menuLinkTextDanger,
 ];
 
-const getOnPress = (onPress, disabled) => (disabled ? false : onPress);
+/* eslint-disable-next-line no-empty-function */
+const getOnPress = (onPress, disabled) => (disabled ? () => {} : onPress);
 
 const MenuLink = ({ linkType, onPress, iconName, text, disabled }) => (
   <TouchableOpacity

@@ -10,6 +10,12 @@ export const CANCEL_LOVER_REQUEST_SUCCESS =
   'lover-request/cancel-lover-request-success';
 export const CANCEL_LOVER_REQUEST_FAILURE =
   'lover-request/cancel-lover-request-failure';
+export const CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_ATTEMPT =
+  'lover-request/cancel-sent-lover-request-and-relationship-attempt';
+export const CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_SUCCESS =
+  'lover-request/cancel-sent-lover-request-and-relationship-success';
+export const CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_FAILURE =
+  'lover-request/cancel-sent-lover-request-and-relationship-failure';
 export const RESEND_LOVER_REQUEST_EMAIL_ATTEMPT =
   'lover-request/resend-lover-request-email-attempt';
 export const RESEND_LOVER_REQUEST_EMAIL_SUCCESS =
@@ -35,19 +41,28 @@ export const requestLover = recipientId => async dispatch => {
 
 export const cancelLoverRequest = () => async (dispatch, getState) => {
   dispatch({ type: CANCEL_LOVER_REQUEST_ATTEMPT });
+  console.log('\n\n cancelLoverRequest');
   const {
     loverRequest: { id: loverRequestId },
   } = getState();
   try {
     const res = await loverRequestApi.cancelLoverRequest(loverRequestId);
+    console.log('res', res.body.data);
 
     const loverRequest = _.get(
       res,
       'body.data.cancelLoverRequest.loverRequest'
     );
+    const relationshipId = _.get(
+      res,
+      'body.data.cancelLoverRequest.relationship.id'
+    );
 
     if (loverRequest && loverRequest.id) {
-      dispatch({ type: CANCEL_LOVER_REQUEST_SUCCESS });
+      dispatch({
+        type: CANCEL_LOVER_REQUEST_SUCCESS,
+        doesRelationshipExist: _.isString(relationshipId),
+      });
     } else {
       dispatch({
         type: CANCEL_LOVER_REQUEST_FAILURE,
@@ -59,6 +74,40 @@ export const cancelLoverRequest = () => async (dispatch, getState) => {
   } catch (err) {
     dispatch({ type: CANCEL_LOVER_REQUEST_FAILURE, errorMessage: err.message });
     return err;
+  }
+};
+
+export const cancelSentLoverRequestAndRelationship = () => async dispatch => {
+  dispatch({ type: CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_ATTEMPT });
+  try {
+    const res = await loverRequestApi.cancelSentLoverRequestAndRelationship();
+    const { loverRequest, relationship } = _.get(
+      res,
+      'body.data.cancelSentLoverRequestAndRelationship',
+      {}
+    );
+
+    if (_.isPlainObject(loverRequest)) {
+      dispatch({
+        type: CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_SUCCESS,
+        loverRequest,
+        relationship,
+      });
+      return;
+    }
+    dispatch({
+      type: CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_FAILURE,
+      errorMessage: _.get(
+        res,
+        'body.errors[0].message',
+        'Error canceling lover request'
+      ),
+    });
+  } catch (error) {
+    dispatch({
+      type: CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_FAILURE,
+      errorMessage: error.message,
+    });
   }
 };
 

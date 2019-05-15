@@ -4,7 +4,10 @@ import {
   END_RELATIONSHIP,
   CLEAR_RELATIONSHIP,
 } from './relationship.actions';
-import { REQUEST_LOVER_SUCCESS } from '../loverRequest/loverRequest.actions';
+import {
+  REQUEST_LOVER_SUCCESS,
+  CANCEL_LOVER_REQUEST_SUCCESS,
+} from '../loverRequest/loverRequest.actions';
 import { ACCEPT_LOVER_REQUEST_SUCCESS } from '../receivedLoverRequests/receivedLoverRequests.actions';
 
 const defaultState = {
@@ -33,6 +36,12 @@ export default function reducer(state = defaultState, action) {
         id: action.relationship.id,
         createdAt: action.relationship.createdAt,
       };
+    case CANCEL_LOVER_REQUEST_SUCCESS: {
+      if (action.doesRelationshipExist) {
+        return state;
+      }
+      return { ...defaultState };
+    }
     default:
       return state;
   }
