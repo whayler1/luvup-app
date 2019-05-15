@@ -6,7 +6,7 @@ import {
 } from './relationship.actions';
 import {
   REQUEST_LOVER_SUCCESS,
-  CANCEL_LOVER_REQUEST_SUCCESS,
+  CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_ATTEMPT,
 } from '../loverRequest/loverRequest.actions';
 import { ACCEPT_LOVER_REQUEST_SUCCESS } from '../receivedLoverRequests/receivedLoverRequests.actions';
 
@@ -36,11 +36,12 @@ export default function reducer(state = defaultState, action) {
         id: action.relationship.id,
         createdAt: action.relationship.createdAt,
       };
-    case CANCEL_LOVER_REQUEST_SUCCESS: {
-      if (action.doesRelationshipExist) {
-        return state;
+    case CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_ATTEMPT: {
+      const endDate = _.get(action, 'relationship.endDate', '');
+      if (_.isString(endDate) && endDate.length > 0) {
+        return { ...defaultState };
       }
-      return { ...defaultState };
+      return state;
     }
     default:
       return state;

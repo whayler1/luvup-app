@@ -8,6 +8,9 @@ import {
   CANCEL_LOVER_REQUEST_ATTEMPT,
   CANCEL_LOVER_REQUEST_SUCCESS,
   CANCEL_LOVER_REQUEST_FAILURE,
+  CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_ATTEMPT,
+  CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_SUCCESS,
+  CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_FAILURE,
   CLEAR_LOVER_REQUEST,
 } from './loverRequest.actions';
 
@@ -28,6 +31,8 @@ const defaultState = {
   cancelLoverRequestError: '',
   isResendRequestEmailInFlight: false,
   resendLoverRequestEmailError: '',
+  isCancelSentLoverRequestAndRelationshipInFlight: false,
+  cancelSentLoverRequestAndRelationshipError: '',
 };
 
 export default function reducer(state = defaultState, action) {
@@ -94,6 +99,24 @@ export default function reducer(state = defaultState, action) {
         ...state,
         isCancelLoverRequestInFlight: false,
         cancelLoverRequestError: action.errorMessage,
+      };
+    case CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_ATTEMPT:
+      return {
+        ...state,
+        isCancelSentLoverRequestAndRelationshipInFlight: true,
+        cancelSentLoverRequestAndRelationshipError: '',
+      };
+    case CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_SUCCESS:
+      return {
+        ...state,
+        isCancelSentLoverRequestAndRelationshipInFlight: false,
+        ...defaultLoverRequest,
+      };
+    case CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_FAILURE:
+      return {
+        ...state,
+        isCancelSentLoverRequestAndRelationshipInFlight: false,
+        cancelSentLoverRequestAndRelationshipError: action.errorMessage,
       };
     case CLEAR_LOVER_REQUEST:
       return { ...defaultState };
