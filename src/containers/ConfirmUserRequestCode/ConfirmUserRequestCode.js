@@ -188,7 +188,8 @@ class ConfirmUserRequestCode extends Component {
     return (
       <KeyboardAvoidingView style={scene.container} behavior="padding">
         <View style={scene.contentNoTop}>
-          <ScrollView style={[scene.contentTop, styles.scrollView]}>
+          <ScrollView
+            contentContainerStyle={[scene.contentTop, styles.scrollView]}>
             <Text
               testID="confirm-usercode-title"
               style={[scene.titleCopy, scene.textCenter]}>
