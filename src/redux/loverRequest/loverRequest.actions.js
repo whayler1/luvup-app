@@ -2,6 +2,12 @@ import _ from 'lodash';
 
 import loverRequestApi from './loverRequest.api';
 
+export const CREATE_LOVER_REQUEST_AND_RELATIONSHIP_AND_PLACEHOLDER_LOVER_ATTEMPT =
+  'lover-request/create-lover-request-and-relationship-and-placeholder-lover-attempt';
+export const CREATE_LOVER_REQUEST_AND_RELATIONSHIP_AND_PLACEHOLDER_LOVER_SUCCESS =
+  'lover-request/create-lover-request-and-relationship-and-placeholder-lover-success';
+export const CREATE_LOVER_REQUEST_AND_RELATIONSHIP_AND_PLACEHOLDER_LOVER_FAILURE =
+  'lover-request/create-lover-request-and-relationship-and-placeholder-lover-failure';
 export const REQUEST_LOVER_SUCCESS = 'lover-request/request-lover-success';
 export const SET_LOVER_REQUEST = 'lover-request/set-lover-request';
 export const CANCEL_LOVER_REQUEST_ATTEMPT =
@@ -23,6 +29,36 @@ export const RESEND_LOVER_REQUEST_EMAIL_SUCCESS =
 export const RESEND_LOVER_REQUEST_EMAIL_FAILURE =
   'lover-request/resend-lover-request-email-failure';
 export const CLEAR_LOVER_REQUEST = 'lover-request/clear-lover-request';
+
+export const createLoverRequestAndRelationshipAndPlaceholderLover = recipientId => async dispatch => {
+  dispatch({
+    type: CREATE_LOVER_REQUEST_AND_RELATIONSHIP_AND_PLACEHOLDER_LOVER_ATTEMPT,
+  });
+  try {
+    const res = await createLoverRequestAndRelationshipAndPlaceholderLover(
+      recipientId
+    );
+
+    const errors = _.get(res, 'body.errors', []);
+
+    if (errors.length < 1) {
+      dispatch({
+        type: CREATE_LOVER_REQUEST_AND_RELATIONSHIP_AND_PLACEHOLDER_LOVER_SUCCESS,
+        ...res.body.createLoverRequestAndRelationshipAndPlaceholderLover,
+      });
+      return;
+    }
+    dispatch({
+      type: CREATE_LOVER_REQUEST_AND_RELATIONSHIP_AND_PLACEHOLDER_LOVER_FAILURE,
+      errorMessage: errors[0].message,
+    });
+  } catch (error) {
+    dispatch({
+      type: CREATE_LOVER_REQUEST_AND_RELATIONSHIP_AND_PLACEHOLDER_LOVER_FAILURE,
+      errorMessage: error.message,
+    });
+  }
+};
 
 export const requestLover = recipientId => async dispatch => {
   try {
