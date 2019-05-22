@@ -4,8 +4,39 @@ import config from '../../config';
 const request = query =>
   superagent.post(config.graphQlUrl, { params: { query } });
 
+const postWithOptionalIdToken = (params, idToken) => {
+  if (idToken) {
+    return superagent
+      .post(config.graphQlUrl, params)
+      .set('Cookie', `id_token=${idToken}`);
+  }
+
+  return superagent.post(config.graphQlUrl, params);
+};
+
 const loverRequestApi = {
-  requestLover: (recipientId, id_token) => {
+  createLoverRequestAndRelationshipAndPlaceholderLover: (
+    recipientId,
+    idToken
+  ) => {
+    const params = {
+      query: `mutation {
+        createLoverRequestAndRelationshipAndPlaceholderLover(recipientId: "${recipientId}") {
+          loverRequest {
+            id isAccepted isSenderCanceled isRecipientCanceled createdAt
+          }
+          relationship {
+            id createdAt updatedAt
+            lovers {
+              id username email firstName lastName isPlaceholder
+            }
+          }
+        }
+      }`,
+    };
+    return postWithOptionalIdToken(params, idToken);
+  },
+  requestLover: (recipientId, idToken) => {
     const params = {
       query: `mutation {
       requestLover(recipientId: "${recipientId}") {
@@ -24,13 +55,7 @@ const loverRequestApi = {
       }
     }`,
     };
-    if (id_token) {
-      return superagent
-        .post(config.graphQlUrl, params)
-        .set('Cookie', `id_token=${id_token}`);
-    }
-
-    return superagent.post(config.graphQlUrl, params);
+    return postWithOptionalIdToken(params, idToken);
   },
   cancelLoverRequest: loverRequestId =>
     superagent.post(config.graphQlUrl, {
