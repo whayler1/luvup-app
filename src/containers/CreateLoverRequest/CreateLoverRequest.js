@@ -25,7 +25,6 @@ import CreateLoverRequestSelectedUser from './CreateLoverRequestSelectedUser';
 import HeartArt from '../../components/Art/HeartArt';
 import SearchArt from '../../components/Art/SearchArt';
 import Input from '../../components/Input';
-import { requestLover as requestLoverAction } from '../../redux/loverRequest/loverRequest.actions';
 import { getReceivedLoverRequests as getReceivedLoverRequestsAction } from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
 
 const keyExtractor = item => item.id;
@@ -259,7 +258,6 @@ export default connect(
     receivedLoverRequests: state.receivedLoverRequests.rows,
   }),
   {
-    requestLover: requestLoverAction,
     getReceivedLoverRequests: getReceivedLoverRequestsAction,
   }
 )(CreateLoverRequest);
