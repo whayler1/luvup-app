@@ -8,6 +8,9 @@ import {
   CANCEL_LOVER_REQUEST_ATTEMPT,
   CANCEL_LOVER_REQUEST_SUCCESS,
   CANCEL_LOVER_REQUEST_FAILURE,
+  CREATE_LOVER_REQUEST_AND_RELATIONSHIP_AND_PLACEHOLDER_LOVER_ATTEMPT,
+  CREATE_LOVER_REQUEST_AND_RELATIONSHIP_AND_PLACEHOLDER_LOVER_SUCCESS,
+  CREATE_LOVER_REQUEST_AND_RELATIONSHIP_AND_PLACEHOLDER_LOVER_FAILURE,
   CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_ATTEMPT,
   CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_SUCCESS,
   CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_FAILURE,
@@ -25,6 +28,8 @@ const defaultLoverRequest = {
   lastName: '',
 };
 
+const loverRequestKeys = Object.keys(defaultLoverRequest);
+
 const defaultState = {
   ...defaultLoverRequest,
   isCancelLoverRequestInFlight: false,
@@ -37,33 +42,30 @@ const defaultState = {
 
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
+    case CREATE_LOVER_REQUEST_AND_RELATIONSHIP_AND_PLACEHOLDER_LOVER_ATTEMPT:
+      return {
+        ...state,
+        isCreateLoverRequestAndRelationshipAndPlaceholderLoverInFlight: true,
+        createLoverRequestAndRelationshipAndPlaceholderLoverError: '',
+      };
+    case CREATE_LOVER_REQUEST_AND_RELATIONSHIP_AND_PLACEHOLDER_LOVER_SUCCESS:
     case REQUEST_LOVER_SUCCESS:
       return {
         ...state,
-        ..._.pick(action.loverRequest, [
-          'id',
-          'isAccepted',
-          'isSenderCanceled',
-          'isRecipientCanceled',
-          'createdAt',
-          'username',
-          'firstName',
-          'lastName',
-        ]),
+        isCreateLoverRequestAndRelationshipAndPlaceholderLoverInFlight: false,
+        ..._.pick(action.loverRequest, loverRequestKeys),
+      };
+    case CREATE_LOVER_REQUEST_AND_RELATIONSHIP_AND_PLACEHOLDER_LOVER_FAILURE:
+      return {
+        ...state,
+        isCreateLoverRequestAndRelationshipAndPlaceholderLoverInFlight: false,
+        createLoverRequestAndRelationshipAndPlaceholderLoverError:
+          action.errorMessage,
       };
     case SET_LOVER_REQUEST:
       return {
         ...state,
-        ..._.pick(action, [
-          'id',
-          'isAccepted',
-          'isSenderCanceled',
-          'isRecipientCanceled',
-          'createdAt',
-          'username',
-          'firstName',
-          'lastName',
-        ]),
+        ..._.pick(action, loverRequestKeys),
       };
     case RESEND_LOVER_REQUEST_EMAIL_ATTEMPT:
       return {
