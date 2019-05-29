@@ -6,14 +6,8 @@ import {
 } from '../../services/notifications';
 
 import { setLover, clearLover } from '../lover/lover.actions';
-import {
-  SET_LOVER_REQUEST,
-  clearLoverRequest,
-} from '../loverRequest/loverRequest.actions';
-import {
-  setRelationship,
-  clearRelationship,
-} from '../relationship/relationship.actions';
+import { SET_LOVER_REQUEST } from '../loverRequest/loverRequest.actions';
+import { setRelationship } from '../relationship/relationship.actions';
 import {
   setSentCoins,
   setUnviewedCoinCount,
@@ -89,9 +83,7 @@ export const login = (usernameOrEmail, password) => async dispatch => {
 export const logout = () => async dispatch => {
   await AsyncStorage.removeItem('id_token');
   dispatch(clearLover());
-  dispatch(clearLoverRequest());
   dispatch(clearReceivedLoverRequests());
-  dispatch(clearRelationship());
   dispatch(clearCoinCount());
   dispatch(clearJalapenoCount());
   dispatch({ type: LOGOUT });

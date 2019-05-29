@@ -14,8 +14,8 @@ import {
   CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_ATTEMPT,
   CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_SUCCESS,
   CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_FAILURE,
-  CLEAR_LOVER_REQUEST,
 } from './loverRequest.actions';
+import { LOGOUT } from '../user/user.actions';
 
 const defaultLoverRequest = {
   id: '',
@@ -120,7 +120,7 @@ export default function reducer(state = defaultState, action) {
         isCancelSentLoverRequestAndRelationshipInFlight: false,
         cancelSentLoverRequestAndRelationshipError: action.errorMessage,
       };
-    case CLEAR_LOVER_REQUEST:
+    case LOGOUT:
       return { ...defaultState };
     default:
       return state;
