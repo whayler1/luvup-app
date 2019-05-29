@@ -26,6 +26,7 @@ import HeartArt from '../../components/Art/HeartArt';
 import SearchArt from '../../components/Art/SearchArt';
 import Input from '../../components/Input';
 import { getReceivedLoverRequests as getReceivedLoverRequestsAction } from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
+import { createLoverRequestAndRelationshipAndPlaceholderLover as createLoverRequestAndRelationshipAndPlaceholderLoverAction } from '../../redux/loverRequest/loverRequest.actions';
 
 const keyExtractor = item => item.id;
 
@@ -42,6 +43,7 @@ class CreateLoverRequest extends Component {
     userId: PropTypes.string,
     getReceivedLoverRequests: PropTypes.func.isRequired,
     receivedLoverRequests: PropTypes.array,
+    createLoverRequestAndRelationshipAndPlaceholderLover: PropTypes.func,
   };
 
   constructor(props) {
@@ -73,7 +75,7 @@ class CreateLoverRequest extends Component {
   };
 
   requestLover = async () => {
-    this.setState({ requestLoverIsInFlight: true });
+    // this.setState({ requestLoverIsInFlight: true });
 
     const existingRequest = await this.getExistingLoverRequest();
 
@@ -84,13 +86,20 @@ class CreateLoverRequest extends Component {
       return;
     }
 
-    const res = await this.props.requestLover(this.state.selectedUser.id);
+    this.props.createLoverRequestAndRelationshipAndPlaceholderLover(
+      this.state.selectedUser.id
+    );
+    /**
+     * JW: Connect isflight and error
+     */
 
-    if (!_.at(res, 'body.data.requestLover.id')) {
-      this.setState({ requestLoverIsInFlight: false, error: 'request-lover' });
-    } else {
-      Actions.dashboard();
-    }
+    // const res = await this.props.requestLover(this.state.selectedUser.id);
+    //
+    // if (!_.at(res, 'body.data.requestLover.id')) {
+    //   this.setState({ requestLoverIsInFlight: false, error: 'request-lover' });
+    // } else {
+    //   Actions.dashboard();
+    // }
   };
 
   getUsers = async () => {
@@ -258,6 +267,7 @@ export default connect(
     receivedLoverRequests: state.receivedLoverRequests.rows,
   }),
   {
+    createLoverRequestAndRelationshipAndPlaceholderLover: createLoverRequestAndRelationshipAndPlaceholderLoverAction,
     getReceivedLoverRequests: getReceivedLoverRequestsAction,
   }
 )(CreateLoverRequest);
