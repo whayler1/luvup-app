@@ -45,8 +45,9 @@ class CreateLoverRequest extends Component {
     createLoverRequestAndRelationshipAndPlaceholderLover:
       PropTypes.func.isRequired,
     isCreateLoverRequestAndRelationshipAndPlaceholderLoverInFlight:
-      PropTypes.bool,
-    createLoverRequestAndRelationshipAndPlaceholderLoverError: PropTypes.string,
+      PropTypes.bool.isRequired,
+    createLoverRequestAndRelationshipAndPlaceholderLoverError:
+      PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -281,6 +282,12 @@ export default connect(
     userLastName: state.user.lastName,
     userId: state.user.id,
     receivedLoverRequests: state.receivedLoverRequests.rows,
+    isCreateLoverRequestAndRelationshipAndPlaceholderLoverInFlight:
+      state.loverRequest
+        .isCreateLoverRequestAndRelationshipAndPlaceholderLoverInFlight,
+    createLoverRequestAndRelationshipAndPlaceholderLoverError:
+      state.loverRequest
+        .createLoverRequestAndRelationshipAndPlaceholderLoverError,
   }),
   {
     createLoverRequestAndRelationshipAndPlaceholderLover: createLoverRequestAndRelationshipAndPlaceholderLoverAction,

@@ -38,6 +38,8 @@ const defaultState = {
   resendLoverRequestEmailError: '',
   isCancelSentLoverRequestAndRelationshipInFlight: false,
   cancelSentLoverRequestAndRelationshipError: '',
+  isCreateLoverRequestAndRelationshipAndPlaceholderLoverInFlight: false,
+  createLoverRequestAndRelationshipAndPlaceholderLoverError: '',
 };
 
 export default function reducer(state = defaultState, action) {
