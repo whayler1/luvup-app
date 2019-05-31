@@ -1,8 +1,7 @@
 import superagent from 'superagent';
 import config from '../../config';
 
-const request = query =>
-  superagent.post(config.graphQlUrl, { params: { query } });
+const request = query => superagent.post(config.graphQlUrl, { query });
 
 const postWithOptionalIdToken = (params, idToken) => {
   if (idToken) {
@@ -73,13 +72,20 @@ const loverRequestApi = {
       }
     }`,
     }),
-  cancelSentLoverRequestAndRelationship: () =>
-    request(`mutation {
-    cancelSentLoverRequestAndRelationship {
-      loverRequest { id isAccepted isCanceled isSenderCanceled isRecipientCanceled }
-      relationship { id endDate }
-    }
-  }`),
+  cancelSentLoverRequestAndRelationship: () => {
+    console.log('\n inner 1');
+    const params = {
+      query: `mutation {
+        cancelSentLoverRequestAndRelationship {
+          loverRequest { id isAccepted isSenderCanceled isRecipientCanceled }
+          relationship { id endDate }
+        }
+      }`,
+    };
+    console.log('\n inner 2');
+
+    return superagent.post(config.graphQlUrl, params);
+  },
   resendLoverRequestEmail: (loverRequestId, email) =>
     superagent.post(config.graphQlUrl, {
       query: `mutation {

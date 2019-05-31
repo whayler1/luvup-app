@@ -19,7 +19,7 @@ import MenuLink, { LINK_TYPE } from './MenuLink';
 import ChangePasswordModalContent from '../ChangePasswordModalContent';
 import { logout as logoutAction } from '../../redux/user/user.actions';
 import { endRelationship as endRelationshipAction } from '../../redux/relationship/relationship.actions';
-import { cancelLoverRequest as cancelLoverRequestAction } from '../../redux/loverRequest/loverRequest.actions';
+import { cancelSentLoverRequestAndRelationship as cancelLoverRequestAction } from '../../redux/loverRequest/loverRequest.actions';
 
 class Menu extends PureComponent {
   constructor(props) {
@@ -86,7 +86,7 @@ class Menu extends PureComponent {
     Actions.resendLoverRequest();
   };
   handleCancelLoverRequest = () => {
-    this.props.cancelLoverRequest(this.props.loverRequestId);
+    this.props.cancelLoverRequest();
   };
 
   endRelationship = async () => {
@@ -356,8 +356,9 @@ export default connect(
     relationshipCreatedAt: state.relationship.createdAt,
     loverRequestId: state.loverRequest.id,
     isCancelLoverRequestInFlight:
-      state.loverRequest.isCancelLoverRequestInFlight,
-    cancelLoverRequestError: state.loverRequest.cancelLoverRequestError,
+      state.loverRequest.isCancelSentLoverRequestAndRelationshipInFlight,
+    cancelLoverRequestError:
+      state.loverRequest.cancelSentLoverRequestAndRelationshipError,
   }),
   {
     logout: logoutAction,
