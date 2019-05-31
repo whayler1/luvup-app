@@ -37,13 +37,16 @@ const getRenderItem = onPress => ({ item }) => (
 class CreateLoverRequest extends Component {
   static propTypes = {
     relationshipId: PropTypes.string,
-    requestLover: PropTypes.func.isRequired,
     userFirstName: PropTypes.string,
     userLastName: PropTypes.string,
     userId: PropTypes.string,
     getReceivedLoverRequests: PropTypes.func.isRequired,
     receivedLoverRequests: PropTypes.array,
-    createLoverRequestAndRelationshipAndPlaceholderLover: PropTypes.func,
+    createLoverRequestAndRelationshipAndPlaceholderLover:
+      PropTypes.func.isRequired,
+    isCreateLoverRequestAndRelationshipAndPlaceholderLoverInFlight:
+      PropTypes.bool,
+    createLoverRequestAndRelationshipAndPlaceholderLoverError: PropTypes.string,
   };
 
   constructor(props) {
@@ -55,9 +58,23 @@ class CreateLoverRequest extends Component {
       users: [],
       selectedUser: null,
       isInFlight: false,
-      requestLoverIsInFlight: false,
     };
   }
+
+  componentDidUpdate(prevProps) {
+    if (this.isNewRelationshipId(prevProps.relationshipId)) {
+      Actions.dashboard();
+    }
+  }
+
+  isNewRelationshipId = prevRelationshipId => {
+    const { relationshipId } = this.props;
+    return (
+      prevRelationshipId !== relationshipId &&
+      _.isString(relationshipId) &&
+      relationshipId.length > 0
+    );
+  };
 
   clearSelectedUser = () => this.setState({ selectedUser: null });
 
@@ -75,8 +92,6 @@ class CreateLoverRequest extends Component {
   };
 
   requestLover = async () => {
-    // this.setState({ requestLoverIsInFlight: true });
-
     const existingRequest = await this.getExistingLoverRequest();
 
     if (existingRequest) {
@@ -89,17 +104,6 @@ class CreateLoverRequest extends Component {
     this.props.createLoverRequestAndRelationshipAndPlaceholderLover(
       this.state.selectedUser.id
     );
-    /**
-     * JW: Connect isflight and error
-     */
-
-    // const res = await this.props.requestLover(this.state.selectedUser.id);
-    //
-    // if (!_.at(res, 'body.data.requestLover.id')) {
-    //   this.setState({ requestLoverIsInFlight: false, error: 'request-lover' });
-    // } else {
-    //   Actions.dashboard();
-    // }
   };
 
   getUsers = async () => {
@@ -162,7 +166,13 @@ class CreateLoverRequest extends Component {
       handleListItemClick,
       handleMenuNavPress,
       handleGoBack,
-      props: { userFirstName, userLastName },
+      requestLover,
+      props: {
+        userFirstName,
+        userLastName,
+        isCreateLoverRequestAndRelationshipAndPlaceholderLoverInFlight,
+        createLoverRequestAndRelationshipAndPlaceholderLoverError,
+      },
       state: { search, users, selectedUser, isInFlight },
     } = this;
     if (!selectedUser) {
@@ -250,9 +260,15 @@ class CreateLoverRequest extends Component {
     }
     return (
       <CreateLoverRequestSelectedUser
+        requestLoverError={
+          createLoverRequestAndRelationshipAndPlaceholderLoverError
+        }
+        requestLoverIsInFlight={
+          isCreateLoverRequestAndRelationshipAndPlaceholderLoverInFlight
+        }
         clearSelectedUser={this.clearSelectedUser}
-        requestLover={this.requestLover}
-        {...this.state}
+        requestLover={requestLover}
+        selectedUser={selectedUser}
       />
     );
   }

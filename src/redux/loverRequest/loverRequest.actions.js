@@ -35,7 +35,7 @@ export const createLoverRequestAndRelationshipAndPlaceholderLover = recipientId 
     type: CREATE_LOVER_REQUEST_AND_RELATIONSHIP_AND_PLACEHOLDER_LOVER_ATTEMPT,
   });
   try {
-    const res = await createLoverRequestAndRelationshipAndPlaceholderLover(
+    const res = await loverRequestApi.createLoverRequestAndRelationshipAndPlaceholderLover(
       recipientId
     );
 
@@ -77,13 +77,11 @@ export const requestLover = recipientId => async dispatch => {
 
 export const cancelLoverRequest = () => async (dispatch, getState) => {
   dispatch({ type: CANCEL_LOVER_REQUEST_ATTEMPT });
-  console.log('\n\n cancelLoverRequest');
   const {
     loverRequest: { id: loverRequestId },
   } = getState();
   try {
     const res = await loverRequestApi.cancelLoverRequest(loverRequestId);
-    console.log('res', res.body.data);
 
     const loverRequest = _.get(
       res,
