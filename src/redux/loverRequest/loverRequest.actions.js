@@ -38,13 +38,17 @@ export const createLoverRequestAndRelationshipAndPlaceholderLover = recipientId 
     const res = await loverRequestApi.createLoverRequestAndRelationshipAndPlaceholderLover(
       recipientId
     );
+    console.log(
+      'res.body',
+      res.body.data.createLoverRequestAndRelationshipAndPlaceholderLover
+    );
 
     const errors = _.get(res, 'body.errors', []);
 
     if (errors.length < 1) {
       dispatch({
         type: CREATE_LOVER_REQUEST_AND_RELATIONSHIP_AND_PLACEHOLDER_LOVER_SUCCESS,
-        ...res.body.createLoverRequestAndRelationshipAndPlaceholderLover,
+        ...res.body.data.createLoverRequestAndRelationshipAndPlaceholderLover,
       });
       return;
     }
@@ -112,18 +116,14 @@ export const cancelLoverRequest = () => async (dispatch, getState) => {
 };
 
 export const cancelSentLoverRequestAndRelationship = () => async dispatch => {
-  console.log('\n step 1');
   dispatch({ type: CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_ATTEMPT });
   try {
-    console.log('\n step 2');
     const res = await loverRequestApi.cancelSentLoverRequestAndRelationship();
-    console.log('\n step 3');
     const { loverRequest, relationship } = _.get(
       res,
       'body.data.cancelSentLoverRequestAndRelationship',
       {}
     );
-    console.log('\n step 4\n ', { loverRequest, relationship });
 
     if (_.isPlainObject(loverRequest)) {
       dispatch({
@@ -142,7 +142,6 @@ export const cancelSentLoverRequestAndRelationship = () => async dispatch => {
       ),
     });
   } catch (error) {
-    console.log('\n error', error);
     dispatch({
       type: CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_FAILURE,
       errorMessage: error.message,

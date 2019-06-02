@@ -44,11 +44,7 @@ export default function reducer(state = defaultState, action) {
         createdAt: action.relationship.createdAt,
       };
     case CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_SUCCESS: {
-      const endDate = get(action, 'relationship.endDate', '');
-      if (isString(endDate) && endDate.length > 0) {
-        return { ...defaultState };
-      }
-      return state;
+      return { ...defaultState };
     }
     default:
       return state;
