@@ -1,7 +1,11 @@
 import _ from 'lodash';
 import { SET_LOVER, CLEAR_LOVER } from './lover.actions';
 import { GET_TIMELINE_DATA_SUCCESS } from '../user/user.actions';
-import { REQUEST_LOVER_SUCCESS } from '../loverRequest/loverRequest.actions';
+import {
+  REQUEST_LOVER_SUCCESS,
+  CREATE_LOVER_REQUEST_AND_RELATIONSHIP_AND_PLACEHOLDER_LOVER_SUCCESS,
+  CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_SUCCESS,
+} from '../loverRequest/loverRequest.actions';
 
 const defaultState = {
   id: '',
@@ -35,11 +39,13 @@ export default function reducer(state = defaultState, action) {
         ..._.pick(action, loverProperties),
       };
     case REQUEST_LOVER_SUCCESS:
+    case CREATE_LOVER_REQUEST_AND_RELATIONSHIP_AND_PLACEHOLDER_LOVER_SUCCESS:
       return {
         ...state,
         ...getRequestLoverSuccessLoverData(action),
       };
     case CLEAR_LOVER:
+    case CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_SUCCESS:
       return { ...defaultState };
     case GET_TIMELINE_DATA_SUCCESS:
       return {
