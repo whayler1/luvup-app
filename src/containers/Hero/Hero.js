@@ -23,6 +23,7 @@ import CoinArt from '../../components/CoinArt';
 import JalapenoArt from '../../components/JalapenoArt';
 import HeartArt from '../../components/Art/HeartArt';
 import TearDropArt from '../../components/Art/TearDropArt';
+import { MODAL_CONTENT_TYPES } from '../../components/LimitExceededModal';
 
 import { createRelationshipScore as createRelationshipScoreAction } from '../../redux/relationshipScore/relationshipScore.actions';
 import {
@@ -274,7 +275,7 @@ class Hero extends Component {
         );
       }
     } else {
-      this.props.openModal('coin');
+      this.props.openModal(MODAL_CONTENT_TYPES.COIN);
     }
   };
 
@@ -290,7 +291,7 @@ class Hero extends Component {
         );
       }
     } else {
-      this.props.openModal('jalapeno');
+      this.props.openModal(MODAL_CONTENT_TYPES.JALAPENO);
     }
   };
 

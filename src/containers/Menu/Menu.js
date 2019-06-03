@@ -251,6 +251,10 @@ class Menu extends PureComponent {
                 _.isString(loverRequestId) &&
                 loverRequestId.length < 1 && (
                   <Fragment>
+                    <Well
+                      type={WELL_TYPES.INFO}
+                      text="You are not currently in a relationship. Send a relationship request to get things started."
+                    />
                     <Text style={styles.label}>Options</Text>
                     <TouchableOpacity
                       onPress={goToCreateLoverRequest}

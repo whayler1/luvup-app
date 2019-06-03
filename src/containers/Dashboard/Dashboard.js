@@ -77,7 +77,7 @@ class Dashboard extends PureComponent {
   }
 
   openModal = modalContent => {
-    const isCoin = modalContent === 'coin';
+    const isCoin = modalContent === MODAL_CONTENT_TYPES.COIN;
     const collection = isCoin ? this.props.sentCoins : this.props.sentJalapenos;
     const stateKey = isCoin ? 'coinsAvailableTime' : 'jalapenosAvailableTime';
     this.setAvailableTime(collection, stateKey);

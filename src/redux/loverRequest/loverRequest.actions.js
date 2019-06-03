@@ -38,10 +38,6 @@ export const createLoverRequestAndRelationshipAndPlaceholderLover = recipientId 
     const res = await loverRequestApi.createLoverRequestAndRelationshipAndPlaceholderLover(
       recipientId
     );
-    console.log(
-      'res.body',
-      res.body.data.createLoverRequestAndRelationshipAndPlaceholderLover
-    );
 
     const errors = _.get(res, 'body.errors', []);
 

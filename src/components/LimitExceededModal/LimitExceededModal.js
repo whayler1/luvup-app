@@ -70,7 +70,7 @@ const LimitExceededModal = ({
           </Text>
           <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
             {modalContent === NEW_RELATIONSHIP_REQUEST &&
-              `We'll let you know when ${loverFirstName} accepts. Though ${loverFirstName} has not accepted yet, you can use the app as you would. Any actions you take now will be visible on their profile when they accept.`}
+              `We'll let you know when ${loverFirstName} accepts. Though ${loverFirstName} has not accepted yet, you can use the app as you would. Any actions you take now will be visible on ${loverFirstName}'s profile when they accept.`}
             {modalContent === COIN &&
               (coinCopy ||
                 `You've sent the max hourly limit of ${

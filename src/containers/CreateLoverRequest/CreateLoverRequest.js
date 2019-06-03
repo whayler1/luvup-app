@@ -70,9 +70,6 @@ class CreateLoverRequest extends Component {
 
   isNewRelationshipId = prevRelationshipId => {
     const { relationshipId } = this.props;
-    console.log('isNewRelationshipId');
-    console.log('prevRelationshipId', prevRelationshipId);
-    console.log('relationshipId', relationshipId);
     return (
       prevRelationshipId !== relationshipId &&
       _.isString(relationshipId) &&

@@ -73,7 +73,6 @@ const loverRequestApi = {
     }`,
     }),
   cancelSentLoverRequestAndRelationship: () => {
-    console.log('\n inner 1');
     const params = {
       query: `mutation {
         cancelSentLoverRequestAndRelationship {
@@ -82,7 +81,6 @@ const loverRequestApi = {
         }
       }`,
     };
-    console.log('\n inner 2');
 
     return superagent.post(config.graphQlUrl, params);
   },
