@@ -12,7 +12,9 @@ import { LoverRequestType } from '../../types';
 import DashboardTopNav from '../../components/DashboardTopNav';
 import QuizArt from '../../components/Art/QuizArt';
 import LoveNoteArt from '../../components/LoveNoteArt';
-import LimitExceededModal from '../../components/LimitExceededModal';
+import LimitExceededModal, {
+  MODAL_CONTENT_TYPES,
+} from '../../components/LimitExceededModal';
 import DashboardNoRelationship from './DashboardNoRelationship';
 import Hero from '../Hero';
 import analytics from '../../services/analytics';
@@ -47,6 +49,11 @@ class Dashboard extends PureComponent {
     relationshipId: PropTypes.string,
     loverRequestCreatedAt: PropTypes.string,
     receivedLoverRequests: PropTypes.arrayOf(LoverRequestType),
+    isNewRelationshipRequest: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    isNewRelationshipRequest: false,
   };
 
   constructor(props) {
@@ -61,6 +68,12 @@ class Dashboard extends PureComponent {
       coinsAvailableTime: undefined,
       jalapenosAvailableTime: undefined,
     };
+    if (props.isNewRelationshipRequest) {
+      Object.assign(this.state, {
+        isModalOpen: true,
+        modalContent: MODAL_CONTENT_TYPES.NEW_RELATIONSHIP_REQUEST,
+      });
+    }
   }
 
   openModal = modalContent => {

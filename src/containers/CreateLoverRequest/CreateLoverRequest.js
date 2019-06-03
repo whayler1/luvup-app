@@ -64,7 +64,7 @@ class CreateLoverRequest extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.isNewRelationshipId(prevProps.relationshipId)) {
-      Actions.dashboard();
+      Actions.dashboard({ isNewRelationshipRequest: true });
     }
   }
 
