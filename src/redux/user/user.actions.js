@@ -5,7 +5,7 @@ import {
   remove as removeNotificationsListener,
 } from '../../services/notifications';
 
-import { setLover, clearLover } from '../lover/lover.actions';
+import { setLover } from '../lover/lover.actions';
 import { SET_LOVER_REQUEST } from '../loverRequest/loverRequest.actions';
 import { setRelationship } from '../relationship/relationship.actions';
 import {
@@ -82,7 +82,6 @@ export const login = (usernameOrEmail, password) => async dispatch => {
 
 export const logout = () => async dispatch => {
   await AsyncStorage.removeItem('id_token');
-  dispatch(clearLover());
   dispatch(clearReceivedLoverRequests());
   dispatch(clearCoinCount());
   dispatch(clearJalapenoCount());

@@ -1,6 +1,7 @@
 import _ from 'lodash';
-import { SET_LOVER, CLEAR_LOVER } from './lover.actions';
-import { GET_TIMELINE_DATA_SUCCESS } from '../user/user.actions';
+import { SET_LOVER } from './lover.actions';
+import { GET_TIMELINE_DATA_SUCCESS, LOGOUT } from '../user/user.actions';
+import { END_RELATIONSHIP } from '../relationship/relationship.actions';
 import {
   REQUEST_LOVER_SUCCESS,
   CREATE_LOVER_REQUEST_AND_RELATIONSHIP_AND_PLACEHOLDER_LOVER_SUCCESS,
@@ -44,7 +45,8 @@ export default function reducer(state = defaultState, action) {
         ...state,
         ...getRequestLoverSuccessLoverData(action),
       };
-    case CLEAR_LOVER:
+    case LOGOUT:
+    case END_RELATIONSHIP:
     case CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_SUCCESS:
       return { ...defaultState };
     case GET_TIMELINE_DATA_SUCCESS:

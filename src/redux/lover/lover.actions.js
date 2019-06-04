@@ -1,5 +1,4 @@
 export const SET_LOVER = 'lover/set-lover';
-export const CLEAR_LOVER = 'lover/clear-lover';
 
 export const setLover = (
   id,
@@ -16,8 +15,4 @@ export const setLover = (
   firstName,
   lastName,
   isPlaceholder,
-});
-
-export const clearLover = () => ({
-  type: CLEAR_LOVER,
 });
