@@ -39,6 +39,7 @@ import CreateQuizReview from './src/containers/CreateQuizReview';
 import ViewQuiz from './src/containers/ViewQuiz';
 import ForgotPassword from './src/containers/ForgotPassword';
 import ResetPasswordWithGeneratedPassword from './src/containers/ResetPasswordWithGeneratedPassword';
+import ResendLoverRequest from './src/containers/ResendLoverRequest';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -169,6 +170,11 @@ const App = () => (
             />
           </Tabs>
           <Scene key="menu" component={Menu} hideNavBar />
+          <Scene
+            key="resendLoverRequest"
+            component={ResendLoverRequest}
+            {...sceneDefaults}
+          />
           <Scene
             key="confirmLoverRequest"
             component={ConfirmLoverRequest}

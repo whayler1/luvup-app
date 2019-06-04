@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 import { vars } from '../../styles';
 
 export default StyleSheet.create({
+  keyboardScrollView: { flex: 1 },
   formRowWrap: {
     flexDirection: 'row',
   },

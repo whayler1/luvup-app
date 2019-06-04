@@ -227,7 +227,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
 
     return (
       <KeyboardAwareScrollView
-        style={scene.container}
+        style={styles.keyboardScrollView}
         contentContainerStyle={scene.contentNoTop}>
         <View style={[scene.contentTop, styles.contentNoTop]}>
           <Text style={[scene.titleCopy, scene.textCenter]}>

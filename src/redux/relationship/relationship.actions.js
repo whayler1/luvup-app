@@ -1,5 +1,4 @@
 import relationshipApi from './relationship.api';
-import { clearLover } from '../lover/lover.actions';
 
 export const SET_RELATIONSHIP = 'relationship/set-relationship';
 export const END_RELATIONSHIP = 'relationship/end-relationship';
@@ -14,7 +13,6 @@ export const endRelationship = () => async dispatch => {
     const res = await relationshipApi.endRelationship();
 
     dispatch({ type: END_RELATIONSHIP });
-    dispatch(clearLover());
 
     return res;
   } catch (err) {

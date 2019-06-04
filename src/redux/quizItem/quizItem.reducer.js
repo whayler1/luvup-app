@@ -71,7 +71,6 @@ export default function reducer(state = defaultState, action) {
         }),
         {}
       );
-      // console.log('\n\n newQuizItemDictionary', newQuizItemDictionary);
       return {
         ...state,
         quizItemDictionary: {

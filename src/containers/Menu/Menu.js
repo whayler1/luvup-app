@@ -13,10 +13,13 @@ import { scene, forms, modal, vars } from '../../styles';
 import styles from './Menu.styles';
 import ModalContentWrap from '../../components/ModalContentWrap';
 import HeartArt from '../../components/Art/HeartArt';
+import Well, { WELL_TYPES } from '../../components/Well';
 import Button, { BUTTON_STYLES } from '../../components/Button';
+import MenuLink, { LINK_TYPE } from './MenuLink';
 import ChangePasswordModalContent from '../ChangePasswordModalContent';
 import { logout as logoutAction } from '../../redux/user/user.actions';
 import { endRelationship as endRelationshipAction } from '../../redux/relationship/relationship.actions';
+import { cancelSentLoverRequestAndRelationship as cancelLoverRequestAction } from '../../redux/loverRequest/loverRequest.actions';
 
 class Menu extends PureComponent {
   constructor(props) {
@@ -41,10 +44,14 @@ class Menu extends PureComponent {
     loverFirstName: PropTypes.string,
     loverLastName: PropTypes.string,
     loverId: PropTypes.string,
+    loverIsPlaceholder: PropTypes.bool,
     relationshipCreatedAt: PropTypes.string,
     logout: PropTypes.func.isRequired,
     endRelationship: PropTypes.func.isRequired,
     loverRequestId: PropTypes.string,
+    cancelLoverRequest: PropTypes.func.isRequired,
+    isCancelLoverRequestInFlight: PropTypes.bool.isRequired,
+    cancelLoverRequestError: PropTypes.string.isRequired,
   };
 
   goBack = () => {
@@ -69,8 +76,18 @@ class Menu extends PureComponent {
     Actions.login();
   };
 
-  goToCreateLoverRequest = () => Actions.createloverrequest();
-  goToDashboard = () => Actions.dashboard();
+  goToCreateLoverRequest = () => {
+    Actions.createloverrequest();
+  };
+  goToDashboard = () => {
+    Actions.dashboard();
+  };
+  goToResendLoverRequest = () => {
+    Actions.resendLoverRequest();
+  };
+  handleCancelLoverRequest = () => {
+    this.props.cancelLoverRequest();
+  };
 
   endRelationship = async () => {
     this.setState({ isInFlight: true });
@@ -108,6 +125,9 @@ class Menu extends PureComponent {
         loverLastName,
         loverId,
         loverRequestId,
+        loverIsPlaceholder,
+        isCancelLoverRequestInFlight,
+        cancelLoverRequestError,
       },
       state: {
         relationshipCreatedAtFormatted,
@@ -123,6 +143,8 @@ class Menu extends PureComponent {
       endRelationship,
       goToCreateLoverRequest,
       goToDashboard,
+      goToResendLoverRequest,
+      handleCancelLoverRequest,
     } = this;
     return (
       <SafeAreaView forceInset={{ bottom: 'never' }} style={scene.safeAreaView}>
@@ -138,7 +160,7 @@ class Menu extends PureComponent {
             style={styles.scrollView}
             contentContainerStyle={styles.scrollViewContentContainer}>
             <View>
-              <Text style={styles.title}>Profile</Text>
+              <Text style={scene.titleCopy}>Profile</Text>
               <Text style={styles.label}>Name</Text>
               <Text style={styles.value}>
                 {userFirstName} {userLastName}
@@ -146,22 +168,11 @@ class Menu extends PureComponent {
               <Text style={styles.label}>Email</Text>
               <Text style={styles.value}>{userEmail}</Text>
               <Text style={styles.label}>Options</Text>
-              <TouchableOpacity
+              <MenuLink
                 onPress={onChangePasswordClick}
-                style={{
-                  flexDirection: 'row',
-                  marginTop: 8,
-                  justifyContent: 'space-between',
-                }}>
-                <Text
-                  style={{
-                    color: vars.link,
-                    fontSize: 20,
-                  }}>
-                  Change Password
-                </Text>
-                <Ionicons name="md-unlock" size={22} color={vars.link} />
-              </TouchableOpacity>
+                iconName="md-unlock"
+                text="Change Password"
+              />
               {/* <TouchableOpacity
                 style={{
                   flexDirection: 'row',
@@ -184,7 +195,7 @@ class Menu extends PureComponent {
             </View>
 
             <View style={styles.group}>
-              <Text style={styles.title}>Relationship</Text>
+              <Text style={scene.titleCopy}>Relationship</Text>
               {_.isString(loverId) && loverId.length > 0 && (
                 <Fragment>
                   <Text style={styles.label}>Lover</Text>
@@ -196,22 +207,43 @@ class Menu extends PureComponent {
                     {relationshipCreatedAtFormatted}
                   </Text>
                   <Text style={styles.label}>Options</Text>
-                  <TouchableOpacity
-                    onPress={openEndRelationshipModal}
-                    style={{
-                      flexDirection: 'row',
-                      marginTop: 8,
-                      justifyContent: 'space-between',
-                    }}>
-                    <Text
-                      style={{
-                        color: vars.danger,
-                        fontSize: 20,
-                      }}>
-                      End Relationship
-                    </Text>
-                    <Ionicons name="md-alert" size={22} color={vars.danger} />
-                  </TouchableOpacity>
+                  {loverIsPlaceholder ? (
+                    <Fragment>
+                      <MenuLink
+                        onPress={goToResendLoverRequest}
+                        iconName="md-send"
+                        text="Resend Lover Request"
+                        disabled={isCancelLoverRequestInFlight}
+                      />
+                      <MenuLink
+                        onPress={handleCancelLoverRequest}
+                        linkType={LINK_TYPE.DANGER}
+                        iconName="md-alert"
+                        text={
+                          isCancelLoverRequestInFlight
+                            ? 'Canceling…'
+                            : 'Cancel Lover Request'
+                        }
+                        disabled={isCancelLoverRequestInFlight}
+                      />
+                      {_.isString(cancelLoverRequestError) &&
+                        cancelLoverRequestError.length > 0 && (
+                          <Well text={cancelLoverRequestError} />
+                        )}
+                      <Well
+                        type={WELL_TYPES.INFO}
+                        styles={{ marginTop: vars.gutterAndHalf }}
+                        text={`${loverFirstName} has not accepted your lover request yet. We'll let you know when ${loverFirstName} accepts!`}
+                      />
+                    </Fragment>
+                  ) : (
+                    <MenuLink
+                      onPress={openEndRelationshipModal}
+                      linkType={LINK_TYPE.DANGER}
+                      iconName="md-alert"
+                      text="End Relationship"
+                    />
+                  )}
                 </Fragment>
               )}
               {_.isString(loverId) &&
@@ -219,6 +251,10 @@ class Menu extends PureComponent {
                 _.isString(loverRequestId) &&
                 loverRequestId.length < 1 && (
                   <Fragment>
+                    <Well
+                      type={WELL_TYPES.INFO}
+                      text="You are not currently in a relationship. Send a relationship request to get things started."
+                    />
                     <Text style={styles.label}>Options</Text>
                     <TouchableOpacity
                       onPress={goToCreateLoverRequest}
@@ -320,11 +356,17 @@ export default connect(
     loverFirstName: state.lover.firstName,
     loverLastName: state.lover.lastName,
     loverId: state.lover.id,
+    loverIsPlaceholder: state.lover.isPlaceholder,
     relationshipCreatedAt: state.relationship.createdAt,
     loverRequestId: state.loverRequest.id,
+    isCancelLoverRequestInFlight:
+      state.loverRequest.isCancelSentLoverRequestAndRelationshipInFlight,
+    cancelLoverRequestError:
+      state.loverRequest.cancelSentLoverRequestAndRelationshipError,
   }),
   {
     logout: logoutAction,
     endRelationship: endRelationshipAction,
+    cancelLoverRequest: cancelLoverRequestAction,
   }
 )(Menu);

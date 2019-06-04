@@ -3,7 +3,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import _ from 'lodash';
+import { SafeAreaView, View, Text } from 'react-native';
 
+import { forms, scene, vars } from '../../styles';
+import Well from '../../components/Well';
+import LoveRequestArt from '../../components/LoveRequestArt';
+import Button, { BUTTON_STYLES } from '../../components/Button';
 import analytics from '../../services/analytics';
 import { cancelLoverRequest as cancelLoverRequestAction } from '../../redux/loverRequest/loverRequest.actions';
 import {
@@ -11,7 +16,6 @@ import {
   acceptLoverRequest as acceptLoverRequestAction,
 } from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
 import { getMe as getMeAction } from '../../redux/user/user.actions';
-import Template from './ConfirmLoverRequest.template';
 
 class ConfirmLoverRequest extends Component {
   static propTypes = {
@@ -20,8 +24,6 @@ class ConfirmLoverRequest extends Component {
     loverRequestId: PropTypes.string,
     relationshipId: PropTypes.string,
     userId: PropTypes.string,
-    userFirstName: PropTypes.string,
-    userLastName: PropTypes.string,
     cancelLoverRequest: PropTypes.func.isRequired,
     getReceivedLoverRequests: PropTypes.func.isRequired,
     acceptLoverRequest: PropTypes.func.isRequired,
@@ -83,7 +85,7 @@ class ConfirmLoverRequest extends Component {
         error: 'cancel',
       });
     }
-    const resReceivedLover = await this.props.getReceivedLoverRequests();
+    await this.props.getReceivedLoverRequests();
     if (!_.get(res, 'body.data.getReceivedLoverRequests')) {
       this.setState({
         isInFlight: false,
@@ -139,17 +141,79 @@ class ConfirmLoverRequest extends Component {
   }
 
   render() {
+    const {
+      props: { selectedLoverRequestId },
+      state: {
+        currentLoverRequestId,
+        senderFirstName,
+        senderLastName,
+        isInFlight,
+        inFlightType,
+        error,
+      },
+      cancelLoverRequest,
+      acceptLoverRequest,
+    } = this;
+    const isSentAndReceivedLoverRequestMatch =
+      selectedLoverRequestId === currentLoverRequestId;
     return (
-      <Template
-        {...this.state}
-        cancelLoverRequest={this.cancelLoverRequest}
-        acceptLoverRequest={this.acceptLoverRequest}
-        {..._.pick(this.props, [
-          'userFirstName',
-          'userLastName',
-          'selectedLoverRequestId',
-        ])}
-      />
+      <SafeAreaView style={scene.container}>
+        <View style={scene.content}>
+          <View style={scene.contentTop}>
+            <View
+              style={{
+                alignItems: 'center',
+                marginBottom: 32,
+              }}>
+              <LoveRequestArt scale={0.15} fill={vars.blueGrey100} />
+            </View>
+            <Text style={[scene.largeCopy, scene.textCenter]}>
+              {isSentAndReceivedLoverRequestMatch
+                ? 'How Convenient!'
+                : 'You Received a\nLover Request from'}
+            </Text>
+            <Text style={[scene.titleCopy, scene.textCenter]}>
+              {senderFirstName} {senderLastName}
+            </Text>
+            {isSentAndReceivedLoverRequestMatch && (
+              <Text style={[scene.largeCopy, scene.textCenter]}>
+                already sent you a lover request
+              </Text>
+            )}
+            {error === 'accept-lover' && (
+              <Well text="There was an error accepting your lover request" />
+            )}
+            {error === 'cancel' && (
+              <Well text="There was an error cancelling your lover request" />
+            )}
+            {error === 'get-received' && (
+              <Well text="There was an error updating your lover request" />
+            )}
+          </View>
+          <View style={scene.contentBottom}>
+            <View style={forms.buttonRow}>
+              <View style={forms.buttonCell2ColLeft}>
+                <Button
+                  onPress={cancelLoverRequest}
+                  buttonStyles={BUTTON_STYLES.SECONDARY_SKELETON}
+                  disabled={isInFlight}
+                  isInFlight={inFlightType === 'cancel'}
+                  title="Reject"
+                />
+              </View>
+              <View style={forms.buttonCell2ColRight}>
+                <Button
+                  testID="confirm-user-accept-button"
+                  onPress={acceptLoverRequest}
+                  disabled={isInFlight}
+                  isInFlight={inFlightType === 'accept'}
+                  title="Accept"
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+      </SafeAreaView>
     );
   }
 }
@@ -160,8 +224,6 @@ export default connect(
     loverRequestId: state.loverRequest.id,
     relationshipId: state.relationship.id,
     userId: state.user.id,
-    userFirstName: state.user.firstName,
-    userLastName: state.user.lastName,
   }),
   {
     cancelLoverRequest: cancelLoverRequestAction,

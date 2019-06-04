@@ -9,7 +9,8 @@ import {
   SET_UNVIEWED_JALAPENO_COUNT,
 } from './jalapeno.actions';
 import { CREATE_LOVE_NOTE_SUCCESS } from '../loveNote/loveNote.actions';
-import { GET_TIMELINE_DATA_SUCCESS } from '../user/user.actions';
+import { GET_TIMELINE_DATA_SUCCESS, LOGOUT } from '../user/user.actions';
+import { CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_SUCCESS } from '../loverRequest/loverRequest.actions';
 import getRecentlySentTokenCount from '../../helpers/getRecentlySentTokenCount';
 
 const generateFakeJalapenoWithId = id => ({
@@ -96,6 +97,11 @@ export default function reducer(state = defaultState, action) {
       return {
         ...state,
         unviewedJalapenoCount: action.unviewedJalapenoCount,
+      };
+    case LOGOUT:
+    case CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_SUCCESS:
+      return {
+        ...defaultState,
       };
     default:
       return state;

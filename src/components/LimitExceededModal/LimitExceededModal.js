@@ -7,6 +7,16 @@ import JalapenoArt from '../../components/JalapenoArt';
 import Button from '../../components/Button';
 import config from '../../config';
 
+const NEW_RELATIONSHIP_REQUEST = Symbol();
+const COIN = Symbol();
+const JALAPENO = Symbol();
+
+export const MODAL_CONTENT_TYPES = {
+  NEW_RELATIONSHIP_REQUEST,
+  COIN,
+  JALAPENO,
+};
+
 const LimitExceededModal = ({
   isModalOpen,
   closeModal,
@@ -25,13 +35,13 @@ const LimitExceededModal = ({
     <View style={modal.outerContainer}>
       <View style={modal.innerContainer}>
         <View>
-          {modalContent === 'coin' && (
+          {modalContent === COIN && (
             <CoinArt
               scale={0.8}
               recentlySentCoinCount={config.maxItemsPerHour}
             />
           )}
-          {modalContent === 'jalapeno' && (
+          {modalContent === JALAPENO && (
             <JalapenoArt
               scale={0.7}
               recentlySentJalapenoCount={config.maxItemsPerHour}
@@ -44,23 +54,29 @@ const LimitExceededModal = ({
             alignItems: 'center',
           }}>
           <Text style={[scene.titleCopy, scene.textCenter]}>
-            {modalContent === 'coin' && 'Hourly Luvup\nLimit Exceeded'}
-            {modalContent === 'jalapeno' && 'Hourly Jalapeño\nLimit Exceeded'}
+            {modalContent === NEW_RELATIONSHIP_REQUEST &&
+              'Relationship Request Sent'}
+            {modalContent === COIN && 'Hourly Luvup\nLimit Exceeded'}
+            {modalContent === JALAPENO && 'Hourly Jalapeño\nLimit Exceeded'}
           </Text>
           <Text style={[scene.largeCopy, scene.textCenter, scene.gutterTop]}>
-            {modalContent === 'coin' &&
+            {modalContent === NEW_RELATIONSHIP_REQUEST &&
+              'You can now begin using Luvup!'}
+            {modalContent === COIN &&
               (coinCopy || `Wow! ${loverFirstName} must be on fire right now.`)}
-            {modalContent === 'jalapeno' &&
+            {modalContent === JALAPENO &&
               (jalapenoCopy ||
                 `Looks like things are getting spicy with ${loverFirstName} right now.`)}
           </Text>
           <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
-            {modalContent === 'coin' &&
+            {modalContent === NEW_RELATIONSHIP_REQUEST &&
+              `We'll let you know when ${loverFirstName} accepts. Though ${loverFirstName} has not accepted yet, you can use the app. Any actions you take now will be visible on ${loverFirstName}'s profile when they accept.`}
+            {modalContent === COIN &&
               (coinCopy ||
                 `You've sent the max hourly limit of ${
                   config.maxItemsPerHour
                 } luvups. You'll have the opportunity to send another luvup ${coinsAvailableTime}.`)}
-            {modalContent === 'jalapeno' &&
+            {modalContent === JALAPENO &&
               (jalapenoCopy ||
                 `You've sent the max hourly limit of ${
                   config.maxItemsPerHour
@@ -68,7 +84,7 @@ const LimitExceededModal = ({
           </Text>
         </View>
         <View style={modal.buttonContainer}>
-          <Button onPress={closeModal} title="Dismiss" />
+          <Button onPress={closeModal} title="Got it" />
         </View>
       </View>
     </View>

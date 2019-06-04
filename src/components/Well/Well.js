@@ -4,10 +4,19 @@ import PropTypes from 'prop-types';
 
 import { wells } from '../../styles';
 
+export const WELL_TYPES = {
+  DANGER: 'danger',
+  WARNING: 'warning',
+  INFO: 'info',
+  SUCCESS: 'success',
+};
+
 const getViewStyle = type => {
   switch (type) {
-    case 'success':
+    case WELL_TYPES.SUCCESS:
       return wells.success;
+    case WELL_TYPES.INFO:
+      return wells.info;
     default:
       return wells.error;
   }
@@ -15,8 +24,10 @@ const getViewStyle = type => {
 
 const getTextStyle = type => {
   switch (type) {
-    case 'success':
+    case WELL_TYPES.SUCCESS:
       return wells.successText;
+    case WELL_TYPES.INFO:
+      return wells.infoText;
     default:
       return wells.errorText;
   }
@@ -29,7 +40,7 @@ const Well = ({ type, text, styles }) => (
 );
 
 Well.propTypes = {
-  type: PropTypes.oneOf(['danger', 'warning', 'info', 'success']),
+  type: PropTypes.oneOf(Object.values(WELL_TYPES)),
   text: PropTypes.string,
   styles: PropTypes.object,
 };

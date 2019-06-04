@@ -35,7 +35,7 @@ const userApi = {
         relationship {
           id createdAt
           lovers {
-            id username firstName lastName
+            id email username firstName lastName isPlaceholder
           }
         }
       }

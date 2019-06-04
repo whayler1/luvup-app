@@ -1,6 +1,6 @@
 import React from 'react';
 import { SafeAreaView, Text, View } from 'react-native';
-
+import isString from 'lodash/isString';
 import { Ionicons } from '@expo/vector-icons';
 
 import styles from './CreateLoverRequestSelectedUser.styles';
@@ -13,7 +13,7 @@ export default ({
   requestLover,
   selectedUser,
   requestLoverIsInFlight,
-  error,
+  requestLoverError,
 }) => (
   <SafeAreaView style={scene.safeAreaView}>
     <View style={scene.container}>
@@ -30,8 +30,8 @@ export default ({
           </Text>
         </View>
         <View style={scene.contentBottom}>
-          {error === 'request-lover' && (
-            <Well text="There was an error requesting your lover." />
+          {isString(requestLoverError) && requestLoverError.length > 0 && (
+            <Well text={requestLoverError} />
           )}
           <View style={forms.buttonRow}>
             <View style={forms.buttonCell2ColLeft}>

@@ -1,14 +1,18 @@
 export const SET_LOVER = 'lover/set-lover';
-export const CLEAR_LOVER = 'lover/clear-lover';
 
-export const setLover = (id, username, firstName, lastName) => ({
-  type: SET_LOVER,
+export const setLover = (
   id,
+  email,
   username,
   firstName,
   lastName,
-});
-
-export const clearLover = () => ({
-  type: CLEAR_LOVER,
+  isPlaceholder
+) => ({
+  type: SET_LOVER,
+  id,
+  email,
+  username,
+  firstName,
+  lastName,
+  isPlaceholder,
 });

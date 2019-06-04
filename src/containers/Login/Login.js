@@ -12,7 +12,7 @@ import {
 // import { Button } from 'react-native-elements';
 
 import styles from './Login.styles';
-import { scene, forms, buttons, wells } from '../../styles';
+import { scene, forms, wells } from '../../styles';
 import {
   userLoginRouteSwitch,
   registerForPushNotifications,

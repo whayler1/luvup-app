@@ -71,6 +71,7 @@ export default {
   p: blueGrey500,
   jalapeno: green500,
   happiest: pink500,
+  info: blue500,
   danger: red500,
   dangerPress: Color(red500).saturate(0.05),
   dangerDisabled: Color(red500).desaturate(0.05),

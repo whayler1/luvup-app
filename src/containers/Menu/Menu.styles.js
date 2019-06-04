@@ -25,6 +25,7 @@ export default StyleSheet.create({
     fontSize: 20,
     color: vars.blueGrey500,
     marginTop: 4,
+    fontFamily: vars.fontRegular,
   },
   scrollView: {
     alignSelf: 'stretch',
@@ -35,5 +36,18 @@ export default StyleSheet.create({
   scrollViewContentContainer: {
     flex: 1,
     justifyContent: 'center',
+  },
+  menuLinkContainer: {
+    flexDirection: 'row',
+    marginTop: 8,
+    justifyContent: 'space-between',
+  },
+  menuLinkText: {
+    fontFamily: vars.fontRegular,
+    color: vars.link,
+    fontSize: 20,
+  },
+  menuLinkTextDanger: {
+    color: vars.danger,
   },
 });
