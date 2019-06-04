@@ -29,12 +29,10 @@ export default StyleSheet.create({
   },
   scrollView: {
     alignSelf: 'stretch',
-    paddingVertical: vars.gutter,
-    paddingHorizontal: vars.gutter,
-    flex: 1,
   },
   scrollViewContentContainer: {
-    flex: 1,
+    paddingVertical: vars.gutter,
+    paddingHorizontal: vars.gutter,
     justifyContent: 'center',
   },
   menuLinkContainer: {

@@ -84,7 +84,11 @@ const LimitExceededModal = ({
           </Text>
         </View>
         <View style={modal.buttonContainer}>
-          <Button onPress={closeModal} title="Got it" />
+          <Button
+            testID="dismiss-modal-button"
+            onPress={closeModal}
+            title="Got it"
+          />
         </View>
       </View>
     </View>

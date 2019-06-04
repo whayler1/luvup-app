@@ -51,9 +51,10 @@ describe('onboarding', () => {
       .withTimeout(3000);
     await createLoverRequestButton.tap();
 
-    await waitFor(element(by.id('hero-lover-request-copy')))
+    await waitFor(elementById('dismiss-modal-button'))
       .toBeVisible()
       .withTimeout(3000);
+    await elementById('dismiss-modal-button').tap();
   });
 
   // it('happy path', async () => {
