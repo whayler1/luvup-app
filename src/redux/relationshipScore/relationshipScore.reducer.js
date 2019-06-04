@@ -14,9 +14,11 @@ import {
 import {
   GET_ME_SUCCESS,
   GET_TIMELINE_DATA_SUCCESS,
+  LOGOUT,
 } from '../user/user.actions';
 import { SEND_COIN_SUCCESS } from '../coin/coin.actions';
 import { SEND_JALAPENO_SUCCESS } from '../jalapeno/jalapeno.actions';
+import { CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_SUCCESS } from '../loverRequest/loverRequest.actions';
 
 const defaultState = {
   id: '',
@@ -137,6 +139,9 @@ export default function reducer(state = defaultState, action) {
         scoreQuartile: getScoreQuartile(score),
       };
     }
+    case LOGOUT:
+    case CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_SUCCESS:
+      return { ...defaultState };
     default:
       return state;
   }
