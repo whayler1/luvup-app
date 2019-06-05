@@ -70,6 +70,9 @@ describe('onboarding', () => {
       .toBeVisible()
       .withTimeout(3000);
     await acceptLoverRequestButton.tap();
+    /**
+     * Write expectations for hero directions to be visible on first visit
+     */
   });
 
   // it('happy path', async () => {

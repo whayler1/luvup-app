@@ -70,6 +70,9 @@ class Dashboard extends PureComponent {
       coinsAvailableTime: undefined,
       jalapenosAvailableTime: undefined,
     };
+    this.isNewRelationship =
+      props.isNewRelationshipRequest || !this.isInRelationship();
+
     if (props.isNewRelationshipRequest) {
       Object.assign(this.state, {
         isModalOpen: true,
@@ -77,6 +80,10 @@ class Dashboard extends PureComponent {
       });
     }
   }
+
+  isInRelationship = () =>
+    _.isString(this.props.relationshipId) &&
+    this.props.relationshipId.length > 0;
 
   openModal = modalContent => {
     const isCoin = modalContent === MODAL_CONTENT_TYPES.COIN;
@@ -169,7 +176,6 @@ class Dashboard extends PureComponent {
         unviewedCoinCount,
         unviewedJalapenoCount,
         unreadReceivedLoveNoteCount,
-        relationshipId,
         loverRequestCreatedAt,
         receivedLoverRequests,
       },
@@ -185,6 +191,8 @@ class Dashboard extends PureComponent {
       closePushdown,
       handleLoveNoteWritePress,
       handleCreateQuizPress,
+      isInRelationship,
+      isNewRelationship,
     } = this;
 
     return (
@@ -203,11 +211,8 @@ class Dashboard extends PureComponent {
           relationshipScore={relationshipScore}
           unreadReceivedLoveNoteCount={unreadReceivedLoveNoteCount}
         />
-        {_.isString(relationshipId) && relationshipId.length > 0 ? (
-          <Hero
-            openModal={openModal}
-            isNewRelationship={this.props.isNewRelationshipRequest}
-          />
+        {isInRelationship() ? (
+          <Hero openModal={openModal} isNewRelationship={isNewRelationship} />
         ) : (
           <DashboardNoRelationship
             {...{
