@@ -98,3 +98,9 @@ export const login = async (
 
 export const elementById = id => element(by.id(id)).atIndex(0);
 export const elementByText = text => element(by.text(text)).atIndex(0);
+export const waitForElement = (element, options = {}) =>
+  waitFor(element)
+    .toBeVisible()
+    .withTimeout(options.timeout || 6000);
+export const waitForElementById = (id, options) =>
+  waitForElement(elementById(id), options);

@@ -1,7 +1,13 @@
 import { reloadApp } from 'detox-expo-helpers';
 import times from 'lodash/times';
 
-import { login, elementById, elementByText, generateUser } from './helpers';
+import {
+  login,
+  elementById,
+  waitForElementById,
+  elementByText,
+  generateUser,
+} from './helpers';
 
 const TIMEOUT = 3000;
 
@@ -51,10 +57,12 @@ describe('onboarding', () => {
       .withTimeout(3000);
     await createLoverRequestButton.tap();
 
-    await waitFor(elementById('dismiss-modal-button'))
-      .toBeVisible()
-      .withTimeout(3000);
+    await waitForElementById('dismiss-modal-button');
     await elementById('dismiss-modal-button').tap();
+    await elementById('dashboard-top-nav-menu-button').tap();
+    await waitForElementById('menu-relationship-title');
+    await elementById('menu-relationship-title').swipe('up', 'fast', 0.5);
+    await elementById('menu-logout').tap();
   });
 
   // it('happy path', async () => {

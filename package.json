@@ -120,6 +120,7 @@
       }
     },
     "test-runner": "jest",
-    "runner-config": "e2e/config.json"
+    "runner-config": "e2e/config.json",
+    "specs": ""
   }
 }
