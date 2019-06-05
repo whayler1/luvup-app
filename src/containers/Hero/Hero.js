@@ -80,6 +80,23 @@ class Hero extends Component {
       isHeartCry: false,
     };
 
+    this.heartFill = new Animated.Value(props.relationshipScore || 0);
+    this.heartTranslateY = new Animated.Value(0);
+    this.tearDropATranslateY = new Animated.Value(0);
+    this.tearDropAOpacity = new Animated.Value(0);
+    this.tearDropBTranslateY = new Animated.Value(0);
+    this.tearDropBOpacity = new Animated.Value(0);
+    this.translateY = new Animated.Value(0);
+    this.scale = new Animated.Value(1);
+    this.scaleBGHeart = new Animated.Value(1);
+    this.coinTranslateY = new Animated.Value(0);
+    this.coinOpacity = new Animated.Value(0);
+    this.jalapenoTranslateY = new Animated.Value(0);
+    this.jalapenoOpacity = new Animated.Value(0);
+    this.directionsOpacity = new Animated.Value(
+      props.isNewRelationship ? 1 : 0
+    );
+
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: () => true,
       onStartShouldSetPanResponderCapture: () => true,
@@ -190,6 +207,7 @@ class Hero extends Component {
     recentlySentCoinCount: PropTypes.number.isRequired,
     recentlySentJalapenoCount: PropTypes.number.isRequired,
     receivedLoverRequestsCount: PropTypes.number,
+    isNewRelationship: PropTypes.bool,
   };
 
   /**
@@ -294,21 +312,6 @@ class Hero extends Component {
       this.props.openModal(MODAL_CONTENT_TYPES.JALAPENO);
     }
   };
-
-  heartFill = new Animated.Value(this.props.relationshipScore || 0);
-  heartTranslateY = new Animated.Value(0);
-  tearDropATranslateY = new Animated.Value(0);
-  tearDropAOpacity = new Animated.Value(0);
-  tearDropBTranslateY = new Animated.Value(0);
-  tearDropBOpacity = new Animated.Value(0);
-  translateY = new Animated.Value(0);
-  scale = new Animated.Value(1);
-  scaleBGHeart = new Animated.Value(1);
-  coinTranslateY = new Animated.Value(0);
-  coinOpacity = new Animated.Value(0);
-  jalapenoTranslateY = new Animated.Value(0);
-  jalapenoOpacity = new Animated.Value(0);
-  directionsOpacity = new Animated.Value(0);
 
   eyeCry(translateY, opacity, forcedDelay) {
     const easing = Easing.in(Easing.linear);
@@ -540,7 +543,7 @@ class Hero extends Component {
             opacity: directionsOpacity,
             alignItems: 'center',
           }}>
-          <Ionicons name="md-arrow-round-up" size={30} color={vars.p} />
+          <Ionicons name="md-arrow-round-up" size={20} color={vars.p} />
           <Text style={styles.directionsText}>Swipe up to</Text>
           <Text style={styles.directionsText}>send a Luvup</Text>
         </Animated.View>
@@ -690,7 +693,7 @@ class Hero extends Component {
           }}>
           <Text style={styles.directionsText}>Swipe down to</Text>
           <Text style={styles.directionsText}>send a Jalapeño</Text>
-          <Ionicons name="md-arrow-round-down" size={30} color={vars.p} />
+          <Ionicons name="md-arrow-round-down" size={20} color={vars.p} />
         </Animated.View>
       </View>
     );

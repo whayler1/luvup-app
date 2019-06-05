@@ -204,7 +204,10 @@ class Dashboard extends PureComponent {
           unreadReceivedLoveNoteCount={unreadReceivedLoveNoteCount}
         />
         {_.isString(relationshipId) && relationshipId.length > 0 ? (
-          <Hero openModal={openModal} />
+          <Hero
+            openModal={openModal}
+            isNewRelationship={this.props.isNewRelationshipRequest}
+          />
         ) : (
           <DashboardNoRelationship
             {...{
