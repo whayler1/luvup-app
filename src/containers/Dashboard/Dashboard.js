@@ -50,6 +50,8 @@ class Dashboard extends PureComponent {
     loverRequestCreatedAt: PropTypes.string,
     receivedLoverRequests: PropTypes.arrayOf(LoverRequestType),
     isNewRelationshipRequest: PropTypes.bool,
+    isAcceptLoverRequestInFlight: PropTypes.bool.isRequired,
+    acceptLoverRequestError: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -125,8 +127,34 @@ class Dashboard extends PureComponent {
     }
   }
 
-  handleLoveNoteWritePress = () => Actions.createLoveNote();
-  handleCreateQuizPress = () => Actions.createQuizQuestion();
+  componentDidUpdate(prevProps) {
+    const {
+      props: { isAcceptLoverRequestInFlight, acceptLoverRequestError },
+      handleLoverRequestAccepted,
+    } = this;
+    if (
+      prevProps.isAcceptLoverRequestInFlight &&
+      !isAcceptLoverRequestInFlight &&
+      acceptLoverRequestError.length < 1
+    ) {
+      handleLoverRequestAccepted();
+    }
+  }
+
+  handleLoveNoteWritePress = () => {
+    Actions.createLoveNote();
+  };
+
+  handleCreateQuizPress = () => {
+    Actions.createQuizQuestion();
+  };
+
+  handleLoverRequestAccepted = () => {
+    this.setState({
+      isModalOpen: true,
+      modalContent: MODAL_CONTENT_TYPES.RELATIONSHIP_REQUEST_ACCEPTED,
+    });
+  };
 
   render() {
     const {
@@ -234,6 +262,10 @@ export default connect(
     relationshipId: state.relationship.id,
     loverRequestCreatedAt: state.loverRequest.createdAt,
     receivedLoverRequests: state.receivedLoverRequests.rows,
+    isAcceptLoverRequestInFlight:
+      state.receivedLoverRequests.isAcceptLoverRequestInFlight,
+    acceptLoverRequestError:
+      state.receivedLoverRequests.acceptLoverRequestError,
   }),
   {
     getCoinCount: getCoinCountAction,

@@ -63,6 +63,13 @@ describe('onboarding', () => {
     await waitForElementById('menu-relationship-title');
     await elementById('menu-relationship-title').swipe('up', 'fast', 0.5);
     await elementById('menu-logout').tap();
+
+    await login(recipient.email, recipient.password);
+    const acceptLoverRequestButton = elementById('accept-lover-request-button');
+    await waitFor(acceptLoverRequestButton)
+      .toBeVisible()
+      .withTimeout(3000);
+    await acceptLoverRequestButton.tap();
   });
 
   // it('happy path', async () => {

@@ -76,6 +76,9 @@ export const login = async (
   email = 'whayler1@bar.com',
   password = 'Testing1234'
 ) => {
+  await waitFor(element(by.id('login-title')).atIndex(0))
+    .toBeVisible()
+    .withTimeout(3000);
   await waitFor(element(by.id('login-email-input')).atIndex(0))
     .toBeVisible()
     .withTimeout(3000);

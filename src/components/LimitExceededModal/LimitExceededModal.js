@@ -8,11 +8,13 @@ import Button from '../../components/Button';
 import config from '../../config';
 
 const NEW_RELATIONSHIP_REQUEST = Symbol();
+const RELATIONSHIP_REQUEST_ACCEPTED = Symbol();
 const COIN = Symbol();
 const JALAPENO = Symbol();
 
 export const MODAL_CONTENT_TYPES = {
   NEW_RELATIONSHIP_REQUEST,
+  RELATIONSHIP_REQUEST_ACCEPTED,
   COIN,
   JALAPENO,
 };
@@ -56,11 +58,14 @@ const LimitExceededModal = ({
           <Text style={[scene.titleCopy, scene.textCenter]}>
             {modalContent === NEW_RELATIONSHIP_REQUEST &&
               'Relationship Request Sent'}
+            {modalContent === RELATIONSHIP_REQUEST_ACCEPTED &&
+              'Relationship Request Accepted'}
             {modalContent === COIN && 'Hourly Luvup\nLimit Exceeded'}
             {modalContent === JALAPENO && 'Hourly Jalapeño\nLimit Exceeded'}
           </Text>
           <Text style={[scene.largeCopy, scene.textCenter, scene.gutterTop]}>
-            {modalContent === NEW_RELATIONSHIP_REQUEST &&
+            {(modalContent === NEW_RELATIONSHIP_REQUEST ||
+              modalContent === RELATIONSHIP_REQUEST_ACCEPTED) &&
               'You can now begin using Luvup!'}
             {modalContent === COIN &&
               (coinCopy || `Wow! ${loverFirstName} must be on fire right now.`)}
@@ -71,6 +76,8 @@ const LimitExceededModal = ({
           <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
             {modalContent === NEW_RELATIONSHIP_REQUEST &&
               `We'll let you know when ${loverFirstName} accepts. Though ${loverFirstName} has not accepted yet, you can use the app. Any actions you take now will be visible on ${loverFirstName}'s profile when they accept.`}
+            {modalContent === RELATIONSHIP_REQUEST_ACCEPTED &&
+              `Swipe up on the heart to send ${loverFirstName} a Luvup! This is the start of something special.`}
             {modalContent === COIN &&
               (coinCopy ||
                 `You've sent the max hourly limit of ${

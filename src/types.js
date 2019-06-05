@@ -31,9 +31,9 @@ export const UserType = PropTypes.shape({
 
 export const LoverRequestType = PropTypes.shape({
   id: PropTypes.string.isRequired,
-  isAccepted: PropTypes.bool.isRequired,
-  isSenderCanceled: PropTypes.bool.isRequired,
-  isRecipientCanceled: PropTypes.bool.isRequired,
+  isAccepted: PropTypes.bool,
+  isSenderCanceled: PropTypes.bool,
+  isRecipientCanceled: PropTypes.bool,
   sender: UserType,
   recipient: UserType,
   createdAt: PropTypes.string.isRequired,

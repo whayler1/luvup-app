@@ -63,10 +63,23 @@ class CreateLoverRequest extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.isNewRelationshipId(prevProps.relationshipId)) {
+    if (
+      this.isInFlightDone(
+        prevProps.isCreateLoverRequestAndRelationshipAndPlaceholderLoverInFlight
+      ) &&
+      this.isNewRelationshipId(prevProps.relationshipId)
+    ) {
       Actions.dashboard({ isNewRelationshipRequest: true });
     }
   }
+
+  isInFlightDone = prevIsInFlight => {
+    const {
+      isCreateLoverRequestAndRelationshipAndPlaceholderLoverInFlight: isInFlight,
+      createLoverRequestAndRelationshipAndPlaceholderLoverError: error,
+    } = this.props;
+    return prevIsInFlight && !isInFlight && error.length < 1;
+  };
 
   isNewRelationshipId = prevRelationshipId => {
     const { relationshipId } = this.props;
