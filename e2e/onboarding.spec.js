@@ -62,11 +62,7 @@ describe('onboarding', () => {
     await waitForElementById('dismiss-modal-button');
     await elementById('dismiss-modal-button').tap();
     await waitForElementById('hero-directions');
-    await waitForElementById('hero-heart-eye');
-    // await elementById('hero-heart-eye').swipe('up', 'fast', 0.5);
-    await element(by.id('hero-heart-eye'))
-      .atIndex(0)
-      .swipe('up', 'fast', 0.5);
+    await elementById('hero-heart-view').swipe('up', 'fast', 0.5);
     await waitFor(elementById('hero-directions'))
       .toBeNotVisible()
       .withTimeout(3000);
@@ -87,6 +83,13 @@ describe('onboarding', () => {
     await waitForElementById('dismiss-modal-button');
     await elementById('dismiss-modal-button').tap();
     await waitForElementById('hero-directions');
+    await elementById('hero-heart-view').swipe('up', 'fast', 0.5);
+    await waitFor(elementById('hero-directions'))
+      .toBeNotVisible()
+      .withTimeout(3000);
+    /**
+     * Figure out why timeline button isn't showing
+     */
   });
 
   // it('happy path', async () => {

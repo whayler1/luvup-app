@@ -591,7 +591,6 @@ class Hero extends Component {
               <HeartArt animatedFillPct={heartFill} scale={0.3367} />
             </Animated.View>
             <View
-              testID="hero-heart-eye"
               style={{
                 position: 'absolute',
                 left: 38,
