@@ -69,7 +69,7 @@ class CreateLoverRequest extends Component {
       ) &&
       this.isNewRelationshipId(prevProps.relationshipId)
     ) {
-      Actions.dashboard({ isNewRelationshipRequest: true });
+      Actions.reset('dashboard', { isNewRelationshipRequest: true });
     }
   }
 
@@ -164,7 +164,7 @@ class CreateLoverRequest extends Component {
   };
 
   handleGoBack = () => {
-    Actions.dashboard();
+    Actions.popTo('dashboard');
   };
 
   componentDidMount() {

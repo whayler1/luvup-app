@@ -55,7 +55,9 @@ const LimitExceededModal = ({
             marginTop: 16,
             alignItems: 'center',
           }}>
-          <Text style={[scene.titleCopy, scene.textCenter]}>
+          <Text
+            testID="limit-exceeded-modal-title"
+            style={[scene.titleCopy, scene.textCenter]}>
             {modalContent === NEW_RELATIONSHIP_REQUEST &&
               'Relationship Request Sent'}
             {modalContent === RELATIONSHIP_REQUEST_ACCEPTED &&

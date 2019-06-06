@@ -163,7 +163,7 @@ class Timeline extends Component {
     }
   }, 250);
 
-  goBack = () => Actions.dashboard();
+  goBack = () => Actions.popTo('dashboard');
 
   setSections = userEvents => {
     const events = userEvents || this.props.userEvents;

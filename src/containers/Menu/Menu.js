@@ -73,14 +73,14 @@ class Menu extends PureComponent {
   onLogout = async () => {
     await this.props.logout();
 
-    Actions.login();
+    Actions.reset('login');
   };
 
   goToCreateLoverRequest = () => {
     Actions.createloverrequest();
   };
   goToDashboard = () => {
-    Actions.dashboard();
+    Actions.popTo('dashboard');
   };
   goToResendLoverRequest = () => {
     Actions.resendLoverRequest();

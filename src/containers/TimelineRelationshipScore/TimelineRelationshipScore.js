@@ -58,7 +58,7 @@ class TimelineRelationshipScore extends PureComponent {
   }
 
   handleBack = () => {
-    Actions.dashboard();
+    Actions.popTo('dashboard');
   };
 
   handleEndReached = () => {

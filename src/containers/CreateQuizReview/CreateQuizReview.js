@@ -50,7 +50,7 @@ class CreateQuizReview extends PureComponent {
   };
 
   handleDone = () => {
-    Actions.dashboard();
+    Actions.popTo('dashboard');
   };
 
   render() {

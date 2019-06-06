@@ -8,7 +8,7 @@ import CoinRow from '../../components/CoinRow';
 import Button, { BUTTON_STYLES } from '../../components/Button';
 import { getCorrectAnswerReaction } from './ViewQuiz.helpers';
 
-const handleDone = () => Actions.dashboard();
+const handleDone = () => Actions.popTo('dashboard');
 
 const ViewQuizSuccess = ({ reward }) => (
   <View style={styles.successContainer}>

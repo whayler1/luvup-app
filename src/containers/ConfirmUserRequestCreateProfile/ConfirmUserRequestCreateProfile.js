@@ -148,7 +148,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
     await this.props.login(username, password);
     await this.props.getMe();
 
-    Actions.dashboard();
+    Actions.reset('dashboard');
   };
 
   submit = async () => {

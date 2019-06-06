@@ -538,6 +538,7 @@ class Hero extends Component {
         style={styles.heartView}
         {...panResponder.panHandlers}>
         <Animated.View
+          testID="hero-directions"
           style={{
             marginBottom: 32,
             opacity: directionsOpacity,
@@ -590,6 +591,7 @@ class Hero extends Component {
               <HeartArt animatedFillPct={heartFill} scale={0.3367} />
             </Animated.View>
             <View
+              testID="hero-heart-eye"
               style={{
                 position: 'absolute',
                 left: 38,
