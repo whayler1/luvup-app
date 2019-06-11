@@ -62,6 +62,10 @@ export const acceptLoverRequest = loverRequestId => async dispatch => {
       acceptLoverRequestRes,
       'body.data.acceptLoverRequest.relationship'
     );
+    const relationshipScore = _.get(
+      acceptLoverRequestRes,
+      'body.data.acceptLoverRequest.relationshipScore'
+    );
 
     if (
       _.isObject(loverRequest) &&
@@ -79,6 +83,7 @@ export const acceptLoverRequest = loverRequestId => async dispatch => {
         isRecipientCanceled: loverRequest.isRecipientCanceled,
         createdAt: loverRequest.createdAt,
         relationship,
+        relationshipScore,
       });
     } else {
       dispatch({

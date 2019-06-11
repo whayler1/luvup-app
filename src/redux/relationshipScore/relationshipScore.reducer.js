@@ -19,6 +19,7 @@ import {
 import { SEND_COIN_SUCCESS } from '../coin/coin.actions';
 import { SEND_JALAPENO_SUCCESS } from '../jalapeno/jalapeno.actions';
 import { CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_SUCCESS } from '../loverRequest/loverRequest.actions';
+import { ACCEPT_LOVER_REQUEST_SUCCESS } from '../receivedLoverRequests/receivedLoverRequests.actions';
 
 const defaultState = {
   id: '',
@@ -44,12 +45,20 @@ const defaultState = {
 
 const getScoreQuartile = score => Math.min(Math.floor(score * 0.04), 3);
 
+const relationshipScoreProps = ['id', 'createdAt', 'score'];
+
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
+    case ACCEPT_LOVER_REQUEST_SUCCESS:
+      return {
+        ...state,
+        ..._.pick(action.loverRequest, relationshipScoreProps),
+        scoreQuartile: getScoreQuartile(action.score),
+      };
     case CREATE_RELATIONSHIP_SCORE:
       return {
         ...state,
-        ..._.pick(action, ['id', 'createdAt', 'score']),
+        ..._.pick(action, relationshipScoreProps),
         scoreQuartile: getScoreQuartile(action.score),
       };
     case GET_RELATIONSHIP_SCORE_ATTEMPT:
@@ -63,6 +72,7 @@ export default function reducer(state = defaultState, action) {
         ...state,
         isGettingRelationshipScore: false,
         score: action.score,
+        scoreQuartile: getScoreQuartile(action.score),
       };
     case GET_RELATIONSHIP_SCORE_FAILURE:
       return {
