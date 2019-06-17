@@ -87,9 +87,10 @@ describe('onboarding', () => {
     await waitFor(elementById('hero-directions'))
       .toBeNotVisible()
       .withTimeout(3000);
-    /**
-     * Figure out why timeline button isn't showing
-     */
+    await elementById('dashboard-top-nav-history-button').tap();
+    await waitFor(elementById('timeline-item-1'))
+      .toBeNotVisible()
+      .withTimeout(3000);
   });
 
   // it('happy path', async () => {
