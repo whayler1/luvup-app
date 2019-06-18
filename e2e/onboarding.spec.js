@@ -5,7 +5,6 @@ import {
   login,
   elementById,
   waitForElementById,
-  // elementByText,
   generateUser,
 } from './helpers';
 
@@ -91,6 +90,9 @@ describe('onboarding', () => {
     await waitFor(elementById('timeline-item-1'))
       .toBeNotVisible()
       .withTimeout(3000);
+    /**
+     * Test luvups and jalapenos have been transfered from placeholder
+     */
   });
 
   // it('happy path', async () => {
