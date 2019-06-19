@@ -28,6 +28,10 @@ const fontBlack = 'quicksandbold';
 const fontRegular = 'quicksandregular';
 const fontVanity = 'yesteryear';
 
+const fontL = 32;
+const fontM = 24;
+const fontS = 16;
+
 // spacing
 
 const gutterHalf = 8;
@@ -84,6 +88,9 @@ export default {
   fontBlack,
   fontRegular,
   fontVanity,
+  fontL,
+  fontM,
+  fontS,
   //buttons
   infoButtonBg: cyan300,
   dangerButtonBg: red500,

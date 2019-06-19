@@ -36,22 +36,22 @@ const contentNoTop = {
   marginTop: 0,
 };
 const titleCopy = {
-  fontSize: 32,
+  fontSize: vars.fontL,
   fontFamily: vars.fontRegular,
   color: vars.blueGrey900,
 };
 const labelCopy = {
-  fontSize: 24,
+  fontSize: vars.fontM,
   fontFamily: vars.fontRegular,
   color: vars.blueGrey900,
 };
 const largeCopy = {
-  fontSize: 24,
+  fontSize: vars.fontM,
   fontFamily: vars.fontRegular,
   color: vars.blueGrey500,
 };
 const bodyCopy = {
-  fontSize: 16,
+  fontSize: vars.fontS,
   fontFamily: vars.fontRegular,
   color: vars.blueGrey500,
 };

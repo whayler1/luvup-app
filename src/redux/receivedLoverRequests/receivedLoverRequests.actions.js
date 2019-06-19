@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import receivedLoverRequestsApi from './receivedLoverRequests.api';
 import loverRequestApi from '../loverRequest/loverRequest.api';
-import { getMe } from '../user/user.actions';
+import { getMe, getTimelineData } from '../user/user.actions';
 
 export const SET_RECEIVED_LOVER_REQUESTS =
   'received-lover-requests/set-received-lover-requests';
@@ -62,6 +62,10 @@ export const acceptLoverRequest = loverRequestId => async dispatch => {
       acceptLoverRequestRes,
       'body.data.acceptLoverRequest.relationship'
     );
+    const relationshipScore = _.get(
+      acceptLoverRequestRes,
+      'body.data.acceptLoverRequest.relationshipScore'
+    );
 
     if (
       _.isObject(loverRequest) &&
@@ -69,7 +73,7 @@ export const acceptLoverRequest = loverRequestId => async dispatch => {
       _.isObject(relationship) &&
       relationship.id
     ) {
-      await dispatch(getMe());
+      await Promise.all([dispatch(getMe()), dispatch(getTimelineData(100))]);
 
       dispatch({
         type: ACCEPT_LOVER_REQUEST_SUCCESS,
@@ -79,6 +83,7 @@ export const acceptLoverRequest = loverRequestId => async dispatch => {
         isRecipientCanceled: loverRequest.isRecipientCanceled,
         createdAt: loverRequest.createdAt,
         relationship,
+        relationshipScore,
       });
     } else {
       dispatch({

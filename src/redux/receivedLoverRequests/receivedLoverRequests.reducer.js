@@ -47,10 +47,10 @@ export default function reducer(state = defaultState, action) {
           'isRecipientCanceled',
           'createdAt',
         ]),
-        isAcceptLoverRequestInFlight: false,
       };
       return {
         ...state,
+        isAcceptLoverRequestInFlight: false,
         rows,
       };
     }

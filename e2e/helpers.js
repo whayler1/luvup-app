@@ -76,6 +76,9 @@ export const login = async (
   email = 'whayler1@bar.com',
   password = 'Testing1234'
 ) => {
+  await waitFor(element(by.id('login-title')).atIndex(0))
+    .toBeVisible()
+    .withTimeout(3000);
   await waitFor(element(by.id('login-email-input')).atIndex(0))
     .toBeVisible()
     .withTimeout(3000);
@@ -98,3 +101,9 @@ export const login = async (
 
 export const elementById = id => element(by.id(id)).atIndex(0);
 export const elementByText = text => element(by.text(text)).atIndex(0);
+export const waitForElement = (element, options = {}) =>
+  waitFor(element)
+    .toBeVisible()
+    .withTimeout(options.timeout || 6000);
+export const waitForElementById = (id, options) =>
+  waitForElement(elementById(id), options);

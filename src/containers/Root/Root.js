@@ -28,7 +28,7 @@ class Root extends Component {
       registerForPushNotifications();
       userLoginRouteSwitch();
     } else {
-      Actions.login();
+      Actions.reset('login');
     }
   };
 
@@ -46,7 +46,7 @@ class Root extends Component {
     if (id_token) {
       this.reauth(id_token);
     } else {
-      Actions.login();
+      Actions.reset('login');
     }
   };
 

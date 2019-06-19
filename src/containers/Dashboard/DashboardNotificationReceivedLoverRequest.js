@@ -19,6 +19,11 @@ class DashboardNotificationReceivedLoverRequest extends PureComponent {
     isCancelLoverRequestInFlight: PropTypes.bool,
   };
 
+  constructor(props) {
+    super(props);
+    this.createdAtDate = new Date(props.loverRequest.createdAt);
+  }
+
   handleRejectPress = () => {
     this.props.onRejectPress(this.props.loverRequest.id);
   };
@@ -72,12 +77,12 @@ class DashboardNotificationReceivedLoverRequest extends PureComponent {
     const {
       props: {
         loverRequest: {
-          createdAt,
           sender: { firstName, lastName, email },
         },
       },
       getButtons,
       getError,
+      createdAtDate,
     } = this;
     const error = getError();
 
@@ -106,7 +111,7 @@ class DashboardNotificationReceivedLoverRequest extends PureComponent {
           {email}
         </Text>
         <Text style={[scene.bodyCopy, scene.textCenter]}>
-          {moment(createdAt).fromNow()}
+          {moment(createdAtDate).fromNow()}
         </Text>
         {error.length > 0 && <Well text={error} />}
       </DashboardNotification>

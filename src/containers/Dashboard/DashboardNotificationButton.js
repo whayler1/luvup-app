@@ -8,8 +8,8 @@ import { BUTTON_STYLES } from './DashboardNotification';
 
 class DashboardNotificationButton extends PureComponent {
   static propTypes = {
-    text: PropTypes.text,
-    type: PropTypes.text,
+    text: PropTypes.string,
+    type: PropTypes.string,
     onPress: PropTypes.func,
     disabled: PropTypes.bool,
     index: PropTypes.number,

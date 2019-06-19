@@ -30,7 +30,7 @@ const receivedLoverRequestsApi = {
           id createdAt updatedAt
           lovers { id email firstName lastName }
         }
-        error
+        relationshipScore { id createdAt score }
       }
     }`,
     };

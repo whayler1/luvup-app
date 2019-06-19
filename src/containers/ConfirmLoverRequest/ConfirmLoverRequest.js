@@ -97,7 +97,7 @@ class ConfirmLoverRequest extends Component {
     if (this.props.receivedLoverRequests.length > 0) {
       this.setCurrentLoverRequest();
     } else if (this.props.relationshipId || this.props.loverRequestId) {
-      Actions.dashboard();
+      Actions.reset('dashboard');
     } else {
       Actions.createloverrequest();
     }
@@ -118,7 +118,7 @@ class ConfirmLoverRequest extends Component {
     );
 
     if (_.isObject(loverRequest) && loverRequest.id) {
-      Actions.dashboard();
+      Actions.reset('dashboard');
     } else {
       this.setState({
         isInFlight: false,

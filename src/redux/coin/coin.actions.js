@@ -1,8 +1,7 @@
-import superagent from 'superagent';
 import _ from 'lodash';
 import uuid from 'uuid/v1';
 
-import config from '../../config';
+import coinApi from './coin.api';
 
 export const REFRESH_SENT_COIN_COUNT = 'coin/refresh-sent-coin-count';
 export const SEND_COIN_ATTEMPT = 'coin/send-coin-attempt';
@@ -24,15 +23,7 @@ export const sendCoin = () => async dispatch => {
   });
 
   try {
-    const res = await superagent.post(config.graphQlUrl, {
-      query: `mutation {
-        sendCoin {
-          coin { id createdAt }
-          relationshipScore { score }
-        }
-      }`,
-    });
-
+    const res = await coinApi.sendCoin();
     const sendCoin = _.get(res, 'body.data.sendCoin');
 
     if (_.isObject(sendCoin) && _.isObject(sendCoin.relationshipScore)) {
@@ -52,14 +43,7 @@ export const sendCoin = () => async dispatch => {
 
 export const getCoinCount = () => async dispatch => {
   try {
-    const res = await superagent.post(config.graphQlUrl, {
-      query: `{
-        coinCount {
-          count
-        }
-      }`,
-    });
-
+    const res = await coinApi.getCoinCount();
     const coinCount = _.get(res, 'body.data.coinCount');
 
     if (_.isObject(coinCount)) {
@@ -79,20 +63,7 @@ export const clearCoinCount = () => ({ type: CLEAR_COIN_COUNT });
 
 export const getSentCoins = (limit, offset) => async dispatch => {
   try {
-    const res = await superagent.post(config.graphQlUrl, {
-      query: `{
-        sentCoins(
-          limit: "${limit}"
-          offset: "${offset}"
-        ) {
-          rows {
-            id createdAt
-          }
-          count
-        }
-      }`,
-    });
-
+    const res = await coinApi.getSentCoins(limit, offset);
     const sentCoins = _.at(res, 'body.data.sentCoins')[0];
 
     if (_.isObject(sentCoins)) {

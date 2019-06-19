@@ -4,7 +4,7 @@ import { vars } from '../../styles';
 const directionsText = {
   color: vars.p,
   fontFamily: vars.fontRegular,
-  fontSize: 20,
+  fontSize: 16,
   alignItems: 'center',
 };
 const loverRequestText = {

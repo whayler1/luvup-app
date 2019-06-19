@@ -21,9 +21,9 @@ const userLoginRouteSwitch = async () => {
   const user = state.user;
 
   if (!('body' in res)) {
-    Actions.login();
+    Actions.reset('login');
   } else {
-    Actions.dashboard();
+    Actions.reset('dashboard');
     // Actions.timeline();
     // Actions.createQuizReview({
     //   quizItem: {

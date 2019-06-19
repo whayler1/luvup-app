@@ -42,6 +42,11 @@ class Input extends PureComponent {
     this.setState({ isFocus: false });
   };
 
+  handleChangeText = (...args) => {
+    this.setState({ isFocus: true });
+    this.props.onChangeText(...args);
+  };
+
   render() {
     const {
       props: {
@@ -49,7 +54,6 @@ class Input extends PureComponent {
         label,
         value,
         maxLength,
-        onChangeText,
         error,
         inputProps,
         formGroupStyles,
@@ -57,6 +61,7 @@ class Input extends PureComponent {
       state: { isFocus },
       handleFocus,
       handleBlur,
+      handleChangeText,
     } = this;
     return (
       <InputWrapper {...{ label, error, formGroupStyles, isFocus, value }}>
@@ -65,7 +70,7 @@ class Input extends PureComponent {
           style={forms.input}
           onFocus={handleFocus}
           onBlur={handleBlur}
-          onChangeText={onChangeText}
+          onChangeText={handleChangeText}
           value={value}
           maxLength={maxLength}
           placeholder={isFocus ? placeholder : ''}

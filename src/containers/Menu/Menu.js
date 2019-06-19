@@ -73,14 +73,14 @@ class Menu extends PureComponent {
   onLogout = async () => {
     await this.props.logout();
 
-    Actions.login();
+    Actions.reset('login');
   };
 
   goToCreateLoverRequest = () => {
     Actions.createloverrequest();
   };
   goToDashboard = () => {
-    Actions.dashboard();
+    Actions.popTo('dashboard');
   };
   goToResendLoverRequest = () => {
     Actions.resendLoverRequest();
@@ -157,6 +157,7 @@ class Menu extends PureComponent {
             </View>
           </View>
           <ScrollView
+            testID="menu-scrollview"
             style={styles.scrollView}
             contentContainerStyle={styles.scrollViewContentContainer}>
             <View>
@@ -195,7 +196,9 @@ class Menu extends PureComponent {
             </View>
 
             <View style={styles.group}>
-              <Text style={scene.titleCopy}>Relationship</Text>
+              <Text testID="menu-relationship-title" style={scene.titleCopy}>
+                Relationship
+              </Text>
               {_.isString(loverId) && loverId.length > 0 && (
                 <Fragment>
                   <Text style={styles.label}>Lover</Text>
