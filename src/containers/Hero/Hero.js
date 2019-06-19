@@ -62,6 +62,11 @@ const getHeartFillValue = (relationshipScore, easedDy) => {
   return heartFillValue;
 };
 
+const heartArtWidthHeight = {
+  width: 285,
+  height: 260,
+};
+
 class Hero extends Component {
   constructor(props) {
     super(props);
@@ -550,8 +555,7 @@ class Hero extends Component {
         </Animated.View>
         <Animated.View
           style={{
-            width: 300,
-            height: 275,
+            ...heartArtWidthHeight,
             zIndex: 10,
             transform: [
               {
@@ -567,8 +571,7 @@ class Hero extends Component {
           }}>
           <Animated.View
             style={{
-              width: 300,
-              height: 275,
+              ...heartArtWidthHeight,
               transform: [
                 {
                   translateY: heartTranslateY,
@@ -577,8 +580,8 @@ class Hero extends Component {
             }}>
             <Animated.View
               style={{
-                width: 300,
-                height: 275,
+                ...heartArtWidthHeight,
+                backgroundColor: 'rgba(100,30,70,0.2)',
                 transform: [
                   {
                     scaleX: scaleBGHeart,
@@ -588,7 +591,7 @@ class Hero extends Component {
                   },
                 ],
               }}>
-              <HeartArt animatedFillPct={heartFill} scale={0.3367} />
+              <HeartArt animatedFillPct={heartFill} scale={0.32} />
             </Animated.View>
             <View
               style={{
