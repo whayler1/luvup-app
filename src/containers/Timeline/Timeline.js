@@ -262,7 +262,10 @@ class Timeline extends Component {
         />
         <View style={styles.wrapper}>
           <View style={[scene.topNav, styles.topNav]}>
-            <TouchableOpacity onPress={goBack} style={styles.heartBtn}>
+            <TouchableOpacity
+              onPress={goBack}
+              style={styles.heartBtn}
+              testID="timeline-dashboard-button">
               <HeartArt scale={0.037} fill="rgba(0,0,0,0.5)" />
             </TouchableOpacity>
           </View>
