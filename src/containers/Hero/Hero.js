@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
+  Dimensions,
   Animated,
   Easing,
   PanResponder,
@@ -21,7 +22,9 @@ import HeroEye from '../../components/HeroEye';
 import HeroMouth from '../../components/HeroMouth';
 import CoinArt from '../../components/CoinArt';
 import JalapenoArt from '../../components/JalapenoArt';
-import HeartArt from '../../components/Art/HeartArt';
+import HeartArt, {
+  DEFAULT_WIDTH as HEART_WIDTH,
+} from '../../components/Art/HeartArt';
 import TearDropArt from '../../components/Art/TearDropArt';
 import { MODAL_CONTENT_TYPES } from '../../components/LimitExceededModal';
 
@@ -62,9 +65,16 @@ const getHeartFillValue = (relationshipScore, easedDy) => {
   return heartFillValue;
 };
 
+const screenWidth = Math.round(Dimensions.get('window').width);
+const heartWidth = screenWidth - vars.gutterDoubleAndHalf * 2;
+const hearthHeight = Math.round(heartWidth * 0.9122807018);
+const heartScale = heartWidth / HEART_WIDTH;
+
 const heartArtWidthHeight = {
-  width: 285,
-  height: 260,
+  width: heartWidth,
+  height: hearthHeight,
+  // width: 285,
+  // height: 260,
 };
 
 class Hero extends Component {
@@ -591,7 +601,7 @@ class Hero extends Component {
                   },
                 ],
               }}>
-              <HeartArt animatedFillPct={heartFill} scale={0.32} />
+              <HeartArt animatedFillPct={heartFill} scale={heartScale} />
             </Animated.View>
             <View
               style={{
