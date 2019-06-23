@@ -19,11 +19,13 @@ import { Ionicons } from '@expo/vector-icons';
 import styles from './Hero.styles';
 import { vars } from '../../styles';
 import HeroEye from '../../components/HeroEye';
-import HeroMouth from '../../components/HeroMouth';
+import HeroMouth, {
+  DEFAULT_WIDTH as HERO_MOUTH_DEFAULT_WIDTH,
+} from '../../components/HeroMouth';
 import CoinArt from '../../components/CoinArt';
 import JalapenoArt from '../../components/JalapenoArt';
 import HeartArt, {
-  DEFAULT_WIDTH as HEART_WIDTH,
+  DEFAULT_WIDTH as HEART_ART_DEFAULT_WIDTH,
 } from '../../components/Art/HeartArt';
 import TearDropArt from '../../components/Art/TearDropArt';
 import { MODAL_CONTENT_TYPES } from '../../components/LimitExceededModal';
@@ -68,13 +70,11 @@ const getHeartFillValue = (relationshipScore, easedDy) => {
 const screenWidth = Math.round(Dimensions.get('window').width);
 const heartWidth = screenWidth - vars.gutterDoubleAndHalf * 2;
 const hearthHeight = Math.round(heartWidth * 0.9122807018);
-const heartScale = heartWidth / HEART_WIDTH;
+const heartScale = heartWidth / HEART_ART_DEFAULT_WIDTH;
 
 const heartArtWidthHeight = {
   width: heartWidth,
   height: hearthHeight,
-  // width: 285,
-  // height: 260,
 };
 
 class Hero extends Component {
@@ -591,7 +591,6 @@ class Hero extends Component {
             <Animated.View
               style={{
                 ...heartArtWidthHeight,
-                backgroundColor: 'rgba(100,30,70,0.2)',
                 transform: [
                   {
                     scaleX: scaleBGHeart,
@@ -641,7 +640,7 @@ class Hero extends Component {
             <Animated.View
               style={{
                 position: 'absolute',
-                left: 181,
+                right: 105,
                 top: 90,
                 opacity: tearDropBOpacity,
                 transform: [
@@ -655,7 +654,7 @@ class Hero extends Component {
             <View
               style={{
                 position: 'absolute',
-                left: 110,
+                left: heartWidth / 2 - HERO_MOUTH_DEFAULT_WIDTH / 2,
                 top: 170,
               }}>
               <HeroMouth
