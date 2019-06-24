@@ -67,7 +67,8 @@ const getHeartFillValue = (relationshipScore, easedDy) => {
   return heartFillValue;
 };
 
-const screenWidth = Math.round(Dimensions.get('window').width);
+const windowDimensions = Dimensions.get('window');
+const screenWidth = Math.round(windowDimensions.width);
 const heartWidth = screenWidth - vars.gutterDoubleAndHalf * 2;
 const hearthHeight = Math.round(heartWidth * 0.9122807018);
 const heartScale = heartWidth / HEART_ART_DEFAULT_WIDTH;
@@ -124,7 +125,7 @@ class Hero extends Component {
         this.showDirections();
       },
       onPanResponderMove: (evt, gestureState) => {
-        const max = 80;
+        const max = 60;
         const { dy } = gestureState;
         const easedDy = getEasedDy(dy, max);
         const { isHeartShake, isHeartCry } = this.state;
