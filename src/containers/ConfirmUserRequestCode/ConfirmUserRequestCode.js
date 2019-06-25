@@ -229,10 +229,9 @@ class ConfirmUserRequestCode extends Component {
                 setFirstRef: setCodeRef,
               }}
             />
-            {confirmUserRequestCodeError.length > 0 &&
-              stateError.length < 1 && (
-                <Well text={confirmUserRequestCodeError} />
-              )}
+            {confirmUserRequestCodeError.length > 0 && (
+              <Well text={confirmUserRequestCodeError} />
+            )}
             <View style={forms.buttonRow}>
               <View style={styles.submitWrapper}>
                 <Button

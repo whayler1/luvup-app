@@ -1,8 +1,6 @@
 import superagent from 'superagent';
 import config from '../../config';
 
-const request = query => superagent.post(config.graphQlUrl, { query });
-
 const postWithOptionalIdToken = (params, idToken) => {
   if (idToken) {
     return superagent

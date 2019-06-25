@@ -48,6 +48,9 @@ export const CONFIRM_USER_REQUEST_CODE_SUCCESS =
   'user/confirm-user-request-code-success';
 export const CONFIRM_USER_REQUEST_CODE_FAILURE =
   'user/confirm-user-request-code-failure';
+export const CONFIRM_USER_REQUEST_ATTEMPT = 'user/confirm-user-request-attempt';
+export const CONFIRM_USER_REQUEST_SUCCESS = 'user/confirm-user-request-success';
+export const CONFIRM_USER_REQUEST_FAILURE = 'user/confirm-user-request-failure';
 export const GET_ME_ATTEMPT = 'user/get-me-attempt';
 export const GET_ME_SUCCESS = 'user/get-me-success';
 export const GET_ME_FAILURE = 'user/get-me-failure';
@@ -62,18 +65,25 @@ export const login = (usernameOrEmail, password) => async dispatch => {
       usernameOrEmail.toLowerCase().trim(),
       password.trim()
     );
+    const id_token = await AsyncStorage.getItem('id_token');
 
     await AsyncStorage.setItem('id_token', res.body.id_token);
 
+    if (res.ok) {
+      dispatch({
+        type: LOGIN_SUCCESS,
+        id: res.body.user.id,
+        email: res.body.user.email,
+        username: res.body.user.username,
+        isReset: res.body.user.isReset,
+      });
+      listenToNotifications();
+      return res;
+    }
     dispatch({
-      type: LOGIN_SUCCESS,
-      id: res.body.user.id,
-      email: res.body.user.email,
-      username: res.body.user.username,
-      isReset: res.body.user.isReset,
+      type: LOGIN_FAILURE,
+      errorMessage: _.get(res, 'body.errors[0].message', 'Error logging in'),
     });
-    listenToNotifications();
-    return res;
   } catch (err) {
     dispatch({ type: LOGIN_FAILURE, errorMessage: err.message });
     return err;
@@ -114,7 +124,7 @@ export const sendNewPassword = email => async dispatch => {
   dispatch({ type: SEND_NEW_PASSWORD_ATTEMPT });
   const defaultError = 'Error sending new password';
   try {
-    const { body } = await userApi.sendNewPassword(email);
+    const { body } = await userApi.sendNewPassword(email.toLowerCase().trim());
 
     if (body.errors) {
       return dispatch({
@@ -279,9 +289,10 @@ export const confirmUser = (
   lastName,
   code,
   password
-) => async () => {
+) => async dispatch => {
+  dispatch({ type: CONFIRM_USER_REQUEST_ATTEMPT });
   try {
-    const res = await userApi.confirmUser(
+    const confirmUserRes = await userApi.confirmUser(
       email,
       username,
       firstName,
@@ -290,9 +301,23 @@ export const confirmUser = (
       password
     );
 
-    return res;
+    const errorMessage = _.get(confirmUserRes, 'body.errors[0].message');
+
+    if (!errorMessage) {
+      dispatch({ type: CONFIRM_USER_REQUEST_SUCCESS });
+      return;
+    }
+
+    dispatch({
+      type: CONFIRM_USER_REQUEST_FAILURE,
+      errorMessage,
+    });
   } catch (err) {
-    return err;
+    dispatch({
+      type: CONFIRM_USER_REQUEST_FAILURE,
+      errorMessage: err.message,
+    });
+    // return err;
   }
 };
 
