@@ -18,6 +18,9 @@ import {
   CONFIRM_USER_REQUEST_CODE_ATTEMPT,
   CONFIRM_USER_REQUEST_CODE_SUCCESS,
   CONFIRM_USER_REQUEST_CODE_FAILURE,
+  CONFIRM_USER_REQUEST_ATTEMPT,
+  CONFIRM_USER_REQUEST_SUCCESS,
+  CONFIRM_USER_REQUEST_FAILURE,
   GET_TIMELINE_DATA_ATTEMPT,
   GET_TIMELINE_DATA_FAILURE,
   GET_TIMELINE_DATA_SUCCESS,
@@ -49,6 +52,8 @@ const defaultState = {
   isReset: false,
   isConfirmUserRequestCodeInFlight: false,
   confirmUserRequestCodeError: '',
+  isConfirmUserInFlight: false,
+  confirmUserError: '',
 };
 
 const userAttribs = ['id', 'email', 'username', 'firstName', 'lastName'];
@@ -135,6 +140,23 @@ export default function reducer(state = defaultState, action) {
         ...state,
         isUserRequestInFlight: false,
         userRequestError: action.errorMessage,
+      };
+    case CONFIRM_USER_REQUEST_ATTEMPT:
+      return {
+        ...state,
+        isConfirmUserInFlight: true,
+        confirmUserError: '',
+      };
+    case CONFIRM_USER_REQUEST_SUCCESS:
+      return {
+        ...state,
+        isConfirmUserInFlight: false,
+      };
+    case CONFIRM_USER_REQUEST_FAILURE:
+      return {
+        ...state,
+        isConfirmUserInFlight: false,
+        confirmUserError: action.errorMessage,
       };
     case CONFIRM_USER_REQUEST_CODE_ATTEMPT:
       return {

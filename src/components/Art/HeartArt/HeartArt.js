@@ -9,6 +9,8 @@ import extractBrush from 'react-native-svg/lib/extract/extractBrush';
 /* eslint-enable import/no-extraneous-dependencies */
 import { getAnimatedRelationshipScoreFill } from '../../../helpers/getRelationshipScoreFill';
 
+export const DEFAULT_WIDTH = 891;
+
 class HeartArt extends PureComponent {
   static propTypes = {
     animatedFillPct: PropTypes.object,
@@ -47,7 +49,7 @@ class HeartArt extends PureComponent {
       : this.props.fill;
 
     return (
-      <Svg width={891 * scale} height={807 * scale}>
+      <Svg width={DEFAULT_WIDTH * scale} height={807 * scale}>
         <Path
           ref={this.setPathRef}
           fill={fill}

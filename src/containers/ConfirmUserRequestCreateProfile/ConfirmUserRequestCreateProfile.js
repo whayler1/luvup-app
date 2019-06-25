@@ -24,6 +24,10 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
     confirmUser: PropTypes.func.isRequired,
     login: PropTypes.func.isRequired,
     getMe: PropTypes.func.isRequired,
+    isLoginInFlight: PropTypes.bool.isRequired,
+    loginError: PropTypes.string.isRequired,
+    isGetMeInFlight: PropTypes.bool.isRequired,
+    getMeErrorMessage: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -35,7 +39,6 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
       password: '',
       passwordAgain: '',
       error: '',
-      isInFlight: false,
       focusInput: '',
     };
   }
@@ -142,11 +145,32 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
     return '';
   };
 
-  login = async () => {
-    const { username, password } = this.state;
+  getIsInFlight = () =>
+    this.props.isUserRequestInFlight ||
+    this.props.isLoginInFlight ||
+    this.props.isGetMeInFlight;
 
-    await this.props.login(username, password);
+  getIoError = () =>
+    this.props.confirmUserError ||
+    this.props.loginError ||
+    this.props.getMeErrorMessage;
+
+  login = async () => {
+    const {
+      state: { password },
+      props: { email },
+    } = this;
+
+    await this.props.login(email, password);
+    const { loginError } = this.props;
+    if (_.isString(loginError) && loginError > 0) {
+      return;
+    }
     await this.props.getMe();
+    const { getMeErrorMessage } = this.props;
+    if (_.isString(getMeErrorMessage) && getMeErrorMessage.length > 0) {
+      return;
+    }
 
     Actions.reset('dashboard');
   };
@@ -154,7 +178,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
   submit = async () => {
     const { email, code } = this.props;
     const { username, firstName, lastName, password } = this.state;
-    const res = await this.props.confirmUser(
+    await this.props.confirmUser(
       email,
       username,
       firstName,
@@ -163,16 +187,12 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
       password
     );
 
-    if (!_.get(res, 'body.data.confirmUser')) {
-      this.setState({ error: 'response', isInFlight: false });
-    } else {
-      const { error } = res.body.data.confirmUser;
-      if (error) {
-        this.setState({ error, isInFlight: false });
-      } else {
-        this.login();
-      }
+    const { confirmUserError } = this.props;
+
+    if (_.isString(confirmUserError) && confirmUserError.length > 0) {
+      return;
     }
+    this.login();
   };
 
   handleSumbit = () => {
@@ -182,7 +202,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
       this.setState({ error: errorStr });
       return;
     }
-    this.setState({ error: '', isInFlight: true }, this.submit);
+    this.submit();
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -214,16 +234,13 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
       getUsernameError,
       getPasswordError,
       getReEnterPasswordError,
-      state: {
-        username,
-        firstName,
-        lastName,
-        password,
-        passwordAgain,
-        error,
-        isInFlight,
-      },
+      getIsInFlight,
+      getIoError,
+      state: { username, firstName, lastName, password, passwordAgain },
     } = this;
+
+    const isInFlight = getIsInFlight();
+    const ioError = getIoError();
 
     return (
       <KeyboardAwareScrollView
@@ -322,12 +339,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
               },
             }}
           />
-          {error === 'response' && (
-            <Well text="There was an error confirming signup" />
-          )}
-          {error === 'user request used' && (
-            <Well text="This user already exists" />
-          )}
+          {_.isString(ioError) && ioError.length > 0 && <Well text={ioError} />}
           <View style={forms.buttonRow}>
             <View style={styles.submitWrap}>
               <Button
@@ -347,6 +359,12 @@ export default connect(
   state => ({
     email: state.user.email,
     code: state.user.code,
+    isConfirmUserInFlight: state.user.isConfirmUserInFlight,
+    confirmUserError: state.user.confirmUserError,
+    isLoginInFlight: state.user.isLoginInFlight,
+    loginError: state.user.loginError,
+    isGetMeInFlight: state.user.isLoginInFlight,
+    getMeErrorMessage: state.user.loginError,
   }),
   {
     confirmUser: confirmUserAction,

@@ -1,10 +1,10 @@
 import React from 'react';
-import ReactArt, { Group, Shape, Surface, Transform } from 'ReactNativeART';
+import { Group, Shape, Surface } from 'ReactNativeART';
 
-import Circle from '../Circle';
+export const DEFAULT_WIDTH = 91;
 
 const Saddest = () => (
-  <Shape stroke="white" strokeWidth={4} d={'M2.5,2.5 L77.5,2.5'} />
+  <Shape stroke="white" strokeWidth={4} d={'M14.5,2.5 L77.5,2.5'} />
 );
 const Sad = () => (
   <Shape
@@ -52,10 +52,15 @@ const Happiest = () => [
   />,
 ];
 
-const mouths = [<Saddest />, <Sad />, <Happy />, <Happiest />];
+const mouths = [
+  <Saddest key="saddest" />,
+  <Sad key="sad" />,
+  <Happy key="happy" />,
+  <Happiest key="happiest" />,
+];
 
 export default ({ relationshipScoreQuartile, dragDirection }) => (
-  <Surface width={91} height={20}>
+  <Surface width={DEFAULT_WIDTH} height={20}>
     <Group>
       {(() => {
         if (dragDirection === 1) {
