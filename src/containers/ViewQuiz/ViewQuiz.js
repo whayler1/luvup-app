@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { View, ScrollView, Text } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { Button } from 'react-native-elements';
 import { format } from 'date-fns';
 
 import QuizDisplay from '../../components/QuizDisplay';
+import Button from '../../components/Button';
 import ViewQuizSuccess from './ViewQuizSuccess';
-import { quiz as styles, buttons, forms } from '../../styles';
+import { quiz as styles, forms } from '../../styles';
 import { answerQuizItem as answerQuizItemAction } from '../../redux/quizItem/quizItem.actions';
 import { getWrongAnswerReaction } from './ViewQuiz.helpers';
 
