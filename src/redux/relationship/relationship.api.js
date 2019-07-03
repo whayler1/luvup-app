@@ -13,6 +13,26 @@ const relationshipApi = {
         }
       }`,
     }),
+  createRelationshipWithInvite: (
+    senderId,
+    recipientEmail,
+    recipientFirstName,
+    recipientLastName
+  ) =>
+    superagent.post(config.graphQlUrl, {
+      query: `mutation {
+      createRelationshipWithInvite(
+        senderId: "${senderId}"
+        recipientEmail: "${recipientEmail}"
+        recipientFirstName: "${recipientFirstName}"
+        recipientLastName: "${recipientLastName}"
+      ) {
+        loverRequest { id }
+        relationship { id }
+        userInvite { id }
+      }
+    }`,
+    }),
 };
 
 export default relationshipApi;

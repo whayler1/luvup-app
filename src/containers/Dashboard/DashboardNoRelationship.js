@@ -16,6 +16,10 @@ const handleLoverRequestPress = () => {
   Actions.createloverrequest();
 };
 
+const handleInviteLoverPress = () => {
+  Actions.createInvite();
+};
+
 const DashboardNoRelationship = ({
   loverRequestCreatedAt,
   receivedLoverRequests,
@@ -79,6 +83,13 @@ const DashboardNoRelationship = ({
             title="Search for Your Lover"
             testID="dashboard-create-lover-request-button"
           />
+          <View style={scene.gutterTop}>
+            <Button
+              onPress={handleInviteLoverPress}
+              title="Invite Lover"
+              testID="dashboard-invite-lover-button"
+            />
+          </View>
         </View>
       )}
     </View>

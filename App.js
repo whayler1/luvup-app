@@ -21,6 +21,7 @@ import SignUp from './src/containers/SignUp';
 import ConfirmUserRequestCode from './src/containers/ConfirmUserRequestCode';
 import ConfirmUserRequestCreateProfile from './src/containers/ConfirmUserRequestCreateProfile';
 import Dashboard from './src/containers/Dashboard';
+import CreateInvite from './src/containers/CreateInvite';
 import CreateLoverRequest from './src/containers/CreateLoverRequest';
 import Timeline from './src/containers/Timeline';
 import TimelineRelationshipScore from './src/containers/TimelineRelationshipScore';
@@ -112,6 +113,12 @@ const App = () => (
             component={Dashboard}
             title="Dashboard"
             hideNavBar
+          />
+          <Scene
+            key="createInvite"
+            component={CreateInvite}
+            title="Create Invite"
+            {...sceneDefaults}
           />
           <Scene
             key="createloverrequest"
