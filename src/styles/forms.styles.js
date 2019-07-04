@@ -79,7 +79,11 @@ export default StyleSheet.create({
   },
   buttonRow: {
     alignSelf: 'stretch',
-    marginTop: 40,
+    marginTop: vars.gutterDoubleAndHalf,
+    flexDirection: 'row',
+  },
+  row: {
+    alignSelf: 'stretch',
     flexDirection: 'row',
   },
   buttonCell2ColLeft: {

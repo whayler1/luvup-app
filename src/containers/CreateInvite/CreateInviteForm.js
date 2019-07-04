@@ -4,6 +4,7 @@ import { View } from 'react-native';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import { scene, forms } from '../../styles';
 
 class CreateInviteForm extends PureComponent {
   static propTypes = {
@@ -74,42 +75,50 @@ class CreateInviteForm extends PureComponent {
             onSubmitEditing: handleEmailNext,
           }}
         />
-        <Input
-          label="First Name"
-          value={recipientFirstName}
-          onChangeText={onFirstNameChange}
-          error={recipientFirstNameError}
-          maxLength={20}
-          inputProps={{
-            testID: 'create-invite-recipient-first-name',
-            editable: !isInFlight,
-            spellCheck: false,
-            ref: setFirstNameRef,
-            returnKeyType: 'next',
-            onSubmitEditing: handleFirstNameNext,
-          }}
-        />
-        <Input
-          label="Last Name"
-          value={recipientLastName}
-          onChangeText={onLastNameChange}
-          error={recipientLastNameError}
-          maxLength={20}
-          inputProps={{
-            testID: 'create-invite-recipient-last-name',
-            editable: !isInFlight,
-            spellCheck: false,
-            ref: setLastNameRef,
-            returnKeyType: 'go',
-            onSubmitEditing: onSubmit,
-          }}
-        />
-        <Button
-          title="Send Invite"
-          isInFlight={isInFlight}
-          onPress={onSubmit}
-          testID="create-invite-submit"
-        />
+        <View style={forms.row}>
+          <View style={forms.buttonCell2ColLeft}>
+            <Input
+              label="First Name"
+              value={recipientFirstName}
+              onChangeText={onFirstNameChange}
+              error={recipientFirstNameError}
+              maxLength={20}
+              inputProps={{
+                testID: 'create-invite-recipient-first-name',
+                editable: !isInFlight,
+                spellCheck: false,
+                ref: setFirstNameRef,
+                returnKeyType: 'next',
+                onSubmitEditing: handleFirstNameNext,
+              }}
+            />
+          </View>
+          <View style={forms.buttonCell2ColRight}>
+            <Input
+              label="Last Name"
+              value={recipientLastName}
+              onChangeText={onLastNameChange}
+              error={recipientLastNameError}
+              maxLength={20}
+              inputProps={{
+                testID: 'create-invite-recipient-last-name',
+                editable: !isInFlight,
+                spellCheck: false,
+                ref: setLastNameRef,
+                returnKeyType: 'go',
+                onSubmitEditing: onSubmit,
+              }}
+            />
+          </View>
+        </View>
+        <View style={scene.gutterDoubleAndHalfTop}>
+          <Button
+            title="Send Invite"
+            isInFlight={isInFlight}
+            onPress={onSubmit}
+            testID="create-invite-submit"
+          />
+        </View>
       </View>
     );
   }

@@ -60,7 +60,7 @@ class CreateInvite extends PureComponent {
         <View style={scene.contentNoTop}>
           <View style={scene.contentTop}>
             <Text style={[scene.titleCopy, scene.textCenter]}>
-              Send Your Lover an Invite
+              Invite Lover
             </Text>
             <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
               Use the form below to invite your lover to a relationship on
