@@ -30,15 +30,6 @@ export default StyleSheet.create({
     fontFamily: vars.fontRegular,
     color: vars.blueGrey500,
   },
-  menuButton: {
-    flex: 1,
-    alignItems: 'flex-end',
-  },
-  menuButtonText: {
-    fontFamily: vars.fontBlack,
-    fontSize: 16,
-    color: vars.blueGrey500,
-  },
   flatList: {
     paddingTop: 16,
   },

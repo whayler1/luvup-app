@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import superagent from 'superagent';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
@@ -11,7 +11,6 @@ import {
   View,
   ScrollView,
   KeyboardAvoidingView,
-  TouchableOpacity,
 } from 'react-native';
 
 import styles from './CreateLoverRequest.styles';
@@ -20,11 +19,11 @@ import CreateLoverRequestRenderItem from './CreateLoverRequestRenderItem';
 
 import analytics from '../../services/analytics';
 import config from '../../config.js';
-// import Template from './CreateLoverRequest.template';
 import CreateLoverRequestSelectedUser from './CreateLoverRequestSelectedUser';
-import HeartArt from '../../components/Art/HeartArt';
 import SearchArt from '../../components/Art/SearchArt';
+import SimpleHeader from '../../components/SimpleHeader';
 import Input from '../../components/Input';
+import Button, { BUTTON_STYLES } from '../../components/Button';
 import { getReceivedLoverRequests as getReceivedLoverRequestsAction } from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
 import { createLoverRequestAndRelationshipAndPlaceholderLover as createLoverRequestAndRelationshipAndPlaceholderLoverAction } from '../../redux/loverRequest/loverRequest.actions';
 
@@ -97,6 +96,16 @@ class CreateLoverRequest extends Component {
       selectedUser: this.state.users.find(user => user.id === selectedUserId),
     });
 
+  handleInviteLoverPress = () => {
+    const { search } = this.state;
+    if (search.includes('@')) {
+      Actions.createInvite({ recipientEmail: search });
+      return;
+    }
+    const [recipientFirstName, recipientLastName] = search.split(' ');
+    Actions.createInvite({ recipientFirstName, recipientLastName });
+  };
+
   getExistingLoverRequest = async () => {
     await this.props.getReceivedLoverRequests();
     const existingRequest = this.props.receivedLoverRequests.find(
@@ -159,14 +168,6 @@ class CreateLoverRequest extends Component {
     this.setState({ search, isInFlight: true }, this.searchDebounce);
   };
 
-  handleMenuNavPress = () => {
-    Actions.menu();
-  };
-
-  handleGoBack = () => {
-    Actions.popTo('dashboard');
-  };
-
   componentDidMount() {
     analytics.screen({
       userId: this.props.userId,
@@ -178,8 +179,7 @@ class CreateLoverRequest extends Component {
     const {
       handleSearchChange,
       handleListItemClick,
-      handleMenuNavPress,
-      handleGoBack,
+      handleInviteLoverPress,
       requestLover,
       props: {
         userFirstName,
@@ -193,24 +193,7 @@ class CreateLoverRequest extends Component {
       return (
         <SafeAreaView style={scene.safeAreaView}>
           <KeyboardAvoidingView style={scene.container}>
-            <View style={scene.topNav}>
-              <View style={scene.topNavContent}>
-                <TouchableOpacity onPress={handleGoBack}>
-                  <HeartArt scale={0.037} fill={vars.blueGrey500} />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  testID="create-lover-request-menu-button"
-                  onPress={handleMenuNavPress}
-                  style={styles.menuButton}>
-                  <Text style={styles.menuButtonText}>
-                    {_.isString(userFirstName) &&
-                      userFirstName.substr(0, 1).toUpperCase()}
-                    {_.isString(userLastName) &&
-                      userLastName.substr(0, 1).toUpperCase()}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+            <SimpleHeader {...{ userFirstName, userLastName }} />
             <ScrollView
               style={scene.content}
               contentContainerStyle={styles.content}>
@@ -261,10 +244,18 @@ class CreateLoverRequest extends Component {
                     );
                   }
                   return (
-                    <Text style={[modal.copy, { color: vars.red500 }]}>
-                      There are no users who match that username, email or full
-                      name. Please double check your spelling.
-                    </Text>
+                    <Fragment>
+                      <Text style={[scene.bodyCopy, scene.gutterTop]}>
+                        There are no users who match that name or email.
+                      </Text>
+                      <View style={scene.gutterDoubleTop}>
+                        <Button
+                          title="Invite Lover"
+                          buttonStyles={BUTTON_STYLES.INFO_SKELETON}
+                          onPress={handleInviteLoverPress}
+                        />
+                      </View>
+                    </Fragment>
                   );
                 })()}
             </ScrollView>

@@ -118,7 +118,7 @@ const App = () => (
             key="createInvite"
             component={CreateInvite}
             title="Create Invite"
-            {...sceneDefaults}
+            hideNavBar
           />
           <Scene
             key="createloverrequest"
