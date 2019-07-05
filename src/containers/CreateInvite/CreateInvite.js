@@ -5,13 +5,15 @@ import { connect } from 'react-redux';
 
 import { scene } from '../../styles';
 import { emailRegex } from '../../helpers';
+import { createRelationshipWithInvite as createRelationshipWithInviteAction } from '../../redux/relationship/relationship.actions';
 import CreateInviteForm from './CreateInviteForm';
 import SimpleHeader from '../../components/SimpleHeader';
 
 class CreateInvite extends PureComponent {
   static propTypes = {
-    isCreateRelationshipWithInviteInFlight: PropTypes.bool,
-    createRelationshipWithInviteError: PropTypes.bool,
+    isCreateRelationshipWithInviteInFlight: PropTypes.bool.isRequired,
+    createRelationshipWithInviteError: PropTypes.string.isRequired,
+    createRelationshipWithInvite: PropTypes.func.isRequired,
     userFirstName: PropTypes.string,
     userLastName: PropTypes.string,
     recipientEmail: PropTypes.string,
@@ -76,12 +78,22 @@ class CreateInvite extends PureComponent {
     if (!this.validate()) {
       return;
     }
+    const {
+      state: { recipientEmail, recipientFirstName, recipientLastName },
+      props: { createRelationshipWithInvite },
+    } = this;
+    createRelationshipWithInvite(
+      recipientEmail,
+      recipientFirstName,
+      recipientLastName
+    );
   };
 
   render() {
     const {
       props: {
         isCreateRelationshipWithInviteInFlight,
+        createRelationshipWithInviteError,
         userFirstName,
         userLastName,
       },
@@ -123,6 +135,7 @@ class CreateInvite extends PureComponent {
                   onLastNameChange: handleLastNameChange,
                   isInFlight: isCreateRelationshipWithInviteInFlight,
                   onSubmit: handleSubmit,
+                  ioError: createRelationshipWithInviteError,
                 }}
               />
             </View>
@@ -133,7 +146,16 @@ class CreateInvite extends PureComponent {
   }
 }
 
-export default connect(state => ({
-  userFirstName: state.user.firstName,
-  userLastName: state.user.lastName,
-}))(CreateInvite);
+export default connect(
+  state => ({
+    userFirstName: state.user.firstName,
+    userLastName: state.user.lastName,
+    createRelationshipWithInviteError:
+      state.relationship.createRelationshipWithInviteError,
+    isCreateRelationshipWithInviteInFlight:
+      state.relationship.isCreateRelationshipWithInviteInFlight,
+  }),
+  {
+    createRelationshipWithInvite: createRelationshipWithInviteAction,
+  }
+)(CreateInvite);

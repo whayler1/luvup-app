@@ -1,9 +1,11 @@
+import isString from 'lodash/isString';
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import Well from '../../components/Well';
 import { scene, forms } from '../../styles';
 
 class CreateInviteForm extends PureComponent {
@@ -14,6 +16,7 @@ class CreateInviteForm extends PureComponent {
     recipientEmailError: PropTypes.string,
     recipientFirstNameError: PropTypes.string,
     recipientLastNameError: PropTypes.string,
+    ioError: PropTypes.string,
     onEmailChange: PropTypes.func,
     onFirstNameChange: PropTypes.func,
     onLastNameChange: PropTypes.func,
@@ -46,6 +49,7 @@ class CreateInviteForm extends PureComponent {
         recipientEmailError,
         recipientFirstNameError,
         recipientLastNameError,
+        ioError,
         onEmailChange,
         onFirstNameChange,
         onLastNameChange,
@@ -111,6 +115,7 @@ class CreateInviteForm extends PureComponent {
             />
           </View>
         </View>
+        {isString(ioError) && ioError.length > 0 && <Well text={ioError} />}
         <View style={scene.gutterDoubleAndHalfTop}>
           <Button
             title="Send Invite"
