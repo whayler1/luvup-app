@@ -4,6 +4,7 @@ import { KeyboardAvoidingView, SafeAreaView, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import { scene } from '../../styles';
+import { emailRegex } from '../../helpers';
 import CreateInviteForm from './CreateInviteForm';
 import SimpleHeader from '../../components/SimpleHeader';
 
@@ -32,18 +33,49 @@ class CreateInvite extends PureComponent {
   }
 
   handleEmailChange = recipientEmail => {
-    this.setState({ recipientEmail });
+    this.setState({ recipientEmail, recipientEmailError: '' });
   };
 
   handleFirstNameChange = recipientFirstName => {
-    this.setState({ recipientFirstName });
+    this.setState({ recipientFirstName, recipientFirstNameError: '' });
   };
   handleLastNameChange = recipientLastName => {
-    this.setState({ recipientLastName });
+    this.setState({ recipientLastName, recipientLastNameError: '' });
   };
 
-  handleSumbit = () => {
-    //
+  validate() {
+    let isValid = true;
+    const {
+      recipientEmail,
+      recipientFirstName,
+      recipientLastName,
+    } = this.state;
+    const errorStates = {
+      recipientEmailError: '',
+      recipientFirstNameError: '',
+      recipientLastNameError: '',
+    };
+
+    if (!emailRegex.test(recipientEmail)) {
+      errorStates.recipientEmailError = 'Please provide a valid email';
+      isValid = false;
+    }
+    if (recipientFirstName.length < 2) {
+      errorStates.recipientFirstNameError = 'Please provide a first name';
+      isValid = false;
+    }
+    if (recipientLastName.length < 2) {
+      errorStates.recipientLastNameError = 'Please provide a last name';
+      isValid = false;
+    }
+    this.setState(errorStates);
+    return isValid;
+  }
+
+  handleSubmit = () => {
+    if (!this.validate()) {
+      return;
+    }
   };
 
   render() {
@@ -76,7 +108,7 @@ class CreateInvite extends PureComponent {
                 Invite Lover
               </Text>
               <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
-                Send your lover an invtie to be in a relationship on Luvup.
+                Send your lover an invite to a relationship on Luvup.
               </Text>
               <CreateInviteForm
                 {...{
