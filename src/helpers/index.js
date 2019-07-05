@@ -1,3 +1,5 @@
+import isString from 'lodash/isString';
+
 import userLoginRouteSwitchFunc from './userLoginRouteSwitch';
 import registerForPushNotificationsFunc from './registerForPushNotifications';
 
@@ -8,3 +10,6 @@ export const passwordRegex = /^\S{8,}$/;
 
 export const userLoginRouteSwitch = userLoginRouteSwitchFunc;
 export const registerForPushNotifications = registerForPushNotificationsFunc;
+
+export const isStringWithLength = string =>
+  isString(string) && string.length > 0;

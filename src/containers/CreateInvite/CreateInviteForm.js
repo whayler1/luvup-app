@@ -1,4 +1,3 @@
-import isString from 'lodash/isString';
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
@@ -7,6 +6,7 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Well from '../../components/Well';
 import { scene, forms } from '../../styles';
+import { isStringWithLength } from '../../helpers';
 
 class CreateInviteForm extends PureComponent {
   static propTypes = {
@@ -115,7 +115,7 @@ class CreateInviteForm extends PureComponent {
             />
           </View>
         </View>
-        {isString(ioError) && ioError.length > 0 && <Well text={ioError} />}
+        {isStringWithLength(ioError) && <Well text={ioError} />}
         <View style={scene.gutterDoubleAndHalfTop}>
           <Button
             title="Send Invite"
