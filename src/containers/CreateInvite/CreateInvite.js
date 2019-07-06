@@ -8,6 +8,7 @@ import { scene } from '../../styles';
 import { emailRegex, isStringWithLength } from '../../helpers';
 import { createRelationshipWithInvite as createRelationshipWithInviteAction } from '../../redux/relationship/relationship.actions';
 import { getMe as getMeAction } from '../../redux/user/user.actions';
+import { getCoinCount as getCoinCountAction } from '../../redux/coin/coin.actions';
 import CreateInviteForm from './CreateInviteForm';
 import SimpleHeader from '../../components/SimpleHeader';
 
@@ -24,6 +25,8 @@ class CreateInvite extends PureComponent {
     isGetMeInFlight: PropTypes.bool.isRequired,
     getMeErrorMessage: PropTypes.string.isRequired,
     getMe: PropTypes.func.isRequired,
+    getCoinCount: PropTypes.func.isRequired,
+    isGetCoinCountInFlight: PropTypes.bool.isRequired,
   };
 
   constructor(props) {
@@ -81,10 +84,11 @@ class CreateInvite extends PureComponent {
 
   handleSubmitSuccess = async () => {
     const {
-      props: { getMe, getMeErrorMessage },
+      props: { getMe, getMeErrorMessage, getCoinCount },
     } = this;
     await getMe();
     if (!isStringWithLength(getMeErrorMessage)) {
+      await getCoinCount();
       Actions.popTo('dashboard');
     }
   };
@@ -120,6 +124,7 @@ class CreateInvite extends PureComponent {
         userLastName,
         isGetMeInFlight,
         getMeErrorMessage,
+        isGetCoinCountInFlight,
       },
       state: {
         recipientEmail,
@@ -158,7 +163,9 @@ class CreateInvite extends PureComponent {
                   onFirstNameChange: handleFirstNameChange,
                   onLastNameChange: handleLastNameChange,
                   isInFlight:
-                    isCreateRelationshipWithInviteInFlight || isGetMeInFlight,
+                    isCreateRelationshipWithInviteInFlight ||
+                    isGetMeInFlight ||
+                    isGetCoinCountInFlight,
                   onSubmit: handleSubmit,
                   ioError:
                     createRelationshipWithInviteError || getMeErrorMessage,
@@ -182,9 +189,11 @@ export default connect(
       state.relationship.isCreateRelationshipWithInviteInFlight,
     isGetMeInFlight: state.user.isGetMeInFlight,
     getMeErrorMessage: state.user.getMeErrorMessage,
+    isGetCoinCountInFlight: state.coin.isGetCoinCountInFlight,
   }),
   {
     createRelationshipWithInvite: createRelationshipWithInviteAction,
     getMe: getMeAction,
+    getCoinCount: getCoinCountAction,
   }
 )(CreateInvite);

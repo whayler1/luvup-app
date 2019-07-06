@@ -2,7 +2,9 @@ import {
   REFRESH_SENT_COIN_COUNT,
   SEND_COIN_ATTEMPT,
   SEND_COIN_SUCCESS,
-  GET_COIN_COUNT,
+  GET_COIN_COUNT_ATTEMPT,
+  GET_COIN_COUNT_SUCCESS,
+  GET_COIN_COUNT_FAILURE,
   CLEAR_COIN_COUNT,
   SET_SENT_COINS,
   SET_SENT_COINS_COUNT,
@@ -19,6 +21,8 @@ const defaultState = {
   sentCoinsCount: null,
   count: null,
   unviewedCoinCount: 0,
+  isGetCoinCountInFlight: false,
+  getCoinCountError: '',
 };
 
 const generateFakeCoinWithId = id => ({
@@ -63,10 +67,23 @@ export default function reducer(state = defaultState, action) {
         recentlySentCoinCount: getRecentlySentTokenCount(sentCoins),
       };
     }
-    case GET_COIN_COUNT:
+    case GET_COIN_COUNT_ATTEMPT:
       return {
         ...state,
+        isGetCoinCountInFlight: true,
+        getCoinCountError: '',
+      };
+    case GET_COIN_COUNT_SUCCESS:
+      return {
+        ...state,
+        isGetCoinCountInFlight: false,
         count: action.count,
+      };
+    case GET_COIN_COUNT_FAILURE:
+      return {
+        ...state,
+        isGetCoinCountInFlight: false,
+        getCoinCountError: action.errorMessage,
       };
     case CLEAR_COIN_COUNT:
       return {
