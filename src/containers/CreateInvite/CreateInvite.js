@@ -2,10 +2,12 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { KeyboardAvoidingView, SafeAreaView, View, Text } from 'react-native';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 
 import { scene } from '../../styles';
-import { emailRegex } from '../../helpers';
+import { emailRegex, isStringWithLength } from '../../helpers';
 import { createRelationshipWithInvite as createRelationshipWithInviteAction } from '../../redux/relationship/relationship.actions';
+import { getMe as getMeAction } from '../../redux/user/user.actions';
 import CreateInviteForm from './CreateInviteForm';
 import SimpleHeader from '../../components/SimpleHeader';
 
@@ -19,6 +21,9 @@ class CreateInvite extends PureComponent {
     recipientEmail: PropTypes.string,
     recipientFirstName: PropTypes.string,
     recipientLastName: PropTypes.string,
+    isGetMeInFlight: PropTypes.bool.isRequired,
+    getMeErrorMessage: PropTypes.string.isRequired,
+    getMe: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -74,7 +79,17 @@ class CreateInvite extends PureComponent {
     return isValid;
   }
 
-  handleSubmit = () => {
+  handleSubmitSuccess = async () => {
+    const {
+      props: { getMe, getMeErrorMessage },
+    } = this;
+    await getMe();
+    if (!isStringWithLength(getMeErrorMessage)) {
+      Actions.popTo('dashboard');
+    }
+  };
+
+  handleSubmit = async () => {
     if (!this.validate()) {
       return;
     }
@@ -82,11 +97,18 @@ class CreateInvite extends PureComponent {
       state: { recipientEmail, recipientFirstName, recipientLastName },
       props: { createRelationshipWithInvite },
     } = this;
-    createRelationshipWithInvite(
+    await createRelationshipWithInvite(
       recipientEmail,
       recipientFirstName,
       recipientLastName
     );
+    const {
+      handleSubmitSuccess,
+      props: { createRelationshipWithInviteError },
+    } = this;
+    if (!isStringWithLength(createRelationshipWithInviteError)) {
+      handleSubmitSuccess();
+    }
   };
 
   render() {
@@ -96,6 +118,8 @@ class CreateInvite extends PureComponent {
         createRelationshipWithInviteError,
         userFirstName,
         userLastName,
+        isGetMeInFlight,
+        getMeErrorMessage,
       },
       state: {
         recipientEmail,
@@ -133,9 +157,11 @@ class CreateInvite extends PureComponent {
                   onEmailChange: handleEmailChange,
                   onFirstNameChange: handleFirstNameChange,
                   onLastNameChange: handleLastNameChange,
-                  isInFlight: isCreateRelationshipWithInviteInFlight,
+                  isInFlight:
+                    isCreateRelationshipWithInviteInFlight || isGetMeInFlight,
                   onSubmit: handleSubmit,
-                  ioError: createRelationshipWithInviteError,
+                  ioError:
+                    createRelationshipWithInviteError || getMeErrorMessage,
                 }}
               />
             </View>
@@ -154,8 +180,11 @@ export default connect(
       state.relationship.createRelationshipWithInviteError,
     isCreateRelationshipWithInviteInFlight:
       state.relationship.isCreateRelationshipWithInviteInFlight,
+    isGetMeInFlight: state.user.isGetMeInFlight,
+    getMeErrorMessage: state.user.getMeErrorMessage,
   }),
   {
     createRelationshipWithInvite: createRelationshipWithInviteAction,
+    getMe: getMeAction,
   }
 )(CreateInvite);

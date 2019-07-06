@@ -115,7 +115,9 @@ class CreateInviteForm extends PureComponent {
             />
           </View>
         </View>
-        {isStringWithLength(ioError) && <Well text={ioError} />}
+        {isStringWithLength(ioError) && (
+          <Well styles={scene.gutterDoubleTop} text={ioError} />
+        )}
         <View style={scene.gutterDoubleAndHalfTop}>
           <Button
             title="Send Invite"
