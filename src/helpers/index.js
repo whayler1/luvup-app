@@ -13,3 +13,5 @@ export const registerForPushNotifications = registerForPushNotificationsFunc;
 
 export const isStringWithLength = string =>
   isString(string) && string.length > 0;
+
+export const sanitizeEmail = email => email.toLowerCase().trim();

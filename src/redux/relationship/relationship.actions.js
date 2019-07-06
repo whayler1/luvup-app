@@ -1,6 +1,7 @@
 import get from 'lodash/get';
 
 import relationshipApi from './relationship.api';
+import { sanitizeEmail } from '../../helpers';
 
 export const SET_RELATIONSHIP = 'relationship/set-relationship';
 export const END_RELATIONSHIP = 'relationship/end-relationship';
@@ -31,11 +32,14 @@ export const endRelationship = () => async dispatch => {
 export const clearRelationship = () => ({ type: CLEAR_RELATIONSHIP });
 
 export const createRelationshipWithInvite = (
-  recipientEmail,
-  recipientFirstName,
-  recipientLastName
+  unsanitizedRecipientEmail,
+  unsanitizedRecipientFirstName,
+  unsanitizedRecipientLastName
 ) => async dispatch => {
   dispatch({ type: CREATE_RELATIONSHIP_WITH_INVITE_ATTEMPT });
+  const recipientEmail = sanitizeEmail(unsanitizedRecipientEmail);
+  const recipientFirstName = unsanitizedRecipientFirstName.trim();
+  const recipientLastName = unsanitizedRecipientLastName.trim();
   try {
     const res = await relationshipApi.createRelationshipWithInvite(
       recipientEmail,
