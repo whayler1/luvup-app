@@ -89,7 +89,7 @@ class CreateInvite extends PureComponent {
     await getMe();
     if (!isStringWithLength(getMeErrorMessage)) {
       await getCoinCount();
-      Actions.popTo('dashboard');
+      Actions.reset('dashboard', { isNewRelationshipRequest: true });
     }
   };
 
