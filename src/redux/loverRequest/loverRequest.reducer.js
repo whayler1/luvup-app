@@ -14,10 +14,15 @@ import {
   CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_ATTEMPT,
   CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_SUCCESS,
   CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_FAILURE,
+  GET_LOVER_REQUEST_ATTEMPT,
+  GET_LOVER_REQUEST_SUCCESS,
+  GET_LOVER_REQUEST_FAILURE,
 } from './loverRequest.actions';
 import { LOGOUT } from '../user/user.actions';
 
 const defaultLoverRequest = {
+  isGetLoverRequestInFlight: false,
+  getLoverRequestError: '',
   id: '',
   isAccepted: '',
   isSenderCanceled: '',
@@ -121,6 +126,28 @@ export default function reducer(state = defaultState, action) {
         ...state,
         isCancelSentLoverRequestAndRelationshipInFlight: false,
         cancelSentLoverRequestAndRelationshipError: action.errorMessage,
+      };
+    case GET_LOVER_REQUEST_ATTEMPT:
+      return {
+        ...state,
+        isGetLoverRequestInFlight: true,
+        getLoverRequestError: '',
+      };
+    case GET_LOVER_REQUEST_SUCCESS:
+      return {
+        ...state,
+        isGetLoverRequestInFlight: false,
+        id: action.id,
+        isAccepted: action.isAccepted,
+        isSenderCanceled: action.isSenderCanceled,
+        isRecipientCanceled: action.isRecipientCanceled,
+        createdAt: action.createdAt,
+      };
+    case GET_LOVER_REQUEST_FAILURE:
+      return {
+        ...state,
+        isGetLoverRequestInFlight: false,
+        getLoverRequestError: action.errorMessage,
       };
     case LOGOUT:
       return { ...defaultState };

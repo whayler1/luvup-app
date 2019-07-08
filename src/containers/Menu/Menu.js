@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
 import _ from 'lodash';
 
+import { isStringWithLength } from '../../helpers';
 import analytics from '../../services/analytics';
 import { scene, forms, modal, vars } from '../../styles';
 import styles from './Menu.styles';
@@ -19,7 +20,12 @@ import MenuLink, { LINK_TYPE } from './MenuLink';
 import ChangePasswordModalContent from '../ChangePasswordModalContent';
 import { logout as logoutAction } from '../../redux/user/user.actions';
 import { endRelationship as endRelationshipAction } from '../../redux/relationship/relationship.actions';
-import { cancelSentLoverRequestAndRelationship as cancelLoverRequestAction } from '../../redux/loverRequest/loverRequest.actions';
+import { getUserInvite } from '../../redux/userInvite/userInvite.actions';
+import {
+  getLoverRequest,
+  cancelSentLoverRequestAndRelationship as cancelLoverRequestAction,
+} from '../../redux/loverRequest/loverRequest.actions';
+import { store } from '../../redux';
 
 class Menu extends PureComponent {
   constructor(props) {
@@ -53,6 +59,16 @@ class Menu extends PureComponent {
     isCancelLoverRequestInFlight: PropTypes.bool.isRequired,
     cancelLoverRequestError: PropTypes.string.isRequired,
   };
+
+  static async onEnter() {
+    const {
+      lover: { isPlaceholder },
+      userInvite: { id: userInviteId },
+    } = store.getState();
+    if (isPlaceholder && !isStringWithLength(userInviteId)) {
+      await store.dispatch(getUserInvite());
+    }
+  }
 
   goBack = () => {
     Actions.pop();

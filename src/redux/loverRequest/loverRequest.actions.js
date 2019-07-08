@@ -29,6 +29,12 @@ export const RESEND_LOVER_REQUEST_EMAIL_SUCCESS =
 export const RESEND_LOVER_REQUEST_EMAIL_FAILURE =
   'lover-request/resend-lover-request-email-failure';
 export const CLEAR_LOVER_REQUEST = 'lover-request/clear-lover-request';
+export const GET_LOVER_REQUEST_ATTEMPT =
+  'lover-request/get-lover-request-attempt';
+export const GET_LOVER_REQUEST_SUCCESS =
+  'lover-request/get-lover-request-success';
+export const GET_LOVER_REQUEST_FAILURE =
+  'lover-request/get-lover-request-failure';
 
 export const createLoverRequestAndRelationshipAndPlaceholderLover = recipientId => async dispatch => {
   dispatch({
@@ -168,3 +174,29 @@ export const resendLoverRequestEmail = (
 };
 
 export const clearLoverRequest = () => ({ type: CLEAR_LOVER_REQUEST });
+
+export const getLoverRequest = () => async dispatch => {
+  console.log('\n\n -----> getLoverRequest');
+  dispatch({ type: GET_LOVER_REQUEST_ATTEMPT });
+  try {
+    const res = await loverRequestApi.getLoverRequest();
+    const errorMessage = _.get(res, 'body.errors[0].message');
+    if (errorMessage) {
+      throw new Error(errorMessage);
+    }
+    const loverRequest = _.get(
+      res,
+      'body.data.activeLoverRequest.loverRequest'
+    );
+    console.log('loverRequest', loverRequest);
+    dispatch({
+      type: GET_LOVER_REQUEST_SUCCESS,
+      ...loverRequest,
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_LOVER_REQUEST_FAILURE,
+      errorMessage: err.message,
+    });
+  }
+};

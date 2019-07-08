@@ -5,7 +5,7 @@ export const GET_USER_INVITE_ATTEMPT = 'user-invite/get-user-invite-attempt';
 export const GET_USER_INVITE_SUCCESS = 'user-invite/get-user-invite-success';
 export const GET_USER_INVITE_FAILURE = 'user-invite/get-user-invite-failure';
 
-export const getUserInvite = async dispatch => {
+export const getUserInvite = () => async dispatch => {
   dispatch({ type: GET_USER_INVITE_ATTEMPT });
   try {
     const res = await userInviteApi.getUserInvite();

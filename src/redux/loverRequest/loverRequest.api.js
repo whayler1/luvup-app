@@ -93,6 +93,17 @@ const loverRequestApi = {
       }
     }`,
     }),
+  getLoverRequest: () =>
+    superagent.post(config.graphQlUrl, {
+      query: `{activeLoverRequest {
+        loverRequest {
+          id isAccepted isSenderCanceled isRecipientCanceled createdAt
+          recipient {
+            username firstName lastName
+          }
+        }
+      }}`,
+    }),
 };
 
 export default loverRequestApi;
