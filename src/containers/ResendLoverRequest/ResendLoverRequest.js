@@ -1,13 +1,7 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import {
-  SafeAreaView,
-  ScrollView,
-  KeyboardAvoidingView,
-  View,
-  Text,
-} from 'react-native';
+import { View, Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import pick from 'lodash/pick';
 import isString from 'lodash/isString';
@@ -15,7 +9,8 @@ import isString from 'lodash/isString';
 import Input from '../../components/Input';
 import Button, { BUTTON_STYLES } from '../../components/Button';
 import Well from '../../components/Well';
-import { scene, vars } from '../../styles';
+import FormScene from '../../components/FormScene';
+import { scene } from '../../styles';
 import { emailRegex } from '../../helpers';
 import { resendLoverRequestEmail as resendLoverRequestEmailAction } from '../../redux/loverRequest/loverRequest.actions';
 
@@ -103,79 +98,64 @@ class ResendLoverRequest extends PureComponent {
       handleDone,
     } = this;
     return (
-      <SafeAreaView style={scene.safeAreaView}>
-        <KeyboardAvoidingView style={scene.container} behavior="padding">
-          <View style={scene.content}>
-            <ScrollView
-              contentContainerStyle={[
-                scene.contentTop,
-                {
-                  paddingBottom: vars.gutterDouble * 2,
-                },
-              ]}>
-              {isSuccess ? (
-                <Fragment>
-                  <Text style={[scene.titleCopy, scene.textCenter]}>
-                    Lover Request Re-Sent
-                  </Text>
-                  <Text
-                    style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
-                    A new Lover Request has been sent to {loverFirstName} at{' '}
-                    {email}.
-                  </Text>
-                  <View style={scene.gutterAndHalfTop}>
-                    <Button
-                      buttonStyles={BUTTON_STYLES.INFO_SKELETON}
-                      title="Done"
-                      onPress={handleDone}
-                    />
-                  </View>
-                </Fragment>
-              ) : (
-                <Fragment>
-                  <Text style={[scene.titleCopy, scene.textCenter]}>
-                    Re-Send Lover Request
-                  </Text>
-                  <Text
-                    style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
-                    Send {loverFirstName} another Lover Request
-                  </Text>
-                  <Input
-                    label="Email"
-                    onChangeText={handleEmailChange}
-                    value={email}
-                    placeholder="jane.doe@email.com"
-                    error={emailError}
-                    inputProps={{
-                      autoCapitalize: 'none',
-                      editable: true,
-                      spellCheck: false,
-                      keyboardType: 'email-address',
-                      returnKeyType: 'go',
-                      onSubmitEditing: handleSubmit,
-                      testID: 'resend-lover-request-email-input',
-                    }}
-                  />
-                  {isString(resendLoverRequestEmailError) &&
-                    resendLoverRequestEmailError.length > 0 && (
-                      <Well
-                        text={resendLoverRequestEmailError}
-                        styles={scene.gutterAndHalfTop}
-                      />
-                    )}
-                  <View style={scene.gutterAndHalfTop}>
-                    <Button
-                      title="Resend Lover Request"
-                      onPress={handleSubmit}
-                      isInFlight={isResendRequestEmailInFlight}
-                    />
-                  </View>
-                </Fragment>
+      <FormScene>
+        {isSuccess ? (
+          <Fragment>
+            <Text style={[scene.titleCopy, scene.textCenter]}>
+              Lover Request Re-Sent
+            </Text>
+            <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
+              A new Lover Request has been sent to {loverFirstName} at {email}.
+            </Text>
+            <View style={scene.gutterAndHalfTop}>
+              <Button
+                buttonStyles={BUTTON_STYLES.INFO_SKELETON}
+                title="Done"
+                onPress={handleDone}
+              />
+            </View>
+          </Fragment>
+        ) : (
+          <Fragment>
+            <Text style={[scene.titleCopy, scene.textCenter]}>
+              Re-Send Lover Request
+            </Text>
+            <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
+              Send {loverFirstName} another Lover Request
+            </Text>
+            <Input
+              label="Email"
+              onChangeText={handleEmailChange}
+              value={email}
+              placeholder="jane.doe@email.com"
+              error={emailError}
+              inputProps={{
+                autoCapitalize: 'none',
+                editable: true,
+                spellCheck: false,
+                keyboardType: 'email-address',
+                returnKeyType: 'go',
+                onSubmitEditing: handleSubmit,
+                testID: 'resend-lover-request-email-input',
+              }}
+            />
+            {isString(resendLoverRequestEmailError) &&
+              resendLoverRequestEmailError.length > 0 && (
+                <Well
+                  text={resendLoverRequestEmailError}
+                  styles={scene.gutterAndHalfTop}
+                />
               )}
-            </ScrollView>
-          </View>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
+            <View style={scene.gutterAndHalfTop}>
+              <Button
+                title="Resend Lover Request"
+                onPress={handleSubmit}
+                isInFlight={isResendRequestEmailInFlight}
+              />
+            </View>
+          </Fragment>
+        )}
+      </FormScene>
     );
   }
 }
