@@ -21,10 +21,7 @@ import ChangePasswordModalContent from '../ChangePasswordModalContent';
 import { logout as logoutAction } from '../../redux/user/user.actions';
 import { endRelationship as endRelationshipAction } from '../../redux/relationship/relationship.actions';
 import { getUserInvite } from '../../redux/userInvite/userInvite.actions';
-import {
-  getLoverRequest,
-  cancelSentLoverRequestAndRelationship as cancelLoverRequestAction,
-} from '../../redux/loverRequest/loverRequest.actions';
+import { cancelSentLoverRequestAndRelationship as cancelLoverRequestAction } from '../../redux/loverRequest/loverRequest.actions';
 import { store } from '../../redux';
 
 class Menu extends PureComponent {
