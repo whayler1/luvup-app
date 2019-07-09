@@ -6,10 +6,10 @@ import { Actions } from 'react-native-router-flux';
 import pick from 'lodash/pick';
 import isString from 'lodash/isString';
 
-import Input from '../../components/Input';
-import Button, { BUTTON_STYLES } from '../../components/Button';
+import Button from '../../components/Button';
 import Well from '../../components/Well';
 import FormScene from '../../components/FormScene';
+import Form from '../../components/Form';
 import { scene } from '../../styles';
 import { emailRegex } from '../../helpers';
 import { resendLoverRequestEmail as resendLoverRequestEmailAction } from '../../redux/loverRequest/loverRequest.actions';
@@ -93,7 +93,6 @@ class ResendLoverRequest extends PureComponent {
         resendLoverRequestEmailError,
       },
       state: { email, emailError, isSuccess },
-      handleEmailChange,
       handleSubmit,
       handleDone,
     } = this;
@@ -108,11 +107,7 @@ class ResendLoverRequest extends PureComponent {
               A new Lover Request has been sent to {loverFirstName} at {email}.
             </Text>
             <View style={scene.gutterAndHalfTop}>
-              <Button
-                buttonStyles={BUTTON_STYLES.INFO_SKELETON}
-                title="Done"
-                onPress={handleDone}
-              />
+              <Button title="Done" onPress={handleDone} />
             </View>
           </Fragment>
         ) : (
@@ -123,7 +118,39 @@ class ResendLoverRequest extends PureComponent {
             <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
               Send {loverFirstName} another Lover Request
             </Text>
-            <Input
+            <Form
+              onSubmit={handleSubmit}
+              isInFlight={isResendRequestEmailInFlight}
+              defaultState={{ email: this.props.loverEmail }}>
+              {({ renderInput, renderSubmit }) => (
+                <Fragment>
+                  {renderInput({
+                    label: 'Email',
+                    key: 'email',
+                    placeholder: 'my@laver.com',
+                    inputProps: {
+                      autoCapitalize: 'none',
+                      spellCheck: false,
+                      keyboardType: 'email-address',
+                      testID: 'resend-lover-request-email-input',
+                    },
+                  })}
+                  {isString(resendLoverRequestEmailError) &&
+                    resendLoverRequestEmailError.length > 0 && (
+                      <Well
+                        text={resendLoverRequestEmailError}
+                        styles={scene.gutterAndHalfTop}
+                      />
+                    )}
+                  <View style={scene.gutterAndHalfTop}>
+                    {renderSubmit({
+                      title: 'Resend Lover Request',
+                    })}
+                  </View>
+                </Fragment>
+              )}
+            </Form>
+            {/*<Input
               label="Email"
               onChangeText={handleEmailChange}
               value={email}
@@ -152,7 +179,7 @@ class ResendLoverRequest extends PureComponent {
                 onPress={handleSubmit}
                 isInFlight={isResendRequestEmailInFlight}
               />
-            </View>
+            </View>*/}
           </Fragment>
         )}
       </FormScene>

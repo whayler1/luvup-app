@@ -18,6 +18,8 @@ class Form extends PureComponent {
   static propTypes = {
     onSubmit: PropTypes.func,
     isInFlight: PropTypes.bool,
+    children: PropTypes.func,
+    defaultState: PropTypes.object,
   };
 
   constructor(props) {
@@ -25,7 +27,7 @@ class Form extends PureComponent {
 
     this.validators = {};
     this.inputKeys = [];
-    this.state = {};
+    this.state = props.defaultState || {};
   }
 
   _onChangeText = key => value => {
@@ -52,7 +54,7 @@ class Form extends PureComponent {
     onSubmitEditing: this._onSubmitEditing(key),
   });
 
-  validate() {
+  validate = () => {
     const stateObj = Object.entries(this.validators).reduce(
       (acc, [key, value]) => ({
         ...acc,
@@ -67,24 +69,24 @@ class Form extends PureComponent {
       }
       return value.length < 1;
     });
-  }
+  };
 
-  handleSubmit() {
+  handleSubmit = () => {
     const {
       props: { onSubmit },
     } = this;
     if (this.validate() && isFunction(onSubmit)) {
       onSubmit(this.state);
     }
-  }
+  };
 
-  renderInput({
+  renderInput = ({
     label,
     key: originalKey,
     validators = [],
     inputProps: originalInputProps = {},
     ...props
-  }) {
+  }) => {
     const key = originalKey || camelCase(label);
     this.validators[key] = validators;
     if (!this.inputKeys.includes(key)) {
@@ -102,19 +104,31 @@ class Form extends PureComponent {
         }}
       />
     );
-  }
+  };
 
-  renderSubmit(props) {
+  renderSubmit = props => {
     const { isInFlight } = this.props;
     return (
       <Button
         {...{
           isInFlight,
-          onPress: this.handleSubmit(),
+          onPress: this.handleSubmit,
           ...props,
         }}
       />
     );
+  };
+
+  render() {
+    const {
+      props: { children },
+      renderInput,
+      renderSubmit,
+    } = this;
+    if (!children) {
+      return false;
+    }
+    return children({ renderInput, renderSubmit });
   }
 }
 
