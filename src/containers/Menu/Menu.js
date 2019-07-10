@@ -93,11 +93,11 @@ class Menu extends PureComponent {
   goToCreateLoverRequest = () => {
     Actions.createloverrequest();
   };
-  goToDashboard = () => {
-    Actions.popTo('dashboard');
-  };
   goToResendLoverRequest = () => {
     Actions.resendLoverRequest();
+  };
+  handleResendInvitePress = () => {
+    //
   };
   handleCancelLoverRequest = () => {
     this.props.cancelLoverRequest();
@@ -132,28 +132,49 @@ class Menu extends PureComponent {
       },
       goToResendLoverRequest,
       handleCancelLoverRequest,
+      handleResendInvitePress,
     } = this;
-    return isStringWithLength(userInviteId) ? (
-      <View>
-        <Text>User invite</Text>
-      </View>
-    ) : (
+    return (
       <Fragment>
-        <MenuLink
-          onPress={goToResendLoverRequest}
-          iconName="md-send"
-          text="Resend Lover Request"
-          disabled={isCancelLoverRequestInFlight}
-        />
-        <MenuLink
-          onPress={handleCancelLoverRequest}
-          linkType={LINK_TYPE.DANGER}
-          iconName="md-alert"
-          text={
-            isCancelLoverRequestInFlight ? 'Canceling…' : 'Cancel Lover Request'
-          }
-          disabled={isCancelLoverRequestInFlight}
-        />
+        {isStringWithLength(userInviteId) ? (
+          <Fragment>
+            <MenuLink
+              onPress={handleResendInvitePress}
+              iconName="md-send"
+              text="Resend Invite"
+              disabled={isCancelLoverRequestInFlight}
+            />
+            <MenuLink
+              onPress={handleCancelLoverRequest}
+              linkType={LINK_TYPE.DANGER}
+              iconName="md-alert"
+              text={
+                isCancelLoverRequestInFlight ? 'Canceling…' : 'Cancel Invite'
+              }
+              disabled={isCancelLoverRequestInFlight}
+            />
+          </Fragment>
+        ) : (
+          <Fragment>
+            <MenuLink
+              onPress={goToResendLoverRequest}
+              iconName="md-send"
+              text="Resend Lover Request"
+              disabled={isCancelLoverRequestInFlight}
+            />
+            <MenuLink
+              onPress={handleCancelLoverRequest}
+              linkType={LINK_TYPE.DANGER}
+              iconName="md-alert"
+              text={
+                isCancelLoverRequestInFlight
+                  ? 'Canceling…'
+                  : 'Cancel Lover Request'
+              }
+              disabled={isCancelLoverRequestInFlight}
+            />
+          </Fragment>
+        )}
         {_.isString(cancelLoverRequestError) &&
           cancelLoverRequestError.length > 0 && (
             <Well text={cancelLoverRequestError} />
@@ -199,7 +220,6 @@ class Menu extends PureComponent {
       closeModal,
       endRelationship,
       goToCreateLoverRequest,
-      goToDashboard,
     } = this;
     return (
       <SafeAreaView forceInset={{ bottom: 'never' }} style={scene.safeAreaView}>
@@ -229,25 +249,6 @@ class Menu extends PureComponent {
                 iconName="md-unlock"
                 text="Change Password"
               />
-              {/* <TouchableOpacity
-                style={{
-                  flexDirection: 'row',
-                  marginTop: 16,
-                  justifyContent: 'space-between',
-                }}
-              >
-                <Text style={{
-                  color: vars.link,
-                  fontSize: 20,
-                }}>
-                  Change Email
-                </Text>
-                <Ionicons
-                  name="md-mail"
-                  size={22}
-                  color={vars.link}
-                />
-              </TouchableOpacity> */}
             </View>
 
             <View style={styles.group}>
@@ -277,8 +278,8 @@ class Menu extends PureComponent {
                   )}
                 </Fragment>
               )}
-              {isStringWithLength(loverId) &&
-                isStringWithLength(loverRequestId) && (
+              {!isStringWithLength(loverId) &&
+                !isStringWithLength(loverRequestId) && (
                   <Fragment>
                     <Well
                       type={WELL_TYPES.INFO}
@@ -298,28 +299,6 @@ class Menu extends PureComponent {
                           fontSize: 20,
                         }}>
                         Send Lover Request
-                      </Text>
-                      <Ionicons name="md-send" size={22} color={vars.link} />
-                    </TouchableOpacity>
-                  </Fragment>
-                )}
-              {isStringWithLength(loverId) &&
-                isStringWithLength(loverRequestId) && (
-                  <Fragment>
-                    <Text style={styles.label}>Options</Text>
-                    <TouchableOpacity
-                      onPress={goToDashboard}
-                      style={{
-                        flexDirection: 'row',
-                        marginTop: 8,
-                        justifyContent: 'space-between',
-                      }}>
-                      <Text
-                        style={{
-                          color: vars.link,
-                          fontSize: 20,
-                        }}>
-                        View Pending Lover Request
                       </Text>
                       <Ionicons name="md-send" size={22} color={vars.link} />
                     </TouchableOpacity>
