@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import pick from 'lodash/pick';
 import isString from 'lodash/isString';
 
 import Button from '../../components/Button';
@@ -22,8 +21,8 @@ class ResendLoverRequest extends PureComponent {
   static propTypes = {
     loverEmail: PropTypes.string,
     loverFirstName: PropTypes.string,
-    // loverRequestId: PropTypes.string.isRequired,
-    // resendLoverRequestEmail: PropTypes.func.isRequired,
+    loverRequestId: PropTypes.string.isRequired,
+    resendLoverRequestEmail: PropTypes.func.isRequired,
     isResendRequestEmailInFlight: PropTypes.bool.isRequired,
     resendLoverRequestEmailError: PropTypes.string.isRequired,
   };
@@ -49,39 +48,12 @@ class ResendLoverRequest extends PureComponent {
     }
   }
 
-  handleEmailChange = email => {
+  handleSubmit = ({ email }) => {
+    const {
+      props: { resendLoverRequestEmail, loverRequestId },
+    } = this;
     this.setState({ email });
-  };
-
-  validate = async () => {
-    const { email } = this.state;
-    const stateObj = {
-      emailError: '',
-    };
-
-    if (!emailRegex.test(email)) {
-      stateObj.emailError = 'Please provide a valid email';
-    }
-
-    await this.setState(stateObj);
-  };
-
-  errorStateValues = () =>
-    Object.values(pick(this.props, ['emailError', 'requestError']));
-
-  isValid = () => this.errorStateValues().every(value => value === '');
-
-  handleSubmit = async () => {
-    // const {
-    //   props: { resendLoverRequestEmail, loverRequestId },
-    //   state: { email },
-    //   validate,
-    //   isValid,
-    // } = this;
-    // await validate();
-    // if (isValid()) {
-    //   resendLoverRequestEmail(loverRequestId, email);
-    // }
+    resendLoverRequestEmail(loverRequestId, email);
   };
 
   handleDone = () => {
@@ -154,36 +126,6 @@ class ResendLoverRequest extends PureComponent {
                 </Fragment>
               )}
             </Form>
-            {/*<Input
-              label="Email"
-              onChangeText={handleEmailChange}
-              value={email}
-              placeholder="jane.doe@email.com"
-              error={emailError}
-              inputProps={{
-                autoCapitalize: 'none',
-                editable: true,
-                spellCheck: false,
-                keyboardType: 'email-address',
-                returnKeyType: 'go',
-                onSubmitEditing: handleSubmit,
-                testID: 'resend-lover-request-email-input',
-              }}
-            />
-            {isString(resendLoverRequestEmailError) &&
-              resendLoverRequestEmailError.length > 0 && (
-                <Well
-                  text={resendLoverRequestEmailError}
-                  styles={scene.gutterAndHalfTop}
-                />
-              )}
-            <View style={scene.gutterAndHalfTop}>
-              <Button
-                title="Resend Lover Request"
-                onPress={handleSubmit}
-                isInFlight={isResendRequestEmailInFlight}
-              />
-            </View>*/}
           </Fragment>
         )}
       </FormScene>

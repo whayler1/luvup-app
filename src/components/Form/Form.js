@@ -52,6 +52,7 @@ class Form extends PureComponent {
     ref: this._ref(key),
     returnKeyType: key === last(this.inputKeys) ? 'go' : 'next',
     onSubmitEditing: this._onSubmitEditing(key),
+    editable: !this.props.isInFlight,
   });
 
   validate = () => {
