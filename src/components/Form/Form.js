@@ -96,7 +96,7 @@ class Form extends PureComponent {
       <Input
         {...{
           label,
-          value: isString(this.state[key]) ? this.state.key : '',
+          value: isString(this.state[key]) ? this.state[key] : '',
           error: this.state[getErrorKey(key)] || '',
           onChangeText: this._onChangeText(key),
           ...props,

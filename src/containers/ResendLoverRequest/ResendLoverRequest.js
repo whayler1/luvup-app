@@ -14,12 +14,16 @@ import { scene } from '../../styles';
 import { emailRegex } from '../../helpers';
 import { resendLoverRequestEmail as resendLoverRequestEmailAction } from '../../redux/loverRequest/loverRequest.actions';
 
+const emailValidators = [
+  value => (emailRegex.test(value) ? '' : 'Please provide a valid email'),
+];
+
 class ResendLoverRequest extends PureComponent {
   static propTypes = {
     loverEmail: PropTypes.string,
     loverFirstName: PropTypes.string,
-    loverRequestId: PropTypes.string.isRequired,
-    resendLoverRequestEmail: PropTypes.func.isRequired,
+    // loverRequestId: PropTypes.string.isRequired,
+    // resendLoverRequestEmail: PropTypes.func.isRequired,
     isResendRequestEmailInFlight: PropTypes.bool.isRequired,
     resendLoverRequestEmailError: PropTypes.string.isRequired,
   };
@@ -29,8 +33,7 @@ class ResendLoverRequest extends PureComponent {
 
     this.state = {
       isSent: false,
-      email: props.loverEmail || '',
-      emailError: '',
+      email: '',
       isSuccess: false,
     };
   }
@@ -69,16 +72,16 @@ class ResendLoverRequest extends PureComponent {
   isValid = () => this.errorStateValues().every(value => value === '');
 
   handleSubmit = async () => {
-    const {
-      props: { resendLoverRequestEmail, loverRequestId },
-      state: { email },
-      validate,
-      isValid,
-    } = this;
-    await validate();
-    if (isValid()) {
-      resendLoverRequestEmail(loverRequestId, email);
-    }
+    // const {
+    //   props: { resendLoverRequestEmail, loverRequestId },
+    //   state: { email },
+    //   validate,
+    //   isValid,
+    // } = this;
+    // await validate();
+    // if (isValid()) {
+    //   resendLoverRequestEmail(loverRequestId, email);
+    // }
   };
 
   handleDone = () => {
@@ -92,7 +95,7 @@ class ResendLoverRequest extends PureComponent {
         isResendRequestEmailInFlight,
         resendLoverRequestEmailError,
       },
-      state: { email, emailError, isSuccess },
+      state: { email, isSuccess },
       handleSubmit,
       handleDone,
     } = this;
@@ -127,7 +130,8 @@ class ResendLoverRequest extends PureComponent {
                   {renderInput({
                     label: 'Email',
                     key: 'email',
-                    placeholder: 'my@laver.com',
+                    placeholder: 'my@lover.com',
+                    validators: emailValidators,
                     inputProps: {
                       autoCapitalize: 'none',
                       spellCheck: false,
