@@ -31,7 +31,6 @@ class ResendLoverRequest extends PureComponent {
     super(props);
 
     this.state = {
-      isSent: false,
       email: '',
       isSuccess: false,
     };
@@ -88,7 +87,7 @@ class ResendLoverRequest extends PureComponent {
         ) : (
           <Fragment>
             <Text style={[scene.titleCopy, scene.textCenter]}>
-              Re-Send Lover Request
+              Resend Lover Request
             </Text>
             <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
               Send {loverFirstName} another Lover Request

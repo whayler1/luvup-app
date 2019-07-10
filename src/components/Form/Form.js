@@ -4,7 +4,6 @@ import isFunction from 'lodash/isFunction';
 import last from 'lodash/last';
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-// import { View } from 'react-native';
 
 import Input from '../Input';
 import Button from '../Button';

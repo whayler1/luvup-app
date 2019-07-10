@@ -179,7 +179,7 @@ class ConfirmUserRequestCode extends Component {
       getEmailError,
       getCodeError,
       isEmailSetonInit,
-      state: { email, code, error: stateError },
+      state: { email, code },
       props: {
         isConfirmUserRequestCodeInFlight: isInFlight,
         confirmUserRequestCodeError,
