@@ -97,7 +97,7 @@ class Menu extends PureComponent {
     Actions.resendLoverRequest();
   };
   handleResendInvitePress = () => {
-    //
+    Actions.resendInvite();
   };
   handleCancelLoverRequest = () => {
     this.props.cancelLoverRequest();

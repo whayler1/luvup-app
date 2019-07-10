@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import { KeyboardAvoidingView, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 
-import { scene, vars } from '../../styles';
+import { scene } from '../../styles';
+import styles from './FormScene.styles';
 
 const FormScene = ({ children }) => (
   <SafeAreaView forceInset={{ bottom: 'never' }} style={scene.safeAreaView}>
     <KeyboardAvoidingView style={scene.container} behavior="padding">
       <ScrollView
+        style={styles.scrollView}
         contentContainerStyle={[
           scene.contentTop,
-          {
-            paddingBottom: vars.gutterDouble * 2,
-          },
+          styles.scrollViewContentContainer,
         ]}>
         {children}
       </ScrollView>

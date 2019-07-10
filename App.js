@@ -41,6 +41,7 @@ import ViewQuiz from './src/containers/ViewQuiz';
 import ForgotPassword from './src/containers/ForgotPassword';
 import ResetPasswordWithGeneratedPassword from './src/containers/ResetPasswordWithGeneratedPassword';
 import ResendLoverRequest from './src/containers/ResendLoverRequest';
+import ResendInvite from './src/containers/ResendInvite';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -180,6 +181,11 @@ const App = () => (
           <Scene
             key="resendLoverRequest"
             component={ResendLoverRequest}
+            {...sceneDefaults}
+          />
+          <Scene
+            key="resendInvite"
+            component={ResendInvite}
             {...sceneDefaults}
           />
           <Scene
