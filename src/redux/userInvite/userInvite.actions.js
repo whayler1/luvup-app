@@ -1,6 +1,6 @@
 import get from 'lodash/get';
 
-import { getGraphQLError } from '../helpers';
+import { getGraphQLError } from '../../helpers';
 import userInviteApi from './userInvite.api';
 
 export const GET_USER_INVITE_ATTEMPT = 'user-invite/get-user-invite-attempt';

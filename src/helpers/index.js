@@ -1,3 +1,4 @@
+import get from 'lodash/get';
 import isString from 'lodash/isString';
 
 import userLoginRouteSwitchFunc from './userLoginRouteSwitch';
@@ -15,3 +16,5 @@ export const isStringWithLength = string =>
   isString(string) && string.length > 0;
 
 export const sanitizeEmail = email => email.toLowerCase().trim();
+
+export const getGraphQLError = res => get(res, 'errors[0].message');

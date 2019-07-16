@@ -2,12 +2,17 @@ import {
   GET_USER_INVITE_ATTEMPT,
   GET_USER_INVITE_SUCCESS,
   GET_USER_INVITE_FAILURE,
+  RESEND_USER_INVITE_ATTEMPT,
+  RESEND_USER_INVITE_SUCCESS,
+  RESEND_USER_INVITE_FAILURE,
 } from './userInvite.actions';
 import { LOGOUT } from '../user/user.actions';
 
 const defaultState = {
   isGetUserInviteInFlight: false,
   getUserInviteError: '',
+  isResendUserInviteInFlight: false,
+  resendUserInviteError: '',
   id: '',
   recipientEmail: '',
   recipientFirstName: '',
@@ -36,6 +41,23 @@ export default function reducer(state = defaultState, action) {
         ...state,
         isGetUserInviteInFlight: false,
         getUserInviteError: action.errorMessage,
+      };
+    case RESEND_USER_INVITE_ATTEMPT:
+      return {
+        ...state,
+        isResendUserInviteInFlight: true,
+        resendUserInviteError: '',
+      };
+    case RESEND_USER_INVITE_SUCCESS:
+      return {
+        ...state,
+        isResendUserInviteInFlight: false,
+      };
+    case RESEND_USER_INVITE_FAILURE:
+      return {
+        ...state,
+        isResendUserInviteInFlight: false,
+        resendUserInviteError: action.errorMessage,
       };
     case LOGOUT:
       return { ...defaultState };
