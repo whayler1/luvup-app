@@ -16,6 +16,7 @@ import { store } from './src/redux';
 import { navbar, vars } from './src/styles';
 
 import Root from './src/containers/Root';
+import AcceptInvite from './src/containers/AcceptInvite';
 import Login from './src/containers/Login';
 import SignUp from './src/containers/SignUp';
 import ConfirmUserRequestCode from './src/containers/ConfirmUserRequestCode';
@@ -187,6 +188,12 @@ const App = () => (
             key="resendInvite"
             component={ResendInvite}
             {...sceneDefaults}
+          />
+          <Scene
+            key="acceptInvite"
+            path="/user-invite/:userInviteId"
+            component={AcceptInvite}
+            hideNavBar
           />
           <Scene
             key="confirmLoverRequest"

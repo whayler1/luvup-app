@@ -31,7 +31,8 @@
     "ios": {
       "bundleIdentifier": "io.terriblesolutions.luvup",
       "buildNumber": "1",
-      "icon": "./src/images/icon/icon.png"
+      "icon": "./src/images/icon/icon.png",
+      "associatedDomains": ["https://luvup.io/"],
     }
   }
 }
