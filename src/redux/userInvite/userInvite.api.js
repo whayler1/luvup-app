@@ -8,6 +8,16 @@ const userInviteApi = {
         id recipientEmail recipientFirstName recipientLastName
       } } }`,
     }),
+  getUserInviteWithId: userInviteId =>
+    superagent.post(config.graphQlUrl, {
+      query: `{
+        userInviteWithId(userInviteId: "${userInviteId}") {
+          userInvite { id senderId recipientEmail recipientFirstName recipientLastName }
+          sender { id email isPlaceholder username firstName lastName }
+          loverRequest { id isAccepted isSenderCanceled isRecipientCanceled }
+        }
+      }`,
+    }),
   resendUserInvite: (userInviteId, recipientEmail) =>
     superagent.post(config.graphQlUrl, {
       query: `mutation {

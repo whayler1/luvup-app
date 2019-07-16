@@ -9,6 +9,7 @@ import {
   CANCEL_RECEIVED_LOVER_REQUEST_SUCCESS,
   CANCEL_RECEIVED_LOVER_REQUEST_FAILURE,
 } from './receivedLoverRequests.actions';
+import { GET_USER_INVITE_WITH_ID_SUCCESS } from '../userInvite/userInvite.actions';
 
 const defaultState = {
   rows: null,
@@ -21,6 +22,11 @@ const defaultState = {
 
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
+    case GET_USER_INVITE_WITH_ID_SUCCESS:
+      return {
+        ...state,
+        rows: [action.loverRequest],
+      };
     case SET_RECEIVED_LOVER_REQUESTS:
       return {
         ...state,

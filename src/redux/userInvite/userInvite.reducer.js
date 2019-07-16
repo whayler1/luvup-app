@@ -2,6 +2,9 @@ import {
   GET_USER_INVITE_ATTEMPT,
   GET_USER_INVITE_SUCCESS,
   GET_USER_INVITE_FAILURE,
+  GET_USER_INVITE_WITH_ID_ATTEMPT,
+  GET_USER_INVITE_WITH_ID_SUCCESS,
+  GET_USER_INVITE_WITH_ID_FAILURE,
   RESEND_USER_INVITE_ATTEMPT,
   RESEND_USER_INVITE_SUCCESS,
   RESEND_USER_INVITE_FAILURE,
@@ -11,12 +14,21 @@ import { LOGOUT } from '../user/user.actions';
 const defaultState = {
   isGetUserInviteInFlight: false,
   getUserInviteError: '',
+  isGetUserInviteWithIdInFlight: false,
+  getUserInviteWithIdError: '',
   isResendUserInviteInFlight: false,
   resendUserInviteError: '',
   id: '',
   recipientEmail: '',
   recipientFirstName: '',
   recipientLastName: '',
+  received: {
+    id: '',
+    recipientEmail: '',
+    recipientFirstName: '',
+    recipientLastName: '',
+    sender: {},
+  },
 };
 
 export default function reducer(state = defaultState, action) {
@@ -41,6 +53,31 @@ export default function reducer(state = defaultState, action) {
         ...state,
         isGetUserInviteInFlight: false,
         getUserInviteError: action.errorMessage,
+      };
+    case GET_USER_INVITE_WITH_ID_ATTEMPT:
+      return {
+        ...state,
+        isGetUserInviteWithIdInFlight: true,
+        getUserInviteWithIdError: '',
+      };
+    case GET_USER_INVITE_WITH_ID_SUCCESS:
+      return {
+        ...state,
+        isGetUserInviteWithIdInFlight: false,
+        received: {
+          ...state.received,
+          id: action.id,
+          recipientEmail: action.recipientEmail,
+          recipientFirstName: action.recipientFirstName,
+          recipientLastName: action.recipientLastName,
+          sender: action.sender,
+        },
+      };
+    case GET_USER_INVITE_WITH_ID_FAILURE:
+      return {
+        ...state,
+        isGetUserInviteWithIdInFlight: false,
+        getUserInviteWithIdError: action.errorMessage,
       };
     case RESEND_USER_INVITE_ATTEMPT:
       return {
