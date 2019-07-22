@@ -12,6 +12,7 @@ import {
 } from 'react-native-router-flux';
 import _ from 'lodash';
 
+import './src/helpers/deepLinkListener';
 import { store } from './src/redux';
 import { navbar, vars } from './src/styles';
 
@@ -191,7 +192,7 @@ const App = () => (
           />
           <Scene
             key="acceptInvite"
-            path="/user-invite/:userInviteId"
+            path="exp://127.0.0.1:19000/--/https://luvup.io/user-invite/:userInviteId"
             component={AcceptInvite}
             hideNavBar
           />

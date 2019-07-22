@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { KeyboardAvoidingView, SafeAreaView, View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
+import { Linking } from 'expo';
 
 import { scene } from '../../styles';
 import { emailRegex, isStringWithLength } from '../../helpers';
@@ -40,6 +41,10 @@ class CreateInvite extends PureComponent {
       recipientFirstNameError: '',
       recipientLastNameError: '',
     };
+    console.log(
+      '\n\n url',
+      Linking.makeUrl('https://luvup.io/user-invite/abc123')
+    );
   }
 
   handleEmailChange = recipientEmail => {
