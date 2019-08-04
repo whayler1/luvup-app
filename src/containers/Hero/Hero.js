@@ -232,7 +232,7 @@ class Hero extends Component {
   isMaxItemsPerHourSent = items =>
     items.length < config.maxItemsPerHour ||
     (items.length >= config.maxItemsPerHour &&
-      moment(new Date(items[config.maxItemsPerHour - 1].createdAt)).isBefore(
+      moment(new Date(+items[config.maxItemsPerHour - 1].createdAt)).isBefore(
         moment().subtract(1, 'hour')
       ));
 
