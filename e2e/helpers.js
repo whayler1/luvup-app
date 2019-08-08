@@ -27,7 +27,7 @@ export const generateUser = async () => {
     },
   } = await userApi.confirmUser(
     email,
-    username,
+    username.substr(0, 20),
     firstName,
     lastName,
     '012345',

@@ -84,6 +84,7 @@
     "@expo/vector-icons": "^8.0.0",
     "analytics-react-native": "^1.2.0",
     "art": "^0.10.3",
+    "await-timeout": "^0.6.0",
     "babel-polyfill": "^6.26.0",
     "bezier-easing": "^2.1.0",
     "color": "^3.0.0",
@@ -116,7 +117,7 @@
       "ios.sim": {
         "binaryPath": "bin/Exponent.app",
         "type": "ios.simulator",
-        "name": "iPhone 6"
+        "name": "iPhone 7"
       }
     },
     "test-runner": "jest",

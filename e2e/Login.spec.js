@@ -1,6 +1,7 @@
 /* eslint-disable import/no-commonjs */
 import { reloadApp } from 'detox-expo-helpers';
 import { generateRelationship, login } from './helpers';
+import Timeout from 'await-timeout';
 
 describe('login', () => {
   beforeEach(async () => {
@@ -20,7 +21,9 @@ describe('login', () => {
         .withTimeout(5000);
 
       await element(by.id('dashboard-top-nav-menu-button')).tap();
-      await element(by.id('menu-logout')).tap();
+      await Timeout.set(500);
+      await element(by.id('menu-relationship-title')).swipe('up', 'fast', 0.5);
+      await Timeout.set(500);
       await element(by.id('menu-logout')).tap();
       await waitFor(element(by.id('login-title')))
         .toBeVisible()
@@ -45,7 +48,9 @@ describe('login', () => {
         .withTimeout(5000);
 
       await element(by.id('dashboard-top-nav-menu-button')).tap();
-      await element(by.id('menu-logout')).tap();
+      await Timeout.set(500);
+      await element(by.id('menu-relationship-title')).swipe('up', 'fast', 0.5);
+      await Timeout.set(500);
       await element(by.id('menu-logout')).tap();
       await waitFor(element(by.id('login-title')))
         .toBeVisible()
