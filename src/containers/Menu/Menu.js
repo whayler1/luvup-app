@@ -27,7 +27,7 @@ class Menu extends PureComponent {
 
     this.state = {
       relationshipCreatedAtFormatted: moment(
-        new Date(props.relationshipCreatedAt)
+        new Date(+props.relationshipCreatedAt)
       ).format('MMM DD, YYYY'),
       isModalVisible: false,
       modalType: '',

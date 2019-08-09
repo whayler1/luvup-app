@@ -67,7 +67,7 @@ export const generateRelationship = async () => {
     id_token
   );
 
-  const acceptLoverRequestRes = await receivedLoverRequestsApi.acceptLoverRequest(
+  await receivedLoverRequestsApi.acceptLoverRequest(
     loverRequestId,
     loverIdToken
   );

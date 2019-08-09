@@ -31,7 +31,7 @@ export default class DashboardTopNav extends Component {
   handleScoreClick = () => {
     Actions.timeline();
   };
-  handleInitialsClick = () => {
+  handleMenuButtonClick = () => {
     Actions.menu();
   };
   handleRelationshipScoreClick = () => {
@@ -66,7 +66,7 @@ export default class DashboardTopNav extends Component {
         relationshipScore,
       },
       handleScoreClick,
-      handleInitialsClick,
+      handleMenuButtonClick,
       handleRelationshipScoreClick,
       handleRelationshipScoreAnimationStart,
       handleRelationshipScoreAnimationEnd,
@@ -147,7 +147,7 @@ export default class DashboardTopNav extends Component {
             {_.isString(userFirstName) && userFirstName.length > 1 ? (
               <TouchableOpacity
                 testID="dashboard-top-nav-menu-button"
-                onPress={handleInitialsClick}
+                onPress={handleMenuButtonClick}
                 style={styles.menuBtn}>
                 <Text style={styles.menuText}>
                   {userFirstName.substr(0, 1).toUpperCase()}
