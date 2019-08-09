@@ -33,7 +33,6 @@ export const generateUser = async () => {
     '012345',
     password
   );
-  // console.log('confirmUserRes', confirmUserRes.body.data.confirmUser.user);
 
   return {
     id,
@@ -57,12 +56,19 @@ export const generateRelationship = async () => {
 
   const {
     body: {
-      data: { requestLover },
+      data: {
+        createLoverRequestAndRelationshipAndPlaceholderLover: {
+          loverRequest: { id: loverRequestId },
+        },
+      },
     },
-  } = await loverRequestApi.requestLover(lover.id, id_token);
+  } = await loverRequestApi.createLoverRequestAndRelationshipAndPlaceholderLover(
+    lover.id,
+    id_token
+  );
 
-  await receivedLoverRequestsApi.acceptLoverRequest(
-    requestLover.id,
+  const acceptLoverRequestRes = await receivedLoverRequestsApi.acceptLoverRequest(
+    loverRequestId,
     loverIdToken
   );
 
