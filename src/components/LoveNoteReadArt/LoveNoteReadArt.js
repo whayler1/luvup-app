@@ -1,6 +1,5 @@
 import React from 'react';
 import { Svg, Path } from 'expo';
-import _ from 'lodash';
 
 import { vars } from '../../styles';
 
