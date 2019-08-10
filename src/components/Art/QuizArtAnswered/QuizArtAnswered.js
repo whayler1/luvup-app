@@ -1,9 +1,8 @@
 import React from 'react';
-import { Svg } from 'expo';
+import { Svg, Path, Rect, Polygon, G } from 'expo';
 
 import { vars } from '../../../styles';
 
-const { Path, Rect, Polygon, G } = Svg;
 const defaultColor = vars.blueGrey500;
 
 const QuizArtAnswered = ({ fill, scale = 1 }) => {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Svg, Path, Rect, Polygon, G } from 'react-native-svg';
+import { Svg, Path, Rect, Polygon, G } from 'expo';
 
 import { vars } from '../../../styles';
 

@@ -1,20 +1,5 @@
 import React from 'react';
-import Svg, {
-  Circle,
-  Ellipse,
-  G,
-  LinearGradient,
-  RadialGradient,
-  Line,
-  Path,
-  Polygon,
-  Polyline,
-  Rect,
-  Symbol,
-  Use,
-  Defs,
-  Stop,
-} from 'react-native-svg';
+import { Svg, Path } from 'expo';
 import _ from 'lodash';
 
 import { vars } from '../../styles';

@@ -1,11 +1,9 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { Svg } from 'expo';
+import { Svg, Path } from 'expo';
 import _ from 'lodash';
 
 import { vars } from '../../styles';
-
-const { Path } = Svg;
 
 export default ({ recentlySentJalapenoCount, fill, scale = 1 }) => (
   <View>
