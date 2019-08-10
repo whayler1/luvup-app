@@ -1,5 +1,6 @@
 import { reloadApp } from 'detox-expo-helpers';
 import { elementById, elementByText, generateUser } from './helpers';
+import Timeout from 'await-timeout';
 
 describe('forgotten password', () => {
   let user;
@@ -22,6 +23,7 @@ describe('forgotten password', () => {
       by.id('forgot-password-login-button')
     );
 
+    const loginEmailInput = element(by.id('login-email-input'));
     const loginPasswordInput = element(by.id('login-password-input'));
     const resetPasswordInput = element(
       by.id('reset-password-with-generated-password-new-password')
@@ -35,10 +37,15 @@ describe('forgotten password', () => {
     await forgotPasswordEmailEl.tap();
     await forgotPasswordEmailEl.typeText(user.email);
     await forgotPasswordSubmit.tap();
+    await Timeout.set(500);
     await forgotPasswordLoginButton.tap();
 
+    await Timeout.set(500);
+    await loginEmailInput.atIndex(0).tap();
+    await loginEmailInput.atIndex(0).typeText(user.email);
     await loginPasswordInput.atIndex(0).tap();
     await loginPasswordInput.atIndex(0).typeText('abc123abc\n');
+    await Timeout.set(500);
     await resetPasswordInput.tap();
     await resetPasswordInput.typeText('NewPassword123\nNewPassword123\n');
     await resetPasswordDoneButton.tap();
@@ -54,7 +61,6 @@ describe('forgotten password', () => {
       .tap();
     await menuLogout.tap();
 
-    const loginEmailInput = elementById('login-email-input');
     await waitFor(loginEmailInput).toBeVisible();
     await loginEmailInput.tap();
     await loginEmailInput.typeText(user.email);

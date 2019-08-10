@@ -5,7 +5,7 @@ const getRecentlySentTokenCount = collection => {
   let count = 0;
 
   for (let i = 0; i < collection.length; i++) {
-    if (moment(new Date(collection[i].createdAt)).isAfter(anHrAgo)) {
+    if (moment(new Date(+collection[i].createdAt)).isAfter(anHrAgo)) {
       count++;
     } else {
       break;

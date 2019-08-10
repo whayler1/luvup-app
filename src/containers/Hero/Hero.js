@@ -86,7 +86,7 @@ class Hero extends Component {
       dragDirection: 0,
       isInRelationship: props.relationshipId.length > 0,
       loverRequestCreatedAtTimeAgo: props.loverRequestCreatedAt
-        ? moment(new Date(props.loverRequestCreatedAt)).fromNow()
+        ? moment(new Date(+props.loverRequestCreatedAt)).fromNow()
         : '',
       error: '',
       isCancelInFlight: false,
@@ -232,7 +232,7 @@ class Hero extends Component {
   isMaxItemsPerHourSent = items =>
     items.length < config.maxItemsPerHour ||
     (items.length >= config.maxItemsPerHour &&
-      moment(new Date(items[config.maxItemsPerHour - 1].createdAt)).isBefore(
+      moment(new Date(+items[config.maxItemsPerHour - 1].createdAt)).isBefore(
         moment().subtract(1, 'hour')
       ));
 

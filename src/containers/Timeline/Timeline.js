@@ -43,7 +43,7 @@ const getSections = userEvents => {
   let currentEventName;
   const today = moment().format(format);
   return userEvents.reduce((val, event) => {
-    const eventCreatedDate = moment(new Date(event.createdAt)).format(format);
+    const eventCreatedDate = moment(new Date(+event.createdAt)).format(format);
     if (eventCreatedDate !== currentCreatedDate) {
       currentCreatedDate = eventCreatedDate;
       currentEventName = undefined;
@@ -61,7 +61,7 @@ const getSections = userEvents => {
       val[val.length - 1].data.push({
         ...event,
         key: event.id,
-        time: moment(new Date(event.createdAt)).format('h:mma'),
+        time: moment(new Date(+event.createdAt)).format('h:mma'),
         count: 1,
       });
     } else {
