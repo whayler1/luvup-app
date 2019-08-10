@@ -21,7 +21,7 @@ class DashboardNotificationReceivedLoverRequest extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.createdAtDate = new Date(props.loverRequest.createdAt);
+    this.createdAtDate = new Date(+props.loverRequest.createdAt);
   }
 
   handleRejectPress = () => {

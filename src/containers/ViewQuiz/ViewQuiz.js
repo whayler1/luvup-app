@@ -40,7 +40,7 @@ class ViewQuiz extends PureComponent {
       isCorrectAnswerSelected: false,
       isWrongAnswerSelected: false,
     };
-    const createdAtDate = new Date(quizItem.createdAt);
+    const createdAtDate = new Date(+quizItem.createdAt);
     this.formattedCreatedAt =
       format(createdAtDate, 'MMM Do YYYY') +
       ' at ' +

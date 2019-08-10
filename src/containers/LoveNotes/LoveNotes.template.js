@@ -49,12 +49,11 @@ const ListEmptyComponent = ({
       <Well text="There was an error loading your love notes. Make sure you are connected to wifi or data." />
     )}
     {isGetReceivedLoveNotesInFlight && <Preloader />}
-    {!getReceivedLoveNotesError &&
-      !isGetReceivedLoveNotesInFlight && (
-        <Text style={[scene.copy, { fontSize: 25, textAlign: 'center' }]}>
-          You have not received any love notes yet. 🙄
-        </Text>
-      )}
+    {!getReceivedLoveNotesError && !isGetReceivedLoveNotesInFlight && (
+      <Text style={[scene.copy, { fontSize: 25, textAlign: 'center' }]}>
+        You have not received any love notes yet. 🙄
+      </Text>
+    )}
   </View>
 );
 
@@ -63,7 +62,7 @@ const ItemSeparatorComponent = () => (
 );
 
 const RenderItem = ({ item }) => {
-  const createdAtMoment = moment(new Date(item.createdAt));
+  const createdAtMoment = moment(new Date(+item.createdAt));
   const diff = now.diff(createdAtMoment, 'days');
   const isWithinThreshold = diff < 7;
 
@@ -74,11 +73,11 @@ const RenderItem = ({ item }) => {
       ) : (
         <Text>
           <Text style={styles.titleText}>
-            {moment(new Date(item.createdAt)).format('MMM D, YYYY')}
+            {moment(new Date(+item.createdAt)).format('MMM D, YYYY')}
           </Text>
           <Text style={styles.titleTextSecondary}>
             {' '}
-            at {moment(new Date(item.createdAt)).format('hh:mm a')}
+            at {moment(new Date(+item.createdAt)).format('hh:mm a')}
           </Text>
         </Text>
       )}
@@ -102,22 +101,20 @@ export default ({
   getReceivedLoveNotesError,
   receivedLoveNotes,
   onEndReached,
-}) => {
-  return (
-    <View>
-      <FlatList
-        data={receivedLoveNotes}
-        keyExtractor={keyExtractor}
-        renderItem={RenderItem}
-        onEndReached={onEndReached}
-        ListEmptyComponent={
-          <ListEmptyComponent
-            isGetReceivedLoveNotesInFlight={isGetReceivedLoveNotesInFlight}
-            getReceivedLoveNotesError={getReceivedLoveNotesError}
-          />
-        }
-        ItemSeparatorComponent={ItemSeparatorComponent}
-      />
-    </View>
-  );
-};
+}) => (
+  <View>
+    <FlatList
+      data={receivedLoveNotes}
+      keyExtractor={keyExtractor}
+      renderItem={RenderItem}
+      onEndReached={onEndReached}
+      ListEmptyComponent={
+        <ListEmptyComponent
+          isGetReceivedLoveNotesInFlight={isGetReceivedLoveNotesInFlight}
+          getReceivedLoveNotesError={getReceivedLoveNotesError}
+        />
+      }
+      ItemSeparatorComponent={ItemSeparatorComponent}
+    />
+  </View>
+);
