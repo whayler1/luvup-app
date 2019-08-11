@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { Svg, Path } from 'expo';
+import { Svg, Path } from 'react-native-svg';
 import _ from 'lodash';
 
 import { vars } from '../../styles';

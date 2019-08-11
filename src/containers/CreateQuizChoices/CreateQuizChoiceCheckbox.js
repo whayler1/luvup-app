@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, View } from 'react-native';
-import { Svg, Path } from 'expo';
+import { Svg, Path } from 'react-native-svg';
 import _ from 'lodash';
 
 import { vars } from '../../styles';
