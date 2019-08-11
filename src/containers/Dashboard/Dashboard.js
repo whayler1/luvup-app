@@ -112,7 +112,7 @@ class Dashboard extends PureComponent {
     const leastRecentWithinAnHr = moment(
       new Date(
         [...collection]
-          .filter(item => moment(new Date(item.createdAt)).isAfter(anHrAgo))
+          .filter(item => moment(new Date(+item.createdAt)).isAfter(anHrAgo))
           .pop().createdAt
       )
     );

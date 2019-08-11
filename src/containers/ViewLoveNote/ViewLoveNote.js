@@ -36,7 +36,7 @@ class ViewLoveNote extends PureComponent {
     if (!this.loveNote.isRead) {
       props.setLoveNoteRead(props.loveNoteId);
     }
-    const createdAtDate = new Date(this.loveNote.createdAt);
+    const createdAtDate = new Date(+this.loveNote.createdAt);
     this.formattedCreatedAt =
       format(createdAtDate, 'MMM Do YYYY') +
       ' at ' +

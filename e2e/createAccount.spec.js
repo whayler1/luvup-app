@@ -1,6 +1,7 @@
 import uuidv1 from 'uuid/v1';
 import Moniker from 'moniker';
 import { reloadApp } from 'detox-expo-helpers';
+import Timeout from 'await-timeout';
 // import times from 'lodash/times';
 
 import {
@@ -36,6 +37,7 @@ describe('create account', () => {
       .withTimeout(TIMEOUT);
     await signupEmailInput.tap();
     await signupEmailInput.typeText(`${userEmail}\n`);
+    await Timeout.set(500);
     const inputNumber0 = await elementById('input-number-0');
     await waitFor(inputNumber0)
       .toBeVisible()

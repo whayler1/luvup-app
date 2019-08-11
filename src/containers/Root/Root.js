@@ -3,7 +3,8 @@ import { AsyncStorage } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Font } from 'expo';
+/* eslint-disable-next-line import/no-namespace */
+import * as Font from 'expo-font';
 
 import Template from './Root.template';
 import {
