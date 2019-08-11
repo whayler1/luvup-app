@@ -1,7 +1,5 @@
 import React from 'react';
-/* eslint-disable import/no-extraneous-dependencies */
 import { Svg, Path } from 'react-native-svg';
-/* eslint-enable import/no-extraneous-dependencies */
 
 import { vars } from '../../../styles';
 

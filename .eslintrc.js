@@ -36,6 +36,7 @@ module.exports = {
         "no-console": [
           "warn"
         ],
+        "import/no-namespace": 0,
     },
     "globals": {
       "element": true,

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { BlurView } from 'expo';
+import { BlurView } from 'expo-blur';
 import _ from 'lodash';
 
 import DashboardTopNavScoreUpAnimation from './DashboardTopNavScoreUpAnimation';

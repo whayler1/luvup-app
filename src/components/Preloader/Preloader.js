@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Animated, Easing } from 'react-native';
-import Svg, { G, Rect } from 'react-native-svg';
+import { Svg, G, Rect } from 'react-native-svg';
 import PropTypes from 'prop-types';
 
 import { vars } from '../../styles';
