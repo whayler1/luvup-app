@@ -2473,6 +2473,11 @@ atob@^2.1.1:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.1.tgz#ae2d5a729477f289d60dd7f96a6314a22dd6c22a"
   integrity sha1-ri1acpR38onWDdf5amMUoi3Wwio=
 
+await-timeout@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/await-timeout/-/await-timeout-0.6.0.tgz#efb52f5dba4d5fea6cff043705b09c97e7c403dc"
+  integrity sha512-eMGnZxbqnmYTxCPqSYk5paIbPgcX8auC0UyVMScYMPY8pYmdk6o2wqQGw+SyN2hrhaDVZIQHVZX8DaHuBoRZcg==
+
 aws-sign2@~0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/aws-sign2/-/aws-sign2-0.7.0.tgz#b46e890934a9591f2d2f6f86d7e6a9f1b3fe76a8"

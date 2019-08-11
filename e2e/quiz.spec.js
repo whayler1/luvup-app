@@ -1,4 +1,5 @@
 import { reloadApp } from 'detox-expo-helpers';
+
 import { elementById, generateRelationship, login } from './helpers';
 
 const TIMEOUT = 3000;

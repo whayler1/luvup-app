@@ -65,7 +65,6 @@ export const login = (usernameOrEmail, password) => async dispatch => {
       usernameOrEmail.toLowerCase().trim(),
       password.trim()
     );
-    const id_token = await AsyncStorage.getItem('id_token');
 
     await AsyncStorage.setItem('id_token', res.body.id_token);
 
@@ -173,7 +172,6 @@ export const getMe = () => async dispatch => {
   dispatch({ type: GET_ME_ATTEMPT });
   try {
     const res = await userApi.getMe();
-
     const { relationship } = res.body.data.me;
 
     if (relationship) {
