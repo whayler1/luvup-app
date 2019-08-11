@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
  * JW: TODO: Move Svg & extractBrush impprts to expo imports
  */
 /* eslint-disable import/no-extraneous-dependencies */
-import { Svg, Path } from 'expo';
+import Svg, { Path } from 'react-native-svg';
 import extractBrush from 'react-native-svg/lib/extract/extractBrush';
 /* eslint-enable import/no-extraneous-dependencies */
 import { getAnimatedRelationshipScoreFill } from '../../../helpers/getRelationshipScoreFill';
@@ -47,7 +47,6 @@ class HeartArt extends PureComponent {
     const fill = animatedFillPct
       ? getAnimatedRelationshipScoreFill(animatedFillPct).__getValue()
       : this.props.fill;
-
     return (
       <Svg width={DEFAULT_WIDTH * scale} height={807 * scale}>
         <Path
