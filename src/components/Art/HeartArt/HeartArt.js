@@ -4,7 +4,7 @@ import { Svg, Path } from 'react-native-svg';
 import extractBrush from 'react-native-svg/lib/extract/extractBrush';
 import { getAnimatedRelationshipScoreFill } from '../../../helpers/getRelationshipScoreFill';
 
-export const DEFAULT_WIDTH = 891;
+export const DEFAULT_WIDTH = 892;
 
 class HeartArt extends PureComponent {
   static propTypes = {
