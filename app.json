@@ -30,9 +30,12 @@
     },
     "ios": {
       "bundleIdentifier": "io.terriblesolutions.luvup",
-      "buildNumber": "1",
+      "buildNumber": "3",
       "icon": "./src/images/icon/icon.png",
-      "associatedDomains": ["https://luvup.io/",":exp//"],
+      "associatedDomains": [
+        "applinks:luvup.io",
+        "webcredentials:luvup.io",
+      ],
     }
   }
 }
