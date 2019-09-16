@@ -16,7 +16,6 @@ import { store } from './src/redux';
 import { navbar, vars } from './src/styles';
 
 import Root from './src/containers/Root';
-import AcceptInvite from './src/containers/AcceptInvite';
 import Login from './src/containers/Login';
 import SignUp from './src/containers/SignUp';
 import ConfirmUserRequestCode from './src/containers/ConfirmUserRequestCode';
