@@ -139,7 +139,7 @@ class CreateLoverRequest extends Component {
             limit: 20
           ) {
             rows {
-              id username firstName lastName
+              id username firstName lastName email
             }
           }
         }`,

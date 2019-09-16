@@ -30,7 +30,7 @@ class CreateLoverRequestRenderItem extends PureComponent {
           <Text style={styles.renderItemName}>{`${item.firstName} ${
             item.lastName
           }`}</Text>
-          <Text style={styles.renderItemUsername}>{item.username}</Text>
+          <Text style={styles.renderItemUsername}>{item.email}</Text>
           <View style={styles.renderItemIcon}>
             <Ionicons name="ios-arrow-forward" size={30} color={vars.link} />
           </View>
