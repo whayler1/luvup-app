@@ -21,6 +21,7 @@ import SignUp from './src/containers/SignUp';
 import ConfirmUserRequestCode from './src/containers/ConfirmUserRequestCode';
 import ConfirmUserRequestCreateProfile from './src/containers/ConfirmUserRequestCreateProfile';
 import Dashboard from './src/containers/Dashboard';
+import CreateInvite from './src/containers/CreateInvite';
 import CreateLoverRequest from './src/containers/CreateLoverRequest';
 import Timeline from './src/containers/Timeline';
 import TimelineRelationshipScore from './src/containers/TimelineRelationshipScore';
@@ -40,6 +41,7 @@ import ViewQuiz from './src/containers/ViewQuiz';
 import ForgotPassword from './src/containers/ForgotPassword';
 import ResetPasswordWithGeneratedPassword from './src/containers/ResetPasswordWithGeneratedPassword';
 import ResendLoverRequest from './src/containers/ResendLoverRequest';
+import ResendInvite from './src/containers/ResendInvite';
 
 const reducerCreate = params => {
   const defaultReducer = new Reducer(params);
@@ -114,6 +116,12 @@ const App = () => (
             hideNavBar
           />
           <Scene
+            key="createInvite"
+            component={CreateInvite}
+            title="Create Invite"
+            hideNavBar
+          />
+          <Scene
             key="createloverrequest"
             component={CreateLoverRequest}
             hideNavBar
@@ -173,6 +181,11 @@ const App = () => (
           <Scene
             key="resendLoverRequest"
             component={ResendLoverRequest}
+            {...sceneDefaults}
+          />
+          <Scene
+            key="resendInvite"
+            component={ResendInvite}
             {...sceneDefaults}
           />
           <Scene

@@ -3,28 +3,23 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import isString from 'lodash/isString';
 
 import Button from '../../components/Button';
 import Well from '../../components/Well';
 import FormScene from '../../components/FormScene';
-import Form from '../../components/Form';
+import Form, { FORM_VALIDATORS } from '../../components/Form';
 import { scene } from '../../styles';
-import { emailRegex } from '../../helpers';
-import { resendLoverRequestEmail as resendLoverRequestEmailAction } from '../../redux/loverRequest/loverRequest.actions';
+import { isStringWithLength } from '../../helpers';
+import { resendUserInvite as resendUserInviteAction } from '../../redux/userInvite/userInvite.actions';
 
-const emailValidators = [
-  value => (emailRegex.test(value) ? '' : 'Please provide a valid email'),
-];
-
-class ResendLoverRequest extends PureComponent {
+class ResendInvite extends PureComponent {
   static propTypes = {
     loverEmail: PropTypes.string,
     loverFirstName: PropTypes.string,
     loverRequestId: PropTypes.string.isRequired,
-    resendLoverRequestEmail: PropTypes.func.isRequired,
-    isResendRequestEmailInFlight: PropTypes.bool.isRequired,
-    resendLoverRequestEmailError: PropTypes.string.isRequired,
+    resendUserInvite: PropTypes.func.isRequired,
+    isResendUserInviteInFlight: PropTypes.bool.isRequired,
+    resendUserInviteError: PropTypes.string.isRequired,
   };
 
   constructor(props) {
@@ -38,9 +33,9 @@ class ResendLoverRequest extends PureComponent {
 
   componentDidUpdate(prevProps) {
     if (
-      prevProps.isResendRequestEmailInFlight &&
-      !this.props.isResendRequestEmailInFlight &&
-      this.props.resendLoverRequestEmailError.length < 1
+      prevProps.isResendUserInviteInFlight &&
+      !this.props.isResendUserInviteInFlight &&
+      this.props.resendUserInviteError.length < 1
     ) {
       /* eslint-disable-next-line react/no-did-update-set-state */
       this.setState({ isSuccess: true });
@@ -49,10 +44,10 @@ class ResendLoverRequest extends PureComponent {
 
   handleSubmit = ({ email }) => {
     const {
-      props: { resendLoverRequestEmail, loverRequestId },
+      props: { resendUserInvite, loverRequestId },
     } = this;
     this.setState({ email });
-    resendLoverRequestEmail(loverRequestId, email);
+    resendUserInvite(loverRequestId, email);
   };
 
   handleDone = () => {
@@ -63,8 +58,8 @@ class ResendLoverRequest extends PureComponent {
     const {
       props: {
         loverFirstName,
-        isResendRequestEmailInFlight,
-        resendLoverRequestEmailError,
+        isResendUserInviteInFlight,
+        resendUserInviteError,
       },
       state: { email, isSuccess },
       handleSubmit,
@@ -75,10 +70,10 @@ class ResendLoverRequest extends PureComponent {
         {isSuccess ? (
           <Fragment>
             <Text style={[scene.titleCopy, scene.textCenter]}>
-              Lover Request Re-Sent
+              Invite Resent
             </Text>
             <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
-              A new Lover Request has been sent to {loverFirstName} at {email}.
+              Your invite was resent to {loverFirstName} at {email}.
             </Text>
             <View style={scene.gutterAndHalfTop}>
               <Button title="Done" onPress={handleDone} />
@@ -87,14 +82,14 @@ class ResendLoverRequest extends PureComponent {
         ) : (
           <Fragment>
             <Text style={[scene.titleCopy, scene.textCenter]}>
-              Resend Lover Request
+              Resend Invite
             </Text>
             <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
-              Send {loverFirstName} another Lover Request
+              Send {loverFirstName} another invite
             </Text>
             <Form
               onSubmit={handleSubmit}
-              isInFlight={isResendRequestEmailInFlight}
+              isInFlight={isResendUserInviteInFlight}
               defaultState={{ email: this.props.loverEmail }}>
               {({ renderInput, renderSubmit }) => (
                 <Fragment>
@@ -102,24 +97,23 @@ class ResendLoverRequest extends PureComponent {
                     label: 'Email',
                     key: 'email',
                     placeholder: 'my@lover.com',
-                    validators: emailValidators,
+                    validators: FORM_VALIDATORS.EMAIL_VALIDATORS,
                     inputProps: {
                       autoCapitalize: 'none',
                       spellCheck: false,
                       keyboardType: 'email-address',
-                      testID: 'resend-lover-request-email-input',
+                      testID: 'resend-user-invite-email-input',
                     },
                   })}
-                  {isString(resendLoverRequestEmailError) &&
-                    resendLoverRequestEmailError.length > 0 && (
-                      <Well
-                        text={resendLoverRequestEmailError}
-                        styles={scene.gutterAndHalfTop}
-                      />
-                    )}
+                  {isStringWithLength(resendUserInviteError) && (
+                    <Well
+                      text={resendUserInviteError}
+                      styles={scene.gutterAndHalfTop}
+                    />
+                  )}
                   <View style={scene.gutterAndHalfTop}>
                     {renderSubmit({
-                      title: 'Resend Lover Request',
+                      title: 'Resend',
                     })}
                   </View>
                 </Fragment>
@@ -137,12 +131,10 @@ export default connect(
     loverEmail: state.lover.email,
     loverFirstName: state.lover.firstName,
     loverRequestId: state.loverRequest.id,
-    isResendRequestEmailInFlight:
-      state.loverRequest.isResendRequestEmailInFlight,
-    resendLoverRequestEmailError:
-      state.loverRequest.resendLoverRequestEmailError,
+    isResendUserInviteInFlight: state.userInvite.isResendUserInviteInFlight,
+    resendUserInviteError: state.userInvite.resendUserInviteError,
   }),
   {
-    resendLoverRequestEmail: resendLoverRequestEmailAction,
+    resendUserInvite: resendUserInviteAction,
   }
-)(ResendLoverRequest);
+)(ResendInvite);

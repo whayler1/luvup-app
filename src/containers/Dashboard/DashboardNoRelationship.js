@@ -7,13 +7,17 @@ import _ from 'lodash';
 import { scene, vars } from '../../styles';
 import styles from './DashboardNoRelationship.styles';
 import HeartArt from '../../components/Art/HeartArt';
-import Button from '../../components/Button';
+import Button, { BUTTON_STYLES } from '../../components/Button';
 import DashboardNotificationRequestSent from './DashboardNotificationRequestSent';
 import DashboardNotificationReceivedLoverRequests from './DashboardNotificationReceivedLoverRequests';
 import { LoverRequestType } from '../../types';
 
 const handleLoverRequestPress = () => {
   Actions.createloverrequest();
+};
+
+const handleInviteLoverPress = () => {
+  Actions.createInvite();
 };
 
 const DashboardNoRelationship = ({
@@ -79,6 +83,14 @@ const DashboardNoRelationship = ({
             title="Search for Your Lover"
             testID="dashboard-create-lover-request-button"
           />
+          <View style={scene.gutterTop}>
+            <Button
+              buttonStyles={BUTTON_STYLES.INFO_SKELETON}
+              onPress={handleInviteLoverPress}
+              title="Invite Lover"
+              testID="dashboard-invite-lover-button"
+            />
+          </View>
         </View>
       )}
     </View>
