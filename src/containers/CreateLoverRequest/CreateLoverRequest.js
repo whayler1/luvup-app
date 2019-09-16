@@ -7,11 +7,11 @@ import _ from 'lodash';
 import {
   Text,
   FlatList,
-  SafeAreaView,
   View,
   ScrollView,
   KeyboardAvoidingView,
 } from 'react-native';
+import { SafeAreaView } from 'react-navigation';
 
 import styles from './CreateLoverRequest.styles';
 import { scene, modal, vars } from '../../styles';
@@ -136,7 +136,7 @@ class CreateLoverRequest extends Component {
         query: `{
           users (
             search: "${search}"
-            limit: 10
+            limit: 20
           ) {
             rows {
               id username firstName lastName
@@ -191,12 +191,12 @@ class CreateLoverRequest extends Component {
     } = this;
     if (!selectedUser) {
       return (
-        <SafeAreaView style={scene.safeAreaView}>
-          <KeyboardAvoidingView style={scene.container}>
+        <SafeAreaView
+          forceInset={{ bottom: 'never' }}
+          style={scene.safeAreaView}>
+          <KeyboardAvoidingView behavior="height" style={scene.container}>
             <SimpleHeader {...{ userFirstName, userLastName }} />
-            <ScrollView
-              style={scene.content}
-              contentContainerStyle={styles.content}>
+            <ScrollView style={scene.content}>
               <View>
                 <Input
                   label="Search for your lover"
@@ -213,12 +213,30 @@ class CreateLoverRequest extends Component {
                 />
               </View>
               {users.length > 0 && (
-                <FlatList
-                  style={styles.flatList}
-                  data={users}
-                  keyExtractor={keyExtractor}
-                  renderItem={getRenderItem(handleListItemClick)}
-                />
+                <Fragment>
+                  <FlatList
+                    style={styles.flatList}
+                    data={users}
+                    keyExtractor={keyExtractor}
+                    renderItem={getRenderItem(handleListItemClick)}
+                  />
+                  <Text
+                    style={[
+                      scene.bodyCopy,
+                      scene.gutterDoubleTop,
+                      { textAlign: 'center' },
+                    ]}>
+                    Don’t see who you’re looking for?
+                  </Text>
+                  <View style={scene.gutterTop}>
+                    <Button
+                      title="Invite Lover"
+                      buttonStyles={BUTTON_STYLES.INFO_SKELETON}
+                      onPress={handleInviteLoverPress}
+                    />
+                  </View>
+                  <View style={{ height: 60 }} />
+                </Fragment>
               )}
               {isInFlight && !users.length && (
                 <Text style={[modal.copy, { color: vars.blue500 }]}>
