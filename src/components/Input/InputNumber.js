@@ -64,7 +64,8 @@ class InputNumber extends PureComponent {
       props: { label, value, error, editable },
     } = this;
     return (
-      <InputWrapper {...{ label, error, value: ' ' }}>
+      <InputWrapper
+        {...{ label, error, value: ' ', disableErrorUnderline: true }}>
         <View style={styles.wrapper}>
           {_.times(CODE_LENGTH, n => (
             <InputNumberItem
