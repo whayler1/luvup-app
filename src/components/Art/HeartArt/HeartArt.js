@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Svg, Path } from 'react-native-svg';
-import extractBrush from 'react-native-svg/lib/extract/extractBrush';
+import extractBrush from 'react-native-svg/lib/module/lib/extract/extractBrush';
 import { getAnimatedRelationshipScoreFill } from '../../../helpers/getRelationshipScoreFill';
 
 export const DEFAULT_WIDTH = 892;

@@ -66,7 +66,7 @@ export const login = (usernameOrEmail, password) => async dispatch => {
       password.trim()
     );
 
-    await AsyncStorage.setItem('id_token', res.body.id_token);
+    await AsyncStorage.setItem('id_token', _.get(res, 'body.id_token', ''));
 
     if (res.ok) {
       dispatch({
@@ -103,7 +103,7 @@ export const reauth = id_token => async dispatch => {
   try {
     const res = await userApi.reauth(id_token);
 
-    await AsyncStorage.setItem('id_token', res.body.id_token);
+    await AsyncStorage.setItem('id_token', _.get(res, 'body.id_token', ''));
 
     const { id, username, email } = res.body.user;
     dispatch({
