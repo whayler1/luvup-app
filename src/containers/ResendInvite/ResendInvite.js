@@ -85,7 +85,7 @@ class ResendInvite extends PureComponent {
               Resend Invite
             </Text>
             <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
-              Send {loverFirstName} another invite at {email}
+              Send {loverFirstName} another invite
             </Text>
             <Form
               onSubmit={handleSubmit}
@@ -93,6 +93,18 @@ class ResendInvite extends PureComponent {
               defaultState={{ email: this.props.loverEmail }}>
               {({ renderInput, renderSubmit }) => (
                 <Fragment>
+                  {renderInput({
+                    label: 'Email',
+                    key: 'email',
+                    placeholder: 'my@lover.com',
+                    validators: FORM_VALIDATORS.EMAIL_VALIDATORS,
+                    inputProps: {
+                      autoCapitalize: 'none',
+                      spellCheck: false,
+                      keyboardType: 'email-address',
+                      testID: 'resend-user-invite-email-input',
+                    },
+                  })}
                   {isStringWithLength(resendUserInviteError) && (
                     <Well
                       text={resendUserInviteError}
