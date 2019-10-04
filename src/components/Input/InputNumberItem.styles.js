@@ -17,4 +17,7 @@ export default StyleSheet.create({
   inputFocus: {
     borderColor: vars.link,
   },
+  inputError: {
+    borderColor: vars.danger,
+  },
 });

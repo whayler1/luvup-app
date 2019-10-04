@@ -1,5 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import _ from 'lodash';
+import { Actions } from 'react-native-router-flux';
 import {
   listen as listenToNotifications,
   remove as removeNotificationsListener,
@@ -344,6 +345,7 @@ export const confirmUserRequestCode = (email, code) => async dispatch => {
     );
 
     if (confirmUserRequestCode && confirmUserRequestCode.success) {
+      Actions.confirmUserRequestCreateProfile();
       dispatch({
         type: CONFIRM_USER_REQUEST_CODE_SUCCESS,
         email,
@@ -356,7 +358,7 @@ export const confirmUserRequestCode = (email, code) => async dispatch => {
       type: CONFIRM_USER_REQUEST_CODE_FAILURE,
       errorMessage: _.get(
         res,
-        'body.errors[0].message',
+        'body.data.confirmUserRequestCode.error',
         'Error submitting request code'
       ),
     });

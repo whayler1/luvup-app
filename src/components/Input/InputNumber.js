@@ -75,6 +75,7 @@ class InputNumber extends PureComponent {
               value={value[n] || ''}
               setRef={setRef}
               editable={editable}
+              isError={!!error}
             />
           ))}
         </View>
