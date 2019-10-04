@@ -36,6 +36,9 @@
         "applinks:luvup.io",
         "webcredentials:luvup.io",
       ],
-    }
+    },
+    "packagerOpts": {
+       "sourceExts": ["js", "json", "ts", "tsx", "jsx"],
+     }
   }
 }
