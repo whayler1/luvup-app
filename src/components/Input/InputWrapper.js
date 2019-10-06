@@ -23,11 +23,13 @@ class InputWrapper extends PureComponent {
     children: PropTypes.node,
     isFocus: PropTypes.bool,
     value: PropTypes.string,
+    disableErrorUnderline: PropTypes.bool,
   };
 
   static defaultProps = {
     error: '',
     formGroupStyles: [],
+    disableErrorUnderline: false,
   };
 
   constructor(props) {
@@ -177,7 +179,7 @@ class InputWrapper extends PureComponent {
         <Animated.View
           style={[
             forms.inputUnderline,
-            this.props.error
+            this.props.error && !this.props.disableErrorUnderline
               ? forms.inputUnderlineError
               : {
                   width: underlineWidth.interpolate({

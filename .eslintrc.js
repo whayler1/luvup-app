@@ -1,24 +1,25 @@
 module.exports = {
-    "env": {
-        "node": true,
-        "es6": true
-    },
     "extends": [
       "eslint:recommended",
+      "plugin:react/recommended",
       "react-native",
       "react-native-prettier"
     ],
-    "parserOptions": {
-        "ecmaFeatures": {
-            "experimentalObjectRestSpread": true,
-            "jsx": true
-        },
-        "sourceType": "module"
-    },
     "plugins": [
-        "react",
-        "babel"
+      "react",
+      "react-native",
+      "babel",
+      "import",
+      "prettier",
     ],
+    parser: 'babel-eslint',
+    parserOptions: {
+      ecmaVersion: 9,
+      ecmaFeatures: {
+        jsx: true,
+      },
+      sourceType: 'module',
+    },
     "rules": {
         "linebreak-style": [
             "error",

@@ -69,7 +69,11 @@ const getHeartFillValue = (relationshipScore, easedDy) => {
 
 const windowDimensions = Dimensions.get('window');
 const screenWidth = Math.round(windowDimensions.width);
-const heartWidth = screenWidth - vars.gutterDoubleAndHalf * 2;
+const heartMaxWidth = 320;
+const heartWidth = Math.min(
+  screenWidth - vars.gutterDoubleAndHalf * 2,
+  heartMaxWidth
+);
 const hearthHeight = Math.round(heartWidth * 0.9122807018);
 const heartScale = heartWidth / HEART_ART_DEFAULT_WIDTH;
 

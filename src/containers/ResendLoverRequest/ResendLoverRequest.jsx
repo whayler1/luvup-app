@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
@@ -9,13 +9,8 @@ import Button from '../../components/Button';
 import Well from '../../components/Well';
 import FormScene from '../../components/FormScene';
 import Form from '../../components/Form';
-import { scene } from '../../styles';
-import { emailRegex } from '../../helpers';
+import { scene, vars } from '../../styles';
 import { resendLoverRequestEmail as resendLoverRequestEmailAction } from '../../redux/loverRequest/loverRequest.actions';
-
-const emailValidators = [
-  value => (emailRegex.test(value) ? '' : 'Please provide a valid email'),
-];
 
 class ResendLoverRequest extends PureComponent {
   static propTypes = {
@@ -47,12 +42,11 @@ class ResendLoverRequest extends PureComponent {
     }
   }
 
-  handleSubmit = ({ email }) => {
+  handleSubmit = () => {
     const {
-      props: { resendLoverRequestEmail, loverRequestId },
+      props: { resendLoverRequestEmail, loverRequestId, loverEmail },
     } = this;
-    this.setState({ email });
-    resendLoverRequestEmail(loverRequestId, email);
+    resendLoverRequestEmail(loverRequestId, loverEmail);
   };
 
   handleDone = () => {
@@ -66,50 +60,41 @@ class ResendLoverRequest extends PureComponent {
         isResendRequestEmailInFlight,
         resendLoverRequestEmailError,
       },
-      state: { email, isSuccess },
+      state: { isSuccess },
       handleSubmit,
       handleDone,
     } = this;
     return (
       <FormScene>
         {isSuccess ? (
-          <Fragment>
+          <>
             <Text style={[scene.titleCopy, scene.textCenter]}>
               Lover Request Re-Sent
             </Text>
             <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
-              A new Lover Request has been sent to {loverFirstName} at {email}.
+              A new Lover Request has been sent to {loverFirstName} at{' '}
+              {this.props.loverEmail}.
             </Text>
             <View style={scene.gutterAndHalfTop}>
               <Button title="Done" onPress={handleDone} />
             </View>
-          </Fragment>
+          </>
         ) : (
-          <Fragment>
+          <>
             <Text style={[scene.titleCopy, scene.textCenter]}>
               Resend Lover Request
             </Text>
             <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
-              Send {loverFirstName} another Lover Request
+              Send {loverFirstName} another Lover Request at{' '}
+              <Text style={{ color: vars.blueGrey900 }}>
+                {this.props.loverEmail}
+              </Text>
             </Text>
             <Form
               onSubmit={handleSubmit}
-              isInFlight={isResendRequestEmailInFlight}
-              defaultState={{ email: this.props.loverEmail }}>
-              {({ renderInput, renderSubmit }) => (
-                <Fragment>
-                  {renderInput({
-                    label: 'Email',
-                    key: 'email',
-                    placeholder: 'my@lover.com',
-                    validators: emailValidators,
-                    inputProps: {
-                      autoCapitalize: 'none',
-                      spellCheck: false,
-                      keyboardType: 'email-address',
-                      testID: 'resend-lover-request-email-input',
-                    },
-                  })}
+              isInFlight={isResendRequestEmailInFlight}>
+              {({ renderSubmit }) => (
+                <>
                   {isString(resendLoverRequestEmailError) &&
                     resendLoverRequestEmailError.length > 0 && (
                       <Well
@@ -122,10 +107,10 @@ class ResendLoverRequest extends PureComponent {
                       title: 'Resend Lover Request',
                     })}
                   </View>
-                </Fragment>
+                </>
               )}
             </Form>
-          </Fragment>
+          </>
         )}
       </FormScene>
     );

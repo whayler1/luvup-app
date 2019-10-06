@@ -11,6 +11,7 @@ class InputNumberItem extends PureComponent {
     onChangeText: PropTypes.func,
     setRef: PropTypes.func,
     editable: PropTypes.bool,
+    isError: PropTypes.bool,
   };
 
   static defdaultProps = {
@@ -46,7 +47,11 @@ class InputNumberItem extends PureComponent {
     return (
       <TextInput
         testID={`input-number-${this.props.index}`}
-        style={[styles.input, this.state.isFocus && styles.inputFocus]}
+        style={[
+          styles.input,
+          this.state.isFocus && styles.inputFocus,
+          this.props.isError && styles.inputError,
+        ]}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         value={this.getValue()}

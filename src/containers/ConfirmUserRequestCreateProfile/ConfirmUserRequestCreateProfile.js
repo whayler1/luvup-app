@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import _ from 'lodash';
-import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Text, View } from 'react-native';
@@ -155,24 +154,13 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
     this.props.loginError ||
     this.props.getMeErrorMessage;
 
-  login = async () => {
+  login = () => {
     const {
       state: { password },
       props: { email },
     } = this;
 
-    await this.props.login(email, password);
-    const { loginError } = this.props;
-    if (_.isString(loginError) && loginError > 0) {
-      return;
-    }
-    await this.props.getMe();
-    const { getMeErrorMessage } = this.props;
-    if (_.isString(getMeErrorMessage) && getMeErrorMessage.length > 0) {
-      return;
-    }
-
-    Actions.reset('dashboard');
+    this.props.login(email, password);
   };
 
   submit = async () => {

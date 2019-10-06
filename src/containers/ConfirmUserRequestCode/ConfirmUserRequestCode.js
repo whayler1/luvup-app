@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Text, View, ScrollView, KeyboardAvoidingView } from 'react-native';
 
-import { forms, scene } from '../../styles';
+import { forms, scene, vars } from '../../styles';
 import Well from '../../components/Well';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
@@ -83,10 +82,6 @@ class ConfirmUserRequestCode extends Component {
     return '';
   };
 
-  handleSubmitSuccess = () => {
-    Actions.confirmUserRequestCreateProfile();
-  };
-
   setCodeRef = el => {
     this.codeEl = el;
   };
@@ -103,7 +98,13 @@ class ConfirmUserRequestCode extends Component {
   };
 
   getCodeError = () => {
-    const { error } = this.state;
+    const {
+      state: { error },
+      props: { confirmUserRequestCodeError },
+    } = this;
+    if (confirmUserRequestCodeError === 'invalid code') {
+      return 'Invalid code';
+    }
     if (error === 'code') {
       return 'Please provide the code that was emailed to you';
     }
@@ -119,33 +120,9 @@ class ConfirmUserRequestCode extends Component {
     return '';
   };
 
-  submit = async () => {
+  submit = () => {
     const { email, code } = this.state;
-    const res = await this.props.confirmUserRequestCode(email, code);
-
-    const confirmUserRequestCode = _.get(
-      res,
-      'body.data.confirmUserRequestCode'
-    );
-
-    if (confirmUserRequestCode) {
-      if (confirmUserRequestCode.error && confirmUserRequestCode.error.length) {
-        this.setState({
-          error: confirmUserRequestCode.error,
-        });
-      } else {
-        this.setState(
-          {
-            error: '',
-          },
-          this.handleSubmitSuccess
-        );
-      }
-    } else {
-      this.setState({
-        error: 'server',
-      });
-    }
+    this.props.confirmUserRequestCode(email, code);
   };
 
   handleSubmit = () => {
@@ -229,9 +206,6 @@ class ConfirmUserRequestCode extends Component {
                 setFirstRef: setCodeRef,
               }}
             />
-            {confirmUserRequestCodeError.length > 0 && (
-              <Well text={confirmUserRequestCodeError} />
-            )}
             <View style={forms.buttonRow}>
               <View style={styles.submitWrapper}>
                 <Button
@@ -242,6 +216,12 @@ class ConfirmUserRequestCode extends Component {
                 />
               </View>
             </View>
+            {confirmUserRequestCodeError.length > 0 &&
+              confirmUserRequestCodeError !== 'invalid code' && (
+                <View style={{ marginTop: vars.gutter }}>
+                  <Well text={confirmUserRequestCodeError} />
+                </View>
+              )}
           </ScrollView>
         </View>
       </KeyboardAvoidingView>
