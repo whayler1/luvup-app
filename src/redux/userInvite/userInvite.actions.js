@@ -44,7 +44,7 @@ export const getUserInvite = () => async dispatch => {
 export const getUserInviteWithId = userInviteId => async dispatch => {
   dispatch({ type: GET_USER_INVITE_WITH_ID_ATTEMPT });
   try {
-    const res = await userInviteApi.getUserInviteWithId();
+    const res = await userInviteApi.getUserInviteWithId(userInviteId);
     const errorMessage = getGraphQLError(res);
 
     if (errorMessage) {

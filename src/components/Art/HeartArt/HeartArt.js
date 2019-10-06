@@ -18,7 +18,6 @@ class HeartArt extends PureComponent {
     if (animatedFillPct) {
       this.animatedListener = animatedFillPct.addListener(() => {
         const fill = getAnimatedRelationshipScoreFill(animatedFillPct);
-
         // Make sure that the ref was acquired.
         if (this.pathRef) {
           this.pathRef.setNativeProps({
