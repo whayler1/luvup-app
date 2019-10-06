@@ -2,6 +2,9 @@ import get from 'lodash/get';
 
 import relationshipApi from './relationship.api';
 import { sanitizeEmail } from '../../helpers';
+import { getMe } from '../user/user.actions';
+import { getCoinCount } from '..//coin/coin.actions';
+import { Actions } from 'react-native-router-flux';
 
 export const SET_RELATIONSHIP = 'relationship/set-relationship';
 export const END_RELATIONSHIP = 'relationship/end-relationship';
@@ -61,12 +64,14 @@ export const createRelationshipWithInvite = (
       relationship,
       userInvite,
     } = res.body.data.createRelationshipWithInvite;
+    await Promise.all([dispatch(getMe()), dispatch(getCoinCount())]);
     dispatch({
       type: CREATE_RELATIONSHIP_WITH_INVITE_SUCCESS,
       loverRequest,
       relationship,
       userInvite,
     });
+    Actions.reset('dashboard', { isNewRelationshipRequest: true });
   } catch (err) {
     dispatch({
       type: CREATE_RELATIONSHIP_WITH_INVITE_FAILURE,

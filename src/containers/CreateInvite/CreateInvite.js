@@ -2,10 +2,9 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { KeyboardAvoidingView, SafeAreaView, View, Text } from 'react-native';
 import { connect } from 'react-redux';
-import { Actions } from 'react-native-router-flux';
 
 import { scene } from '../../styles';
-import { emailRegex, isStringWithLength } from '../../helpers';
+import { emailRegex } from '../../helpers';
 import { createRelationshipWithInvite as createRelationshipWithInviteAction } from '../../redux/relationship/relationship.actions';
 import { getMe as getMeAction } from '../../redux/user/user.actions';
 import { getCoinCount as getCoinCountAction } from '../../redux/coin/coin.actions';
@@ -82,17 +81,6 @@ class CreateInvite extends PureComponent {
     return isValid;
   }
 
-  handleSubmitSuccess = async () => {
-    const {
-      props: { getMe, getMeErrorMessage, getCoinCount },
-    } = this;
-    await getMe();
-    if (!isStringWithLength(getMeErrorMessage)) {
-      await getCoinCount();
-      Actions.reset('dashboard', { isNewRelationshipRequest: true });
-    }
-  };
-
   handleSubmit = async () => {
     if (!this.validate()) {
       return;
@@ -101,18 +89,11 @@ class CreateInvite extends PureComponent {
       state: { recipientEmail, recipientFirstName, recipientLastName },
       props: { createRelationshipWithInvite },
     } = this;
-    await createRelationshipWithInvite(
+    createRelationshipWithInvite(
       recipientEmail,
       recipientFirstName,
       recipientLastName
     );
-    const {
-      handleSubmitSuccess,
-      props: { createRelationshipWithInviteError },
-    } = this;
-    if (!isStringWithLength(createRelationshipWithInviteError)) {
-      handleSubmitSuccess();
-    }
   };
 
   render() {
