@@ -17,10 +17,11 @@ import styles from './Menu.styles';
 //     "lastName": "Baby",
 //   },
 
-const LoverRequestItem = ({ id, createdAt, sender }) => {
+const LoverRequestItem = loverRequest => {
   function handlePress() {
-    Actions.viewLoverRequest({ loverRequestId: id });
+    Actions.viewLoverRequest({ loverRequest });
   }
+  const { createdAt, sender } = loverRequest;
   return (
     <TouchableOpacity style={styles.loverRequestItem} onPress={handlePress}>
       <View style={styles.loverRequestItemContent}>
