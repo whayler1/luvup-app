@@ -48,4 +48,28 @@ export default StyleSheet.create({
   menuLinkTextDanger: {
     color: vars.danger,
   },
+  loverRequestItem: {
+    paddingVertical: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  loverRequestItemContent: {},
+  loverRequestItemIcon: {
+    alignSelf: 'center',
+    marginLeft: 16,
+  },
+  loverRequestItemTitle: {
+    fontFamily: vars.fontRegular,
+    color: vars.link,
+    fontSize: 20,
+  },
+  loverRequestItemInfo: {
+    fontFamily: vars.fontRegular,
+    color: vars.blueGrey500,
+    fontSize: 16,
+  },
+  loverRequestItemSub: {
+    marginTop: 0,
+    marginBottom: 8,
+  },
 });

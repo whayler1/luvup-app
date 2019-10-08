@@ -1,8 +1,10 @@
 import React from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
+import distanceInWords from 'date-fns/distance_in_words';
+import { Ionicons } from '@expo/vector-icons';
 
-import { scene } from '../../styles';
+import { scene, vars } from '../../styles';
 import styles from './Menu.styles';
 
 // "createdAt": "1570533268022",
@@ -15,13 +17,20 @@ import styles from './Menu.styles';
 //   },
 
 const LoverRequestItem = ({ createdAt, sender }) => (
-  <View>
-    <Text>{createdAt}</Text>
-    <Text>
-      {sender.firstName} {sender.lastName}
-    </Text>
-    <Text>{sender.email}</Text>
-  </View>
+  <TouchableOpacity style={styles.loverRequestItem}>
+    <View style={styles.loverRequestItemContent}>
+      <Text style={[styles.label, styles.loverRequestItemSub]}>
+        {distanceInWords(new Date(), new Date(+createdAt), { addSuffix: true })}
+      </Text>
+      <Text style={styles.loverRequestItemTitle}>
+        {sender.firstName} {sender.lastName}
+      </Text>
+      <Text style={styles.loverRequestItemInfo}>{sender.email}</Text>
+    </View>
+    <View style={styles.loverRequestItemIcon}>
+      <Ionicons name="ios-arrow-forward" size={30} color={vars.link} />
+    </View>
+  </TouchableOpacity>
 );
 
 const MenuReceivedLoverRequests = () => {
