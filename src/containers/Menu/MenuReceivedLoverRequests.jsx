@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { View, Text, TouchableOpacity } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import distanceInWords from 'date-fns/distance_in_words';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -16,22 +17,29 @@ import styles from './Menu.styles';
 //     "lastName": "Baby",
 //   },
 
-const LoverRequestItem = ({ createdAt, sender }) => (
-  <TouchableOpacity style={styles.loverRequestItem}>
-    <View style={styles.loverRequestItemContent}>
-      <Text style={[styles.label, styles.loverRequestItemSub]}>
-        {distanceInWords(new Date(), new Date(+createdAt), { addSuffix: true })}
-      </Text>
-      <Text style={styles.loverRequestItemTitle}>
-        {sender.firstName} {sender.lastName}
-      </Text>
-      <Text style={styles.loverRequestItemInfo}>{sender.email}</Text>
-    </View>
-    <View style={styles.loverRequestItemIcon}>
-      <Ionicons name="ios-arrow-forward" size={30} color={vars.link} />
-    </View>
-  </TouchableOpacity>
-);
+const LoverRequestItem = ({ id, createdAt, sender }) => {
+  function handlePress() {
+    Actions.viewLoverRequest({ loverRequestId: id });
+  }
+  return (
+    <TouchableOpacity style={styles.loverRequestItem} onPress={handlePress}>
+      <View style={styles.loverRequestItemContent}>
+        <Text style={[styles.label, styles.loverRequestItemSub]}>
+          {distanceInWords(new Date(), new Date(+createdAt), {
+            addSuffix: true,
+          })}
+        </Text>
+        <Text style={styles.loverRequestItemTitle}>
+          {sender.firstName} {sender.lastName}
+        </Text>
+        <Text style={styles.loverRequestItemInfo}>{sender.email}</Text>
+      </View>
+      <View style={styles.loverRequestItemIcon}>
+        <Ionicons name="ios-arrow-forward" size={30} color={vars.link} />
+      </View>
+    </TouchableOpacity>
+  );
+};
 
 const MenuReceivedLoverRequests = () => {
   const { rows } = useSelector(

@@ -33,6 +33,7 @@ import LoveNotes from './src/containers/LoveNotes';
 import TimelineRelationshipScoreArt from './src/components/Art/TimelineRelationshipScoreArt';
 import TimelineArt from './src/components/Art/TimelineArt';
 import ViewLoveNote from './src/containers/ViewLoveNote';
+import ViewLoverRequest from './src/containers/ViewLoverRequest';
 import CreateQuizQuestion from './src/containers/CreateQuizQuestion';
 import CreateQuizChoices from './src/containers/CreateQuizChoices';
 import CreateQuizReward from './src/containers/CreateQuizReward';
@@ -101,6 +102,12 @@ const App = () => (
             key="confirmUserRequestCode"
             component={ConfirmUserRequestCode}
             title="Enter Code"
+            {...sceneDefaults}
+          />
+          <Scene
+            key="viewLoverRequest"
+            component={ViewLoverRequest}
+            title="Lover Request"
             {...sceneDefaults}
           />
           <Scene
