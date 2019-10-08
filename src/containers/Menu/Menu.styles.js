@@ -27,6 +27,9 @@ export default StyleSheet.create({
     marginTop: 4,
     fontFamily: vars.fontRegular,
   },
+  valueSmall: {
+    fontSize: 16,
+  },
   scrollView: {
     alignSelf: 'stretch',
   },

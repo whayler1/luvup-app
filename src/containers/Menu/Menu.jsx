@@ -48,6 +48,7 @@ class Menu extends PureComponent {
     userInviteId: PropTypes.string,
     loverFirstName: PropTypes.string,
     loverLastName: PropTypes.string,
+    loverEmail: PropTypes.string,
     loverId: PropTypes.string,
     loverIsPlaceholder: PropTypes.bool,
     relationshipCreatedAt: PropTypes.string,
@@ -204,6 +205,7 @@ class Menu extends PureComponent {
         userEmail,
         loverFirstName,
         loverLastName,
+        loverEmail,
         loverId,
         loverRequestId,
         loverIsPlaceholder,
@@ -262,6 +264,9 @@ class Menu extends PureComponent {
                   <Text style={styles.label}>Lover</Text>
                   <Text style={styles.value}>
                     {loverFirstName} {loverLastName}
+                  </Text>
+                  <Text style={[styles.value, styles.valueSmall]}>
+                    {loverEmail}
                   </Text>
                   <Text style={styles.label}>Start Date</Text>
                   <Text style={styles.value}>
@@ -365,6 +370,7 @@ export default connect(
     userInviteId: state.userInvite.id,
     loverFirstName: state.lover.firstName,
     loverLastName: state.lover.lastName,
+    loverEmail: state.lover.email,
     loverId: state.lover.id,
     loverIsPlaceholder: state.lover.isPlaceholder,
     relationshipCreatedAt: state.relationship.createdAt,
