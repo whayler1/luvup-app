@@ -222,6 +222,7 @@ class Menu extends PureComponent {
       endRelationship,
       goToCreateLoverRequest,
     } = this;
+
     return (
       <SafeAreaView forceInset={{ bottom: 'never' }} style={scene.safeAreaView}>
         <View style={scene.container}>
