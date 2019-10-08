@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -18,6 +18,7 @@ import Well, { WELL_TYPES } from '../../components/Well';
 import Button, { BUTTON_STYLES } from '../../components/Button';
 import MenuLink, { LINK_TYPE } from './MenuLink';
 import ChangePasswordModalContent from '../ChangePasswordModalContent';
+import MenuReceivedLoverRequests from './MenuReceivedLoverRequests';
 import { logout as logoutAction } from '../../redux/user/user.actions';
 import { endRelationship as endRelationshipAction } from '../../redux/relationship/relationship.actions';
 import { getUserInvite } from '../../redux/userInvite/userInvite.actions';
@@ -135,9 +136,9 @@ class Menu extends PureComponent {
       handleResendInvitePress,
     } = this;
     return (
-      <Fragment>
+      <>
         {isStringWithLength(userInviteId) ? (
-          <Fragment>
+          <>
             <MenuLink
               onPress={handleResendInvitePress}
               iconName="md-send"
@@ -153,9 +154,9 @@ class Menu extends PureComponent {
               }
               disabled={isCancelLoverRequestInFlight}
             />
-          </Fragment>
+          </>
         ) : (
-          <Fragment>
+          <>
             <MenuLink
               onPress={goToResendLoverRequest}
               iconName="md-send"
@@ -173,7 +174,7 @@ class Menu extends PureComponent {
               }
               disabled={isCancelLoverRequestInFlight}
             />
-          </Fragment>
+          </>
         )}
         {_.isString(cancelLoverRequestError) &&
           cancelLoverRequestError.length > 0 && (
@@ -184,7 +185,7 @@ class Menu extends PureComponent {
           styles={{ marginTop: vars.gutterAndHalf }}
           text={`${loverFirstName} has not accepted your lover request yet. We'll let you know when ${loverFirstName} accepts!`}
         />
-      </Fragment>
+      </>
     );
   };
 
@@ -256,7 +257,7 @@ class Menu extends PureComponent {
                 Relationship
               </Text>
               {isStringWithLength(loverId) && (
-                <Fragment>
+                <>
                   <Text style={styles.label}>Lover</Text>
                   <Text style={styles.value}>
                     {loverFirstName} {loverLastName}
@@ -276,11 +277,11 @@ class Menu extends PureComponent {
                       text="End Relationship"
                     />
                   )}
-                </Fragment>
+                </>
               )}
               {!isStringWithLength(loverId) &&
                 !isStringWithLength(loverRequestId) && (
-                  <Fragment>
+                  <>
                     <Well
                       type={WELL_TYPES.INFO}
                       text="You are not currently in a relationship. Send a lover request to get things started."
@@ -302,9 +303,10 @@ class Menu extends PureComponent {
                       </Text>
                       <Ionicons name="md-send" size={22} color={vars.link} />
                     </TouchableOpacity>
-                  </Fragment>
+                  </>
                 )}
             </View>
+            <MenuReceivedLoverRequests />
             <View
               style={{
                 marginTop: 40,
