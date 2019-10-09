@@ -16,12 +16,14 @@ import {
 const ViewLoverRequest = ({ loverRequest: { id, createdAt, sender } }) => {
   const [isAcceptModalVisible, setIsAcceptModalVisible] = useState(false);
   const {
+    loverId,
     isAcceptLoverRequestInFlight,
     acceptLoverRequestError,
     isCancelReceivedLoverRequestInFlight,
     cancelReceivedLoverRequestError,
   } = useSelector(
     state => ({
+      loverId: state.lover.id,
       isAcceptLoverRequestInFlight:
         state.receivedLoverRequests.isAcceptLoverRequestInFlight,
       acceptLoverRequestError:
@@ -40,15 +42,22 @@ const ViewLoverRequest = ({ loverRequest: { id, createdAt, sender } }) => {
   function handleDenyPress() {
     dispatch(cancelReceivedLoverRequest(id, { popOnSuccess: true }));
   }
+  function dispatchAcceptLoverRequest() {
+    dispatch(acceptLoverRequest(id, { popOnSuccess: true }));
+  }
   function handleAcceptPress() {
-    setIsAcceptModalVisible(true);
+    if (loverId) {
+      setIsAcceptModalVisible(true);
+      return;
+    }
+    dispatchAcceptLoverRequest();
   }
   function handleAcceptOverLayDismissed() {
     setIsAcceptModalVisible(false);
   }
   function handleAcceptOverlayAccepted() {
     setIsAcceptModalVisible(false);
-    dispatch(acceptLoverRequest(id, { popOnSuccess: true }));
+    dispatchAcceptLoverRequest();
   }
   return (
     <>
