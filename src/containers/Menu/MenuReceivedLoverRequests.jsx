@@ -49,6 +49,9 @@ const MenuReceivedLoverRequests = () => {
     }),
     shallowEqual
   );
+  if (!rows.length) {
+    return false;
+  }
   return (
     <View style={styles.group}>
       <Text testID="menu-received-lover-request-title" style={scene.titleCopy}>
