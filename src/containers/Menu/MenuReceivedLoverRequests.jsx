@@ -3,10 +3,10 @@ import { useSelector, shallowEqual } from 'react-redux';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import distanceInWords from 'date-fns/distance_in_words';
-import { Ionicons } from '@expo/vector-icons';
 
-import { scene, vars } from '../../styles';
+import { scene } from '../../styles';
 import styles from './Menu.styles';
+import NotificationDot from '../../components/NotificationDot';
 
 // "createdAt": "1570533268022",
 //   "id": "cafd1d60-e9bc-11e9-a802-55713c749886",
@@ -36,7 +36,7 @@ const LoverRequestItem = loverRequest => {
         <Text style={styles.loverRequestItemInfo}>{sender.email}</Text>
       </View>
       <View style={styles.loverRequestItemIcon}>
-        <Ionicons name="ios-arrow-forward" size={30} color={vars.link} />
+        <NotificationDot style={styles.loverRequestItemIconNotificationDot} />
       </View>
     </TouchableOpacity>
   );

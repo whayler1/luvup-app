@@ -61,6 +61,11 @@ export default StyleSheet.create({
     alignSelf: 'center',
     marginLeft: 16,
   },
+  loverRequestItemIconNotificationDot: {
+    position: 'relative',
+    right: 'auto',
+    top: 'auto',
+  },
   loverRequestItemTitle: {
     fontFamily: vars.fontRegular,
     color: vars.link,
