@@ -11,6 +11,8 @@ import Pushdown from '../../components/Pushdown';
 import NotificationDot from '../../components/NotificationDot';
 import CoinArt from '../../components/CoinArt';
 import { vars } from '../../styles';
+import { LoverRequestType } from '../../types';
+import isArrayWithLength from '../../helpers/isArrayWithLength';
 import styles from './DashboardTopNav.styles';
 
 export default class DashboardTopNav extends Component {
@@ -26,6 +28,7 @@ export default class DashboardTopNav extends Component {
     closePushdown: PropTypes.func,
     unviewedCoinCount: PropTypes.number,
     unviewedJalapenoCount: PropTypes.number,
+    receivedLoverRequests: PropTypes.arrayOf(LoverRequestType),
   };
 
   handleScoreClick = () => {
@@ -64,6 +67,7 @@ export default class DashboardTopNav extends Component {
         unviewedJalapenoCount,
         unreadReceivedLoveNoteCount,
         relationshipScore,
+        receivedLoverRequests,
       },
       handleScoreClick,
       handleMenuButtonClick,
@@ -156,7 +160,9 @@ export default class DashboardTopNav extends Component {
                   testID="dashboard-top-nav-menu-button"
                   onPress={handleMenuButtonClick}
                   style={styles.menuBtn}>
-                  <NotificationDot style={styles.menuButtonNotificationDot} />
+                  {isArrayWithLength(receivedLoverRequests) && (
+                    <NotificationDot style={styles.menuButtonNotificationDot} />
+                  )}
                   <Text style={styles.menuText}>
                     {userFirstName.substr(0, 1).toUpperCase()}
                     {userLastName.substr(0, 1).toUpperCase()}
