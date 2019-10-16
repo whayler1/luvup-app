@@ -42,6 +42,8 @@ const LoverRequestItem = loverRequest => {
   );
 };
 
+const isArrayWithLength = val => Array.isArray(val) && val.length > 0;
+
 const MenuReceivedLoverRequests = () => {
   const { rows } = useSelector(
     state => ({
@@ -49,7 +51,7 @@ const MenuReceivedLoverRequests = () => {
     }),
     shallowEqual
   );
-  if (!rows.length) {
+  if (!isArrayWithLength(rows)) {
     return false;
   }
   return (
