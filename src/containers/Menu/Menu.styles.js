@@ -80,4 +80,20 @@ export default StyleSheet.create({
     marginTop: 0,
     marginBottom: 8,
   },
+  sendLoverRequestButton: {
+    flexDirection: 'row',
+    marginTop: 8,
+    justifyContent: 'space-between',
+  },
+  sendLoverRequestText: {
+    color: vars.link,
+    fontSize: 20,
+  },
+  menuLogoutWrap: {
+    marginTop: 40,
+  },
+  endRelationshipWrap: {
+    alignSelf: 'stretch',
+    alignItems: 'center',
+  },
 });

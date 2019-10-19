@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import { Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
@@ -14,15 +13,14 @@ import { scene, forms, modal, vars } from '../../styles';
 import styles from './Menu.styles';
 import ModalContentWrap from '../../components/ModalContentWrap';
 import HeartArt from '../../components/Art/HeartArt';
-import Well, { WELL_TYPES } from '../../components/Well';
+import MenuLink from './MenuLink';
 import Button, { BUTTON_STYLES } from '../../components/Button';
-import MenuLink, { LINK_TYPE } from './MenuLink';
 import ChangePasswordModalContent from '../ChangePasswordModalContent';
 import MenuReceivedLoverRequests from './MenuReceivedLoverRequests';
+import MenuRelationship from './MenuRelationship';
 import { logout as logoutAction } from '../../redux/user/user.actions';
 import { endRelationship as endRelationshipAction } from '../../redux/relationship/relationship.actions';
 import { getUserInvite } from '../../redux/userInvite/userInvite.actions';
-import { cancelSentLoverRequestAndRelationship as cancelLoverRequestAction } from '../../redux/loverRequest/loverRequest.actions';
 import { store } from '../../redux';
 
 class Menu extends PureComponent {
@@ -30,9 +28,6 @@ class Menu extends PureComponent {
     super(props);
 
     this.state = {
-      relationshipCreatedAtFormatted: moment(
-        new Date(+props.relationshipCreatedAt)
-      ).format('MMM DD, YYYY'),
       isModalVisible: false,
       modalType: '',
       isInFlight: false,
@@ -45,19 +40,8 @@ class Menu extends PureComponent {
     userLastName: PropTypes.string,
     userEmail: PropTypes.string,
     userId: PropTypes.string,
-    userInviteId: PropTypes.string,
-    loverFirstName: PropTypes.string,
-    loverLastName: PropTypes.string,
-    loverEmail: PropTypes.string,
-    loverId: PropTypes.string,
-    loverIsPlaceholder: PropTypes.bool,
-    relationshipCreatedAt: PropTypes.string,
     logout: PropTypes.func.isRequired,
     endRelationship: PropTypes.func.isRequired,
-    loverRequestId: PropTypes.string,
-    cancelLoverRequest: PropTypes.func.isRequired,
-    isCancelLoverRequestInFlight: PropTypes.bool.isRequired,
-    cancelLoverRequestError: PropTypes.string.isRequired,
   };
 
   static async onEnter() {
@@ -70,39 +54,30 @@ class Menu extends PureComponent {
     }
   }
 
-  goBack = () => {
+  handleBackPress = () => {
     Actions.pop();
   };
 
-  onChangePasswordClick = () =>
+  handleChangePasswordPress = () => {
     this.setState({
       isModalVisible: true,
       modalType: 'changePassword',
     });
-  openEndRelationshipModal = () =>
+  };
+  openEndRelationshipModal = () => {
     this.setState({
       isModalVisible: true,
       modalType: 'endRelationship',
     });
-  closeModal = () => this.setState({ isModalVisible: false });
+  };
+  closeModal = () => {
+    this.setState({ isModalVisible: false });
+  };
 
-  onLogout = async () => {
+  handleLogout = async () => {
     await this.props.logout();
 
     Actions.reset('login');
-  };
-
-  goToCreateLoverRequest = () => {
-    Actions.createloverrequest();
-  };
-  goToResendLoverRequest = () => {
-    Actions.resendLoverRequest();
-  };
-  handleResendInvitePress = () => {
-    Actions.resendInvite();
-  };
-  handleCancelLoverRequest = () => {
-    this.props.cancelLoverRequest();
   };
 
   endRelationship = async () => {
@@ -124,72 +99,6 @@ class Menu extends PureComponent {
     }
   };
 
-  renderUnacceptedLoverRequestUi = () => {
-    const {
-      props: {
-        userInviteId,
-        loverFirstName,
-        isCancelLoverRequestInFlight,
-        cancelLoverRequestError,
-      },
-      goToResendLoverRequest,
-      handleCancelLoverRequest,
-      handleResendInvitePress,
-    } = this;
-    return (
-      <>
-        {isStringWithLength(userInviteId) ? (
-          <>
-            <MenuLink
-              onPress={handleResendInvitePress}
-              iconName="md-send"
-              text="Resend Invite"
-              disabled={isCancelLoverRequestInFlight}
-            />
-            <MenuLink
-              onPress={handleCancelLoverRequest}
-              linkType={LINK_TYPE.DANGER}
-              iconName="md-alert"
-              text={
-                isCancelLoverRequestInFlight ? 'Canceling…' : 'Cancel Invite'
-              }
-              disabled={isCancelLoverRequestInFlight}
-            />
-          </>
-        ) : (
-          <>
-            <MenuLink
-              onPress={goToResendLoverRequest}
-              iconName="md-send"
-              text="Resend Lover Request"
-              disabled={isCancelLoverRequestInFlight}
-            />
-            <MenuLink
-              onPress={handleCancelLoverRequest}
-              linkType={LINK_TYPE.DANGER}
-              iconName="md-alert"
-              text={
-                isCancelLoverRequestInFlight
-                  ? 'Canceling…'
-                  : 'Cancel Lover Request'
-              }
-              disabled={isCancelLoverRequestInFlight}
-            />
-          </>
-        )}
-        {_.isString(cancelLoverRequestError) &&
-          cancelLoverRequestError.length > 0 && (
-            <Well text={cancelLoverRequestError} />
-          )}
-        <Well
-          type={WELL_TYPES.INFO}
-          styles={{ marginTop: vars.gutterAndHalf }}
-          text={`${loverFirstName} has not accepted your lover request yet. We'll let you know when ${loverFirstName} accepts!`}
-        />
-      </>
-    );
-  };
-
   componentDidMount() {
     analytics.screen({
       userId: this.props.userId,
@@ -199,30 +108,14 @@ class Menu extends PureComponent {
 
   render() {
     const {
-      props: {
-        userFirstName,
-        userLastName,
-        userEmail,
-        loverFirstName,
-        loverLastName,
-        loverEmail,
-        loverId,
-        loverRequestId,
-        loverIsPlaceholder,
-      },
-      state: {
-        relationshipCreatedAtFormatted,
-        isModalVisible,
-        modalType,
-        isInFlight,
-      },
-      goBack,
-      onLogout,
-      onChangePasswordClick,
+      props: { userFirstName, userLastName, userEmail },
+      state: { isModalVisible, modalType, isInFlight },
+      handleBackPress,
+      handleLogout,
+      handleChangePasswordPress,
       openEndRelationshipModal,
       closeModal,
       endRelationship,
-      goToCreateLoverRequest,
     } = this;
 
     return (
@@ -230,7 +123,7 @@ class Menu extends PureComponent {
         <View style={scene.container}>
           <View style={[scene.topNav, styles.topNav]}>
             <View style={scene.topNavContent}>
-              <TouchableOpacity onPress={goBack}>
+              <TouchableOpacity onPress={handleBackPress}>
                 <HeartArt scale={0.037} fill={vars.blueGrey500} />
               </TouchableOpacity>
             </View>
@@ -249,76 +142,18 @@ class Menu extends PureComponent {
               <Text style={styles.value}>{userEmail}</Text>
               <Text style={styles.label}>Options</Text>
               <MenuLink
-                onPress={onChangePasswordClick}
+                onPress={handleChangePasswordPress}
                 iconName="md-unlock"
                 text="Change Password"
               />
             </View>
 
-            <View style={styles.group}>
-              <Text testID="menu-relationship-title" style={scene.titleCopy}>
-                Relationship
-              </Text>
-              {isStringWithLength(loverId) && (
-                <>
-                  <Text style={styles.label}>Lover</Text>
-                  <Text style={styles.value}>
-                    {loverFirstName} {loverLastName}
-                  </Text>
-                  <Text style={[styles.value, styles.valueSmall]}>
-                    {loverEmail}
-                  </Text>
-                  <Text style={styles.label}>Start Date</Text>
-                  <Text style={styles.value}>
-                    {relationshipCreatedAtFormatted}
-                  </Text>
-                  <Text style={styles.label}>Options</Text>
-                  {loverIsPlaceholder ? (
-                    this.renderUnacceptedLoverRequestUi()
-                  ) : (
-                    <MenuLink
-                      onPress={openEndRelationshipModal}
-                      linkType={LINK_TYPE.DANGER}
-                      iconName="md-alert"
-                      text="End Relationship"
-                    />
-                  )}
-                </>
-              )}
-              {!isStringWithLength(loverId) &&
-                !isStringWithLength(loverRequestId) && (
-                  <>
-                    <Well
-                      type={WELL_TYPES.INFO}
-                      text="You are not currently in a relationship. Send a lover request to get things started."
-                    />
-                    <Text style={styles.label}>Options</Text>
-                    <TouchableOpacity
-                      onPress={goToCreateLoverRequest}
-                      style={{
-                        flexDirection: 'row',
-                        marginTop: 8,
-                        justifyContent: 'space-between',
-                      }}>
-                      <Text
-                        style={{
-                          color: vars.link,
-                          fontSize: 20,
-                        }}>
-                        Send Lover Request
-                      </Text>
-                      <Ionicons name="md-send" size={22} color={vars.link} />
-                    </TouchableOpacity>
-                  </>
-                )}
-            </View>
+            <MenuRelationship
+              openEndRelationshipModal={openEndRelationshipModal}
+            />
             <MenuReceivedLoverRequests />
-            <View
-              style={{
-                marginTop: 40,
-              }}
-              testID="menu-logout">
-              <Button onPress={onLogout} title="Log Out" />
+            <View style={styles.menuLogoutWrap} testID="menu-logout">
+              <Button onPress={handleLogout} title="Log Out" />
             </View>
           </ScrollView>
           <ModalContentWrap visible={isModalVisible}>
@@ -326,11 +161,7 @@ class Menu extends PureComponent {
               <ChangePasswordModalContent closeModal={closeModal} />
             )}
             {modalType === 'endRelationship' && (
-              <View
-                style={{
-                  alignSelf: 'stretch',
-                  alignItems: 'center',
-                }}>
+              <View style={styles.endRelationshipWrap}>
                 <Ionicons name="md-alert" size={60} color={vars.danger} />
                 <Text style={modal.title}>End Relationship</Text>
                 <Text style={modal.copy}>This can not be undone!</Text>
@@ -368,21 +199,9 @@ export default connect(
     userEmail: state.user.email,
     userId: state.user.id,
     userInviteId: state.userInvite.id,
-    loverFirstName: state.lover.firstName,
-    loverLastName: state.lover.lastName,
-    loverEmail: state.lover.email,
-    loverId: state.lover.id,
-    loverIsPlaceholder: state.lover.isPlaceholder,
-    relationshipCreatedAt: state.relationship.createdAt,
-    loverRequestId: state.loverRequest.id,
-    isCancelLoverRequestInFlight:
-      state.loverRequest.isCancelSentLoverRequestAndRelationshipInFlight,
-    cancelLoverRequestError:
-      state.loverRequest.cancelSentLoverRequestAndRelationshipError,
   }),
   {
     logout: logoutAction,
     endRelationship: endRelationshipAction,
-    cancelLoverRequest: cancelLoverRequestAction,
   }
 )(Menu);
