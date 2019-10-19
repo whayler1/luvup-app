@@ -13,10 +13,10 @@ import { scene, forms, modal, vars } from '../../styles';
 import styles from './Menu.styles';
 import ModalContentWrap from '../../components/ModalContentWrap';
 import HeartArt from '../../components/Art/HeartArt';
-import MenuLink from './MenuLink';
 import Button, { BUTTON_STYLES } from '../../components/Button';
 import ChangePasswordModalContent from '../ChangePasswordModalContent';
 import MenuReceivedLoverRequests from './MenuReceivedLoverRequests';
+import MenuProfile from './MenuProfile';
 import MenuRelationship from './MenuRelationship';
 import { logout as logoutAction } from '../../redux/user/user.actions';
 import { endRelationship as endRelationshipAction } from '../../redux/relationship/relationship.actions';
@@ -36,9 +36,6 @@ class Menu extends PureComponent {
   }
 
   static propTypes = {
-    userFirstName: PropTypes.string,
-    userLastName: PropTypes.string,
-    userEmail: PropTypes.string,
     userId: PropTypes.string,
     logout: PropTypes.func.isRequired,
     endRelationship: PropTypes.func.isRequired,
@@ -106,16 +103,53 @@ class Menu extends PureComponent {
     });
   }
 
+  renderModalContent() {
+    const {
+      state: { isModalVisible, modalType, isInFlight },
+      closeModal,
+      endRelationship,
+    } = this;
+
+    return (
+      <ModalContentWrap visible={isModalVisible}>
+        {modalType === 'changePassword' && (
+          <ChangePasswordModalContent closeModal={closeModal} />
+        )}
+        {modalType === 'endRelationship' && (
+          <View style={styles.endRelationshipWrap}>
+            <Ionicons name="md-alert" size={60} color={vars.danger} />
+            <Text style={modal.title}>End Relationship</Text>
+            <Text style={modal.copy}>This can not be undone!</Text>
+            <View style={forms.buttonRow}>
+              <View style={forms.buttonCell2ColLeft}>
+                <Button
+                  onPress={closeModal}
+                  buttonStyles={BUTTON_STYLES.SECONDARY_SKELETON}
+                  title="Close"
+                  disabled={isInFlight}
+                />
+              </View>
+              <View style={forms.buttonCell2ColRight}>
+                <Button
+                  onPress={endRelationship}
+                  buttonStyles={BUTTON_STYLES.DANGER}
+                  title="End"
+                  isInFlight={isInFlight}
+                />
+              </View>
+            </View>
+          </View>
+        )}
+      </ModalContentWrap>
+    );
+  }
+
   render() {
     const {
-      props: { userFirstName, userLastName, userEmail },
-      state: { isModalVisible, modalType, isInFlight },
       handleBackPress,
       handleLogout,
       handleChangePasswordPress,
       openEndRelationshipModal,
-      closeModal,
-      endRelationship,
     } = this;
 
     return (
@@ -132,22 +166,9 @@ class Menu extends PureComponent {
             testID="menu-scrollview"
             style={styles.scrollView}
             contentContainerStyle={styles.scrollViewContentContainer}>
-            <View>
-              <Text style={scene.titleCopy}>Profile</Text>
-              <Text style={styles.label}>Name</Text>
-              <Text style={styles.value}>
-                {userFirstName} {userLastName}
-              </Text>
-              <Text style={styles.label}>Email</Text>
-              <Text style={styles.value}>{userEmail}</Text>
-              <Text style={styles.label}>Options</Text>
-              <MenuLink
-                onPress={handleChangePasswordPress}
-                iconName="md-unlock"
-                text="Change Password"
-              />
-            </View>
-
+            <MenuProfile
+              handleChangePasswordPress={handleChangePasswordPress}
+            />
             <MenuRelationship
               openEndRelationshipModal={openEndRelationshipModal}
             />
@@ -156,36 +177,7 @@ class Menu extends PureComponent {
               <Button onPress={handleLogout} title="Log Out" />
             </View>
           </ScrollView>
-          <ModalContentWrap visible={isModalVisible}>
-            {modalType === 'changePassword' && (
-              <ChangePasswordModalContent closeModal={closeModal} />
-            )}
-            {modalType === 'endRelationship' && (
-              <View style={styles.endRelationshipWrap}>
-                <Ionicons name="md-alert" size={60} color={vars.danger} />
-                <Text style={modal.title}>End Relationship</Text>
-                <Text style={modal.copy}>This can not be undone!</Text>
-                <View style={forms.buttonRow}>
-                  <View style={forms.buttonCell2ColLeft}>
-                    <Button
-                      onPress={closeModal}
-                      buttonStyles={BUTTON_STYLES.SECONDARY_SKELETON}
-                      title="Close"
-                      disabled={isInFlight}
-                    />
-                  </View>
-                  <View style={forms.buttonCell2ColRight}>
-                    <Button
-                      onPress={endRelationship}
-                      buttonStyles={BUTTON_STYLES.DANGER}
-                      title="End"
-                      isInFlight={isInFlight}
-                    />
-                  </View>
-                </View>
-              </View>
-            )}
-          </ModalContentWrap>
+          {this.renderModalContent()}
         </View>
       </SafeAreaView>
     );
@@ -194,9 +186,6 @@ class Menu extends PureComponent {
 
 export default connect(
   state => ({
-    userFirstName: state.user.firstName,
-    userLastName: state.user.lastName,
-    userEmail: state.user.email,
     userId: state.user.id,
     userInviteId: state.userInvite.id,
   }),

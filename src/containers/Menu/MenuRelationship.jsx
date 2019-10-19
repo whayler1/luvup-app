@@ -1,5 +1,5 @@
 import moment from 'moment';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import { Text, View, TouchableOpacity } from 'react-native';
 import { Actions } from 'react-native-router-flux';
