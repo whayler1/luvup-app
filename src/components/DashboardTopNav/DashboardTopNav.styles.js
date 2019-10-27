@@ -29,8 +29,10 @@ const styles = StyleSheet.create({
     paddingRight: 8,
     paddingBottom: 8,
   },
-  coinCountBtn: {
+  navUiContainerItem: {
     flex: 0.33,
+  },
+  coinCountBtn: {
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -41,7 +43,6 @@ const styles = StyleSheet.create({
     color: vars.blueGrey500,
   },
   scoreBtn: {
-    flex: 0.33,
     alignItems: 'center',
   },
   scoreTitleText: {
@@ -55,8 +56,9 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   menuBtn: {
-    flex: 0.33,
     alignItems: 'flex-end',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
   },
   menuText: {
     fontFamily: vars.fontBlack,
@@ -66,6 +68,10 @@ const styles = StyleSheet.create({
   notificationDot: {
     left: -2,
     top: -3,
+  },
+  menuButtonNotificationDot: {
+    position: 'relative',
+    right: 'auto',
   },
   scoreUpContainer: {
     position: 'absolute',

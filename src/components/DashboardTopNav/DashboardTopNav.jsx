@@ -11,6 +11,8 @@ import Pushdown from '../../components/Pushdown';
 import NotificationDot from '../../components/NotificationDot';
 import CoinArt from '../../components/CoinArt';
 import { vars } from '../../styles';
+import { LoverRequestType } from '../../types';
+import isArrayWithLength from '../../helpers/isArrayWithLength';
 import styles from './DashboardTopNav.styles';
 
 export default class DashboardTopNav extends Component {
@@ -26,6 +28,7 @@ export default class DashboardTopNav extends Component {
     closePushdown: PropTypes.func,
     unviewedCoinCount: PropTypes.number,
     unviewedJalapenoCount: PropTypes.number,
+    receivedLoverRequests: PropTypes.arrayOf(LoverRequestType),
   };
 
   handleScoreClick = () => {
@@ -64,6 +67,7 @@ export default class DashboardTopNav extends Component {
         unviewedJalapenoCount,
         unreadReceivedLoveNoteCount,
         relationshipScore,
+        receivedLoverRequests,
       },
       handleScoreClick,
       handleMenuButtonClick,
@@ -105,63 +109,74 @@ export default class DashboardTopNav extends Component {
             </Pushdown>
           )}
           <View style={styles.navUiContainer}>
-            {_.isNumber(coinCount) ? (
-              <TouchableOpacity
-                testID="dashboard-top-nav-history-button"
-                onPress={handleScoreClick}
-                style={styles.coinCountBtn}>
-                {unreadReceivedLoveNoteCount > 0 && (
-                  <NotificationDot style={styles.notificationDot} />
-                )}
-                <CoinArt
-                  scale={0.37}
-                  fill={vars.blueGrey300}
-                  stroke={vars.blueGrey500}
-                />
-                <Text
-                  testID="dashboard-top-nav-coin-count"
-                  style={styles.coinCountText}>
-                  {coinCount}
-                </Text>
-              </TouchableOpacity>
-            ) : (
-              <View style={styles.coinCountBtn} />
-            )}
-            {_.isNumber(relationshipScore) && (
-              <TouchableOpacity
-                testID="dashboard-top-nav-relationship-score"
-                onPress={handleRelationshipScoreClick}
-                style={styles.scoreBtn}>
-                <Text
-                  testID="relatioship-score-label"
-                  style={styles.scoreTitleText}>
-                  Relationship Score
-                </Text>
-                <DashboardTopNavScoreText
-                  relationshipScore={relationshipScore}
-                  onScoreAnimationStart={handleRelationshipScoreAnimationStart}
-                  onScoreAnimationEnd={handleRelationshipScoreAnimationEnd}
-                />
-              </TouchableOpacity>
-            )}
-            {_.isString(userFirstName) && userFirstName.length > 1 ? (
-              <TouchableOpacity
-                testID="dashboard-top-nav-menu-button"
-                onPress={handleMenuButtonClick}
-                style={styles.menuBtn}>
-                <Text style={styles.menuText}>
-                  {userFirstName.substr(0, 1).toUpperCase()}
-                  {userLastName.substr(0, 1).toUpperCase()}
-                  {loverFirstName ? ' + ' : ''}
-                  {_.isString(loverFirstName) &&
-                    loverFirstName.substr(0, 1).toUpperCase()}
-                  {_.isString(loverLastName) &&
-                    loverLastName.substr(0, 1).toUpperCase()}
-                </Text>
-              </TouchableOpacity>
-            ) : (
-              <View style={styles.menuBtn} />
-            )}
+            <View style={styles.navUiContainerItem}>
+              {_.isNumber(coinCount) ? (
+                <TouchableOpacity
+                  testID="dashboard-top-nav-history-button"
+                  onPress={handleScoreClick}
+                  style={styles.coinCountBtn}>
+                  {unreadReceivedLoveNoteCount > 0 && (
+                    <NotificationDot style={styles.notificationDot} />
+                  )}
+                  <CoinArt
+                    scale={0.37}
+                    fill={vars.blueGrey300}
+                    stroke={vars.blueGrey500}
+                  />
+                  <Text
+                    testID="dashboard-top-nav-coin-count"
+                    style={styles.coinCountText}>
+                    {coinCount}
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                <View style={styles.coinCountBtn} />
+              )}
+            </View>
+            <View style={styles.navUiContainerItem}>
+              {_.isNumber(relationshipScore) && (
+                <TouchableOpacity
+                  testID="dashboard-top-nav-relationship-score"
+                  onPress={handleRelationshipScoreClick}
+                  style={styles.scoreBtn}>
+                  <Text
+                    testID="relatioship-score-label"
+                    style={styles.scoreTitleText}>
+                    Relationship Score
+                  </Text>
+                  <DashboardTopNavScoreText
+                    relationshipScore={relationshipScore}
+                    onScoreAnimationStart={
+                      handleRelationshipScoreAnimationStart
+                    }
+                    onScoreAnimationEnd={handleRelationshipScoreAnimationEnd}
+                  />
+                </TouchableOpacity>
+              )}
+            </View>
+            <View style={styles.navUiContainerItem}>
+              {_.isString(userFirstName) && userFirstName.length > 1 ? (
+                <TouchableOpacity
+                  testID="dashboard-top-nav-menu-button"
+                  onPress={handleMenuButtonClick}
+                  style={styles.menuBtn}>
+                  {isArrayWithLength(receivedLoverRequests) && (
+                    <NotificationDot style={styles.menuButtonNotificationDot} />
+                  )}
+                  <Text style={styles.menuText}>
+                    {userFirstName.substr(0, 1).toUpperCase()}
+                    {userLastName.substr(0, 1).toUpperCase()}
+                    {loverFirstName ? ' + ' : ''}
+                    {_.isString(loverFirstName) &&
+                      loverFirstName.substr(0, 1).toUpperCase()}
+                    {_.isString(loverLastName) &&
+                      loverLastName.substr(0, 1).toUpperCase()}
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                <View style={styles.menuBtn} />
+              )}
+            </View>
           </View>
         </BlurView>
       </View>

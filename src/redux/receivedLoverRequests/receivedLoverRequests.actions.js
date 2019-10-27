@@ -1,4 +1,6 @@
 import _ from 'lodash';
+import { Actions } from 'react-native-router-flux';
+
 import receivedLoverRequestsApi from './receivedLoverRequests.api';
 import loverRequestApi from '../loverRequest/loverRequest.api';
 import { getMe, getTimelineData } from '../user/user.actions';
@@ -47,7 +49,10 @@ export const getReceivedLoverRequests = () => async dispatch => {
   }
 };
 
-export const acceptLoverRequest = loverRequestId => async dispatch => {
+export const acceptLoverRequest = (
+  loverRequestId,
+  options = {}
+) => async dispatch => {
   dispatch({ type: ACCEPT_LOVER_REQUEST_ATTEMPT });
   try {
     const acceptLoverRequestRes = await receivedLoverRequestsApi.acceptLoverRequest(
@@ -73,8 +78,15 @@ export const acceptLoverRequest = loverRequestId => async dispatch => {
       _.isObject(relationship) &&
       relationship.id
     ) {
-      await Promise.all([dispatch(getMe()), dispatch(getTimelineData(100))]);
+      await Promise.all([
+        dispatch(getMe()),
+        dispatch(getTimelineData(100)),
+        dispatch(getReceivedLoverRequests()),
+      ]);
 
+      if (options.popOnSuccess) {
+        Actions.pop();
+      }
       dispatch({
         type: ACCEPT_LOVER_REQUEST_SUCCESS,
         id: loverRequest.id,
@@ -103,7 +115,10 @@ export const clearReceivedLoverRequests = () => ({
   type: CLEAR_RECEIVED_LOVER_REQUESTS,
 });
 
-export const cancelReceivedLoverRequest = loverRequestId => async dispatch => {
+export const cancelReceivedLoverRequest = (
+  loverRequestId,
+  options = {}
+) => async dispatch => {
   dispatch({ type: CANCEL_RECEIVED_LOVER_REQUEST_ATTEMPT });
   try {
     const cancelLoverRequestRes = await loverRequestApi.cancelLoverRequest(
@@ -124,6 +139,10 @@ export const cancelReceivedLoverRequest = loverRequestId => async dispatch => {
       );
 
       if (receivedLoverRequests) {
+        await dispatch(getReceivedLoverRequests());
+        if (options.popOnSuccess) {
+          Actions.pop();
+        }
         dispatch({
           type: CANCEL_RECEIVED_LOVER_REQUEST_SUCCESS,
           loverRequestId,
