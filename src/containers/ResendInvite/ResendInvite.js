@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
@@ -68,7 +68,7 @@ class ResendInvite extends PureComponent {
     return (
       <FormScene>
         {isSuccess ? (
-          <Fragment>
+          <>
             <Text style={[scene.titleCopy, scene.textCenter]}>
               Invite Resent
             </Text>
@@ -78,9 +78,9 @@ class ResendInvite extends PureComponent {
             <View style={scene.gutterAndHalfTop}>
               <Button title="Done" onPress={handleDone} />
             </View>
-          </Fragment>
+          </>
         ) : (
-          <Fragment>
+          <>
             <Text style={[scene.titleCopy, scene.textCenter]}>
               Resend Invite
             </Text>
@@ -92,7 +92,7 @@ class ResendInvite extends PureComponent {
               isInFlight={isResendUserInviteInFlight}
               defaultState={{ email: this.props.loverEmail }}>
               {({ renderInput, renderSubmit }) => (
-                <Fragment>
+                <>
                   {renderInput({
                     label: 'Email',
                     key: 'email',
@@ -116,10 +116,10 @@ class ResendInvite extends PureComponent {
                       title: 'Resend',
                     })}
                   </View>
-                </Fragment>
+                </>
               )}
             </Form>
-          </Fragment>
+          </>
         )}
       </FormScene>
     );

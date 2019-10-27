@@ -27,6 +27,9 @@ export default StyleSheet.create({
     marginTop: 4,
     fontFamily: vars.fontRegular,
   },
+  valueSmall: {
+    fontSize: 16,
+  },
   scrollView: {
     alignSelf: 'stretch',
   },
@@ -47,5 +50,50 @@ export default StyleSheet.create({
   },
   menuLinkTextDanger: {
     color: vars.danger,
+  },
+  loverRequestItem: {
+    paddingVertical: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  loverRequestItemContent: {},
+  loverRequestItemIcon: {
+    alignSelf: 'center',
+    marginLeft: 16,
+  },
+  loverRequestItemIconNotificationDot: {
+    position: 'relative',
+    right: 'auto',
+    top: 'auto',
+  },
+  loverRequestItemTitle: {
+    fontFamily: vars.fontRegular,
+    color: vars.link,
+    fontSize: 20,
+  },
+  loverRequestItemInfo: {
+    fontFamily: vars.fontRegular,
+    color: vars.blueGrey500,
+    fontSize: 16,
+  },
+  loverRequestItemSub: {
+    marginTop: 0,
+    marginBottom: 8,
+  },
+  sendLoverRequestButton: {
+    flexDirection: 'row',
+    marginTop: 8,
+    justifyContent: 'space-between',
+  },
+  sendLoverRequestText: {
+    color: vars.link,
+    fontSize: 20,
+  },
+  menuLogoutWrap: {
+    marginTop: 40,
+  },
+  endRelationshipWrap: {
+    alignSelf: 'stretch',
+    alignItems: 'center',
   },
 });

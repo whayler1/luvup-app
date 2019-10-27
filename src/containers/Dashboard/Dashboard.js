@@ -210,6 +210,7 @@ class Dashboard extends PureComponent {
           unviewedJalapenoCount={unviewedJalapenoCount}
           relationshipScore={relationshipScore}
           unreadReceivedLoveNoteCount={unreadReceivedLoveNoteCount}
+          receivedLoverRequests={receivedLoverRequests}
         />
         {isInRelationship() ? (
           <Hero openModal={openModal} isNewRelationship={isNewRelationship} />
