@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Text, View, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
 import _ from 'lodash';
@@ -12,10 +12,10 @@ import analytics from '../../services/analytics';
 import { scene, forms, modal, vars } from '../../styles';
 import styles from './Menu.styles';
 import ModalContentWrap from '../../components/ModalContentWrap';
-import HeartArt from '../../components/Art/HeartArt';
 import Button, { BUTTON_STYLES } from '../../components/Button';
 import ChangePasswordModalContent from '../ChangePasswordModalContent';
 import MenuReceivedLoverRequests from './MenuReceivedLoverRequests';
+import MenuHeader from './MenuHeader';
 import MenuProfile from './MenuProfile';
 import MenuRelationship from './MenuRelationship';
 import { logout as logoutAction } from '../../redux/user/user.actions';
@@ -50,10 +50,6 @@ class Menu extends PureComponent {
       await store.dispatch(getUserInvite());
     }
   }
-
-  handleBackPress = () => {
-    Actions.pop();
-  };
 
   handleChangePasswordPress = () => {
     this.setState({
@@ -146,7 +142,6 @@ class Menu extends PureComponent {
 
   render() {
     const {
-      handleBackPress,
       handleLogout,
       handleChangePasswordPress,
       openEndRelationshipModal,
@@ -155,13 +150,7 @@ class Menu extends PureComponent {
     return (
       <SafeAreaView forceInset={{ bottom: 'never' }} style={scene.safeAreaView}>
         <View style={scene.container}>
-          <View style={[scene.topNav, styles.topNav]}>
-            <View style={scene.topNavContent}>
-              <TouchableOpacity onPress={handleBackPress}>
-                <HeartArt scale={0.037} fill={vars.blueGrey500} />
-              </TouchableOpacity>
-            </View>
-          </View>
+          <MenuHeader />
           <ScrollView
             testID="menu-scrollview"
             style={styles.scrollView}
