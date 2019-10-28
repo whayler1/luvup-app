@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import {
   SET_USER,
-  CLEAR_LOGIN_FAILURE,
   LOGIN_ATTEMPT,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
@@ -26,7 +25,6 @@ import {
   GET_TIMELINE_DATA_ATTEMPT,
   GET_TIMELINE_DATA_FAILURE,
   GET_TIMELINE_DATA_SUCCESS,
-  CLEAR_GET_ME_FAILURE,
   GET_ME_ATTEMPT,
   GET_ME_SUCCESS,
   GET_ME_FAILURE,
@@ -63,11 +61,6 @@ const userAttribs = ['id', 'email', 'username', 'firstName', 'lastName'];
 
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
-    case CLEAR_LOGIN_FAILURE:
-      return {
-        ...state,
-        loginError: '',
-      };
     case LOGIN_ATTEMPT:
       return {
         ...state,
@@ -135,6 +128,8 @@ export default function reducer(state = defaultState, action) {
       return {
         ...state,
         userRequestError: '',
+        loginError: '',
+        getMeErrorMessage: '',
       };
     case USER_REQUEST_ATTEMPT:
       return {
@@ -206,11 +201,6 @@ export default function reducer(state = defaultState, action) {
         ...state,
         isGetTimelineDataInFlight: false,
         error: action.error,
-      };
-    case CLEAR_GET_ME_FAILURE:
-      return {
-        ...state,
-        getMeErrorMessage: '',
       };
     case GET_ME_ATTEMPT:
       return {

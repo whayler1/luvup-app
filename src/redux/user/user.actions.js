@@ -26,7 +26,6 @@ import {
 import userApi from './user.api';
 
 export const SET_USER = 'user/set-user';
-export const CLEAR_LOGIN_FAILURE = 'user/clear-login-failure';
 export const LOGIN_ATTEMPT = 'user/login-attempt';
 export const LOGIN_SUCCESS = 'user/login-success';
 export const LOGIN_FAILURE = 'user/login-failure';
@@ -55,15 +54,12 @@ export const CLEAR_CONFIRM_USER_REQUEST_FAILURE =
 export const CONFIRM_USER_REQUEST_ATTEMPT = 'user/confirm-user-request-attempt';
 export const CONFIRM_USER_REQUEST_SUCCESS = 'user/confirm-user-request-success';
 export const CONFIRM_USER_REQUEST_FAILURE = 'user/confirm-user-request-failure';
-export const CLEAR_GET_ME_FAILURE = 'user/clear-get-me-failure';
 export const GET_ME_ATTEMPT = 'user/get-me-attempt';
 export const GET_ME_SUCCESS = 'user/get-me-success';
 export const GET_ME_FAILURE = 'user/get-me-failure';
 export const GET_TIMELINE_DATA_ATTEMPT = 'user/get-timeline-data-attempt';
 export const GET_TIMELINE_DATA_SUCCESS = 'user/get-timeline-data-success';
 export const GET_TIMELINE_DATA_FAILURE = 'user/get-timeline-data-failure';
-
-export const clearGetMeFailure = () => ({ type: CLEAR_GET_ME_FAILURE });
 
 export const getMe = () => async dispatch => {
   dispatch({ type: GET_ME_ATTEMPT });
@@ -150,8 +146,6 @@ export const getMe = () => async dispatch => {
     return err;
   }
 };
-
-export const clearLoginFailure = () => ({ type: CLEAR_LOGIN_FAILURE });
 
 export const login = (usernameOrEmail, password) => async dispatch => {
   dispatch({ type: LOGIN_ATTEMPT });
@@ -295,6 +289,14 @@ export const userRequest = email => async dispatch => {
   }
 };
 
+const confirmUserLogin = async (email, password, dispatch, getState) => {
+  await dispatch(login(email, password));
+  const { loginError } = getState().user;
+  if (loginError) {
+    throw new Error(loginError);
+  }
+};
+
 export const confirmUser = (
   email,
   username,
@@ -302,7 +304,7 @@ export const confirmUser = (
   lastName,
   code,
   password
-) => async dispatch => {
+) => async (dispatch, getState) => {
   dispatch({ type: CONFIRM_USER_REQUEST_ATTEMPT });
   try {
     const confirmUserRes = await userApi.confirmUser(
@@ -316,21 +318,22 @@ export const confirmUser = (
 
     const errorMessage = _.get(confirmUserRes, 'body.errors[0].message');
 
-    if (!errorMessage) {
-      dispatch({ type: CONFIRM_USER_REQUEST_SUCCESS });
+    if (errorMessage) {
+      dispatch({
+        type: CONFIRM_USER_REQUEST_FAILURE,
+        errorMessage,
+      });
       return;
     }
 
-    dispatch({
-      type: CONFIRM_USER_REQUEST_FAILURE,
-      errorMessage,
-    });
+    await confirmUserLogin(email, password, dispatch, getState);
+
+    dispatch({ type: CONFIRM_USER_REQUEST_SUCCESS });
   } catch (err) {
     dispatch({
       type: CONFIRM_USER_REQUEST_FAILURE,
       errorMessage: err.message,
     });
-    // return err;
   }
 };
 

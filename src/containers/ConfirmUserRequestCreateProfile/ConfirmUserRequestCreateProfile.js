@@ -11,11 +11,7 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import {
   confirmUser as confirmUserAction,
-  login as loginAction,
-  getMe as getMeAction,
   clearConfirmUserRequestFailure,
-  clearLoginFailure,
-  clearGetMeFailure,
 } from '../../redux/user/user.actions';
 import styles from './ConfirmUserRequestCreateProfile.styles';
 import { store } from '../../redux';
@@ -25,20 +21,12 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
     email: PropTypes.string,
     code: PropTypes.string,
     confirmUser: PropTypes.func.isRequired,
-    login: PropTypes.func.isRequired,
-    getMe: PropTypes.func.isRequired,
-    isLoginInFlight: PropTypes.bool.isRequired,
-    loginError: PropTypes.string.isRequired,
-    isGetMeInFlight: PropTypes.bool.isRequired,
     isConfirmUserInFlight: PropTypes.string.isRequired,
-    getMeErrorMessage: PropTypes.string.isRequired,
     confirmUserError: PropTypes.string.isRequired,
   };
 
   static onEnter() {
     store.dispatch(clearConfirmUserRequestFailure());
-    store.dispatch(clearLoginFailure());
-    store.dispatch(clearGetMeFailure());
   }
 
   constructor(props) {
@@ -156,44 +144,9 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
     return '';
   };
 
-  getIsInFlight = () =>
-    this.props.isConfirmUserInFlight ||
-    this.props.isLoginInFlight ||
-    this.props.isGetMeInFlight;
+  getIsInFlight = () => this.props.isConfirmUserInFlight;
 
-  getIoError = () =>
-    this.props.confirmUserError ||
-    this.props.loginError ||
-    this.props.getMeErrorMessage;
-
-  login = () => {
-    const {
-      state: { password },
-      props: { email },
-    } = this;
-
-    this.props.login(email, password);
-  };
-
-  submit = async () => {
-    const { email, code } = this.props;
-    const { username, firstName, lastName, password } = this.state;
-    await this.props.confirmUser(
-      email,
-      username,
-      firstName,
-      lastName,
-      code,
-      password
-    );
-
-    const { confirmUserError } = this.props;
-
-    if (_.isString(confirmUserError) && confirmUserError.length > 0) {
-      return;
-    }
-    this.login();
-  };
+  getIoError = () => this.props.confirmUserError;
 
   handleSumbit = () => {
     const errorStr = this.getValidationError();
@@ -202,7 +155,16 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
       this.setState({ error: errorStr });
       return;
     }
-    this.submit();
+    const { email, code } = this.props;
+    const { username, firstName, lastName, password } = this.state;
+    this.props.confirmUser(
+      email,
+      username,
+      firstName,
+      lastName,
+      code,
+      password
+    );
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -339,8 +301,12 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
               },
             }}
           />
-          {_.isString(ioError) && ioError.length > 0 && <Well text={ioError} />}
-          <View style={forms.buttonRow}>
+          {_.isString(ioError) && ioError.length > 0 && (
+            <View style={styles.errorWell}>
+              <Well text={ioError} />
+            </View>
+          )}
+          <View style={[forms.buttonRow, styles.buttonRow]}>
             <View style={styles.submitWrap}>
               <Button
                 onPress={handleSumbit}
@@ -361,14 +327,8 @@ export default connect(
     code: state.user.code,
     isConfirmUserInFlight: state.user.isConfirmUserInFlight,
     confirmUserError: state.user.confirmUserError,
-    isLoginInFlight: state.user.isLoginInFlight,
-    loginError: state.user.loginError,
-    isGetMeInFlight: state.user.isLoginInFlight,
-    getMeErrorMessage: state.user.loginError,
   }),
   {
     confirmUser: confirmUserAction,
-    login: loginAction,
-    getMe: getMeAction,
   }
 )(ConfirmUserRequestCreateProfile);
