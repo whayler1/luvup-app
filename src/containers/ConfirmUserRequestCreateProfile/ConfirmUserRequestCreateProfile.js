@@ -13,8 +13,12 @@ import {
   confirmUser as confirmUserAction,
   login as loginAction,
   getMe as getMeAction,
+  clearConfirmUserRequestFailure,
+  clearLoginFailure,
+  clearGetMeFailure,
 } from '../../redux/user/user.actions';
 import styles from './ConfirmUserRequestCreateProfile.styles';
+import { store } from '../../redux';
 
 class ConfirmUserRequestCreateProfile extends PureComponent {
   static propTypes = {
@@ -26,8 +30,16 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
     isLoginInFlight: PropTypes.bool.isRequired,
     loginError: PropTypes.string.isRequired,
     isGetMeInFlight: PropTypes.bool.isRequired,
+    isConfirmUserInFlight: PropTypes.string.isRequired,
     getMeErrorMessage: PropTypes.string.isRequired,
+    confirmUserError: PropTypes.string.isRequired,
   };
+
+  static onEnter() {
+    store.dispatch(clearConfirmUserRequestFailure());
+    store.dispatch(clearLoginFailure());
+    store.dispatch(clearGetMeFailure());
+  }
 
   constructor(props) {
     super(props);
@@ -145,7 +157,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
   };
 
   getIsInFlight = () =>
-    this.props.isUserRequestInFlight ||
+    this.props.isConfirmUserInFlight ||
     this.props.isLoginInFlight ||
     this.props.isGetMeInFlight;
 

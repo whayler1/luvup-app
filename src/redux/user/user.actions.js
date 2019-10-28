@@ -26,6 +26,7 @@ import {
 import userApi from './user.api';
 
 export const SET_USER = 'user/set-user';
+export const CLEAR_LOGIN_FAILURE = 'user/clear-login-failure';
 export const LOGIN_ATTEMPT = 'user/login-attempt';
 export const LOGIN_SUCCESS = 'user/login-success';
 export const LOGIN_FAILURE = 'user/login-failure';
@@ -49,15 +50,20 @@ export const CONFIRM_USER_REQUEST_CODE_SUCCESS =
   'user/confirm-user-request-code-success';
 export const CONFIRM_USER_REQUEST_CODE_FAILURE =
   'user/confirm-user-request-code-failure';
+export const CLEAR_CONFIRM_USER_REQUEST_FAILURE =
+  'user/clear-confirm-user-request-failure';
 export const CONFIRM_USER_REQUEST_ATTEMPT = 'user/confirm-user-request-attempt';
 export const CONFIRM_USER_REQUEST_SUCCESS = 'user/confirm-user-request-success';
 export const CONFIRM_USER_REQUEST_FAILURE = 'user/confirm-user-request-failure';
+export const CLEAR_GET_ME_FAILURE = 'user/clear-get-me-failure';
 export const GET_ME_ATTEMPT = 'user/get-me-attempt';
 export const GET_ME_SUCCESS = 'user/get-me-success';
 export const GET_ME_FAILURE = 'user/get-me-failure';
 export const GET_TIMELINE_DATA_ATTEMPT = 'user/get-timeline-data-attempt';
 export const GET_TIMELINE_DATA_SUCCESS = 'user/get-timeline-data-success';
 export const GET_TIMELINE_DATA_FAILURE = 'user/get-timeline-data-failure';
+
+export const clearGetMeFailure = () => ({ type: CLEAR_GET_ME_FAILURE });
 
 export const getMe = () => async dispatch => {
   dispatch({ type: GET_ME_ATTEMPT });
@@ -144,6 +150,8 @@ export const getMe = () => async dispatch => {
     return err;
   }
 };
+
+export const clearLoginFailure = () => ({ type: CLEAR_LOGIN_FAILURE });
 
 export const login = (usernameOrEmail, password) => async dispatch => {
   dispatch({ type: LOGIN_ATTEMPT });
@@ -256,6 +264,10 @@ export const resetPasswordWithGeneratedPassword = (
     });
   }
 };
+
+export const clearConfirmUserRequestFailure = () => ({
+  type: CLEAR_CONFIRM_USER_REQUEST_FAILURE,
+});
 
 export const userRequest = email => async dispatch => {
   dispatch({ type: USER_REQUEST_ATTEMPT });

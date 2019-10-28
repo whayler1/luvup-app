@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import {
   SET_USER,
+  CLEAR_LOGIN_FAILURE,
   LOGIN_ATTEMPT,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
@@ -15,6 +16,7 @@ import {
   USER_REQUEST_ATTEMPT,
   USER_REQUEST_SUCCESS,
   USER_REQUEST_FAILURE,
+  CLEAR_CONFIRM_USER_REQUEST_FAILURE,
   CONFIRM_USER_REQUEST_CODE_ATTEMPT,
   CONFIRM_USER_REQUEST_CODE_SUCCESS,
   CONFIRM_USER_REQUEST_CODE_FAILURE,
@@ -24,6 +26,7 @@ import {
   GET_TIMELINE_DATA_ATTEMPT,
   GET_TIMELINE_DATA_FAILURE,
   GET_TIMELINE_DATA_SUCCESS,
+  CLEAR_GET_ME_FAILURE,
   GET_ME_ATTEMPT,
   GET_ME_SUCCESS,
   GET_ME_FAILURE,
@@ -60,6 +63,11 @@ const userAttribs = ['id', 'email', 'username', 'firstName', 'lastName'];
 
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
+    case CLEAR_LOGIN_FAILURE:
+      return {
+        ...state,
+        loginError: '',
+      };
     case LOGIN_ATTEMPT:
       return {
         ...state,
@@ -122,6 +130,11 @@ export default function reducer(state = defaultState, action) {
         ...state,
         isResetPasswordWithGeneratedPasswordInFlight: false,
         resetPasswordWithGeneratedPasswordError: action.errorMessage,
+      };
+    case CLEAR_CONFIRM_USER_REQUEST_FAILURE:
+      return {
+        ...state,
+        userRequestError: '',
       };
     case USER_REQUEST_ATTEMPT:
       return {
@@ -193,6 +206,11 @@ export default function reducer(state = defaultState, action) {
         ...state,
         isGetTimelineDataInFlight: false,
         error: action.error,
+      };
+    case CLEAR_GET_ME_FAILURE:
+      return {
+        ...state,
+        getMeErrorMessage: '',
       };
     case GET_ME_ATTEMPT:
       return {
