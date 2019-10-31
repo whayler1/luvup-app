@@ -21,4 +21,10 @@ export default StyleSheet.create({
   contentNoTop: {
     marginBottom: vars.gutterTriple,
   },
+  buttonRow: {
+    marginTop: vars.gutterAndHalf,
+  },
+  errorWell: {
+    marginTop: vars.gutter,
+  },
 });

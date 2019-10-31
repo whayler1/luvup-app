@@ -15,6 +15,7 @@ import {
   USER_REQUEST_ATTEMPT,
   USER_REQUEST_SUCCESS,
   USER_REQUEST_FAILURE,
+  CLEAR_CONFIRM_USER_REQUEST_FAILURE,
   CONFIRM_USER_REQUEST_CODE_ATTEMPT,
   CONFIRM_USER_REQUEST_CODE_SUCCESS,
   CONFIRM_USER_REQUEST_CODE_FAILURE,
@@ -122,6 +123,13 @@ export default function reducer(state = defaultState, action) {
         ...state,
         isResetPasswordWithGeneratedPasswordInFlight: false,
         resetPasswordWithGeneratedPasswordError: action.errorMessage,
+      };
+    case CLEAR_CONFIRM_USER_REQUEST_FAILURE:
+      return {
+        ...state,
+        userRequestError: '',
+        loginError: '',
+        getMeErrorMessage: '',
       };
     case USER_REQUEST_ATTEMPT:
       return {

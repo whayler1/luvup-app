@@ -49,6 +49,8 @@ export const CONFIRM_USER_REQUEST_CODE_SUCCESS =
   'user/confirm-user-request-code-success';
 export const CONFIRM_USER_REQUEST_CODE_FAILURE =
   'user/confirm-user-request-code-failure';
+export const CLEAR_CONFIRM_USER_REQUEST_FAILURE =
+  'user/clear-confirm-user-request-failure';
 export const CONFIRM_USER_REQUEST_ATTEMPT = 'user/confirm-user-request-attempt';
 export const CONFIRM_USER_REQUEST_SUCCESS = 'user/confirm-user-request-success';
 export const CONFIRM_USER_REQUEST_FAILURE = 'user/confirm-user-request-failure';
@@ -257,6 +259,10 @@ export const resetPasswordWithGeneratedPassword = (
   }
 };
 
+export const clearConfirmUserRequestFailure = () => ({
+  type: CLEAR_CONFIRM_USER_REQUEST_FAILURE,
+});
+
 export const userRequest = email => async dispatch => {
   dispatch({ type: USER_REQUEST_ATTEMPT });
 
@@ -283,6 +289,14 @@ export const userRequest = email => async dispatch => {
   }
 };
 
+const confirmUserLogin = async (email, password, dispatch, getState) => {
+  await dispatch(login(email, password));
+  const { loginError } = getState().user;
+  if (loginError) {
+    throw new Error(loginError);
+  }
+};
+
 export const confirmUser = (
   email,
   username,
@@ -290,7 +304,7 @@ export const confirmUser = (
   lastName,
   code,
   password
-) => async dispatch => {
+) => async (dispatch, getState) => {
   dispatch({ type: CONFIRM_USER_REQUEST_ATTEMPT });
   try {
     const confirmUserRes = await userApi.confirmUser(
@@ -304,21 +318,22 @@ export const confirmUser = (
 
     const errorMessage = _.get(confirmUserRes, 'body.errors[0].message');
 
-    if (!errorMessage) {
-      dispatch({ type: CONFIRM_USER_REQUEST_SUCCESS });
+    if (errorMessage) {
+      dispatch({
+        type: CONFIRM_USER_REQUEST_FAILURE,
+        errorMessage,
+      });
       return;
     }
 
-    dispatch({
-      type: CONFIRM_USER_REQUEST_FAILURE,
-      errorMessage,
-    });
+    await confirmUserLogin(email, password, dispatch, getState);
+
+    dispatch({ type: CONFIRM_USER_REQUEST_SUCCESS });
   } catch (err) {
     dispatch({
       type: CONFIRM_USER_REQUEST_FAILURE,
       errorMessage: err.message,
     });
-    // return err;
   }
 };
 
