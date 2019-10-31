@@ -158,7 +158,7 @@ export const login = (usernameOrEmail, password) => async dispatch => {
     await AsyncStorage.setItem('id_token', _.get(res, 'body.id_token', ''));
 
     if (res.ok) {
-      dispatch(getMe());
+      await dispatch(getMe());
       Actions.reset('dashboard');
       dispatch({
         type: LOGIN_SUCCESS,
