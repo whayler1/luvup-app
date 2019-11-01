@@ -8,7 +8,7 @@ import Circle from '../Circle';
 const DURATION = 250;
 const EASING = Easing.inOut(Easing.linear);
 
-class ButtonInFlightBubble extends PureComponent {
+class LoadingAnimation extends PureComponent {
   static propTypes = {
     circumfrance: PropTypes.number,
     opacityMin: PropTypes.number,
@@ -91,4 +91,4 @@ class ButtonInFlightBubble extends PureComponent {
   }
 }
 
-export default ButtonInFlightBubble;
+export default LoadingAnimation;

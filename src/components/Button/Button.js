@@ -4,7 +4,7 @@ import { TouchableWithoutFeedback, View, Text } from 'react-native';
 import _ from 'lodash';
 
 import { vars, buttons } from '../../styles';
-import ButtonInFlightBubble from './ButtonInFlightBubble';
+import LoadingAnimation from '../LoadingAnimation';
 
 export const BUTTON_STYLES = {
   INFO: {
@@ -119,17 +119,7 @@ class Button extends PureComponent {
             isPress && buttonStylePress,
             disabled || (isInFlight && buttonStyleDisabled),
           ]}>
-          {isInFlight && (
-            <View style={buttons.inFlightContainer}>
-              {_.times(3, n => (
-                <ButtonInFlightBubble
-                  key={n}
-                  fill={inFlightFill}
-                  delayAnimationStart={n * 250}
-                />
-              ))}
-            </View>
-          )}
+          {isInFlight && <LoadingAnimation fill={inFlightFill} />}
           <Text style={[buttonText, isInFlight && { opacity: 0 }]}>
             {title}
           </Text>

@@ -7,13 +7,14 @@ import PropTypes from 'prop-types';
 import * as Font from 'expo-font';
 
 import styles from './Root.styles';
-import { scene } from '../../styles';
+import { scene, vars } from '../../styles';
 import {
   userLoginRouteSwitch,
   registerForPushNotifications,
 } from '../../helpers';
 import { reauth as reauthAction } from '../../redux/user/user.actions';
 import { setIsFontLoaded as setIsFontLoadedAction } from '../../redux/font/font.actions';
+import LoadingAnimation from '../../components/LoadingAnimation';
 
 const Root = ({ id, reauth, isFontLoaded, setIsFontLoaded }) => {
   const handleReauth = async id_token => {
@@ -50,7 +51,18 @@ const Root = ({ id, reauth, isFontLoaded, setIsFontLoaded }) => {
   return (
     <View style={scene.container}>
       <StatusBar barStyle="dark-content" />
-      {isFontLoaded && <Text style={styles.title}>luvup</Text>}
+      {isFontLoaded && (
+        <>
+          <Text style={styles.title}>luvup</Text>
+          <View
+            style={{
+              height: 20,
+              alignSelf: 'stretch',
+            }}>
+            <LoadingAnimation fill={vars.blueGrey100} />
+          </View>
+        </>
+      )}
     </View>
   );
 };
