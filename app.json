@@ -4,7 +4,7 @@
     "slug": "luvup",
     "privacy": "public",
     "description": "Stay together",
-    "version": "0.0.43",
+    "version": "0.0.45",
     "sdkVersion": "35.0.0",
     "primaryColor": "#FFFFFF",
     "platforms": [
@@ -32,10 +32,6 @@
       "bundleIdentifier": "io.terriblesolutions.luvup",
       "buildNumber": "1",
       "icon": "./src/images/icon/icon.png",
-      "associatedDomains": [
-        "applinks:luvup.io",
-        "webcredentials:luvup.io",
-      ],
     },
     "packagerOpts": {
        "sourceExts": ["js", "json", "ts", "tsx", "jsx"],
