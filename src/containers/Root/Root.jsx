@@ -8,27 +8,13 @@ import * as Font from 'expo-font';
 
 import styles from './Root.styles';
 import { scene, vars } from '../../styles';
-import {
-  userLoginRouteSwitch,
-  registerForPushNotifications,
-} from '../../helpers';
 import { reauth as reauthAction } from '../../redux/user/user.actions';
 import { setIsFontLoaded as setIsFontLoadedAction } from '../../redux/font/font.actions';
 import LoadingAnimation from '../../components/LoadingAnimation';
 
-const Root = ({ id, reauth, isFontLoaded, setIsFontLoaded }) => {
-  const handleReauth = async id_token => {
-    await reauth(id_token);
-
-    if (id) {
-      registerForPushNotifications();
-      userLoginRouteSwitch();
-    } else {
-      Actions.reset('login');
-    }
-  };
+const Root = ({ reauth, isFontLoaded, setIsFontLoaded }) => {
   useEffect(() => {
-    const go = async () => {
+    const loadFont = async () => {
       await Font.loadAsync({
         yesteryear: require('../../fonts/yesteryear/yesteryear.ttf'),
         quicksandregular: require('../../fonts/Quicksand/Quicksand-Regular.ttf'),
@@ -36,16 +22,18 @@ const Root = ({ id, reauth, isFontLoaded, setIsFontLoaded }) => {
       });
 
       setIsFontLoaded(true);
-
+    };
+    const callReauthWithIdToken = async () => {
       const id_token = await AsyncStorage.getItem('id_token');
 
       if (id_token) {
-        handleReauth(id_token);
+        reauth(id_token);
       } else {
         Actions.reset('login');
       }
     };
-    go();
+    loadFont();
+    callReauthWithIdToken();
   }, []);
 
   return (
@@ -68,7 +56,6 @@ const Root = ({ id, reauth, isFontLoaded, setIsFontLoaded }) => {
 };
 
 Root.propTypes = {
-  id: PropTypes.string,
   isFontLoaded: PropTypes.bool,
   reauth: PropTypes.func.isRequired,
   setIsFontLoaded: PropTypes.func.isRequired,

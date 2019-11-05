@@ -24,6 +24,10 @@ import {
   clearReceivedLoverRequests,
 } from '../receivedLoverRequests/receivedLoverRequests.actions';
 import userApi from './user.api';
+import {
+  userLoginRouteSwitch,
+  registerForPushNotifications,
+} from '../../helpers';
 
 export const SET_USER = 'user/set-user';
 export const LOGIN_ATTEMPT = 'user/login-attempt';
@@ -204,6 +208,12 @@ export const reauth = id_token => async dispatch => {
       email,
     });
     listenToNotifications();
+    if (id) {
+      registerForPushNotifications();
+      userLoginRouteSwitch();
+    } else {
+      Actions.reset('login');
+    }
     return res.body;
   } catch (err) {
     return err;
@@ -375,7 +385,7 @@ export const confirmUserRequestCode = (email, code) => async dispatch => {
       type: CONFIRM_USER_REQUEST_CODE_FAILURE,
       errorMessage: _.get(
         res,
-        'body.data.confirmUserRequestCode.error',
+        'body.errors[0].message',
         'Error submitting request code'
       ),
     });

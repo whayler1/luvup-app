@@ -125,6 +125,22 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
     return '';
   };
 
+  getFirstNameError = () => {
+    const { error } = this.state;
+    if (error === 'firstname-length') {
+      return 'First name must be at least 3 characters';
+    }
+    return '';
+  };
+
+  getLastNameError = () => {
+    const { error } = this.state;
+    if (error === 'lastname-length') {
+      return 'Last name must be at least 3 characters';
+    }
+    return '';
+  };
+
   getPasswordError = () => {
     const { error } = this.state;
     if (error === 'password') {
@@ -194,6 +210,8 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
       focusPasswordEl,
       focusPasswordAgainEl,
       getUsernameError,
+      getFirstNameError,
+      getLastNameError,
       getPasswordError,
       getReEnterPasswordError,
       getIsInFlight,
@@ -236,6 +254,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
                 onChangeText: handleFirstNameChange,
                 value: firstName,
                 placeholder: 'Jane',
+                error: getFirstNameError(),
                 inputProps: {
                   ref: setFirstNameEl,
                   testID: 'create-profile-firstname-input',
@@ -253,6 +272,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
                 onChangeText: handleLastNameChange,
                 value: lastName,
                 placeholder: 'Doe',
+                error: getLastNameError(),
                 inputProps: {
                   ref: setLastNameEl,
                   testID: 'create-profile-lastname-input',
