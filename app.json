@@ -4,7 +4,7 @@
     "slug": "luvup",
     "privacy": "public",
     "description": "Reinvest in your relationship",
-    "version": "0.0.46",
+    "version": "0.0.47",
     "sdkVersion": "35.0.0",
     "primaryColor": "#FFFFFF",
     "platforms": [
@@ -30,11 +30,23 @@
     },
     "ios": {
       "bundleIdentifier": "io.terriblesolutions.luvup",
-      "buildNumber": "2",
+      "buildNumber": "1",
       "icon": "./src/images/icon/icon.png",
     },
     "packagerOpts": {
-       "sourceExts": ["js", "json", "ts", "tsx", "jsx"],
-     }
+      "sourceExts": ["js", "json", "ts", "tsx", "jsx"],
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "terrible-solutions-llc",
+            "project": "luvup-app",
+            "authToken": "3eda3d2231004bd5912686d5cf4c0554644116825a954e5ea9f29c235dac502b"
+          }
+        }
+      ]
+    }
   }
 }

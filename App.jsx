@@ -1,3 +1,4 @@
+import './src/services/errorReporter';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Text, View, TouchableOpacity } from 'react-native';
