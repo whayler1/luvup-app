@@ -1,8 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
 
+import { vars } from '../../styles';
 import styles from './Timeline.styles';
-import Preloader from '../../components/Preloader';
+import LoadingAnimation from '../../components/LoadingAnimation';
 
 export default ({ isPresent, isPreloaderVisible }) => {
   if (!isPresent) {
@@ -10,7 +11,7 @@ export default ({ isPresent, isPreloaderVisible }) => {
   }
   return (
     <View style={styles.listFooterContainer}>
-      {isPreloaderVisible && <Preloader />}
+      {isPreloaderVisible && <LoadingAnimation fill={vars.blueGrey100} />}
     </View>
   );
 };

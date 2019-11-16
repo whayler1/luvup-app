@@ -5,7 +5,7 @@ import moment from 'moment';
 import { scene, vars } from '../../styles';
 import styles from './LoveNotes.styles';
 import Well from '../../components/Well';
-import Preloader from '../../components/Preloader';
+import LoadingAnimation from '../../components/LoadingAnimation';
 
 const keyExtractor = item => item.id;
 const now = moment();
@@ -48,7 +48,9 @@ const ListEmptyComponent = ({
     {getReceivedLoveNotesError && (
       <Well text="There was an error loading your love notes. Make sure you are connected to wifi or data." />
     )}
-    {isGetReceivedLoveNotesInFlight && <Preloader />}
+    {isGetReceivedLoveNotesInFlight && (
+      <LoadingAnimation fill={vars.blueGrey100} />
+    )}
     {!getReceivedLoveNotesError && !isGetReceivedLoveNotesInFlight && (
       <Text style={[scene.copy, { fontSize: 25, textAlign: 'center' }]}>
         You have not received any love notes yet. 🙄
