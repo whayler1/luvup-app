@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { KeyboardAvoidingView, SafeAreaView, View, Text } from 'react-native';
+import { Text } from 'react-native';
 import { connect } from 'react-redux';
 
 import { scene } from '../../styles';
@@ -9,15 +9,13 @@ import { createRelationshipWithInvite as createRelationshipWithInviteAction } fr
 import { getMe as getMeAction } from '../../redux/user/user.actions';
 import { getCoinCount as getCoinCountAction } from '../../redux/coin/coin.actions';
 import CreateInviteForm from './CreateInviteForm';
-import SimpleHeader from '../../components/SimpleHeader';
+import FormScene from '../../components/FormScene';
 
 class CreateInvite extends PureComponent {
   static propTypes = {
     isCreateRelationshipWithInviteInFlight: PropTypes.bool.isRequired,
     createRelationshipWithInviteError: PropTypes.string.isRequired,
     createRelationshipWithInvite: PropTypes.func.isRequired,
-    userFirstName: PropTypes.string,
-    userLastName: PropTypes.string,
     recipientEmail: PropTypes.string,
     recipientFirstName: PropTypes.string,
     recipientLastName: PropTypes.string,
@@ -101,8 +99,6 @@ class CreateInvite extends PureComponent {
       props: {
         isCreateRelationshipWithInviteInFlight,
         createRelationshipWithInviteError,
-        userFirstName,
-        userLastName,
         isGetMeInFlight,
         getMeErrorMessage,
         isGetCoinCountInFlight,
@@ -121,49 +117,37 @@ class CreateInvite extends PureComponent {
       handleSubmit,
     } = this;
     return (
-      <SafeAreaView style={scene.safeAreaView}>
-        <KeyboardAvoidingView style={scene.container} behavior="height">
-          <SimpleHeader {...{ userFirstName, userLastName }} />
-          <View style={scene.contentNoTop}>
-            <View style={scene.contentTop}>
-              <Text style={[scene.titleCopy, scene.textCenter]}>
-                Invite Lover
-              </Text>
-              <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
-                Send your lover an invite to a relationship on Luvup.
-              </Text>
-              <CreateInviteForm
-                {...{
-                  recipientEmail,
-                  recipientFirstName,
-                  recipientLastName,
-                  recipientEmailError,
-                  recipientFirstNameError,
-                  recipientLastNameError,
-                  onEmailChange: handleEmailChange,
-                  onFirstNameChange: handleFirstNameChange,
-                  onLastNameChange: handleLastNameChange,
-                  isInFlight:
-                    isCreateRelationshipWithInviteInFlight ||
-                    isGetMeInFlight ||
-                    isGetCoinCountInFlight,
-                  onSubmit: handleSubmit,
-                  ioError:
-                    createRelationshipWithInviteError || getMeErrorMessage,
-                }}
-              />
-            </View>
-          </View>
-        </KeyboardAvoidingView>
-      </SafeAreaView>
+      <FormScene>
+        <Text style={[scene.titleCopy, scene.textCenter]}>Invite Lover</Text>
+        <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
+          Send your lover an invite to a relationship on Luvup.
+        </Text>
+        <CreateInviteForm
+          {...{
+            recipientEmail,
+            recipientFirstName,
+            recipientLastName,
+            recipientEmailError,
+            recipientFirstNameError,
+            recipientLastNameError,
+            onEmailChange: handleEmailChange,
+            onFirstNameChange: handleFirstNameChange,
+            onLastNameChange: handleLastNameChange,
+            isInFlight:
+              isCreateRelationshipWithInviteInFlight ||
+              isGetMeInFlight ||
+              isGetCoinCountInFlight,
+            onSubmit: handleSubmit,
+            ioError: createRelationshipWithInviteError || getMeErrorMessage,
+          }}
+        />
+      </FormScene>
     );
   }
 }
 
 export default connect(
   state => ({
-    userFirstName: state.user.firstName,
-    userLastName: state.user.lastName,
     createRelationshipWithInviteError:
       state.relationship.createRelationshipWithInviteError,
     isCreateRelationshipWithInviteInFlight:
