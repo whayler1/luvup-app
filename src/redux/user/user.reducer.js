@@ -70,6 +70,7 @@ export default function reducer(state = defaultState, action) {
         ...state,
         isLoginInFlight: true,
         loginError: '',
+        reauthErrorMessage: '',
       };
     case LOGIN_SUCCESS:
     case REAUTH_SUCCESS:
