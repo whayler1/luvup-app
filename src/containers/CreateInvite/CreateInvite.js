@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
+import { Actions } from 'react-native-router-flux';
 
 import { scene } from '../../styles';
 import { emailRegex } from '../../helpers';
@@ -10,6 +11,11 @@ import { getMe as getMeAction } from '../../redux/user/user.actions';
 import { getCoinCount as getCoinCountAction } from '../../redux/coin/coin.actions';
 import CreateInviteForm from './CreateInviteForm';
 import FormScene from '../../components/FormScene';
+import Button, { BUTTON_STYLES } from '../../components/Button';
+
+const handleFindLoverPress = () => {
+  Actions.createloverrequest();
+};
 
 class CreateInvite extends PureComponent {
   static propTypes = {
@@ -120,7 +126,7 @@ class CreateInvite extends PureComponent {
       <FormScene>
         <Text style={[scene.titleCopy, scene.textCenter]}>Invite Lover</Text>
         <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
-          Send your lover an invite to a relationship on Luvup.
+          Is your lover not on Luvup already? Send your lover an invite.
         </Text>
         <CreateInviteForm
           {...{
@@ -141,6 +147,16 @@ class CreateInvite extends PureComponent {
             ioError: createRelationshipWithInviteError || getMeErrorMessage,
           }}
         />
+        <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterDoubleTop]}>
+          …or, if your lover is on Luvup
+        </Text>
+        <View style={scene.gutterTop}>
+          <Button
+            buttonStyles={BUTTON_STYLES.SECONDARY_SKELETON}
+            title="Search for Your lover"
+            onPress={handleFindLoverPress}
+          />
+        </View>
       </FormScene>
     );
   }
