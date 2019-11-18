@@ -45,5 +45,6 @@ module.exports = {
       "context": true,
       "waitFor": true,
       "device": true,
+      "__DEV__": true,
     }
 };
