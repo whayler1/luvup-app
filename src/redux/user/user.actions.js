@@ -28,13 +28,16 @@ import {
   userLoginRouteSwitch,
   registerForPushNotifications,
 } from '../../helpers';
+import { exception } from '../../services/errorReporter';
 
 export const SET_USER = 'user/set-user';
 export const LOGIN_ATTEMPT = 'user/login-attempt';
 export const LOGIN_SUCCESS = 'user/login-success';
 export const LOGIN_FAILURE = 'user/login-failure';
 export const LOGOUT = 'user/logout';
-export const REAUTH = 'user/reauth';
+export const REAUTH_ATTEMPT = 'user/reauth-attempt';
+export const REAUTH_SUCCESS = 'user/reauth-success';
+export const REAUTH_FAILURE = 'user/reauth-failure';
 export const SEND_NEW_PASSWORD_ATTEMPT = 'user/send-new-password-attempt';
 export const SEND_NEW_PASSWORD_SUCCESS = 'user/send-new-password-success';
 export const SEND_NEW_PASSWORD_FAILURE = 'user/send-new-password-failure';
@@ -195,6 +198,7 @@ export const logout = () => async dispatch => {
 };
 
 export const reauth = id_token => async dispatch => {
+  dispatch({ type: REAUTH_ATTEMPT });
   try {
     const res = await userApi.reauth(id_token);
 
@@ -202,7 +206,7 @@ export const reauth = id_token => async dispatch => {
 
     const { id, username, email } = res.body.user;
     dispatch({
-      type: REAUTH,
+      type: REAUTH_SUCCESS,
       id,
       username,
       email,
@@ -211,12 +215,33 @@ export const reauth = id_token => async dispatch => {
     if (id) {
       registerForPushNotifications();
       userLoginRouteSwitch();
-    } else {
-      Actions.reset('login');
+      return;
     }
-    return res.body;
+    if (res.ok) {
+      Actions.reset('login');
+      return;
+    }
+    dispatch({
+      type: REAUTH_FAILURE,
+      message: _.get(
+        res,
+        'body.errors[0].message',
+        'Error connecting to Luvup'
+      ),
+    });
   } catch (err) {
-    return err;
+    exception(err, {
+      tags: {
+        thunk: 'reauth',
+      },
+      extra: {
+        id_token,
+      },
+    });
+    dispatch({
+      type: REAUTH_FAILURE,
+      message: _.get(err, 'message', 'Error connecting to Luvup'),
+    });
   }
 };
 
