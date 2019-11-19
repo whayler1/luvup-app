@@ -28,7 +28,7 @@ import {
   userLoginRouteSwitch,
   registerForPushNotifications,
 } from '../../helpers';
-import { exception } from '../../services/errorReporter';
+import errorReporter from '../../services/errorReporter';
 
 export const SET_USER = 'user/set-user';
 export const LOGIN_ATTEMPT = 'user/login-attempt';
@@ -221,16 +221,25 @@ export const reauth = id_token => async dispatch => {
       Actions.reset('login');
       return;
     }
+    const message = _.get(
+      res,
+      'body.errors[0].message',
+      'Error connecting to Luvup'
+    );
+    errorReporter.message(message, {
+      tags: {
+        thunk: 'reauth',
+      },
+      extra: {
+        id_token,
+      },
+    });
     dispatch({
       type: REAUTH_FAILURE,
-      message: _.get(
-        res,
-        'body.errors[0].message',
-        'Error connecting to Luvup'
-      ),
+      message,
     });
   } catch (err) {
-    exception(err, {
+    errorReporter.exception(err, {
       tags: {
         thunk: 'reauth',
       },

@@ -26,7 +26,11 @@ const userApi = {
         ) { success }
       }`,
     }),
-  reauth: id_token => superagent.post(`${config.baseUrl}/reauth`, { id_token }),
+  reauth: id_token =>
+    superagent.post(`${config.baseUrl}/reauth`, { id_token }).timeout({
+      response: 10000,
+      deadline: 30000,
+    }),
   getMe: () =>
     superagent.post(config.graphQlUrl, {
       query: `{

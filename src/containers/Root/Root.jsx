@@ -28,17 +28,17 @@ const Root = ({
   }
 
   useEffect(() => {
-    const callReauthWithIdToken = async () => {
-      if (idToken) {
-        reauth(idToken);
+    const callReauthWithIdToken = async id_token => {
+      if (id_token) {
+        reauth(id_token);
       } else {
         Actions.reset('login');
       }
     };
     const useAsyncStorageToSetIdToken = async () => {
       const id_token = await AsyncStorage.getItem('id_token');
-      await setIdToken(id_token);
-      callReauthWithIdToken();
+      setIdToken(id_token);
+      callReauthWithIdToken(id_token);
     };
     const loadFont = async () => {
       await Font.loadAsync({
@@ -72,8 +72,7 @@ const Root = ({
             </View>
             {isErrorMessage && (
               <>
-                <Text
-                  style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
+                <Text style={[scene.bodyCopy, scene.textCenter]}>
                   There was an error connecting to Luvup. Please make sure you
                   are connected to wifi or data.
                 </Text>
