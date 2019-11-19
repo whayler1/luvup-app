@@ -146,6 +146,11 @@ export const getMe = () => async dispatch => {
     }
     return res;
   } catch (err) {
+    errorReporter.exception(err, {
+      tags: {
+        thunk: 'user.getMe',
+      },
+    });
     dispatch({
       type: GET_ME_FAILURE,
       errorMessage: err.message,
@@ -182,6 +187,11 @@ export const login = (usernameOrEmail, password) => async dispatch => {
       errorMessage: _.get(res, 'body.errors[0].message', 'Error logging in'),
     });
   } catch (err) {
+    errorReporter.exception(err, {
+      tags: {
+        thunk: 'user.login',
+      },
+    });
     dispatch({ type: LOGIN_FAILURE, errorMessage: err.message });
     return err;
   }
@@ -241,7 +251,7 @@ export const reauth = id_token => async dispatch => {
   } catch (err) {
     errorReporter.exception(err, {
       tags: {
-        thunk: 'reauth',
+        thunk: 'user.reauth',
       },
       extra: {
         id_token,
@@ -269,6 +279,11 @@ export const sendNewPassword = email => async dispatch => {
 
     return dispatch({ type: SEND_NEW_PASSWORD_SUCCESS });
   } catch (error) {
+    errorReporter.exception(error, {
+      tags: {
+        thunk: 'user.sendNewPassword',
+      },
+    });
     return dispatch({
       type: SEND_NEW_PASSWORD_FAILURE,
       errorMessage: _.get(error, 'message', defaultError),
@@ -296,6 +311,11 @@ export const resetPasswordWithGeneratedPassword = (
     }
     return dispatch({ type: RESET_PASSWORD_WITH_GENERATED_PASSWORD_SUCCESS });
   } catch (error) {
+    errorReporter.exception(error, {
+      tags: {
+        thunk: 'user.resetPasswordWithGeneratedPassword',
+      },
+    });
     return dispatch({
       type: RESET_PASSWORD_WITH_GENERATED_PASSWORD_FAILURE,
       errorMessage: _.get(error, 'message', defaultError),
@@ -328,6 +348,11 @@ export const userRequest = email => async dispatch => {
     });
     return res;
   } catch (err) {
+    errorReporter.exception(err, {
+      tags: {
+        thunk: 'user.userRequest',
+      },
+    });
     dispatch({ type: USER_REQUEST_FAILURE, errorMessage: err.message });
     return err;
   }
@@ -374,6 +399,11 @@ export const confirmUser = (
 
     dispatch({ type: CONFIRM_USER_REQUEST_SUCCESS });
   } catch (err) {
+    errorReporter.exception(err, {
+      tags: {
+        thunk: 'user.confirmUser',
+      },
+    });
     dispatch({
       type: CONFIRM_USER_REQUEST_FAILURE,
       errorMessage: err.message,
@@ -425,6 +455,11 @@ export const confirmUserRequestCode = (email, code) => async dispatch => {
     });
     return res;
   } catch (err) {
+    errorReporter.exception(err, {
+      tags: {
+        thunk: 'user.confirmUserRequestCode',
+      },
+    });
     dispatch({
       type: CONFIRM_USER_REQUEST_CODE_FAILURE,
       errorMessage: _.get(err, 'message', 'Error submitting request code'),
@@ -467,6 +502,11 @@ export const getTimelineData = limit => async dispatch => {
       return data;
     }
   } catch (err) {
+    errorReporter.exception(err, {
+      tags: {
+        thunk: 'user.getTimelineData',
+      },
+    });
     dispatch({
       type: GET_TIMELINE_DATA_FAILURE,
       error: err.message,
