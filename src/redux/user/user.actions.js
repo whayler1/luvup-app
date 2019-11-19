@@ -187,11 +187,14 @@ export const login = (usernameOrEmail, password) => async dispatch => {
       errorMessage: _.get(res, 'body.errors[0].message', 'Error logging in'),
     });
   } catch (err) {
-    errorReporter.exception(err, {
-      tags: {
-        thunk: 'user.login',
-      },
-    });
+    // JW: Commenting out because we reach here when a uname/pword is invalid.
+    // Need to refactor backend so uname/pword gives a better error status code
+    // and we only report exceptions when something actually goes wrong.
+    // errorReporter.exception(err, {
+    //   tags: {
+    //     thunk: 'user.login',
+    //   },
+    // });
     dispatch({ type: LOGIN_FAILURE, errorMessage: err.message });
     return err;
   }
