@@ -102,7 +102,6 @@ const userApi = {
           firstName
           lastName
         }
-        error
       }
     }`),
   confirmUserRequestCode: (email, code) =>
