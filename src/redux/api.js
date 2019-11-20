@@ -3,7 +3,7 @@ import superagent from 'superagent';
 import config from '../config';
 
 const TIMEOUT_DEFAULTS = {
-  response: 10000,
+  response: 15000,
   deadline: 30000,
 };
 
