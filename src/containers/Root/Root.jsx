@@ -83,18 +83,22 @@ const Root = ({
                   There was an error connecting to Luvup. Please make sure you
                   are connected to wifi or data.
                 </Text>
-                <Well
-                  styles={{ marginTop: vars.gutter }}
-                  text={reauthErrorMessage}
-                />
-                <View style={{ marginTop: vars.gutterAndHalf }}>
+                <View
+                  style={{
+                    marginTop: vars.gutterAndHalf,
+                    alignSelf: 'stretch',
+                  }}>
                   <Button
                     buttonStyles={BUTTON_STYLES.INFO_SKELETON}
                     title="Try Again"
                     onPress={handleReauthPress}
                   />
                 </View>
-                <View style={{ marginTop: vars.gutterAndHalf }}>
+                <View
+                  style={{
+                    marginTop: vars.gutterAndHalf,
+                    alignSelf: 'stretch',
+                  }}>
                   <Button
                     buttonStyles={BUTTON_STYLES.SECONDARY_SKELETON}
                     title="Dismiss"
