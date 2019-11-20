@@ -159,7 +159,10 @@ export const getMe = () => async dispatch => {
   }
 };
 
-export const login = (usernameOrEmail, password) => async dispatch => {
+export const login = (usernameOrEmail, password) => async (
+  dispatch,
+  getState
+) => {
   dispatch({ type: LOGIN_ATTEMPT });
   try {
     const res = await userApi.login(
@@ -170,8 +173,14 @@ export const login = (usernameOrEmail, password) => async dispatch => {
     await AsyncStorage.setItem('id_token', _.get(res, 'body.id_token', ''));
 
     if (res.ok) {
-      await dispatch(getMe());
-      Actions.reset('dashboard');
+      registerForPushNotifications();
+      if (getState().user.isReset) {
+        Actions.resetPasswordWithGeneratedPassword({
+          generatedPassword: password,
+        });
+      } else {
+        await userLoginRouteSwitch();
+      }
       dispatch({
         type: LOGIN_SUCCESS,
         id: res.body.user.id,
@@ -207,7 +216,7 @@ export const logout = () => async dispatch => {
   dispatch(clearJalapenoCount());
   dispatch({ type: LOGOUT });
   removeNotificationsListener();
-  return true;
+  Actions.reset('login');
 };
 
 export const reauth = id_token => async dispatch => {
@@ -227,7 +236,7 @@ export const reauth = id_token => async dispatch => {
     listenToNotifications();
     if (id) {
       registerForPushNotifications();
-      userLoginRouteSwitch();
+      await userLoginRouteSwitch();
       return;
     }
     if (res.ok) {

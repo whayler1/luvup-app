@@ -11,13 +11,17 @@ import Well from '../../components/Well';
 import Button, { BUTTON_STYLES } from '../../components/Button';
 import styles from './Root.styles';
 import { scene, vars } from '../../styles';
-import { reauth as reauthAction } from '../../redux/user/user.actions';
+import {
+  reauth as reauthAction,
+  logout as logoutAction,
+} from '../../redux/user/user.actions';
 import { setIsFontLoaded as setIsFontLoadedAction } from '../../redux/font/font.actions';
 import LoadingAnimation from '../../components/LoadingAnimation';
 
 const Root = ({
   reauth,
   reauthErrorMessage,
+  logout,
   isFontLoaded,
   setIsFontLoaded,
 }) => {
@@ -25,6 +29,9 @@ const Root = ({
 
   function handleReauthPress() {
     reauth(idToken);
+  }
+  function handleDismissPress() {
+    logout();
   }
 
   useEffect(() => {
@@ -87,6 +94,13 @@ const Root = ({
                     onPress={handleReauthPress}
                   />
                 </View>
+                <View style={{ marginTop: vars.gutterAndHalf }}>
+                  <Button
+                    buttonStyles={BUTTON_STYLES.SECONDARY_SKELETON}
+                    title="Dismiss"
+                    onPress={handleDismissPress}
+                  />
+                </View>
               </>
             )}
           </>
@@ -99,6 +113,7 @@ const Root = ({
 Root.propTypes = {
   isFontLoaded: PropTypes.bool,
   reauth: PropTypes.func.isRequired,
+  logout: PropTypes.func.isRequired,
   reauthErrorMessage: PropTypes.string.isRequired,
   setIsFontLoaded: PropTypes.func.isRequired,
 };
@@ -111,6 +126,7 @@ export default connect(
   }),
   {
     reauth: reauthAction,
+    logout: logoutAction,
     setIsFontLoaded: setIsFontLoadedAction,
   }
 )(Root);
