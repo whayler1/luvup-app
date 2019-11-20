@@ -28,13 +28,16 @@ import {
   userLoginRouteSwitch,
   registerForPushNotifications,
 } from '../../helpers';
+import errorReporter from '../../services/errorReporter';
 
 export const SET_USER = 'user/set-user';
 export const LOGIN_ATTEMPT = 'user/login-attempt';
 export const LOGIN_SUCCESS = 'user/login-success';
 export const LOGIN_FAILURE = 'user/login-failure';
 export const LOGOUT = 'user/logout';
-export const REAUTH = 'user/reauth';
+export const REAUTH_ATTEMPT = 'user/reauth-attempt';
+export const REAUTH_SUCCESS = 'user/reauth-success';
+export const REAUTH_FAILURE = 'user/reauth-failure';
 export const SEND_NEW_PASSWORD_ATTEMPT = 'user/send-new-password-attempt';
 export const SEND_NEW_PASSWORD_SUCCESS = 'user/send-new-password-success';
 export const SEND_NEW_PASSWORD_FAILURE = 'user/send-new-password-failure';
@@ -143,6 +146,11 @@ export const getMe = () => async dispatch => {
     }
     return res;
   } catch (err) {
+    errorReporter.exception(err, {
+      tags: {
+        thunk: 'user.getMe',
+      },
+    });
     dispatch({
       type: GET_ME_FAILURE,
       errorMessage: err.message,
@@ -151,7 +159,10 @@ export const getMe = () => async dispatch => {
   }
 };
 
-export const login = (usernameOrEmail, password) => async dispatch => {
+export const login = (usernameOrEmail, password) => async (
+  dispatch,
+  getState
+) => {
   dispatch({ type: LOGIN_ATTEMPT });
   try {
     const res = await userApi.login(
@@ -162,8 +173,14 @@ export const login = (usernameOrEmail, password) => async dispatch => {
     await AsyncStorage.setItem('id_token', _.get(res, 'body.id_token', ''));
 
     if (res.ok) {
-      await dispatch(getMe());
-      Actions.reset('dashboard');
+      registerForPushNotifications();
+      if (getState().user.isReset) {
+        Actions.resetPasswordWithGeneratedPassword({
+          generatedPassword: password,
+        });
+      } else {
+        await userLoginRouteSwitch();
+      }
       dispatch({
         type: LOGIN_SUCCESS,
         id: res.body.user.id,
@@ -179,6 +196,14 @@ export const login = (usernameOrEmail, password) => async dispatch => {
       errorMessage: _.get(res, 'body.errors[0].message', 'Error logging in'),
     });
   } catch (err) {
+    // JW: Commenting out because we reach here when a uname/pword is invalid.
+    // Need to refactor backend so uname/pword gives a better error status code
+    // and we only report exceptions when something actually goes wrong.
+    // errorReporter.exception(err, {
+    //   tags: {
+    //     thunk: 'user.login',
+    //   },
+    // });
     dispatch({ type: LOGIN_FAILURE, errorMessage: err.message });
     return err;
   }
@@ -191,10 +216,11 @@ export const logout = () => async dispatch => {
   dispatch(clearJalapenoCount());
   dispatch({ type: LOGOUT });
   removeNotificationsListener();
-  return true;
+  Actions.reset('login');
 };
 
 export const reauth = id_token => async dispatch => {
+  dispatch({ type: REAUTH_ATTEMPT });
   try {
     const res = await userApi.reauth(id_token);
 
@@ -202,7 +228,7 @@ export const reauth = id_token => async dispatch => {
 
     const { id, username, email } = res.body.user;
     dispatch({
-      type: REAUTH,
+      type: REAUTH_SUCCESS,
       id,
       username,
       email,
@@ -210,13 +236,43 @@ export const reauth = id_token => async dispatch => {
     listenToNotifications();
     if (id) {
       registerForPushNotifications();
-      userLoginRouteSwitch();
-    } else {
-      Actions.reset('login');
+      await userLoginRouteSwitch();
+      return;
     }
-    return res.body;
+    if (res.ok) {
+      Actions.reset('login');
+      return;
+    }
+    const message = _.get(
+      res,
+      'body.errors[0].message',
+      'Error connecting to Luvup'
+    );
+    errorReporter.message(message, {
+      tags: {
+        thunk: 'reauth',
+      },
+      extra: {
+        id_token,
+      },
+    });
+    dispatch({
+      type: REAUTH_FAILURE,
+      message,
+    });
   } catch (err) {
-    return err;
+    errorReporter.exception(err, {
+      tags: {
+        thunk: 'user.reauth',
+      },
+      extra: {
+        id_token,
+      },
+    });
+    dispatch({
+      type: REAUTH_FAILURE,
+      message: _.get(err, 'message', 'Error connecting to Luvup'),
+    });
   }
 };
 
@@ -235,6 +291,11 @@ export const sendNewPassword = email => async dispatch => {
 
     return dispatch({ type: SEND_NEW_PASSWORD_SUCCESS });
   } catch (error) {
+    errorReporter.exception(error, {
+      tags: {
+        thunk: 'user.sendNewPassword',
+      },
+    });
     return dispatch({
       type: SEND_NEW_PASSWORD_FAILURE,
       errorMessage: _.get(error, 'message', defaultError),
@@ -262,6 +323,11 @@ export const resetPasswordWithGeneratedPassword = (
     }
     return dispatch({ type: RESET_PASSWORD_WITH_GENERATED_PASSWORD_SUCCESS });
   } catch (error) {
+    errorReporter.exception(error, {
+      tags: {
+        thunk: 'user.resetPasswordWithGeneratedPassword',
+      },
+    });
     return dispatch({
       type: RESET_PASSWORD_WITH_GENERATED_PASSWORD_FAILURE,
       errorMessage: _.get(error, 'message', defaultError),
@@ -294,6 +360,11 @@ export const userRequest = email => async dispatch => {
     });
     return res;
   } catch (err) {
+    errorReporter.exception(err, {
+      tags: {
+        thunk: 'user.userRequest',
+      },
+    });
     dispatch({ type: USER_REQUEST_FAILURE, errorMessage: err.message });
     return err;
   }
@@ -340,6 +411,11 @@ export const confirmUser = (
 
     dispatch({ type: CONFIRM_USER_REQUEST_SUCCESS });
   } catch (err) {
+    errorReporter.exception(err, {
+      tags: {
+        thunk: 'user.confirmUser',
+      },
+    });
     dispatch({
       type: CONFIRM_USER_REQUEST_FAILURE,
       errorMessage: err.message,
@@ -391,6 +467,11 @@ export const confirmUserRequestCode = (email, code) => async dispatch => {
     });
     return res;
   } catch (err) {
+    errorReporter.exception(err, {
+      tags: {
+        thunk: 'user.confirmUserRequestCode',
+      },
+    });
     dispatch({
       type: CONFIRM_USER_REQUEST_CODE_FAILURE,
       errorMessage: _.get(err, 'message', 'Error submitting request code'),
@@ -433,6 +514,11 @@ export const getTimelineData = limit => async dispatch => {
       return data;
     }
   } catch (err) {
+    errorReporter.exception(err, {
+      tags: {
+        thunk: 'user.getTimelineData',
+      },
+    });
     dispatch({
       type: GET_TIMELINE_DATA_FAILURE,
       error: err.message,

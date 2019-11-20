@@ -117,12 +117,7 @@ const App = () => (
             title="Create Profile"
             hideNavBar
           />
-          <Scene
-            key="dashboard"
-            component={Dashboard}
-            title="Dashboard"
-            hideNavBar
-          />
+          <Scene key="dashboard" component={Dashboard} title="" hideNavBar />
           <Scene
             key="createInvite"
             component={CreateInvite}

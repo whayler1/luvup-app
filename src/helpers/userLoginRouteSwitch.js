@@ -30,28 +30,8 @@ const userLoginRouteSwitch = async () => {
       store.dispatch(getJalapenoCount()),
     ]);
     Actions.reset('dashboard');
-    // Actions.timeline();
-    // Actions.createQuizReview({
-    //   quizItem: {
-    //     question: 'Who is a bahd baybee?',
-    //     choices: ['Me', 'You', 'Anyone'],
-    //     senderChoiceIndex: 1,
-    //     reward: 4,
-    //   },
-    // });
     indentifyUser(user);
   }
-  // else if (
-  //   _.isArray(receivedLoverRequests) &&
-  //   receivedLoverRequests.length > 0
-  // ) {
-  //   //show received lover request
-  //   Actions.confirmLoverRequest();
-  //   indentifyUser(user);
-  // } else {
-  //   Actions.createloverrequest();
-  //   indentifyUser(user);
-  // }
 };
 
 export default userLoginRouteSwitch;

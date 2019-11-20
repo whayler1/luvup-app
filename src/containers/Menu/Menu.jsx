@@ -68,9 +68,7 @@ class Menu extends PureComponent {
   };
 
   handleLogout = async () => {
-    await this.props.logout();
-
-    Actions.reset('login');
+    this.props.logout();
   };
 
   endRelationship = async () => {

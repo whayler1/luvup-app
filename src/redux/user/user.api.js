@@ -1,5 +1,6 @@
-import superagent from 'superagent';
 import config from '../../config';
+import api, { graphqlQuery, grapgqlQuery } from '../api';
+// JW: trying to get rid of `graphQlRequest` and replace with `graphqlQuery`
 import graphQlRequest from '../../helpers/graphQlRequest';
 
 const sanitizeEmail = email => email.toLowerCase().trim();
@@ -7,29 +8,24 @@ const sanitizePassword = password => password.trim();
 
 const userApi = {
   login: (usernameOrEmail, password) =>
-    superagent.post(`${config.baseUrl}/login`, {
+    api().post('/login', {
       username: sanitizeEmail(usernameOrEmail),
       password: sanitizePassword(password),
     }),
   sendNewPassword: email =>
-    superagent.post(config.graphQlUrl, {
-      query: `mutation {
-        sendNewPassword(email: "${sanitizeEmail(email)}") { success }
-      }`,
-    }),
+    grapgqlQuery(`mutation {
+      sendNewPassword(email: "${sanitizeEmail(email)}") { success }
+    }`),
   resetPasswordWithGeneratedPassword: (generatedPassword, newPassword) =>
-    superagent.post(config.graphQlUrl, {
-      query: `mutation {
+    graphqlQuery(`mutation {
         resetPasswordWithGeneratedPassword(
           generatedPassword: "${sanitizePassword(generatedPassword)}"
           newPassword: "${sanitizePassword(newPassword)}"
         ) { success }
-      }`,
-    }),
-  reauth: id_token => superagent.post(`${config.baseUrl}/reauth`, { id_token }),
+      }`),
+  reauth: id_token => api().post(`/reauth`, { id_token }),
   getMe: () =>
-    superagent.post(config.graphQlUrl, {
-      query: `{
+    graphqlQuery(`{
       me {
         id username email firstName lastName
         relationship {
@@ -84,17 +80,13 @@ const userApi = {
           score
         }
       }
-    }`,
-    }),
+    }`),
   userRequest: email =>
-    superagent.post(config.graphQlUrl, {
-      query: `mutation {
+    graphqlQuery(`mutation {
       userRequest( email: "${sanitizeEmail(email)}") { email }
-    }`,
-    }),
+    }`),
   confirmUser: (email, username, firstName, lastName, code, password) =>
-    superagent.post(config.graphQlUrl, {
-      query: `mutation {
+    graphqlQuery(`mutation {
       confirmUser(
         email: "${sanitizeEmail(email)}"
         username: "${username}"
@@ -110,21 +102,17 @@ const userApi = {
           firstName
           lastName
         }
-        error
       }
-    }`,
-    }),
+    }`),
   confirmUserRequestCode: (email, code) =>
-    superagent.post(config.graphQlUrl, {
-      query: `mutation {
+    graphqlQuery(`mutation {
       confirmUserRequestCode (
         email: "${sanitizeEmail(email)}"
         code: "${code}"
       ) {
         success error
       }
-    }`,
-    }),
+    }`),
   getTimelineData: limit =>
     graphQlRequest(`{
     userEvents(

@@ -5,7 +5,9 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
   LOGOUT,
-  REAUTH,
+  REAUTH_ATTEMPT,
+  REAUTH_SUCCESS,
+  REAUTH_FAILURE,
   SEND_NEW_PASSWORD_ATTEMPT,
   SEND_NEW_PASSWORD_SUCCESS,
   SEND_NEW_PASSWORD_FAILURE,
@@ -40,6 +42,7 @@ const defaultState = {
   code: '',
   isLoginInFlight: false,
   loginError: '',
+  reauthErrorMessage: '',
   isSendNewPasswordInFlight: false,
   sendNewPasswordError: '',
   isResetPasswordWithGeneratedPasswordInFlight: false,
@@ -62,19 +65,27 @@ const userAttribs = ['id', 'email', 'username', 'firstName', 'lastName'];
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
     case LOGIN_ATTEMPT:
+    case REAUTH_ATTEMPT:
       return {
         ...state,
         isLoginInFlight: true,
         loginError: '',
+        reauthErrorMessage: '',
       };
     case LOGIN_SUCCESS:
-    case REAUTH:
+    case REAUTH_SUCCESS:
       appStateListener.start();
       return {
         ...state,
         ..._.pick(action, userAttribs),
         isLoginInFlight: false,
         isReset: action.isReset || false,
+      };
+    case REAUTH_FAILURE:
+      return {
+        ...state,
+        isLoginInFlight: false,
+        reauthErrorMessage: action.message,
       };
     case LOGIN_FAILURE:
       return {
