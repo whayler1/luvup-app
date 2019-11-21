@@ -137,7 +137,9 @@ class Login extends Component {
           }}
         />
         {loginError.length > 0 && <Well text={this.getFormattedLoginError()} />}
-        {getMeErrorMessage.length > 0 && <Well text={getMeErrorMessage} />}
+        {getMeErrorMessage.length > 0 && (
+          <Well text={`Error retrieving user data: ${getMeErrorMessage}`} />
+        )}
         <View style={forms.buttonRow}>
           <View style={styles.submitContainer}>
             <Button

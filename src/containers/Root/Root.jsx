@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import * as Font from 'expo-font';
 import isString from 'lodash/isString';
 
-import Well from '../../components/Well';
 import Button, { BUTTON_STYLES } from '../../components/Button';
 import styles from './Root.styles';
 import { scene, vars } from '../../styles';
@@ -34,19 +33,21 @@ const Root = ({
     logout();
   }
 
+  const callReauthWithIdToken = async id_token => {
+    if (id_token) {
+      reauth(id_token);
+    } else {
+      Actions.reset('login');
+    }
+  };
+
+  const useAsyncStorageToSetIdToken = async () => {
+    const id_token = await AsyncStorage.getItem('id_token');
+    setIdToken(id_token);
+    callReauthWithIdToken(id_token);
+  };
+
   useEffect(() => {
-    const callReauthWithIdToken = async id_token => {
-      if (id_token) {
-        reauth(id_token);
-      } else {
-        Actions.reset('login');
-      }
-    };
-    const useAsyncStorageToSetIdToken = async () => {
-      const id_token = await AsyncStorage.getItem('id_token');
-      setIdToken(id_token);
-      callReauthWithIdToken(id_token);
-    };
     const loadFont = async () => {
       await Font.loadAsync({
         yesteryear: require('../../fonts/yesteryear/yesteryear.ttf'),
@@ -55,10 +56,18 @@ const Root = ({
       });
 
       await setIsFontLoaded(true);
-      useAsyncStorageToSetIdToken();
     };
     loadFont();
   }, []);
+
+  useEffect(
+    () => {
+      if (isFontLoaded) {
+        useAsyncStorageToSetIdToken();
+      }
+    },
+    [isFontLoaded]
+  );
 
   const isErrorMessage =
     isString(reauthErrorMessage) && reauthErrorMessage.length > 0;
@@ -94,6 +103,14 @@ const Root = ({
                     onPress={handleReauthPress}
                   />
                 </View>
+                <Text
+                  style={[
+                    scene.bodyCopy,
+                    scene.textCenter,
+                    { marginTop: vars.gutterDouble },
+                  ]}>
+                  …or dismiss to try to log in as a different user.
+                </Text>
                 <View
                   style={{
                     marginTop: vars.gutterAndHalf,

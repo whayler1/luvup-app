@@ -11,11 +11,13 @@ import { SET_LOVER_REQUEST } from '../loverRequest/loverRequest.actions';
 import { setRelationship } from '../relationship/relationship.actions';
 import {
   setSentCoins,
+  getCoinCount,
   setUnviewedCoinCount,
   clearCoinCount,
 } from '../coin/coin.actions';
 import {
   setSentJalapenos,
+  getJalapenoCount,
   setUnviewedJalapenoCount,
   clearJalapenoCount,
 } from '../jalapeno/jalapeno.actions';
@@ -219,7 +221,7 @@ export const logout = () => async dispatch => {
   Actions.reset('login');
 };
 
-export const reauth = id_token => async dispatch => {
+export const reauth = id_token => async (dispatch, getState) => {
   dispatch({ type: REAUTH_ATTEMPT });
   try {
     const res = await userApi.reauth(id_token);
@@ -227,20 +229,33 @@ export const reauth = id_token => async dispatch => {
     await AsyncStorage.setItem('id_token', _.get(res, 'body.id_token', ''));
 
     const { id, username, email } = res.body.user;
-    dispatch({
-      type: REAUTH_SUCCESS,
-      id,
-      username,
-      email,
-    });
-    listenToNotifications();
+    // listenToNotifications();
     if (id) {
       registerForPushNotifications();
-      await userLoginRouteSwitch();
-      return;
-    }
-    if (res.ok) {
-      Actions.reset('login');
+      await Promise.all([
+        dispatch(getMe()),
+        dispatch(getCoinCount()),
+        dispatch(getJalapenoCount()),
+      ]);
+      const { getMeErrorMessage } = getState().user;
+      if (getMeErrorMessage.length > 0) {
+        errorReporter.message(`getMeError: ${getMeErrorMessage}`, {
+          tags: {
+            thunk: 'reauth',
+          },
+          extra: {
+            id_token,
+          },
+        });
+      } else {
+        Actions.reset('dashboard');
+        dispatch({
+          type: REAUTH_SUCCESS,
+          id,
+          username,
+          email,
+        });
+      }
       return;
     }
     const message = _.get(
