@@ -11,11 +11,13 @@ import { SET_LOVER_REQUEST } from '../loverRequest/loverRequest.actions';
 import { setRelationship } from '../relationship/relationship.actions';
 import {
   setSentCoins,
+  getCoinCount,
   setUnviewedCoinCount,
   clearCoinCount,
 } from '../coin/coin.actions';
 import {
   setSentJalapenos,
+  getJalapenoCount,
   setUnviewedJalapenoCount,
   clearJalapenoCount,
 } from '../jalapeno/jalapeno.actions';
@@ -24,10 +26,7 @@ import {
   clearReceivedLoverRequests,
 } from '../receivedLoverRequests/receivedLoverRequests.actions';
 import userApi from './user.api';
-import {
-  userLoginRouteSwitch,
-  registerForPushNotifications,
-} from '../../helpers';
+import { registerForPushNotifications } from '../../helpers';
 import errorReporter from '../../services/errorReporter';
 
 export const SET_USER = 'user/set-user';
@@ -68,7 +67,7 @@ export const GET_TIMELINE_DATA_ATTEMPT = 'user/get-timeline-data-attempt';
 export const GET_TIMELINE_DATA_SUCCESS = 'user/get-timeline-data-success';
 export const GET_TIMELINE_DATA_FAILURE = 'user/get-timeline-data-failure';
 
-export const getMe = () => async dispatch => {
+export const getMe = () => async (dispatch) => {
   dispatch({ type: GET_ME_ATTEMPT });
   try {
     const res = await userApi.getMe();
@@ -87,8 +86,8 @@ export const getMe = () => async dispatch => {
             lover.username,
             lover.firstName,
             lover.lastName,
-            lover.isPlaceholder
-          )
+            lover.isPlaceholder,
+          ),
         );
       }
     }
@@ -98,8 +97,8 @@ export const getMe = () => async dispatch => {
       dispatch(
         setReceivedLoverRequests(
           receivedLoverRequests.rows,
-          receivedLoverRequests.count
-        )
+          receivedLoverRequests.count,
+        ),
       );
     }
 
@@ -161,26 +160,48 @@ export const getMe = () => async dispatch => {
 
 export const login = (usernameOrEmail, password) => async (
   dispatch,
-  getState
+  getState,
 ) => {
   dispatch({ type: LOGIN_ATTEMPT });
   try {
     const res = await userApi.login(
       usernameOrEmail.toLowerCase().trim(),
-      password.trim()
+      password.trim(),
     );
 
-    await AsyncStorage.setItem('id_token', _.get(res, 'body.id_token', ''));
-
     if (res.ok) {
-      registerForPushNotifications();
+      await AsyncStorage.setItem('id_token', _.get(res, 'body.id_token', ''));
+      await Promise.all([
+        dispatch(getMe()),
+        dispatch(getCoinCount()),
+        dispatch(getJalapenoCount()),
+      ]);
+      const { getMeErrorMessage } = getState().user;
+      if (getMeErrorMessage.length > 0) {
+        errorReporter.message(`getMeError: ${getMeErrorMessage}`, {
+          tags: {
+            thunk: 'user.login',
+          },
+        });
+        dispatch({
+          type: LOGIN_FAILURE,
+          message: `Error retrieving user data: ${getMeErrorMessage}`,
+        });
+        return;
+      }
+
       if (getState().user.isReset) {
         Actions.resetPasswordWithGeneratedPassword({
           generatedPassword: password,
         });
-      } else {
-        await userLoginRouteSwitch();
+        await registerForPushNotifications();
+        listenToNotifications();
+        return;
       }
+
+      Actions.reset('dashboard');
+      await registerForPushNotifications();
+      listenToNotifications();
       dispatch({
         type: LOGIN_SUCCESS,
         id: res.body.user.id,
@@ -188,7 +209,6 @@ export const login = (usernameOrEmail, password) => async (
         username: res.body.user.username,
         isReset: res.body.user.isReset,
       });
-      listenToNotifications();
       return res;
     }
     dispatch({
@@ -209,7 +229,7 @@ export const login = (usernameOrEmail, password) => async (
   }
 };
 
-export const logout = () => async dispatch => {
+export const logout = () => async (dispatch) => {
   await AsyncStorage.removeItem('id_token');
   dispatch(clearReceivedLoverRequests());
   dispatch(clearCoinCount());
@@ -219,38 +239,53 @@ export const logout = () => async dispatch => {
   Actions.reset('login');
 };
 
-export const reauth = id_token => async dispatch => {
+export const reauth = (id_token) => async (dispatch, getState) => {
   dispatch({ type: REAUTH_ATTEMPT });
   try {
     const res = await userApi.reauth(id_token);
 
-    await AsyncStorage.setItem('id_token', _.get(res, 'body.id_token', ''));
-
     const { id, username, email } = res.body.user;
-    dispatch({
-      type: REAUTH_SUCCESS,
-      id,
-      username,
-      email,
-    });
-    listenToNotifications();
     if (id) {
-      registerForPushNotifications();
-      await userLoginRouteSwitch();
-      return;
-    }
-    if (res.ok) {
-      Actions.reset('login');
-      return;
+      await AsyncStorage.setItem('id_token', _.get(res, 'body.id_token', ''));
+      await Promise.all([
+        dispatch(getMe()),
+        dispatch(getCoinCount()),
+        dispatch(getJalapenoCount()),
+      ]);
+      const { getMeErrorMessage } = getState().user;
+      if (getMeErrorMessage.length > 0) {
+        errorReporter.message(`getMeError: ${getMeErrorMessage}`, {
+          tags: {
+            thunk: 'user.reauth',
+          },
+          extra: {
+            id_token,
+          },
+        });
+        dispatch({
+          type: REAUTH_FAILURE,
+          message: getMeErrorMessage,
+        });
+        return;
+      }
+      Actions.reset('dashboard');
+      await registerForPushNotifications();
+      listenToNotifications();
+      dispatch({
+        type: REAUTH_SUCCESS,
+        id,
+        username,
+        email,
+      });
     }
     const message = _.get(
       res,
       'body.errors[0].message',
-      'Error connecting to Luvup'
+      'Error connecting to Luvup',
     );
     errorReporter.message(message, {
       tags: {
-        thunk: 'reauth',
+        thunk: 'user.reauth',
       },
       extra: {
         id_token,
@@ -276,7 +311,7 @@ export const reauth = id_token => async dispatch => {
   }
 };
 
-export const sendNewPassword = email => async dispatch => {
+export const sendNewPassword = (email) => async (dispatch) => {
   dispatch({ type: SEND_NEW_PASSWORD_ATTEMPT });
   const defaultError = 'Error sending new password';
   try {
@@ -305,14 +340,14 @@ export const sendNewPassword = email => async dispatch => {
 
 export const resetPasswordWithGeneratedPassword = (
   generatedPassword,
-  newPassword
-) => async dispatch => {
+  newPassword,
+) => async (dispatch) => {
   dispatch({ type: RESET_PASSWORD_WITH_GENERATED_PASSWORD_ATTEMPT });
   const defaultError = 'Error resetting password';
   try {
     const { body } = await userApi.resetPasswordWithGeneratedPassword(
       generatedPassword,
-      newPassword
+      newPassword,
     );
 
     if (body.errors) {
@@ -339,7 +374,7 @@ export const clearConfirmUserRequestFailure = () => ({
   type: CLEAR_CONFIRM_USER_REQUEST_FAILURE,
 });
 
-export const userRequest = email => async dispatch => {
+export const userRequest = (email) => async (dispatch) => {
   dispatch({ type: USER_REQUEST_ATTEMPT });
 
   try {
@@ -349,7 +384,7 @@ export const userRequest = email => async dispatch => {
       const errorMessage = _.get(
         res,
         'body.errors[0].message',
-        'Http response not ok'
+        'Http response not ok',
       );
       dispatch({ type: USER_REQUEST_FAILURE, errorMessage });
     }
@@ -384,7 +419,7 @@ export const confirmUser = (
   firstName,
   lastName,
   code,
-  password
+  password,
 ) => async (dispatch, getState) => {
   dispatch({ type: CONFIRM_USER_REQUEST_ATTEMPT });
   try {
@@ -394,7 +429,7 @@ export const confirmUser = (
       firstName,
       lastName,
       code,
-      password
+      password,
     );
 
     const errorMessage = _.get(confirmUserRes, 'body.errors[0].message');
@@ -428,7 +463,7 @@ export const setUser = (
   username = '',
   id = '',
   firstName = '',
-  lastName = ''
+  lastName = '',
 ) => ({
   type: SET_USER,
   id,
@@ -438,13 +473,13 @@ export const setUser = (
   lastName,
 });
 
-export const confirmUserRequestCode = (email, code) => async dispatch => {
+export const confirmUserRequestCode = (email, code) => async (dispatch) => {
   dispatch({ type: CONFIRM_USER_REQUEST_CODE_ATTEMPT });
   try {
     const res = await userApi.confirmUserRequestCode(email, code);
     const confirmUserRequestCode = _.get(
       res,
-      'body.data.confirmUserRequestCode'
+      'body.data.confirmUserRequestCode',
     );
 
     if (confirmUserRequestCode && confirmUserRequestCode.success) {
@@ -462,7 +497,7 @@ export const confirmUserRequestCode = (email, code) => async dispatch => {
       errorMessage: _.get(
         res,
         'body.errors[0].message',
-        'Error submitting request code'
+        'Error submitting request code',
       ),
     });
     return res;
@@ -485,7 +520,7 @@ export const clearUserRequestCodeError = () => ({
   errorMessage: '',
 });
 
-export const getTimelineData = limit => async dispatch => {
+export const getTimelineData = (limit) => async (dispatch) => {
   dispatch({ type: GET_TIMELINE_DATA_ATTEMPT });
 
   try {
