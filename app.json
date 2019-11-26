@@ -4,13 +4,10 @@
     "slug": "luvup",
     "privacy": "public",
     "description": "Reinvest in your relationship",
-    "version": "0.0.50",
+    "version": "0.0.51",
     "sdkVersion": "35.0.0",
     "primaryColor": "#FFFFFF",
-    "platforms": [
-      "ios",
-      "android"
-    ],
+    "platforms": ["ios", "android"],
     "orientation": "portrait",
     "notification": {
       "icon": "./src/images/icon/icon-notification.png",
@@ -20,9 +17,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "splash": {
       "image": "./src/images/splash/splash.png",
       "backgroundColor": "#FFFFFF",
@@ -31,10 +26,10 @@
     "ios": {
       "bundleIdentifier": "io.terriblesolutions.luvup",
       "buildNumber": "1",
-      "icon": "./src/images/icon/icon.png",
+      "icon": "./src/images/icon/icon.png"
     },
     "packagerOpts": {
-      "sourceExts": ["js", "json", "ts", "tsx", "jsx"],
+      "sourceExts": ["js", "json", "ts", "tsx", "jsx"]
     },
     "hooks": {
       "postPublish": [
