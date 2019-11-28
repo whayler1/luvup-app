@@ -66,11 +66,6 @@ export const getMe = () => async (dispatch) => {
   dispatch({ type: GET_ME_ATTEMPT });
   try {
     const res = await userApi.getMe();
-    if (_.at(res, 'body.data.unviewedEventCounts')[0]) {
-      const { unviewedEventCounts } = res.body.data;
-      dispatch(setUnviewedCoinCount(unviewedEventCounts.coinsReceived));
-      dispatch(setUnviewedJalapenoCount(unviewedEventCounts.jalapenosReceived));
-    }
     const data = _.get(res, 'body.data');
     if (data) {
       dispatch({

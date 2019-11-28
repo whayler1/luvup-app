@@ -105,11 +105,13 @@ export default function reducer(state = defaultState, action) {
       };
     case GET_ME_SUCCESS: {
       const sentJalapenos = get(action.data, 'sentJalapenos');
+      const unviewedEventCounts = get(action.data, 'unviewedEventCounts');
       if (sentJalapenos) {
         return {
           ...state,
           rows: sentJalapenos.rows,
           count: sentJalapenos.count,
+          unviewedJalapenoCount: unviewedEventCounts.jalapenosReceived,
         };
       }
       return state;
