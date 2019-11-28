@@ -52,12 +52,14 @@ const userApi = {
         }
         count
       }
+      coinCount { count }
       sentCoins(limit: ${config.maxItemsPerHour}) {
         rows {
           id createdAt isUsed
         }
         count
       }
+      jalapenos(limit: 0) { count }
       sentJalapenos(limit: ${config.maxItemsPerHour}) {
         rows {
           id createdAt isExpired

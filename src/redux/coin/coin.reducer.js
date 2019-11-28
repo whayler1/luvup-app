@@ -118,12 +118,14 @@ export default function reducer(state = defaultState, action) {
       };
     case GET_ME_SUCCESS: {
       const sentCoins = get(action.data, 'sentCoins');
+      const coinCount = get(action.data, 'coinCount');
       const unviewedEventCounts = get(action.data, 'unviewedEventCounts');
-      if (sentCoins && unviewedEventCounts) {
+      if (sentCoins && coinCount && unviewedEventCounts) {
         return {
           ...state,
           rows: sentCoins.rows,
-          count: sentCoins.count,
+          count: coinCount.count,
+          sentCoinsCount: sentCoins.count,
           unviewedCoinCount: unviewedEventCounts.coinsReceived,
         };
       }

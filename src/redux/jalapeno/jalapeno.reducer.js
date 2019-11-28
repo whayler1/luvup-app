@@ -104,13 +104,15 @@ export default function reducer(state = defaultState, action) {
         unviewedJalapenoCount: action.unviewedJalapenoCount,
       };
     case GET_ME_SUCCESS: {
+      const jalapenos = get(action.data, 'jalapenos');
       const sentJalapenos = get(action.data, 'sentJalapenos');
       const unviewedEventCounts = get(action.data, 'unviewedEventCounts');
-      if (sentJalapenos) {
+      if (jalapenos && sentJalapenos && unviewedEventCounts) {
         return {
           ...state,
+          count: jalapenos.count,
           rows: sentJalapenos.rows,
-          count: sentJalapenos.count,
+          sentJalapenosCount: sentJalapenos.count,
           unviewedJalapenoCount: unviewedEventCounts.jalapenosReceived,
         };
       }
