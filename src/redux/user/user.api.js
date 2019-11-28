@@ -3,8 +3,8 @@ import api, { graphqlQuery, grapgqlQuery } from '../api';
 // JW: trying to get rid of `graphQlRequest` and replace with `graphqlQuery`
 import graphQlRequest from '../../helpers/graphQlRequest';
 
-const sanitizeEmail = email => email.toLowerCase().trim();
-const sanitizePassword = password => password.trim();
+const sanitizeEmail = (email) => email.toLowerCase().trim();
+const sanitizePassword = (password) => password.trim();
 
 const userApi = {
   login: (usernameOrEmail, password) =>
@@ -12,7 +12,7 @@ const userApi = {
       username: sanitizeEmail(usernameOrEmail),
       password: sanitizePassword(password),
     }),
-  sendNewPassword: email =>
+  sendNewPassword: (email) =>
     grapgqlQuery(`mutation {
       sendNewPassword(email: "${sanitizeEmail(email)}") { success }
     }`),
@@ -23,7 +23,7 @@ const userApi = {
           newPassword: "${sanitizePassword(newPassword)}"
         ) { success }
       }`),
-  reauth: id_token => api().post(`/reauth`, { id_token }),
+  reauth: (id_token) => api().post(`/reauth`, { id_token }),
   getMe: () =>
     graphqlQuery(`{
       me {
@@ -81,7 +81,7 @@ const userApi = {
         }
       }
     }`),
-  userRequest: email =>
+  userRequest: (email) =>
     graphqlQuery(`mutation {
       userRequest( email: "${sanitizeEmail(email)}") { email }
     }`),
@@ -113,7 +113,7 @@ const userApi = {
         success error
       }
     }`),
-  getTimelineData: limit =>
+  getTimelineData: (limit) =>
     graphQlRequest(`{
     userEvents(
       limit: ${limit}

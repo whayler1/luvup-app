@@ -6,9 +6,7 @@ import {
   remove as removeNotificationsListener,
 } from '../../services/notifications';
 
-import { setLover } from '../lover/lover.actions';
 import { SET_LOVER_REQUEST } from '../loverRequest/loverRequest.actions';
-import { setRelationship } from '../relationship/relationship.actions';
 import {
   setSentCoins,
   getCoinCount,
@@ -71,26 +69,6 @@ export const getMe = () => async (dispatch) => {
   dispatch({ type: GET_ME_ATTEMPT });
   try {
     const res = await userApi.getMe();
-    const { relationship } = res.body.data.me;
-
-    if (relationship) {
-      dispatch(setRelationship(relationship.id, relationship.createdAt));
-
-      const lover = relationship.lovers[0];
-
-      if (lover) {
-        dispatch(
-          setLover(
-            lover.id,
-            lover.email,
-            lover.username,
-            lover.firstName,
-            lover.lastName,
-            lover.isPlaceholder,
-          ),
-        );
-      }
-    }
 
     const receivedLoverRequests = _.get(res, 'body.data.receivedLoverRequests');
     if (receivedLoverRequests) {
