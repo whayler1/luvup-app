@@ -4,7 +4,7 @@
     "slug": "luvup",
     "privacy": "public",
     "description": "Reinvest in your relationship",
-    "version": "0.0.51",
+    "version": "0.0.52",
     "sdkVersion": "35.0.0",
     "primaryColor": "#FFFFFF",
     "platforms": ["ios", "android"],
