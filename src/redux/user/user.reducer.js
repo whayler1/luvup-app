@@ -73,13 +73,17 @@ export default function reducer(state = defaultState, action) {
         reauthErrorMessage: '',
       };
     case LOGIN_SUCCESS:
-    case REAUTH_SUCCESS:
       appStateListener.start();
       return {
         ...state,
         ..._.pick(action, userAttribs),
         isLoginInFlight: false,
         isReset: action.isReset || false,
+      };
+    case REAUTH_SUCCESS:
+      return {
+        ...state,
+        isLoginInFlight: false,
       };
     case REAUTH_FAILURE:
       return {

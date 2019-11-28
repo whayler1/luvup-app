@@ -12,6 +12,7 @@ import { clearReceivedLoverRequests } from '../receivedLoverRequests/receivedLov
 import userApi from './user.api';
 import { registerForPushNotifications } from '../../helpers';
 import errorReporter from '../../services/errorReporter';
+import appStateListener from '../../services/appStateListener';
 
 export const SET_USER = 'user/set-user';
 export const LOGIN_ATTEMPT = 'user/login-attempt';
@@ -164,55 +165,28 @@ export const logout = () => async (dispatch) => {
 export const reauth = (id_token) => async (dispatch, getState) => {
   dispatch({ type: REAUTH_ATTEMPT });
   try {
-    const res = await userApi.reauth(id_token);
-
-    const { id, username, email } = res.body.user;
-    if (id) {
-      await AsyncStorage.setItem('id_token', _.get(res, 'body.id_token', ''));
-      await dispatch(getMe());
-      const { getMeErrorMessage } = getState().user;
-      if (getMeErrorMessage.length > 0) {
-        errorReporter.message(`getMeError: ${getMeErrorMessage}`, {
-          tags: {
-            thunk: 'user.reauth',
-          },
-          extra: {
-            id_token,
-          },
-        });
-        dispatch({
-          type: REAUTH_FAILURE,
-          message: getMeErrorMessage,
-        });
-        return;
-      }
-      Actions.reset('dashboard');
-      await registerForPushNotifications();
-      listenToNotifications();
-      dispatch({
-        type: REAUTH_SUCCESS,
-        id,
-        username,
-        email,
+    await dispatch(getMe());
+    const { getMeErrorMessage } = getState().user;
+    if (getMeErrorMessage.length > 0) {
+      errorReporter.message(`getMeError: ${getMeErrorMessage}`, {
+        tags: {
+          thunk: 'user.reauth',
+        },
+        extra: {
+          id_token,
+        },
       });
+      dispatch({
+        type: REAUTH_FAILURE,
+        message: getMeErrorMessage,
+      });
+      return;
     }
-    const message = _.get(
-      res,
-      'body.errors[0].message',
-      'Error connecting to Luvup',
-    );
-    errorReporter.message(message, {
-      tags: {
-        thunk: 'user.reauth',
-      },
-      extra: {
-        id_token,
-      },
-    });
-    dispatch({
-      type: REAUTH_FAILURE,
-      message,
-    });
+    Actions.reset('dashboard');
+    dispatch({ type: REAUTH_SUCCESS });
+    appStateListener.start();
+    await registerForPushNotifications();
+    listenToNotifications();
   } catch (err) {
     errorReporter.exception(err, {
       tags: {
