@@ -67,27 +67,6 @@ export const getMe = () => async (dispatch) => {
   try {
     const res = await userApi.getMe();
 
-    if (_.get(res, 'body.data.activeLoverRequest.loverRequest')) {
-      const { loverRequest } = res.body.data.activeLoverRequest;
-
-      if (loverRequest) {
-        dispatch({
-          type: SET_LOVER_REQUEST,
-          ..._.pick(loverRequest, [
-            'id',
-            'isAccepted',
-            'isSenderCanceled',
-            'isRecipientCanceled',
-            'createdAt',
-          ]),
-          ..._.pick(loverRequest.recipient, [
-            'username',
-            'firstName',
-            'lastName',
-          ]),
-        });
-      }
-    }
     if (_.at(res, 'body.data.sentCoins')[0]) {
       const { sentCoins } = res.body.data;
       dispatch(setSentCoins(sentCoins.rows, sentCoins.count));
