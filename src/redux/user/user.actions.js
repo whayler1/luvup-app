@@ -6,19 +6,8 @@ import {
   remove as removeNotificationsListener,
 } from '../../services/notifications';
 
-import { SET_LOVER_REQUEST } from '../loverRequest/loverRequest.actions';
-import {
-  setSentCoins,
-  getCoinCount,
-  setUnviewedCoinCount,
-  clearCoinCount,
-} from '../coin/coin.actions';
-import {
-  setSentJalapenos,
-  getJalapenoCount,
-  setUnviewedJalapenoCount,
-  clearJalapenoCount,
-} from '../jalapeno/jalapeno.actions';
+import { clearCoinCount } from '../coin/coin.actions';
+import { clearJalapenoCount } from '../jalapeno/jalapeno.actions';
 import { clearReceivedLoverRequests } from '../receivedLoverRequests/receivedLoverRequests.actions';
 import userApi from './user.api';
 import { registerForPushNotifications } from '../../helpers';
@@ -108,11 +97,7 @@ export const login = (usernameOrEmail, password) => async (
 
     if (res.ok) {
       await AsyncStorage.setItem('id_token', _.get(res, 'body.id_token', ''));
-      await Promise.all([
-        dispatch(getMe()),
-        dispatch(getCoinCount()),
-        dispatch(getJalapenoCount()),
-      ]);
+      await dispatch(getMe());
       const { getMeErrorMessage } = getState().user;
       if (getMeErrorMessage.length > 0) {
         errorReporter.message(`getMeError: ${getMeErrorMessage}`, {
@@ -184,11 +169,7 @@ export const reauth = (id_token) => async (dispatch, getState) => {
     const { id, username, email } = res.body.user;
     if (id) {
       await AsyncStorage.setItem('id_token', _.get(res, 'body.id_token', ''));
-      await Promise.all([
-        dispatch(getMe()),
-        dispatch(getCoinCount()),
-        dispatch(getJalapenoCount()),
-      ]);
+      await dispatch(getMe());
       const { getMeErrorMessage } = getState().user;
       if (getMeErrorMessage.length > 0) {
         errorReporter.message(`getMeError: ${getMeErrorMessage}`, {
