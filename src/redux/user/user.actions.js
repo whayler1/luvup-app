@@ -19,10 +19,7 @@ import {
   setUnviewedJalapenoCount,
   clearJalapenoCount,
 } from '../jalapeno/jalapeno.actions';
-import {
-  setReceivedLoverRequests,
-  clearReceivedLoverRequests,
-} from '../receivedLoverRequests/receivedLoverRequests.actions';
+import { clearReceivedLoverRequests } from '../receivedLoverRequests/receivedLoverRequests.actions';
 import userApi from './user.api';
 import { registerForPushNotifications } from '../../helpers';
 import errorReporter from '../../services/errorReporter';
@@ -69,16 +66,6 @@ export const getMe = () => async (dispatch) => {
   dispatch({ type: GET_ME_ATTEMPT });
   try {
     const res = await userApi.getMe();
-
-    const receivedLoverRequests = _.get(res, 'body.data.receivedLoverRequests');
-    if (receivedLoverRequests) {
-      dispatch(
-        setReceivedLoverRequests(
-          receivedLoverRequests.rows,
-          receivedLoverRequests.count,
-        ),
-      );
-    }
 
     if (_.get(res, 'body.data.activeLoverRequest.loverRequest')) {
       const { loverRequest } = res.body.data.activeLoverRequest;
