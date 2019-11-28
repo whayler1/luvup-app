@@ -66,14 +66,21 @@ export const getMe = () => async (dispatch) => {
   dispatch({ type: GET_ME_ATTEMPT });
   try {
     const res = await userApi.getMe();
-    const data = _.get(res, 'body.data');
-    if (data) {
+
+    const errorMessage = _.get(res, 'body.errors[0].message');
+    if (errorMessage) {
       dispatch({
-        type: GET_ME_SUCCESS,
-        data,
+        type: GET_ME_FAILURE,
+        errorMessage,
       });
+      return;
     }
-    return res;
+
+    const data = _.get(res, 'body.data');
+    dispatch({
+      type: GET_ME_SUCCESS,
+      data,
+    });
   } catch (err) {
     errorReporter.exception(err, {
       tags: {
