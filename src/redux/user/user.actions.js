@@ -67,10 +67,6 @@ export const getMe = () => async (dispatch) => {
   try {
     const res = await userApi.getMe();
 
-    if (_.at(res, 'body.data.sentCoins')[0]) {
-      const { sentCoins } = res.body.data;
-      dispatch(setSentCoins(sentCoins.rows, sentCoins.count));
-    }
     if (_.at(res, 'body.data.sentJalapenos')[0]) {
       const { sentJalapenos } = res.body.data;
       dispatch(setSentJalapenos(sentJalapenos.rows, sentJalapenos.count));
