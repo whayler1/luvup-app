@@ -119,6 +119,13 @@ export const login = (usernameOrEmail, password) => async (
         });
         await registerForPushNotifications();
         listenToNotifications();
+        dispatch({
+          type: LOGIN_SUCCESS,
+          id: res.body.user.id,
+          email: res.body.user.email,
+          username: res.body.user.username,
+          isReset: res.body.user.isReset,
+        });
         return;
       }
 
