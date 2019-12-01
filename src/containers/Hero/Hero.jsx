@@ -72,7 +72,7 @@ const screenWidth = Math.round(windowDimensions.width);
 const heartMaxWidth = 320;
 const heartWidth = Math.min(
   screenWidth - vars.gutterDoubleAndHalf * 2,
-  heartMaxWidth
+  heartMaxWidth,
 );
 const hearthHeight = Math.round(heartWidth * 0.9122807018);
 const heartScale = heartWidth / HEART_ART_DEFAULT_WIDTH;
@@ -114,7 +114,7 @@ class Hero extends Component {
     this.jalapenoTranslateY = new Animated.Value(0);
     this.jalapenoOpacity = new Animated.Value(0);
     this.directionsOpacity = new Animated.Value(
-      props.isNewRelationship ? 1 : 0
+      props.isNewRelationship ? 1 : 0,
     );
 
     this.panResponder = PanResponder.create({
@@ -137,7 +137,7 @@ class Hero extends Component {
         this.translateY.setValue(easedDy);
         this.scale.setValue(-easedDy / 700 + 1);
         this.heartFill.setValue(
-          getHeartFillValue(this.props.relationshipScore, easedDy)
+          getHeartFillValue(this.props.relationshipScore, easedDy),
         );
 
         if (easedDy === -max && !isHeartShake) {
@@ -233,11 +233,11 @@ class Hero extends Component {
   /**
    * JW: This logic could probably be simplified somehow. But works-for-now™
    */
-  isMaxItemsPerHourSent = items =>
+  isMaxItemsPerHourSent = (items) =>
     items.length < config.maxItemsPerHour ||
     (items.length >= config.maxItemsPerHour &&
       moment(new Date(+items[config.maxItemsPerHour - 1].createdAt)).isBefore(
-        moment().subtract(1, 'hour')
+        moment().subtract(1, 'hour'),
       ));
 
   resendLoverRequestEmail = async () => {
@@ -246,11 +246,11 @@ class Hero extends Component {
       error: '',
     });
     const res = await this.props.resendLoverRequestEmail(
-      this.props.loverRequestId
+      this.props.loverRequestId,
     );
     const resendLoverRequestEmailObj = _.at(
       res,
-      'body.data.resendLoverRequestEmail'
+      'body.data.resendLoverRequestEmail',
     )[0];
 
     if (
@@ -270,20 +270,20 @@ class Hero extends Component {
   };
 
   cancelLoverRequest = async () => {
-    await new Promise(resolve =>
+    await new Promise((resolve) =>
       this.setState(
         {
           isCancelInFlight: true,
           error: '',
         },
-        () => resolve()
-      )
+        () => resolve(),
+      ),
     );
     const res = await this.props.cancelLoverRequest(this.props.loverRequestId);
 
     const loverRequest = _.get(
       res,
-      'body.data.cancelLoverRequest.loverRequest'
+      'body.data.cancelLoverRequest.loverRequest',
     );
 
     if (_.isObject(loverRequest) && 'id' in loverRequest) {
@@ -309,7 +309,7 @@ class Hero extends Component {
       const res = await this.props.sendCoin();
       if (_.isError(res)) {
         Alert.alert(
-          'There was an error sending your Luvup. Please make sure you are connected to wifi or cellular data.'
+          'There was an error sending your Luvup. Please make sure you are connected to wifi or cellular data.',
         );
       }
     } else {
@@ -325,7 +325,7 @@ class Hero extends Component {
       const res = await this.props.sendJalapeno();
       if (_.isError(res)) {
         Alert.alert(
-          'There was an error sending your jalapeno. Please make sure you are connected to wifi or cellular data.'
+          'There was an error sending your jalapeno. Please make sure you are connected to wifi or cellular data.',
         );
       }
     } else {
@@ -360,7 +360,7 @@ class Hero extends Component {
           easing,
         }),
       ]),
-    ]).start(o => {
+    ]).start((o) => {
       if (o.finished) {
         this.eyeCry(translateY, opacity);
       }
@@ -396,7 +396,7 @@ class Hero extends Component {
         duration,
         easing,
       }),
-    ]).start(o => {
+    ]).start((o) => {
       if (o.finished) {
         this.heartShake();
       }
@@ -509,7 +509,7 @@ class Hero extends Component {
     }).start();
   }
 
-  setDragDirection = dragDirection =>
+  setDragDirection = (dragDirection) =>
     this.state.dragDirection !== dragDirection &&
     this.setState({ dragDirection });
 
@@ -556,14 +556,16 @@ class Hero extends Component {
       <View
         testID="hero-heart-view"
         style={styles.heartView}
-        {...panResponder.panHandlers}>
+        {...panResponder.panHandlers}
+      >
         <Animated.View
           testID="hero-directions"
           style={{
             marginBottom: 32,
             opacity: directionsOpacity,
             alignItems: 'center',
-          }}>
+          }}
+        >
           <Ionicons name="md-arrow-round-up" size={20} color={vars.p} />
           <Text style={styles.directionsText}>Swipe up to</Text>
           <Text style={styles.directionsText}>send a Luvup</Text>
@@ -583,7 +585,8 @@ class Hero extends Component {
                 scaleY: scale,
               },
             ],
-          }}>
+          }}
+        >
           <Animated.View
             style={{
               ...heartArtWidthHeight,
@@ -592,7 +595,8 @@ class Hero extends Component {
                   translateY: heartTranslateY,
                 },
               ],
-            }}>
+            }}
+          >
             <Animated.View
               style={{
                 ...heartArtWidthHeight,
@@ -604,7 +608,8 @@ class Hero extends Component {
                     scaleY: scaleBGHeart,
                   },
                 ],
-              }}>
+              }}
+            >
               <HeartArt animatedFillPct={heartFill} scale={heartScale} />
             </Animated.View>
             <View
@@ -612,7 +617,8 @@ class Hero extends Component {
                 position: 'absolute',
                 left: 38,
                 top: 60,
-              }}>
+              }}
+            >
               <HeroEye />
             </View>
             <Animated.View
@@ -626,7 +632,8 @@ class Hero extends Component {
                     translateY: tearDropATranslateY,
                   },
                 ],
-              }}>
+              }}
+            >
               <TearDropArt fill="white" scale={0.2} />
             </Animated.View>
             <View
@@ -639,7 +646,8 @@ class Hero extends Component {
                     scaleX: -1,
                   },
                 ],
-              }}>
+              }}
+            >
               <HeroEye />
             </View>
             <Animated.View
@@ -653,7 +661,8 @@ class Hero extends Component {
                     translateY: tearDropBTranslateY,
                   },
                 ],
-              }}>
+              }}
+            >
               <TearDropArt fill="white" scale={0.2} />
             </Animated.View>
             <View
@@ -661,7 +670,8 @@ class Hero extends Component {
                 position: 'absolute',
                 left: heartWidth / 2 - HERO_MOUTH_DEFAULT_WIDTH / 2,
                 top: 170,
-              }}>
+              }}
+            >
               <HeroMouth
                 relationshipScoreQuartile={relationshipScoreQuartile}
                 dragDirection={dragDirection}
@@ -684,7 +694,8 @@ class Hero extends Component {
                 translateY: coinTranslateY,
               },
             ],
-          }}>
+          }}
+        >
           <CoinArt recentlySentCoinCount={recentlySentCoinCount} />
         </Animated.View>
         <Animated.View
@@ -700,7 +711,8 @@ class Hero extends Component {
                 translateY: jalapenoTranslateY,
               },
             ],
-          }}>
+          }}
+        >
           <JalapenoArt recentlySentJalapenoCount={recentlySentJalapenoCount} />
         </Animated.View>
         <Animated.View
@@ -708,7 +720,8 @@ class Hero extends Component {
             marginTop: 32,
             opacity: directionsOpacity,
             alignItems: 'center',
-          }}>
+          }}
+        >
           <Text style={styles.directionsText}>Swipe down to</Text>
           <Text style={styles.directionsText}>send a Jalapeño</Text>
           <Ionicons name="md-arrow-round-down" size={20} color={vars.p} />
@@ -719,7 +732,7 @@ class Hero extends Component {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     relationshipId: state.relationship.id,
     relationshipScore: state.relationshipScore.score,
     relationshipScoreQuartile: state.relationshipScore.scoreQuartile,
@@ -742,5 +755,5 @@ export default connect(
     cancelLoverRequest: cancelLoverRequestAction,
     resendLoverRequestEmail: resendLoverRequestEmailAction,
     getReceivedLoverRequests: getReceivedLoverRequestsAction,
-  }
+  },
 )(Hero);
