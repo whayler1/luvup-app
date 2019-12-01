@@ -4,9 +4,9 @@ import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import { scene, vars } from '../../styles';
+import { scene } from '../../styles';
 import styles from './DashboardNoRelationship.styles';
-import HeartArt from '../../components/Art/HeartArt';
+import HeartWithFaceArt from '../../components/Art/HeartWithFaceArt';
 import Button, { BUTTON_STYLES } from '../../components/Button';
 import DashboardNotificationRequestSent from './DashboardNotificationRequestSent';
 import DashboardNotificationReceivedLoverRequests from './DashboardNotificationReceivedLoverRequests';
@@ -43,7 +43,8 @@ const DashboardNoRelationship = ({
               request{isPluralReceivedLoverRequests ? 's' : ''}!
             </Text>
             <Text
-              style={[scene.bodyCopy, scene.textCenter, styles.subPromptCopy]}>
+              style={[scene.bodyCopy, scene.textCenter, styles.subPromptCopy]}
+            >
               Accept {isPluralReceivedLoverRequests ? 'a ' : 'your '}lover
               request to start a new relationship. If {"it's"} someone else
               {" you're"} looking for click below to search for your lover.
@@ -57,20 +58,23 @@ const DashboardNoRelationship = ({
         )}
         {!isLoverRequestSentOrReceived && (
           <Fragment>
-            <HeartArt fill={vars.blueGrey100} scale={0.1} />
+            <HeartWithFaceArt scale={0.1} />
             <Text style={[scene.titleCopy, scene.textCenter, styles.titleCopy]}>
               Welcome to Luvup!
             </Text>
             <Text
-              style={[scene.largeCopy, scene.textCenter, styles.sloganCopy]}>
+              style={[scene.largeCopy, scene.textCenter, styles.sloganCopy]}
+            >
               Reinvest in Your Relationship
             </Text>
             <Text
-              style={[scene.largeCopy, scene.textCenter, styles.promptCopy]}>
+              style={[scene.largeCopy, scene.textCenter, styles.promptCopy]}
+            >
               The first step is to connect with your lover (digitally)
             </Text>
             <Text
-              style={[scene.bodyCopy, scene.textCenter, styles.subPromptCopy]}>
+              style={[scene.bodyCopy, scene.textCenter, styles.subPromptCopy]}
+            >
               Choose an option below to get things started
             </Text>
           </Fragment>
