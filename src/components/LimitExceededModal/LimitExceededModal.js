@@ -33,7 +33,8 @@ const LimitExceededModal = ({
     visible={isModalOpen}
     animationType={'fade'}
     onRequestClose={closeModal}
-    transparent>
+    transparent
+  >
     <View style={modal.outerContainer}>
       <View style={modal.innerContainer}>
         <View>
@@ -54,10 +55,12 @@ const LimitExceededModal = ({
           style={{
             marginTop: 16,
             alignItems: 'center',
-          }}>
+          }}
+        >
           <Text
             testID="limit-exceeded-modal-title"
-            style={[scene.titleCopy, scene.textCenter]}>
+            style={[scene.titleCopy, scene.textCenter]}
+          >
             {modalContent === NEW_RELATIONSHIP_REQUEST &&
               'Relationship Request Sent'}
             {modalContent === RELATIONSHIP_REQUEST_ACCEPTED &&
