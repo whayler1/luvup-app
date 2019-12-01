@@ -50,7 +50,7 @@ const getEventDisplayName = (eventName, count) => {
       return eventName;
   }
 };
-const getEventImage = eventName => {
+const getEventImage = (eventName) => {
   switch (eventName) {
     case 'coin-sent':
       return (
@@ -82,32 +82,32 @@ const getEventImage = eventName => {
     case 'lovenote-sent':
       return (
         <View style={styles.renderItemLoveNoteWrapper}>
-          <LoveNoteArtFlying scale={0.4} />
+          <LoveNoteArtFlying scale={0.38} />
         </View>
       );
     case 'lovenote-received':
       return (
         <View style={styles.renderItemLoveNoteWrapper}>
-          <LoveNoteArtReceived scale={0.4} />
+          <LoveNoteArtReceived scale={0.38} />
         </View>
       );
     case 'quiz-item-sent':
       return (
         <View style={styles.renderItemQuizIconWrapper}>
-          <QuizArtSent scale={0.36} />
+          <QuizArtSent scale={0.34} />
         </View>
       );
     case 'quiz-item-received':
       return (
         <View style={styles.renderItemQuizIconWrapper}>
-          <QuizArtReceived scale={0.36} />
+          <QuizArtReceived scale={0.34} />
         </View>
       );
     case 'quiz-item-sent-answered':
     case 'quiz-item-received-answered':
       return (
         <View style={styles.renderItemQuizIconWrapper}>
-          <QuizArtAnswered scale={0.36} />
+          <QuizArtAnswered scale={0.34} />
         </View>
       );
     default:
@@ -115,11 +115,11 @@ const getEventImage = eventName => {
   }
 };
 
-const getHandleLoveNoteClick = loveNoteId => () => {
+const getHandleLoveNoteClick = (loveNoteId) => () => {
   Actions.viewLoveNote({ loveNoteId });
 };
 
-const getHandleQuizItemClick = quizItemId => () => {
+const getHandleQuizItemClick = (quizItemId) => () => {
   Actions.ViewQuiz({ quizItemId });
 };
 
@@ -137,7 +137,8 @@ const Wrapper = ({
     return (
       <TouchableOpacity
         testID={testID}
-        onPress={getHandleLoveNoteClick(loveNote.id)}>
+        onPress={getHandleLoveNoteClick(loveNote.id)}
+      >
         {eventName === 'lovenote-received' && !loveNote.isRead && (
           <NotificationDot style={styles.renderItemNotificationDot} />
         )}
@@ -149,7 +150,8 @@ const Wrapper = ({
     return (
       <TouchableOpacity
         testID={testID}
-        onPress={getHandleQuizItemClick(quizItem.id)}>
+        onPress={getHandleQuizItemClick(quizItem.id)}
+      >
         {getIsQuizItemNotificationDot(eventName, quizItem) && (
           <NotificationDot style={styles.renderItemNotificationDot} />
         )}
@@ -160,7 +162,7 @@ const Wrapper = ({
   return <View>{children}</View>;
 };
 
-export default ctx => {
+export default (ctx) => {
   const { item, index, section } = ctx;
   const isLovenoteItem = /^lovenote/.test(item.name);
   const isLovenoteItemWithNote =
@@ -184,13 +186,15 @@ export default ctx => {
         isLink={isLovenoteItemWithNote}
         loveNote={item.loveNote}
         quizItem={item.quizItem}
-        eventName={item.name}>
+        eventName={item.name}
+      >
         <View
           style={
             index + 1 === section.data.length
               ? styles.renderItemContainerLast
               : styles.renderItemContainer
-          }>
+          }
+        >
           <View style={styles.renderItemContent}>
             <View style={styles.renderItemIconContainer}>
               {getEventImage(item.name)}
@@ -238,7 +242,8 @@ export default ctx => {
                         {
                           paddingLeft: isNumLuvups && isNumJalapenos ? 8 : 0,
                         },
-                      ]}>
+                      ]}
+                    >
                       <JalapenoArt fill={vars.blueGrey300} scale={0.17} />
                       <Text style={styles.renderItemLoveNoteTokenText}>
                         +{item.loveNote.numJalapenos}
