@@ -22,10 +22,10 @@ class ChangePasswordModalContent extends Component {
     success: false,
   };
 
-  onCurrentPasswordChange = currentPassword =>
+  onCurrentPasswordChange = (currentPassword) =>
     this.setState({ currentPassword });
-  onNewPasswordChange = newPassword => this.setState({ newPassword });
-  onNewPasswordAgainChange = newPasswordAgain =>
+  onNewPasswordChange = (newPassword) => this.setState({ newPassword });
+  onNewPasswordAgainChange = (newPasswordAgain) =>
     this.setState({ newPasswordAgain });
 
   onCurrentPasswordFocus = () =>
@@ -48,7 +48,7 @@ class ChangePasswordModalContent extends Component {
     } else if (newPassword !== newPasswordAgain) {
       error = 'password-mismatch';
     }
-    return new Promise(resolve => this.setState({ error }, () => resolve()));
+    return new Promise((resolve) => this.setState({ error }, () => resolve()));
   };
 
   submit = async () => {
@@ -97,7 +97,7 @@ class ChangePasswordModalContent extends Component {
         {
           isInFlight: true,
         },
-        this.submit
+        this.submit,
       );
     }
   };
@@ -122,5 +122,5 @@ class ChangePasswordModalContent extends Component {
 
 export default connect(
   undefined,
-  {}
+  {},
 )(ChangePasswordModalContent);
