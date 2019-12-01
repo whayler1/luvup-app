@@ -5,7 +5,7 @@ import { Actions } from 'react-native-router-flux';
 import { View, Text, TouchableOpacity } from 'react-native';
 
 import styles from './Login.styles';
-import { scene, forms } from '../../styles';
+import { scene, forms, vars } from '../../styles';
 import { login as loginAction } from '../../redux/user/user.actions';
 import Input from '../../components/Input';
 import Well from '../../components/Well';
@@ -19,7 +19,6 @@ class Login extends Component {
   static propTypes = {
     username: PropTypes.string,
     login: PropTypes.func.isRequired,
-    getMeErrorMessage: PropTypes.string.isRequired,
     isLoginInFlight: PropTypes.bool.isRequired,
     loginError: PropTypes.string.isRequired,
   };
@@ -96,7 +95,7 @@ class Login extends Component {
       handlePasswordChange,
       setPasswordInputRef,
       state: { username, password, error },
-      props: { getMeErrorMessage, isLoginInFlight: isInFlight, loginError },
+      props: { isLoginInFlight: isInFlight, loginError },
     } = this;
 
     return (
@@ -136,9 +135,11 @@ class Login extends Component {
             testID: 'login-password-input',
           }}
         />
-        {loginError.length > 0 && <Well text={this.getFormattedLoginError()} />}
-        {getMeErrorMessage.length > 0 && (
-          <Well text={`Error retrieving user data: ${getMeErrorMessage}`} />
+        {loginError.length > 0 && (
+          <Well
+            styles={{ marginTop: vars.gutterDouble, marginBottom: 0 }}
+            text={this.getFormattedLoginError()}
+          />
         )}
         <View style={forms.buttonRow}>
           <View style={styles.submitContainer}>
@@ -190,7 +191,6 @@ export default connect(
   (state) => ({
     relationshipId: state.relationship.id,
     loverRequestId: state.loverRequest.id,
-    getMeErrorMessage: state.user.getMeErrorMessage,
     isLoginInFlight: state.user.isLoginInFlight,
     loginError: state.user.loginError,
   }),
