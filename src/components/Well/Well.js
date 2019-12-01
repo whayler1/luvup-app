@@ -11,7 +11,7 @@ export const WELL_TYPES = {
   SUCCESS: 'success',
 };
 
-const getViewStyle = type => {
+const getViewStyle = (type) => {
   switch (type) {
     case WELL_TYPES.SUCCESS:
       return wells.success;
@@ -22,7 +22,7 @@ const getViewStyle = type => {
   }
 };
 
-const getTextStyle = type => {
+const getTextStyle = (type) => {
   switch (type) {
     case WELL_TYPES.SUCCESS:
       return wells.successText;
