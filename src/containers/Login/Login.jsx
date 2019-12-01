@@ -11,6 +11,7 @@ import Input from '../../components/Input';
 import Well from '../../components/Well';
 import FormScene from '../../components/FormScene';
 import Button, { BUTTON_STYLES } from '../../components/Button';
+import { emailRegex } from '../../helpers';
 
 let passwordInput;
 const focusPassword = () => passwordInput.focus();
@@ -46,10 +47,10 @@ class Login extends Component {
 
   getValidationError = () => {
     const { username, password } = this.state;
-    if (!username) {
+    if (!emailRegex.test(username)) {
       return 'username';
     }
-    if (!password) {
+    if (password.length < 1) {
       return 'password';
     }
     return '';
