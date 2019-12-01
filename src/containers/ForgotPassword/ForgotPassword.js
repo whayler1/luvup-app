@@ -10,6 +10,7 @@ import { sendNewPassword as sendNewPasswordAction } from '../../redux/user/user.
 import { emailRegex } from '../../helpers';
 import ForgotPasswordForm from './ForgotPasswordForm';
 import Button, { BUTTON_STYLES } from '../../components/Button';
+import FormScene from '../../components/FormScene';
 
 class ForgotPassword extends PureComponent {
   static propTypes = {
@@ -40,7 +41,7 @@ class ForgotPassword extends PureComponent {
     }
   }
 
-  handleEmailChange = email => {
+  handleEmailChange = (email) => {
     this.setState({ email });
   };
 
@@ -68,32 +69,27 @@ class ForgotPassword extends PureComponent {
   render() {
     if (this.state.isSuccess) {
       return (
-        <SafeAreaView style={scene.container}>
-          <View style={scene.contentNoTop}>
-            <View style={scene.contentTop}>
-              <Text style={[scene.titleCopy, scene.textCenter]}>
-                Email Sent
-              </Text>
-              <Text
-                style={[scene.largeCopy, scene.textCenter, scene.gutterTop]}>
-                An email with a temporary password has been sent to{' '}
-                {this.state.email}.
-              </Text>
-              <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
-                After you log in with your new password you will be prompted to
-                change it to a password of your liking.
-              </Text>
-            </View>
-            <View style={scene.contentBottom}>
-              <Button
-                testID="forgot-password-login-button"
-                onPress={this.handleGoToLogin}
-                buttonStyles={BUTTON_STYLES.INFO_SKELETON}
-                title="Login"
-              />
-            </View>
+        <FormScene>
+          <View style={scene.contentTop}>
+            <Text style={[scene.titleCopy, scene.textCenter]}>Email Sent</Text>
+            <Text style={[scene.largeCopy, scene.textCenter, scene.gutterTop]}>
+              An email with a temporary password has been sent to{' '}
+              {this.state.email}.
+            </Text>
+            <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
+              After you log in with your new password you will be prompted to
+              change it to a password of your liking.
+            </Text>
           </View>
-        </SafeAreaView>
+          <View style={scene.contentBottom}>
+            <Button
+              testID="forgot-password-login-button"
+              onPress={this.handleGoToLogin}
+              buttonStyles={BUTTON_STYLES.INFO_SKELETON}
+              title="Login"
+            />
+          </View>
+        </FormScene>
       );
     }
     const {
@@ -107,38 +103,32 @@ class ForgotPassword extends PureComponent {
       handleSubmit,
     } = this;
     return (
-      <KeyboardAvoidingView style={scene.container} behavior="height">
-        <View style={scene.contentNoTop}>
-          <View style={scene.contentTop}>
-            <Text style={[scene.titleCopy, scene.textCenter]}>
-              Password Reset
-            </Text>
-            <Text style={[scene.bodyCopy, styles.copy, scene.gutterTop]}>
-              Enter your email address below and you will be emailed a temporary
-              password.
-            </Text>
-            <ForgotPasswordForm
-              isSendNewPasswordInFlight={isSendNewPasswordInFlight}
-              sendNewPasswordError={sendNewPasswordError}
-              validationError={validationError}
-              sendNewPassword={sendNewPassword}
-              email={email}
-              onEmailChange={handleEmailChange}
-              onSubmit={handleSubmit}
-            />
-          </View>
-        </View>
-      </KeyboardAvoidingView>
+      <FormScene>
+        <Text style={[scene.titleCopy, scene.textCenter]}>Password Reset</Text>
+        <Text style={[scene.bodyCopy, styles.copy, scene.gutterTop]}>
+          Enter your email address below and you will be emailed a temporary
+          password.
+        </Text>
+        <ForgotPasswordForm
+          isSendNewPasswordInFlight={isSendNewPasswordInFlight}
+          sendNewPasswordError={sendNewPasswordError}
+          validationError={validationError}
+          sendNewPassword={sendNewPassword}
+          email={email}
+          onEmailChange={handleEmailChange}
+          onSubmit={handleSubmit}
+        />
+      </FormScene>
     );
   }
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     isSendNewPasswordInFlight: state.user.isSendNewPasswordInFlight,
     sendNewPasswordError: state.user.sendNewPasswordError,
   }),
   {
     sendNewPassword: sendNewPasswordAction,
-  }
+  },
 )(ForgotPassword);
