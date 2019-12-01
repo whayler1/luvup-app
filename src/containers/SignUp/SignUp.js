@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Text, View, KeyboardAvoidingView } from 'react-native';
+import { Text, View } from 'react-native';
 import Input from '../../components/Input';
 
 import { forms, scene, wells } from '../../styles';
@@ -10,6 +10,7 @@ import styles from './SignUp.styles';
 import { emailRegex } from '../../helpers';
 import { userRequest as userRequestAction } from '../../redux/user/user.actions';
 import Button from '../../components/Button';
+import FormScene from '../../components/FormScene';
 
 class SignUp extends PureComponent {
   static propTypes = {
@@ -38,7 +39,7 @@ class SignUp extends PureComponent {
     }
   }
 
-  handleEmailChange = email => this.setState({ email });
+  handleEmailChange = (email) => this.setState({ email });
 
   getValidationError = () => {
     if (!emailRegex.test(this.state.email)) {
@@ -68,56 +69,53 @@ class SignUp extends PureComponent {
       props: { isUserRequestInFlight: isInFlight, userRequestError },
     } = this;
     return (
-      <KeyboardAvoidingView style={scene.container} behavior="padding">
-        <View style={scene.contentNoTop}>
-          <View style={scene.contentTop}>
-            <Text style={[scene.titleCopy, scene.textCenter]}>Sign Up</Text>
-            <Input
-              onChangeText={handleEmailChange}
-              value={email}
-              placeholder="jane.doe@email.com"
-              label="Email"
-              error={
-                error === 'email' ? 'Please enter a valid email address' : ''
-              }
-              inputProps={{
-                testID: 'signup-email-input',
-                returnKeyType: 'go',
-                keyboardType: 'email-address',
-                autoCapitalize: 'none',
-                autoCorrect: false,
-                editable: !isInFlight,
-                spellCheck: false,
-                onSubmitEditing: handleSubmit,
-              }}
+      <FormScene>
+        <Text style={[scene.titleCopy, scene.textCenter]}>Sign Up</Text>
+        <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
+          Enter your email below to create a new account
+        </Text>
+        <Input
+          onChangeText={handleEmailChange}
+          value={email}
+          placeholder="jane.doe@email.com"
+          label="Email"
+          error={error === 'email' ? 'Please enter a valid email address' : ''}
+          inputProps={{
+            testID: 'signup-email-input',
+            returnKeyType: 'go',
+            keyboardType: 'email-address',
+            autoCapitalize: 'none',
+            autoCorrect: false,
+            editable: !isInFlight,
+            spellCheck: false,
+            onSubmitEditing: handleSubmit,
+          }}
+        />
+        {userRequestError.length > 0 && (
+          <View style={[wells.error, styles.errorWellWrapper]}>
+            <Text style={wells.errorText}>{userRequestError}</Text>
+          </View>
+        )}
+        <View style={forms.buttonRow}>
+          <View style={styles.submitWrap}>
+            <Button
+              onPress={handleSubmit}
+              title="Submit"
+              isInFlight={isInFlight}
             />
-            {userRequestError.length > 0 && (
-              <View style={[wells.error, styles.errorWellWrapper]}>
-                <Text style={wells.errorText}>{userRequestError}</Text>
-              </View>
-            )}
-            <View style={forms.buttonRow}>
-              <View style={styles.submitWrap}>
-                <Button
-                  onPress={handleSubmit}
-                  title="Submit"
-                  isInFlight={isInFlight}
-                />
-              </View>
-            </View>
           </View>
         </View>
-      </KeyboardAvoidingView>
+      </FormScene>
     );
   }
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     isUserRequestInFlight: state.user.isUserRequestInFlight,
     userRequestError: state.user.userRequestError,
   }),
   {
     userRequest: userRequestAction,
-  }
+  },
 )(SignUp);
