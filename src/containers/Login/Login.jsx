@@ -38,10 +38,10 @@ class Login extends Component {
     };
   }
 
-  handleUsernameChange = username => {
+  handleUsernameChange = (username) => {
     this.setState({ username });
   };
-  handlePasswordChange = password => {
+  handlePasswordChange = (password) => {
     this.setState({ password });
   };
 
@@ -82,7 +82,7 @@ class Login extends Component {
     this.submit();
   };
 
-  setPasswordInputRef = el => {
+  setPasswordInputRef = (el) => {
     passwordInput = el;
   };
 
@@ -154,7 +154,8 @@ class Login extends Component {
           <TouchableOpacity
             accessibilityLabel="Forgot your password"
             onPress={navigateToForgotPassword}
-            style={styles.forgotPasswordButton}>
+            style={styles.forgotPasswordButton}
+          >
             <Text style={[scene.bodyCopy, styles.forgotPasswordText]}>
               Forgot your password?
             </Text>
@@ -186,7 +187,7 @@ class Login extends Component {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     relationshipId: state.relationship.id,
     loverRequestId: state.loverRequest.id,
     getMeErrorMessage: state.user.getMeErrorMessage,
@@ -195,5 +196,5 @@ export default connect(
   }),
   {
     login: loginAction,
-  }
+  },
 )(Login);
