@@ -1,4 +1,5 @@
 import pick from 'lodash/pick';
+import get from 'lodash/get';
 import {
   SET_RELATIONSHIP,
   END_RELATIONSHIP,
@@ -12,7 +13,7 @@ import {
   CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_SUCCESS,
 } from '../loverRequest/loverRequest.actions';
 import { ACCEPT_LOVER_REQUEST_SUCCESS } from '../receivedLoverRequests/receivedLoverRequests.actions';
-import { LOGOUT } from '../user/user.actions';
+import { LOGOUT, GET_ME_SUCCESS } from '../user/user.actions';
 
 const defaultState = {
   id: '',
@@ -71,6 +72,17 @@ export default function reducer(state = defaultState, action) {
     }
     case CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_SUCCESS: {
       return { ...defaultState };
+    }
+    case GET_ME_SUCCESS: {
+      const relationship = get(action.data, 'me.relationship');
+      if (relationship) {
+        return {
+          ...state,
+          id: relationship.id,
+          createdAt: relationship.createdAt,
+        };
+      }
+      return state;
     }
     default:
       return state;

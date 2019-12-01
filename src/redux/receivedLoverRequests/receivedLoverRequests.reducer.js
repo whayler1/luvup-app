@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import get from 'lodash/get';
+import pick from 'lodash/pick';
 import {
   SET_RECEIVED_LOVER_REQUESTS,
   ACCEPT_LOVER_REQUEST_ATTEMPT,
@@ -10,6 +11,7 @@ import {
   CANCEL_RECEIVED_LOVER_REQUEST_FAILURE,
 } from './receivedLoverRequests.actions';
 import { GET_USER_INVITE_WITH_ID_SUCCESS } from '../userInvite/userInvite.actions';
+import { GET_ME_SUCCESS } from '../user/user.actions';
 
 const defaultState = {
   rows: null,
@@ -42,11 +44,11 @@ export default function reducer(state = defaultState, action) {
     case ACCEPT_LOVER_REQUEST_SUCCESS: {
       const rows = [...state.rows];
       const loverRequestIndex = state.rows.findIndex(
-        loverReq => loverReq.id === action.id
+        (loverReq) => loverReq.id === action.id,
       );
       rows[loverRequestIndex] = {
         ...rows[loverRequestIndex],
-        ..._.pick(action, [
+        ...pick(action, [
           'id',
           'isAccepted',
           'isSenderCanceled',
@@ -88,6 +90,17 @@ export default function reducer(state = defaultState, action) {
         isCancelReceivedLoverRequestInFlight: false,
         cancelReceivedLoverRequestError: action.errorMessage,
       };
+    case GET_ME_SUCCESS: {
+      const receivedLoverRequests = get(action.data, 'receivedLoverRequests');
+      if (receivedLoverRequests) {
+        return {
+          ...state,
+          rows: receivedLoverRequests.rows,
+          count: receivedLoverRequests.count,
+        };
+      }
+      return state;
+    }
     default:
       return state;
   }

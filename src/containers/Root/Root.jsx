@@ -33,7 +33,7 @@ const Root = ({
     logout();
   }
 
-  const callReauthWithIdToken = async id_token => {
+  const callReauthWithIdToken = async (id_token) => {
     if (id_token) {
       reauth(id_token);
     } else {
@@ -66,7 +66,7 @@ const Root = ({
         useAsyncStorageToSetIdToken();
       }
     },
-    [isFontLoaded]
+    [isFontLoaded],
   );
 
   const isErrorMessage =
@@ -75,7 +75,7 @@ const Root = ({
   return (
     <View style={scene.content}>
       <View style={scene.container}>
-        <StatusBar barStyle="dark-content" />
+        <StatusBar barStyle="light-content" />
         {isFontLoaded && (
           <>
             <Text style={styles.title}>luvup</Text>
@@ -83,7 +83,8 @@ const Root = ({
               style={{
                 height: 20,
                 alignSelf: 'stretch',
-              }}>
+              }}
+            >
               {!isErrorMessage && <LoadingAnimation fill={vars.blueGrey100} />}
             </View>
             {isErrorMessage && (
@@ -96,7 +97,8 @@ const Root = ({
                   style={{
                     marginTop: vars.gutterAndHalf,
                     alignSelf: 'stretch',
-                  }}>
+                  }}
+                >
                   <Button
                     buttonStyles={BUTTON_STYLES.INFO_SKELETON}
                     title="Try Again"
@@ -108,14 +110,16 @@ const Root = ({
                     scene.bodyCopy,
                     scene.textCenter,
                     { marginTop: vars.gutterDouble },
-                  ]}>
+                  ]}
+                >
                   …or dismiss to try to log in as a different user.
                 </Text>
                 <View
                   style={{
                     marginTop: vars.gutterAndHalf,
                     alignSelf: 'stretch',
-                  }}>
+                  }}
+                >
                   <Button
                     buttonStyles={BUTTON_STYLES.SECONDARY_SKELETON}
                     title="Dismiss"
@@ -140,7 +144,7 @@ Root.propTypes = {
 };
 
 export default connect(
-  state => ({
+  (state) => ({
     id: state.user.id,
     reauthErrorMessage: state.user.reauthErrorMessage,
     isFontLoaded: state.font.isFontLoaded,
@@ -149,5 +153,5 @@ export default connect(
     reauth: reauthAction,
     logout: logoutAction,
     setIsFontLoaded: setIsFontLoadedAction,
-  }
+  },
 )(Root);

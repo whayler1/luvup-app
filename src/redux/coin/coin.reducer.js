@@ -1,3 +1,4 @@
+import get from 'lodash/get';
 import {
   REFRESH_SENT_COIN_COUNT,
   SEND_COIN_ATTEMPT,
@@ -11,7 +12,11 @@ import {
   SET_UNVIEWED_COIN_COUNT,
 } from './coin.actions';
 import { CREATE_LOVE_NOTE_SUCCESS } from '../loveNote/loveNote.actions';
-import { GET_TIMELINE_DATA_SUCCESS, LOGOUT } from '../user/user.actions';
+import {
+  GET_TIMELINE_DATA_SUCCESS,
+  GET_ME_SUCCESS,
+  LOGOUT,
+} from '../user/user.actions';
 import { CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_SUCCESS } from '../loverRequest/loverRequest.actions';
 import getRecentlySentTokenCount from '../../helpers/getRecentlySentTokenCount';
 
@@ -25,7 +30,7 @@ const defaultState = {
   getCoinCountError: '',
 };
 
-const generateFakeCoinWithId = id => ({
+const generateFakeCoinWithId = (id) => ({
   id,
   createdAt: new Date().toString(),
   isUsed: false,
@@ -50,7 +55,9 @@ export default function reducer(state = defaultState, action) {
     case SEND_COIN_SUCCESS: {
       const sentCoins = [
         action.coin,
-        ...state.sentCoins.filter(coin => coin.id !== action.placeholderCoinId),
+        ...state.sentCoins.filter(
+          (coin) => coin.id !== action.placeholderCoinId,
+        ),
       ];
       return {
         ...state,
@@ -109,6 +116,21 @@ export default function reducer(state = defaultState, action) {
         ...state,
         unviewedCoinCount: action.unviewedCoinCount,
       };
+    case GET_ME_SUCCESS: {
+      const sentCoins = get(action.data, 'sentCoins');
+      const coinCount = get(action.data, 'coinCount');
+      const unviewedEventCounts = get(action.data, 'unviewedEventCounts');
+      if (sentCoins && coinCount && unviewedEventCounts) {
+        return {
+          ...state,
+          rows: sentCoins.rows,
+          count: coinCount.count,
+          sentCoinsCount: sentCoins.count,
+          unviewedCoinCount: unviewedEventCounts.coinsReceived,
+        };
+      }
+      return state;
+    }
     case LOGOUT:
     case CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_SUCCESS:
       return {

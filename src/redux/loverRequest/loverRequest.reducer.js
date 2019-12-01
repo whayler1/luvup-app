@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import get from 'lodash/get';
+import pick from 'lodash/pick';
 import {
   REQUEST_LOVER_SUCCESS,
   SET_LOVER_REQUEST,
@@ -18,7 +19,7 @@ import {
   GET_LOVER_REQUEST_SUCCESS,
   GET_LOVER_REQUEST_FAILURE,
 } from './loverRequest.actions';
-import { LOGOUT } from '../user/user.actions';
+import { LOGOUT, GET_ME_SUCCESS } from '../user/user.actions';
 
 const defaultLoverRequest = {
   isGetLoverRequestInFlight: false,
@@ -60,7 +61,7 @@ export default function reducer(state = defaultState, action) {
       return {
         ...state,
         isCreateLoverRequestAndRelationshipAndPlaceholderLoverInFlight: false,
-        ..._.pick(action.loverRequest, loverRequestKeys),
+        ...pick(action.loverRequest, loverRequestKeys),
       };
     case CREATE_LOVER_REQUEST_AND_RELATIONSHIP_AND_PLACEHOLDER_LOVER_FAILURE:
       return {
@@ -72,7 +73,7 @@ export default function reducer(state = defaultState, action) {
     case SET_LOVER_REQUEST:
       return {
         ...state,
-        ..._.pick(action, loverRequestKeys),
+        ...pick(action, loverRequestKeys),
       };
     case RESEND_LOVER_REQUEST_EMAIL_ATTEMPT:
       return {
@@ -149,6 +150,27 @@ export default function reducer(state = defaultState, action) {
         isGetLoverRequestInFlight: false,
         getLoverRequestError: action.errorMessage,
       };
+    case GET_ME_SUCCESS: {
+      const loverRequest = get(action.data, 'activeLoverRequest.loverRequest');
+      if (loverRequest) {
+        return {
+          ...state,
+          ...pick(loverRequest, [
+            'id',
+            'isAccepted',
+            'isSenderCanceled',
+            'isRecipientCanceled',
+            'createdAt',
+          ]),
+          ...pick(loverRequest.recipient, [
+            'username',
+            'firstName',
+            'lastName',
+          ]),
+        };
+      }
+      return state;
+    }
     case LOGOUT:
       return { ...defaultState };
     default:

@@ -6,28 +6,13 @@ import {
   remove as removeNotificationsListener,
 } from '../../services/notifications';
 
-import { setLover } from '../lover/lover.actions';
-import { SET_LOVER_REQUEST } from '../loverRequest/loverRequest.actions';
-import { setRelationship } from '../relationship/relationship.actions';
-import {
-  setSentCoins,
-  getCoinCount,
-  setUnviewedCoinCount,
-  clearCoinCount,
-} from '../coin/coin.actions';
-import {
-  setSentJalapenos,
-  getJalapenoCount,
-  setUnviewedJalapenoCount,
-  clearJalapenoCount,
-} from '../jalapeno/jalapeno.actions';
-import {
-  setReceivedLoverRequests,
-  clearReceivedLoverRequests,
-} from '../receivedLoverRequests/receivedLoverRequests.actions';
+import { clearCoinCount } from '../coin/coin.actions';
+import { clearJalapenoCount } from '../jalapeno/jalapeno.actions';
+import { clearReceivedLoverRequests } from '../receivedLoverRequests/receivedLoverRequests.actions';
 import userApi from './user.api';
 import { registerForPushNotifications } from '../../helpers';
 import errorReporter from '../../services/errorReporter';
+import appStateListener from '../../services/appStateListener';
 
 export const SET_USER = 'user/set-user';
 export const LOGIN_ATTEMPT = 'user/login-attempt';
@@ -71,79 +56,21 @@ export const getMe = () => async (dispatch) => {
   dispatch({ type: GET_ME_ATTEMPT });
   try {
     const res = await userApi.getMe();
-    const { relationship } = res.body.data.me;
 
-    if (relationship) {
-      dispatch(setRelationship(relationship.id, relationship.createdAt));
-
-      const lover = relationship.lovers[0];
-
-      if (lover) {
-        dispatch(
-          setLover(
-            lover.id,
-            lover.email,
-            lover.username,
-            lover.firstName,
-            lover.lastName,
-            lover.isPlaceholder,
-          ),
-        );
-      }
-    }
-
-    const receivedLoverRequests = _.get(res, 'body.data.receivedLoverRequests');
-    if (receivedLoverRequests) {
-      dispatch(
-        setReceivedLoverRequests(
-          receivedLoverRequests.rows,
-          receivedLoverRequests.count,
-        ),
-      );
-    }
-
-    if (_.get(res, 'body.data.activeLoverRequest.loverRequest')) {
-      const { loverRequest } = res.body.data.activeLoverRequest;
-
-      if (loverRequest) {
-        dispatch({
-          type: SET_LOVER_REQUEST,
-          ..._.pick(loverRequest, [
-            'id',
-            'isAccepted',
-            'isSenderCanceled',
-            'isRecipientCanceled',
-            'createdAt',
-          ]),
-          ..._.pick(loverRequest.recipient, [
-            'username',
-            'firstName',
-            'lastName',
-          ]),
-        });
-      }
-    }
-    if (_.at(res, 'body.data.sentCoins')[0]) {
-      const { sentCoins } = res.body.data;
-      dispatch(setSentCoins(sentCoins.rows, sentCoins.count));
-    }
-    if (_.at(res, 'body.data.sentJalapenos')[0]) {
-      const { sentJalapenos } = res.body.data;
-      dispatch(setSentJalapenos(sentJalapenos.rows, sentJalapenos.count));
-    }
-    if (_.at(res, 'body.data.unviewedEventCounts')[0]) {
-      const { unviewedEventCounts } = res.body.data;
-      dispatch(setUnviewedCoinCount(unviewedEventCounts.coinsReceived));
-      dispatch(setUnviewedJalapenoCount(unviewedEventCounts.jalapenosReceived));
-    }
-    const data = _.get(res, 'body.data');
-    if (data) {
+    const errorMessage = _.get(res, 'body.errors[0].message');
+    if (errorMessage) {
       dispatch({
-        type: GET_ME_SUCCESS,
-        data,
+        type: GET_ME_FAILURE,
+        errorMessage,
       });
+      return;
     }
-    return res;
+
+    const data = _.get(res, 'body.data');
+    dispatch({
+      type: GET_ME_SUCCESS,
+      data,
+    });
   } catch (err) {
     errorReporter.exception(err, {
       tags: {
@@ -171,11 +98,7 @@ export const login = (usernameOrEmail, password) => async (
 
     if (res.ok) {
       await AsyncStorage.setItem('id_token', _.get(res, 'body.id_token', ''));
-      await Promise.all([
-        dispatch(getMe()),
-        dispatch(getCoinCount()),
-        dispatch(getJalapenoCount()),
-      ]);
+      await dispatch(getMe());
       const { getMeErrorMessage } = getState().user;
       if (getMeErrorMessage.length > 0) {
         errorReporter.message(`getMeError: ${getMeErrorMessage}`, {
@@ -242,59 +165,28 @@ export const logout = () => async (dispatch) => {
 export const reauth = (id_token) => async (dispatch, getState) => {
   dispatch({ type: REAUTH_ATTEMPT });
   try {
-    const res = await userApi.reauth(id_token);
-
-    const { id, username, email } = res.body.user;
-    if (id) {
-      await AsyncStorage.setItem('id_token', _.get(res, 'body.id_token', ''));
-      await Promise.all([
-        dispatch(getMe()),
-        dispatch(getCoinCount()),
-        dispatch(getJalapenoCount()),
-      ]);
-      const { getMeErrorMessage } = getState().user;
-      if (getMeErrorMessage.length > 0) {
-        errorReporter.message(`getMeError: ${getMeErrorMessage}`, {
-          tags: {
-            thunk: 'user.reauth',
-          },
-          extra: {
-            id_token,
-          },
-        });
-        dispatch({
-          type: REAUTH_FAILURE,
-          message: getMeErrorMessage,
-        });
-        return;
-      }
-      Actions.reset('dashboard');
-      await registerForPushNotifications();
-      listenToNotifications();
-      dispatch({
-        type: REAUTH_SUCCESS,
-        id,
-        username,
-        email,
+    await dispatch(getMe());
+    const { getMeErrorMessage } = getState().user;
+    if (getMeErrorMessage.length > 0) {
+      errorReporter.message(`getMeError: ${getMeErrorMessage}`, {
+        tags: {
+          thunk: 'user.reauth',
+        },
+        extra: {
+          id_token,
+        },
       });
+      dispatch({
+        type: REAUTH_FAILURE,
+        message: getMeErrorMessage,
+      });
+      return;
     }
-    const message = _.get(
-      res,
-      'body.errors[0].message',
-      'Error connecting to Luvup',
-    );
-    errorReporter.message(message, {
-      tags: {
-        thunk: 'user.reauth',
-      },
-      extra: {
-        id_token,
-      },
-    });
-    dispatch({
-      type: REAUTH_FAILURE,
-      message,
-    });
+    Actions.reset('dashboard');
+    dispatch({ type: REAUTH_SUCCESS });
+    appStateListener.start();
+    await registerForPushNotifications();
+    listenToNotifications();
   } catch (err) {
     errorReporter.exception(err, {
       tags: {

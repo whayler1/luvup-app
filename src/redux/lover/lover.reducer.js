@@ -1,6 +1,11 @@
-import _ from 'lodash';
+import get from 'lodash/get';
+import pick from 'lodash/pick';
 import { SET_LOVER } from './lover.actions';
-import { GET_TIMELINE_DATA_SUCCESS, LOGOUT } from '../user/user.actions';
+import {
+  GET_TIMELINE_DATA_SUCCESS,
+  GET_ME_SUCCESS,
+  LOGOUT,
+} from '../user/user.actions';
 import { END_RELATIONSHIP } from '../relationship/relationship.actions';
 import {
   REQUEST_LOVER_SUCCESS,
@@ -27,9 +32,9 @@ const loverProperties = [
   'isPlaceholder',
 ];
 
-const getRequestLoverSuccessLoverData = action => {
-  const [lover] = _.get(action, 'relationship.lovers');
-  return _.pick(lover, loverProperties);
+const getRequestLoverSuccessLoverData = (action) => {
+  const [lover] = get(action, 'relationship.lovers');
+  return pick(lover, loverProperties);
 };
 
 export default function reducer(state = defaultState, action) {
@@ -37,8 +42,18 @@ export default function reducer(state = defaultState, action) {
     case SET_LOVER:
       return {
         ...state,
-        ..._.pick(action, loverProperties),
+        ...pick(action, loverProperties),
       };
+    case GET_ME_SUCCESS: {
+      const lover = get(action.data, 'me.relationship.lovers[0]');
+      if (lover) {
+        return {
+          ...state,
+          ...pick(lover, loverProperties),
+        };
+      }
+      return state;
+    }
     case REQUEST_LOVER_SUCCESS:
     case CREATE_LOVER_REQUEST_AND_RELATIONSHIP_AND_PLACEHOLDER_LOVER_SUCCESS:
       return {
