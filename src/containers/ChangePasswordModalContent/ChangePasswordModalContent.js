@@ -43,6 +43,8 @@ class ChangePasswordModalContent extends Component {
       error = 'no-current-password';
     } else if (!newPassword) {
       error = 'no-new-password';
+    } else if (newPassword.includes(' ')) {
+      error = 'new-password-whitespace';
     } else if (newPassword.length < 8) {
       error = 'new-password-short';
     } else if (newPassword !== newPasswordAgain) {

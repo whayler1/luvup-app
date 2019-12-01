@@ -15,16 +15,19 @@ const getCloseButton = ({ isInFlight, closeModal }) => (
   />
 );
 
-const gerCurrentPasswordError = error => {
+const gerCurrentPasswordError = (error) => {
   if (error === 'no-current-password' || error === 'invalid-password') {
     return 'Please provide your current password';
   }
   return '';
 };
 
-const getNewPasswordError = error => {
+const getNewPasswordError = (error) => {
   if (error === 'no-new-password') {
     return 'Please provide a new password';
+  }
+  if (error === 'new-password-whitespace') {
+    return 'Password can not contain empty spaces';
   }
   if (error === 'new-password-short') {
     return 'Passwords must be at least 8 characters';
@@ -32,7 +35,7 @@ const getNewPasswordError = error => {
   return '';
 };
 
-const getPasswordAgainError = error => {
+const getPasswordAgainError = (error) => {
   if (error === 'password-mismatch') {
     return 'Does not match';
   }
@@ -62,7 +65,8 @@ export default ({
       style={{
         alignSelf: 'stretch',
         alignItems: 'center',
-      }}>
+      }}
+    >
       {success && (
         <Ionicons
           name="ios-checkmark-circle-outline"
@@ -87,7 +91,8 @@ export default ({
             <View
               style={{
                 flex: 1,
-              }}>
+              }}
+            >
               {getCloseButton({ isInFlight, closeModal })}
             </View>
           </View>
@@ -116,7 +121,7 @@ export default ({
             placeholder="Min 8 chars. No spaces."
             error={getNewPasswordError(error)}
             inputProps={{
-              ref: el => {
+              ref: (el) => {
                 newPasswordInput = el;
               },
               secureTextEntry: true,
@@ -133,7 +138,7 @@ export default ({
             placeholder="Must match new password"
             error={getPasswordAgainError(error)}
             inputProps={{
-              ref: el => {
+              ref: (el) => {
                 newPasswordAgainInput = el;
               },
               secureTextEntry: true,
@@ -148,14 +153,16 @@ export default ({
               style={{
                 width: '50%',
                 paddingRight: 8,
-              }}>
+              }}
+            >
               {getCloseButton({ isInFlight, closeModal })}
             </View>
             <View
               style={{
                 width: '50%',
                 paddingLeft: 8,
-              }}>
+              }}
+            >
               <Button
                 onPress={onSubmit}
                 title="Change"
