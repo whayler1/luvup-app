@@ -80,7 +80,7 @@ class Menu extends PureComponent {
         {
           isModalVisible: false,
         },
-        () => Actions.createloverrequest()
+        () => Actions.createloverrequest(),
       );
     } else {
       this.setState({
@@ -152,7 +152,8 @@ class Menu extends PureComponent {
           <ScrollView
             testID="menu-scrollview"
             style={styles.scrollView}
-            contentContainerStyle={styles.scrollViewContentContainer}>
+            contentContainerStyle={styles.scrollViewContentContainer}
+          >
             <MenuProfile
               handleChangePasswordPress={handleChangePasswordPress}
             />
@@ -172,12 +173,12 @@ class Menu extends PureComponent {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     userId: state.user.id,
     userInviteId: state.userInvite.id,
   }),
   {
     logout: logoutAction,
     endRelationship: endRelationshipAction,
-  }
+  },
 )(Menu);
