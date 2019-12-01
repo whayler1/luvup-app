@@ -88,7 +88,6 @@ class Hero extends Component {
 
     this.state = {
       dragDirection: 0,
-      isInRelationship: props.relationshipId.length > 0,
       loverRequestCreatedAtTimeAgo: props.loverRequestCreatedAt
         ? moment(new Date(+props.loverRequestCreatedAt)).fromNow()
         : '',
@@ -206,7 +205,6 @@ class Hero extends Component {
   }
 
   static propTypes = {
-    relationshipId: PropTypes.string,
     relationshipScore: PropTypes.number,
     refreshSentCoinCount: PropTypes.func.isRequired,
     refreshSentJalapenoCount: PropTypes.func.isRequired,
@@ -733,7 +731,6 @@ class Hero extends Component {
 
 export default connect(
   (state) => ({
-    relationshipId: state.relationship.id,
     relationshipScore: state.relationshipScore.score,
     relationshipScoreQuartile: state.relationshipScore.scoreQuartile,
     sentJalapenos: state.jalapeno.sentJalapenos,
