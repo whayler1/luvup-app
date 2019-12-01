@@ -16,6 +16,16 @@ import {
 import styles from './ConfirmUserRequestCreateProfile.styles';
 import { store } from '../../redux';
 
+const ERROR_USERNAME = 'username';
+const ERROR_USERNAME_LENGTH = 'username-length';
+const ERROR_FIRSTNAME_LENGTH = 'firstname-length';
+const ERROR_LASTNAME_LENGTH = 'lastname-length';
+const ERROR_PASSWORD = 'password';
+const ERROR_PASSWORD_WHITESPACE = 'password-whitespace';
+const ERROR_PASSWORD_LENGTH = 'password-length';
+const ERROR_PASSWORD_MISMATCH = 'password-mismatch';
+const SERVER_ERROR_USERNAME_TAKEN = 'username taken';
+
 class ConfirmUserRequestCreateProfile extends PureComponent {
   static propTypes = {
     email: PropTypes.string,
@@ -42,7 +52,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
     };
   }
 
-  _onChangeFunc = key => val => this.setState({ [key]: val, error: '' });
+  _onChangeFunc = (key) => (val) => this.setState({ [key]: val, error: '' });
 
   handleUsernameChange = this._onChangeFunc('username');
   handleFirstNameChange = this._onChangeFunc('firstName');
@@ -88,38 +98,41 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
       passwordAgain,
     } = this.state;
     if (!username) {
-      return 'username';
+      return ERROR_USERNAME;
     }
     if (username.length < 3) {
-      return 'username-length';
+      return ERROR_USERNAME_LENGTH;
     }
     if (firstName.length < 3) {
-      return 'firstname-length';
+      return ERROR_FIRSTNAME_LENGTH;
     }
     if (lastName.length < 3) {
-      return 'lastname-length';
+      return ERROR_LASTNAME_LENGTH;
     }
     if (!password) {
-      return 'password';
+      return ERROR_PASSWORD;
+    }
+    if (password.includes(' ')) {
+      return ERROR_PASSWORD_WHITESPACE;
     }
     if (password.length < 6) {
-      return 'password-length';
+      return ERROR_PASSWORD_LENGTH;
     }
     if (passwordAgain !== password) {
-      return 'password-mismatch';
+      return ERROR_PASSWORD_MISMATCH;
     }
     return '';
   };
 
   getUsernameError = () => {
     const { error } = this.state;
-    if (error === 'username') {
+    if (error === ERROR_USERNAME) {
       return 'Please provide a username';
     }
-    if (error === 'username-length') {
+    if (error === ERROR_USERNAME_LENGTH) {
       return 'Usernames must be at least 3 characters';
     }
-    if (error === 'username taken') {
+    if (error === SERVER_ERROR_USERNAME_TAKEN) {
       return 'Username taken';
     }
     return '';
@@ -127,7 +140,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
 
   getFirstNameError = () => {
     const { error } = this.state;
-    if (error === 'firstname-length') {
+    if (error === ERROR_FIRSTNAME_LENGTH) {
       return 'First name must be at least 3 characters';
     }
     return '';
@@ -135,7 +148,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
 
   getLastNameError = () => {
     const { error } = this.state;
-    if (error === 'lastname-length') {
+    if (error === ERROR_LASTNAME_LENGTH) {
       return 'Last name must be at least 3 characters';
     }
     return '';
@@ -143,10 +156,13 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
 
   getPasswordError = () => {
     const { error } = this.state;
-    if (error === 'password') {
+    if (error === ERROR_PASSWORD) {
       return 'Please provide a password';
     }
-    if (error === 'password-length') {
+    if (error === ERROR_PASSWORD_WHITESPACE) {
+      return 'Pasword can not contain empty spaces';
+    }
+    if (error === ERROR_PASSWORD_LENGTH) {
       return 'Passwords must be at least 8 characters';
     }
     return '';
@@ -154,7 +170,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
 
   getReEnterPasswordError = () => {
     const { error } = this.state;
-    if (error === 'password-mismatch') {
+    if (error === ERROR_PASSWORD_MISMATCH) {
       return 'Passwords do not match';
     }
     return '';
@@ -179,7 +195,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
       firstName,
       lastName,
       code,
-      password
+      password,
     );
   };
 
@@ -225,7 +241,8 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
     return (
       <KeyboardAwareScrollView
         style={styles.keyboardScrollView}
-        contentContainerStyle={scene.contentNoTop}>
+        contentContainerStyle={scene.contentNoTop}
+      >
         <View style={[scene.contentTop, styles.contentNoTop]}>
           <Text style={[scene.titleCopy, scene.textCenter]}>
             Create Your Profile
@@ -342,7 +359,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     email: state.user.email,
     code: state.user.code,
     isConfirmUserInFlight: state.user.isConfirmUserInFlight,
@@ -350,5 +367,5 @@ export default connect(
   }),
   {
     confirmUser: confirmUserAction,
-  }
+  },
 )(ConfirmUserRequestCreateProfile);

@@ -34,7 +34,8 @@ export default StyleSheet.create({
     alignSelf: 'stretch',
   },
   scrollViewContentContainer: {
-    paddingVertical: vars.gutter,
+    paddingTop: vars.gutter,
+    paddingBottom: vars.gutterDouble,
     paddingHorizontal: vars.gutter,
     justifyContent: 'center',
   },

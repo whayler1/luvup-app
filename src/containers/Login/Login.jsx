@@ -5,12 +5,13 @@ import { Actions } from 'react-native-router-flux';
 import { View, Text, TouchableOpacity } from 'react-native';
 
 import styles from './Login.styles';
-import { scene, forms } from '../../styles';
+import { scene, forms, vars } from '../../styles';
 import { login as loginAction } from '../../redux/user/user.actions';
 import Input from '../../components/Input';
 import Well from '../../components/Well';
 import FormScene from '../../components/FormScene';
 import Button, { BUTTON_STYLES } from '../../components/Button';
+import { emailRegex } from '../../helpers';
 
 let passwordInput;
 const focusPassword = () => passwordInput.focus();
@@ -19,7 +20,6 @@ class Login extends Component {
   static propTypes = {
     username: PropTypes.string,
     login: PropTypes.func.isRequired,
-    getMeErrorMessage: PropTypes.string.isRequired,
     isLoginInFlight: PropTypes.bool.isRequired,
     loginError: PropTypes.string.isRequired,
   };
@@ -38,19 +38,19 @@ class Login extends Component {
     };
   }
 
-  handleUsernameChange = username => {
+  handleUsernameChange = (username) => {
     this.setState({ username });
   };
-  handlePasswordChange = password => {
+  handlePasswordChange = (password) => {
     this.setState({ password });
   };
 
   getValidationError = () => {
     const { username, password } = this.state;
-    if (!username) {
+    if (!emailRegex.test(username)) {
       return 'username';
     }
-    if (!password) {
+    if (password.length < 1) {
       return 'password';
     }
     return '';
@@ -82,7 +82,7 @@ class Login extends Component {
     this.submit();
   };
 
-  setPasswordInputRef = el => {
+  setPasswordInputRef = (el) => {
     passwordInput = el;
   };
 
@@ -96,7 +96,7 @@ class Login extends Component {
       handlePasswordChange,
       setPasswordInputRef,
       state: { username, password, error },
-      props: { getMeErrorMessage, isLoginInFlight: isInFlight, loginError },
+      props: { isLoginInFlight: isInFlight, loginError },
     } = this;
 
     return (
@@ -136,9 +136,11 @@ class Login extends Component {
             testID: 'login-password-input',
           }}
         />
-        {loginError.length > 0 && <Well text={this.getFormattedLoginError()} />}
-        {getMeErrorMessage.length > 0 && (
-          <Well text={`Error retrieving user data: ${getMeErrorMessage}`} />
+        {loginError.length > 0 && (
+          <Well
+            styles={{ marginTop: vars.gutterDouble, marginBottom: 0 }}
+            text={this.getFormattedLoginError()}
+          />
         )}
         <View style={forms.buttonRow}>
           <View style={styles.submitContainer}>
@@ -154,7 +156,8 @@ class Login extends Component {
           <TouchableOpacity
             accessibilityLabel="Forgot your password"
             onPress={navigateToForgotPassword}
-            style={styles.forgotPasswordButton}>
+            style={styles.forgotPasswordButton}
+          >
             <Text style={[scene.bodyCopy, styles.forgotPasswordText]}>
               Forgot your password?
             </Text>
@@ -186,14 +189,13 @@ class Login extends Component {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     relationshipId: state.relationship.id,
     loverRequestId: state.loverRequest.id,
-    getMeErrorMessage: state.user.getMeErrorMessage,
     isLoginInFlight: state.user.isLoginInFlight,
     loginError: state.user.loginError,
   }),
   {
     login: loginAction,
-  }
+  },
 )(Login);

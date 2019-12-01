@@ -1,5 +1,5 @@
 import config from '../../config';
-import api, { graphqlQuery, grapgqlQuery } from '../api';
+import api, { graphqlQuery } from '../api';
 // JW: trying to get rid of `graphQlRequest` and replace with `graphqlQuery`
 import graphQlRequest from '../../helpers/graphQlRequest';
 
@@ -13,7 +13,7 @@ const userApi = {
       password: sanitizePassword(password),
     }),
   sendNewPassword: (email) =>
-    grapgqlQuery(`mutation {
+    graphqlQuery(`mutation {
       sendNewPassword(email: "${sanitizeEmail(email)}") { success }
     }`),
   resetPasswordWithGeneratedPassword: (generatedPassword, newPassword) =>
