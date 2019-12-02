@@ -11,13 +11,12 @@ function handlePress() {
 
 const DashboardPermissionsWell = () => (
   <View style={{ marginHorizontal: vars.gutter }}>
-    <TouchableOpacity onPress={handlePress}>
-      <Well
-        title="You have push notifications disabled."
-        text="Push notifications allow you to receive messages and updates in real time. Click here to enable them."
-        type={WELL_TYPES.INFO_SKELETON}
-      />
-    </TouchableOpacity>
+    <Well
+      title="You have push notifications disabled."
+      text="Push notifications allow you to receive messages and updates in real time. Click here to enable them."
+      onPress={handlePress}
+      type={WELL_TYPES.INFO_SKELETON}
+    />
   </View>
 );
 

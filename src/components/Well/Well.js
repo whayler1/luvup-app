@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
+import isFunction from 'lodash/isFunction';
 
 import { wells, vars } from '../../styles';
 
@@ -38,20 +39,30 @@ const getTextStyle = (type) => {
   }
 };
 
-const Well = ({ type, title, text, styles }) => (
-  <View style={[getViewStyle(type), styles && styles]}>
-    {title && (
-      <Text
-        style={[
-          getTextStyle(type),
-          { fontFamily: vars.fontBlack, marginBottom: vars.gutterHalf },
-        ]}
-      >
-        {title}
-      </Text>
-    )}
-    {text && <Text style={getTextStyle(type)}>{text}</Text>}
-  </View>
+const ConditionalWrap = ({ condition, Wrap, children }) =>
+  condition ? <Wrap>{children}</Wrap> : children;
+
+const Well = ({ type, title, text, styles, onPress }) => (
+  <ConditionalWrap
+    condition={isFunction(onPress)}
+    Wrap={function({ children }) {
+      return <TouchableOpacity onPress={onPress}>{children}</TouchableOpacity>;
+    }}
+  >
+    <View style={[getViewStyle(type), styles && styles]}>
+      {title && (
+        <Text
+          style={[
+            getTextStyle(type),
+            { fontFamily: vars.fontBlack, marginBottom: vars.gutterHalf },
+          ]}
+        >
+          {title}
+        </Text>
+      )}
+      {text && <Text style={getTextStyle(type)}>{text}</Text>}
+    </View>
+  </ConditionalWrap>
 );
 
 Well.propTypes = {
@@ -59,6 +70,7 @@ Well.propTypes = {
   title: PropTypes.string,
   text: PropTypes.string,
   styles: PropTypes.object,
+  onPress: PropTypes.func,
 };
 
 Well.defaultProps = {
