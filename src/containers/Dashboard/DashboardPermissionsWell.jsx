@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { Linking } from 'expo';
+import * as Permissions from 'expo-permissions';
 
 import Well, { WELL_TYPES } from '../../components/Well';
 import { vars } from '../../styles';
@@ -10,11 +11,19 @@ function handlePress() {
 }
 
 const DashboardPermissionsWell = () => {
-  const [isPresent, setIsPresent] = useState(true);
+  const [isPresent, setIsPresent] = useState(false);
   function handleDismissPress() {
-    console.log('handleDismissPress');
     setIsPresent(false);
   }
+  useEffect(() => {
+    const setPresentWithPermissions = async () => {
+      const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+      if (status !== 'granted') {
+        setIsPresent(true);
+      }
+    };
+    setPresentWithPermissions();
+  }, []);
   if (!isPresent) {
     return false;
   }
