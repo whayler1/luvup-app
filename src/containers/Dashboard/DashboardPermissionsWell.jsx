@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { Linking } from 'expo';
 
@@ -10,8 +10,13 @@ function handlePress() {
 }
 
 const DashboardPermissionsWell = () => {
+  const [isPresent, setIsPresent] = useState(true);
   function handleDismissPress() {
-    console.log('dismiss');
+    console.log('handleDismissPress');
+    setIsPresent(false);
+  }
+  if (!isPresent) {
+    return false;
   }
   return (
     <View style={{ marginHorizontal: vars.gutter }}>

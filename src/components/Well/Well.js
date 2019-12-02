@@ -79,7 +79,7 @@ const Well = ({ type, title, text, styles, onPress, onDismissPress }) => (
                   marginLeft: vars.gutter,
                 }}
               >
-                <TouchableOpacity>
+                <TouchableOpacity onPress={onDismissPress}>
                   <Ionicons
                     name="md-close"
                     size={30}
