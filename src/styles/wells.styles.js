@@ -3,7 +3,6 @@ import vars from './vars';
 import Color from 'color';
 
 const container = {
-  alignSelf: 'stretch',
   paddingHorizontal: 8,
   paddingVertical: 16,
   borderLeftWidth: 3,
