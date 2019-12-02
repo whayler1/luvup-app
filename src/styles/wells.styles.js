@@ -14,6 +14,20 @@ const info = {
   backgroundColor: Color(vars.info).lighten(0.99),
   borderLeftColor: vars.info,
 };
+const infoSkeleton = {
+  ...container,
+  borderWidth: 1,
+  borderRadius: 2,
+  borderColor: vars.info,
+  backgroundColor: 'white',
+  shadowColor: 'rgba(0,0,0,0.2)',
+  shadowOffset: {
+    width: 1,
+    height: 1,
+  },
+  shadowRadius: 2,
+  shadowOpacity: 1,
+};
 const error = {
   ...container,
   backgroundColor: Color(vars.danger).lighten(0.65),
@@ -26,6 +40,7 @@ const success = {
 };
 const text = {
   alignSelf: 'center',
+  textAlign: 'center',
 };
 const errorText = {
   ...text,
@@ -43,6 +58,8 @@ const successText = {
 export default StyleSheet.create({
   info,
   infoText,
+  infoSkeleton,
+  infoSkeletonText: infoText,
   error,
   errorText,
   success,

@@ -1,13 +1,14 @@
 import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 import superagent from 'superagent';
+/* eslint-disable-next-line react-native/split-platform-components */
 import { AsyncStorage, AlertIOS } from 'react-native';
 
 import config from '../config';
 
 const registerForPushNotifications = async () => {
   const { status: existingStatus } = await Permissions.getAsync(
-    Permissions.NOTIFICATIONS
+    Permissions.NOTIFICATIONS,
   );
   let finalStatus = existingStatus;
 
