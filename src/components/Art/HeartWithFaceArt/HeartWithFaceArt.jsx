@@ -17,16 +17,6 @@ const HeartWithFaceArt = ({ scale }) => (
       style={{
         position: 'absolute',
         left: -17,
-        top: 9,
-        transform: [{ scale: 0.35 }],
-      }}
-    >
-      <HeroEye />
-    </View>
-    <View
-      style={{
-        position: 'absolute',
-        left: -17,
         top: 8,
         transform: [{ scaleX: 0.35 }, { scaleY: 0.35 }],
       }}
