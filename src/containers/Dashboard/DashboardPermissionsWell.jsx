@@ -5,26 +5,34 @@ import * as Permissions from 'expo-permissions';
 
 import Well, { WELL_TYPES } from '../../components/Well';
 import { vars } from '../../styles';
+import {
+  addOnActiveListener,
+  removeOnActiveListener,
+} from '../../services/appStateListener';
 
 function handlePress() {
   Linking.openURL('app-settings:');
 }
 
+const ON_ACTIVE_LISTENER_ID = 'dashboard-well';
+
 const DashboardPermissionsWell = () => {
   const [isPresent, setIsPresent] = useState(false);
+  const setIsPresentWithPermissions = async () => {
+    const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    if (status !== 'granted') {
+      setIsPresent(true);
+    }
+    // re-check when app comes back into focus
+  };
+  useEffect(() => {
+    setIsPresentWithPermissions();
+    addOnActiveListener(ON_ACTIVE_LISTENER_ID, setIsPresentWithPermissions);
+    return () => removeOnActiveListener(ON_ACTIVE_LISTENER_ID);
+  }, []);
   function handleDismissPress() {
     setIsPresent(false);
   }
-  useEffect(() => {
-    const setIsPresentWithPermissions = async () => {
-      const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-      if (status !== 'granted') {
-        setIsPresent(true);
-      }
-      // re-check when app comes back into focus
-    };
-    setIsPresentWithPermissions();
-  }, []);
   if (!isPresent) {
     return false;
   }
