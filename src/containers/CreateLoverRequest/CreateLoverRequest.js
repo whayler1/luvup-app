@@ -193,14 +193,14 @@ class CreateLoverRequest extends Component {
       return (
         <SafeAreaView
           forceInset={{ bottom: 'never' }}
-          style={scene.safeAreaView}>
+          style={scene.safeAreaView}
+        >
           <KeyboardAvoidingView behavior="height" style={scene.container}>
             <SimpleHeader {...{ userFirstName, userLastName }} />
             <ScrollView style={scene.content}>
               <View>
                 <Input
-                  label="Search for your lover"
-                  placeholder="name or email address"
+                  label="name, username or email"
                   onChangeText={handleSearchChange}
                   value={search}
                   formGroupStyles={[styles.loverSearchContainer]}

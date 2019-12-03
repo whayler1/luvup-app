@@ -61,6 +61,9 @@ class Login extends Component {
     if (loginError === 'Unsuccessful HTTP response') {
       return 'Invalid email or password';
     }
+    if (/^Response timeout/.test(loginError)) {
+      return 'Could not connect to Luvup. Please make sure you are connected to wifi or mobile data.';
+    }
     return loginError;
   }
 
