@@ -12,6 +12,7 @@ class CreateLoverRequestRenderItem extends PureComponent {
       id: PropTypes.string.isRequired,
       firstName: PropTypes.string.isRequired,
       lastName: PropTypes.string.isRequired,
+      username: PropTypes.string.isRequired,
     }).isRequired,
     onPress: PropTypes.func.isRequired,
   };
@@ -25,12 +26,13 @@ class CreateLoverRequestRenderItem extends PureComponent {
     return (
       <TouchableOpacity
         testID={`create-lover-request-list-item-${item.username}`}
-        onPress={this.handleItemPress}>
+        onPress={this.handleItemPress}
+      >
         <View style={styles.renderItem}>
           <Text style={styles.renderItemName}>{`${item.firstName} ${
             item.lastName
           }`}</Text>
-          <Text style={styles.renderItemUsername}>{item.email}</Text>
+          <Text style={styles.renderItemUsername}>{item.username}</Text>
           <View style={styles.renderItemIcon}>
             <Ionicons name="ios-arrow-forward" size={30} color={vars.link} />
           </View>

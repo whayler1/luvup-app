@@ -27,9 +27,9 @@ import Button, { BUTTON_STYLES } from '../../components/Button';
 import { getReceivedLoverRequests as getReceivedLoverRequestsAction } from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
 import { createLoverRequestAndRelationshipAndPlaceholderLover as createLoverRequestAndRelationshipAndPlaceholderLoverAction } from '../../redux/loverRequest/loverRequest.actions';
 
-const keyExtractor = item => item.id;
+const keyExtractor = (item) => item.id;
 
-const getRenderItem = onPress => ({ item }) => (
+const getRenderItem = (onPress) => ({ item }) => (
   <CreateLoverRequestRenderItem item={item} onPress={onPress} />
 );
 
@@ -64,7 +64,7 @@ class CreateLoverRequest extends Component {
   componentDidUpdate(prevProps) {
     if (
       this.isInFlightDone(
-        prevProps.isCreateLoverRequestAndRelationshipAndPlaceholderLoverInFlight
+        prevProps.isCreateLoverRequestAndRelationshipAndPlaceholderLoverInFlight,
       ) &&
       this.isNewRelationshipId(prevProps.relationshipId)
     ) {
@@ -72,7 +72,7 @@ class CreateLoverRequest extends Component {
     }
   }
 
-  isInFlightDone = prevIsInFlight => {
+  isInFlightDone = (prevIsInFlight) => {
     const {
       isCreateLoverRequestAndRelationshipAndPlaceholderLoverInFlight: isInFlight,
       createLoverRequestAndRelationshipAndPlaceholderLoverError: error,
@@ -80,7 +80,7 @@ class CreateLoverRequest extends Component {
     return prevIsInFlight && !isInFlight && error.length < 1;
   };
 
-  isNewRelationshipId = prevRelationshipId => {
+  isNewRelationshipId = (prevRelationshipId) => {
     const { relationshipId } = this.props;
     return (
       prevRelationshipId !== relationshipId &&
@@ -91,9 +91,9 @@ class CreateLoverRequest extends Component {
 
   clearSelectedUser = () => this.setState({ selectedUser: null });
 
-  handleListItemClick = selectedUserId =>
+  handleListItemClick = (selectedUserId) =>
     this.setState({
-      selectedUser: this.state.users.find(user => user.id === selectedUserId),
+      selectedUser: this.state.users.find((user) => user.id === selectedUserId),
     });
 
   handleInviteLoverPress = () => {
@@ -109,7 +109,7 @@ class CreateLoverRequest extends Component {
   getExistingLoverRequest = async () => {
     await this.props.getReceivedLoverRequests();
     const existingRequest = this.props.receivedLoverRequests.find(
-      loverRequest => loverRequest.sender.id === this.state.selectedUser.id
+      (loverRequest) => loverRequest.sender.id === this.state.selectedUser.id,
     );
     return existingRequest;
   };
@@ -125,7 +125,7 @@ class CreateLoverRequest extends Component {
     }
 
     this.props.createLoverRequestAndRelationshipAndPlaceholderLover(
-      this.state.selectedUser.id
+      this.state.selectedUser.id,
     );
   };
 
@@ -164,7 +164,7 @@ class CreateLoverRequest extends Component {
     }
   }, 500);
 
-  handleSearchChange = search => {
+  handleSearchChange = (search) => {
     this.setState({ search, isInFlight: true }, this.searchDebounce);
   };
 
@@ -193,14 +193,14 @@ class CreateLoverRequest extends Component {
       return (
         <SafeAreaView
           forceInset={{ bottom: 'never' }}
-          style={scene.safeAreaView}>
+          style={scene.safeAreaView}
+        >
           <KeyboardAvoidingView behavior="height" style={scene.container}>
             <SimpleHeader {...{ userFirstName, userLastName }} />
             <ScrollView style={scene.content}>
               <View>
                 <Input
-                  label="Search for your lover"
-                  placeholder="name or email address"
+                  label="name, username or email"
                   onChangeText={handleSearchChange}
                   value={search}
                   formGroupStyles={[styles.loverSearchContainer]}
@@ -225,7 +225,8 @@ class CreateLoverRequest extends Component {
                       scene.bodyCopy,
                       scene.gutterDoubleTop,
                       { textAlign: 'center' },
-                    ]}>
+                    ]}
+                  >
                     Don’t see who you’re looking for?
                   </Text>
                   <View style={scene.gutterTop}>
@@ -255,7 +256,8 @@ class CreateLoverRequest extends Component {
                             scene.largeCopy,
                             scene.textCenter,
                             scene.gutterDoubleTop,
-                          ]}>
+                          ]}
+                        >
                           Use the search box above to find your lover.
                         </Text>
                       </View>
@@ -298,7 +300,7 @@ class CreateLoverRequest extends Component {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     relationshipId: state.relationship.id,
     userFirstName: state.user.firstName,
     userLastName: state.user.lastName,
@@ -314,5 +316,5 @@ export default connect(
   {
     createLoverRequestAndRelationshipAndPlaceholderLover: createLoverRequestAndRelationshipAndPlaceholderLoverAction,
     getReceivedLoverRequests: getReceivedLoverRequestsAction,
-  }
+  },
 )(CreateLoverRequest);
