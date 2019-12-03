@@ -12,6 +12,7 @@ import { LoverRequestType } from '../../types';
 import DashboardTopNav from '../../components/DashboardTopNav';
 import QuizArt from '../../components/Art/QuizArt';
 import LoveNoteArt from '../../components/LoveNoteArt';
+import DashboardPermissionsWell from './DashboardPermissionsWell';
 import LimitExceededModal, {
   MODAL_CONTENT_TYPES,
 } from '../../components/LimitExceededModal';
@@ -85,7 +86,7 @@ class Dashboard extends PureComponent {
     _.isString(this.props.relationshipId) &&
     this.props.relationshipId.length > 0;
 
-  openModal = modalContent => {
+  openModal = (modalContent) => {
     const isCoin = modalContent === MODAL_CONTENT_TYPES.COIN;
     const collection = isCoin ? this.props.sentCoins : this.props.sentJalapenos;
     const stateKey = isCoin ? 'coinsAvailableTime' : 'jalapenosAvailableTime';
@@ -112,9 +113,9 @@ class Dashboard extends PureComponent {
     const leastRecentWithinAnHr = moment(
       new Date(
         [...collection]
-          .filter(item => moment(new Date(+item.createdAt)).isAfter(anHrAgo))
-          .pop().createdAt
-      )
+          .filter((item) => moment(new Date(+item.createdAt)).isAfter(anHrAgo))
+          .pop().createdAt,
+      ),
     );
     const availableTime = moment(new Date(leastRecentWithinAnHr))
       .add(1, 'hour')
@@ -212,6 +213,7 @@ class Dashboard extends PureComponent {
           unreadReceivedLoveNoteCount={unreadReceivedLoveNoteCount}
           receivedLoverRequests={receivedLoverRequests}
         />
+        <DashboardPermissionsWell />
         {isInRelationship() ? (
           <Hero openModal={openModal} isNewRelationship={isNewRelationship} />
         ) : (
@@ -227,14 +229,16 @@ class Dashboard extends PureComponent {
             <TouchableOpacity
               testID="dashboard-write-love-note-button"
               style={styles.tabsItem}
-              onPress={handleLoveNoteWritePress}>
+              onPress={handleLoveNoteWritePress}
+            >
               <LoveNoteArt scale={0.8} />
               <Text style={styles.tabsText}>Write Love Note</Text>
             </TouchableOpacity>
             <TouchableOpacity
               testID="dashboard-create-a-quiz-button"
               style={styles.tabsItem}
-              onPress={handleCreateQuizPress}>
+              onPress={handleCreateQuizPress}
+            >
               <QuizArt scale={0.85} />
               <Text style={styles.tabsText}>Create a Quiz</Text>
             </TouchableOpacity>
@@ -254,7 +258,7 @@ class Dashboard extends PureComponent {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     userFirstName: state.user.firstName,
     userLastName: state.user.lastName,
     userId: state.user.id,
@@ -281,5 +285,5 @@ export default connect(
     getJalapenoCount: getJalapenoCountAction,
     setUnviewedCoinCount: setUnviewedCoinCountAction,
     setUnviewedJalapenoCount: setUnviewedJalapenoCountAction,
-  }
+  },
 )(Dashboard);

@@ -5,10 +5,10 @@ import { getMe } from '../redux/user/user.actions';
 let appState = AppState.currentState;
 const onActiveListeners = {};
 
-const handleAppStateChange = nextAppState => {
+const handleAppStateChange = (nextAppState) => {
   if (appState.match(/inactive|background/) && nextAppState === 'active') {
     store.dispatch(getMe());
-    Object.values(onActiveListeners).forEach(func => {
+    Object.values(onActiveListeners).forEach((func) => {
       func();
     });
   }
@@ -27,7 +27,7 @@ export const addOnActiveListener = (id, func) => {
   onActiveListeners[id] = func;
 };
 
-export const removeOnActiveListener = id => {
+export const removeOnActiveListener = (id) => {
   delete onActiveListeners[id];
 };
 
