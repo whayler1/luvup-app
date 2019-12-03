@@ -18,9 +18,10 @@ const ON_ACTIVE_LISTENER_ID = 'dashboard-well';
 
 const DashboardPermissionsWell = () => {
   const [isPresent, setIsPresent] = useState(false);
+  const [isDismissed, setIsDismissed] = useState(false);
   const setIsPresentWithPermissions = async () => {
     const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-    if (status !== 'granted') {
+    if (status !== 'granted' && !isDismissed) {
       setIsPresent(true);
     }
     // re-check when app comes back into focus
@@ -31,6 +32,7 @@ const DashboardPermissionsWell = () => {
     return () => removeOnActiveListener(ON_ACTIVE_LISTENER_ID);
   }, []);
   function handleDismissPress() {
+    setIsDismissed(true);
     setIsPresent(false);
   }
   if (!isPresent) {
