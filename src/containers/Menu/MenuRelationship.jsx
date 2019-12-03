@@ -26,6 +26,7 @@ const MenuRelationship = ({ openEndRelationshipModal }) => {
   const {
     loverFirstName,
     loverLastName,
+    loverUsername,
     loverEmail,
     loverId,
     loverIsPlaceholder,
@@ -35,10 +36,11 @@ const MenuRelationship = ({ openEndRelationshipModal }) => {
     isCancelLoverRequestInFlight,
     cancelLoverRequestError,
   } = useSelector(
-    state => ({
+    (state) => ({
       loverFirstName: state.lover.firstName,
       loverLastName: state.lover.lastName,
       loverEmail: state.lover.email,
+      loverUsername: state.lover.username,
       loverId: state.lover.id,
       loverIsPlaceholder: state.lover.isPlaceholder,
       relationshipCreatedAt: state.relationship.createdAt,
@@ -49,11 +51,11 @@ const MenuRelationship = ({ openEndRelationshipModal }) => {
       cancelLoverRequestError:
         state.loverRequest.cancelSentLoverRequestAndRelationshipError,
     }),
-    shallowEqual
+    shallowEqual,
   );
 
   const relationshipCreatedAtFormatted = moment(
-    new Date(+relationshipCreatedAt)
+    new Date(+relationshipCreatedAt),
   ).format('MMM DD, YYYY');
 
   const dispatch = useDispatch();
@@ -73,6 +75,7 @@ const MenuRelationship = ({ openEndRelationshipModal }) => {
           <Text style={styles.value}>
             {loverFirstName} {loverLastName}
           </Text>
+          <Text style={[styles.value, styles.valueSmall]}>{loverUsername}</Text>
           <Text style={[styles.value, styles.valueSmall]}>{loverEmail}</Text>
           <Text style={styles.label}>Start Date</Text>
           <Text style={styles.value}>{relationshipCreatedAtFormatted}</Text>
@@ -148,7 +151,8 @@ const MenuRelationship = ({ openEndRelationshipModal }) => {
           <Text style={styles.label}>Options</Text>
           <TouchableOpacity
             onPress={handleSendLoverRequestPress}
-            style={styles.sendLoverRequestButton}>
+            style={styles.sendLoverRequestButton}
+          >
             <Text style={styles.sendLoverRequestText}>Send Lover Request</Text>
             <Ionicons name="md-send" size={22} color={vars.link} />
           </TouchableOpacity>
