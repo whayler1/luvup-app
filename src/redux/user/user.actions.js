@@ -333,7 +333,7 @@ export const confirmUser = (
 
     const errorMessage = _.get(confirmUserRes, 'body.errors[0].message');
 
-    if (errorMessage) {
+    if (errorMessage && !/^user request used/i.test(errorMessage)) {
       dispatch({
         type: CONFIRM_USER_REQUEST_FAILURE,
         errorMessage,
