@@ -1,9 +1,8 @@
 import moment from 'moment';
 import React from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { Ionicons } from '@expo/vector-icons';
 
 import { isStringWithLength } from '../../helpers';
 import styles from './Menu.styles';
@@ -14,6 +13,9 @@ import { cancelSentLoverRequestAndRelationship } from '../../redux/loverRequest/
 
 const handleSendLoverRequestPress = () => {
   Actions.createloverrequest();
+};
+const handleInviteLoverPress = () => {
+  Actions.createInvite();
 };
 const handleResendInvitePress = () => {
   Actions.resendInvite();
@@ -149,13 +151,16 @@ const MenuRelationship = ({ openEndRelationshipModal }) => {
             text="You are not currently in a relationship. Send a lover request to get things started."
           />
           <Text style={styles.label}>Options</Text>
-          <TouchableOpacity
+          <MenuLink
             onPress={handleSendLoverRequestPress}
-            style={styles.sendLoverRequestButton}
-          >
-            <Text style={styles.sendLoverRequestText}>Send Lover Request</Text>
-            <Ionicons name="md-send" size={22} color={vars.link} />
-          </TouchableOpacity>
+            iconName="md-send"
+            text="Search for Your Lover"
+          />
+          <MenuLink
+            onPress={handleInviteLoverPress}
+            iconName="md-send"
+            text="Invite Lover"
+          />
         </>
       )}
     </View>
