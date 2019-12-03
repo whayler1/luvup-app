@@ -16,13 +16,14 @@ const DashboardPermissionsWell = () => {
     setIsPresent(false);
   }
   useEffect(() => {
-    const setPresentWithPermissions = async () => {
+    const setIsPresentWithPermissions = async () => {
       const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
       if (status !== 'granted') {
         setIsPresent(true);
       }
+      // re-check when app comes back into focus
     };
-    setPresentWithPermissions();
+    setIsPresentWithPermissions();
   }, []);
   if (!isPresent) {
     return false;
