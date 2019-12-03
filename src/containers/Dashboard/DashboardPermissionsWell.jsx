@@ -37,7 +37,7 @@ const DashboardPermissionsWell = () => {
     return false;
   }
   return (
-    <View style={{ marginHorizontal: vars.gutter }}>
+    <View style={{ marginHorizontal: vars.gutter, zIndex: 10 }}>
       <Well
         title="You have push notifications disabled."
         text="Push notifications allow you to receive messages and updates in real time. Click here to enable them."
