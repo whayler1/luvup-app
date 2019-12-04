@@ -16,7 +16,6 @@ class ResendInvite extends PureComponent {
   static propTypes = {
     loverEmail: PropTypes.string,
     loverFirstName: PropTypes.string,
-    loverRequestId: PropTypes.string.isRequired,
     resendUserInvite: PropTypes.func.isRequired,
     isResendUserInviteInFlight: PropTypes.bool.isRequired,
     resendUserInviteError: PropTypes.string.isRequired,
@@ -44,10 +43,10 @@ class ResendInvite extends PureComponent {
 
   handleSubmit = ({ email }) => {
     const {
-      props: { resendUserInvite, loverRequestId },
+      props: { resendUserInvite },
     } = this;
     this.setState({ email });
-    resendUserInvite(loverRequestId, email);
+    resendUserInvite(email);
   };
 
   handleDone = () => {
@@ -90,7 +89,8 @@ class ResendInvite extends PureComponent {
             <Form
               onSubmit={handleSubmit}
               isInFlight={isResendUserInviteInFlight}
-              defaultState={{ email: this.props.loverEmail }}>
+              defaultState={{ email: this.props.loverEmail }}
+            >
               {({ renderInput, renderSubmit }) => (
                 <>
                   {renderInput({
@@ -127,14 +127,13 @@ class ResendInvite extends PureComponent {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     loverEmail: state.lover.email,
     loverFirstName: state.lover.firstName,
-    loverRequestId: state.loverRequest.id,
     isResendUserInviteInFlight: state.userInvite.isResendUserInviteInFlight,
     resendUserInviteError: state.userInvite.resendUserInviteError,
   }),
   {
     resendUserInvite: resendUserInviteAction,
-  }
+  },
 )(ResendInvite);

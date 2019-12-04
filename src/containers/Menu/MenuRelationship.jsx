@@ -77,7 +77,11 @@ const MenuRelationship = ({ openEndRelationshipModal }) => {
           <Text style={styles.value}>
             {loverFirstName} {loverLastName}
           </Text>
-          <Text style={[styles.value, styles.valueSmall]}>{loverUsername}</Text>
+          {!loverIsPlaceholder && (
+            <Text style={[styles.value, styles.valueSmall]}>
+              {loverUsername}
+            </Text>
+          )}
           <Text style={[styles.value, styles.valueSmall]}>{loverEmail}</Text>
           <Text style={styles.label}>Start Date</Text>
           <Text style={styles.value}>{relationshipCreatedAtFormatted}</Text>
