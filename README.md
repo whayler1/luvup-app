@@ -1,6 +1,7 @@
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 
 ### building standalone app
+
 https://docs.expo.io/versions/latest/distribution/uploading-apps/#2-start-the-upload
 
 - make sure config is pointing to correct server
@@ -10,7 +11,7 @@ https://docs.expo.io/versions/latest/distribution/uploading-apps/#2-start-the-up
 - this will generate a link when it's done. Download the .ipa file it from it.
 - sign in to apple id https://appleid.apple.com/#!&page=signin
 - click "generate password" under "APP-SPECIFIC PASSWORDS"
-  + password label "Luvup"
+  - password label "Luvup"
 - copy app specific password
 - ~~ open application loader on mac ~~
 - ~~ apple id is your apple id, user password you generated ~~
@@ -25,17 +26,23 @@ https://docs.expo.io/versions/latest/distribution/uploading-apps/#2-start-the-up
 - first time you have to run `yarn postinstall`
 - you might have to run `yarn devtools`, not totally sure 🤷‍♂️
 - enable debug:
-  + once app is open `⌘-d`
-  + click "start remote debugging"
+  - once app is open `⌘-d`
+  - click "start remote debugging"
 
 ### running on iphone
+
 - open in expo App
 - in console `ifconfig | grep inet`
 - use the ip after the line beginning `inet`
 - on ios safari `exp://<ip>:19000`
 
 ### detox tests
+
 - run the `./add-detox-exponent.sh` script to add the exponent app binary locally. If you have not run it before you must run `chmod +x ./add-detox-exponent.sh`
 - run `yarn ios` in the terminal
 - press shift+command+K to enable the simulator keyboard
 - run `yarn e2e` in a separate terminal window while `yarn ios` is running.
+
+### recording video of simulator
+
+`xcrun simctl io booted recordVideo ~/Desktop/app.mov`
