@@ -28,6 +28,11 @@
       "buildNumber": "1",
       "icon": "./src/images/icon/icon.png"
     },
+    "android": {
+      "package": "io.terriblesolutions.luvup",
+      "versionCode": 1,
+      "icon": "./src/images/icon/icon.png"
+    },
     "packagerOpts": {
       "sourceExts": ["js", "json", "ts", "tsx", "jsx"]
     },
