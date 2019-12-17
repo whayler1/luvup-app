@@ -1,4 +1,6 @@
-const baseUrl = __DEV__ ? 'http://localhost:3000/api' : 'https://luvup.io/api';
+const baseUrl = __DEV__
+  ? 'http://192.168.1.183:3000/api'
+  : 'https://luvup.io/api';
 
 const segmentWriteKey =
   process.env.SEGMENT_WRITE_KEY || '8m6bF7b3J2aDf6t2sF5NLSmLhwpb0UVm';
