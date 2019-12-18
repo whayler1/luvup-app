@@ -14,7 +14,7 @@ const api = () => ({
       .timeout(TIMEOUT_DEFAULTS),
 });
 
-export const graphqlQuery = query =>
+export const graphqlQuery = (query) =>
   superagent.post(config.graphQlUrl, { query }).timeout(TIMEOUT_DEFAULTS);
 
 export default api;

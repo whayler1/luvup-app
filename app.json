@@ -28,6 +28,16 @@
       "buildNumber": "1",
       "icon": "./src/images/icon/icon.png"
     },
+    "android": {
+      "package": "io.terriblesolutions.luvup",
+      "versionCode": 1,
+      "icon": "./src/images/icon/icon.png"
+    },
+    "androidStatusBarColor": "#455A64",
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#455A64"
+    },
     "packagerOpts": {
       "sourceExts": ["js", "json", "ts", "tsx", "jsx"]
     },

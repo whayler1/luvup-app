@@ -45,7 +45,7 @@ import ResetPasswordWithGeneratedPassword from './src/containers/ResetPasswordWi
 import ResendLoverRequest from './src/containers/ResendLoverRequest';
 import ResendInvite from './src/containers/ResendInvite';
 
-const reducerCreate = params => {
+const reducerCreate = (params) => {
   const defaultReducer = new Reducer(params);
   return (state, action) => defaultReducer(state, action);
 };
@@ -60,7 +60,7 @@ const sceneDefaults = {
   renderTitle: <View />,
 };
 
-const getDefaultNavBar = title => ({
+const getDefaultNavBar = (title) => ({
   ...sceneDefaults,
   renderTitle: (
     <Text
@@ -68,7 +68,8 @@ const getDefaultNavBar = title => ({
         fontFamily: vars.fontRegular,
         color: vars.blueGrey500,
         fontSize: 25,
-      }}>
+      }}
+    >
       {title}
     </Text>
   ),
@@ -138,7 +139,9 @@ const App = () => (
           <Tabs
             key="timelineTabs"
             showLabel={false}
-            tabBarStyle={{ backgroundColor: 'white' }}>
+            tabBarPosition="bottom"
+            tabBarStyle={{ backgroundColor: 'white' }}
+          >
             <Scene
               key="timeline"
               title="History"
@@ -149,7 +152,8 @@ const App = () => (
                     width: 80,
                     height: 30,
                     alignItems: 'center',
-                  }}>
+                  }}
+                >
                   <TimelineArt
                     fill={focused ? vars.razzleDazzleRose : vars.blueGrey500}
                     scale={0.4}
@@ -169,7 +173,8 @@ const App = () => (
                     width: 80,
                     height: 30,
                     alignItems: 'center',
-                  }}>
+                  }}
+                >
                   <TimelineRelationshipScoreArt
                     fill={focused ? vars.razzleDazzleRose : vars.blueGrey500}
                     scale={0.4}
@@ -212,7 +217,8 @@ const App = () => (
                         fontSize: 16,
                         color: vars.blueGrey500,
                         marginRight: 16,
-                      }}>
+                      }}
+                    >
                       {initials}
                     </Text>
                   </TouchableOpacity>
