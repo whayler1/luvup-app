@@ -44,7 +44,7 @@ class CreateQuizQuestion extends PureComponent {
     };
   }
 
-  handleQuestionChange = question => {
+  handleQuestionChange = (question) => {
     this.setState({ question, questionError: '' });
   };
 
@@ -73,11 +73,13 @@ class CreateQuizQuestion extends PureComponent {
       <KeyboardAvoidingView
         behavior="height"
         style={quizStyles.container}
-        contentContainerStyle={quizStyles.container}>
+        contentContainerStyle={quizStyles.container}
+      >
         <CreateQuizNavBar onNextPress={this.handleNextPress} />
         <ScrollView
           style={quizStyles.scrollContainer}
-          contentContainerStyle={quizStyles.scrollContent}>
+          contentContainerStyle={quizStyles.scrollContent}
+        >
           <Text style={forms.label}>Question</Text>
           <View style={[forms.formGroup, { marginTop: 8 }]}>
             <TextInput

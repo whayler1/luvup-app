@@ -34,6 +34,7 @@ const multilineInput = {
   borderBottomColor: vars.blueGrey500,
   borderRadius: 4,
   padding: 16,
+  textAlignVertical: 'top',
 };
 const inputDanger = {
   ...input,
