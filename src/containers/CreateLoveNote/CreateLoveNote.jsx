@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
+import { SafeAreaView } from 'react-navigation';
 import {
   Vibration,
   Animated,
@@ -10,6 +11,8 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  KeyboardAvoidingView,
+  ScrollView,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
@@ -24,7 +27,6 @@ import LimitExceededModal, {
   MODAL_CONTENT_TYPES,
 } from '../../components/LimitExceededModal';
 import Button, { BUTTON_STYLES } from '../../components/Button';
-import config from '../../config';
 
 const getLoveNotePlaceholder = (loverFirstName) => {
   const placeholders = [
@@ -245,6 +247,75 @@ class CreateLoveNote extends PureComponent {
 
   back = () => Actions.pop();
 
+  isRenderInFlightOrSuccess = () =>
+    this.state.isSuccess || this.state.isSending;
+
+  renderInflightOrSuccess() {
+    const {
+      back,
+      flyingNoteX,
+      flyingNoteOpacity,
+      state: { isSending, isSuccess },
+    } = this;
+    return (
+      <View
+        style={{
+          position: 'absolute',
+          top: 42,
+          left: 0,
+          right: 0,
+          alignItems: 'center',
+        }}
+      >
+        <Animated.View
+          style={{
+            opacity: flyingNoteOpacity,
+            transform: [{ translateX: flyingNoteX }],
+          }}
+        >
+          <LoveNoteArtFlying />
+        </Animated.View>
+        {isSending && (
+          <Animated.Text
+            style={[scene.copy, { marginTop: 16, opacity: flyingNoteOpacity }]}
+          >
+            Sending…
+          </Animated.Text>
+        )}
+        {isSuccess && (
+          <>
+            <Animated.Text
+              style={[
+                scene.copy,
+                {
+                  marginTop: 16,
+                  fontFamily: vars.fontBlack,
+                  opacity: flyingNoteOpacity,
+                },
+              ]}
+            >
+              Sent!
+            </Animated.Text>
+            <View
+              style={{
+                marginTop: 32,
+                paddingHorizontal: 16,
+                alignSelf: 'stretch',
+              }}
+            >
+              <Button
+                testID="create-love-note-success-close-button"
+                onPress={back}
+                buttonStyles={BUTTON_STYLES.INFO_SKELETON}
+                title="Close"
+              />
+            </View>
+          </>
+        )}
+      </View>
+    );
+  }
+
   render() {
     const {
       onNoteChange,
@@ -256,16 +327,12 @@ class CreateLoveNote extends PureComponent {
       back,
       mainUiY,
       mainUiOpacity,
-      flyingNoteX,
-      flyingNoteOpacity,
       closeModal,
       props: { loverFirstName },
       state: {
         note,
         numLuvups,
         numJalapenos,
-        isSending,
-        isSuccess,
         isSendError,
         isNoteEmpty,
         placeholder,
@@ -276,193 +343,137 @@ class CreateLoveNote extends PureComponent {
       },
     } = this;
     return (
-      <View style={{ flex: 1 }}>
-        {isSending ||
-          (isSuccess && (
-            <View
+      <SafeAreaView forceInset={{ bottom: 'never' }} style={scene.safeAreaView}>
+        <KeyboardAvoidingView style={scene.container}>
+          <ScrollView style={[scene.content, { background: 'blue' }]}>
+            {this.isRenderInFlightOrSuccess() && this.renderInflightOrSuccess()}
+            <Animated.View
               style={{
-                position: 'absolute',
-                top: 42,
-                left: 0,
-                right: 0,
-                alignItems: 'center',
+                opacity: mainUiOpacity,
+                transform: [{ translateY: mainUiY }],
+                paddingBottom: 32,
               }}
             >
-              <Animated.View
+              <View style={{ paddingTop: 8 }}>
+                <View style={[forms.formGroup, { marginTop: 8 }]}>
+                  <TextInput
+                    testID="create-love-note-input"
+                    style={[forms.multilineInput]}
+                    onChangeText={onNoteChange}
+                    value={note}
+                    maxLength={1000}
+                    placeholder={placeholder}
+                    placeholderTextColor={vars.blueGrey100}
+                    multiline
+                  />
+                  {isNoteEmpty && (
+                    <Text style={forms.error}>Write a note to send</Text>
+                  )}
+                </View>
+              </View>
+              <View
                 style={{
-                  opacity: flyingNoteOpacity,
-                  transform: [{ translateX: flyingNoteX }],
+                  paddingTop: 24,
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
                 }}
               >
-                <LoveNoteArtFlying />
-              </Animated.View>
-              {isSending && (
-                <Animated.Text
-                  style={[
-                    scene.copy,
-                    { marginTop: 16, opacity: flyingNoteOpacity },
-                  ]}
-                >
-                  Sending…
-                </Animated.Text>
-              )}
-              {isSuccess && (
-                <>
-                  <Animated.Text
-                    style={[
-                      scene.copy,
-                      {
-                        marginTop: 16,
-                        fontFamily: vars.fontBlack,
-                        opacity: flyingNoteOpacity,
-                      },
-                    ]}
-                  >
-                    Sent!
-                  </Animated.Text>
-                  <View
-                    style={{
-                      marginTop: 32,
-                      paddingHorizontal: 16,
-                      alignSelf: 'stretch',
-                    }}
-                  >
-                    <Button
-                      testID="create-love-note-success-close-button"
-                      onPress={back}
-                      buttonStyles={BUTTON_STYLES.INFO_SKELETON}
-                      title="Close"
-                    />
-                  </View>
-                </>
-              )}
-            </View>
-          ))}
-        <Animated.View
-          style={{
-            paddingHorizontal: 16,
-            opacity: mainUiOpacity,
-            transform: [{ translateY: mainUiY }],
-          }}
-        >
-          <View style={{ paddingTop: 8 }}>
-            <View style={[forms.formGroup, { marginTop: 8 }]}>
-              <TextInput
-                testID="create-love-note-input"
-                style={[forms.multilineInput]}
-                onChangeText={onNoteChange}
-                value={note}
-                maxLength={1000}
-                placeholder={placeholder}
-                placeholderTextColor={vars.blueGrey100}
-                multiline
-              />
-              {isNoteEmpty && (
-                <Text style={forms.error}>Write a note to send</Text>
-              )}
-            </View>
-          </View>
-          <View
-            style={{
-              paddingTop: 24,
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-            }}
-          >
-            <CountText n={numLuvups} verb="Luvup" />
-            <CountText n={numJalapenos} verb="Jalapeño" />
-          </View>
-          <View
-            style={{
-              paddingTop: 8,
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-            }}
-          >
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <TouchableOpacity onPress={removeLuvup}>
-                <Text
-                  style={{
-                    fontFamily: vars.fontBlack,
-                    fontSize: 40,
-                    color: vars.blueGrey500,
-                    marginRight: 8,
-                  }}
-                >
-                  -
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                testID="create-love-note-add-luvup"
-                onPress={addLuvup}
+                <CountText n={numLuvups} verb="Luvup" />
+                <CountText n={numJalapenos} verb="Jalapeño" />
+              </View>
+              <View
+                style={{
+                  paddingTop: 8,
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
+                }}
               >
-                <Image
-                  source={require('../../images/coin.png')}
-                  style={{ width: 40, height: 40 }}
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <TouchableOpacity onPress={removeLuvup}>
+                    <Text
+                      style={{
+                        fontFamily: vars.fontBlack,
+                        fontSize: 40,
+                        color: vars.blueGrey500,
+                        marginRight: 8,
+                      }}
+                    >
+                      -
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    testID="create-love-note-add-luvup"
+                    onPress={addLuvup}
+                  >
+                    <Image
+                      source={require('../../images/coin.png')}
+                      style={{ width: 40, height: 40 }}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={addLuvup}>
+                    <Text
+                      style={{
+                        fontFamily: vars.fontBlack,
+                        fontSize: 40,
+                        color: vars.blueGrey500,
+                        marginLeft: 8,
+                      }}
+                    >
+                      +
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <TouchableOpacity onPress={removeJalapeno}>
+                    <Text
+                      style={{
+                        fontFamily: vars.fontBlack,
+                        fontSize: 40,
+                        color: vars.blueGrey500,
+                        marginRight: 8,
+                      }}
+                    >
+                      -
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={addJalapeno}>
+                    <Image
+                      source={require('../../images/jalapeno.png')}
+                      style={{ width: 30.6, height: 40, marginLeft: 10 }}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={addJalapeno}>
+                    <Text
+                      style={{
+                        fontFamily: vars.fontBlack,
+                        fontSize: 40,
+                        color: vars.blueGrey500,
+                        marginLeft: 8,
+                      }}
+                    >
+                      +
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              {isSendError && (
+                <Well text="There was an error sending your Love Note. Make sure you are connected to wifi or data." />
+              )}
+              <View style={{ marginTop: 32 }}>
+                <Button
+                  testID="create-love-note-submit"
+                  onPress={onSendClick}
+                  title="Send"
                 />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={addLuvup}>
-                <Text
-                  style={{
-                    fontFamily: vars.fontBlack,
-                    fontSize: 40,
-                    color: vars.blueGrey500,
-                    marginLeft: 8,
-                  }}
-                >
-                  +
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <TouchableOpacity onPress={removeJalapeno}>
-                <Text
-                  style={{
-                    fontFamily: vars.fontBlack,
-                    fontSize: 40,
-                    color: vars.blueGrey500,
-                    marginRight: 8,
-                  }}
-                >
-                  -
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={addJalapeno}>
-                <Image
-                  source={require('../../images/jalapeno.png')}
-                  style={{ width: 30.6, height: 40, marginLeft: 10 }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={addJalapeno}>
-                <Text
-                  style={{
-                    fontFamily: vars.fontBlack,
-                    fontSize: 40,
-                    color: vars.blueGrey500,
-                    marginLeft: 8,
-                  }}
-                >
-                  +
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-          {isSendError && (
-            <Well text="There was an error sending your Love Note. Make sure you are connected to wifi or data." />
-          )}
-          <View style={{ marginTop: 32 }}>
-            <Button
-              testID="create-love-note-submit"
-              onPress={onSendClick}
-              title="Send"
-            />
-          </View>
-          <View style={{ marginTop: 32 }}>
-            <TouchableOpacity onPress={back}>
-              <Text style={buttons.secondarySkeletonText}>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </Animated.View>
+              </View>
+              <View style={{ marginTop: 32 }}>
+                <TouchableOpacity onPress={back}>
+                  <Text style={buttons.secondarySkeletonText}>Close</Text>
+                </TouchableOpacity>
+              </View>
+            </Animated.View>
+          </ScrollView>
+        </KeyboardAvoidingView>
         <LimitExceededModal
           isModalOpen={isModalOpen}
           closeModal={closeModal}
@@ -471,7 +482,7 @@ class CreateLoveNote extends PureComponent {
           coinsAvailableTime={coinsAvailableTime}
           jalapenosAvailableTime={jalapenosAvailableTime}
         />
-      </View>
+      </SafeAreaView>
     );
   }
 }
