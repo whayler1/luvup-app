@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Actions } from 'react-native-router-flux';
 import { Text, View, KeyboardAvoidingView, ScrollView } from 'react-native';
 
-import { forms, quiz /*, vars*/ } from '../../styles';
+import { forms, quiz, vars } from '../../styles';
 import { QuizItemAttemptType } from '../../types';
 import CreateQuizNavBar from '../CreateQuizNavBar';
 import CreateQuizChoice from './CreateQuizChoice';
@@ -32,7 +32,7 @@ class CreateQuizChoices extends PureComponent {
     const { choices } = this.state;
     let isValid = true;
 
-    const choicesErrors = choices.map(choice => {
+    const choicesErrors = choices.map((choice) => {
       if (choice.length < 1) {
         isValid = false;
         return 'no-choice';
@@ -53,12 +53,12 @@ class CreateQuizChoices extends PureComponent {
     }
   };
 
-  handleSelectChoice = senderChoiceIndex => {
+  handleSelectChoice = (senderChoiceIndex) => {
     this.setState({ senderChoiceIndex, isMaxChoicesLengthError: false });
   };
 
   handleChoiceChange = (text, index) => {
-    this.setState(state => {
+    this.setState((state) => {
       const choices = [
         ...state.choices.slice(0, index),
         text,
@@ -76,7 +76,7 @@ class CreateQuizChoices extends PureComponent {
   };
 
   handleAddChoice = () => {
-    this.setState(state => {
+    this.setState((state) => {
       const newState = {};
       if (state.choices.length < this.maxChoicesLength) {
         newState.choices = [...state.choices, ''];
@@ -88,7 +88,7 @@ class CreateQuizChoices extends PureComponent {
   };
 
   handleRemoveChoice = () => {
-    this.setState(state => {
+    this.setState((state) => {
       const choices = state.choices.splice(0, state.choices.length - 1);
       const newState = { choices, isMaxChoicesLengthError: false };
       const lastIndex = choices.length - 1;
@@ -106,39 +106,43 @@ class CreateQuizChoices extends PureComponent {
       <KeyboardAvoidingView
         behavior="height"
         style={quiz.container}
-        contentContainerStyle={quiz.container}>
+        contentContainerStyle={quiz.container}
+      >
         <CreateQuizNavBar onNextPress={this.handleNextPress} />
         <ScrollView
           style={quiz.scrollContainer}
-          contentContainerStyle={quiz.scrollContent}>
-          <Text style={quiz.questionSmallText}>
-            {this.props.quizItem.question}
-          </Text>
-          <Text style={forms.label}>Choices</Text>
-          <View style={quiz.createQuizChoiceContainer}>
-            {choices.map((choice, index) => (
-              <CreateQuizChoice
-                key={index}
-                index={index}
-                value={choice}
-                onChange={this.handleChoiceChange}
-                onSelect={this.handleSelectChoice}
-                isChecked={index === this.state.senderChoiceIndex}
-                error={this.state.choicesErrors[index]}
-                enabled
-              />
-            ))}
+          contentContainerStyle={quiz.scrollContent}
+        >
+          <View style={{ paddingBottom: vars.gutterDouble }}>
+            <Text style={quiz.questionSmallText}>
+              {this.props.quizItem.question}
+            </Text>
+            <Text style={forms.label}>Choices</Text>
+            <View style={quiz.createQuizChoiceContainer}>
+              {choices.map((choice, index) => (
+                <CreateQuizChoice
+                  key={index}
+                  index={index}
+                  value={choice}
+                  onChange={this.handleChoiceChange}
+                  onSelect={this.handleSelectChoice}
+                  isChecked={index === this.state.senderChoiceIndex}
+                  error={this.state.choicesErrors[index]}
+                  enabled
+                />
+              ))}
+            </View>
+            <CreateQuizLengthUI
+              {...{
+                choices,
+                onAddChoice: this.handleAddChoice,
+                onRemoveChoice: this.handleRemoveChoice,
+                isMaxChoicesLengthError,
+                maxChoicesLength: this.maxChoicesLength,
+                onSubmit: this.handleNextPress,
+              }}
+            />
           </View>
-          <CreateQuizLengthUI
-            {...{
-              choices,
-              onAddChoice: this.handleAddChoice,
-              onRemoveChoice: this.handleRemoveChoice,
-              isMaxChoicesLengthError,
-              maxChoicesLength: this.maxChoicesLength,
-              onSubmit: this.handleNextPress,
-            }}
-          />
         </ScrollView>
       </KeyboardAvoidingView>
     );
