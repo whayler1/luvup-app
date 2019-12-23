@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Text, View, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { forms, scene, vars } from '../../styles';
 import Well from '../../components/Well';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import InputNumber from '../../components/Input/InputNumber';
+import FormScene from '../../components/FormScene';
 import { emailRegex } from '../../helpers';
 import {
   confirmUserRequestCode as confirmUserRequestCodeAction,
@@ -43,12 +44,12 @@ class ConfirmUserRequestCode extends Component {
     this.isEmailSetonInit = _.isString(props.email) && props.email.length > 0;
   }
 
-  handleEmailChange = email => {
+  handleEmailChange = (email) => {
     this.setState({ email, error: '' });
   };
   handleCodeChange = (value, index) => {
-    this.setState(state => {
-      const code = _.times(6, n => {
+    this.setState((state) => {
+      const code = _.times(6, (n) => {
         if (n === index) {
           if (value === '') {
             return ' ';
@@ -82,7 +83,7 @@ class ConfirmUserRequestCode extends Component {
     return '';
   };
 
-  setCodeRef = el => {
+  setCodeRef = (el) => {
     this.codeEl = el;
   };
 
@@ -163,74 +164,70 @@ class ConfirmUserRequestCode extends Component {
       },
     } = this;
     return (
-      <KeyboardAvoidingView style={scene.container} behavior="padding">
-        <View style={scene.contentNoTop}>
-          <ScrollView
-            contentContainerStyle={[scene.contentTop, styles.scrollView]}>
-            <Text
-              testID="confirm-usercode-title"
-              style={[scene.titleCopy, scene.textCenter]}>
-              Confirm Sign Up Code
-            </Text>
-            <Text style={[scene.bodyCopy, scene.gutterTop, scene.textCenter]}>
-              {`Enter ${
-                isEmailSetonInit ? '' : 'your email address and '
-              }the code you received via email below.`}
-            </Text>
-            {!isEmailSetonInit && (
-              <Input
-                {...{
-                  label: 'Email',
-                  onChangeText: handleEmailChange,
-                  value: email,
-                  placeholder: 'jane.doe@email.com',
-                  error: getEmailError(),
-                  inputProps: {
-                    keyboardType: 'email-address',
-                    autoCapitalize: 'none',
-                    editable: !isInFlight,
-                    spellCheck: false,
-                    returnKeyType: 'next',
-                    onSubmitEditing: handleFocusCode,
-                  },
-                }}
-              />
-            )}
-            <InputNumber
-              {...{
-                label: 'Code',
-                onChangeText: handleCodeChange,
-                value: code,
-                error: getCodeError(),
+      <FormScene>
+        <Text
+          testID="confirm-usercode-title"
+          style={[scene.titleCopy, scene.textCenter]}
+        >
+          Confirm Sign Up Code
+        </Text>
+        <Text style={[scene.bodyCopy, scene.gutterTop, scene.textCenter]}>
+          {`Enter ${
+            isEmailSetonInit ? '' : 'your email address and '
+          }the code you received via email below.`}
+        </Text>
+        {!isEmailSetonInit && (
+          <Input
+            {...{
+              label: 'Email',
+              onChangeText: handleEmailChange,
+              value: email,
+              placeholder: 'jane.doe@email.com',
+              error: getEmailError(),
+              inputProps: {
+                keyboardType: 'email-address',
+                autoCapitalize: 'none',
                 editable: !isInFlight,
-                setFirstRef: setCodeRef,
-              }}
+                spellCheck: false,
+                returnKeyType: 'next',
+                onSubmitEditing: handleFocusCode,
+              },
+            }}
+          />
+        )}
+        <InputNumber
+          {...{
+            label: 'Code',
+            onChangeText: handleCodeChange,
+            value: code,
+            error: getCodeError(),
+            editable: !isInFlight,
+            setFirstRef: setCodeRef,
+          }}
+        />
+        <View style={forms.buttonRow}>
+          <View style={styles.submitWrapper}>
+            <Button
+              testID="confirm-usercode-submit"
+              onPress={handleSubmit}
+              title="Submit"
+              isInFlight={isInFlight}
             />
-            <View style={forms.buttonRow}>
-              <View style={styles.submitWrapper}>
-                <Button
-                  testID="confirm-usercode-submit"
-                  onPress={handleSubmit}
-                  title="Submit"
-                  isInFlight={isInFlight}
-                />
-              </View>
-            </View>
-            {confirmUserRequestCodeError.length > 0 &&
-              confirmUserRequestCodeError !== 'invalid code' && (
-                <View style={{ marginTop: vars.gutter }}>
-                  <Well text={confirmUserRequestCodeError} />
-                </View>
-              )}
-          </ScrollView>
+          </View>
         </View>
-      </KeyboardAvoidingView>
+        {confirmUserRequestCodeError.length > 0 &&
+          confirmUserRequestCodeError !== 'invalid code' && (
+            <View style={{ marginTop: vars.gutter }}>
+              <Well text={confirmUserRequestCodeError} />
+            </View>
+          )}
+      </FormScene>
     );
   }
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     email: state.user.email,
     isConfirmUserRequestCodeInFlight:
       state.user.isConfirmUserRequestCodeInFlight,
@@ -239,5 +236,5 @@ export default connect(
   {
     confirmUserRequestCode: confirmUserRequestCodeAction,
     clearUserRequestCodeError: clearUserRequestCodeErrorAction,
-  }
+  },
 )(ConfirmUserRequestCode);

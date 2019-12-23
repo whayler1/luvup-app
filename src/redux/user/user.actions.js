@@ -52,6 +52,14 @@ export const GET_TIMELINE_DATA_ATTEMPT = 'user/get-timeline-data-attempt';
 export const GET_TIMELINE_DATA_SUCCESS = 'user/get-timeline-data-success';
 export const GET_TIMELINE_DATA_FAILURE = 'user/get-timeline-data-failure';
 
+export const setGetMeSuccess = (data) => (dispatch) => {
+  dispatch({
+    type: GET_ME_SUCCESS,
+    data,
+  });
+  Actions.reset('dashboard');
+};
+
 export const getMe = () => async (dispatch) => {
   dispatch({ type: GET_ME_ATTEMPT });
   try {
@@ -67,6 +75,7 @@ export const getMe = () => async (dispatch) => {
     }
 
     const data = _.get(res, 'body.data');
+    await AsyncStorage.setItem('getMeData', JSON.stringify(data));
     dispatch({
       type: GET_ME_SUCCESS,
       data,
@@ -160,7 +169,7 @@ export const login = (usernameOrEmail, password) => async (
 };
 
 export const logout = () => async (dispatch) => {
-  await AsyncStorage.removeItem('id_token');
+  await AsyncStorage.multiRemove(['id_token', 'getMeData']);
   dispatch(clearReceivedLoverRequests());
   dispatch(clearCoinCount());
   dispatch(clearJalapenoCount());

@@ -3,12 +3,12 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Text, View } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import { forms, scene } from '../../styles';
 import Well from '../../components/Well';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import FormScene from '../../components/FormScene';
 import {
   confirmUser as confirmUserAction,
   clearConfirmUserRequestFailure,
@@ -31,7 +31,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
     email: PropTypes.string,
     code: PropTypes.string,
     confirmUser: PropTypes.func.isRequired,
-    isConfirmUserInFlight: PropTypes.string.isRequired,
+    isConfirmUserInFlight: PropTypes.bool.isRequired,
     confirmUserError: PropTypes.string.isRequired,
   };
 
@@ -239,10 +239,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
     const ioError = getIoError();
 
     return (
-      <KeyboardAwareScrollView
-        style={styles.keyboardScrollView}
-        contentContainerStyle={scene.contentNoTop}
-      >
+      <FormScene>
         <View style={[scene.contentTop, styles.contentNoTop]}>
           <Text style={[scene.titleCopy, scene.textCenter]}>
             Create Your Profile
@@ -353,7 +350,7 @@ class ConfirmUserRequestCreateProfile extends PureComponent {
             </View>
           </View>
         </View>
-      </KeyboardAwareScrollView>
+      </FormScene>
     );
   }
 }

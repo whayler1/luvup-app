@@ -4,7 +4,6 @@ import { vars } from '../../styles';
 
 export default StyleSheet.create({
   navBarWrapper: {
-    marginTop: vars.topUiMargin,
     padding: 16,
     flexDirection: 'row',
     justifyContent: 'space-between',

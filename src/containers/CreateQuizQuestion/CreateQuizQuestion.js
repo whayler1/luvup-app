@@ -13,6 +13,7 @@ import CreateQuizNavBar from '../CreateQuizNavBar';
 import { QuizItemAttemptType } from '../../types';
 import { getRandomQuestion } from './CreateQuizQuestion.helpers';
 import Button, { BUTTON_STYLES } from '../../components/Button';
+import { isIOS } from '../../services/device';
 
 const placeholders = [
   'Ask something flirty…',
@@ -68,10 +69,13 @@ class CreateQuizQuestion extends PureComponent {
     this.setState({ question: getRandomQuestion() });
   };
 
+  keyboardAvoidingViewDeviceSpecificProps = () =>
+    isIOS() ? { behavior: 'height' } : {};
+
   render() {
     return (
       <KeyboardAvoidingView
-        behavior="height"
+        {...this.keyboardAvoidingViewDeviceSpecificProps()}
         style={quizStyles.container}
         contentContainerStyle={quizStyles.container}
       >

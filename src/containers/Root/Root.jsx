@@ -11,6 +11,7 @@ import Button, { BUTTON_STYLES } from '../../components/Button';
 import styles from './Root.styles';
 import { scene, vars } from '../../styles';
 import {
+  setGetMeSuccess as setGetMeSuccessAction,
   reauth as reauthAction,
   logout as logoutAction,
 } from '../../redux/user/user.actions';
@@ -18,6 +19,7 @@ import { setIsFontLoaded as setIsFontLoadedAction } from '../../redux/font/font.
 import LoadingAnimation from '../../components/LoadingAnimation';
 
 const Root = ({
+  setGetMeSuccess,
   reauth,
   reauthErrorMessage,
   logout,
@@ -42,9 +44,17 @@ const Root = ({
   };
 
   const useAsyncStorageToSetIdToken = async () => {
-    const id_token = await AsyncStorage.getItem('id_token');
+    const [id_token, getMeData] = await Promise.all([
+      AsyncStorage.getItem('id_token'),
+      AsyncStorage.getItem('getMeData'),
+    ]);
+
     setIdToken(id_token);
-    callReauthWithIdToken(id_token);
+    if (getMeData) {
+      setGetMeSuccess(JSON.parse(getMeData));
+    } else {
+      callReauthWithIdToken(id_token);
+    }
   };
 
   useEffect(() => {
@@ -150,6 +160,7 @@ export default connect(
     isFontLoaded: state.font.isFontLoaded,
   }),
   {
+    setGetMeSuccess: setGetMeSuccessAction,
     reauth: reauthAction,
     logout: logoutAction,
     setIsFontLoaded: setIsFontLoadedAction,

@@ -104,86 +104,95 @@ class Login extends Component {
 
     return (
       <FormScene>
-        <Text testID="login-title" style={[scene.titleCopy, scene.textCenter]}>
-          Login
-        </Text>
-        <Input
-          label="Email"
-          onChangeText={handleUsernameChange}
-          value={username}
-          placeholder="jane.doe@email.com"
-          error={error === 'username' ? 'Please provide a valid email' : ''}
-          inputProps={{
-            autoCapitalize: 'none',
-            editable: !isInFlight,
-            spellCheck: false,
-            keyboardType: 'email-address',
-            returnKeyType: 'next',
-            onSubmitEditing: focusPassword,
-            testID: 'login-email-input',
+        <View
+          style={{
+            paddingVertical: vars.gutterDouble,
           }}
-        />
-        <Input
-          label="Password"
-          onChangeText={handlePasswordChange}
-          value={password}
-          placeholder="••••••••"
-          error={error === 'password' ? 'Please provide a password' : ''}
-          inputProps={{
-            ref: setPasswordInputRef,
-            secureTextEntry: true,
-            editable: !isInFlight,
-            spellCheck: false,
-            returnKeyType: 'go',
-            onSubmitEditing: handleSubmit,
-            testID: 'login-password-input',
-          }}
-        />
-        {loginError.length > 0 && (
-          <Well
-            styles={{ marginTop: vars.gutterDouble, marginBottom: 0 }}
-            text={this.getFormattedLoginError()}
-          />
-        )}
-        <View style={forms.buttonRow}>
-          <View style={styles.submitContainer}>
-            <Button
-              onPress={handleSubmit}
-              title="Submit"
-              isInFlight={isInFlight}
-              testID="login-submit"
-            />
-          </View>
-        </View>
-        <View>
-          <TouchableOpacity
-            accessibilityLabel="Forgot your password"
-            onPress={navigateToForgotPassword}
-            style={styles.forgotPasswordButton}
+        >
+          <Text
+            testID="login-title"
+            style={[scene.titleCopy, scene.textCenter]}
           >
-            <Text style={[scene.bodyCopy, styles.forgotPasswordText]}>
-              Forgot your password?
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.noAccountTextContainer}>
-          <Text style={scene.bodyCopy}>{"Don't have an account?"}</Text>
-        </View>
-        <View style={[forms.buttonRow, styles.noAccountButtonRow]}>
-          <View style={styles.confirmCodeWrapper}>
-            <Button
-              onPress={navigateToSignUpConfirm}
-              buttonStyles={BUTTON_STYLES.SECONDARY_SKELETON}
-              title="Confirm Code"
+            Login
+          </Text>
+          <Input
+            label="Email"
+            onChangeText={handleUsernameChange}
+            value={username}
+            placeholder="jane.doe@email.com"
+            error={error === 'username' ? 'Please provide a valid email' : ''}
+            inputProps={{
+              autoCapitalize: 'none',
+              editable: !isInFlight,
+              spellCheck: false,
+              keyboardType: 'email-address',
+              returnKeyType: 'next',
+              onSubmitEditing: focusPassword,
+              testID: 'login-email-input',
+            }}
+          />
+          <Input
+            label="Password"
+            onChangeText={handlePasswordChange}
+            value={password}
+            placeholder="••••••••"
+            error={error === 'password' ? 'Please provide a password' : ''}
+            inputProps={{
+              ref: setPasswordInputRef,
+              secureTextEntry: true,
+              editable: !isInFlight,
+              spellCheck: false,
+              returnKeyType: 'go',
+              onSubmitEditing: handleSubmit,
+              testID: 'login-password-input',
+            }}
+          />
+          {loginError.length > 0 && (
+            <Well
+              styles={{ marginTop: vars.gutterDouble, marginBottom: 0 }}
+              text={this.getFormattedLoginError()}
             />
+          )}
+          <View style={forms.buttonRow}>
+            <View style={styles.submitContainer}>
+              <Button
+                onPress={handleSubmit}
+                title="Submit"
+                isInFlight={isInFlight}
+                testID="login-submit"
+              />
+            </View>
           </View>
-          <View style={styles.signUpWrapper}>
-            <Button
-              testID="login-signup"
-              onPress={navigateToSignUp}
-              buttonStyles={BUTTON_STYLES.INFO_SKELETON}
-              title="Sign Up"
-            />
+          <View>
+            <TouchableOpacity
+              accessibilityLabel="Forgot your password"
+              onPress={navigateToForgotPassword}
+              style={styles.forgotPasswordButton}
+            >
+              <Text style={[scene.bodyCopy, styles.forgotPasswordText]}>
+                Forgot your password?
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.noAccountTextContainer}>
+            <Text style={scene.bodyCopy}>{"Don't have an account?"}</Text>
+          </View>
+          <View style={[forms.buttonRow, styles.noAccountButtonRow]}>
+            <View style={styles.confirmCodeWrapper}>
+              <Button
+                onPress={navigateToSignUpConfirm}
+                buttonStyles={BUTTON_STYLES.SECONDARY_SKELETON}
+                title="Confirm Code"
+              />
+            </View>
+            <View style={styles.signUpWrapper}>
+              <Button
+                testID="login-signup"
+                onPress={navigateToSignUp}
+                buttonStyles={BUTTON_STYLES.INFO_SKELETON}
+                title="Sign Up"
+              />
+            </View>
           </View>
         </View>
       </FormScene>
