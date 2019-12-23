@@ -7,10 +7,11 @@ import _ from 'lodash';
 
 import CreateQuizNavBar from '../CreateQuizNavBar';
 import { QuizItemAttemptType } from '../../types';
-import { quiz } from '../../styles';
+import { quiz, vars } from '../../styles';
 import { createQuizItem as createQuizItemAction } from '../../redux/quizItem/quizItem.actions';
 import QuizArtSent from '../../components/Art/QuizArtSent';
 import QuizDisplay from '../../components/QuizDisplay';
+import Well from '../../components/Well';
 import Button, { BUTTON_STYLES } from '../../components/Button';
 
 class CreateQuizReview extends PureComponent {
@@ -81,7 +82,8 @@ class CreateQuizReview extends PureComponent {
       <KeyboardAvoidingView
         behavior="height"
         style={quiz.container}
-        contentContainerStyle={quiz.container}>
+        contentContainerStyle={quiz.container}
+      >
         <CreateQuizNavBar
           onNextPress={this.handleSubmit}
           nextText={isCreateQuizItemInFlight ? 'Submitting…' : 'submit'}
@@ -89,11 +91,15 @@ class CreateQuizReview extends PureComponent {
         />
         <ScrollView
           style={quiz.scrollContainer}
-          contentContainerStyle={quiz.scrollContent}>
+          contentContainerStyle={quiz.scrollContent}
+        >
           <QuizDisplay quizItemAttempt={quizItem} />
           {_.isString(this.props.createQuizItemErrorMessage) &&
             this.props.createQuizItemErrorMessage.length > 0 && (
-              <Text>{this.props.createQuizItemErrorMessage}</Text>
+              <Well
+                styles={{ marginBottom: vars.gutter }}
+                text={this.props.createQuizItemErrorMessage}
+              />
             )}
           <Button
             testID="create-quiz-submit-button"
@@ -108,11 +114,11 @@ class CreateQuizReview extends PureComponent {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     isCreateQuizItemInFlight: state.quizItem.isCreateQuizItemInFlight,
     createQuizItemErrorMessage: state.quizItem.createQuizItemErrorMessage,
   }),
   {
     createQuizItem: createQuizItemAction,
-  }
+  },
 )(CreateQuizReview);

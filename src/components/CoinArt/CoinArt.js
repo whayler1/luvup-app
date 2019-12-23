@@ -23,7 +23,8 @@ export default ({
       height: circumfrance * scale,
       justifyContent: 'center',
       alignItems: 'center',
-    }}>
+    }}
+  >
     <Surface width={circumfrance * scale} height={circumfrance * scale}>
       <Group>
         <Circle radius={radius * scale} fill={fill} />
@@ -45,7 +46,9 @@ export default ({
           fontFamily: vars.fontBlack,
           fontSize: 28 * scale,
           zIndex: 10,
-        }}>
+          transform: [{ translateY: -2 }],
+        }}
+      >
         +{recentlySentCoinCount}
       </Text>
     )}
