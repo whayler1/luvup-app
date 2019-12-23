@@ -141,6 +141,7 @@ const App = () => (
             showLabel={false}
             tabBarPosition="bottom"
             tabBarStyle={{ backgroundColor: 'white' }}
+            hideNavBar
           >
             <Scene
               key="timeline"
