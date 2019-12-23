@@ -79,7 +79,7 @@ export default StyleSheet.create({
   content,
   contentNoTop,
   contentTop: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
   },
   contentBottom: {
