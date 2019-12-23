@@ -4,9 +4,7 @@ import vars from './vars';
 
 const addChoiceGlyphDefaults = {
   fontSize: 35,
-  position: 'absolute',
-  left: 12.5,
-  bottom: 5,
+  transform: [{ translateY: -2 }],
 };
 
 export default StyleSheet.create({
@@ -75,6 +73,8 @@ export default StyleSheet.create({
     width: 46,
     height: 46,
     marginRight: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   addChoiceGlyph: {
     color: vars.blueGrey500,
