@@ -5173,10 +5173,10 @@ expo-detox-hook@^1.0.10:
     commander "^2.19.0"
     fs-extra "^7.0.0"
 
-expo-device@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/expo-device/-/expo-device-2.0.0.tgz#05c8c2cc0147e937783bf7496d6dea83a25bdebf"
-  integrity sha512-iF5U55AbARpuywByFlf4uFGigMaXXPTc34TcC36CLKiwkoUguW0TXuq1UCfEjZiLYEF9v+rKZ2rQb2CSvo+nQA==
+expo-device@~1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/expo-device/-/expo-device-1.0.0.tgz#fbb96b4a35d586e8b70157b7e518b6ed14034233"
+  integrity sha512-1SZz9JKFFA0UD5YF4/3d9//xtDtQJZxG8OgK9+3Lxviv4lwtvQ26njU0tVFx90Y7gy6jV2R+lD/sLxSdgd9l2w==
   dependencies:
     ua-parser-js "^0.7.19"
 
