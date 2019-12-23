@@ -57,7 +57,7 @@ export const setGetMeSuccess = (data) => (dispatch) => {
     type: GET_ME_SUCCESS,
     data,
   });
-  Actions.reset('dashboard');
+  Actions.replace('dashboard');
 };
 
 export const getMe = () => async (dispatch) => {
@@ -138,7 +138,7 @@ export const login = (usernameOrEmail, password) => async (
         return;
       }
 
-      Actions.reset('dashboard');
+      Actions.replace('dashboard');
       await registerForPushNotifications();
       listenToNotifications();
       dispatch({
@@ -175,7 +175,7 @@ export const logout = () => async (dispatch) => {
   dispatch(clearJalapenoCount());
   dispatch({ type: LOGOUT });
   removeNotificationsListener();
-  Actions.reset('login');
+  Actions.replace('login');
 };
 
 export const reauth = (id_token) => async (dispatch, getState) => {
@@ -198,7 +198,7 @@ export const reauth = (id_token) => async (dispatch, getState) => {
       });
       return;
     }
-    Actions.reset('dashboard');
+    Actions.replace('dashboard');
     dispatch({ type: REAUTH_SUCCESS });
     appStateListener.start();
     await registerForPushNotifications();
