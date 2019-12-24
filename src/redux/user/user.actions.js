@@ -131,7 +131,7 @@ export const login = (usernameOrEmail, password) => async (
           generatedPassword: password,
         });
         await registerForPushNotifications();
-        listenToNotifications();
+        listenToNotifications(dispatch);
         dispatch({
           type: LOGIN_SUCCESS,
           id: res.body.user.id,
@@ -144,7 +144,7 @@ export const login = (usernameOrEmail, password) => async (
 
       Actions.replace('dashboard');
       await registerForPushNotifications();
-      listenToNotifications();
+      listenToNotifications(dispatch);
       dispatch({
         type: LOGIN_SUCCESS,
         id: res.body.user.id,
@@ -206,7 +206,7 @@ export const reauth = (id_token) => async (dispatch, getState) => {
     dispatch({ type: REAUTH_SUCCESS });
     appStateListener.start();
     await registerForPushNotifications();
-    listenToNotifications();
+    listenToNotifications(dispatch);
   } catch (err) {
     errorReporter.exception(err, {
       tags: {

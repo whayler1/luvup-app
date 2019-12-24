@@ -4,7 +4,6 @@ import { Actions } from 'react-native-router-flux';
 import { addNotification } from '../redux/notifications/notifications.actions';
 import { getMe } from '../redux/user/user.actions';
 import { getRelationshipScore } from '../redux/relationshipScore/relationshipScore.actions';
-import { store } from '../redux';
 
 let eventSubscription;
 const relationshipScoreUpdateTypes = [
@@ -18,23 +17,25 @@ const relationshipRequestTypes = [
   'lover-request-accepted',
 ];
 
-export const onNotificationReceived = notification => {
-  store.dispatch(addNotification(notification));
+export const onNotificationReceived = (dispatch) => (notification) => {
+  dispatch(addNotification(notification));
   Actions.notificationLightbox();
   Vibration.vibrate();
 
   const { type } = notification.data;
   if (relationshipScoreUpdateTypes.includes(type)) {
-    store.dispatch(getRelationshipScore());
+    dispatch(getRelationshipScore());
   }
   if (relationshipRequestTypes.includes(type)) {
-    store.dispatch(getMe());
+    dispatch(getMe());
   }
 };
 
-export const listen = () => {
+export const listen = (dispatch) => {
   if (!eventSubscription) {
-    eventSubscription = Notifications.addListener(onNotificationReceived);
+    eventSubscription = Notifications.addListener(
+      onNotificationReceived(dispatch),
+    );
   }
 };
 
