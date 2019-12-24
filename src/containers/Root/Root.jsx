@@ -12,6 +12,7 @@ import styles from './Root.styles';
 import { scene, vars } from '../../styles';
 import {
   setGetMeSuccess as setGetMeSuccessAction,
+  getMe as getMeAction,
   reauth as reauthAction,
   logout as logoutAction,
 } from '../../redux/user/user.actions';
@@ -20,6 +21,7 @@ import LoadingAnimation from '../../components/LoadingAnimation';
 
 const Root = ({
   setGetMeSuccess,
+  getMe,
   reauth,
   reauthErrorMessage,
   logout,
@@ -52,6 +54,7 @@ const Root = ({
     setIdToken(id_token);
     if (getMeData) {
       setGetMeSuccess(JSON.parse(getMeData));
+      getMe({ retryOnTimeout: true });
     } else {
       callReauthWithIdToken(id_token);
     }
@@ -147,6 +150,8 @@ const Root = ({
 
 Root.propTypes = {
   isFontLoaded: PropTypes.bool,
+  setGetMeSuccess: PropTypes.func.isRequired,
+  getMe: PropTypes.func.isRequired,
   reauth: PropTypes.func.isRequired,
   logout: PropTypes.func.isRequired,
   reauthErrorMessage: PropTypes.string.isRequired,
@@ -161,6 +166,7 @@ export default connect(
   }),
   {
     setGetMeSuccess: setGetMeSuccessAction,
+    getMe: getMeAction,
     reauth: reauthAction,
     logout: logoutAction,
     setIsFontLoaded: setIsFontLoadedAction,

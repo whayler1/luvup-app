@@ -60,7 +60,7 @@ export const setGetMeSuccess = (data) => (dispatch) => {
   Actions.replace('dashboard');
 };
 
-export const getMe = () => async (dispatch) => {
+export const getMe = (options = {}) => async (dispatch) => {
   dispatch({ type: GET_ME_ATTEMPT });
   try {
     const res = await userApi.getMe();
@@ -81,6 +81,10 @@ export const getMe = () => async (dispatch) => {
       data,
     });
   } catch (err) {
+    if (options.retryOnTimeout && /^Response timeout/.test(err.message)) {
+      dispatch(getMe());
+      return;
+    }
     errorReporter.exception(err, {
       tags: {
         thunk: 'user.getMe',
