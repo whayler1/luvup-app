@@ -132,6 +132,7 @@ export const login = (usernameOrEmail, password) => async (
         });
         await registerForPushNotifications();
         listenToNotifications(dispatch);
+        appStateListener.start(dispatch);
         dispatch({
           type: LOGIN_SUCCESS,
           id: res.body.user.id,
@@ -145,6 +146,7 @@ export const login = (usernameOrEmail, password) => async (
       Actions.replace('dashboard');
       await registerForPushNotifications();
       listenToNotifications(dispatch);
+      appStateListener.start(dispatch);
       dispatch({
         type: LOGIN_SUCCESS,
         id: res.body.user.id,
@@ -174,6 +176,7 @@ export const login = (usernameOrEmail, password) => async (
 
 export const logout = () => async (dispatch) => {
   await AsyncStorage.multiRemove(['id_token', 'getMeData']);
+  appStateListener.stop();
   dispatch(clearReceivedLoverRequests());
   dispatch(clearCoinCount());
   dispatch(clearJalapenoCount());
@@ -204,7 +207,7 @@ export const reauth = (id_token) => async (dispatch, getState) => {
     }
     Actions.replace('dashboard');
     dispatch({ type: REAUTH_SUCCESS });
-    appStateListener.start();
+    appStateListener.start(dispatch);
     await registerForPushNotifications();
     listenToNotifications(dispatch);
   } catch (err) {

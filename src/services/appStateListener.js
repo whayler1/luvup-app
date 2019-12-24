@@ -1,13 +1,13 @@
 import { AppState } from 'react-native';
-import { default as store } from '../redux';
 import { getMe } from '../redux/user/user.actions';
 
 let appState = AppState.currentState;
 const onActiveListeners = {};
 
-const handleAppStateChange = (nextAppState) => {
+let handleAppStateChange;
+const getHandleAppStateChange = (dispatch) => (nextAppState) => {
   if (appState.match(/inactive|background/) && nextAppState === 'active') {
-    store.dispatch(getMe());
+    dispatch(getMe());
     Object.values(onActiveListeners).forEach((func) => {
       func();
     });
@@ -15,7 +15,8 @@ const handleAppStateChange = (nextAppState) => {
   appState = nextAppState;
 };
 
-const start = () => {
+const start = (dispatch) => {
+  handleAppStateChange = getHandleAppStateChange(dispatch);
   AppState.addEventListener('change', handleAppStateChange);
 };
 
