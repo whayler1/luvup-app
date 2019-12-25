@@ -5,9 +5,9 @@ import { View } from 'react-native';
 import styles from './DashboardNotification.styles';
 import DashboardNotificationButton from './DashboardNotificationButton';
 
-export const BUTTON_STYLES = {
-  PRIMARY: 'primary',
-};
+export {
+  default as BUTTON_STYLES,
+} from './DashboardNotification.BUTTON_STYLES';
 
 const DashboardNotification = ({ children, buttons, wrapperStyles }) => (
   <View style={[styles.wrapper, wrapperStyles]}>
@@ -33,7 +33,7 @@ DashboardNotification.propTypes = {
       text: PropTypes.string,
       onPress: PropTypes.func,
       testID: PropTypes.string,
-    })
+    }),
   ),
   wrapperStyles: PropTypes.object,
 };
