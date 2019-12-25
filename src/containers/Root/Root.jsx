@@ -51,7 +51,7 @@ const Root = ({
 
     setIdToken(id_token);
     if (getMeData) {
-      setGetMeSuccess(JSON.parse(getMeData));
+      setGetMeSuccess(getMeData);
       getMe({ retryOnTimeout: true });
     } else {
       callReauthWithIdToken(id_token);

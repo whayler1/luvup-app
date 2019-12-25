@@ -2,7 +2,7 @@ import { Notifications } from 'expo';
 import * as Permissions from 'expo-permissions';
 import superagent from 'superagent';
 /* eslint-disable-next-line react-native/split-platform-components */
-import { AsyncStorage, AlertIOS } from 'react-native';
+import { AlertIOS } from 'react-native';
 
 import config from '../config';
 
@@ -28,7 +28,6 @@ const registerForPushNotifications = async () => {
 
   // Get the token that uniquely identifies this device
   const expoPushToken = await Notifications.getExpoPushTokenAsync();
-  await AsyncStorage.setItem('expo_push_token', expoPushToken);
 
   // POST the token to your backend server from where you can retrieve it to send push notifications.
   try {

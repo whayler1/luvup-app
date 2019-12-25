@@ -6,10 +6,13 @@ const GET_ME_DATA = 'getMeData';
 const ALL_KEYS = [ID_TOKEN, GET_ME_DATA];
 
 export const getAllData = async () => {
-  const [id_token, getMeData] = await Promise.all([
+  const [id_token, getMeDataString] = await Promise.all([
     AsyncStorage.getItem(ID_TOKEN),
     AsyncStorage.getItem(GET_ME_DATA),
   ]);
+  const getMeData = getMeDataString
+    ? JSON.parse(getMeDataString)
+    : getMeDataString;
   return { id_token, getMeData };
 };
 
