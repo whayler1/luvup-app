@@ -9,7 +9,6 @@ export const SEND_COIN_SUCCESS = 'coin/send-coin-success';
 export const GET_COIN_COUNT_ATTEMPT = 'coin/get-coin-count-attempt';
 export const GET_COIN_COUNT_SUCCESS = 'coin/get-coin-count-success';
 export const GET_COIN_COUNT_FAILURE = 'coin/get-coin-count-failure';
-export const GET_SENT_COINS = 'coin/get-sent-coins';
 export const SET_UNVIEWED_COIN_COUNT = 'coin/set-unviewed-coin-count';
 
 export const refreshSentCoinCount = () => ({ type: REFRESH_SENT_COIN_COUNT });
