@@ -15,20 +15,6 @@ const coinApi = {
     superagent.post(config.graphQlUrl, {
       query: `{ coinCount { count } }`,
     }),
-  getSentCoins: (limit, offset) =>
-    superagent.post(config.graphQlUrl, {
-      query: `{
-      sentCoins(
-        limit: "${limit}"
-        offset: "${offset}"
-      ) {
-        rows {
-          id createdAt
-        }
-        count
-      }
-    }`,
-    }),
 };
 
 export default coinApi;
