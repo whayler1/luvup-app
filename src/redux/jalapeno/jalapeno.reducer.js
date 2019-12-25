@@ -6,7 +6,6 @@ import {
   SET_SENT_JALAPENOS,
   SET_SENT_JALAPENOS_COUNT,
   GET_JALAPENO_COUNT,
-  CLEAR_JALAPENO_COUNT,
   SET_UNVIEWED_JALAPENO_COUNT,
 } from './jalapeno.actions';
 import { CREATE_LOVE_NOTE_SUCCESS } from '../loveNote/loveNote.actions';
@@ -92,11 +91,6 @@ export default function reducer(state = defaultState, action) {
       return {
         ...state,
         count: action.count,
-      };
-    case CLEAR_JALAPENO_COUNT:
-      return {
-        ...state,
-        count: 0,
       };
     case SET_UNVIEWED_JALAPENO_COUNT:
       return {

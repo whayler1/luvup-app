@@ -13,8 +13,6 @@ export const ACCEPT_LOVER_REQUEST_SUCCESS =
   'received-lover-requests/accept-lover-request-success';
 export const ACCEPT_LOVER_REQUEST_FAILURE =
   'received-lover-requests/accept-lover-request-failure';
-export const CLEAR_RECEIVED_LOVER_REQUESTS =
-  'received-lover-requests/clear-received-lover-requests';
 export const CANCEL_RECEIVED_LOVER_REQUEST_ATTEMPT =
   'received-lover-request/cancel-received-lover-request-attempt';
 export const CANCEL_RECEIVED_LOVER_REQUEST_SUCCESS =
@@ -28,7 +26,7 @@ export const setReceivedLoverRequests = (rows, count) => ({
   count,
 });
 
-export const getReceivedLoverRequests = () => async dispatch => {
+export const getReceivedLoverRequests = () => async (dispatch) => {
   try {
     const res = await receivedLoverRequestsApi.getReceivedLoverRequests();
 
@@ -38,8 +36,8 @@ export const getReceivedLoverRequests = () => async dispatch => {
       dispatch(
         setReceivedLoverRequests(
           receivedLoverRequests.rows,
-          receivedLoverRequests.count
-        )
+          receivedLoverRequests.count,
+        ),
       );
     }
 
@@ -49,27 +47,26 @@ export const getReceivedLoverRequests = () => async dispatch => {
   }
 };
 
-export const acceptLoverRequest = (
-  loverRequestId,
-  options = {}
-) => async dispatch => {
+export const acceptLoverRequest = (loverRequestId, options = {}) => async (
+  dispatch,
+) => {
   dispatch({ type: ACCEPT_LOVER_REQUEST_ATTEMPT });
   try {
     const acceptLoverRequestRes = await receivedLoverRequestsApi.acceptLoverRequest(
-      loverRequestId
+      loverRequestId,
     );
 
     const loverRequest = _.get(
       acceptLoverRequestRes,
-      'body.data.acceptLoverRequest.loverRequest'
+      'body.data.acceptLoverRequest.loverRequest',
     );
     const relationship = _.get(
       acceptLoverRequestRes,
-      'body.data.acceptLoverRequest.relationship'
+      'body.data.acceptLoverRequest.relationship',
     );
     const relationshipScore = _.get(
       acceptLoverRequestRes,
-      'body.data.acceptLoverRequest.relationshipScore'
+      'body.data.acceptLoverRequest.relationshipScore',
     );
 
     if (
@@ -111,23 +108,19 @@ export const acceptLoverRequest = (
   }
 };
 
-export const clearReceivedLoverRequests = () => ({
-  type: CLEAR_RECEIVED_LOVER_REQUESTS,
-});
-
 export const cancelReceivedLoverRequest = (
   loverRequestId,
-  options = {}
-) => async dispatch => {
+  options = {},
+) => async (dispatch) => {
   dispatch({ type: CANCEL_RECEIVED_LOVER_REQUEST_ATTEMPT });
   try {
     const cancelLoverRequestRes = await loverRequestApi.cancelLoverRequest(
-      loverRequestId
+      loverRequestId,
     );
 
     const loverRequest = _.get(
       cancelLoverRequestRes,
-      'body.data.cancelLoverRequest.loverRequest'
+      'body.data.cancelLoverRequest.loverRequest',
     );
 
     if (loverRequest && loverRequest.id) {
@@ -135,7 +128,7 @@ export const cancelReceivedLoverRequest = (
 
       const receivedLoverRequests = _.get(
         getReceivedLoverRequestsRes,
-        'body.data.receivedLoverRequests'
+        'body.data.receivedLoverRequests',
       );
 
       if (receivedLoverRequests) {

@@ -92,11 +92,6 @@ export default function reducer(state = defaultState, action) {
         isGetCoinCountInFlight: false,
         getCoinCountError: action.errorMessage,
       };
-    case CLEAR_COIN_COUNT:
-      return {
-        ...state,
-        count: 0,
-      };
     case SET_SENT_COINS:
       return {
         ...state,
