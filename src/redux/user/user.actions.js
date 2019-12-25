@@ -1,4 +1,3 @@
-import { AsyncStorage } from 'react-native';
 import _ from 'lodash';
 import { Actions } from 'react-native-router-flux';
 import {
@@ -10,6 +9,11 @@ import userApi from './user.api';
 import { registerForPushNotifications } from '../../helpers';
 import errorReporter from '../../services/errorReporter';
 import appStateListener from '../../services/appStateListener';
+import {
+  setGetMeData as setAsyncGetMeData,
+  setIdToken as setAsyncIdToken,
+  removeAllData as removeAllAsyncData,
+} from '../../services/storage';
 
 export const SET_USER = 'user/set-user';
 export const LOGIN_ATTEMPT = 'user/login-attempt';
@@ -72,7 +76,7 @@ export const getMe = (options = {}) => async (dispatch) => {
     }
 
     const data = _.get(res, 'body.data');
-    await AsyncStorage.setItem('getMeData', JSON.stringify(data));
+    await setAsyncGetMeData(data);
     dispatch({
       type: GET_ME_SUCCESS,
       data,
@@ -107,7 +111,7 @@ export const login = (usernameOrEmail, password) => async (
     );
 
     if (res.ok) {
-      await AsyncStorage.setItem('id_token', _.get(res, 'body.id_token', ''));
+      await setAsyncIdToken(_.get(res, 'body.id_token', ''));
       await dispatch(getMe());
       const { getMeErrorMessage } = getState().user;
       if (getMeErrorMessage.length > 0) {
@@ -172,7 +176,7 @@ export const login = (usernameOrEmail, password) => async (
 };
 
 export const logout = () => async (dispatch) => {
-  await AsyncStorage.multiRemove(['id_token', 'getMeData']);
+  await removeAllAsyncData();
   appStateListener.stop();
   dispatch({ type: LOGOUT });
   removeNotificationsListener();

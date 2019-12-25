@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AsyncStorage, View, Text, StatusBar } from 'react-native';
+import { View, Text, StatusBar } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -18,6 +18,7 @@ import {
 } from '../../redux/user/user.actions';
 import { setIsFontLoaded as setIsFontLoadedAction } from '../../redux/font/font.actions';
 import LoadingAnimation from '../../components/LoadingAnimation';
+import { getAllData as getAllStorageData } from '../../services/storage';
 
 const Root = ({
   setGetMeSuccess,
@@ -46,10 +47,7 @@ const Root = ({
   };
 
   const useAsyncStorageToSetIdToken = async () => {
-    const [id_token, getMeData] = await Promise.all([
-      AsyncStorage.getItem('id_token'),
-      AsyncStorage.getItem('getMeData'),
-    ]);
+    const { id_token, getMeData } = await getAllStorageData();
 
     setIdToken(id_token);
     if (getMeData) {
