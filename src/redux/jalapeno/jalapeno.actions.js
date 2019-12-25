@@ -11,7 +11,6 @@ export const SEND_JALAPENO_SUCCESS = 'jalapeno/send-jalapeno';
 export const SET_SENT_JALAPENOS = 'jalapeno/set-sent-jalapenos';
 export const SET_SENT_JALAPENOS_COUNT = 'jalapeno/set-sent-jalapenos-count';
 export const GET_JALAPENO_COUNT = 'jalapeno/get-jalapeno-count';
-export const CLEAR_JALAPENO_COUNT = 'jalapeno/clear-jalapeno-count';
 export const SET_UNVIEWED_JALAPENO_COUNT =
   'jalapeno/set-unviewed-jalapeno-count';
 
@@ -19,7 +18,7 @@ export const refreshSentJalapenoCount = () => ({
   type: REFRESH_SENT_JALAPENO_COUNT,
 });
 
-export const sendJalapeno = () => async dispatch => {
+export const sendJalapeno = () => async (dispatch) => {
   const placeholderJalapenoId = uuid();
   dispatch({ type: SEND_JALAPENO_ATTEMPT, placeholderJalapenoId });
 
@@ -38,7 +37,7 @@ export const sendJalapeno = () => async dispatch => {
     const { jalapeno, relationshipScore } = _.get(
       res,
       'body.data.sendJalapeno',
-      {}
+      {},
     );
 
     if (_.isObject(jalapeno) && _.isObject(relationshipScore)) {
@@ -62,12 +61,12 @@ export const setSentJalapenos = (sentJalapenos, sentJalapenosCount) => ({
   sentJalapenosCount,
 });
 
-export const setSentJalapenosCount = sentJalapenosCount => ({
+export const setSentJalapenosCount = (sentJalapenosCount) => ({
   type: SET_SENT_JALAPENOS_COUNT,
   sentJalapenosCount,
 });
 
-export const getJalapenoCount = () => async dispatch => {
+export const getJalapenoCount = () => async (dispatch) => {
   try {
     const res = await superagent.post(config.graphQlUrl, {
       query: `{
@@ -90,9 +89,7 @@ export const getJalapenoCount = () => async dispatch => {
   }
 };
 
-export const clearJalapenoCount = () => ({ type: CLEAR_JALAPENO_COUNT });
-
-export const setUnviewedJalapenoCount = unviewedJalapenoCount => ({
+export const setUnviewedJalapenoCount = (unviewedJalapenoCount) => ({
   type: SET_UNVIEWED_JALAPENO_COUNT,
   unviewedJalapenoCount,
 });

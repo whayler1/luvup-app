@@ -1,11 +1,12 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { SafeAreaView, KeyboardAvoidingView, View, Text } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 
 import { resetPasswordWithGeneratedPassword as resetPasswordWithGeneratedPasswordAction } from '../../redux/user/user.actions';
 import { forms, scene } from '../../styles';
-import { passwordRegex, userLoginRouteSwitch } from '../../helpers';
+import { passwordRegex } from '../../helpers';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import ResetPasswordWithGeneratedPasswordSuccess from './ResetPasswordWithGeneratedPasswordSuccess';
@@ -76,7 +77,7 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
     return isValid;
   };
 
-  handleNewPasswordChange = newPassword => {
+  handleNewPasswordChange = (newPassword) => {
     this.setState({ newPassword });
   };
 
@@ -84,16 +85,16 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
     this.newPasswordAgainEl.focus();
   };
 
-  setNewPasswordAgainEl = el => {
+  setNewPasswordAgainEl = (el) => {
     this.newPasswordAgainEl = el;
   };
 
-  handleNewPasswordAgainChange = newPasswordAgain => {
+  handleNewPasswordAgainChange = (newPasswordAgain) => {
     this.setState({ newPasswordAgain });
   };
 
   handleDone = () => {
-    userLoginRouteSwitch();
+    Actions.replace('dashboard');
   };
 
   render() {
@@ -184,7 +185,7 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
 }
 
 export default connect(
-  state => ({
+  (state) => ({
     isResetPasswordWithGeneratedPasswordInFlight:
       state.user.isResetPasswordWithGeneratedPasswordInFlight,
     resetPasswordWithGeneratedPasswordError:
@@ -192,5 +193,5 @@ export default connect(
   }),
   {
     resetPasswordWithGeneratedPassword: resetPasswordWithGeneratedPasswordAction,
-  }
+  },
 )(ResetPasswordWithGeneratedPassword);

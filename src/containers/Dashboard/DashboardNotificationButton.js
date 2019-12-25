@@ -4,7 +4,7 @@ import { TouchableHighlight, Text } from 'react-native';
 
 import styles from './DashboardNotification.styles';
 import { scene } from '../../styles';
-import { BUTTON_STYLES } from './DashboardNotification';
+import { BUTTON_STYLES } from './DashboardNotification.BUTTON_STYLES';
 
 class DashboardNotificationButton extends PureComponent {
   static propTypes = {
@@ -57,13 +57,15 @@ class DashboardNotificationButton extends PureComponent {
           index === 0 && styles.buttonFirst,
           index > 0 && styles.buttonAdditional,
           isFocus && styles.buttonFocus,
-        ]}>
+        ]}
+      >
         <Text
           style={[
             scene.bodyCopy,
             styles.buttonText,
             type === BUTTON_STYLES.PRIMARY && styles.buttonTextPrimary,
-          ]}>
+          ]}
+        >
           {text}
         </Text>
       </TouchableHighlight>

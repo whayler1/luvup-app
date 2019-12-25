@@ -1,3 +1,5 @@
+import isObject from 'lodash/isObject';
+import isNaN from 'lodash/isNaN';
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Svg, Path } from 'react-native-svg';
@@ -15,7 +17,8 @@ class HeartArt extends PureComponent {
 
   componentDidMount() {
     const { animatedFillPct } = this.props;
-    if (animatedFillPct) {
+
+    if (isObject(animatedFillPct) && !isNaN(animatedFillPct)) {
       this.animatedListener = animatedFillPct.addListener(() => {
         const fill = getAnimatedRelationshipScoreFill(animatedFillPct);
         // Make sure that the ref was acquired.
@@ -34,7 +37,7 @@ class HeartArt extends PureComponent {
     }
   }
 
-  setPathRef = ref => (this.pathRef = ref);
+  setPathRef = (ref) => (this.pathRef = ref);
 
   render() {
     const { animatedFillPct, scale } = this.props;

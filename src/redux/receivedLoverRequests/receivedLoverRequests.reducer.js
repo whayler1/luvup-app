@@ -11,7 +11,7 @@ import {
   CANCEL_RECEIVED_LOVER_REQUEST_FAILURE,
 } from './receivedLoverRequests.actions';
 import { GET_USER_INVITE_WITH_ID_SUCCESS } from '../userInvite/userInvite.actions';
-import { GET_ME_SUCCESS } from '../user/user.actions';
+import { GET_ME_SUCCESS, LOGOUT } from '../user/user.actions';
 
 const defaultState = {
   rows: null,
@@ -68,7 +68,7 @@ export default function reducer(state = defaultState, action) {
         isAcceptLoverRequestInFlight: false,
         acceptLoverRequestError: action.errorMessage,
       };
-    case CLEAR_RECEIVED_LOVER_REQUESTS:
+    case LOGOUT:
       return { ...defaultState };
     case CANCEL_RECEIVED_LOVER_REQUEST_ATTEMPT:
       return {

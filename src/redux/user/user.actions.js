@@ -1,4 +1,3 @@
-import { AsyncStorage } from 'react-native';
 import _ from 'lodash';
 import { Actions } from 'react-native-router-flux';
 import {
@@ -6,13 +5,15 @@ import {
   remove as removeNotificationsListener,
 } from '../../services/notifications';
 
-import { clearCoinCount } from '../coin/coin.actions';
-import { clearJalapenoCount } from '../jalapeno/jalapeno.actions';
-import { clearReceivedLoverRequests } from '../receivedLoverRequests/receivedLoverRequests.actions';
 import userApi from './user.api';
 import { registerForPushNotifications } from '../../helpers';
 import errorReporter from '../../services/errorReporter';
 import appStateListener from '../../services/appStateListener';
+import {
+  setGetMeData as setAsyncGetMeData,
+  setIdToken as setAsyncIdToken,
+  removeAllData as removeAllAsyncData,
+} from '../../services/storage';
 
 export const SET_USER = 'user/set-user';
 export const LOGIN_ATTEMPT = 'user/login-attempt';
@@ -57,10 +58,10 @@ export const setGetMeSuccess = (data) => (dispatch) => {
     type: GET_ME_SUCCESS,
     data,
   });
-  Actions.reset('dashboard');
+  Actions.replace('dashboard');
 };
 
-export const getMe = () => async (dispatch) => {
+export const getMe = (options = {}) => async (dispatch) => {
   dispatch({ type: GET_ME_ATTEMPT });
   try {
     const res = await userApi.getMe();
@@ -75,12 +76,16 @@ export const getMe = () => async (dispatch) => {
     }
 
     const data = _.get(res, 'body.data');
-    await AsyncStorage.setItem('getMeData', JSON.stringify(data));
+    await setAsyncGetMeData(data);
     dispatch({
       type: GET_ME_SUCCESS,
       data,
     });
   } catch (err) {
+    if (options.retryOnTimeout && /^Response timeout/.test(err.message)) {
+      dispatch(getMe());
+      return;
+    }
     errorReporter.exception(err, {
       tags: {
         thunk: 'user.getMe',
@@ -106,7 +111,7 @@ export const login = (usernameOrEmail, password) => async (
     );
 
     if (res.ok) {
-      await AsyncStorage.setItem('id_token', _.get(res, 'body.id_token', ''));
+      await setAsyncIdToken(_.get(res, 'body.id_token', ''));
       await dispatch(getMe());
       const { getMeErrorMessage } = getState().user;
       if (getMeErrorMessage.length > 0) {
@@ -127,7 +132,8 @@ export const login = (usernameOrEmail, password) => async (
           generatedPassword: password,
         });
         await registerForPushNotifications();
-        listenToNotifications();
+        listenToNotifications(dispatch, getMe);
+        appStateListener.start(dispatch, getMe);
         dispatch({
           type: LOGIN_SUCCESS,
           id: res.body.user.id,
@@ -138,9 +144,10 @@ export const login = (usernameOrEmail, password) => async (
         return;
       }
 
-      Actions.reset('dashboard');
+      Actions.replace('dashboard');
       await registerForPushNotifications();
-      listenToNotifications();
+      listenToNotifications(dispatch, getMe);
+      appStateListener.start(dispatch, getMe);
       dispatch({
         type: LOGIN_SUCCESS,
         id: res.body.user.id,
@@ -169,13 +176,11 @@ export const login = (usernameOrEmail, password) => async (
 };
 
 export const logout = () => async (dispatch) => {
-  await AsyncStorage.multiRemove(['id_token', 'getMeData']);
-  dispatch(clearReceivedLoverRequests());
-  dispatch(clearCoinCount());
-  dispatch(clearJalapenoCount());
+  await removeAllAsyncData();
+  appStateListener.stop();
   dispatch({ type: LOGOUT });
   removeNotificationsListener();
-  Actions.reset('login');
+  Actions.replace('login');
 };
 
 export const reauth = (id_token) => async (dispatch, getState) => {
@@ -198,11 +203,11 @@ export const reauth = (id_token) => async (dispatch, getState) => {
       });
       return;
     }
-    Actions.reset('dashboard');
+    Actions.replace('dashboard');
     dispatch({ type: REAUTH_SUCCESS });
-    appStateListener.start();
+    appStateListener.start(dispatch, getMe);
     await registerForPushNotifications();
-    listenToNotifications();
+    listenToNotifications(dispatch, getMe);
   } catch (err) {
     errorReporter.exception(err, {
       tags: {

@@ -6,9 +6,6 @@ import {
   GET_COIN_COUNT_ATTEMPT,
   GET_COIN_COUNT_SUCCESS,
   GET_COIN_COUNT_FAILURE,
-  CLEAR_COIN_COUNT,
-  SET_SENT_COINS,
-  SET_SENT_COINS_COUNT,
   SET_UNVIEWED_COIN_COUNT,
 } from './coin.actions';
 import { CREATE_LOVE_NOTE_SUCCESS } from '../loveNote/loveNote.actions';
@@ -92,19 +89,6 @@ export default function reducer(state = defaultState, action) {
         isGetCoinCountInFlight: false,
         getCoinCountError: action.errorMessage,
       };
-    case CLEAR_COIN_COUNT:
-      return {
-        ...state,
-        count: 0,
-      };
-    case SET_SENT_COINS:
-      return {
-        ...state,
-        sentCoins: action.sentCoins,
-        sentCoinsCount: action.sentCoinsCount,
-        recentlySentCoinCount: getRecentlySentTokenCount(action.sentCoins),
-      };
-    case SET_SENT_COINS_COUNT:
     case GET_TIMELINE_DATA_SUCCESS:
       return {
         ...state,

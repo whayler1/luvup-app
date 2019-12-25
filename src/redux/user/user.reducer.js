@@ -31,7 +31,6 @@ import {
   GET_ME_SUCCESS,
   GET_ME_FAILURE,
 } from './user.actions';
-import appStateListener from '../../services/appStateListener';
 
 const defaultState = {
   id: '',
@@ -73,7 +72,6 @@ export default function reducer(state = defaultState, action) {
         reauthErrorMessage: '',
       };
     case LOGIN_SUCCESS:
-      appStateListener.start();
       return {
         ...state,
         ..._.pick(action, userAttribs),
@@ -103,7 +101,6 @@ export default function reducer(state = defaultState, action) {
         ..._.pick(action, userAttribs),
       };
     case LOGOUT:
-      appStateListener.stop();
       return { ...defaultState };
     case SEND_NEW_PASSWORD_ATTEMPT:
       return {
