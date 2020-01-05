@@ -12,7 +12,8 @@ const getErrorKey = (key) => `${key}Error`;
 const getRefKey = (key) => `${key}El`;
 
 const getFirstError = (value, tests) =>
-  tests.map((test) => test(value))[0] || '';
+  tests.map((test) => test(value)).filter((errorStr) => errorStr !== '')[0] ||
+  '';
 
 class Form extends PureComponent {
   static propTypes = {
@@ -97,7 +98,7 @@ class Form extends PureComponent {
       <Input
         {...{
           label,
-          value: this.state[key],
+          value: this.state[key] || '',
           error: this.state[getErrorKey(key)] || '',
           onChangeText: this._onChangeText(key),
           ...props,
