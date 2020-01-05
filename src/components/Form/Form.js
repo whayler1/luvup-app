@@ -59,7 +59,7 @@ class Form extends PureComponent {
     const stateObj = Object.entries(this.validators).reduce(
       (acc, [key, value]) => ({
         ...acc,
-        [getErrorKey(key)]: getFirstError(this.state[key], value),
+        [getErrorKey(key)]: getFirstError(this.state[key] || '', value),
       }),
       {},
     );
@@ -97,7 +97,7 @@ class Form extends PureComponent {
       <Input
         {...{
           label,
-          value: isString(this.state[key]) ? this.state[key] : '',
+          value: this.state[key],
           error: this.state[getErrorKey(key)] || '',
           onChangeText: this._onChangeText(key),
           ...props,
@@ -123,13 +123,14 @@ class Form extends PureComponent {
   render() {
     const {
       props: { children },
+      state: formState,
       renderInput,
       renderSubmit,
     } = this;
     if (!children) {
       return false;
     }
-    return children({ renderInput, renderSubmit });
+    return children({ renderInput, renderSubmit, formState });
   }
 }
 

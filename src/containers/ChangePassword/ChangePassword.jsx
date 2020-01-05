@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Text, View } from 'react-native';
 import FormScene from '../../components/FormScene';
 import Form, { FORM_VALIDATORS } from '../../components/Form';
 import { scene } from '../../styles';
+
+const getNewPasswordAgainValidator = (formState) => (value) =>
+  formState.newPassword === value ? '' : 'Must match new password';
 
 const ChangePassword = () => {
   function handleSubmit() {
@@ -12,13 +15,14 @@ const ChangePassword = () => {
     <FormScene>
       <Text style={[scene.titleCopy, scene.textCenter]}>Change Password</Text>
       <Form onSubmit={handleSubmit}>
-        {({ renderInput, renderSubmit }) => (
+        {({ renderInput, renderSubmit, formState }) => (
           <>
             {renderInput({
               label: 'Current Password',
               validators: FORM_VALIDATORS.PASSWORD_VALIDATORS,
               placeholder: 'Min 8 chars. No spaces',
               inputProps: {
+                autoCapitalize: 'none',
                 secureTextEntry: true,
                 spellCheck: false,
                 returnKeyType: 'next',
@@ -29,6 +33,7 @@ const ChangePassword = () => {
               validators: [...FORM_VALIDATORS.PASSWORD_VALIDATORS],
               placeholder: 'Min 8 chars. No spaces',
               inputProps: {
+                autoCapitalize: 'none',
                 secureTextEntry: true,
                 spellCheck: false,
                 returnKeyType: 'next',
@@ -36,9 +41,10 @@ const ChangePassword = () => {
             })}
             {renderInput({
               label: 'New Password Again',
-              validators: FORM_VALIDATORS.PASSWORD_VALIDATORS,
+              validators: [getNewPasswordAgainValidator(formState)],
               placeholder: 'Must match new password',
               inputProps: {
+                autoCapitalize: 'none',
                 secureTextEntry: true,
                 spellCheck: false,
               },
