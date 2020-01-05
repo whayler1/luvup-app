@@ -87,6 +87,7 @@ class Form extends PureComponent {
     key: originalKey,
     validators = [],
     inputProps: originalInputProps = {},
+    error,
     ...props
   }) => {
     const key = originalKey || camelCase(label);
@@ -99,7 +100,7 @@ class Form extends PureComponent {
         {...{
           label,
           value: this.state[key] || '',
-          error: this.state[getErrorKey(key)] || '',
+          error: this.state[getErrorKey(key)] || error || '',
           onChangeText: this._onChangeText(key),
           ...props,
           inputProps: this._getInputProps(key, originalInputProps),
