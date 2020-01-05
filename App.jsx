@@ -44,6 +44,7 @@ import ForgotPassword from './src/containers/ForgotPassword';
 import ResetPasswordWithGeneratedPassword from './src/containers/ResetPasswordWithGeneratedPassword';
 import ResendLoverRequest from './src/containers/ResendLoverRequest';
 import ResendInvite from './src/containers/ResendInvite';
+import ChangePassword from './src/containers/ChangePassword';
 
 const reducerCreate = (params) => {
   const defaultReducer = new Reducer(params);
@@ -187,6 +188,11 @@ const App = () => (
             />
           </Tabs>
           <Scene key="menu" component={Menu} hideNavBar />
+          <Scene
+            key="changePassword"
+            component={ChangePassword}
+            {...sceneDefaults}
+          />
           <Scene
             key="resendLoverRequest"
             component={ResendLoverRequest}
