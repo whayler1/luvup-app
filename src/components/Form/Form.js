@@ -8,10 +8,11 @@ import PropTypes from 'prop-types';
 import Input from '../Input';
 import Button from '../Button';
 
-const getErrorKey = key => `${key}Error`;
-const getRefKey = key => `${key}El`;
+const getErrorKey = (key) => `${key}Error`;
+const getRefKey = (key) => `${key}El`;
 
-const getFirstError = (value, tests) => tests.map(test => test(value))[0] || '';
+const getFirstError = (value, tests) =>
+  tests.map((test) => test(value))[0] || '';
 
 class Form extends PureComponent {
   static propTypes = {
@@ -29,19 +30,19 @@ class Form extends PureComponent {
     this.state = props.defaultState || {};
   }
 
-  _onChangeText = key => value => {
+  _onChangeText = (key) => (value) => {
     this.setState({ [key]: value, [getErrorKey(key)]: '' });
   };
 
-  _ref = key => el => (this[getRefKey(key)] = el);
+  _ref = (key) => (el) => (this[getRefKey(key)] = el);
 
-  _onSubmitEditing = key => () => {
+  _onSubmitEditing = (key) => () => {
     const { inputKeys } = this;
     if (key === last(inputKeys)) {
       this.handleSubmit();
       return;
     }
-    const index = inputKeys.findIndex(key);
+    const index = inputKeys.findIndex((inputKey) => inputKey === key);
     const refKey = getRefKey(inputKeys[index + 1]);
     this[refKey].focus();
   };
@@ -60,10 +61,10 @@ class Form extends PureComponent {
         ...acc,
         [getErrorKey(key)]: getFirstError(this.state[key], value),
       }),
-      {}
+      {},
     );
     this.setState(stateObj);
-    return Object.values(stateObj).every(value => {
+    return Object.values(stateObj).every((value) => {
       if (!isString) {
         return true;
       }
@@ -106,7 +107,7 @@ class Form extends PureComponent {
     );
   };
 
-  renderSubmit = props => {
+  renderSubmit = (props) => {
     const { isInFlight } = this.props;
     return (
       <Button
