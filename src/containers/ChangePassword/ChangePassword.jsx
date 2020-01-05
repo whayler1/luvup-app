@@ -7,6 +7,13 @@ import { scene } from '../../styles';
 const getNewPasswordAgainValidator = (formState) => (value) =>
   formState.newPassword === value ? '' : 'Must match new password';
 
+const getNewPasswordCanNotMatchCurrentPasswordValidator = (formState) => (
+  value,
+) =>
+  formState.currentPassword !== value
+    ? ''
+    : 'New password can not match current password';
+
 const ChangePassword = () => {
   function handleSubmit() {
     console.log('submit');
@@ -30,7 +37,10 @@ const ChangePassword = () => {
             })}
             {renderInput({
               label: 'New Password',
-              validators: [...FORM_VALIDATORS.PASSWORD_VALIDATORS],
+              validators: [
+                ...FORM_VALIDATORS.PASSWORD_VALIDATORS,
+                getNewPasswordCanNotMatchCurrentPasswordValidator(formState),
+              ],
               placeholder: 'Min 8 chars. No spaces',
               inputProps: {
                 autoCapitalize: 'none',
