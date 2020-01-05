@@ -203,6 +203,7 @@ export const changePassword = (currenPassword, newPassword) => async (
       });
       return;
     }
+    await Actions.changePasswordSuccess();
     dispatch({ type: CHANGE_PASSWORD_SUCCESS });
   } catch (error) {
     dispatch({ type: CHANGE_PASSWORD_FAILURE, errorMessage: error.message });
