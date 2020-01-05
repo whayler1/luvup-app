@@ -8,6 +8,9 @@ import {
   REAUTH_ATTEMPT,
   REAUTH_SUCCESS,
   REAUTH_FAILURE,
+  CHANGE_PASSWORD_ATTEMPT,
+  CHANGE_PASSWORD_FAILURE,
+  CHANGE_PASSWORD_SUCCESS,
   SEND_NEW_PASSWORD_ATTEMPT,
   SEND_NEW_PASSWORD_SUCCESS,
   SEND_NEW_PASSWORD_FAILURE,
@@ -42,6 +45,8 @@ const defaultState = {
   isLoginInFlight: false,
   loginError: '',
   reauthErrorMessage: '',
+  isChangePasswordInFlight: false,
+  changePasswordError: '',
   isSendNewPasswordInFlight: false,
   sendNewPasswordError: '',
   isResetPasswordWithGeneratedPasswordInFlight: false,
@@ -102,6 +107,23 @@ export default function reducer(state = defaultState, action) {
       };
     case LOGOUT:
       return { ...defaultState };
+    case CHANGE_PASSWORD_ATTEMPT:
+      return {
+        ...state,
+        isChangePasswordInFlight: true,
+        changePasswordError: '',
+      };
+    case CHANGE_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        isChangePasswordInFlight: false,
+      };
+    case CHANGE_PASSWORD_FAILURE:
+      return {
+        ...state,
+        isChangePasswordInFlight: false,
+        changePasswordError: action.errorMessage,
+      };
     case SEND_NEW_PASSWORD_ATTEMPT:
       return {
         ...state,
