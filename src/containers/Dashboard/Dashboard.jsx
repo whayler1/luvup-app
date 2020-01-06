@@ -28,6 +28,13 @@ import {
   setUnviewedJalapenoCount as setUnviewedJalapenoCountAction,
 } from '../../redux/jalapeno/jalapeno.actions';
 
+const dateFromDateStringOrIsoString = (date) => {
+  if (/^\d*$/.test(date)) {
+    return new Date(+date);
+  }
+  return new Date(date);
+};
+
 class Dashboard extends PureComponent {
   static propTypes = {
     userFirstName: PropTypes.string,
@@ -111,13 +118,18 @@ class Dashboard extends PureComponent {
   setAvailableTime(collection, stateKey) {
     const anHrAgo = moment().subtract(1, 'hour');
     const leastRecentWithinAnHr = moment(
-      new Date(
+      dateFromDateStringOrIsoString(
         [...collection]
-          .filter((item) => moment(new Date(+item.createdAt)).isAfter(anHrAgo))
+          .filter((item) => {
+            const thing = moment(dateFromDateStringOrIsoString(item.createdAt));
+            return thing.isAfter(anHrAgo);
+          })
           .pop().createdAt,
       ),
     );
-    const availableTime = moment(new Date(leastRecentWithinAnHr))
+    const availableTime = moment(
+      dateFromDateStringOrIsoString(leastRecentWithinAnHr),
+    )
       .add(1, 'hour')
       .fromNow();
     this.setState({ [stateKey]: availableTime });
