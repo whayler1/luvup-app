@@ -13,7 +13,6 @@ import { scene, forms, modal, vars } from '../../styles';
 import styles from './Menu.styles';
 import ModalContentWrap from '../../components/ModalContentWrap';
 import Button, { BUTTON_STYLES } from '../../components/Button';
-import ChangePasswordModalContent from '../ChangePasswordModalContent';
 import MenuReceivedLoverRequests from './MenuReceivedLoverRequests';
 import MenuHeader from './MenuHeader';
 import MenuProfile from './MenuProfile';
@@ -52,10 +51,7 @@ class Menu extends PureComponent {
   }
 
   handleChangePasswordPress = () => {
-    this.setState({
-      isModalVisible: true,
-      modalType: 'changePassword',
-    });
+    Actions.changePassword();
   };
   openEndRelationshipModal = () => {
     this.setState({
@@ -106,9 +102,6 @@ class Menu extends PureComponent {
 
     return (
       <ModalContentWrap visible={isModalVisible}>
-        {modalType === 'changePassword' && (
-          <ChangePasswordModalContent closeModal={closeModal} />
-        )}
         {modalType === 'endRelationship' && (
           <View style={styles.endRelationshipWrap}>
             <Ionicons name="md-alert" size={60} color={vars.danger} />

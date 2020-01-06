@@ -105,7 +105,7 @@ export default function reducer(state = defaultState, action) {
         return {
           ...state,
           count: jalapenos.count,
-          rows: sentJalapenos.rows,
+          sentJalapenos: sentJalapenos.rows,
           sentJalapenosCount: sentJalapenos.count,
           unviewedJalapenoCount: unviewedEventCounts.jalapenosReceived,
         };

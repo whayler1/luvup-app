@@ -8,10 +8,12 @@ import PropTypes from 'prop-types';
 import Input from '../Input';
 import Button from '../Button';
 
-const getErrorKey = key => `${key}Error`;
-const getRefKey = key => `${key}El`;
+const getErrorKey = (key) => `${key}Error`;
+const getRefKey = (key) => `${key}El`;
 
-const getFirstError = (value, tests) => tests.map(test => test(value))[0] || '';
+const getFirstError = (value, tests) =>
+  tests.map((test) => test(value)).filter((errorStr) => errorStr !== '')[0] ||
+  '';
 
 class Form extends PureComponent {
   static propTypes = {
@@ -29,41 +31,41 @@ class Form extends PureComponent {
     this.state = props.defaultState || {};
   }
 
-  _onChangeText = key => value => {
+  _onChangeText = (key) => (value) => {
     this.setState({ [key]: value, [getErrorKey(key)]: '' });
   };
 
-  _ref = key => el => (this[getRefKey(key)] = el);
+  _ref = (key) => (el) => (this[getRefKey(key)] = el);
 
-  _onSubmitEditing = key => () => {
+  _onSubmitEditing = (key) => () => {
     const { inputKeys } = this;
     if (key === last(inputKeys)) {
       this.handleSubmit();
       return;
     }
-    const index = inputKeys.findIndex(key);
+    const index = inputKeys.findIndex((inputKey) => inputKey === key);
     const refKey = getRefKey(inputKeys[index + 1]);
     this[refKey].focus();
   };
 
   _getInputProps = (key, originalInputProps) => ({
-    ...originalInputProps,
     ref: this._ref(key),
-    returnKeyType: key === last(this.inputKeys) ? 'go' : 'next',
+    returnKeyType: 'go',
     onSubmitEditing: this._onSubmitEditing(key),
     editable: !this.props.isInFlight,
+    ...originalInputProps,
   });
 
   validate = () => {
     const stateObj = Object.entries(this.validators).reduce(
       (acc, [key, value]) => ({
         ...acc,
-        [getErrorKey(key)]: getFirstError(this.state[key], value),
+        [getErrorKey(key)]: getFirstError(this.state[key] || '', value),
       }),
-      {}
+      {},
     );
     this.setState(stateObj);
-    return Object.values(stateObj).every(value => {
+    return Object.values(stateObj).every((value) => {
       if (!isString) {
         return true;
       }
@@ -85,6 +87,7 @@ class Form extends PureComponent {
     key: originalKey,
     validators = [],
     inputProps: originalInputProps = {},
+    error,
     ...props
   }) => {
     const key = originalKey || camelCase(label);
@@ -96,8 +99,8 @@ class Form extends PureComponent {
       <Input
         {...{
           label,
-          value: isString(this.state[key]) ? this.state[key] : '',
-          error: this.state[getErrorKey(key)] || '',
+          value: this.state[key] || '',
+          error: this.state[getErrorKey(key)] || error || '',
           onChangeText: this._onChangeText(key),
           ...props,
           inputProps: this._getInputProps(key, originalInputProps),
@@ -106,7 +109,7 @@ class Form extends PureComponent {
     );
   };
 
-  renderSubmit = props => {
+  renderSubmit = (props) => {
     const { isInFlight } = this.props;
     return (
       <Button
@@ -122,13 +125,14 @@ class Form extends PureComponent {
   render() {
     const {
       props: { children },
+      state: formState,
       renderInput,
       renderSubmit,
     } = this;
     if (!children) {
       return false;
     }
-    return children({ renderInput, renderSubmit });
+    return children({ renderInput, renderSubmit, formState });
   }
 }
 

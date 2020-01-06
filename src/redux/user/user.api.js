@@ -12,6 +12,13 @@ const userApi = {
       username: sanitizeEmail(usernameOrEmail),
       password: sanitizePassword(password),
     }),
+  changePassword: (currentPassword, newPassword) =>
+    graphqlQuery(`mutation {
+    changePassword(
+      currentPassword: "${currentPassword}"
+      newPassword: "${newPassword}"
+    ) { success error }
+  }`),
   sendNewPassword: (email) =>
     graphqlQuery(`mutation {
       sendNewPassword(email: "${sanitizeEmail(email)}") { success }

@@ -42,7 +42,7 @@ const Root = ({
     if (id_token) {
       reauth(id_token);
     } else {
-      Actions.reset('login');
+      Actions.login();
     }
   };
 

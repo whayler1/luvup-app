@@ -23,6 +23,9 @@ export const LOGOUT = 'user/logout';
 export const REAUTH_ATTEMPT = 'user/reauth-attempt';
 export const REAUTH_SUCCESS = 'user/reauth-success';
 export const REAUTH_FAILURE = 'user/reauth-failure';
+export const CHANGE_PASSWORD_ATTEMPT = 'user/change-password-attempt';
+export const CHANGE_PASSWORD_SUCCESS = 'user/change-password-success';
+export const CHANGE_PASSWORD_FAILURE = 'user/change-password-failure';
 export const SEND_NEW_PASSWORD_ATTEMPT = 'user/send-new-password-attempt';
 export const SEND_NEW_PASSWORD_SUCCESS = 'user/send-new-password-success';
 export const SEND_NEW_PASSWORD_FAILURE = 'user/send-new-password-failure';
@@ -172,6 +175,38 @@ export const login = (usernameOrEmail, password) => async (
     // });
     dispatch({ type: LOGIN_FAILURE, errorMessage: err.message });
     return err;
+  }
+};
+
+export const changePassword = (currenPassword, newPassword) => async (
+  dispatch,
+) => {
+  dispatch({ type: CHANGE_PASSWORD_ATTEMPT });
+  try {
+    const res = await userApi.changePassword(currenPassword, newPassword);
+
+    if (Array.isArray(res.body.errors)) {
+      dispatch({
+        type: CHANGE_PASSWORD_FAILURE,
+        errorMessage: res.body.errors[0].message,
+      });
+      return;
+    }
+    const changePasswordErrorMessage = _.get(
+      res,
+      'body.data.changePassword.error',
+    );
+    if (changePasswordErrorMessage) {
+      dispatch({
+        type: CHANGE_PASSWORD_FAILURE,
+        errorMessage: changePasswordErrorMessage,
+      });
+      return;
+    }
+    await Actions.changePasswordSuccess();
+    dispatch({ type: CHANGE_PASSWORD_SUCCESS });
+  } catch (error) {
+    dispatch({ type: CHANGE_PASSWORD_FAILURE, errorMessage: error.message });
   }
 };
 
