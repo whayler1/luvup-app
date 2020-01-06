@@ -6,7 +6,7 @@ import { Text, View } from 'react-native';
 import FormScene from '../../components/FormScene';
 import Form, { FORM_VALIDATORS } from '../../components/Form';
 import Well from '../../components/Well';
-import { scene } from '../../styles';
+import { scene, vars } from '../../styles';
 import { isStringWithLength } from '../../helpers';
 import { changePassword as changePasswordAction } from '../../redux/user/user.actions';
 import {
@@ -82,7 +82,12 @@ const ChangePassword = ({
             {isStringWithLength(unrecognizedError) && (
               <Well text={unrecognizedError} styles={scene.gutterAndHalfTop} />
             )}
-            <View style={scene.gutterDoubleAndHalfTop}>
+            <View
+              style={[
+                scene.gutterDoubleAndHalfTop,
+                { marginBottom: vars.gutterDouble },
+              ]}
+            >
               {renderSubmit({
                 title: 'Submit',
               })}

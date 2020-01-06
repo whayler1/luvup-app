@@ -20,7 +20,9 @@ const ChangePasswordSuccess = () => (
     <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
       Your password has been changed
     </Text>
-    <View style={{ marginTop: vars.gutterTriple }}>
+    <View
+      style={{ marginTop: vars.gutterTriple, marginBottom: vars.gutterDouble }}
+    >
       <Button
         buttonStyles={BUTTON_STYLES.INFO_SKELETON}
         title="Done"
