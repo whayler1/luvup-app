@@ -110,6 +110,11 @@ export const getMe = (options = {}) => async (dispatch) => {
 
     const errorMessage = _.get(res, 'body.errors[0].message');
     if (errorMessage) {
+      errorReporter.message(errorMessage, {
+        tags: {
+          thunk: 'user.getMe',
+        },
+      });
       dispatch({
         type: GET_ME_FAILURE,
         errorMessage,
