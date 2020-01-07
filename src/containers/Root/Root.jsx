@@ -38,24 +38,15 @@ const Root = ({
     logout();
   }
 
-  const callReauthWithIdToken = async (id_token) => {
-    if (id_token) {
-      reauth(id_token);
-    } else {
-      Actions.login();
-    }
-  };
-
   const useAsyncStorageToSetIdToken = async () => {
     const { id_token, getMeData } = await getAllStorageData();
+    if (!id_token || !getMeData) {
+      Actions.login();
+    }
 
     setIdToken(id_token);
-    if (getMeData) {
-      setGetMeSuccess(getMeData);
-      getMe({ retryOnTimeout: true });
-    } else {
-      callReauthWithIdToken(id_token);
-    }
+    setGetMeSuccess(getMeData);
+    getMe({ retryOnTimeout: true });
   };
 
   useEffect(() => {
