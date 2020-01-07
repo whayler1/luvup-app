@@ -2,7 +2,7 @@ import _ from 'lodash';
 import uuid from 'uuid/v1';
 
 import coinApi from './coin.api';
-import { updateSentCoins } from '../../services/storage';
+import { updateSentCoins as updateSentCoinsInAsyncStorage } from '../../services/storage';
 
 export const REFRESH_SENT_COIN_COUNT = 'coin/refresh-sent-coin-count';
 export const SEND_COIN_ATTEMPT = 'coin/send-coin-attempt';
@@ -33,7 +33,7 @@ export const sendCoin = () => async (dispatch, getState) => {
         placeholderCoinId,
       });
       const { sentCoins } = getState().coin;
-      updateSentCoins(sentCoins);
+      updateSentCoinsInAsyncStorage(sentCoins);
     }
 
     return res;
