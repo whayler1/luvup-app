@@ -1,5 +1,4 @@
-import isArray from 'lodash/isArray';
-import get from 'lodash/get';
+import isObject from 'lodash/isObject';
 import { AsyncStorage } from 'react-native';
 
 const ID_TOKEN = 'id_token';
@@ -25,6 +24,21 @@ export const getAllData = async () => {
 
 export const setGetMeData = (getMeData) =>
   AsyncStorage.setItem(GET_ME_DATA, JSON.stringify(getMeData));
+
+export const updateSentCoins = async (sentCoins) => {
+  const oldGetMeData = await getGetMeData();
+  if (!isObject(oldGetMeData)) {
+    return;
+  }
+  const getMeData = {
+    ...oldGetMeData,
+    sentCoins: {
+      ...oldGetMeData.sentCoins,
+      rows: sentCoins,
+    },
+  };
+  return setGetMeData(getMeData);
+};
 
 export const setIdToken = (idToken) => AsyncStorage.setItem(ID_TOKEN, idToken);
 

@@ -36,13 +36,15 @@ export const GET_LOVER_REQUEST_SUCCESS =
 export const GET_LOVER_REQUEST_FAILURE =
   'lover-request/get-lover-request-failure';
 
-export const createLoverRequestAndRelationshipAndPlaceholderLover = recipientId => async dispatch => {
+export const createLoverRequestAndRelationshipAndPlaceholderLover = (
+  recipientId,
+) => async (dispatch) => {
   dispatch({
     type: CREATE_LOVER_REQUEST_AND_RELATIONSHIP_AND_PLACEHOLDER_LOVER_ATTEMPT,
   });
   try {
     const res = await loverRequestApi.createLoverRequestAndRelationshipAndPlaceholderLover(
-      recipientId
+      recipientId,
     );
 
     const errors = _.get(res, 'body.errors', []);
@@ -66,7 +68,7 @@ export const createLoverRequestAndRelationshipAndPlaceholderLover = recipientId 
   }
 };
 
-export const requestLover = recipientId => async dispatch => {
+export const requestLover = (recipientId) => async (dispatch) => {
   try {
     const res = await loverRequestApi.requestLover(recipientId);
 
@@ -91,11 +93,11 @@ export const cancelLoverRequest = () => async (dispatch, getState) => {
 
     const loverRequest = _.get(
       res,
-      'body.data.cancelLoverRequest.loverRequest'
+      'body.data.cancelLoverRequest.loverRequest',
     );
     const relationshipId = _.get(
       res,
-      'body.data.cancelLoverRequest.relationship.id'
+      'body.data.cancelLoverRequest.relationship.id',
     );
 
     if (loverRequest && loverRequest.id) {
@@ -117,14 +119,14 @@ export const cancelLoverRequest = () => async (dispatch, getState) => {
   }
 };
 
-export const cancelSentLoverRequestAndRelationship = () => async dispatch => {
+export const cancelSentLoverRequestAndRelationship = () => async (dispatch) => {
   dispatch({ type: CANCEL_SENT_LOVER_REQUEST_AND_RELATIONSHIP_ATTEMPT });
   try {
     const res = await loverRequestApi.cancelSentLoverRequestAndRelationship();
     const { loverRequest, relationship } = _.get(
       res,
       'body.data.cancelSentLoverRequestAndRelationship',
-      {}
+      {},
     );
 
     if (_.isPlainObject(loverRequest)) {
@@ -140,7 +142,7 @@ export const cancelSentLoverRequestAndRelationship = () => async dispatch => {
       errorMessage: _.get(
         res,
         'body.errors[0].message',
-        'Error canceling lover request'
+        'Error canceling lover request',
       ),
     });
   } catch (error) {
@@ -151,15 +153,14 @@ export const cancelSentLoverRequestAndRelationship = () => async dispatch => {
   }
 };
 
-export const resendLoverRequestEmail = (
-  loverRequestId,
-  email = ''
-) => async dispatch => {
+export const resendLoverRequestEmail = (loverRequestId, email = '') => async (
+  dispatch,
+) => {
   dispatch({ type: RESEND_LOVER_REQUEST_EMAIL_ATTEMPT });
   try {
     const res = await loverRequestApi.resendLoverRequestEmail(
       loverRequestId,
-      email
+      email,
     );
 
     dispatch({ type: RESEND_LOVER_REQUEST_EMAIL_SUCCESS });
@@ -175,8 +176,7 @@ export const resendLoverRequestEmail = (
 
 export const clearLoverRequest = () => ({ type: CLEAR_LOVER_REQUEST });
 
-export const getLoverRequest = () => async dispatch => {
-  console.log('\n\n -----> getLoverRequest');
+export const getLoverRequest = () => async (dispatch) => {
   dispatch({ type: GET_LOVER_REQUEST_ATTEMPT });
   try {
     const res = await loverRequestApi.getLoverRequest();
@@ -186,9 +186,8 @@ export const getLoverRequest = () => async dispatch => {
     }
     const loverRequest = _.get(
       res,
-      'body.data.activeLoverRequest.loverRequest'
+      'body.data.activeLoverRequest.loverRequest',
     );
-    console.log('loverRequest', loverRequest);
     dispatch({
       type: GET_LOVER_REQUEST_SUCCESS,
       ...loverRequest,
