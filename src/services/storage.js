@@ -25,20 +25,26 @@ export const getAllData = async () => {
 export const setGetMeData = (getMeData) =>
   AsyncStorage.setItem(GET_ME_DATA, JSON.stringify(getMeData));
 
-export const updateSentCoins = async (sentCoins) => {
+const updateTokensInGetMeData = async (tokens, key) => {
   const oldGetMeData = await getGetMeData();
   if (!isObject(oldGetMeData)) {
     return;
   }
   const getMeData = {
     ...oldGetMeData,
-    sentCoins: {
-      ...oldGetMeData.sentCoins,
-      rows: sentCoins,
+    [key]: {
+      ...oldGetMeData[key],
+      rows: tokens,
     },
   };
   return setGetMeData(getMeData);
 };
+
+export const updateSentCoins = (sentCoins) =>
+  updateTokensInGetMeData(sentCoins, 'sentCoins');
+
+export const updateSentJalapenos = async (sentJalapenos) =>
+  updateTokensInGetMeData(sentJalapenos, 'sentJalapenos');
 
 export const setIdToken = (idToken) => AsyncStorage.setItem(ID_TOKEN, idToken);
 
