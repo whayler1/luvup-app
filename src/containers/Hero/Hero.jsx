@@ -234,7 +234,7 @@ class Hero extends Component {
   isMaxItemsPerHourSent = (items) =>
     items.length < config.maxItemsPerHour ||
     (items.length >= config.maxItemsPerHour &&
-      moment(new Date(+items[config.maxItemsPerHour - 1].createdAt)).isBefore(
+      moment(new Date(+items[config.maxItemsPerHour - 1].createdAt)).isAfter(
         moment().subtract(1, 'hour'),
       ));
 
@@ -302,7 +302,7 @@ class Hero extends Component {
   sendCoin = async () => {
     const { sentCoins } = this.props;
 
-    if (this.isMaxItemsPerHourSent(sentCoins)) {
+    if (!this.isMaxItemsPerHourSent(sentCoins)) {
       this.fireCoin();
       const res = await this.props.sendCoin();
       if (_.isError(res)) {
@@ -318,7 +318,7 @@ class Hero extends Component {
   sendJalapeno = async () => {
     const { sentJalapenos } = this.props;
 
-    if (this.isMaxItemsPerHourSent(sentJalapenos)) {
+    if (!this.isMaxItemsPerHourSent(sentJalapenos)) {
       this.fireJalapeno();
       const res = await this.props.sendJalapeno();
       if (_.isError(res)) {
