@@ -73,10 +73,9 @@ const LimitExceededModal = ({
               modalContent === RELATIONSHIP_REQUEST_ACCEPTED) &&
               'You can now begin using Luvup!'}
             {modalContent === COIN &&
-              (coinCopy || `Wow! ${loverFirstName} must be on fire right now.`)}
+              `Wow! ${loverFirstName} must be on fire right now.`}
             {modalContent === JALAPENO &&
-              (jalapenoCopy ||
-                `Looks like things are getting spicy with ${loverFirstName} right now.`)}
+              `Looks like things are getting spicy with ${loverFirstName} right now.`}
           </Text>
           <Text style={[scene.bodyCopy, scene.textCenter, scene.gutterTop]}>
             {modalContent === NEW_RELATIONSHIP_REQUEST &&
