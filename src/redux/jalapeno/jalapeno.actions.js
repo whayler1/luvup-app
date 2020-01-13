@@ -3,6 +3,7 @@ import _ from 'lodash';
 import uuid from 'uuid/v1';
 
 import config from '../../config';
+import { updateSentJalapenos as updateSentJalapenosInAsyncStorage } from '../../services/storage';
 
 export const REFRESH_SENT_JALAPENO_COUNT =
   'jalapeno/refresh-sent-jalapeno-count';
@@ -18,7 +19,7 @@ export const refreshSentJalapenoCount = () => ({
   type: REFRESH_SENT_JALAPENO_COUNT,
 });
 
-export const sendJalapeno = () => async (dispatch) => {
+export const sendJalapeno = () => async (dispatch, getState) => {
   const placeholderJalapenoId = uuid();
   dispatch({ type: SEND_JALAPENO_ATTEMPT, placeholderJalapenoId });
 
@@ -41,12 +42,14 @@ export const sendJalapeno = () => async (dispatch) => {
     );
 
     if (_.isObject(jalapeno) && _.isObject(relationshipScore)) {
-      dispatch({
+      await dispatch({
         type: SEND_JALAPENO_SUCCESS,
         jalapeno,
         relationshipScore,
         placeholderJalapenoId,
       });
+      const { sentJalapenos } = getState().jalapeno;
+      updateSentJalapenosInAsyncStorage(sentJalapenos);
     }
 
     return res;

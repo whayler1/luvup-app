@@ -2,6 +2,7 @@ import _ from 'lodash';
 import uuid from 'uuid/v1';
 
 import coinApi from './coin.api';
+import { updateSentCoins as updateSentCoinsInAsyncStorage } from '../../services/storage';
 
 export const REFRESH_SENT_COIN_COUNT = 'coin/refresh-sent-coin-count';
 export const SEND_COIN_ATTEMPT = 'coin/send-coin-attempt';
@@ -13,7 +14,7 @@ export const SET_UNVIEWED_COIN_COUNT = 'coin/set-unviewed-coin-count';
 
 export const refreshSentCoinCount = () => ({ type: REFRESH_SENT_COIN_COUNT });
 
-export const sendCoin = () => async (dispatch) => {
+export const sendCoin = () => async (dispatch, getState) => {
   const placeholderCoinId = uuid();
   dispatch({
     type: SEND_COIN_ATTEMPT,
@@ -25,12 +26,14 @@ export const sendCoin = () => async (dispatch) => {
     const sendCoin = _.get(res, 'body.data.sendCoin');
 
     if (_.isObject(sendCoin) && _.isObject(sendCoin.relationshipScore)) {
-      dispatch({
+      await dispatch({
         type: SEND_COIN_SUCCESS,
         coin: sendCoin.coin,
         relationshipScore: sendCoin.relationshipScore,
         placeholderCoinId,
       });
+      const { sentCoins } = getState().coin;
+      updateSentCoinsInAsyncStorage(sentCoins);
     }
 
     return res;

@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { Alert } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import {
   listen as listenToNotifications,
@@ -56,6 +57,14 @@ export const GET_TIMELINE_DATA_ATTEMPT = 'user/get-timeline-data-attempt';
 export const GET_TIMELINE_DATA_SUCCESS = 'user/get-timeline-data-success';
 export const GET_TIMELINE_DATA_FAILURE = 'user/get-timeline-data-failure';
 
+export const logout = () => async (dispatch) => {
+  await removeAllAsyncData();
+  appStateListener.stop();
+  dispatch({ type: LOGOUT });
+  removeNotificationsListener();
+  Actions.replace('login');
+};
+
 export const setGetMeSuccess = (data) => (dispatch) => {
   dispatch({
     type: GET_ME_SUCCESS,
@@ -64,17 +73,53 @@ export const setGetMeSuccess = (data) => (dispatch) => {
   Actions.replace('dashboard');
 };
 
+const displayGetMeErrorAlert = ({ handleRetry, handleLogin }) => {
+  Alert.alert(
+    'Unable to Connect to Luvup',
+    'The app was unable to connect to Luvup. Please make sure you are connected to wifi or mobile data.',
+    [
+      {
+        text: 'Retry',
+        onPress: handleRetry,
+      },
+      {
+        text: 'Login Again',
+        onPress: handleLogin,
+      },
+      { text: 'Dismiss', style: 'cancel' },
+    ],
+    { cancelable: false },
+  );
+};
+
 export const getMe = (options = {}) => async (dispatch) => {
   dispatch({ type: GET_ME_ATTEMPT });
+  const triggerDisplayGetMeErrorAlert = () => {
+    displayGetMeErrorAlert({
+      handleRetry: () => {
+        dispatch(getMe());
+      },
+      handleLogin: () => {
+        dispatch(logout());
+      },
+    });
+  };
+
   try {
     const res = await userApi.getMe();
 
     const errorMessage = _.get(res, 'body.errors[0].message');
     if (errorMessage) {
+      errorReporter.message(errorMessage, {
+        tags: {
+          thunk: 'user.getMe',
+        },
+      });
       dispatch({
         type: GET_ME_FAILURE,
         errorMessage,
       });
+      triggerDisplayGetMeErrorAlert();
       return;
     }
 
@@ -98,6 +143,7 @@ export const getMe = (options = {}) => async (dispatch) => {
       type: GET_ME_FAILURE,
       errorMessage: err.message,
     });
+    triggerDisplayGetMeErrorAlert();
     return err;
   }
 };
@@ -208,14 +254,6 @@ export const changePassword = (currenPassword, newPassword) => async (
   } catch (error) {
     dispatch({ type: CHANGE_PASSWORD_FAILURE, errorMessage: error.message });
   }
-};
-
-export const logout = () => async (dispatch) => {
-  await removeAllAsyncData();
-  appStateListener.stop();
-  dispatch({ type: LOGOUT });
-  removeNotificationsListener();
-  Actions.replace('login');
 };
 
 export const reauth = (id_token) => async (dispatch, getState) => {

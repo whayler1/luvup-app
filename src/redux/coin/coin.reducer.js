@@ -109,6 +109,7 @@ export default function reducer(state = defaultState, action) {
           ...state,
           rows: sentCoins.rows,
           count: coinCount.count,
+          sentCoins: sentCoins.rows,
           sentCoinsCount: sentCoins.count,
           unviewedCoinCount: unviewedEventCounts.coinsReceived,
         };

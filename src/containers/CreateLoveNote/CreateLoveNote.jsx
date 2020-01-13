@@ -43,6 +43,14 @@ const getLoveNotePlaceholder = (loverFirstName) => {
 
 const maxTokens = 5;
 
+const modalCopy = (numTokens, noun) => {
+  const string = `You may only send ${maxTokens} ${noun}s per hour.`;
+  if (numTokens === maxTokens) {
+    return string;
+  }
+  return `${string} That means you can only attach ${numTokens} to this love note.`;
+};
+
 const CountText = ({ n, verb }) => (
   <Text
     style={{
@@ -479,6 +487,8 @@ class CreateLoveNote extends PureComponent {
           closeModal={closeModal}
           modalContent={modalContent}
           loverFirstName={loverFirstName}
+          coinCopy={modalCopy(numLuvups, 'luvup')}
+          jalapenoCopy={modalCopy(numJalapenos, 'jalapeño')}
           coinsAvailableTime={coinsAvailableTime}
           jalapenosAvailableTime={jalapenosAvailableTime}
         />
