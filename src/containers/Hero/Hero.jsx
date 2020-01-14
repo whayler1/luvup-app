@@ -231,12 +231,20 @@ class Hero extends Component {
   /**
    * JW: This logic could probably be simplified somehow. But works-for-now™
    */
-  isMaxItemsPerHourSent = (items) =>
-    items.length < config.maxItemsPerHour ||
-    (items.length >= config.maxItemsPerHour &&
-      moment(new Date(+items[config.maxItemsPerHour - 1].createdAt)).isAfter(
+  isBelowMaxItemsPerHour = (items) => {
+    if (items.length < config.maxItemsPerHour) {
+      return true;
+    }
+    if (
+      items.length >= config.maxItemsPerHour &&
+      moment(new Date(+items[config.maxItemsPerHour - 1].createdAt)).isBefore(
         moment().subtract(1, 'hour'),
-      ));
+      )
+    ) {
+      return true;
+    }
+    return false;
+  };
 
   resendLoverRequestEmail = async () => {
     await this.setState({
@@ -302,7 +310,7 @@ class Hero extends Component {
   sendCoin = async () => {
     const { sentCoins } = this.props;
 
-    if (!this.isMaxItemsPerHourSent(sentCoins)) {
+    if (this.isBelowMaxItemsPerHour(sentCoins)) {
       this.fireCoin();
       const res = await this.props.sendCoin();
       if (_.isError(res)) {
@@ -318,7 +326,7 @@ class Hero extends Component {
   sendJalapeno = async () => {
     const { sentJalapenos } = this.props;
 
-    if (!this.isMaxItemsPerHourSent(sentJalapenos)) {
+    if (this.isBelowMaxItemsPerHour(sentJalapenos)) {
       this.fireJalapeno();
       const res = await this.props.sendJalapeno();
       if (_.isError(res)) {
