@@ -45,6 +45,7 @@ import {
 } from '../../redux/loverRequest/loverRequest.actions';
 import { getReceivedLoverRequests as getReceivedLoverRequestsAction } from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
 import config from '../../config';
+import dateFromDateStringOrIsoString from '../../helpers/dateFromDateStringOrIsoString';
 
 const easing = BezierEasing(0, 0, 0.5, 1);
 
@@ -235,14 +236,22 @@ class Hero extends Component {
     if (items.length < config.maxItemsPerHour) {
       return true;
     }
-    if (
-      items.length >= config.maxItemsPerHour &&
-      moment(new Date(+items[config.maxItemsPerHour - 1].createdAt)).isBefore(
-        moment().subtract(1, 'hour'),
-      )
-    ) {
+    const lastItemIndex = config.maxItemsPerHour - 1;
+    const lastItem = items[lastItemIndex];
+    const lastItemCreatedAt = lastItem.createdAt;
+
+    if (!lastItemCreatedAt) {
       return true;
     }
+    const lastItemDate = dateFromDateStringOrIsoString(lastItemCreatedAt);
+    const isLastItemCreatedBeforeOneHourAgo = moment(lastItemDate).isBefore(
+      moment().subtract(1, 'hour'),
+    );
+
+    if (isLastItemCreatedBeforeOneHourAgo) {
+      return true;
+    }
+
     return false;
   };
 

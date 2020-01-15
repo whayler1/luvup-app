@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import { View, Text, TouchableOpacity } from 'react-native';
+import isString from 'lodash/isString';
 
 import styles from './Login.styles';
 import { scene, forms, vars } from '../../styles';
@@ -147,7 +148,7 @@ class Login extends Component {
               testID: 'login-password-input',
             }}
           />
-          {loginError.length > 0 && (
+          {isString(loginError) && loginError.length > 0 && (
             <Well
               styles={{ marginTop: vars.gutterDouble, marginBottom: 0 }}
               text={this.getFormattedLoginError()}

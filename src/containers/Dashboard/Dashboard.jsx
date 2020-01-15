@@ -19,6 +19,7 @@ import LimitExceededModal, {
 import DashboardNoRelationship from './DashboardNoRelationship';
 import Hero from '../Hero';
 import analytics from '../../services/analytics';
+import dateFromDateStringOrIsoString from '../../helpers/dateFromDateStringOrIsoString';
 import {
   getCoinCount as getCoinCountAction,
   setUnviewedCoinCount as setUnviewedCoinCountAction,
@@ -27,13 +28,6 @@ import {
   getJalapenoCount as getJalapenoCountAction,
   setUnviewedJalapenoCount as setUnviewedJalapenoCountAction,
 } from '../../redux/jalapeno/jalapeno.actions';
-
-const dateFromDateStringOrIsoString = (date) => {
-  if (/^\d*$/.test(date)) {
-    return new Date(+date);
-  }
-  return new Date(date);
-};
 
 class Dashboard extends PureComponent {
   static propTypes = {
