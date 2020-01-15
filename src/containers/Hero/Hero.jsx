@@ -83,6 +83,21 @@ const heartArtWidthHeight = {
   height: hearthHeight,
 };
 
+const oneHourAgo = () => moment().subtract(1, 'hour');
+
+const isTimestampBeforeOneHourAgo = (timeStamp) =>
+  moment(dateFromDateStringOrIsoString(timeStamp)).isBefore(oneHourAgo());
+
+const getRecentlySentItemCount = (items) => {
+  const count = items.filter(
+    (item) => !isTimestampBeforeOneHourAgo(item.createdAt),
+  ).length;
+  if (count > config.maxItemsPerHour) {
+    return config.maxItemsPerHour;
+  }
+  return count;
+};
+
 class Hero extends Component {
   constructor(props) {
     super(props);
@@ -229,9 +244,6 @@ class Hero extends Component {
     isNewRelationship: PropTypes.bool,
   };
 
-  /**
-   * JW: This logic could probably be simplified somehow. But works-for-now™
-   */
   isBelowMaxItemsPerHour = (items) => {
     if (items.length < config.maxItemsPerHour) {
       return true;
@@ -243,12 +255,8 @@ class Hero extends Component {
     if (!lastItemCreatedAt) {
       return true;
     }
-    const lastItemDate = dateFromDateStringOrIsoString(lastItemCreatedAt);
-    const isLastItemCreatedBeforeOneHourAgo = moment(lastItemDate).isBefore(
-      moment().subtract(1, 'hour'),
-    );
 
-    if (isLastItemCreatedBeforeOneHourAgo) {
+    if (isTimestampBeforeOneHourAgo(lastItemCreatedAt)) {
       return true;
     }
 
@@ -556,7 +564,6 @@ class Hero extends Component {
       coinTranslateY,
       coinOpacity,
       jalapenoTranslateY,
-      // closeModal,
       jalapenoOpacity,
       directionsOpacity,
       props: {
@@ -711,7 +718,11 @@ class Hero extends Component {
             ],
           }}
         >
-          <CoinArt recentlySentCoinCount={recentlySentCoinCount} />
+          <CoinArt
+            recentlySentCoinCount={getRecentlySentItemCount(
+              this.props.sentCoins,
+            )}
+          />
         </Animated.View>
         <Animated.View
           style={{
@@ -728,7 +739,11 @@ class Hero extends Component {
             ],
           }}
         >
-          <JalapenoArt recentlySentJalapenoCount={recentlySentJalapenoCount} />
+          <JalapenoArt
+            recentlySentJalapenoCount={getRecentlySentItemCount(
+              this.props.sentJalapenos,
+            )}
+          />
         </Animated.View>
         <Animated.View
           style={{
