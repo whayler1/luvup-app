@@ -49,6 +49,7 @@ const styles = StyleSheet.create({
     fontFamily: vars.fontBlack,
     color: vars.blueGrey300,
     fontSize: 12,
+    textAlign: 'center',
   },
   scoreText: {
     fontFamily: vars.fontBlack,

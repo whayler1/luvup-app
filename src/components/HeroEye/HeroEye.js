@@ -1,11 +1,11 @@
 import React from 'react';
-import ReactArt, { Group, Shape, Surface, Transform } from 'ReactNativeART';
+import { Group, Shape, Surface } from 'ReactNativeART';
 
 import Circle from '../Circle';
 
-export default () => (
-  <Surface width={83} height={35}>
-    <Group x={2} y={2}>
+export default ({ scale = 1 }) => (
+  <Surface width={83 * scale} height={35 * scale}>
+    <Group x={2 * scale} y={2 * scale} scale={scale}>
       <Shape
         stroke="white"
         strokeWidth={4}
@@ -21,8 +21,8 @@ export default () => (
       <Shape stroke="white" strokeWidth={4} d={'M17.725,13.7272727 L7,2'} />
       <Shape stroke="white" strokeWidth={4} d={'M24.75,9.72222222 L20,0'} />
     </Group>
-    <Group x={40} y={22}>
-      <Circle radius={6} fill={'white'} />
+    <Group x={40 * scale} y={22 * scale} scale={scale}>
+      <Circle radius={6 * scale} fill="white" />
     </Group>
   </Surface>
 );
