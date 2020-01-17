@@ -3,8 +3,11 @@ import { Group, Shape, Surface } from 'ReactNativeART';
 
 import Circle from '../Circle';
 
+export const DEFAULT_WIDTH = 83;
+export const DEFAULT_HEIGHT = 35;
+
 export default ({ scale = 1 }) => (
-  <Surface width={83 * scale} height={35 * scale}>
+  <Surface width={DEFAULT_WIDTH * scale} height={DEFAULT_HEIGHT * scale}>
     <Group x={2 * scale} y={2 * scale} scale={scale}>
       <Shape
         stroke="white"

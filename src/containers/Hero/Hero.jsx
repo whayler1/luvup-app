@@ -18,7 +18,9 @@ import { Ionicons } from '@expo/vector-icons';
 
 import styles from './Hero.styles';
 import { vars } from '../../styles';
-import HeroEye from '../../components/HeroEye';
+import HeroEye, {
+  DEFAULT_WIDTH as HERO_EYE_DEFAULT_WIDTH,
+} from '../../components/HeroEye';
 import HeroMouth, {
   DEFAULT_WIDTH as HERO_MOUTH_DEFAULT_WIDTH,
 } from '../../components/HeroMouth';
@@ -70,6 +72,7 @@ const getHeartFillValue = (relationshipScore, easedDy) => {
 
 const windowDimensions = Dimensions.get('window');
 const screenWidth = Math.round(windowDimensions.width);
+const screenHeight = Math.round(windowDimensions.height);
 const heartMaxWidth = 320;
 const heartWidth = Math.min(
   screenWidth - vars.gutterDoubleAndHalf * 2,
@@ -83,9 +86,16 @@ const heartArtWidthHeight = {
   height: hearthHeight,
 };
 
+const dragMaxDistance = 60;
+const dragDistanceFromHeight = Math.round(screenHeight * 0.04);
+const dragDistance = Math.min(dragMaxDistance, dragDistanceFromHeight);
 const eyeAndMouthScale = screenWidth < 600 ? 0.8 : 1;
+const scaledEyeWidth = HERO_EYE_DEFAULT_WIDTH * eyeAndMouthScale;
 const eyeTop = Math.round(hearthHeight * 0.24);
 const eyeHorizonalOffset = Math.round(heartWidth * 0.15);
+const tearHorizontalOffset = Math.round(
+  scaledEyeWidth - 10 + eyeHorizonalOffset,
+);
 const mouthLeft = Math.round(
   heartWidth / 2 - (HERO_MOUTH_DEFAULT_WIDTH * eyeAndMouthScale) / 2,
 );
@@ -152,9 +162,8 @@ class Hero extends Component {
         this.showDirections();
       },
       onPanResponderMove: (evt, gestureState) => {
-        const max = 60;
         const { dy } = gestureState;
-        const easedDy = getEasedDy(dy, max);
+        const easedDy = getEasedDy(dy, dragDistance);
         const { isHeartShake, isHeartCry } = this.state;
 
         this.translateY.setValue(easedDy);
@@ -163,22 +172,22 @@ class Hero extends Component {
           getHeartFillValue(this.props.relationshipScore, easedDy),
         );
 
-        if (easedDy === -max && !isHeartShake) {
+        if (easedDy === -dragDistance && !isHeartShake) {
           this.setState({ isHeartShake: true }, () => {
             this.heartShake();
           });
-        } else if (easedDy > -max && isHeartShake) {
+        } else if (easedDy > -dragDistance && isHeartShake) {
           this.setState({ isHeartShake: false }, () => {
             this.heartTranslateY.stopAnimation();
             this.heartTranslateY.setValue(0);
           });
         }
 
-        if (easedDy === max && !isHeartCry) {
+        if (easedDy === dragDistance && !isHeartCry) {
           this.setState({ isHeartCry: true }, () => {
             this.heartCry();
           });
-        } else if (easedDy < max && isHeartCry) {
+        } else if (easedDy < dragDistance && isHeartCry) {
           this.setState({ isHeartCry: false }, () => {
             this.cancelHeartCry();
           });
@@ -627,7 +636,7 @@ class Hero extends Component {
             <Animated.View
               style={{
                 position: 'absolute',
-                left: 105,
+                left: tearHorizontalOffset,
                 top: 90,
                 opacity: tearDropAOpacity,
                 transform: [{ translateY: tearDropATranslateY }],
@@ -648,7 +657,7 @@ class Hero extends Component {
             <Animated.View
               style={{
                 position: 'absolute',
-                right: 105,
+                right: tearHorizontalOffset,
                 top: 90,
                 opacity: tearDropBOpacity,
                 transform: [{ translateY: tearDropBTranslateY }],
