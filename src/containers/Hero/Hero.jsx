@@ -597,7 +597,7 @@ class Hero extends Component {
         <Animated.View
           testID="hero-directions"
           style={{
-            marginBottom: 32,
+            marginBottom: getValuesForWidths({ xs: 16, s: 32 }),
             opacity: directionsOpacity,
             alignItems: 'center',
           }}
@@ -723,7 +723,7 @@ class Hero extends Component {
         </Animated.View>
         <Animated.View
           style={{
-            marginTop: 32,
+            marginTop: getValuesForWidths({ xs: 16, s: 32 }),
             opacity: directionsOpacity,
             alignItems: 'center',
           }}
