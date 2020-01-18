@@ -215,9 +215,6 @@ class Hero extends Component {
       },
       onPanResponderTerminationRequest: () => true,
       onPanResponderRelease: (evt, gestureState) => {
-        // console.log(evt);
-        // console.log(gestureState);
-        // console.log('time', new Date() - this.state.touchStartTime);
         this.springY();
         this.scaleBack();
         this.springScaleBack();
@@ -497,7 +494,6 @@ class Hero extends Component {
   }
 
   fireCoin() {
-    console.log('fireCoin', availableTokenAnimationSpace);
     this.coinTranslateY.setValue(0);
     this.coinOpacity.setValue(1);
 
