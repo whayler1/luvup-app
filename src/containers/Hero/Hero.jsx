@@ -118,6 +118,9 @@ const getRecentlySentItemCount = (items) => {
   return count;
 };
 
+const isTap = ({ touchStartTime, dx, dy }) =>
+  new Date() - touchStartTime < 300 && dx < 10 && dy < 10;
+
 class Hero extends Component {
   constructor(props) {
     super(props);
@@ -162,6 +165,7 @@ class Hero extends Component {
         this.scaleBGHeart.setValue(1);
         this.springScaleTouch();
         this.showDirections();
+        this.setState({ touchStartTime: new Date() });
       },
       onPanResponderMove: (evt, gestureState) => {
         const { dy } = gestureState;
@@ -207,13 +211,16 @@ class Hero extends Component {
       },
       onPanResponderTerminationRequest: () => true,
       onPanResponderRelease: (evt, gestureState) => {
+        // console.log(evt);
+        // console.log(gestureState);
+        // console.log('time', new Date() - this.state.touchStartTime);
         this.springY();
         this.scaleBack();
         this.springScaleBack();
         this.hideDirections();
         this.changeHeartColor(this.props.relationshipScore);
 
-        const { dy } = gestureState;
+        const { dx, dy } = gestureState;
         const { swipeThreshold } = config;
 
         if (this.state.isHeartShake) {
@@ -228,7 +235,14 @@ class Hero extends Component {
           });
         }
 
-        if (dy < -swipeThreshold) {
+        if (
+          dy < -swipeThreshold ||
+          isTap({
+            touchStartTime: this.state.touchStartTime,
+            dx,
+            dy,
+          })
+        ) {
           this.sendCoin();
         } else if (dy > swipeThreshold) {
           this.sendJalapeno();
