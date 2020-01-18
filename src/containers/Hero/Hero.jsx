@@ -48,6 +48,7 @@ import {
 import { getReceivedLoverRequests as getReceivedLoverRequestsAction } from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
 import config from '../../config';
 import dateFromDateStringOrIsoString from '../../helpers/dateFromDateStringOrIsoString';
+import getValuesForWidths from '../../helpers/getValuesForWidths';
 
 const easing = BezierEasing(0, 0, 0.5, 1);
 
@@ -78,12 +79,13 @@ const heartWidth = Math.min(
   screenWidth - vars.gutterDoubleAndHalf * 2,
   heartMaxWidth,
 );
-const hearthHeight = Math.round(heartWidth * 0.9122807018);
+const heartHeight = Math.round(heartWidth * 0.9122807018);
 const heartScale = heartWidth / HEART_ART_DEFAULT_WIDTH;
+const availableTokenAnimationSpace = (screenHeight - heartHeight - 160) / 2;
 
 const heartArtWidthHeight = {
   width: heartWidth,
-  height: hearthHeight,
+  height: heartHeight,
 };
 
 const dragMaxDistance = 60;
@@ -91,7 +93,7 @@ const dragDistanceFromHeight = Math.round(screenHeight * 0.04);
 const dragDistance = Math.min(dragMaxDistance, dragDistanceFromHeight);
 const eyeAndMouthScale = screenWidth < 600 ? 0.8 : 1;
 const scaledEyeWidth = HERO_EYE_DEFAULT_WIDTH * eyeAndMouthScale;
-const eyeTop = Math.round(hearthHeight * 0.24);
+const eyeTop = Math.round(heartHeight * 0.24);
 const eyeHorizonalOffset = Math.round(heartWidth * 0.15);
 const tearHorizontalOffset = Math.round(
   scaledEyeWidth - 10 + eyeHorizonalOffset,
@@ -99,7 +101,7 @@ const tearHorizontalOffset = Math.round(
 const mouthLeft = Math.round(
   heartWidth / 2 - (HERO_MOUTH_DEFAULT_WIDTH * eyeAndMouthScale) / 2,
 );
-const mouthBottom = Math.round(hearthHeight * 0.3);
+const mouthBottom = Math.round(heartHeight * 0.3);
 
 const oneHourAgo = () => moment().subtract(1, 'hour');
 
@@ -478,12 +480,13 @@ class Hero extends Component {
   }
 
   fireCoin() {
+    console.log('fireCoin', availableTokenAnimationSpace);
     this.coinTranslateY.setValue(0);
     this.coinOpacity.setValue(1);
 
     Animated.sequence([
       Animated.timing(this.coinTranslateY, {
-        toValue: -160,
+        toValue: -Math.round(availableTokenAnimationSpace * 0.7),
         duration: 250,
         easing: Easing.out(Easing.ease),
       }),
@@ -495,7 +498,7 @@ class Hero extends Component {
           easing: Easing.inOut(Easing.linear),
         }),
         Animated.timing(this.coinTranslateY, {
-          toValue: -200,
+          toValue: -availableTokenAnimationSpace,
           duration: 250,
           delay: 250,
           easing: Easing.inOut(Easing.linear),
@@ -510,7 +513,7 @@ class Hero extends Component {
 
     Animated.sequence([
       Animated.timing(this.jalapenoTranslateY, {
-        toValue: 180,
+        toValue: availableTokenAnimationSpace * 0.7,
         duration: 250,
         easing: Easing.out(Easing.ease),
       }),
@@ -522,7 +525,7 @@ class Hero extends Component {
           easing: Easing.inOut(Easing.linear),
         }),
         Animated.timing(this.jalapenoTranslateY, {
-          toValue: 220,
+          toValue: availableTokenAnimationSpace,
           duration: 250,
           delay: 250,
           easing: Easing.inOut(Easing.linear),
@@ -687,8 +690,8 @@ class Hero extends Component {
             height: 60,
             left: '50%',
             top: '50%',
-            marginLeft: -40,
-            marginTop: -100,
+            marginLeft: getValuesForWidths({ xs: -24, s: -40 }),
+            marginTop: -heartHeight / 2,
             opacity: coinOpacity,
             transform: [{ translateY: coinTranslateY }],
           }}
@@ -697,6 +700,7 @@ class Hero extends Component {
             recentlySentCoinCount={getRecentlySentItemCount(
               this.props.sentCoins,
             )}
+            scale={getValuesForWidths({ xs: 0.6, s: 1 })}
           />
         </Animated.View>
         <Animated.View
@@ -704,8 +708,8 @@ class Hero extends Component {
             position: 'absolute',
             left: '50%',
             top: '50%',
-            marginLeft: -38,
-            marginBottom: -150,
+            marginLeft: getValuesForWidths({ xs: -19, s: -38 }),
+            marginTop: heartHeight / 2 - 50,
             opacity: jalapenoOpacity,
             transform: [{ translateY: jalapenoTranslateY }],
           }}
@@ -714,6 +718,7 @@ class Hero extends Component {
             recentlySentJalapenoCount={getRecentlySentItemCount(
               this.props.sentJalapenos,
             )}
+            scale={getValuesForWidths({ xs: 0.5, s: 1 })}
           />
         </Animated.View>
         <Animated.View
