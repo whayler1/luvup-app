@@ -118,6 +118,10 @@ const getRecentlySentItemCount = (items) => {
   return count;
 };
 
+const isSwipeUp = (dy) => dy < -config.swipeThreshold;
+
+const isSwipeDown = (dy) => dy > config.swipeThreshold;
+
 const isTap = ({ touchStartTime, dx, dy }) =>
   new Date() - touchStartTime < 300 && dx < 10 && dy < 10;
 
@@ -221,7 +225,6 @@ class Hero extends Component {
         this.changeHeartColor(this.props.relationshipScore);
 
         const { dx, dy } = gestureState;
-        const { swipeThreshold } = config;
 
         if (this.state.isHeartShake) {
           this.setState({ isHeartShake: false }, () => {
@@ -236,7 +239,7 @@ class Hero extends Component {
         }
 
         if (
-          dy < -swipeThreshold ||
+          isSwipeUp(dy) ||
           isTap({
             touchStartTime: this.state.touchStartTime,
             dx,
@@ -244,7 +247,7 @@ class Hero extends Component {
           })
         ) {
           this.sendCoin();
-        } else if (dy > swipeThreshold) {
+        } else if (isSwipeDown(dy)) {
           this.sendJalapeno();
         }
 
