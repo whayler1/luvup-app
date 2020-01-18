@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import { KeyboardAvoidingView, ScrollView, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import _ from 'lodash';
 
 import CreateQuizNavBar from '../CreateQuizNavBar';
@@ -10,6 +10,7 @@ import CreateQuizLuvupButton from './CreateQuizLuvupButton';
 import { QuizItemAttemptType } from '../../types';
 import { quiz, forms } from '../../styles';
 import Button from '../../components/Button';
+import CustomHeaderScene from '../../components/CustomHeaderScene';
 
 class CreateQuizReward extends PureComponent {
   static propTypes = {
@@ -25,7 +26,7 @@ class CreateQuizReward extends PureComponent {
     };
   }
 
-  handleRewardPress = reward => {
+  handleRewardPress = (reward) => {
     this.setState({ reward, isMaxChoicesLengthError: false });
   };
 
@@ -38,19 +39,14 @@ class CreateQuizReward extends PureComponent {
     });
   };
 
+  renderHeader = () => (
+    <CreateQuizNavBar onNextPress={this.handleNextPress} nextText="Review" />
+  );
+
   render() {
     return (
-      <KeyboardAvoidingView
-        behavior="height"
-        style={quiz.container}
-        contentContainerStyle={quiz.container}>
-        <CreateQuizNavBar
-          onNextPress={this.handleNextPress}
-          nextText="Review"
-        />
-        <ScrollView
-          style={quiz.scrollContainer}
-          contentContainerStyle={quiz.scrollContent}>
+      <CustomHeaderScene renderHeader={this.renderHeader}>
+        <>
           <Text style={quiz.questionSmallText}>
             {this.props.quizItem.question}
           </Text>
@@ -61,7 +57,7 @@ class CreateQuizReward extends PureComponent {
               answer this right?
             </Text>
             <View style={quiz.luvupUiContainer}>
-              {_.times(5, i => (
+              {_.times(5, (i) => (
                 <CreateQuizLuvupButton
                   key={i}
                   index={i}
@@ -79,12 +75,12 @@ class CreateQuizReward extends PureComponent {
               title="Review"
             />
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        </>
+      </CustomHeaderScene>
     );
   }
 }
 
-export default connect(state => ({
+export default connect((state) => ({
   loverFirstName: state.lover.firstName,
 }))(CreateQuizReward);
