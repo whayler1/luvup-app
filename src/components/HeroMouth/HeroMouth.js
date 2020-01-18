@@ -59,7 +59,7 @@ const mouths = [
   <Happiest key="happiest" />,
 ];
 
-export default ({ relationshipScoreQuartile, dragDirection, scale }) => (
+export default ({ relationshipScoreQuartile, dragDirection, scale = 1 }) => (
   <Surface width={DEFAULT_WIDTH} height={20 * scale}>
     <Group scale={scale}>
       {(() => {
