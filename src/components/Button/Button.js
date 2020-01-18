@@ -112,13 +112,15 @@ class Button extends PureComponent {
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
         disabled={disabled}
-        testID={testID}>
+        testID={testID}
+      >
         <View
           style={[
             buttonStyle,
             isPress && buttonStylePress,
             disabled || (isInFlight && buttonStyleDisabled),
-          ]}>
+          ]}
+        >
           {isInFlight && <LoadingAnimation fill={inFlightFill} />}
           <Text style={[buttonText, isInFlight && { opacity: 0 }]}>
             {title}
