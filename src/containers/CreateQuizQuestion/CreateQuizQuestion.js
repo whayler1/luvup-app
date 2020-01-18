@@ -1,19 +1,13 @@
 import React, { PureComponent } from 'react';
 import { Actions } from 'react-native-router-flux';
-import {
-  View,
-  ScrollView,
-  KeyboardAvoidingView,
-  Text,
-  TextInput,
-} from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 
 import { forms, vars, quiz as quizStyles } from '../../styles';
 import CreateQuizNavBar from '../CreateQuizNavBar';
 import { QuizItemAttemptType } from '../../types';
 import { getRandomQuestion } from './CreateQuizQuestion.helpers';
 import Button, { BUTTON_STYLES } from '../../components/Button';
-import { isIOS } from '../../services/device';
+import CustomHeaderScene from '../../components/CustomHeaderScene';
 
 const placeholders = [
   'Ask something flirty…',
@@ -69,21 +63,12 @@ class CreateQuizQuestion extends PureComponent {
     this.setState({ question: getRandomQuestion() });
   };
 
-  keyboardAvoidingViewDeviceSpecificProps = () =>
-    isIOS() ? { behavior: 'height' } : {};
+  renderHeader = () => <CreateQuizNavBar onNextPress={this.handleNextPress} />;
 
   render() {
     return (
-      <KeyboardAvoidingView
-        {...this.keyboardAvoidingViewDeviceSpecificProps()}
-        style={quizStyles.container}
-        contentContainerStyle={quizStyles.container}
-      >
-        <CreateQuizNavBar onNextPress={this.handleNextPress} />
-        <ScrollView
-          style={quizStyles.scrollContainer}
-          contentContainerStyle={quizStyles.scrollContent}
-        >
+      <CustomHeaderScene renderHeader={this.renderHeader}>
+        <>
           <Text style={forms.label}>Question</Text>
           <View style={[forms.formGroup, { marginTop: 8 }]}>
             <TextInput
@@ -114,8 +99,8 @@ class CreateQuizQuestion extends PureComponent {
               <Button onPress={this.handleNextPress} title="Next" />
             </View>
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        </>
+      </CustomHeaderScene>
     );
   }
 }
