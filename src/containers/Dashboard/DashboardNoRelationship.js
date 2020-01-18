@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Actions } from 'react-native-router-flux';
 import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
@@ -37,7 +37,7 @@ const DashboardNoRelationship = ({
       <View style={[scene.contentTop, styles.contentTop]}>
         {isLoverRequestSent && <DashboardNotificationRequestSent />}
         {!isLoverRequestSent && isLoverRequestReceived && (
-          <Fragment>
+          <>
             <Text style={[scene.largeCopy, scene.textCenter]}>
               You received {isPluralReceivedLoverRequests ? '' : 'a'} lover
               request{isPluralReceivedLoverRequests ? 's' : ''}!
@@ -49,7 +49,7 @@ const DashboardNoRelationship = ({
               request to start a new relationship. If {"it's"} someone else
               {" you're"} looking for click below to search for your lover.
             </Text>
-          </Fragment>
+          </>
         )}
         {isLoverRequestReceived && (
           <DashboardNotificationReceivedLoverRequests
@@ -57,7 +57,7 @@ const DashboardNoRelationship = ({
           />
         )}
         {!isLoverRequestSentOrReceived && (
-          <Fragment>
+          <>
             <HeartWithFaceArt scale={0.1} />
             <Text style={[scene.titleCopy, scene.textCenter, styles.titleCopy]}>
               Welcome to Luvup!
@@ -77,7 +77,7 @@ const DashboardNoRelationship = ({
             >
               Choose an option below to get things started
             </Text>
-          </Fragment>
+          </>
         )}
       </View>
       {!isLoverRequestSent && (

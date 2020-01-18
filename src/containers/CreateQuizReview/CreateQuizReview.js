@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Actions } from 'react-native-router-flux';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { KeyboardAvoidingView, ScrollView, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import _ from 'lodash';
 
 import CreateQuizNavBar from '../CreateQuizNavBar';
@@ -13,6 +13,7 @@ import QuizArtSent from '../../components/Art/QuizArtSent';
 import QuizDisplay from '../../components/QuizDisplay';
 import Well from '../../components/Well';
 import Button, { BUTTON_STYLES } from '../../components/Button';
+import CustomHeaderScene from '../../components/CustomHeaderScene';
 
 class CreateQuizReview extends PureComponent {
   static propTypes = {
@@ -54,8 +55,16 @@ class CreateQuizReview extends PureComponent {
     Actions.reset('dashboard');
   };
 
+  renderHeader = () => (
+    <CreateQuizNavBar
+      onNextPress={this.handleSubmit}
+      nextText={this.props.isCreateQuizItemInFlight ? 'Submitting…' : 'submit'}
+      isDisabled={this.props.isCreateQuizItemInFlight}
+    />
+  );
+
   render() {
-    const { quizItem, isCreateQuizItemInFlight } = this.props;
+    const { quizItem } = this.props;
 
     if (this.state.isSuccess) {
       return (
@@ -79,20 +88,8 @@ class CreateQuizReview extends PureComponent {
     }
 
     return (
-      <KeyboardAvoidingView
-        behavior="height"
-        style={quiz.container}
-        contentContainerStyle={quiz.container}
-      >
-        <CreateQuizNavBar
-          onNextPress={this.handleSubmit}
-          nextText={isCreateQuizItemInFlight ? 'Submitting…' : 'submit'}
-          isDisabled={isCreateQuizItemInFlight}
-        />
-        <ScrollView
-          style={quiz.scrollContainer}
-          contentContainerStyle={quiz.scrollContent}
-        >
+      <CustomHeaderScene renderHeader={this.renderHeader}>
+        <>
           <QuizDisplay quizItemAttempt={quizItem} />
           {_.isString(this.props.createQuizItemErrorMessage) &&
             this.props.createQuizItemErrorMessage.length > 0 && (
@@ -107,8 +104,8 @@ class CreateQuizReview extends PureComponent {
             title="Create Quiz"
             isInFlight={this.props.isCreateQuizItemInFlight}
           />
-        </ScrollView>
-      </KeyboardAvoidingView>
+        </>
+      </CustomHeaderScene>
     );
   }
 }

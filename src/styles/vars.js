@@ -1,3 +1,4 @@
+import getValuesForWidths from '../helpers/getValuesForWidths';
 import Color from 'color';
 
 // colors
@@ -28,9 +29,9 @@ const fontBlack = 'quicksandbold';
 const fontRegular = 'quicksandregular';
 const fontVanity = 'yesteryear';
 
-const fontL = 32;
-const fontM = 24;
-const fontS = 16;
+const fontL = getValuesForWidths({ xs: 28, s: 32 });
+const fontM = getValuesForWidths({ xs: 18, s: 24 });
+const fontS = getValuesForWidths({ xs: 12, s: 16 });
 
 // spacing
 

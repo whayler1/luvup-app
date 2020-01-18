@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -9,6 +8,7 @@ import { SafeAreaView, View, Text, TouchableOpacity } from 'react-native';
 import styles from './Dashboard.styles';
 import { scene } from '../../styles';
 import { LoverRequestType } from '../../types';
+import DashboardFooter from './DashboardFooter';
 import DashboardTopNav from '../../components/DashboardTopNav';
 import QuizArt from '../../components/Art/QuizArt';
 import LoveNoteArt from '../../components/LoveNoteArt';
@@ -19,6 +19,7 @@ import LimitExceededModal, {
 import DashboardNoRelationship from './DashboardNoRelationship';
 import Hero from '../Hero';
 import analytics from '../../services/analytics';
+import dateFromDateStringOrIsoString from '../../helpers/dateFromDateStringOrIsoString';
 import {
   getCoinCount as getCoinCountAction,
   setUnviewedCoinCount as setUnviewedCoinCountAction,
@@ -27,13 +28,6 @@ import {
   getJalapenoCount as getJalapenoCountAction,
   setUnviewedJalapenoCount as setUnviewedJalapenoCountAction,
 } from '../../redux/jalapeno/jalapeno.actions';
-
-const dateFromDateStringOrIsoString = (date) => {
-  if (/^\d*$/.test(date)) {
-    return new Date(+date);
-  }
-  return new Date(date);
-};
 
 class Dashboard extends PureComponent {
   static propTypes = {
@@ -161,14 +155,6 @@ class Dashboard extends PureComponent {
     }
   }
 
-  handleLoveNoteWritePress = () => {
-    Actions.createLoveNote();
-  };
-
-  handleCreateQuizPress = () => {
-    Actions.createQuizQuestion();
-  };
-
   handleLoverRequestAccepted = () => {
     this.setState({
       isModalOpen: true,
@@ -237,24 +223,7 @@ class Dashboard extends PureComponent {
           />
         )}
         {_.isString(loverFirstName) && loverFirstName.length > 0 && (
-          <View style={styles.tabsContainer}>
-            <TouchableOpacity
-              testID="dashboard-write-love-note-button"
-              style={styles.tabsItem}
-              onPress={handleLoveNoteWritePress}
-            >
-              <LoveNoteArt scale={0.8} />
-              <Text style={styles.tabsText}>Write Love Note</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              testID="dashboard-create-a-quiz-button"
-              style={styles.tabsItem}
-              onPress={handleCreateQuizPress}
-            >
-              <QuizArt scale={0.85} />
-              <Text style={styles.tabsText}>Create a Quiz</Text>
-            </TouchableOpacity>
-          </View>
+          <DashboardFooter />
         )}
         <LimitExceededModal
           isModalOpen={isModalOpen}

@@ -1,12 +1,13 @@
 import React, { PureComponent } from 'react';
 import { Actions } from 'react-native-router-flux';
-import { Text, View, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { forms, quiz, vars } from '../../styles';
 import { QuizItemAttemptType } from '../../types';
 import CreateQuizNavBar from '../CreateQuizNavBar';
 import CreateQuizChoice from './CreateQuizChoice';
 import CreateQuizLengthUI from './CreateQuizLengthUI';
+import CustomHeaderScene from '../../components/CustomHeaderScene';
 
 const choicesDefault = ['', '', ''];
 
@@ -99,52 +100,44 @@ class CreateQuizChoices extends PureComponent {
     });
   };
 
+  renderHeader = () => <CreateQuizNavBar onNextPress={this.handleNextPress} />;
+
   render() {
     const { choices, isMaxChoicesLengthError } = this.state;
 
     return (
-      <KeyboardAvoidingView
-        behavior="height"
-        style={quiz.container}
-        contentContainerStyle={quiz.container}
-      >
-        <CreateQuizNavBar onNextPress={this.handleNextPress} />
-        <ScrollView
-          style={quiz.scrollContainer}
-          contentContainerStyle={quiz.scrollContent}
-        >
-          <View style={{ paddingBottom: vars.gutterDouble }}>
-            <Text style={quiz.questionSmallText}>
-              {this.props.quizItem.question}
-            </Text>
-            <Text style={forms.label}>Choices</Text>
-            <View style={quiz.createQuizChoiceContainer}>
-              {choices.map((choice, index) => (
-                <CreateQuizChoice
-                  key={index}
-                  index={index}
-                  value={choice}
-                  onChange={this.handleChoiceChange}
-                  onSelect={this.handleSelectChoice}
-                  isChecked={index === this.state.senderChoiceIndex}
-                  error={this.state.choicesErrors[index]}
-                  enabled
-                />
-              ))}
-            </View>
-            <CreateQuizLengthUI
-              {...{
-                choices,
-                onAddChoice: this.handleAddChoice,
-                onRemoveChoice: this.handleRemoveChoice,
-                isMaxChoicesLengthError,
-                maxChoicesLength: this.maxChoicesLength,
-                onSubmit: this.handleNextPress,
-              }}
-            />
+      <CustomHeaderScene renderHeader={this.renderHeader}>
+        <View style={{ paddingBottom: vars.gutterDouble }}>
+          <Text style={quiz.questionSmallText}>
+            {this.props.quizItem.question}
+          </Text>
+          <Text style={forms.label}>Choices</Text>
+          <View style={quiz.createQuizChoiceContainer}>
+            {choices.map((choice, index) => (
+              <CreateQuizChoice
+                key={index}
+                index={index}
+                value={choice}
+                onChange={this.handleChoiceChange}
+                onSelect={this.handleSelectChoice}
+                isChecked={index === this.state.senderChoiceIndex}
+                error={this.state.choicesErrors[index]}
+                enabled
+              />
+            ))}
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+          <CreateQuizLengthUI
+            {...{
+              choices,
+              onAddChoice: this.handleAddChoice,
+              onRemoveChoice: this.handleRemoveChoice,
+              isMaxChoicesLengthError,
+              maxChoicesLength: this.maxChoicesLength,
+              onSubmit: this.handleNextPress,
+            }}
+          />
+        </View>
+      </CustomHeaderScene>
     );
   }
 }

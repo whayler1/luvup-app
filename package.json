@@ -2,10 +2,10 @@
   "name": "Luvup",
   "description": "Stay together",
   "engines": {
-    "node": "^10.14.0",
+    "node": "^12.9.0",
     "yarn": "1.x"
   },
-  "version": "0.0.57",
+  "version": "0.0.58",
   "private": true,
   "devDependencies": {
     "@babel/core": "^7.0.0",

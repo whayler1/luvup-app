@@ -91,7 +91,8 @@ export default class DashboardTopNav extends Component {
         <BlurView
           tint={vars.blurViewTint}
           intensity={vars.blurViewIntensity}
-          style={styles.container}>
+          style={styles.container}
+        >
           {isPushdownVisible && (
             <Pushdown closeFunc={closePushdown}>
               {unviewedCoinCount > 0 && (
@@ -114,7 +115,8 @@ export default class DashboardTopNav extends Component {
                 <TouchableOpacity
                   testID="dashboard-top-nav-history-button"
                   onPress={handleScoreClick}
-                  style={styles.coinCountBtn}>
+                  style={styles.coinCountBtn}
+                >
                   {unreadReceivedLoveNoteCount > 0 && (
                     <NotificationDot style={styles.notificationDot} />
                   )}
@@ -125,7 +127,8 @@ export default class DashboardTopNav extends Component {
                   />
                   <Text
                     testID="dashboard-top-nav-coin-count"
-                    style={styles.coinCountText}>
+                    style={styles.coinCountText}
+                  >
                     {coinCount}
                   </Text>
                 </TouchableOpacity>
@@ -138,10 +141,12 @@ export default class DashboardTopNav extends Component {
                 <TouchableOpacity
                   testID="dashboard-top-nav-relationship-score"
                   onPress={handleRelationshipScoreClick}
-                  style={styles.scoreBtn}>
+                  style={styles.scoreBtn}
+                >
                   <Text
                     testID="relatioship-score-label"
-                    style={styles.scoreTitleText}>
+                    style={styles.scoreTitleText}
+                  >
                     Relationship Score
                   </Text>
                   <DashboardTopNavScoreText
@@ -159,7 +164,8 @@ export default class DashboardTopNav extends Component {
                 <TouchableOpacity
                   testID="dashboard-top-nav-menu-button"
                   onPress={handleMenuButtonClick}
-                  style={styles.menuBtn}>
+                  style={styles.menuBtn}
+                >
                   {isArrayWithLength(receivedLoverRequests) && (
                     <NotificationDot style={styles.menuButtonNotificationDot} />
                   )}

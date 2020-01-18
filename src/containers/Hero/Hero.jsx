@@ -18,7 +18,9 @@ import { Ionicons } from '@expo/vector-icons';
 
 import styles from './Hero.styles';
 import { vars } from '../../styles';
-import HeroEye from '../../components/HeroEye';
+import HeroEye, {
+  DEFAULT_WIDTH as HERO_EYE_DEFAULT_WIDTH,
+} from '../../components/HeroEye';
 import HeroMouth, {
   DEFAULT_WIDTH as HERO_MOUTH_DEFAULT_WIDTH,
 } from '../../components/HeroMouth';
@@ -45,6 +47,8 @@ import {
 } from '../../redux/loverRequest/loverRequest.actions';
 import { getReceivedLoverRequests as getReceivedLoverRequestsAction } from '../../redux/receivedLoverRequests/receivedLoverRequests.actions';
 import config from '../../config';
+import dateFromDateStringOrIsoString from '../../helpers/dateFromDateStringOrIsoString';
+import getValuesForWidths from '../../helpers/getValuesForWidths';
 
 const easing = BezierEasing(0, 0, 0.5, 1);
 
@@ -69,18 +73,60 @@ const getHeartFillValue = (relationshipScore, easedDy) => {
 
 const windowDimensions = Dimensions.get('window');
 const screenWidth = Math.round(windowDimensions.width);
+const screenHeight = Math.round(windowDimensions.height);
 const heartMaxWidth = 320;
 const heartWidth = Math.min(
   screenWidth - vars.gutterDoubleAndHalf * 2,
   heartMaxWidth,
 );
-const hearthHeight = Math.round(heartWidth * 0.9122807018);
+const heartHeight = Math.round(heartWidth * 0.9122807018);
 const heartScale = heartWidth / HEART_ART_DEFAULT_WIDTH;
+const availableTokenAnimationSpace = Math.min(
+  (screenHeight - heartHeight - 160) / 2,
+  180,
+);
 
 const heartArtWidthHeight = {
   width: heartWidth,
-  height: hearthHeight,
+  height: heartHeight,
 };
+
+const dragMaxDistance = 60;
+const dragDistanceFromHeight = Math.round(screenHeight * 0.04);
+const dragDistance = Math.min(dragMaxDistance, dragDistanceFromHeight);
+const eyeAndMouthScale = getValuesForWidths({ xs: 0.8, s: 1 });
+const scaledEyeWidth = HERO_EYE_DEFAULT_WIDTH * eyeAndMouthScale;
+const eyeTop = Math.round(heartHeight * 0.24);
+const eyeHorizonalOffset = Math.round(heartWidth * 0.15);
+const tearHorizontalOffset = Math.round(
+  scaledEyeWidth - 10 + eyeHorizonalOffset,
+);
+const mouthLeft = Math.round(
+  heartWidth / 2 - (HERO_MOUTH_DEFAULT_WIDTH * eyeAndMouthScale) / 2,
+);
+const mouthBottom = Math.round(heartHeight * 0.3);
+
+const oneHourAgo = () => moment().subtract(1, 'hour');
+
+const isTimestampBeforeOneHourAgo = (timeStamp) =>
+  moment(dateFromDateStringOrIsoString(timeStamp)).isBefore(oneHourAgo());
+
+const getRecentlySentItemCount = (items) => {
+  const count = items.filter(
+    (item) => !isTimestampBeforeOneHourAgo(item.createdAt),
+  ).length;
+  if (count > config.maxItemsPerHour) {
+    return config.maxItemsPerHour;
+  }
+  return count;
+};
+
+const isSwipeUp = (dy) => dy < -config.swipeThreshold;
+
+const isSwipeDown = (dy) => dy > config.swipeThreshold;
+
+const isTap = ({ touchStartTime, dx, dy }) =>
+  new Date() - touchStartTime < 300 && dx < 10 && dy < 10;
 
 class Hero extends Component {
   constructor(props) {
@@ -126,11 +172,11 @@ class Hero extends Component {
         this.scaleBGHeart.setValue(1);
         this.springScaleTouch();
         this.showDirections();
+        this.setState({ touchStartTime: new Date() });
       },
       onPanResponderMove: (evt, gestureState) => {
-        const max = 60;
         const { dy } = gestureState;
-        const easedDy = getEasedDy(dy, max);
+        const easedDy = getEasedDy(dy, dragDistance);
         const { isHeartShake, isHeartCry } = this.state;
 
         this.translateY.setValue(easedDy);
@@ -139,22 +185,22 @@ class Hero extends Component {
           getHeartFillValue(this.props.relationshipScore, easedDy),
         );
 
-        if (easedDy === -max && !isHeartShake) {
+        if (easedDy === -dragDistance && !isHeartShake) {
           this.setState({ isHeartShake: true }, () => {
             this.heartShake();
           });
-        } else if (easedDy > -max && isHeartShake) {
+        } else if (easedDy > -dragDistance && isHeartShake) {
           this.setState({ isHeartShake: false }, () => {
             this.heartTranslateY.stopAnimation();
             this.heartTranslateY.setValue(0);
           });
         }
 
-        if (easedDy === max && !isHeartCry) {
+        if (easedDy === dragDistance && !isHeartCry) {
           this.setState({ isHeartCry: true }, () => {
             this.heartCry();
           });
-        } else if (easedDy < max && isHeartCry) {
+        } else if (easedDy < dragDistance && isHeartCry) {
           this.setState({ isHeartCry: false }, () => {
             this.cancelHeartCry();
           });
@@ -178,8 +224,7 @@ class Hero extends Component {
         this.hideDirections();
         this.changeHeartColor(this.props.relationshipScore);
 
-        const { dy } = gestureState;
-        const { swipeThreshold } = config;
+        const { dx, dy } = gestureState;
 
         if (this.state.isHeartShake) {
           this.setState({ isHeartShake: false }, () => {
@@ -193,9 +238,16 @@ class Hero extends Component {
           });
         }
 
-        if (dy < -swipeThreshold) {
+        if (
+          isSwipeUp(dy) ||
+          isTap({
+            touchStartTime: this.state.touchStartTime,
+            dx,
+            dy,
+          })
+        ) {
           this.sendCoin();
-        } else if (dy > swipeThreshold) {
+        } else if (isSwipeDown(dy)) {
           this.sendJalapeno();
         }
 
@@ -222,21 +274,28 @@ class Hero extends Component {
     loverRequestLastName: PropTypes.string,
     loverRequestCreatedAt: PropTypes.string,
     loverRequestId: PropTypes.string,
-    recentlySentCoinCount: PropTypes.number.isRequired,
-    recentlySentJalapenoCount: PropTypes.number.isRequired,
     receivedLoverRequestsCount: PropTypes.number,
     isNewRelationship: PropTypes.bool,
   };
 
-  /**
-   * JW: This logic could probably be simplified somehow. But works-for-now™
-   */
-  isMaxItemsPerHourSent = (items) =>
-    items.length < config.maxItemsPerHour ||
-    (items.length >= config.maxItemsPerHour &&
-      moment(new Date(+items[config.maxItemsPerHour - 1].createdAt)).isAfter(
-        moment().subtract(1, 'hour'),
-      ));
+  isBelowMaxItemsPerHour = (items) => {
+    if (items.length < config.maxItemsPerHour) {
+      return true;
+    }
+    const lastItemIndex = config.maxItemsPerHour - 1;
+    const lastItem = items[lastItemIndex];
+    const lastItemCreatedAt = lastItem.createdAt;
+
+    if (!lastItemCreatedAt) {
+      return true;
+    }
+
+    if (isTimestampBeforeOneHourAgo(lastItemCreatedAt)) {
+      return true;
+    }
+
+    return false;
+  };
 
   resendLoverRequestEmail = async () => {
     await this.setState({
@@ -302,7 +361,7 @@ class Hero extends Component {
   sendCoin = async () => {
     const { sentCoins } = this.props;
 
-    if (!this.isMaxItemsPerHourSent(sentCoins)) {
+    if (this.isBelowMaxItemsPerHour(sentCoins)) {
       this.fireCoin();
       const res = await this.props.sendCoin();
       if (_.isError(res)) {
@@ -318,7 +377,7 @@ class Hero extends Component {
   sendJalapeno = async () => {
     const { sentJalapenos } = this.props;
 
-    if (!this.isMaxItemsPerHourSent(sentJalapenos)) {
+    if (this.isBelowMaxItemsPerHour(sentJalapenos)) {
       this.fireJalapeno();
       const res = await this.props.sendJalapeno();
       if (_.isError(res)) {
@@ -443,7 +502,10 @@ class Hero extends Component {
 
     Animated.sequence([
       Animated.timing(this.coinTranslateY, {
-        toValue: -160,
+        toValue: -Math.round(
+          availableTokenAnimationSpace *
+            getValuesForWidths({ xs: 0.7, s: 0.5 }),
+        ),
         duration: 250,
         easing: Easing.out(Easing.ease),
       }),
@@ -455,7 +517,7 @@ class Hero extends Component {
           easing: Easing.inOut(Easing.linear),
         }),
         Animated.timing(this.coinTranslateY, {
-          toValue: -200,
+          toValue: -availableTokenAnimationSpace,
           duration: 250,
           delay: 250,
           easing: Easing.inOut(Easing.linear),
@@ -470,7 +532,9 @@ class Hero extends Component {
 
     Animated.sequence([
       Animated.timing(this.jalapenoTranslateY, {
-        toValue: 180,
+        toValue:
+          availableTokenAnimationSpace *
+          getValuesForWidths({ xs: 0.7, s: 0.5 }),
         duration: 250,
         easing: Easing.out(Easing.ease),
       }),
@@ -482,7 +546,7 @@ class Hero extends Component {
           easing: Easing.inOut(Easing.linear),
         }),
         Animated.timing(this.jalapenoTranslateY, {
-          toValue: 220,
+          toValue: availableTokenAnimationSpace,
           duration: 250,
           delay: 250,
           easing: Easing.inOut(Easing.linear),
@@ -539,14 +603,9 @@ class Hero extends Component {
       coinTranslateY,
       coinOpacity,
       jalapenoTranslateY,
-      // closeModal,
       jalapenoOpacity,
       directionsOpacity,
-      props: {
-        relationshipScoreQuartile,
-        recentlySentCoinCount,
-        recentlySentJalapenoCount,
-      },
+      props: { relationshipScoreQuartile },
       state: { dragDirection },
     } = this;
 
@@ -559,7 +618,7 @@ class Hero extends Component {
         <Animated.View
           testID="hero-directions"
           style={{
-            marginBottom: 32,
+            marginBottom: getValuesForWidths({ xs: 16, s: 32 }),
             opacity: directionsOpacity,
             alignItems: 'center',
           }}
@@ -572,40 +631,19 @@ class Hero extends Component {
           style={{
             ...heartArtWidthHeight,
             zIndex: 10,
-            transform: [
-              {
-                translateY,
-              },
-              {
-                scaleX: scale,
-              },
-              {
-                scaleY: scale,
-              },
-            ],
+            transform: [{ translateY }, { scaleX: scale }, { scaleY: scale }],
           }}
         >
           <Animated.View
             style={{
               ...heartArtWidthHeight,
-              transform: [
-                {
-                  translateY: heartTranslateY,
-                },
-              ],
+              transform: [{ translateY: heartTranslateY }],
             }}
           >
             <Animated.View
               style={{
                 ...heartArtWidthHeight,
-                transform: [
-                  {
-                    scaleX: scaleBGHeart,
-                  },
-                  {
-                    scaleY: scaleBGHeart,
-                  },
-                ],
+                transform: [{ scaleX: scaleBGHeart }, { scaleY: scaleBGHeart }],
               }}
             >
               <HeartArt animatedFillPct={heartFill} scale={heartScale} />
@@ -613,23 +651,19 @@ class Hero extends Component {
             <View
               style={{
                 position: 'absolute',
-                left: 38,
-                top: 60,
+                left: eyeHorizonalOffset,
+                top: eyeTop,
               }}
             >
-              <HeroEye />
+              <HeroEye scale={eyeAndMouthScale} />
             </View>
             <Animated.View
               style={{
                 position: 'absolute',
-                left: 105,
+                left: tearHorizontalOffset,
                 top: 90,
                 opacity: tearDropAOpacity,
-                transform: [
-                  {
-                    translateY: tearDropATranslateY,
-                  },
-                ],
+                transform: [{ translateY: tearDropATranslateY }],
               }}
             >
               <TearDropArt fill="white" scale={0.2} />
@@ -637,28 +671,20 @@ class Hero extends Component {
             <View
               style={{
                 position: 'absolute',
-                right: 42,
-                top: 60,
-                transform: [
-                  {
-                    scaleX: -1,
-                  },
-                ],
+                right: eyeHorizonalOffset,
+                top: eyeTop,
+                transform: [{ scaleX: -1 }],
               }}
             >
-              <HeroEye />
+              <HeroEye scale={eyeAndMouthScale} />
             </View>
             <Animated.View
               style={{
                 position: 'absolute',
-                right: 105,
+                right: tearHorizontalOffset,
                 top: 90,
                 opacity: tearDropBOpacity,
-                transform: [
-                  {
-                    translateY: tearDropBTranslateY,
-                  },
-                ],
+                transform: [{ translateY: tearDropBTranslateY }],
               }}
             >
               <TearDropArt fill="white" scale={0.2} />
@@ -666,13 +692,14 @@ class Hero extends Component {
             <View
               style={{
                 position: 'absolute',
-                left: heartWidth / 2 - HERO_MOUTH_DEFAULT_WIDTH / 2,
-                top: 170,
+                left: mouthLeft,
+                bottom: mouthBottom,
               }}
             >
               <HeroMouth
                 relationshipScoreQuartile={relationshipScoreQuartile}
                 dragDirection={dragDirection}
+                scale={eyeAndMouthScale}
               />
             </View>
           </Animated.View>
@@ -684,38 +711,40 @@ class Hero extends Component {
             height: 60,
             left: '50%',
             top: '50%',
-            marginLeft: -40,
-            marginTop: -100,
+            marginLeft: getValuesForWidths({ xs: -24, s: -40 }),
+            marginTop: -heartHeight / 2,
             opacity: coinOpacity,
-            transform: [
-              {
-                translateY: coinTranslateY,
-              },
-            ],
+            transform: [{ translateY: coinTranslateY }],
           }}
         >
-          <CoinArt recentlySentCoinCount={recentlySentCoinCount} />
+          <CoinArt
+            recentlySentCoinCount={getRecentlySentItemCount(
+              this.props.sentCoins,
+            )}
+            scale={getValuesForWidths({ xs: 0.6, s: 1 })}
+          />
         </Animated.View>
         <Animated.View
           style={{
             position: 'absolute',
             left: '50%',
             top: '50%',
-            marginLeft: -38,
-            marginBottom: -150,
+            marginLeft: getValuesForWidths({ xs: -19, s: -38 }),
+            marginTop: heartHeight / 2 - 50,
             opacity: jalapenoOpacity,
-            transform: [
-              {
-                translateY: jalapenoTranslateY,
-              },
-            ],
+            transform: [{ translateY: jalapenoTranslateY }],
           }}
         >
-          <JalapenoArt recentlySentJalapenoCount={recentlySentJalapenoCount} />
+          <JalapenoArt
+            recentlySentJalapenoCount={getRecentlySentItemCount(
+              this.props.sentJalapenos,
+            )}
+            scale={getValuesForWidths({ xs: 0.5, s: 1 })}
+          />
         </Animated.View>
         <Animated.View
           style={{
-            marginTop: 32,
+            marginTop: getValuesForWidths({ xs: 16, s: 32 }),
             opacity: directionsOpacity,
             alignItems: 'center',
           }}
@@ -739,8 +768,6 @@ export default connect(
     loverRequestFirstName: state.loverRequest.firstName,
     loverRequestLastName: state.loverRequest.lastName,
     loverRequestCreatedAt: state.loverRequest.createdAt,
-    recentlySentCoinCount: state.coin.recentlySentCoinCount,
-    recentlySentJalapenoCount: state.jalapeno.recentlySentJalapenoCount,
     receivedLoverRequestsCount: state.receivedLoverRequests.count,
   }),
   {

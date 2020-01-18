@@ -1,4 +1,4 @@
-const LOCAL_IP = '192.168.86.20'; // ifconfig | grep inet
+const LOCAL_IP = '192.168.1.183'; // ifconfig | grep inet
 const BASE_URL = __DEV__
   ? `http://${LOCAL_IP}:3000/api`
   : 'https://luvup.io/api';

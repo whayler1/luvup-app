@@ -1,10 +1,12 @@
 import { StyleSheet } from 'react-native';
+
 import { vars } from '../../styles';
+import getValuesForWidths from '../../helpers/getValuesForWidths';
 
 const directionsText = {
   color: vars.p,
   fontFamily: vars.fontRegular,
-  fontSize: 16,
+  fontSize: vars.fontS,
   alignItems: 'center',
 };
 const loverRequestText = {
@@ -31,11 +33,11 @@ export default StyleSheet.create({
   directionsText,
   directionsTextUp: {
     ...directionsText,
-    marginBottom: 32,
+    marginBottom: getValuesForWidths({ xs: 8, s: 32 }),
   },
   directionsTextDown: {
     ...directionsText,
-    marginTop: 32,
+    marginTop: getValuesForWidths({ xs: 8, s: 32 }),
   },
   loverRequestText,
   loverRequestTextLarge,

@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
+
 import vars from './vars';
+import getValuesForWidths from '../helpers/getValuesForWidths';
 
 const BUTTON_PADDING_VERTICAL = 12;
 const BUTTON_PADDING_VERTICAL_OUTLINE = BUTTON_PADDING_VERTICAL - 1;
@@ -13,7 +15,7 @@ const infoContainer = { ...container };
 const text = {
   textAlign: 'center',
   fontFamily: vars.fontBlack,
-  fontSize: 16,
+  fontSize: getValuesForWidths({ xs: 14, s: 16 }),
 };
 const infoText = { ...text, color: 'white' };
 const dangerSkeletonText = {

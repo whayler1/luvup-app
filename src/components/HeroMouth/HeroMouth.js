@@ -59,9 +59,9 @@ const mouths = [
   <Happiest key="happiest" />,
 ];
 
-export default ({ relationshipScoreQuartile, dragDirection }) => (
-  <Surface width={DEFAULT_WIDTH} height={20}>
-    <Group>
+export default ({ relationshipScoreQuartile, dragDirection, scale = 1 }) => (
+  <Surface width={DEFAULT_WIDTH} height={20 * scale}>
+    <Group scale={scale}>
       {(() => {
         if (dragDirection === 1) {
           return <Happiest />;

@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 
+import getValuesForWidths from '../../helpers/getValuesForWidths';
 import { vars } from '../../styles';
 
 const styles = StyleSheet.create({
@@ -48,12 +49,13 @@ const styles = StyleSheet.create({
   scoreTitleText: {
     fontFamily: vars.fontBlack,
     color: vars.blueGrey300,
-    fontSize: 12,
+    fontSize: getValuesForWidths({ xs: 10, s: 12 }),
+    textAlign: 'center',
   },
   scoreText: {
     fontFamily: vars.fontBlack,
     color: vars.blueGrey700,
-    fontSize: 30,
+    fontSize: getValuesForWidths({ xs: 26, s: 30 }),
   },
   menuBtn: {
     alignItems: 'flex-end',
