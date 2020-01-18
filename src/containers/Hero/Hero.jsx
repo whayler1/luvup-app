@@ -81,7 +81,10 @@ const heartWidth = Math.min(
 );
 const heartHeight = Math.round(heartWidth * 0.9122807018);
 const heartScale = heartWidth / HEART_ART_DEFAULT_WIDTH;
-const availableTokenAnimationSpace = (screenHeight - heartHeight - 160) / 2;
+const availableTokenAnimationSpace = Math.min(
+  (screenHeight - heartHeight - 160) / 2,
+  180,
+);
 
 const heartArtWidthHeight = {
   width: heartWidth,
@@ -499,7 +502,10 @@ class Hero extends Component {
 
     Animated.sequence([
       Animated.timing(this.coinTranslateY, {
-        toValue: -Math.round(availableTokenAnimationSpace * 0.7),
+        toValue: -Math.round(
+          availableTokenAnimationSpace *
+            getValuesForWidths({ xs: 0.7, s: 0.5 }),
+        ),
         duration: 250,
         easing: Easing.out(Easing.ease),
       }),
@@ -526,7 +532,9 @@ class Hero extends Component {
 
     Animated.sequence([
       Animated.timing(this.jalapenoTranslateY, {
-        toValue: availableTokenAnimationSpace * 0.7,
+        toValue:
+          availableTokenAnimationSpace *
+          getValuesForWidths({ xs: 0.7, s: 0.5 }),
         duration: 250,
         easing: Easing.out(Easing.ease),
       }),
