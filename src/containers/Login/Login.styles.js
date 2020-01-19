@@ -24,21 +24,16 @@ const styles = StyleSheet.create({
   },
   noAccountButtonRow: { marginTop: 16 },
   confirmCodeWrapper: {
-    flex: 0.5,
-    paddingRight: 8,
+    paddingTop: vars.gutter,
   },
   signUpWrapper: {
-    flex: 0.5,
-    paddingLeft: 8,
+    paddingTop: vars.gutterDouble,
   },
   forgotPasswordButton: {
     marginTop: 12,
   },
   forgotPasswordText: {
     textAlign: 'right',
-    // fontFamily: vars.fontRegular,
-    // fontSize: 18,
-    // color: vars.blueGrey500,
   },
 });
 
