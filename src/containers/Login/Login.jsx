@@ -178,22 +178,20 @@ class Login extends Component {
           <View style={styles.noAccountTextContainer}>
             <Text style={scene.bodyCopy}>{"Don't have an account?"}</Text>
           </View>
-          <View style={[forms.buttonRow, styles.noAccountButtonRow]}>
-            <View style={styles.confirmCodeWrapper}>
-              <Button
-                onPress={navigateToSignUpConfirm}
-                buttonStyles={BUTTON_STYLES.SECONDARY_SKELETON}
-                title="Confirm Code"
-              />
-            </View>
-            <View style={styles.signUpWrapper}>
-              <Button
-                testID="login-signup"
-                onPress={navigateToSignUp}
-                buttonStyles={BUTTON_STYLES.INFO_SKELETON}
-                title="Sign Up"
-              />
-            </View>
+          <View style={styles.signUpWrapper}>
+            <Button
+              testID="login-signup"
+              onPress={navigateToSignUp}
+              buttonStyles={BUTTON_STYLES.INFO_SKELETON}
+              title="Sign Up"
+            />
+          </View>
+          <View style={styles.confirmCodeWrapper}>
+            <Button
+              onPress={navigateToSignUpConfirm}
+              buttonStyles={BUTTON_STYLES.SECONDARY_SKELETON}
+              title="Confirm Code"
+            />
           </View>
         </View>
       </FormScene>

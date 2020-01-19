@@ -15,7 +15,7 @@ const infoContainer = { ...container };
 const text = {
   textAlign: 'center',
   fontFamily: vars.fontBlack,
-  fontSize: getValuesForWidths({ xs: 14, s: 16 }),
+  fontSize: 16,
 };
 const infoText = { ...text, color: 'white' };
 const dangerSkeletonText = {
