@@ -176,7 +176,7 @@ export const login = (usernameOrEmail, password) => async (
         return;
       }
 
-      if (getState().user.isReset) {
+      if (res.body.user.isReset) {
         Actions.resetPasswordWithGeneratedPassword({
           generatedPassword: password,
         });
