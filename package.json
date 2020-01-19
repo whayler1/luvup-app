@@ -5,7 +5,7 @@
     "node": "^12.9.0",
     "yarn": "1.x"
   },
-  "version": "0.0.58",
+  "version": "0.0.60",
   "private": true,
   "devDependencies": {
     "@babel/core": "^7.0.0",
