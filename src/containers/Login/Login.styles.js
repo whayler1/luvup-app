@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     paddingTop: vars.gutter,
   },
   signUpWrapper: {
-    paddingTop: vars.gutterDouble,
+    paddingTop: vars.gutter,
   },
   forgotPasswordButton: {
     marginTop: 12,
