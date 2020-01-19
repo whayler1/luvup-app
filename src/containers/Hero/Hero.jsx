@@ -94,10 +94,10 @@ const heartArtWidthHeight = {
 const dragMaxDistance = 60;
 const dragDistanceFromHeight = Math.round(screenHeight * 0.04);
 const dragDistance = Math.min(dragMaxDistance, dragDistanceFromHeight);
-const eyeAndMouthScale = getValuesForWidths({ xs: 0.7, s: 1 });
+const eyeAndMouthScale = getValuesForWidths({ xs: 0.8, s: 1 });
 const scaledEyeWidth = HERO_EYE_DEFAULT_WIDTH * eyeAndMouthScale;
 const eyeTop = Math.round(heartHeight * 0.24);
-const eyeHorizonalOffset = Math.round(heartWidth * 0.1);
+const eyeHorizonalOffset = Math.round(heartWidth * 0.15);
 const tearHorizontalOffset = Math.round(
   scaledEyeWidth - 10 + eyeHorizonalOffset,
 );
