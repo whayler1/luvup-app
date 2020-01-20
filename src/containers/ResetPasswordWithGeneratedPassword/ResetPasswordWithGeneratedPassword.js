@@ -8,8 +8,12 @@ import { resetPasswordWithGeneratedPassword as resetPasswordWithGeneratedPasswor
 import { forms, scene } from '../../styles';
 import { passwordRegex } from '../../helpers';
 import Input from '../../components/Input';
-import Button from '../../components/Button';
+import Button, { BUTTON_STYLES } from '../../components/Button';
 import ResetPasswordWithGeneratedPasswordSuccess from './ResetPasswordWithGeneratedPasswordSuccess';
+
+const handleDone = () => {
+  Actions.replace('dashboard');
+};
 
 class ResetPasswordWithGeneratedPassword extends PureComponent {
   static propTypes = {
@@ -93,10 +97,6 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
     this.setState({ newPasswordAgain });
   };
 
-  handleDone = () => {
-    Actions.replace('dashboard');
-  };
-
   render() {
     const {
       props: {
@@ -110,12 +110,11 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
         newPasswordAgainError,
         isSuccess,
       },
+      handleSubmit,
       handleNewPasswordChange,
       focusNewPasswordAgain,
       handleNewPasswordAgainChange,
-      handleSubmit,
       setNewPasswordAgainEl,
-      handleDone,
     } = this;
     if (isSuccess) {
       return <ResetPasswordWithGeneratedPasswordSuccess onDone={handleDone} />;
@@ -142,7 +141,6 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
                   editable: !isResetPasswordWithGeneratedPasswordInFlight,
                   secureTextEntry: true,
                   spellCheck: false,
-                  placeholder: '••••••••',
                 }}
               />
               <Input
@@ -161,7 +159,6 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
                   editable: !isResetPasswordWithGeneratedPasswordInFlight,
                   secureTextEntry: true,
                   spellCheck: false,
-                  placeholder: '••••••••',
                 }}
               />
               <View style={forms.formGroup}>
@@ -175,6 +172,14 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
                     {resetPasswordWithGeneratedPasswordError}
                   </Text>
                 )}
+              </View>
+              <View style={forms.formGroup}>
+                <Button
+                  onPress={handleDone}
+                  title="Skip"
+                  disabled={isResetPasswordWithGeneratedPasswordInFlight}
+                  buttonStyles={BUTTON_STYLES.SECONDARY_SKELETON}
+                />
               </View>
             </View>
           </View>

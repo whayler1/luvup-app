@@ -108,7 +108,7 @@ export default StyleSheet.create({
   questionSmallText: {
     fontFamily: vars.fontRegular,
     color: vars.blueGrey500,
-    fontSize: 32,
+    fontSize: vars.fontL,
     paddingBottom: 16,
     textAlign: 'center',
   },
