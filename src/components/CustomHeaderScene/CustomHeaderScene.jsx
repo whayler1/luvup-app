@@ -16,7 +16,6 @@ const CustomHeaderScene = ({ renderHeader, children }) => (
     <KeyboardAvoidingView
       {...keyboardAvoidingViewDeviceSpecificProps()}
       style={quiz.container}
-      contentContainerStyle={quiz.container}
     >
       <ScrollView
         style={quiz.scrollContainer}

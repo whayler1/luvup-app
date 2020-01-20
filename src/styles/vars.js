@@ -29,7 +29,7 @@ const fontBlack = 'quicksandbold';
 const fontRegular = 'quicksandregular';
 const fontVanity = 'yesteryear';
 
-const fontL = getValuesForWidths({ xs: 28, s: 32 });
+const fontL = getValuesForWidths({ xs: 26, s: 32 });
 const fontM = getValuesForWidths({ xs: 18, s: 24 });
 const fontS = getValuesForWidths({ xs: 12, s: 16 });
 

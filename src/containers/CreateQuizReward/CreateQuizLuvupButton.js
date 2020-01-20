@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { TouchableOpacity } from 'react-native';
 
 import CoinArt from '../../components/CoinArt';
 import { vars, quiz as styles } from '../../styles';
-import { TouchableOpacity } from 'react-native';
+import getValuesForWidths from '../../helpers/getValuesForWidths';
 
 class CreateQuizLuvupButton extends PureComponent {
   static propTypes = {
@@ -27,13 +28,14 @@ class CreateQuizLuvupButton extends PureComponent {
       fill,
       stroke,
       recentlySentCoinCount,
-      scale: 0.7,
+      scale: getValuesForWidths({ xs: 0.6, s: 0.7 }),
     };
     return (
       <TouchableOpacity
         testID={`create-quiz-reward-button-${index}`}
         style={styles.luvupUiItem}
-        onPress={this.handlePress}>
+        onPress={this.handlePress}
+      >
         <CoinArt {...coinProps} />
       </TouchableOpacity>
     );
