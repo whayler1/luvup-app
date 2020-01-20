@@ -142,7 +142,6 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
                   editable: !isResetPasswordWithGeneratedPasswordInFlight,
                   secureTextEntry: true,
                   spellCheck: false,
-                  placeholder: '••••••••',
                 }}
               />
               <Input
@@ -161,7 +160,6 @@ class ResetPasswordWithGeneratedPassword extends PureComponent {
                   editable: !isResetPasswordWithGeneratedPasswordInFlight,
                   secureTextEntry: true,
                   spellCheck: false,
-                  placeholder: '••••••••',
                 }}
               />
               <View style={forms.formGroup}>
