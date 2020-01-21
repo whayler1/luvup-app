@@ -4,7 +4,7 @@
     "slug": "luvup",
     "privacy": "public",
     "description": "Reinvest in your relationship",
-    "version": "0.0.60",
+    "version": "0.0.61",
     "sdkVersion": "35.0.0",
     "primaryColor": "#FFFFFF",
     "platforms": ["ios", "android"],
@@ -30,7 +30,7 @@
     },
     "android": {
       "package": "io.terriblesolutions.luvup",
-      "versionCode": 4,
+      "versionCode": 5,
       "icon": "./src/images/icon/icon.png"
     },
     "androidStatusBarColor": "#455A64",

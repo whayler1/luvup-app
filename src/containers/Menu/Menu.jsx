@@ -15,6 +15,7 @@ import ModalContentWrap from '../../components/ModalContentWrap';
 import Button, { BUTTON_STYLES } from '../../components/Button';
 import MenuReceivedLoverRequests from './MenuReceivedLoverRequests';
 import MenuHeader from './MenuHeader';
+import MenuPortrait from './MenuPortrait';
 import MenuProfile from './MenuProfile';
 import MenuRelationship from './MenuRelationship';
 import { logout as logoutAction } from '../../redux/user/user.actions';
@@ -147,6 +148,7 @@ class Menu extends PureComponent {
             style={styles.scrollView}
             contentContainerStyle={styles.scrollViewContentContainer}
           >
+            <MenuPortrait />
             <MenuProfile
               handleChangePasswordPress={handleChangePasswordPress}
             />

@@ -32,6 +32,7 @@ const fontVanity = 'yesteryear';
 const fontL = getValuesForWidths({ xs: 26, s: 32 });
 const fontM = getValuesForWidths({ xs: 18, s: 24 });
 const fontS = getValuesForWidths({ xs: 13, s: 16 });
+const fontXS = getValuesForWidths({ xs: 10, s: 10 });
 
 // spacing
 
@@ -92,6 +93,7 @@ export default {
   fontL,
   fontM,
   fontS,
+  fontXS,
   //buttons
   infoButtonBg: cyan300,
   dangerButtonBg: red500,
