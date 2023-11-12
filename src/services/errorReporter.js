@@ -3,7 +3,7 @@ import Constants from 'expo-constants';
 import * as SentryExpo from 'sentry-expo';
 
 SentryExpo.init({
-  dsn: 'https://4a28a8d815ee4fe7b00e046eaf6ca125@sentry.io/1816836',
+  dsn: env.cong.SENTRY_DSN,
   enableInExpoDevelopment: true,
   debug: true,
 });
